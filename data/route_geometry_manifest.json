@@ -1,0 +1,532 @@
+{
+  "version": "1.0",
+  "generated": "2026-09-13",
+  "routing_service_status": "NETWORK_EGRESS_UNAVAILABLE_IN_BUILD_RUNTIME",
+  "acceptance_strategy": "No exact road geometry is fabricated. Every non-routed leg is explicitly conceptual per P0-7 fallback rule.",
+  "exact_routed_legs": 0,
+  "conceptual_legs": 20,
+  "legs": [
+    {
+      "leg_id": "C_1003_01",
+      "date": "10/3",
+      "from": "ferry",
+      "to": "exploratorium",
+      "from_latlon": [
+        37.79554,
+        -122.39343
+      ],
+      "to_latlon": [
+        37.801389,
+        -122.397611
+      ],
+      "mode": "walk",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "Ferry Building → Exploratorium",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "C_1004_01",
+      "date": "10/4",
+      "from": "ggb",
+      "to": "muir",
+      "from_latlon": [
+        37.8078,
+        -122.475
+      ],
+      "to_latlon": [
+        37.892848,
+        -122.572465
+      ],
+      "mode": "drive",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "Golden Gate → Muir Woods",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "C_1004_02",
+      "date": "10/4",
+      "from": "muir",
+      "to": "battery",
+      "from_latlon": [
+        37.892848,
+        -122.572465
+      ],
+      "to_latlon": [
+        37.82802,
+        -122.48187
+      ],
+      "mode": "drive",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "Muir Woods → Battery Spencer",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "C_1004_03",
+      "date": "10/4",
+      "from": "palace",
+      "to": "crissy",
+      "from_latlon": [
+        37.802897,
+        -122.448414
+      ],
+      "to_latlon": [
+        37.805578,
+        -122.451188
+      ],
+      "mode": "walk",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "Palace → Crissy Field",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "C_1005_FERRY",
+      "date": "10/5",
+      "from": "Pier 33 Alcatraz Landing",
+      "to": "alcatraz",
+      "from_latlon": [
+        37.80671,
+        -122.40538
+      ],
+      "to_latlon": [
+        37.826762,
+        -122.423021
+      ],
+      "mode": "ferry",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "operational embarkation anchor + verified Alcatraz coordinate; exact vessel track not asserted",
+      "render_style": "conceptual_dots",
+      "label": "Pier 33 ⇢ Alcatraz ferry",
+      "note": "Ferry corridor, not a claimed vessel GPS track.",
+      "show_overall": false
+    },
+    {
+      "leg_id": "C_1005_01",
+      "date": "10/5",
+      "from": "north_beach",
+      "to": "fortune",
+      "from_latlon": [
+        37.800918,
+        -122.410111
+      ],
+      "to_latlon": [
+        37.7957,
+        -122.40735
+      ],
+      "mode": "walk",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "North Beach → Chinatown",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "C_1005_02",
+      "date": "10/5",
+      "from": "fortune",
+      "to": "musee",
+      "from_latlon": [
+        37.7957,
+        -122.40735
+      ],
+      "to_latlon": [
+        37.80925,
+        -122.41579
+      ],
+      "mode": "walk",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "Chinatown → Wharf / Musée",
+      "note": "Conceptual neighborhood transition; Coit/Lombard are optional branches.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "C_1006_01",
+      "date": "10/6",
+      "from": "point_lobos",
+      "to": "lone_cypress",
+      "from_latlon": [
+        36.51599,
+        -121.93711
+      ],
+      "to_latlon": [
+        36.569476,
+        -121.966266
+      ],
+      "mode": "drive",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "Point Lobos → 17-Mile Drive",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "C_1006_02",
+      "date": "10/6",
+      "from": "lone_cypress",
+      "to": "aquarium",
+      "from_latlon": [
+        36.569476,
+        -121.966266
+      ],
+      "to_latlon": [
+        36.617833,
+        -121.902
+      ],
+      "mode": "drive",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "17-Mile Drive → Aquarium",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "C_1008_01",
+      "date": "10/8",
+      "from": "washburn",
+      "to": "glacier",
+      "from_latlon": [
+        37.720307,
+        -119.572666
+      ],
+      "to_latlon": [
+        37.730806,
+        -119.573
+      ],
+      "mode": "drive",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "Washburn Point → Glacier Point",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "T_1006_SF_MONTEREY",
+      "date": "10/6",
+      "from": "sf_center",
+      "to": "monterey_center",
+      "from_latlon": [
+        37.7749,
+        -122.4194
+      ],
+      "to_latlon": [
+        36.6002,
+        -121.8947
+      ],
+      "mode": "drive",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual_transfer",
+      "geometry_source": "regional verified anchors only; exact road line intentionally not claimed",
+      "render_style": "transfer_dots",
+      "label": "SF → Monterey/Carmel",
+      "note": "Long transfer shown as dotted travel corridor; not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "T_1007_MONTEREY_YOSE",
+      "date": "10/7",
+      "from": "monterey_center",
+      "to": "yosemite_valley",
+      "from_latlon": [
+        36.6002,
+        -121.8947
+      ],
+      "to_latlon": [
+        37.7456,
+        -119.5936
+      ],
+      "mode": "drive",
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual_transfer",
+      "geometry_source": "regional verified anchors only; exact road line intentionally not claimed",
+      "render_style": "transfer_dots",
+      "label": "Monterey → Yosemite",
+      "note": "Official itinerary travel block; dotted corridor only.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "T_A_1010_YOSE_SF",
+      "date": "10/10",
+      "from": "yosemite_valley",
+      "to": "sf_center",
+      "from_latlon": [
+        37.7456,
+        -119.5936
+      ],
+      "to_latlon": [
+        37.7749,
+        -122.4194
+      ],
+      "mode": "drive",
+      "routes": [
+        "A1",
+        "A2"
+      ],
+      "geometry_kind": "conceptual_transfer",
+      "geometry_source": "regional verified anchors only; exact road line intentionally not claimed",
+      "render_style": "transfer_dots",
+      "label": "Yosemite → SF · 3-night plans",
+      "note": "Fleet Week avoidance transfer; dotted corridor only.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "T_B_1009_YOSE_SF",
+      "date": "10/9",
+      "from": "yosemite_valley",
+      "to": "sf_center",
+      "from_latlon": [
+        37.7456,
+        -119.5936
+      ],
+      "to_latlon": [
+        37.7749,
+        -122.4194
+      ],
+      "mode": "drive",
+      "routes": [
+        "B1",
+        "B2"
+      ],
+      "geometry_kind": "conceptual_transfer",
+      "geometry_source": "regional verified anchors only; exact road line intentionally not claimed",
+      "render_style": "transfer_dots",
+      "label": "Yosemite → SF · 2-night plans",
+      "note": "Return day differs from A plans; dotted corridor only.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "A1_1007_VIEW",
+      "date": "10/7",
+      "from": "cooks",
+      "to": "tunnel_view",
+      "from_latlon": [
+        37.74648,
+        -119.58982
+      ],
+      "to_latlon": [
+        37.71559,
+        -119.67693
+      ],
+      "mode": "drive",
+      "routes": [
+        "A1",
+        "A2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "Valley → Tunnel View option",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "A1_1007_VIEW_ALT",
+      "date": "10/7",
+      "from": "cooks",
+      "to": "valley_view",
+      "from_latlon": [
+        37.74648,
+        -119.58982
+      ],
+      "to_latlon": [
+        37.7172,
+        -119.6621
+      ],
+      "mode": "drive",
+      "routes": [
+        "A1",
+        "A2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "Valley → Valley View option",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "A_1009_MARIPOSA",
+      "date": "10/9",
+      "from": "glacier",
+      "to": "mariposa",
+      "from_latlon": [
+        37.730806,
+        -119.573
+      ],
+      "to_latlon": [
+        37.50662,
+        -119.62925
+      ],
+      "mode": "drive",
+      "routes": [
+        "A1",
+        "A2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "Glacier-area → Mariposa option",
+      "note": "A1 flex / A2 fixed intent. Rendered as conceptual branch, not road.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "A_1011_GGP",
+      "date": "10/11",
+      "from": "botanical",
+      "to": "academy",
+      "from_latlon": [
+        37.766943,
+        -122.466823
+      ],
+      "to_latlon": [
+        37.769824,
+        -122.466087
+      ],
+      "mode": "walk",
+      "routes": [
+        "A1",
+        "A2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "Botanical → Academy",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "B1_1009_ACADEMY",
+      "date": "10/9",
+      "from": "painted",
+      "to": "academy",
+      "from_latlon": [
+        37.776956,
+        -122.434945
+      ],
+      "to_latlon": [
+        37.769824,
+        -122.466087
+      ],
+      "mode": "drive",
+      "routes": [
+        "B1"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "B1 SF west/central option → Academy",
+      "note": "Scenario relationship only; day schedule uses Academy after return and this connector is not a road claim.",
+      "show_overall": true
+    },
+    {
+      "leg_id": "B2_1011_GGP",
+      "date": "10/11",
+      "from": "botanical",
+      "to": "academy",
+      "from_latlon": [
+        37.766943,
+        -122.466823
+      ],
+      "to_latlon": [
+        37.769824,
+        -122.466087
+      ],
+      "mode": "walk",
+      "routes": [
+        "B2"
+      ],
+      "geometry_kind": "conceptual",
+      "geometry_source": "verified endpoints; exact router unavailable in build runtime",
+      "render_style": "conceptual_dots",
+      "label": "B2 GGP morning → Academy",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true
+    }
+  ]
+}

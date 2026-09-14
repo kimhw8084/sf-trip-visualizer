@@ -1,0 +1,372 @@
+{
+  "generated": "2026-09-13",
+  "artifact": "SF_Smart_Minority_Phase7_Standalone.html",
+  "live": {
+    "initial": {
+      "markers": 28,
+      "legs": 20,
+      "timeline": 71,
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "date": "all",
+      "region": "overall",
+      "provider": "offline",
+      "canvas": 1
+    },
+    "external_before_provider": [],
+    "filter_matrix": {
+      "cases": 160,
+      "all_nonnegative": true,
+      "a1_1009_yosemite": {
+        "r": "A1",
+        "d": "10/9",
+        "g": "yosemite",
+        "m": 1,
+        "t": 1,
+        "l": 1
+      },
+      "date_values": [
+        "10/10",
+        "10/11",
+        "10/3",
+        "10/4",
+        "10/5",
+        "10/6",
+        "10/7",
+        "10/8",
+        "10/9",
+        "all"
+      ],
+      "region_values": [
+        "monterey",
+        "overall",
+        "sf",
+        "yosemite"
+      ],
+      "route_values": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ]
+    },
+    "real_control_composed": {
+      "routes": [
+        "A1"
+      ],
+      "date": "10/9",
+      "region": "yosemite",
+      "markers": 1,
+      "timeline": 1,
+      "flex": true
+    },
+    "common_detail": {
+      "routes": 4,
+      "timing": 1,
+      "slots": 3,
+      "imgs": 0
+    },
+    "divergent_detail": {
+      "routes": 2,
+      "timing": 2,
+      "rules": 2
+    },
+    "preview": {
+      "visible": 1,
+      "why": true,
+      "imgs": 0
+    },
+    "providers": {
+      "light": {
+        "health": "failed",
+        "active": "offline",
+        "http_requests": [
+          "https://a.basemaps.cartocdn.com/light_all/12/655/1583.png?health=1789350983358"
+        ],
+        "errors": [],
+        "note": "Light · CARTO Positron failed health check → clean offline fallback"
+      },
+      "osm": {
+        "health": "failed",
+        "active": "offline",
+        "http_requests": [
+          "https://tile.openstreetmap.org/12/655/1583.png?health=1789350986568"
+        ],
+        "errors": [],
+        "note": "OSM Standard failed health check → clean offline fallback"
+      },
+      "satellite": {
+        "health": "failed",
+        "active": "offline",
+        "http_requests": [
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1789350989784"
+        ],
+        "errors": [],
+        "note": "Satellite · Esri World Imagery failed health check → clean offline fallback"
+      }
+    },
+    "stress": {
+      "cycles": 16,
+      "new_errors": [],
+      "canvas": 1
+    },
+    "errors_all": [],
+    "requests_all": [
+      "blob:null/bd9381db-d70d-4a08-86cd-91dccd4c4ea4",
+      "blob:null/0c640f0d-a37d-4979-9c7a-21c9530780b3",
+      "https://a.basemaps.cartocdn.com/light_all/12/655/1583.png?health=1789350983358",
+      "https://tile.openstreetmap.org/12/655/1583.png?health=1789350986568",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1789350989784"
+    ]
+  },
+  "static": {
+    "engine": {
+      "manual_projection_formula": false,
+      "scattermap": true,
+      "plotly_relayout": true
+    },
+    "providers": {
+      "labels": {
+        "offline": "Offline geographic context",
+        "light": "Light · CARTO Positron",
+        "osm": "OSM Standard",
+        "satellite": "Satellite · Esri World Imagery"
+      },
+      "failure_domains": {
+        "offline": "local bundled vectors",
+        "light": "CARTO CDN",
+        "osm": "OpenStreetMap tile.openstreetmap.org",
+        "satellite": "Esri ArcGIS Online"
+      },
+      "remote_domains_unique": true,
+      "offline_ready": true
+    },
+    "coordinates": {
+      "rows": 28,
+      "all_verified": true
+    },
+    "geometry": {
+      "legs": 20,
+      "exact": 0,
+      "conceptual": 20,
+      "modes": [
+        "drive",
+        "ferry",
+        "walk"
+      ],
+      "all_labeled": false
+    },
+    "photos": {
+      "required": 84,
+      "entries": 84,
+      "localized_originals": 0,
+      "localized_thumbnails": 0,
+      "localized_medium": 0,
+      "status": "BLOCKED_LOCAL_BINARY_FETCH"
+    }
+  },
+  "reused_evidence": {
+    "phase6_7_final_qa.json": {
+      "phase5": {
+        "unique_markers": 28,
+        "visible_markers_initial": 28,
+        "legs": 20,
+        "default_routes": [
+          "A1",
+          "A2",
+          "B1",
+          "B2"
+        ],
+        "default_date": "all",
+        "default_region": "overall",
+        "default_provider": "offline",
+        "maplibre_canvas": 1,
+        "place_img_elements": 0,
+        "route_toggles": 4,
+        "region_shortcuts": 4
+      },
+      "phase6": {
+        "common_detail": {
+          "tab": "Details",
+          "photo_slots": 3,
+          "timing_cards": 1,
+          "route_chips": 4,
+          "img_elements": 0,
+          "maps_link": 1
+        },
+        "divergent_detail": {
+          "route_chips": 2,
+          "timing_cards": 2,
+          "photo_slots": 3,
+          "decision_rules": 2
+        },
+        "preview": {
+          "visible": 1,
+          "has_title": true,
+          "has_why": true,
+          "remote_img": 0
+        },
+        "timeline_sync": {
+          "clicked_title": "Ferry Building + Farmers Market + Latine Makers",
+          "selected_place": "ferry",
+          "selected_cards": 1,
+          "tab": "Timeline"
+        },
+        "composed_filter": {
+          "routes": [
+            "A1"
+          ],
+          "date": "10/9",
+          "region": "yosemite",
+          "visible_markers": 1,
+          "timeline_cards": 1,
+          "timeline_contains_flex": true
+        },
+        "external_http_requests_before_provider_probe": []
+      },
+      "phase7": {
+        "1280": {
+          "horizontal_overflow": false,
+          "map_height": 703,
+          "sidebar_height": 703,
+          "header_height": 97,
+          "min_button_height": 36,
+          "min_select_height": 0,
+          "min_tab_height": 38,
+          "mobile_selects_display": "none",
+          "timeline_cards": 71
+        },
+        "1024": {
+          "horizontal_overflow": false,
+          "map_height": 671,
+          "sidebar_height": 671,
+          "header_height": 97,
+          "min_button_height": 36,
+          "min_select_height": 0,
+          "min_tab_height": 38,
+          "mobile_selects_display": "none",
+          "timeline_cards": 71
+        },
+        "768": {
+          "horizontal_overflow": false,
+          "map_height": 803,
+          "sidebar_height": 803,
+          "header_height": 97,
+          "min_button_height": 36,
+          "min_select_height": 0,
+          "min_tab_height": 38,
+          "mobile_selects_display": "none",
+          "timeline_cards": 71
+        },
+        "430": {
+          "horizontal_overflow": false,
+          "map_height": 443.5,
+          "sidebar_height": 334.5,
+          "header_height": 122,
+          "min_button_height": 0,
+          "min_select_height": 0,
+          "min_tab_height": 42,
+          "mobile_selects_display": "flex",
+          "timeline_cards": 71,
+          "mobile_filter_state": {
+            "date": "10/4",
+            "region": "sf",
+            "visible_markers": 5
+          },
+          "detail_tab_after_selection": "Details",
+          "detail_photo_slots": 3
+        },
+        "390": {
+          "horizontal_overflow": false,
+          "map_height": 411.5,
+          "sidebar_height": 310.5,
+          "header_height": 122,
+          "min_button_height": 0,
+          "min_select_height": 0,
+          "min_tab_height": 42,
+          "mobile_selects_display": "flex",
+          "timeline_cards": 71,
+          "mobile_filter_state": {
+            "date": "10/4",
+            "region": "sf",
+            "visible_markers": 5
+          },
+          "detail_tab_after_selection": "Details",
+          "detail_photo_slots": 3
+        },
+        "touch": {
+          "touch_state": true,
+          "preview_visible": 1,
+          "tab_after_selection": "Details",
+          "photo_slots": 3,
+          "errors": []
+        }
+      },
+      "provider_failure": {
+        "provider": "offline",
+        "health": "failed",
+        "requests": [
+          "https://tile.openstreetmap.org/12/655/1583.png?health=1789350345817"
+        ],
+        "fallback": "OSM Standard failed health check → clean offline fallback"
+      },
+      "runtime_errors": [],
+      "request_log": [
+        "blob:null/5e21dd23-ed5d-41be-90e7-4bd778724894",
+        "https://tile.openstreetmap.org/12/655/1583.png?health=1789350345817"
+      ]
+    },
+    "provider_ready_fixture_qa.json": {
+      "health": "ready",
+      "provider": "_qa_local",
+      "canvas": 1,
+      "pageerrors": []
+    },
+    "phase7_dimensions.json": {
+      "1440": {
+        "overflow": false,
+        "mapH": 803,
+        "sideH": 803,
+        "headerH": 97,
+        "buttonMin": 36,
+        "selectMin": 36,
+        "tabMin": 38,
+        "mobileSelects": "none"
+      },
+      "768": {
+        "overflow": false,
+        "mapH": 803,
+        "sideH": 803,
+        "headerH": 97,
+        "buttonMin": 36,
+        "selectMin": 36,
+        "tabMin": 38,
+        "mobileSelects": "none"
+      },
+      "430": {
+        "overflow": false,
+        "mapH": 443.453125,
+        "sideH": 334.53125,
+        "headerH": 122,
+        "buttonMin": 40,
+        "selectMin": 40,
+        "tabMin": 42,
+        "mobileSelects": "flex"
+      },
+      "390": {
+        "overflow": false,
+        "mapH": 411.53125,
+        "sideH": 310.453125,
+        "headerH": 122,
+        "buttonMin": 40,
+        "selectMin": 40,
+        "tabMin": 42,
+        "mobileSelects": "flex"
+      }
+    }
+  }
+}

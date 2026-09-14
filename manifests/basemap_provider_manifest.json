@@ -1,0 +1,38 @@
+{
+  "offline": {
+    "label": "Offline geographic context",
+    "failure_domain": "local bundled vectors",
+    "tile_template": null,
+    "health_probe": null,
+    "attribution": "Natural Earth + verified trip data",
+    "default_fallback": true,
+    "status_at_build": "READY_LOCAL"
+  },
+  "light": {
+    "label": "Light · CARTO Positron",
+    "failure_domain": "CARTO CDN",
+    "tile_template": "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+    "health_probe": "https://a.basemaps.cartocdn.com/light_all/12/655/1583.png",
+    "attribution": "© OpenStreetMap contributors © CARTO",
+    "default_fallback": false,
+    "status_at_build": "UNVERIFIED_REMOTE_RUNTIME_HEALTH_GATED"
+  },
+  "osm": {
+    "label": "OSM Standard",
+    "failure_domain": "OpenStreetMap tile.openstreetmap.org",
+    "tile_template": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "health_probe": "https://tile.openstreetmap.org/12/655/1583.png",
+    "attribution": "© OpenStreetMap contributors",
+    "default_fallback": false,
+    "status_at_build": "UNVERIFIED_REMOTE_RUNTIME_HEALTH_GATED"
+  },
+  "satellite": {
+    "label": "Satellite · Esri World Imagery",
+    "failure_domain": "Esri ArcGIS Online",
+    "tile_template": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    "health_probe": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655",
+    "attribution": "Tiles © Esri and contributors",
+    "default_fallback": false,
+    "status_at_build": "UNVERIFIED_REMOTE_RUNTIME_HEALTH_GATED"
+  }
+}

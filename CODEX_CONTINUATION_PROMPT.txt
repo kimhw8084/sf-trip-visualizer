@@ -1,0 +1,177 @@
+You are continuing an existing San Francisco / Monterey / Yosemite family-trip interactive map application on my local Mac.
+
+FIRST, before changing anything:
+
+1. Read `handoff(1).txt` completely.
+2. Read both authoritative JSON files completely:
+   - `SF_Trip_Smart_Minority_4_Itineraries_Data(1).json`
+   - `SF_Trip_4_Routes_VISUAL_MASTER_MAP_v2_Data(1).json`
+3. Read the entire Phase-9 candidate package in this workspace, especially:
+   - `README.md`
+   - `P0_PROOF_REPORT.md`
+   - `PHASE2_UNBLOCK_STATUS.md`
+   - QA logs/manifests
+   - coordinate audit
+   - provider configuration
+   - route geometry manifest
+   - current source HTML/JS/CSS
+4. Open the current candidate application locally in a real browser and inspect it visually and functionally before editing.
+
+Treat the Phase-9 candidate as the current implementation baseline. Do NOT resurrect or patch rejected v3/v6/v7 builds.
+
+CURRENT STATE
+
+Phases 0–1 are complete.
+Phases 3–7 are implemented.
+Phases 8–9 were run against the current non-photo scope.
+
+The remaining material blocker is Phase 2:
+
+- 28 unique places
+- exactly 3 real representative photographs per place
+- 84 actual local photo files total
+- roles:
+  - HERO
+  - EXPERIENCE
+  - SCALE/CONTEXT
+- no AI-generated images
+- no generic placeholder imagery
+- no hotlinked images in the finished application
+- actual image bytes must be downloaded to the local project
+- hash/dedupe them
+- generate marker thumbnails and medium/detail derivatives
+- preserve source URL/provenance in the asset manifest
+
+The previous ChatGPT execution environment could discover photographs but could not transfer arbitrary web image bytes into its filesystem. You are now running locally on my Mac and should troubleshoot and eliminate that limitation directly.
+
+YOUR FIRST PRIORITY
+
+Complete Phase 2 properly.
+
+Use your local browser/network/filesystem/tools to:
+
+1. Review the existing 84-slot acquisition manifest.
+2. Search Google, Google Maps where practical, major image search, official sites, Wikimedia, NPS, attraction websites, and other trustworthy sources for representative real photographs.
+3. Select 3 visually useful and genuinely representative photographs for every one of the 28 places.
+4. Download the actual image bytes locally.
+5. Validate every image is the correct location/subject.
+6. Reject logos, maps, screenshots, illustrations, stock-looking generic substitutes, AI imagery, broken images, duplicates, and irrelevant photos.
+7. Normalize formats if needed.
+8. Generate:
+   - marker thumbnail
+   - medium/detail derivative
+9. SHA-256 all original/local assets.
+10. Complete `asset_manifest.json`.
+11. Automated integrity result must be 84/84 present and decodable.
+
+THEN INTEGRATE PHASE 2 INTO THE CURRENT PHASE-9 APPLICATION
+
+Replace all temporary photo placeholders with the real local assets.
+
+Photo markers:
+- use real local thumbnail
+- approximately 26–30 px at normal city zoom
+- thin route-colored ring
+- tiny sequence badge where useful
+- shared physical stops remain deduplicated
+- never generate four overlapping markers just because A1/A2/B1/B2 share a stop
+
+Hover/tap preview:
+- representative local real photo
+- active route/date/time
+- concise “Why now?”
+
+Detail panel:
+- exactly the correct 3 local photographs for that place
+- exact timing
+- reasoning
+- advantages
+- decision rule
+- place summary
+- route chips
+- Google Maps link
+- deduplicate identical cross-route timing/reason cards
+
+Do not weaken the existing route/common-divergence visualization, coordinate corrections, mobile UI, filters, timeline synchronization, or provider fallback behavior while integrating images.
+
+AFTER PHOTO INTEGRATION
+
+Rerun the full P0 acceptance suite, especially previously blocked:
+
+P0-8 — 84 real local photographs
+P0-9 — real-photo map markers
+P0-10 — real-photo hover/tap previews
+P0-11 — 3-photo detail panel
+
+Then rerun all P0-1 through P0-12 because image integration may introduce regressions.
+
+TEST IN REAL LOCAL BROWSERS.
+
+Test at minimum:
+- desktop
+- approximately 1440 px
+- 1280 px
+- 1024 px
+- 768 px
+- 430 px mobile
+- 390 px mobile
+
+Test:
+- every route toggle
+- every date
+- every region
+- important composed filters
+- A1 + Oct 9 + Yosemite regression
+- timeline ↔ map synchronization
+- hover
+- touch/tap
+- details
+- pan
+- zoom
+- resize
+- basemap provider success/failure/fallback
+- no remote photo requests
+- no broken images
+- no repeated permission/load prompts
+- no horizontal mobile overflow
+- no marker drift
+- no misleading cross-day route geometry
+- no console/runtime errors
+
+VISUAL QA IS REQUIRED.
+
+Inspect screenshots yourself. Fix clipping, overlap, unreadable controls, bad crop choices, ugly photo markers, route clutter, wrong marker placement, poor mobile composition, or anything that looks unfinished even if automated tests pass.
+
+Do not claim PASS solely because JavaScript has no exceptions.
+
+FINAL DELIVERABLE
+
+Produce a new final folder/package containing:
+- final standalone HTML
+- source implementation
+- all 84 real local photos
+- thumbnails and derivatives
+- authoritative data
+- coordinate audit
+- completed asset manifest
+- route geometry manifest
+- provider configuration
+- QA logs
+- desktop/mobile screenshots
+- SHA-256 manifest
+- final `P0_PROOF_REPORT.md`
+- optionally HTML version of the proof report
+- ZIP of the complete final package
+
+The proof report must show P0-1 through P0-12 individually with:
+- status
+- exact test
+- quantitative result
+- evidence path
+- remaining limitation
+
+Do NOT mark overall P0 complete unless all twelve are genuinely PASS.
+
+You have permission to troubleshoot the local implementation, use terminals, install reasonable development/test dependencies inside the project or an isolated environment, use the browser, download required real photo assets, run local servers, modify the project files, run browser automation, and iterate until the acceptance criteria pass.
+
+Do the work directly. Do not stop after giving me another implementation plan unless an external credential, paid API, OS-level permission, or genuinely non-resolvable decision requires my involvement.
