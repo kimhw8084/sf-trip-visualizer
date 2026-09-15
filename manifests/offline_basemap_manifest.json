@@ -1,0 +1,171 @@
+{
+  "source_service": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer",
+  "source_documentation": "https://www.usgs.gov/faqs/what-are-base-map-services-or-urls-used-national-map",
+  "source_credit": "USGS The National Map",
+  "mosaics": [
+    {
+      "region": "overall",
+      "local_path": "assets/basemap/usgs_topo_overall.webp",
+      "source_tile_template": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}",
+      "source_zoom": 7,
+      "tile_range": {
+        "x": [
+          18,
+          23
+        ],
+        "y": [
+          47,
+          51
+        ]
+      },
+      "tile_count": 30,
+      "pixel_size": [
+        1536,
+        1280
+      ],
+      "coordinates": [
+        [
+          -129.375,
+          43.06888777416962
+        ],
+        [
+          -112.5,
+          43.06888777416962
+        ],
+        [
+          -112.5,
+          31.952162238024968
+        ],
+        [
+          -129.375,
+          31.952162238024968
+        ]
+      ],
+      "sha256": "a9bed2d07058d220fa6b1a38c6e7426b64731195c0515423aed16268b5a0b171",
+      "bytes": 382036
+    },
+    {
+      "region": "sf",
+      "local_path": "assets/basemap/usgs_topo_sf.webp",
+      "source_tile_template": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}",
+      "source_zoom": 12,
+      "tile_range": {
+        "x": [
+          651,
+          658
+        ],
+        "y": [
+          1579,
+          1585
+        ]
+      },
+      "tile_count": 56,
+      "pixel_size": [
+        2048,
+        1792
+      ],
+      "coordinates": [
+        [
+          -122.783203125,
+          38.06539235133248
+        ],
+        [
+          -122.080078125,
+          38.06539235133248
+        ],
+        [
+          -122.080078125,
+          37.57941251343839
+        ],
+        [
+          -122.783203125,
+          37.57941251343839
+        ]
+      ],
+      "sha256": "4cbd78fc020e5c6588592d05316ee943ccf24afa86d5d40191c4ebcfebc1326d",
+      "bytes": 765722
+    },
+    {
+      "region": "monterey",
+      "local_path": "assets/basemap/usgs_topo_monterey.webp",
+      "source_tile_template": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}",
+      "source_zoom": 11,
+      "tile_range": {
+        "x": [
+          327,
+          333
+        ],
+        "y": [
+          797,
+          802
+        ]
+      },
+      "tile_count": 42,
+      "pixel_size": [
+        1792,
+        1536
+      ],
+      "coordinates": [
+        [
+          -122.51953125,
+          37.020098201368114
+        ],
+        [
+          -121.2890625,
+          37.020098201368114
+        ],
+        [
+          -121.2890625,
+          36.17335693522159
+        ],
+        [
+          -122.51953125,
+          36.17335693522159
+        ]
+      ],
+      "sha256": "95c64b9ff4e1d29d28e91cf0ca81f8ca7085fb6f27a97344bcd5a6e3a6639dc8",
+      "bytes": 535710
+    },
+    {
+      "region": "yosemite",
+      "local_path": "assets/basemap/usgs_topo_yosemite.webp",
+      "source_tile_template": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}",
+      "source_zoom": 11,
+      "tile_range": {
+        "x": [
+          338,
+          348
+        ],
+        "y": [
+          788,
+          796
+        ]
+      },
+      "tile_count": 99,
+      "pixel_size": [
+        2816,
+        2304
+      ],
+      "coordinates": [
+        [
+          -120.5859375,
+          38.27268853598096
+        ],
+        [
+          -118.65234375,
+          38.27268853598096
+        ],
+        [
+          -118.65234375,
+          37.020098201368114
+        ],
+        [
+          -120.5859375,
+          37.020098201368114
+        ]
+      ],
+      "sha256": "2424d7e4b42fa3210b6e175218af303492ee5dc7ff2d2bfd715c8a42c39ebac1",
+      "bytes": 2317898
+    }
+  ]
+}

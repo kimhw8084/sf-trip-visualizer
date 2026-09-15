@@ -1,9 +1,7 @@
-# Phase 2 Unblock Status
+# Phase 2 Unblock Status — resolved and expanded
 
-Required: 28 places × 3 real photos = 84 local original files plus thumbnail/medium derivatives.
+Running locally on the Mac removed the prior image-byte transfer limitation. The original Phase-2 requirement is complete: 28 places × exactly 3 real local photographs = 84 originals. The official-source location audit added eight more places and 24 more real photographs, bringing the current package to **36 places × 3 roles = 108 originals**, plus 108 WebP thumbnails and 108 WebP medium/detail derivatives.
 
-Current manifest: 84 slots; 0 localized binaries.
+Every place has exactly HERO, EXPERIENCE, and SCALE/CONTEXT. `manifests/asset_manifest.json` records each role, source page, direct image URL, creator/license metadata where available, visual-review note, local paths, SHA-256 hashes, dimensions, and local derivative paths. `QA/photo_integrity.json` reports 108/108 decodable originals, 108/108 thumbnails, 108/108 medium derivatives, 108 unique original SHA-256 hashes, and zero decode/hash/duplicate failures.
 
-Tried in this session: container DNS/network fetch, container downloader, Chromium direct image, GitHub binary/blob/contents bridges. None provides web image bytes to the local filesystem. Web image discovery itself works.
-
-Next capable environment should resume from `manifests/photo_acquisition_queue.json` and `manifests/asset_manifest.json`, populate the prescribed local paths, hash/decode/derive images, then rerun only photo-dependent P0-8/9/10/11 plus P0-12 delta QA.
+`QA/photo_review/localized_108_page_*.jpg` contains human-review contact sheets of every final crop. The application loads only the local derivatives; the standalone edition embeds them as data URIs and makes no remote photo requests. No AI-generated images, generic placeholders, or hotlinked photographs are used.

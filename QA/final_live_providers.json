@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "default_remote_requests": 0,
+  "remote_photo_requests": [],
+  "page_errors": [],
+  "console_errors": [],
+  "browser_dialogs": [],
+  "providers": [
+    {
+      "provider": "light",
+      "domain": "basemap.nationalmap.gov",
+      "active_after": "light",
+      "health": "ready",
+      "matching_http_200_responses": 30,
+      "photo_markers": 19,
+      "map_canvas": 1,
+      "screenshot": "QA/screenshots/final_live_provider_light.png",
+      "status": "PASS"
+    },
+    {
+      "provider": "osm",
+      "domain": "tile.openstreetmap.org",
+      "active_after": "osm",
+      "health": "ready",
+      "matching_http_200_responses": 30,
+      "photo_markers": 19,
+      "map_canvas": 1,
+      "screenshot": "QA/screenshots/final_live_provider_osm.png",
+      "status": "PASS"
+    },
+    {
+      "provider": "satellite",
+      "domain": "server.arcgisonline.com",
+      "active_after": "satellite",
+      "health": "ready",
+      "matching_http_200_responses": 30,
+      "photo_markers": 19,
+      "map_canvas": 1,
+      "screenshot": "QA/screenshots/final_live_provider_satellite.png",
+      "status": "PASS"
+    }
+  ]
+}

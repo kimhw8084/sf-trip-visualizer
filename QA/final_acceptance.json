@@ -1,0 +1,2204 @@
+{
+  "browser": "Playwright Chromium (real headless browser)",
+  "checks": {
+    "initial_physical_place_markers": {
+      "pass": true,
+      "actual": 28,
+      "expected": 28
+    },
+    "initial_aggregate_markers": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "initial_visible_timeline_slots": {
+      "pass": true,
+      "actual": 71,
+      "expected": 71
+    },
+    "initial_maplibre_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "initial_broken_photo_markers": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "initial_remote_requests": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "state_matrix_size": {
+      "pass": true,
+      "actual": 160,
+      "expected": 160
+    },
+    "state_matrix_invalid_compositions": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "cross_day_conceptual_legs_suppressed": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "all_route_toggles_restored": {
+      "pass": true,
+      "actual": "A1,A2,B1,B2",
+      "expected": "A1,A2,B1,B2"
+    },
+    "date_10/3_visible_marker_count": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "date_10/4_visible_marker_count": {
+      "pass": true,
+      "actual": 5,
+      "expected": 5
+    },
+    "date_10/5_visible_marker_count": {
+      "pass": true,
+      "actual": 6,
+      "expected": 6
+    },
+    "date_10/6_visible_marker_count": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "date_10/7_visible_marker_count": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "date_10/8_visible_marker_count": {
+      "pass": true,
+      "actual": 2,
+      "expected": 2
+    },
+    "date_10/9_visible_marker_count": {
+      "pass": true,
+      "actual": 4,
+      "expected": 4
+    },
+    "date_10/10_visible_marker_count": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "date_10/11_visible_marker_count": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "date_all_visible_marker_count": {
+      "pass": true,
+      "actual": 28,
+      "expected": 28
+    },
+    "region_sf_marker_count": {
+      "pass": true,
+      "actual": 19,
+      "expected": 19
+    },
+    "region_monterey_marker_count": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "region_yosemite_marker_count": {
+      "pass": true,
+      "actual": 6,
+      "expected": 6
+    },
+    "region_overall_marker_count": {
+      "pass": true,
+      "actual": 28,
+      "expected": 28
+    },
+    "A1_10_9_yosemite_markers": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "A1_10_9_yosemite_timeline": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "A1_10_9_yosemite_flex": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "A1_10_9_yosemite_no_cross_day_leg": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "timeline_select_place": {
+      "pass": true,
+      "actual": "ferry",
+      "expected": "ferry"
+    },
+    "timeline_selected_photo_marker_visible": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "timeline_focus_zoom_offline_at_native_topo_detail": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "ferry_detail_exactly_three_photos": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "ferry_detail_broken_photos": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "ferry_detail_deduped_timing_cards": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "ferry_detail_four_route_chips": {
+      "pass": true,
+      "actual": 4,
+      "expected": 4
+    },
+    "ferry_detail_google_maps": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "mariposa_detail_exactly_three_photos": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "mariposa_detail_distinct_timing_cards": {
+      "pass": true,
+      "actual": 2,
+      "expected": 2
+    },
+    "all_28_details_have_exact_local_role_paths": {
+      "pass": true,
+      "actual": 28,
+      "expected": 28
+    },
+    "hover_preview_visible": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "hover_preview_real_photo": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "hover_preview_why_now": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "max_marker_position_drift_at_most_one_pixel": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "pan_zoom_canvas_retained": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "pan_zoom_photo_markers_retained": {
+      "pass": true,
+      "actual": 28,
+      "expected": 28
+    },
+    "live_resize_1024_no_overflow": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "live_resize_1024_map_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "live_resize_1024_marker_drift_at_most_one_pixel": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "live_resize_768_no_overflow": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "live_resize_768_map_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "live_resize_768_marker_drift_at_most_one_pixel": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "live_resize_430_no_overflow": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "live_resize_430_map_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "live_resize_430_marker_drift_at_most_one_pixel": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "live_resize_390_no_overflow": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "live_resize_390_map_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "live_resize_390_marker_drift_at_most_one_pixel": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "live_resize_1440_no_overflow": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "live_resize_1440_map_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "live_resize_1440_marker_drift_at_most_one_pixel": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "provider_light_failure_fallback": {
+      "pass": true,
+      "actual": "offline",
+      "expected": "offline"
+    },
+    "provider_osm_failure_fallback": {
+      "pass": true,
+      "actual": "offline",
+      "expected": "offline"
+    },
+    "provider_satellite_failure_fallback": {
+      "pass": true,
+      "actual": "offline",
+      "expected": "offline"
+    },
+    "provider_local_success_ready": {
+      "pass": true,
+      "actual": "osm",
+      "expected": "osm"
+    },
+    "provider_local_success_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "provider_post_success_pan_tile_failure_fallback": {
+      "pass": true,
+      "actual": "offline",
+      "expected": "offline"
+    },
+    "provider_probe_success_viewport_failure_fallback": {
+      "pass": true,
+      "actual": "offline",
+      "expected": "offline"
+    },
+    "no_remote_photo_requests": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "width_1440_no_horizontal_overflow": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "width_1440_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "width_1440_broken_marker_images": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "width_1280_no_horizontal_overflow": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "width_1280_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "width_1280_broken_marker_images": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "width_1024_no_horizontal_overflow": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "width_1024_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "width_1024_broken_marker_images": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "width_768_no_horizontal_overflow": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "width_768_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "width_768_broken_marker_images": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "width_430_no_horizontal_overflow": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "width_430_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "width_430_broken_marker_images": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "width_430_tap_preview_photo": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "width_430_tap_detail_three_photos": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "width_390_no_horizontal_overflow": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "width_390_canvas": {
+      "pass": true,
+      "actual": 1,
+      "expected": 1
+    },
+    "width_390_broken_marker_images": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "width_390_tap_preview_photo": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    "width_390_tap_detail_three_photos": {
+      "pass": true,
+      "actual": 3,
+      "expected": 3
+    },
+    "standalone_28_markers": {
+      "pass": true,
+      "actual": 28,
+      "expected": 28
+    },
+    "standalone_no_remote_requests": {
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    "standalone_detail_photo_data_uris": {
+      "pass": true,
+      "actual": true,
+      "expected": true
+    }
+  },
+  "screenshots": [
+    "QA/screenshots/final_1440_overall.png",
+    "QA/screenshots/final_1440_sf.png",
+    "QA/screenshots/final_1440_monterey.png",
+    "QA/screenshots/final_1440_yosemite.png",
+    "QA/screenshots/final_1440_overall.png",
+    "QA/screenshots/final_A1_10_9_yosemite.png",
+    "QA/screenshots/final_1440_ferry_detail.png",
+    "QA/screenshots/final_1440_mariposa_detail.png",
+    "QA/screenshots/final_1440_hover_preview.png",
+    "QA/screenshots/final_1440_pan_zoom.png",
+    "QA/screenshots/final_1440_provider_ready_fixture.png",
+    "QA/screenshots/final_width_1440.png",
+    "QA/screenshots/final_width_1280.png",
+    "QA/screenshots/final_width_1024.png",
+    "QA/screenshots/final_width_768.png",
+    "QA/screenshots/final_width_430.png",
+    "QA/screenshots/final_width_430_tap_detail.png",
+    "QA/screenshots/final_width_390.png",
+    "QA/screenshots/final_width_390_tap_detail.png"
+  ],
+  "page_errors": [],
+  "state_matrix": [
+    {
+      "route": "A1",
+      "date": "all",
+      "region": "overall",
+      "markers": 27,
+      "timeline": 38,
+      "legs": 16,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "all",
+      "region": "sf",
+      "markers": 18,
+      "timeline": 23,
+      "legs": 8,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "all",
+      "region": "monterey",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 2,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "all",
+      "region": "yosemite",
+      "markers": 6,
+      "timeline": 9,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/3",
+      "region": "overall",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/3",
+      "region": "sf",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/3",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/3",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/4",
+      "region": "overall",
+      "markers": 5,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/4",
+      "region": "sf",
+      "markers": 5,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/4",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/4",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/5",
+      "region": "overall",
+      "markers": 6,
+      "timeline": 5,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/5",
+      "region": "sf",
+      "markers": 6,
+      "timeline": 5,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/5",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/5",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/6",
+      "region": "overall",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/6",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/6",
+      "region": "monterey",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 2,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/6",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/7",
+      "region": "overall",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/7",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/7",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/7",
+      "region": "yosemite",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 2,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/8",
+      "region": "overall",
+      "markers": 2,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/8",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/8",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/8",
+      "region": "yosemite",
+      "markers": 2,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/9",
+      "region": "overall",
+      "markers": 1,
+      "timeline": 1,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/9",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/9",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/9",
+      "region": "yosemite",
+      "markers": 1,
+      "timeline": 1,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/10",
+      "region": "overall",
+      "markers": 2,
+      "timeline": 3,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/10",
+      "region": "sf",
+      "markers": 2,
+      "timeline": 3,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/10",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/10",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/11",
+      "region": "overall",
+      "markers": 2,
+      "timeline": 5,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/11",
+      "region": "sf",
+      "markers": 2,
+      "timeline": 5,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/11",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A1",
+      "date": "10/11",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "all",
+      "region": "overall",
+      "markers": 27,
+      "timeline": 31,
+      "legs": 16,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "all",
+      "region": "sf",
+      "markers": 18,
+      "timeline": 18,
+      "legs": 8,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "all",
+      "region": "monterey",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 2,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "all",
+      "region": "yosemite",
+      "markers": 6,
+      "timeline": 7,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/3",
+      "region": "overall",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/3",
+      "region": "sf",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/3",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/3",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/4",
+      "region": "overall",
+      "markers": 5,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/4",
+      "region": "sf",
+      "markers": 5,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/4",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/4",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/5",
+      "region": "overall",
+      "markers": 6,
+      "timeline": 5,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/5",
+      "region": "sf",
+      "markers": 6,
+      "timeline": 5,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/5",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/5",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/6",
+      "region": "overall",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/6",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/6",
+      "region": "monterey",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 2,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/6",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/7",
+      "region": "overall",
+      "markers": 3,
+      "timeline": 2,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/7",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/7",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/7",
+      "region": "yosemite",
+      "markers": 3,
+      "timeline": 2,
+      "legs": 2,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/8",
+      "region": "overall",
+      "markers": 2,
+      "timeline": 2,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/8",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/8",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/8",
+      "region": "yosemite",
+      "markers": 2,
+      "timeline": 2,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/9",
+      "region": "overall",
+      "markers": 1,
+      "timeline": 3,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/9",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/9",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/9",
+      "region": "yosemite",
+      "markers": 1,
+      "timeline": 3,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/10",
+      "region": "overall",
+      "markers": 2,
+      "timeline": 2,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/10",
+      "region": "sf",
+      "markers": 2,
+      "timeline": 2,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/10",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/10",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/11",
+      "region": "overall",
+      "markers": 2,
+      "timeline": 1,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/11",
+      "region": "sf",
+      "markers": 2,
+      "timeline": 1,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/11",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "A2",
+      "date": "10/11",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "all",
+      "region": "overall",
+      "markers": 25,
+      "timeline": 34,
+      "legs": 13,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "all",
+      "region": "sf",
+      "markers": 19,
+      "timeline": 24,
+      "legs": 7,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "all",
+      "region": "monterey",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 2,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "all",
+      "region": "yosemite",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/3",
+      "region": "overall",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/3",
+      "region": "sf",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/3",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/3",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/4",
+      "region": "overall",
+      "markers": 5,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/4",
+      "region": "sf",
+      "markers": 5,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/4",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/4",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/5",
+      "region": "overall",
+      "markers": 6,
+      "timeline": 5,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/5",
+      "region": "sf",
+      "markers": 6,
+      "timeline": 5,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/5",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/5",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/6",
+      "region": "overall",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/6",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/6",
+      "region": "monterey",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 2,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/6",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/7",
+      "region": "overall",
+      "markers": 1,
+      "timeline": 2,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/7",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/7",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/7",
+      "region": "yosemite",
+      "markers": 1,
+      "timeline": 2,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/8",
+      "region": "overall",
+      "markers": 2,
+      "timeline": 2,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/8",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/8",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/8",
+      "region": "yosemite",
+      "markers": 2,
+      "timeline": 2,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/9",
+      "region": "overall",
+      "markers": 1,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/9",
+      "region": "sf",
+      "markers": 1,
+      "timeline": 4,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/9",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/9",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/10",
+      "region": "overall",
+      "markers": 3,
+      "timeline": 3,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/10",
+      "region": "sf",
+      "markers": 3,
+      "timeline": 3,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/10",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/10",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/11",
+      "region": "overall",
+      "markers": 1,
+      "timeline": 2,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/11",
+      "region": "sf",
+      "markers": 1,
+      "timeline": 2,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/11",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B1",
+      "date": "10/11",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "all",
+      "region": "overall",
+      "markers": 24,
+      "timeline": 33,
+      "legs": 13,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "all",
+      "region": "sf",
+      "markers": 18,
+      "timeline": 23,
+      "legs": 7,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "all",
+      "region": "monterey",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 2,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "all",
+      "region": "yosemite",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/3",
+      "region": "overall",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/3",
+      "region": "sf",
+      "markers": 3,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/3",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/3",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/4",
+      "region": "overall",
+      "markers": 5,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/4",
+      "region": "sf",
+      "markers": 5,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/4",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/4",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/5",
+      "region": "overall",
+      "markers": 6,
+      "timeline": 5,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/5",
+      "region": "sf",
+      "markers": 6,
+      "timeline": 5,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/5",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/5",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/6",
+      "region": "overall",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 3,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/6",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/6",
+      "region": "monterey",
+      "markers": 3,
+      "timeline": 6,
+      "legs": 2,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/6",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/7",
+      "region": "overall",
+      "markers": 1,
+      "timeline": 2,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/7",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/7",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/7",
+      "region": "yosemite",
+      "markers": 1,
+      "timeline": 2,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/8",
+      "region": "overall",
+      "markers": 2,
+      "timeline": 2,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/8",
+      "region": "sf",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/8",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/8",
+      "region": "yosemite",
+      "markers": 2,
+      "timeline": 2,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/9",
+      "region": "overall",
+      "markers": 2,
+      "timeline": 4,
+      "legs": 1,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/9",
+      "region": "sf",
+      "markers": 2,
+      "timeline": 4,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/9",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/9",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/10",
+      "region": "overall",
+      "markers": 1,
+      "timeline": 2,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/10",
+      "region": "sf",
+      "markers": 1,
+      "timeline": 2,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/10",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/10",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/11",
+      "region": "overall",
+      "markers": 1,
+      "timeline": 2,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/11",
+      "region": "sf",
+      "markers": 1,
+      "timeline": 2,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/11",
+      "region": "monterey",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    },
+    {
+      "route": "B2",
+      "date": "10/11",
+      "region": "yosemite",
+      "markers": 0,
+      "timeline": 0,
+      "legs": 0,
+      "invalid": false
+    }
+  ],
+  "cross_day_suppressed_leg_ids": [
+    "A_1009_MARIPOSA",
+    "B1_1009_ACADEMY",
+    "B2_1011_GGP"
+  ],
+  "all_place_detail_review": [
+    {
+      "place_key": "ferry",
+      "paths": [
+        "assets/photos/medium/ferry__hero.webp",
+        "assets/photos/medium/ferry__experience.webp",
+        "assets/photos/medium/ferry__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "exploratorium",
+      "paths": [
+        "assets/photos/medium/exploratorium__hero.webp",
+        "assets/photos/medium/exploratorium__experience.webp",
+        "assets/photos/medium/exploratorium__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "bay_lights",
+      "paths": [
+        "assets/photos/medium/bay_lights__hero.webp",
+        "assets/photos/medium/bay_lights__experience.webp",
+        "assets/photos/medium/bay_lights__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "ggb",
+      "paths": [
+        "assets/photos/medium/ggb__hero.webp",
+        "assets/photos/medium/ggb__experience.webp",
+        "assets/photos/medium/ggb__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "muir",
+      "paths": [
+        "assets/photos/medium/muir__hero.webp",
+        "assets/photos/medium/muir__experience.webp",
+        "assets/photos/medium/muir__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "battery",
+      "paths": [
+        "assets/photos/medium/battery__hero.webp",
+        "assets/photos/medium/battery__experience.webp",
+        "assets/photos/medium/battery__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "palace",
+      "paths": [
+        "assets/photos/medium/palace__hero.webp",
+        "assets/photos/medium/palace__experience.webp",
+        "assets/photos/medium/palace__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "crissy",
+      "paths": [
+        "assets/photos/medium/crissy__hero.webp",
+        "assets/photos/medium/crissy__experience.webp",
+        "assets/photos/medium/crissy__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "alcatraz",
+      "paths": [
+        "assets/photos/medium/alcatraz__hero.webp",
+        "assets/photos/medium/alcatraz__experience.webp",
+        "assets/photos/medium/alcatraz__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "north_beach",
+      "paths": [
+        "assets/photos/medium/north_beach__hero.webp",
+        "assets/photos/medium/north_beach__experience.webp",
+        "assets/photos/medium/north_beach__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "fortune",
+      "paths": [
+        "assets/photos/medium/fortune__hero.webp",
+        "assets/photos/medium/fortune__experience.webp",
+        "assets/photos/medium/fortune__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "coit",
+      "paths": [
+        "assets/photos/medium/coit__hero.webp",
+        "assets/photos/medium/coit__experience.webp",
+        "assets/photos/medium/coit__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "lombard",
+      "paths": [
+        "assets/photos/medium/lombard__hero.webp",
+        "assets/photos/medium/lombard__experience.webp",
+        "assets/photos/medium/lombard__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "musee",
+      "paths": [
+        "assets/photos/medium/musee__hero.webp",
+        "assets/photos/medium/musee__experience.webp",
+        "assets/photos/medium/musee__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "point_lobos",
+      "paths": [
+        "assets/photos/medium/point_lobos__hero.webp",
+        "assets/photos/medium/point_lobos__experience.webp",
+        "assets/photos/medium/point_lobos__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "lone_cypress",
+      "paths": [
+        "assets/photos/medium/lone_cypress__hero.webp",
+        "assets/photos/medium/lone_cypress__experience.webp",
+        "assets/photos/medium/lone_cypress__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "aquarium",
+      "paths": [
+        "assets/photos/medium/aquarium__hero.webp",
+        "assets/photos/medium/aquarium__experience.webp",
+        "assets/photos/medium/aquarium__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "cooks",
+      "paths": [
+        "assets/photos/medium/cooks__hero.webp",
+        "assets/photos/medium/cooks__experience.webp",
+        "assets/photos/medium/cooks__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "tunnel_view",
+      "paths": [
+        "assets/photos/medium/tunnel_view__hero.webp",
+        "assets/photos/medium/tunnel_view__experience.webp",
+        "assets/photos/medium/tunnel_view__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "valley_view",
+      "paths": [
+        "assets/photos/medium/valley_view__hero.webp",
+        "assets/photos/medium/valley_view__experience.webp",
+        "assets/photos/medium/valley_view__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "washburn",
+      "paths": [
+        "assets/photos/medium/washburn__hero.webp",
+        "assets/photos/medium/washburn__experience.webp",
+        "assets/photos/medium/washburn__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "glacier",
+      "paths": [
+        "assets/photos/medium/glacier__hero.webp",
+        "assets/photos/medium/glacier__experience.webp",
+        "assets/photos/medium/glacier__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "mariposa",
+      "paths": [
+        "assets/photos/medium/mariposa__hero.webp",
+        "assets/photos/medium/mariposa__experience.webp",
+        "assets/photos/medium/mariposa__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "painted",
+      "paths": [
+        "assets/photos/medium/painted__hero.webp",
+        "assets/photos/medium/painted__experience.webp",
+        "assets/photos/medium/painted__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "twin_peaks",
+      "paths": [
+        "assets/photos/medium/twin_peaks__hero.webp",
+        "assets/photos/medium/twin_peaks__experience.webp",
+        "assets/photos/medium/twin_peaks__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "botanical",
+      "paths": [
+        "assets/photos/medium/botanical__hero.webp",
+        "assets/photos/medium/botanical__experience.webp",
+        "assets/photos/medium/botanical__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "academy",
+      "paths": [
+        "assets/photos/medium/academy__hero.webp",
+        "assets/photos/medium/academy__experience.webp",
+        "assets/photos/medium/academy__scale_context.webp"
+      ],
+      "correct": true
+    },
+    {
+      "place_key": "lands_end",
+      "paths": [
+        "assets/photos/medium/lands_end__hero.webp",
+        "assets/photos/medium/lands_end__experience.webp",
+        "assets/photos/medium/lands_end__scale_context.webp"
+      ],
+      "correct": true
+    }
+  ],
+  "max_marker_position_drift_pixels": 0.56,
+  "provider_before": {
+    "before": "offline",
+    "health": {
+      "offline": "ready"
+    }
+  },
+  "http_request_count": 44,
+  "passed_checks": 93,
+  "total_checks": 93,
+  "status": "PASS"
+}

@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Trip visualizer</title>
+  <link rel="stylesheet" href="src/app_phase7.css">
+</head>
+<body>
+  <div id="app">
+    <header class="top">
+      <div class="headline">
+        <div>
+          <div class="brand">Smart Minority · SF → Monterey → Yosemite</div>
+          <div class="sub">Trip visualizer</div>
+        </div>
+        <div id="providerState" class="provider-state">Smart map</div>
+      </div>
+      <div class="control-row" aria-label="Map filters">
+        <div class="group">
+          <span class="group-label">Routes</span>
+          <button class="ctl routeCtl active" data-route="A1" aria-pressed="true">A1</button>
+        </div>
+        <div class="group desktop-filter">
+          <span class="group-label">Date</span>
+          <select id="dateSelect" class="selectctl" aria-label="Date filter"><option value="all">All dates</option></select>
+        </div>
+        <div class="group desktop-filter">
+          <span class="group-label">Region</span>
+          <button class="ctl active" data-region="overall" aria-pressed="true">Overall</button>
+        </div>
+        <div class="group desktop-filter">
+          <span class="group-label">Map</span>
+          <button class="ctl active" data-provider="vector">Smart map</button>
+          <button class="ctl" data-provider="satellite">Satellite + labels</button>
+        </div>
+      </div>
+      <div class="mobile-selects" aria-label="Mobile filters">
+        <select id="mobileDate" class="selectctl" aria-label="Date filter"><option value="all">All dates</option></select>
+        <select id="mobileRegion" class="selectctl" aria-label="Region filter"><option value="overall">Overall</option></select>
+        <select id="mobileProvider" class="selectctl" aria-label="Map provider"><option value="vector">Smart map</option><option value="satellite">Satellite + labels</option></select>
+      </div>
+    </header>
+    <main class="workspace">
+      <section class="mapwrap">
+        <div id="map" class="map" aria-label="Interactive trip map"></div>
+        <div id="previewCard" class="preview-card" role="status"></div>
+        <div class="map-badge"><b id="activeFilterSummary"></b><span id="fallbackNote"></span></div>
+        <button id="panelReopen" class="panel-reopen" type="button">Open panel</button>
+      </section>
+      <div id="panelResizer" class="panel-resizer" role="separator" aria-orientation="vertical" aria-label="Resize itinerary panel" aria-valuemin="300" aria-valuemax="620" tabindex="0"></div>
+      <aside class="sidebar" aria-label="Itinerary and place details">
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="timeline" role="tab" aria-selected="true">Timeline</button>
+          <button class="tab" data-tab="details" role="tab" aria-selected="false">Details</button>
+          <div class="panel-adjustments" aria-label="Panel controls">
+            <button id="panelSmaller" class="panel-adjust" type="button">−</button>
+            <button id="panelLarger" class="panel-adjust" type="button">+</button>
+            <button id="panelClose" class="panel-adjust panel-close" type="button">×</button>
+          </div>
+        </div>
+        <div class="pane-wrap">
+          <div id="timelinePane" class="pane active"></div>
+          <div id="detailsPane" class="pane"></div>
+        </div>
+      </aside>
+    </main>
+  </div>
+  <div id="routeOverview" class="sr-only"></div>
+  <div id="routeExplain" class="route-explain" role="tooltip" aria-hidden="true"></div>
+  <script src="vendor/plotly.min.js"></script>
+  <script>window.TRIP_DATA={};</script>
+  <script src="src/app_phase7.js"></script>
+</body>
+</html>

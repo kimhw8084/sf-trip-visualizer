@@ -1,0 +1,139 @@
+{
+  "version": "map-first-1.0",
+  "generated": "2026-09-15",
+  "default": "vector",
+  "fallback": null,
+  "vector_source": {
+    "label": "Local Protomaps vector basemap from OpenStreetMap data",
+    "source_build": "https://build.protomaps.com/20260912.pmtiles",
+    "extraction_bbox_lonlat": [
+      -123.05,
+      36.15,
+      -119.2,
+      38.35
+    ],
+    "max_source_zoom": 14,
+    "render_engine": "MapLibre GL JS (direct)",
+    "online_api_key_required": false,
+    "license_attribution": "© OpenStreetMap contributors · Protomaps",
+    "standalone_loading": "Embedded PMTiles FileSource and bundled glyph/sprite protocols",
+    "modular_loading": "Local HTTP Range requests; use scripts/serve_map.py"
+  },
+  "yosemite_relief": {
+    "source": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer",
+    "provider": "USGS The National Map 3DEP shaded relief",
+    "bbox_lonlat": [
+      -119.99,
+      37.38,
+      -119.35,
+      37.95
+    ],
+    "source_path": "assets/vector/yosemite_hillshade_source.png",
+    "render_derivative_path": "assets/vector/yosemite_hillshade_shadow.webp",
+    "role": "transparent terrain shadows beneath locally rendered vector roads and labels"
+  },
+  "assets": [
+    {
+      "path": "assets/vector/sf_trip.pmtiles",
+      "bytes": 149832867,
+      "sha256": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6"
+    },
+    {
+      "path": "assets/vector/yosemite_hillshade_source.png",
+      "bytes": 2806581,
+      "sha256": "2f3e31d1fd0eb8fb3cac30b603196865e651af4a3631550b6d8808b4a22f31ce"
+    },
+    {
+      "path": "assets/vector/yosemite_hillshade_shadow.webp",
+      "bytes": 1758602,
+      "sha256": "801f29d1c305a44f191acf3070a194ad7ff10f6846bef75b21a920a1ceee4903"
+    },
+    {
+      "path": "assets/vector/fonts/Noto Sans Italic/0-255.pbf",
+      "bytes": 79344,
+      "sha256": "43edfca91c285ba1226f09d5e74d68e1473a088c517f02a5212ff6ccb10037dc"
+    },
+    {
+      "path": "assets/vector/fonts/Noto Sans Italic/256-511.pbf",
+      "bytes": 132976,
+      "sha256": "a6f9f6574c86a4a28aba630ca1017857ceadd2370ed32a1293c35f819ab9bd60"
+    },
+    {
+      "path": "assets/vector/fonts/Noto Sans Medium/0-255.pbf",
+      "bytes": 77628,
+      "sha256": "ba2f0118dd024e3041b158e5f9eb49bc0a658019f53f458e9f5c0b8efcd79b91"
+    },
+    {
+      "path": "assets/vector/fonts/Noto Sans Medium/256-511.pbf",
+      "bytes": 129635,
+      "sha256": "d5e801a1a5b1d409d3298c3a1e1ca76328e2314a751078833a618620e8e66e4d"
+    },
+    {
+      "path": "assets/vector/fonts/Noto Sans Regular/0-255.pbf",
+      "bytes": 76044,
+      "sha256": "62c6d49b15fa836eb6aa45e259c7ca6762f44b011b09e47776efbe4a6db1b397"
+    },
+    {
+      "path": "assets/vector/fonts/Noto Sans Regular/256-511.pbf",
+      "bytes": 127726,
+      "sha256": "2eca7561f9f566bcacfda5dd04fb5880baec1328ec0f5484678289a13994de8a"
+    },
+    {
+      "path": "assets/vector/sprites/dark.json",
+      "bytes": 3549,
+      "sha256": "bfac76cf7ed5c2aa2992695904056a1c6b07785b7fd20e6c640cb44fd6244a2e"
+    },
+    {
+      "path": "assets/vector/sprites/dark.png",
+      "bytes": 16054,
+      "sha256": "8920f68e8f9f7a4188da43e62a81bbc426532579fff7b5f27aad09e130f4246e"
+    },
+    {
+      "path": "assets/vector/sprites/dark@2x.json",
+      "bytes": 3579,
+      "sha256": "1fb5b123fbe35d2e1f6ac171513ce01df89e671273a417ee89c44886a4c132f0"
+    },
+    {
+      "path": "assets/vector/sprites/dark@2x.png",
+      "bytes": 28407,
+      "sha256": "6e01b4e366d304f27bbd55390511a3d4e39aa1d03eb3e82f873f7ea32e74cbe4"
+    },
+    {
+      "path": "assets/vector/sprites/light.json",
+      "bytes": 3549,
+      "sha256": "bfac76cf7ed5c2aa2992695904056a1c6b07785b7fd20e6c640cb44fd6244a2e"
+    },
+    {
+      "path": "assets/vector/sprites/light.png",
+      "bytes": 16174,
+      "sha256": "b6a34640917bdc57d0bd080836db33376371a3312ebe7b849045268015de3481"
+    },
+    {
+      "path": "assets/vector/sprites/light@2x.json",
+      "bytes": 3579,
+      "sha256": "1fb5b123fbe35d2e1f6ac171513ce01df89e671273a417ee89c44886a4c132f0"
+    },
+    {
+      "path": "assets/vector/sprites/light@2x.png",
+      "bytes": 28852,
+      "sha256": "23f6e9df27c2e9a14385763980a24e3608966bfc8192a106058bc2ca959ab563"
+    }
+  ],
+  "provider_failure_domains": {
+    "vector": "local PMTiles, fonts, sprites",
+    "satellite": "Esri World Imagery live tiles, local vector labels"
+  },
+  "user_selectable_providers": [
+    "vector",
+    "satellite"
+  ],
+  "internal_emergency_fallback": null,
+  "retired_user_choices": [
+    "light",
+    "osm"
+  ],
+  "policy_notes": [
+    "Public OpenStreetMap tile.openstreetmap.org is never used for offline bulk downloads.",
+    "Google tiles are not copied or embedded."
+  ]
+}

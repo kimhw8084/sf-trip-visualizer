@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-13",
+  "generated": "2026-09-14",
   "authoritative_sources": [
     {
       "local_input": "SF_Trip_Smart_Minority_4_Itineraries_Data(1).json",
@@ -16,9 +16,21 @@
       "status": "MATCH"
     }
   ],
+  "selection_audit_source": {
+    "local_input": "SF_Trip_FINAL_SELECTION_50Criteria_2026-09-13.xlsx",
+    "sha256": "c6b4adf299a2bd1ecba710b4b7c2d73a3a613a6c62994074625031efb6a07c54",
+    "rows": 230,
+    "columns": 43,
+    "status": "FULLY_RECONCILED_WITH_OFFICIAL_SOURCE_GAP_AUDIT",
+    "audit_data": "data/location_coverage_audit.json",
+    "audit_report": "LOCATION_COVERAGE_AUDIT.md"
+  },
   "counts": {
     "routes": 4,
-    "unique_places": 28,
+    "authoritative_unique_places": 28,
+    "official_gap_audit_additions": 8,
+    "final_mapped_places": 36,
+    "local_real_photos": 108,
     "smart_minority_rules": 50
   },
   "route_ids": [
@@ -27,5 +39,5 @@
     "B1",
     "B2"
   ],
-  "authoritative_precedence": "itineraries.json governs trip/rules/plans; routes.json governs spatial place identity/start coordinates/reasons."
+  "authoritative_precedence": "itineraries.json governs the original trip/rules/plans; routes.json governs the original 28 spatial identities. The dated workbook reconciliation and official-source location audit govern the eight transparent supplemental stops without altering the two locked source copies."
 }

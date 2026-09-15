@@ -1,0 +1,32 @@
+.DS_Store
+node_modules
+.tools/
+.public-site/
+**/__pycache__/
+*.pyc
+*.zip
+
+# Local audit/render evidence is retained on this Mac but is not website source.
+.audit_workbook/
+assets/photos/original/
+assets/basemap/
+assets/vector/sf_trip_z13.pmtiles
+QA/photo_candidates/
+QA/photo_review/
+QA/map_first/*.png
+QA/route_panel/*.png
+QA/screenshots/final_*.png
+QA/phone_*.png
+
+# Historical/final delivery folders remain local; main tracks the canonical root source.
+SF_Trip_Golden_Template_v2_2026-09-13/
+SF_Trip_Map_First_Golden_2026-09-14/
+SF_Trip_Map_First_Golden_v2_2026-09-14/
+SF_Trip_Map_First_Golden_36Places_2026-09-14/
+SF_Trip_P0_Final_2026-09-13/
+SF_Trip_Universal_Golden_36Places_2026-09-14/
+
+# Rebuildable all-in-one delivery artifacts are too large for the public runtime repo.
+SF_Smart_Minority_Map_First_Standalone.html
+SF_Smart_Minority_P0_Final_Standalone.html
+SF_Trip_FINAL_SELECTION_50Criteria_2026-09-13.xlsx

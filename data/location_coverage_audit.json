@@ -1,0 +1,147 @@
+{
+  "version": "2026-09-14",
+  "scope": "SF / Monterey / Yosemite family trip",
+  "workbook": "SF_Trip_FINAL_SELECTION_50Criteria_2026-09-13.xlsx",
+  "workbook_rows": 230,
+  "workbook_status_counts": {
+    "excluded": 195,
+    "must": 16,
+    "strong": 9,
+    "conditional": 7,
+    "bundle_reference": 3
+  },
+  "reconciliation": {
+    "selected_concrete_rows": 32,
+    "already_mapped": 28,
+    "broad_areas_merged_into_existing_stops": [
+      "Golden Gate Park",
+      "Chinatown Local-Life Route"
+    ],
+    "selected_rows_missing_from_map_before_audit": [
+      "Presidio Tunnel Tops",
+      "Bixby Creek Bridge"
+    ],
+    "critical_source_list_blind_spot": "PIER 39 and Sea Lions were absent from the workbook (0 matching rows)."
+  },
+  "result": {
+    "original_map_places": 28,
+    "audited_additions": 8,
+    "final_map_places": 36,
+    "photo_assets": 108
+  },
+  "additions": [
+    {
+      "place_key": "tunnel_tops",
+      "name": "Presidio Tunnel Tops + Outpost Playground",
+      "schedule_tier": "strong",
+      "workbook_status": "⭐ 강력추천 — 원본 워크북에 있었으나 지도에서 누락",
+      "official_source": "https://presidio.gov/explore/attractions/presidio-tunnel-tops",
+      "decision_rule": [
+        {
+          "key": "reset_late",
+          "text": "15:00이 넘으면 Tunnel Tops를 건너뛰고 Palace of Fine Arts로 바로 간다."
+        }
+      ]
+    },
+    {
+      "place_key": "cable_car",
+      "name": "Powell–Hyde Cable Car",
+      "schedule_tier": "swap",
+      "workbook_status": "공식 교차검증으로 추가 — 원본 워크북에 개별 항목 없음",
+      "official_source": "https://www.sfmta.com/routes/powell-hyde-cable-car",
+      "decision_rule": [
+        {
+          "key": "cable_queue",
+          "text": "대기줄이 20분을 넘거나 유모차를 접기 어렵다면 Coit 또는 Lombard 중 하나로 전환한다."
+        },
+        {
+          "key": "stroller_rule",
+          "text": "케이블카 탑승 전 유모차를 접고 아이를 내려야 한다."
+        }
+      ]
+    },
+    {
+      "place_key": "pier39",
+      "name": "PIER 39 Sea Lions at K-Dock",
+      "schedule_tier": "must",
+      "workbook_status": "중대한 워크북 사각지대 — PIER 39/Sea Lions 검색 결과 0건",
+      "official_source": "https://pier39.com/sealions/",
+      "decision_rule": [
+        {
+          "key": "sea_lion_presence",
+          "text": "바다사자가 적어도 전망대에서 15분 확인한 뒤 Musée Mécanique로 이동한다."
+        }
+      ]
+    },
+    {
+      "place_key": "ghirardelli",
+      "name": "Ghirardelli Square + Aquatic Park",
+      "schedule_tier": "bonus",
+      "workbook_status": "공식 교차검증으로 추가 — 원본 워크북에 개별 항목 없음",
+      "official_source": "https://www.sftravel.com/article/top-20-attractions-san-francisco",
+      "decision_rule": [
+        {
+          "key": "family_energy_below_6",
+          "text": "가족 에너지가 6/10 미만이면 바로 저녁과 숙소로 이동한다."
+        }
+      ]
+    },
+    {
+      "place_key": "carmel",
+      "name": "Carmel-by-the-Sea + Carmel Beach",
+      "schedule_tier": "strong",
+      "workbook_status": "워크북의 Monterey/Carmel 번들에만 언급 — 개별 지도 정류장으로 보강",
+      "official_source": "https://www.carmelcalifornia.com/carmel-beach/",
+      "decision_rule": [
+        {
+          "key": "coastal_day_delay",
+          "text": "Point Lobos가 10:10을 넘기면 Carmel은 20분 해변 확인만 하거나 생략한다."
+        }
+      ]
+    },
+    {
+      "place_key": "bixby",
+      "name": "Bixby Creek Bridge",
+      "schedule_tier": "swap",
+      "workbook_status": "🌤 조건부 — 원본 워크북에 있었으나 지도에서 누락",
+      "official_source": "https://dot.ca.gov/caltrans-near-me/district-5/d5-news/d5-news-9-2-2026",
+      "decision_rule": [
+        {
+          "key": "bixby_swap_only",
+          "text": "Bixby를 선택하면 Carmel과 17-Mile Drive는 삭제한다."
+        },
+        {
+          "key": "caltrans_recheck",
+          "text": "출발 24시간 전 Caltrans 도로 상태를 다시 확인한다."
+        }
+      ]
+    },
+    {
+      "place_key": "monterey_wharf",
+      "name": "Old Fisherman’s Wharf Monterey",
+      "schedule_tier": "bonus",
+      "workbook_status": "공식 교차검증으로 추가 — 원본 워크북에 개별 항목 없음",
+      "official_source": "https://www.seemonterey.com/things-to-do/attractions/old-fishermans-wharf/",
+      "decision_rule": [
+        {
+          "key": "family_energy_below_6",
+          "text": "Aquarium 뒤 가족 에너지가 6/10 미만이면 워프를 생략하고 숙소로 간다."
+        }
+      ]
+    },
+    {
+      "place_key": "el_capitan",
+      "name": "El Capitan Meadow",
+      "schedule_tier": "strong",
+      "workbook_status": "NPS 공식 POI 교차검증으로 추가 — 원본 워크북에 개별 항목 없음",
+      "official_source": "https://www.nps.gov/places/000/el-capitan-meadow.htm",
+      "decision_rule": [
+        {
+          "key": "nap_protection",
+          "text": "아이가 잠들었거나 도착이 30분 이상 밀리면 정차하지 않고 숙소로 간다."
+        }
+      ]
+    }
+  ],
+  "guardrail": "The audit adds representative gaps, not every popular attraction. Swap and bonus tiers remain visible without silently overloading the day."
+}
