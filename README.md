@@ -4,6 +4,10 @@ Open **`SF_Smart_Minority_Map_First_Standalone.html`** directly in a modern brow
 
 For the smaller modular edition, run `python3 scripts/serve_map.py --port 8765` from this folder and open `http://127.0.0.1:8765/index.html`. The local server supplies byte-range requests for `assets/vector/sf_trip.pmtiles`. Do not open the modular file with `file://`; use the standalone file for direct opening.
 
+## Public version
+
+The current `main` branch is published at **https://kimhw8084.github.io/sf-trip-visualizer/**. Every push to `main` automatically assembles the minimal modular runtime and deploys it through `.github/workflows/deploy-pages.yml`. The public build includes the real-photo thumbnails/derivatives and local Smart Map resources, while original photographs, QA screenshots, historical builds, and delivery ZIPs remain local.
+
 ## What is on the map
 
 The application has 36 verified places, 108 real local photographs, 79 itinerary cards, 41 route legs, four independently switchable strategies, nine dates, three regions, Korean and English, and light and dark themes. English place names remain primary; Korean place names appear as subtitles in Korean mode.
