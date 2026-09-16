@@ -1,0 +1,430 @@
+#!/usr/bin/env python3
+"""Canonical source, build, QA, packaging, and release pipeline.
+
+The pipeline is deliberately a small Python orchestrator around the existing
+map-first and browser suites. It is the only supported release authority.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import signal
+import socket
+import subprocess
+import sys
+import tempfile
+import time
+from pathlib import Path
+from urllib.request import urlopen
+
+
+ROOT = Path(__file__).resolve().parents[1]
+MANIFEST_PATH = ROOT / "manifests" / "canonical_pipeline.json"
+BUILD = ROOT / ".build"
+PUBLIC = ROOT / ".public-site"
+RELEASE = ROOT / ".release"
+FAST_EVIDENCE = ROOT / "QA" / "release" / "fast.json"
+QUALIFICATION = ROOT / "QA" / "release" / "qualification.json"
+COMPONENT_TIMEOUT_SECONDS = int(os.environ.get("TRIP_QUALIFICATION_TIMEOUT_SECONDS", "300"))
+
+COMPONENTS = (
+    ("photo_integrity", "scripts/check_photo_integrity.py", "QA/photo_integrity.json"),
+    ("map_first_smoke", "scripts/qa_map_first.py", "QA/map_first/smoke.json"),
+    ("map_first_full", "scripts/qa_map_first_full.py", "QA/map_first/full_acceptance.json"),
+    ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
+    ("standalone", "scripts/qa_standalone_map_first.py", "QA/map_first/standalone.json"),
+    ("location_gap", "scripts/qa_location_gap_visuals.py", "QA/map_first/location_gap_visuals.json"),
+    ("interaction_dynamics", "scripts/qa_interaction_dynamics.py", "QA/map_first/interaction_dynamics.json"),
+    ("route_continuity", "scripts/audit_route_continuity.py", "QA/map_first/route_continuity.json"),
+    ("route_panel", "scripts/qa_route_explanations_panel.py", "QA/route_panel/route_explanations_panel.json"),
+    ("exhaustive_states", "scripts/run_exhaustive_states.py", "QA/map_first/exhaustive_states.json"),
+    ("cross_browser", "scripts/run_cross_browser.py", "QA/map_first/cross_browser.json"),
+    ("visual_spots", "scripts/run_visual_spots.py", "QA/map_first/visual_spots.json"),
+)
+
+
+def load_json(path: Path) -> dict:
+    return json.loads(path.read_text())
+
+
+def digest(path: Path) -> str:
+    hasher = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(4 * 1024 * 1024), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
+
+
+def tree_hashes(root: Path, exclude: set[str] | None = None) -> dict[str, str]:
+    exclude = exclude or set()
+    return {
+        str(path.relative_to(root)): digest(path)
+        for path in sorted(root.rglob("*"))
+        if path.is_file() and str(path.relative_to(root)) not in exclude
+    }
+
+
+def tree_digest(root: Path, exclude: set[str] | None = None) -> tuple[str, int, int]:
+    files = tree_hashes(root, exclude)
+    hasher = hashlib.sha256()
+    for relative, file_hash in files.items():
+        hasher.update(relative.encode())
+        hasher.update(b"\0")
+        hasher.update(bytes.fromhex(file_hash))
+        hasher.update(b"\n")
+    return hasher.hexdigest(), len(files), sum((root / relative).stat().st_size for relative in files)
+
+
+def current_revision() -> str:
+    return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+
+
+def working_tree_clean() -> bool:
+    return not subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).strip()
+
+
+def pipeline_manifest() -> dict:
+    return load_json(MANIFEST_PATH)
+
+
+def authored_snapshot(manifest: dict) -> dict[str, str]:
+    missing = [path for path in manifest["authored_inputs"] if not (ROOT / path).is_file()]
+    if missing:
+        raise RuntimeError(f"Missing canonical authored input(s): {', '.join(missing)}")
+    return {path: digest(ROOT / path) for path in manifest["authored_inputs"]}
+
+
+def validate_product() -> dict:
+    manifest = pipeline_manifest()
+    expected = manifest["invariants"]
+    data = load_json(ROOT / manifest["authority"]["canonical_data"])
+    asset_manifest = load_json(ROOT / "manifests" / "asset_manifest.json")
+    routes = data["routes"]
+    providers = sorted(data["providers"])
+    regions = sorted(key for key in data["region_cfg"] if key != "overall")
+    vector_path = ROOT / "assets" / "vector" / "sf_trip.pmtiles"
+    vector_header = vector_path.read_bytes()[:64]
+    marker_keys = [marker["place_key"] for marker in data["markers"]]
+    if len(marker_keys) != len(set(marker_keys)):
+        raise RuntimeError("Canonical data contains duplicate physical place keys.")
+    checks = {
+        "places": len(marker_keys) == expected["places"],
+        "photos": len(asset_manifest["assets"]) == expected["photos"] and asset_manifest["required_assets"] == expected["photos"],
+        "timeline_cards": len(data["timeline"]) == expected["timeline_cards"],
+        "route_legs": len(data["legs"]) == expected["route_legs"],
+        "route_strategies": len(routes) == expected["route_strategies"] and sorted(routes) == ["A1", "A2", "B1", "B2"],
+        "dates": len(data["dates"]) == expected["dates"],
+        "regions": len(regions) == expected["regions"] and regions == ["monterey", "sf", "yosemite"],
+        "providers": set(providers) == set(expected["providers"]),
+        "place_region": set(data["place_region"]) == set(marker_keys),
+        "photo_roles": {asset["role"] for asset in asset_manifest["assets"]} == set(expected["photo_roles"]),
+        "photo_status": asset_manifest["status"] == "COMPLETE_108_LOCAL_REAL_PHOTOS",
+        "semantic_links": all(leg.get("label") and leg.get("note") for leg in data["legs"] if leg.get("branch_kind") in {"recovery", "choice"}),
+    }
+    missing_assets = []
+    for asset in asset_manifest["assets"]:
+        for field in ("local_thumb_path", "local_medium_path"):
+            if not (ROOT / asset[field]).is_file():
+                missing_assets.append(asset[field])
+    checks["photo_files"] = not missing_assets
+    checks["vector_bundle"] = vector_path.stat().st_size > 1_000_000 and not vector_header.startswith(b"version https://git-lfs.github.com/spec/v1")
+    if not all(checks.values()):
+        failed = [name for name, passed in checks.items() if not passed]
+        raise RuntimeError(f"Canonical source/schema checks failed: {', '.join(failed)}")
+    return {"checks": checks, "counts": {"places": len(marker_keys), "photos": len(asset_manifest["assets"]), "timeline_cards": len(data["timeline"]), "route_legs": len(data["legs"])}, "providers": providers}
+
+
+def validate_authority_boundaries() -> None:
+    manifest = pipeline_manifest()
+    workflow = (ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text()
+    if "python3 scripts/pipeline.py release" not in workflow:
+        raise RuntimeError("Pages workflow does not use the canonical release pipeline.")
+    forbidden_workflow_refs = ("prepare_public_site.py", "build_final.py", "package_final.py", "run_acceptance.py", "run_live_providers.py")
+    if any(reference in workflow for reference in forbidden_workflow_refs):
+        raise RuntimeError("Pages workflow references a legacy/direct release entry point.")
+    build_source = (ROOT / "scripts" / "build_map_first.py").read_text()
+    public_source = (ROOT / "scripts" / "prepare_public_site.py").read_text()
+    if "(ROOT / \"index.html\").write_text" in build_source or "ROOT / \"index_map_first.html\"" in build_source:
+        raise RuntimeError("Canonical build still writes a generated root HTML artifact.")
+    if "ROOT / \"index.html\"" in public_source:
+        raise RuntimeError("Public assembly still reads a generated root HTML artifact.")
+    for relative in manifest["historical_or_legacy"]:
+        path = ROOT / relative
+        if path.suffix == ".py" and path.is_file() and "DEPRECATED LEGACY ENTRY POINT" not in path.read_text():
+            raise RuntimeError(f"Legacy script is not mechanically deprecated: {relative}")
+
+
+def run_process(command: list[str], env: dict[str, str] | None = None) -> tuple[int, str, str]:
+    process = subprocess.Popen(command, cwd=ROOT, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
+    try:
+        stdout, stderr = process.communicate(timeout=COMPONENT_TIMEOUT_SECONDS)
+        return process.returncode, stdout[-5000:], stderr[-5000:]
+    except subprocess.TimeoutExpired as error:
+        os.killpg(process.pid, signal.SIGKILL)
+        stdout, stderr = process.communicate()
+        stdout = stdout or error.stdout or ""
+        stderr = stderr or error.stderr or ""
+        return 124, stdout[-5000:], f"TIMEOUT after {COMPONENT_TIMEOUT_SECONDS}s\n{stderr[-4800:]}"
+
+
+def run_build(output: Path) -> None:
+    code, stdout, stderr = run_process([sys.executable, str(ROOT / "scripts" / "build_map_first.py"), "--output-dir", str(output)])
+    if code:
+        raise RuntimeError(f"Canonical build failed ({code}).\n{stdout}\n{stderr}")
+
+
+def run_fast(expected_revision: str | None = None, require_clean: bool = False) -> dict:
+    evidence = {
+        "schema_version": 1,
+        "status": "FAIL",
+        "candidate_head": current_revision(),
+        "working_tree_clean": working_tree_clean(),
+        "errors": [],
+    }
+    try:
+        if expected_revision and evidence["candidate_head"] != expected_revision:
+            raise RuntimeError(f"Expected revision {expected_revision}, found {evidence['candidate_head']}.")
+        if require_clean and not evidence["working_tree_clean"]:
+            raise RuntimeError("Release qualification requires a clean checkout.")
+        validate_authority_boundaries()
+        evidence["source"] = validate_product()
+        manifest = pipeline_manifest()
+        before = authored_snapshot(manifest)
+        run_build(BUILD)
+        after = authored_snapshot(manifest)
+        if before != after:
+            changed = [path for path in before if before[path] != after[path]]
+            raise RuntimeError(f"Canonical build mutated authored input(s): {', '.join(changed)}")
+        build_manifest = load_json(BUILD / "build_manifest.json")
+        first_hashes = tree_hashes(BUILD, {"build_manifest.json"})
+        with tempfile.TemporaryDirectory(prefix="pipeline-repro-", dir=ROOT) as temporary:
+            repeat = Path(temporary) / "build"
+            run_build(repeat)
+            repeat_hashes = tree_hashes(repeat, {"build_manifest.json"})
+        if first_hashes != repeat_hashes:
+            differences = sorted(set(first_hashes) ^ set(repeat_hashes) | {key for key in first_hashes.keys() & repeat_hashes.keys() if first_hashes[key] != repeat_hashes[key]})
+            raise RuntimeError(f"Canonical build is not reproducible; differing output(s): {', '.join(differences[:10])}")
+        evidence["authored_inputs_unchanged"] = True
+        evidence["reproducible"] = True
+        evidence["build"] = {
+            "root": ".build",
+            "manifest_sha256": digest(BUILD / "build_manifest.json"),
+            "modular_index_sha256": digest(BUILD / "modular" / "index.html"),
+            "standalone_sha256": digest(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"),
+            "file_count": len(build_manifest["files"]),
+        }
+        evidence["status"] = "PASS"
+    except (Exception, SystemExit) as error:
+        evidence["errors"].append(str(error))
+    FAST_EVIDENCE.parent.mkdir(parents=True, exist_ok=True)
+    FAST_EVIDENCE.write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + "\n")
+    return evidence
+
+
+def wait_for_server(url: str, process: subprocess.Popen) -> None:
+    deadline = time.monotonic() + 15
+    while time.monotonic() < deadline:
+        if process.poll() is not None:
+            raise RuntimeError("Canonical QA server exited before becoming ready.")
+        try:
+            with urlopen(url, timeout=1):
+                return
+        except Exception:
+            time.sleep(0.2)
+    raise RuntimeError(f"Canonical QA server did not become ready at {url}.")
+
+
+def free_local_port() -> int:
+    with socket.socket() as probe:
+        probe.bind(("127.0.0.1", 0))
+        return probe.getsockname()[1]
+
+
+def evidence_status(path: Path, returncode: int) -> str:
+    if returncode == 124:
+        return "UNVERIFIED"
+    if returncode:
+        return "FAIL" if path.is_file() else "UNVERIFIED"
+    if not path.is_file():
+        return "UNVERIFIED"
+    payload = json.loads(path.read_text())
+    if isinstance(payload, dict):
+        return payload.get("status", "PASS")
+    if isinstance(payload, list):
+        if path.name == "smoke.json":
+            return "PASS" if all(not row.get("errors") and not row.get("failed_requests") for row in payload) else "FAIL"
+        return "PASS" if all(row.get("status") == "PASS" for row in payload) else "FAIL"
+    return "FAIL"
+
+
+def run_qualification(expected_revision: str | None = None, require_clean: bool = False) -> dict:
+    report = {
+        "schema_version": 1,
+        "status": "FAIL",
+        "project": "sf-trip-visualizer",
+        "candidate_head": current_revision(),
+        "working_tree_clean": working_tree_clean(),
+        "canonical": {"manifest": "manifests/canonical_pipeline.json", "build": "scripts/build_map_first.py", "data": "data/phase7_app_data.json"},
+        "component_timeout_seconds": COMPONENT_TIMEOUT_SECONDS,
+        "tests": [],
+        "errors": [],
+        "historical_evidence_excluded": ["QA/final_acceptance.json", "QA/final_cross_browser.json", "QA/final_live_providers.json", "P0_PROOF_REPORT.md"],
+    }
+    server = None
+    try:
+        fast = run_fast(expected_revision, require_clean)
+        report["fast"] = fast
+        if fast["status"] != "PASS":
+            raise RuntimeError("Fast validation did not pass; decisive browser qualification was not authorized.")
+        before = authored_snapshot(pipeline_manifest())
+        port = free_local_port()
+        qa_url = f"http://127.0.0.1:{port}/index.html"
+        server = subprocess.Popen([sys.executable, str(ROOT / "scripts" / "serve_map.py"), "--port", str(port), "--directory", str(BUILD / "modular")], cwd=ROOT, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+        wait_for_server(qa_url, server)
+        env = os.environ.copy()
+        env["TRIP_QA_URL"] = qa_url
+        env["TRIP_STANDALONE_PATH"] = str(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html")
+        for name, script, output in COMPONENTS:
+            print(json.dumps({"qualification": "running", "test": name, "candidate_head": report["candidate_head"]}), flush=True)
+            output_path = ROOT / output
+            command = [sys.executable, str(ROOT / script)]
+            if name == "photo_integrity":
+                command.append("--runtime-only")
+            code, stdout, stderr = run_process(command, env)
+            status = evidence_status(output_path, code)
+            command_text = f"python3 {script}" + (" --runtime-only" if name == "photo_integrity" else "")
+            test_report = {"name": name, "command": command_text, "evidence": output, "status": status, "returncode": code, "timeout_seconds": COMPONENT_TIMEOUT_SECONDS, "stdout_tail": stdout, "stderr_tail": stderr}
+            if code == 124:
+                test_report["status_reason"] = f"Component exceeded the {COMPONENT_TIMEOUT_SECONDS}s bound; gate remains unverified and release is fail-closed."
+            report["tests"].append(test_report)
+        after = authored_snapshot(pipeline_manifest())
+        if before != after:
+            changed = [path for path in before if before[path] != after[path]]
+            raise RuntimeError(f"Qualification mutated authored input(s): {', '.join(changed)}")
+        report["authored_inputs_unchanged"] = True
+        report["build"] = fast["build"]
+        if not report["tests"] or not all(test["status"] == "PASS" for test in report["tests"]):
+            raise RuntimeError("One or more decisive qualification gates failed or were unverified.")
+        report["status"] = "PASS"
+    except (Exception, SystemExit) as error:
+        report["errors"].append(str(error))
+    finally:
+        if server is not None:
+            server.terminate()
+            try:
+                server.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                server.kill()
+        QUALIFICATION.parent.mkdir(parents=True, exist_ok=True)
+        QUALIFICATION.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    return report
+
+
+def assemble_public(revision: str) -> None:
+    code, stdout, stderr = run_process([sys.executable, str(ROOT / "scripts" / "prepare_public_site.py"), "--output-dir", str(PUBLIC), "--revision", revision])
+    if code:
+        raise RuntimeError(f"Public assembly failed ({code}).\n{stdout}\n{stderr}")
+
+
+def verify_public(revision: str) -> dict:
+    require_qualified(revision)
+    provenance_path = PUBLIC / ".release-provenance.json"
+    if not provenance_path.is_file():
+        raise RuntimeError("Public artifact provenance is missing.")
+    provenance = load_json(provenance_path)
+    qualification_hash = digest(QUALIFICATION)
+    artifact_hash, file_count, byte_count = tree_digest(PUBLIC, {".release-provenance.json"})
+    checks = {
+        "tested_sha": provenance.get("tested_sha") == revision == current_revision(),
+        "qualification_sha256": provenance.get("qualification_sha256") == qualification_hash,
+        "build_manifest_sha256": provenance.get("build_manifest_sha256") == digest(BUILD / "build_manifest.json"),
+        "modular_index_sha256": provenance.get("modular_index_sha256") == digest(BUILD / "modular" / "index.html"),
+        "artifact_sha256": provenance.get("artifact_sha256_excluding_provenance") == artifact_hash,
+        "artifact_file_count": provenance.get("artifact_file_count_excluding_provenance") == file_count,
+        "artifact_bytes": provenance.get("artifact_bytes_excluding_provenance") == byte_count,
+    }
+    if not all(checks.values()):
+        raise RuntimeError(f"Public provenance verification failed: {', '.join(name for name, passed in checks.items() if not passed)}")
+    return {"status": "PASS", "revision": revision, "checks": checks, "artifact_sha256": artifact_hash, "files": file_count}
+
+
+def require_qualified(revision: str | None) -> str:
+    if not QUALIFICATION.is_file():
+        raise RuntimeError("Run `python3 scripts/pipeline.py qualify` before packaging or public assembly.")
+    report = load_json(QUALIFICATION)
+    head = current_revision()
+    qualified_revision = report.get("candidate_head")
+    if report.get("status") != "PASS" or qualified_revision != head or revision and revision != head:
+        raise RuntimeError("No PASS full qualification exists for the current exact checkout.")
+    return head
+
+
+def command_fast(args: argparse.Namespace) -> int:
+    evidence = run_fast(args.revision)
+    print(json.dumps({"status": evidence["status"], "candidate_head": evidence["candidate_head"], "errors": evidence["errors"]}, ensure_ascii=False))
+    return 0 if evidence["status"] == "PASS" else 1
+
+
+def command_qualify(args: argparse.Namespace) -> int:
+    report = run_qualification(args.revision)
+    print(json.dumps({"status": report["status"], "candidate_head": report["candidate_head"], "tests": {test["name"]: test["status"] for test in report["tests"]}, "errors": report["errors"]}, ensure_ascii=False))
+    return 0 if report["status"] == "PASS" else 1
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    for name in ("fast", "qualify"):
+        subparser = subparsers.add_parser(name)
+        subparser.add_argument("--revision")
+    subparsers.add_parser("package").add_argument("--revision")
+    subparsers.add_parser("assemble-public", help="assemble Pages after a matching PASS qualification").add_argument("--revision", required=True)
+    subparsers.add_parser("verify-public", help="verify Pages staging provenance").add_argument("--revision", required=True)
+    release = subparsers.add_parser("release", help="qualify and assemble the exact checkout for Pages")
+    release.add_argument("--revision", required=True)
+    serve = subparsers.add_parser("serve", help="serve the generated modular build for local QA")
+    serve.add_argument("--port", type=int, default=8766)
+    args = parser.parse_args()
+    if args.command == "fast":
+        return command_fast(args)
+    if args.command == "qualify":
+        return command_qualify(args)
+    if args.command == "assemble-public":
+        revision = require_qualified(args.revision)
+        assemble_public(revision)
+        print(json.dumps(verify_public(revision), ensure_ascii=False))
+        return 0
+    if args.command == "verify-public":
+        print(json.dumps(verify_public(args.revision), ensure_ascii=False))
+        return 0
+    if args.command == "package":
+        revision = require_qualified(args.revision)
+        if not (PUBLIC / "index.html").is_file():
+            assemble_public(revision)
+        code, stdout, stderr = run_process([sys.executable, str(ROOT / "scripts" / "package_map_first.py"), "--revision", revision])
+        if code:
+            print(stdout, end="")
+            print(stderr, end="", file=sys.stderr)
+            return code
+        print(stdout, end="")
+        return 0
+    if args.command == "release":
+        report = run_qualification(args.revision, require_clean=True)
+        if report["status"] != "PASS":
+            print(json.dumps({"status": report["status"], "candidate_head": report["candidate_head"], "errors": report["errors"]}, ensure_ascii=False))
+            return 1
+        assemble_public(args.revision)
+        print(json.dumps({"status": "PASS", "candidate_head": args.revision, "public": verify_public(args.revision)}, ensure_ascii=False))
+        return 0
+    if args.command == "serve":
+        if not (BUILD / "modular" / "index.html").is_file():
+            raise SystemExit("No .build/modular/index.html; run the fast or qualify command first.")
+        return subprocess.call([sys.executable, str(ROOT / "scripts" / "serve_map.py"), "--port", str(args.port), "--directory", str(BUILD / "modular")], cwd=ROOT)
+    raise SystemExit(f"Unknown command: {args.command}")
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

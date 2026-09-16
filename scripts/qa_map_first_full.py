@@ -5,12 +5,13 @@ import json
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+from qa_config import MODULAR_URL
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "QA/map_first"
 OUT.mkdir(parents=True, exist_ok=True)
-URL = "http://127.0.0.1:8766/index_map_first.html"
+URL = MODULAR_URL
 ROUTES = ("A1", "A2", "B1", "B2")
 DATES = ("all", "10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11")
 REGIONS = ("overall", "sf", "monterey", "yosemite")

@@ -21,13 +21,29 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check out main, including the local Smart Map archive
+      - name: Check out the exact triggering revision
         uses: actions/checkout@v7
         with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
           lfs: true
 
-      - name: Assemble the validated public runtime
-        run: python3 scripts/prepare_public_site.py .public-site
+      - name: Set up the qualification runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install the repository QA dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements-qa.txt
+          python3 -m playwright install --with-deps chromium firefox webkit
+
+      - name: Run exact-revision qualification and assemble Pages
+        run: python3 scripts/pipeline.py release --revision "$GITHUB_SHA"
+
+      - name: Verify uploaded artifact provenance before upload
+        run: python3 scripts/pipeline.py verify-public --revision "$GITHUB_SHA"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
@@ -37,4 +53,3 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v5
-

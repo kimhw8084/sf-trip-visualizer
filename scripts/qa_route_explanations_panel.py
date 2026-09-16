@@ -1,16 +1,16 @@
 """Real-browser QA for route explanations and the adaptive itinerary panel."""
 
 import json
-import os
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+from qa_config import MODULAR_URL
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "QA" / "route_panel"
 OUT.mkdir(parents=True, exist_ok=True)
-URL = os.environ.get("TRIP_QA_URL", "http://127.0.0.1:8766/index_map_first.html")
+URL = MODULAR_URL
 ROUTES = ("A1", "A2", "B1", "B2")
 report = {"status": "FAIL", "url": URL, "route_explanations": [], "route_repair": {}, "desktop": {}, "mobile": {}, "errors": []}
 
@@ -111,4 +111,3 @@ report["status"] = "PASS" if not report["errors"] and routes_pass and desktop_pa
 (OUT / "route_explanations_panel.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps(report, ensure_ascii=False, indent=2))
 raise SystemExit(0 if report["status"] == "PASS" else 1)
-

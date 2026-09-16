@@ -1,5 +1,7 @@
 """Create an immutable P0 handoff folder, SHA-256 manifest, and complete ZIP."""
 
+raise SystemExit("DEPRECATED LEGACY ENTRY POINT: use python3 scripts/pipeline.py package")
+
 import hashlib
 import json
 import shutil

@@ -1,5 +1,7 @@
 """Verify live USGS Topo, OSM, and Esri tile rendering in local Chromium."""
 
+raise SystemExit("DEPRECATED LEGACY ENTRY POINT: provider-era suite; use python3 scripts/pipeline.py qualify")
+
 import json
 from pathlib import Path
 

@@ -1,5 +1,7 @@
 """Real Chromium regression suite for the final local-photo map package."""
 
+raise SystemExit("DEPRECATED LEGACY ENTRY POINT: use python3 scripts/pipeline.py qualify")
+
 import json
 from io import BytesIO
 from pathlib import Path

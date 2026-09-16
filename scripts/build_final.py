@@ -1,5 +1,7 @@
 """Build local modular and offline standalone trip app from the Phase-9 baseline."""
 
+raise SystemExit("DEPRECATED LEGACY ENTRY POINT: use python3 scripts/pipeline.py fast or qualify")
+
 import base64
 import json
 from pathlib import Path

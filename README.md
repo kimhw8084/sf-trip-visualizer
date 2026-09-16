@@ -1,48 +1,70 @@
-# SF / Monterey / Yosemite family-trip map
+# SF / Monterey / Yosemite Smart Minority trip visualizer
 
-Open **`SF_Smart_Minority_Map_First_Standalone.html`** directly in a modern browser. The opening experience uses a real Golden Gate Bridge photograph while the local map initializes. Its default Smart map, road geometry, fonts, terrain relief, and all displayed photographs are embedded, so initial load makes **zero remote requests**. The standalone file is large (~235 MB); allow a few seconds for first render.
+This repository’s product is the Smart Minority family-trip decision system. The map renderer is reusable infrastructure; decision quality, resilient replanning, truthful route/geographic semantics, local-first Smart-map behavior, one physical-place identity, three real local photo roles, Korean/English, and touch/keyboard/responsive behavior are the product contract.
 
-For the smaller modular edition, run `python3 scripts/serve_map.py --port 8765` from this folder and open `http://127.0.0.1:8765/index.html`. The local server supplies byte-range requests for `assets/vector/sf_trip.pmtiles`. Do not open the modular file with `file://`; use the standalone file for direct opening.
+The maintained product currently contains 36 physical places, 108 real local photographs, 79 itinerary cards, 41 route legs, four route strategies, nine dates, three regions, Korean/English, light/dark, a local Smart map, optional Satellite + labels fallback, modular output, and standalone output.
 
-## Public version
+## One supported path
 
-The current `main` branch is published at **https://kimhw8084.github.io/sf-trip-visualizer/**. Every push to `main` automatically assembles the minimal modular runtime and deploys it through `.github/workflows/deploy-pages.yml`. The public build includes the real-photo thumbnails/derivatives and local Smart Map resources, while original photographs, QA screenshots, historical builds, and delivery ZIPs remain local.
+The normal developer and release authority is `scripts/pipeline.py`. It composes the existing Python build and QA tools; no framework or manual release ritual is required.
 
-## What is on the map
+```text
+canonical authored source/data
+        ↓
+pipeline.py fast       source/schema/integrity/build invariants + reproducibility
+        ↓
+pipeline.py qualify    full map-first/photo/route/provider/interaction/browser evidence
+        ↓
+pipeline.py package    qualified modular + standalone + public package and ZIP
+pipeline.py release    exact-SHA qualification + Pages assembly (CI path)
+```
 
-The application has 36 verified places, 108 real local photographs, 79 itinerary cards, 41 route legs, four independently switchable strategies, nine dates, three regions, Korean and English, and light and dark themes. English place names remain primary; Korean place names appear as subtitles in Korean mode.
+Install QA dependencies once with `python3 -m pip install -r requirements-qa.txt`.
 
-The original 28-place Phase-9 map was reconciled against all 230 rows and 43 columns of `SF_Trip_FINAL_SELECTION_50Criteria_2026-09-13.xlsx`, then cross-checked against official destination and family sources. The audit found two workbook selections missing from the map—Presidio Tunnel Tops and Bixby Creek Bridge—and a more serious source-list blind spot: the workbook contained no PIER 39 or sea-lion row. The bounded supplement adds:
+- Fast deterministic validation: `python3 scripts/pipeline.py fast`
+- Full qualification: `python3 scripts/pipeline.py qualify`
+- Local modular preview after a build: `python3 scripts/pipeline.py serve --port 8766`
+- Qualified package: `python3 scripts/pipeline.py package`
+- Exact-revision release assembly: `python3 scripts/pipeline.py release --revision <git-sha>`
 
-- PIER 39 Sea Lions at K-Dock (must)
-- Presidio Tunnel Tops + Outpost (strong, recovery-gated)
-- Bixby Creek Bridge (swap; replaces Carmel + 17-Mile Drive)
-- Powell–Hyde Cable Car (swap; replaces Coit/Lombard and is stroller/queue-gated)
-- Carmel-by-the-Sea + Carmel Beach (strong, using the existing reset window)
-- Ghirardelli Square + Aquatic Park (energy-gated bonus)
-- El Capitan Meadow (short, nap-gated strong stop)
-- Old Fisherman’s Wharf Monterey (optional dinner)
+`qualify` writes machine-readable current evidence to `QA/release/qualification.json` and does not rewrite `P0_PROOF_REPORT.md` or the old `QA/final_*` evidence. Browser- or environment-specific failures remain failed/unverified gates; they are not converted into smoke-test success.
 
-The full reconciliation and keep/swap/skip rationale are in `LOCATION_COVERAGE_AUDIT.md` and `data/location_coverage_audit.json`.
+Each component has a 300-second bound by default. For local diagnostics only, `TRIP_QUALIFICATION_TIMEOUT_SECONDS` may shorten that bound; a timeout is recorded as `UNVERIFIED` and blocks release.
 
-## Reading and using it
+## Authority and data boundary
 
-A1 is blue, A2 green, B1 red, and B2 purple. Shared physical stops remain one marker, with a multi-color ring. Main route lines are solid; choose-one, conditional, bonus, and recovery-gap connections remain route-colored but use distinct dash patterns. Each casing repeats its colored line’s dash pattern, so no gray ghost route appears. Route layers remain present from zoom 0 through 24. Date chips, schedule cards, a persistent strategy/color legend, English/Korean labels, exact time, and tier are present on the map itself, so the itinerary remains readable with the right panel hidden.
+The complete authority map is [manifests/canonical_pipeline.json](manifests/canonical_pipeline.json). In particular, `data/phase7_app_data.json` is the current authored product dataset despite its historical filename. The current authored renderer inputs are `src/map_shell_template.html`, `src/app_phase7.js`, `src/app_phase7.css`, `src/map_first.css`, `src/vector_entry.js`, local vendor/runtime assets, the local vector/relief assets, and the audited source/selection inputs listed in the manifest.
 
-Choosing a date or region fits the visible markers and their non-transfer route geometry inside the unobstructed map area. This is why the 10/8 Glacier Point day shows the complete Valley → Washburn → Glacier → Valley road loop rather than clipping it at the viewport edge. Long inter-region transfer lines remain visible without forcing a date’s destination markers into an unnecessarily broad fit.
+Derived inputs are `data/translations.json`, `data/route_geometry_cache.json`, `data/route_geometry_manifest.json`, and the generated/provenance manifests. The explicit source-generation step `python3 scripts/apply_location_gap_audit.py --write` is allowed to update authored audit data; normal build, fast checks, qualification, packaging, and release never run it. The canonical build only reads authored inputs and derived inputs and writes `.build/`.
 
-Click a low-zoom cluster to zoom. Hover a desktop stop for a real-photo preview; on touch, tap once for the preview and use **Details** explicitly. Detail panels contain exactly three local photographs—HERO, EXPERIENCE, SCALE/CONTEXT—plus timing, “Why now?”, advantages, decision rules, route chips, provenance status for audited additions, and a Google Maps link. Identical cross-route timing/reason cards are deduplicated.
+Generated locations are:
 
-There are exactly two map choices: **Smart map** and **Satellite + labels**. Smart map is a local Protomaps/OSM vector extract with bundled labels and Yosemite terrain relief. It never silently changes to a raster while the user pans or zooms. If its local bundle is damaged, the application exposes a load error instead of swapping map identity. Satellite uses Esri imagery with the same local labels and requires a network connection; satellite tile failure returns to Smart map. USGS Topo and live OSM providers are removed. No Google tiles are copied or embedded.
+- `.build/modular/index.html` and its copied local runtime dependencies;
+- `.build/standalone/SF_Smart_Minority_Map_First_Standalone.html`;
+- `.public-site/`, including `.release-provenance.json`;
+- `.release/` package output; and
+- current machine-readable QA under `QA/release/` and `QA/map_first/`.
 
-The 41 route legs contain 39 locally cached OSM road/walk reference geometries plus two explicitly conceptual Alcatraz ferry relationships. Recovery gaps and choose-one links are labeled as such and are never presented as continuous sightseeing or mandatory travel. They are not live traffic, closure, or turn-by-turn directions. Recheck current conditions—especially Caltrans conditions before choosing Bixby.
+The build is reproducible enough for Project OS use: fast validation snapshots authored-input hashes, emits the build manifest, rebuilds into a temporary directory, and compares every generated output. It also checks the 36/108/79/41 product counts, route/date/region/provider contracts, exact photo roles, semantic route links, and duplicate physical-place keys.
 
-## Reusing the visualizer
+## Local development and product behavior
 
-The build is data-driven: route controls come from `data.routes`, dates from `data.dates`, regions from `data.region_cfg`, and provider controls from `data.providers`. Marker visibility comes from route/date occurrences; timeline cards refer to marker keys; route legs define typed relationships. Replacing the trip data and matching local photo assets, then running `scripts/build_map_first.py`, produces the same interaction system without hard-coding four route IDs into the runtime. See `TRIP_VISUALIZER_SCHEMA.md` for the field contract, route semantics, asset naming, build steps, and QA invariants.
+Run `pipeline.py fast`, then serve with `pipeline.py serve`. Do not open the modular file with `file://`; the local server supplies byte-range requests for `assets/vector/sf_trip.pmtiles`. The standalone HTML in `.build/standalone/` is the direct-open edition and embeds the local vector archive, fonts/sprites, Yosemite relief, photo derivatives, and loading photograph.
 
-## Photos and evidence
+The map has exactly two user-facing choices: Smart map and Satellite + labels. Smart map is the bundled Protomaps/OSM vector extract and never silently changes to a raster provider. If its local bundle is damaged, the app exposes a load error. Satellite uses Esri imagery with the same local labels and returns to Smart map if its tiles fail. Runtime routing is not performed: 39 legs use cached OSM reference geometry and two Alcatraz relationships remain explicitly conceptual ferry links.
 
-`assets/photos/` contains 108 real place-specific originals, 108 WebP marker thumbnails, and 108 WebP medium/detail derivatives. The original Phase-2 obligation remains fully satisfied (84/84), and the eight audited additions contribute 24 more. `manifests/asset_manifest.json` preserves source page, direct image URL, creator/license metadata where available, dimensions, role, local paths, and SHA-256 hashes. There are no AI-generated images, generic placeholders, duplicate originals, or remote photo hotlinks.
+Dates, regions, route controls, markers, timeline cards, route legs, providers, photo status, and replanning rules are data-driven. A marker is one physical place even when several routes share it. Each place has exactly HERO, EXPERIENCE, and SCALE_CONTEXT local photo roles. The renderer displays English primary names with Korean subtitles in Korean mode, route-colored semantics, exact route/date timing, and explicit recovery/choice/conditional labels.
 
-`P0_PROOF_REPORT.md` records P0-1 through P0-12 individually. Browser evidence is in `QA/map_first/`, cross-browser and responsive screenshots are in `QA/screenshots/`, and photo contact sheets are in `QA/photo_review/`. The final package includes the authoritative JSON files, selection workbook, coordinate and coverage audits, route cache/manifest, provider configuration, source, build/test scripts, standalone HTML, and SHA-256 manifest.
+## Historical and legacy boundaries
+
+Root `index.html`, `index_map_first.html`, and `index_phase7.html`, `SF_Smart_Minority_P0_Candidate.html`, the old `QA/final_*`/phase evidence, `P0_PROOF_REPORT.*`, and the old final/provider-era build scripts are historical snapshots or deprecated entry points. They remain in Git for audit/history and are not current authority. `build_final.py`, `package_final.py`, `run_acceptance.py`, `run_live_providers.py`, and the 84-photo expansion script fail closed with a deprecation message. No supported workflow references them.
+
+Historical P0 evidence records the revision and product state it originally tested. It is not rewritten to certify this change or any future revision. Current exact-revision qualification is recorded separately under `QA/release/`.
+
+## Public release
+
+GitHub Pages publication is repository-native through `.github/workflows/deploy-pages.yml`. A push to `main` checks out `${{ github.sha }}`, installs the QA dependencies, runs `python3 scripts/pipeline.py release --revision "$GITHUB_SHA"`, verifies the staged artifact’s SHA/provenance, uploads `.public-site/`, and only then deploys. Assembly alone cannot deploy. The public artifact contains the modular runtime and local photo/map derivatives; original photos, screenshots, historical builds, and delivery ZIPs remain local or in the package as appropriate.
+
+This is Production Readiness Gate 2 (canonical build/QA/packaging/release authority), not a claim of production readiness. Public photo-rights certification, full trip-data freshness, broad UX redesign, and security hardening remain separate gates unless explicitly scoped later.
+
+See [TRIP_VISUALIZER_SCHEMA.md](TRIP_VISUALIZER_SCHEMA.md) for the data contract and [manifests/canonical_pipeline.json](manifests/canonical_pipeline.json) for the source/output/evidence inventory.

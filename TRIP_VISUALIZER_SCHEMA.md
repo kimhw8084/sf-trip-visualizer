@@ -1,52 +1,58 @@
 # Reusable trip-visualizer contract
 
-This application is a reusable, data-driven map shell. A future trip should replace the trip data, photo assets, translations, and cached route geometry—not fork the renderer.
+## Canonical authority
+
+The machine-readable authority map is `manifests/canonical_pipeline.json`. The current authored application dataset is `data/phase7_app_data.json`; `phase7` is a historical filename, not a permission to use a Phase-era build. The maintained source is rendered by `scripts/build_map_first.py` and orchestrated by `scripts/pipeline.py`.
+
+Normal build/check commands never write authored data. `data/translations.json`, `data/route_geometry_cache.json`, `data/route_geometry_manifest.json`, and the provider/photo manifests are derived inputs or evidence. The location-gap mutation is an explicit source-generation operation only:
+
+```bash
+python3 scripts/apply_location_gap_audit.py --write
+```
 
 ## Core data
 
 `data/phase7_app_data.json` supplies:
 
-- `routes`: keyed route strategies with `color`, `pattern`, `title`, and `core_reason`.
-- `dates`: ordered `key`, Korean `label`, and English `label_en` values.
-- `region_cfg`: region keys with labels, centers, and initial zooms.
-- `markers`: one record per physical place. Never duplicate a marker because several routes share it.
-- `timeline`: ordered itinerary cards. `spatial_keys` link a card to zero or more marker keys.
-- `legs`: date- and route-scoped connections between marker or transfer endpoints.
-- `providers`: only the providers intentionally exposed in the interface.
+- `routes`: keyed strategies with color, pattern, title, and decision narrative;
+- `dates`: ordered date keys with Korean and English labels;
+- `region_cfg`: region centers, labels, and initial zooms;
+- `markers`: exactly one record per physical place;
+- `timeline`: itinerary cards whose `spatial_keys` point to marker keys; and
+- `legs`: date- and route-scoped typed relationships between endpoints.
 
-Each marker occurrence must include `route`, `date`, `time`, `reason`, `advantage`, `status`, and `seq`. Place-level fields supply the summary, selection reasoning, Maps URL, decision rules, region, and local-photo status.
+The maintained invariants are 36 markers, 79 timeline cards, 41 legs, four routes, nine dates, three non-overall regions, and exactly the `vector` and `satellite` providers. `manifests/asset_manifest.json` supplies 108 places/roles as 108 total real local photographs: HERO, EXPERIENCE, and SCALE_CONTEXT for every place.
 
 ## Route semantics
 
 Use `branch_kind` deliberately:
 
-- `main`: normal sequence.
-- `conditional`: runs only when its stated condition passes.
-- `swap`: an alternative branch that replaces another stop or branch.
-- `bonus`: optional addition when time/energy remains.
-- `recovery`: a visible relationship across a meal, nap, hotel, or other long break; not continuous sightseeing.
-- `choice`: connects mutually exclusive options; not a claim that both are visited.
+- `main`: normal sequence;
+- `conditional`: runs only when its condition passes;
+- `swap`: an alternative branch replacing another stop or branch;
+- `bonus`: optional if time/energy remains;
+- `recovery`: a visible relationship across a meal, nap, hotel, or other long break; not continuous sightseeing; and
+- `choice`: mutually exclusive options; not a claim that both are visited.
 
-Use `render_style: transfer_dots` only for inter-region transfers. Ferry legs are conceptual endpoint relationships unless a verified vessel track exists. Road/walk geometry is cached into `data/route_geometry_cache.json`; the application performs no runtime routing calls.
+Use `render_style: transfer_dots` only for inter-region transfers. Ferry legs are conceptual endpoint relationships unless a verified vessel track exists. Road/walk geometry is cached in `data/route_geometry_cache.json`; the app performs no runtime routing calls. Cached OSM geometry is reference planning geometry, not live traffic, closure, or turn-by-turn navigation.
 
 ## Photo contract
 
-Every place requires exactly three real local photographs:
+Paths follow `assets/photos/{original|thumb|medium}/{place_key}__{hero|experience|scale_context}.{ext}`. Runtime uses local thumbnail/medium derivatives only. The asset manifest records source page, direct image URL, creator/license metadata where available, local paths, dimensions, MIME type, visual-review note, and SHA-256 hashes. No remote photo is used at runtime.
 
-- `HERO`: instant place identification.
-- `EXPERIENCE`: what the visit feels like.
-- `SCALE_CONTEXT`: spatial scale or surrounding context.
+## Canonical pipeline
 
-Paths follow `assets/photos/{original|thumb|medium}/{place_key}__{hero|experience|scale_context}.{ext}`. `manifests/asset_manifest.json` records the source page, direct image URL, creator/license metadata when available, local paths, dimensions, MIME type, visual-review note, and SHA-256 hashes. No remote photo is used at runtime.
+```bash
+python3 -m pip install -r requirements-qa.txt
+python3 scripts/pipeline.py fast
+python3 scripts/pipeline.py qualify
+python3 scripts/pipeline.py package
+```
 
-## Build and verification
+`fast` validates source/schema/integrity/build invariants, protects authored-input hashes, and compares a repeat build. `qualify` runs the existing decisive map-first smoke/full/P0/location-gap/interaction/route-panel/route-continuity suites, photo integrity, 600-state exhaustive rendering, standalone, responsive/cross-browser, and focused visual evidence. It writes a current report to `QA/release/qualification.json` and never rewrites historical P0 evidence.
 
-1. Update the trip data and translations.
-2. Add the three local photo roles for every marker and refresh the asset manifest.
-3. Run `python3 scripts/cache_route_geometry.py` while online.
-4. Run `python3 scripts/refresh_map_first_manifests.py`.
-5. Install `requirements-qa.txt`, then run `python3 scripts/build_map_first.py`.
-6. Serve the modular build with `python3 scripts/serve_map.py --port 8766`, or open the standalone HTML directly.
-7. Run the photo, continuity, interaction, 600-state, independent-P0, standalone, responsive, and cross-browser QA scripts.
+Qualification components have a 300-second default timeout. A timeout is machine-recorded as `UNVERIFIED` and blocks release; `TRIP_QUALIFICATION_TIMEOUT_SECONDS` is available only to shorten local diagnostic runs.
 
-The reusable invariants are: one marker per physical place; exact local-photo roles; no route layer zoom cliffs; no hidden Smart-map provider switch; fit all visible non-transfer geometry; no cross-date lines; complete Korean/English content; no mobile overflow; and explicit semantics for every non-literal connection.
+The generated modular artifact is `.build/modular/index.html`; serve it with `python3 scripts/pipeline.py serve --port 8766`. The direct-open artifact is `.build/standalone/SF_Smart_Minority_Map_First_Standalone.html`. `package` requires PASS qualification and produces `.release/package/` plus `.release/package.zip` containing modular, standalone, public, source, manifests, and current evidence.
+
+GitHub Pages runs the same exact-revision release command, checks the staged `.public-site/.release-provenance.json`, and uploads/deploys only after the qualification and provenance checks pass. Historical root HTML, `QA/final_*`, phase evidence, `build_final.py`, `package_final.py`, and provider-era scripts are retained for history but are not supported authority.
