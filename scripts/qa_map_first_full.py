@@ -33,7 +33,7 @@ def read(page, expression, argument=None):
 
 
 with sync_playwright() as playwright:
-    browser = playwright.chromium.launch(headless=True)
+    browser = playwright.chromium.launch(headless=True, timeout=90000)
     page = browser.new_page(viewport={"width": 1440, "height": 900})
     page.set_default_timeout(240000)
     page.on("pageerror", lambda error: report["errors"].append(str(error)))
@@ -136,7 +136,7 @@ with sync_playwright() as playwright:
 
     # Touch-sized browser and independent WebKit/Firefox smoke.
     for engine, width in ((playwright.chromium, 390), (playwright.webkit, 1280), (playwright.firefox, 1280)):
-        touch_browser = engine.launch(headless=True)
+        touch_browser = engine.launch(headless=True, timeout=90000)
         context = touch_browser.new_context(viewport={"width": width, "height": 844 if width == 390 else 800}, is_mobile=width == 390, has_touch=width == 390)
         touch_page = context.new_page()
         touch_page.set_default_timeout(60000)
@@ -168,7 +168,7 @@ with sync_playwright() as playwright:
             report["checks"][name] = read(touch_page, """()=>({provider:window.__tripApp.state.provider,features:window.__tripApp.visibleRouteFeatures().length,clusters:document.querySelectorAll('.photo-cluster').length,canvas:document.querySelectorAll('.maplibregl-canvas').length})""")
             capture(touch_page, name)
         report["errors"].extend(local_errors)
-        warning = bounded_cleanup(touch_browser.close, f"map-first full {name} browser")
+        warning = bounded_cleanup(touch_browser.close, f"map-first full {width}px browser")
         if warning:
             report["cleanup_warnings"].append(warning)
 

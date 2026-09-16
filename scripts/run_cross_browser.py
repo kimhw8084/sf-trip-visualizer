@@ -34,7 +34,7 @@ try:
     for name in ("firefox", "webkit"):
         browser = None
         try:
-            browser = getattr(playwright, name).launch(headless=True)
+            browser = getattr(playwright, name).launch(headless=True, timeout=90000)
             for width, height in ((1280, 800), (390, 844)):
                 context = None
                 try:
