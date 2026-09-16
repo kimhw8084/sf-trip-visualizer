@@ -1,0 +1,66 @@
+name: Qualify Fabric candidate
+
+on:
+  push:
+    branches:
+      - "codex/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: candidate-qualification-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qualify:
+    name: Exact-revision qualification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the exact triggering revision
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          lfs: true
+
+      - name: Set up the qualification runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install the repository QA dependencies and browsers
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements-qa.txt
+          python3 -m playwright install --with-deps chromium firefox webkit
+
+      - name: Assert the checkout matches the triggering SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+
+      - name: Run exact-revision full qualification
+        run: |
+          mkdir -p QA/release
+          set -o pipefail
+          python3 scripts/pipeline.py qualify --revision "$GITHUB_SHA" 2>&1 | tee QA/release/qualification.log
+
+      - name: Run repository unit and contract checks
+        if: always()
+        run: |
+          mkdir -p QA/release
+          set -o pipefail
+          python3 -m unittest discover -s tests -p 'test_*.py' 2>&1 | tee QA/release/unit-tests.log
+
+      - name: Upload candidate qualification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate-qualification-${{ github.sha }}
+          if-no-files-found: warn
+          path: |
+            QA/release/*.json
+            QA/release/*.log
+            QA/map_first/**/*.json
+            QA/map_first/screenshots/**
+            QA/photo_integrity.json
+            QA/route_panel/**/*.json

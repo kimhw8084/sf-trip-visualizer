@@ -54,6 +54,8 @@ class CanonicalPipelineTests(unittest.TestCase):
 
     def test_pages_workflow_cannot_bypass_release_gate(self):
         workflow = (ROOT / ".github/workflows/deploy-pages.yml").read_text()
+        self.assertIn("branches: [main]", workflow)
+        self.assertNotIn('"codex/**"', workflow)
         self.assertIn("ref: ${{ github.sha }}", workflow)
         self.assertIn("python3 scripts/pipeline.py release", workflow)
         self.assertIn("python3 scripts/pipeline.py verify-public", workflow)
@@ -61,6 +63,28 @@ class CanonicalPipelineTests(unittest.TestCase):
             self.assertNotIn(forbidden, workflow)
         for relative in ("scripts/build_final.py", "scripts/package_final.py", "scripts/run_acceptance.py", "scripts/run_live_providers.py", "scripts/expand_photo_manifest.py"):
             self.assertIn("DEPRECATED LEGACY ENTRY POINT", (ROOT / relative).read_text())
+
+    def test_candidate_workflow_is_exact_sha_non_deploying_and_evidence_backed(self):
+        workflow = (ROOT / ".github/workflows/candidate-qualification.yml").read_text()
+        self.assertIn('      - "codex/**"', workflow)
+        self.assertIn("contents: read", workflow)
+        self.assertNotIn("pages: write", workflow)
+        self.assertNotIn("id-token: write", workflow)
+        self.assertNotIn("deploy-pages", workflow)
+        self.assertIn("ref: ${{ github.sha }}", workflow)
+        self.assertIn("fetch-depth: 0", workflow)
+        self.assertIn("lfs: true", workflow)
+        self.assertIn('python-version: "3.11"', workflow)
+        self.assertIn("pip install -r requirements-qa.txt", workflow)
+        self.assertIn("playwright install --with-deps chromium firefox webkit", workflow)
+        self.assertIn('python3 scripts/pipeline.py qualify --revision "$GITHUB_SHA"', workflow)
+        self.assertIn("python3 -m unittest discover -s tests -p 'test_*.py'", workflow)
+        self.assertIn("if: always()", workflow)
+        self.assertIn("actions/upload-artifact@v4", workflow)
+        self.assertIn("candidate-qualification-${{ github.sha }}", workflow)
+        self.assertIn("QA/release/*.json", workflow)
+        self.assertIn("QA/map_first/**/*.json", workflow)
+        self.assertIn("QA/map_first/screenshots/**", workflow)
 
     def test_public_assembly_is_exact_sha_gated(self):
         public = (ROOT / "scripts/prepare_public_site.py").read_text()
