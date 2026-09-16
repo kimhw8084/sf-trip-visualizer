@@ -1,0 +1,661 @@
+{
+  "accepted_at": "2026-09-16T13:16:30Z",
+  "changed_files": [
+    {
+      "additions": 19,
+      "deletions": 4,
+      "path": ".github/workflows/deploy-pages.yml",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 0,
+      "path": ".gitignore",
+      "status": "M"
+    },
+    {
+      "additions": 70,
+      "deletions": 0,
+      "path": "QA/map_first/cross_browser.json",
+      "status": "A"
+    },
+    {
+      "additions": 6010,
+      "deletions": 0,
+      "path": "QA/map_first/exhaustive_states.json",
+      "status": "A"
+    },
+    {
+      "additions": 24,
+      "deletions": 24,
+      "path": "QA/map_first/filter_matrix.json",
+      "status": "M"
+    },
+    {
+      "additions": 29,
+      "deletions": 6,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "QA/map_first/location_gap_visuals.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "QA/map_first/p0_independent.json",
+      "status": "M"
+    },
+    {
+      "additions": 10,
+      "deletions": 6,
+      "path": "QA/map_first/route_continuity.json",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 9,
+      "path": "QA/map_first/smoke.json",
+      "status": "M"
+    },
+    {
+      "additions": 99,
+      "deletions": 0,
+      "path": "QA/map_first/visual_spots.json",
+      "status": "A"
+    },
+    {
+      "additions": 4,
+      "deletions": 1,
+      "path": "QA/photo_integrity.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "QA/route_panel/route_explanations_panel.json",
+      "status": "M"
+    },
+    {
+      "additions": 50,
+      "deletions": 28,
+      "path": "README.md",
+      "status": "M"
+    },
+    {
+      "additions": 36,
+      "deletions": 30,
+      "path": "TRIP_VISUALIZER_SCHEMA.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "manifests/asset_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 110,
+      "deletions": 0,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "A"
+    },
+    {
+      "additions": 3,
+      "deletions": 0,
+      "path": "scripts/apply_location_gap_audit.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/build_final.py",
+      "status": "M"
+    },
+    {
+      "additions": 270,
+      "deletions": 170,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 28,
+      "deletions": 15,
+      "path": "scripts/check_photo_integrity.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/expand_photo_manifest.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/package_final.py",
+      "status": "M"
+    },
+    {
+      "additions": 110,
+      "deletions": 125,
+      "path": "scripts/package_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 436,
+      "deletions": 0,
+      "path": "scripts/pipeline.py",
+      "status": "A"
+    },
+    {
+      "additions": 86,
+      "deletions": 46,
+      "path": "scripts/prepare_public_site.py",
+      "status": "M"
+    },
+    {
+      "additions": 42,
+      "deletions": 0,
+      "path": "scripts/qa_cleanup.py",
+      "status": "A"
+    },
+    {
+      "additions": 14,
+      "deletions": 0,
+      "path": "scripts/qa_config.py",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_interaction_dynamics.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_location_gap_visuals.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 40,
+      "deletions": 40,
+      "path": "scripts/qa_map_first_full.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 2,
+      "path": "scripts/qa_map_first_p0.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 3,
+      "path": "scripts/qa_route_explanations_panel.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_standalone_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/run_acceptance.py",
+      "status": "M"
+    },
+    {
+      "additions": 386,
+      "deletions": 35,
+      "path": "scripts/run_cross_browser.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 2,
+      "path": "scripts/run_exhaustive_states.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/run_live_providers.py",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 5,
+      "path": "scripts/run_visual_spots.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "scripts/serve_map.py",
+      "status": "M"
+    },
+    {
+      "additions": 81,
+      "deletions": 0,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "A"
+    },
+    {
+      "additions": 110,
+      "deletions": 0,
+      "path": "tests/test_cross_browser_runner.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && printf '%s\\\\n' '--- AGENTS refs ---' && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && printf '%s\\\\n' '--- law ---' && sed -n '1,260p' /Users/haewonkim/.codex/law.md && printf '%s\\\\n' '--- repo files ---' && rg --files -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!vendor'\"' | sort && printf '%s\\\\n' '--- git state ---' && git status --short --branch && git log --oneline --decorate -12\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git branch -a --contains 54bb51d2c850c73021da0a69c8c505627f3edf56 && rtk git show --no-patch --pretty=fuller 54bb51d2c850c73021da0a69c8c505627f3edf56 && rtk git merge-base main 54bb51d2c850c73021da0a69c8c505627f3edf56 && rtk git log --graph --decorate --oneline --all --max-count=40'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge --ff-only 54bb51d2c850c73021da0a69c8c505627f3edf56 && rtk git rev-parse HEAD && rtk git status --short --branch && rtk git log --graph --decorate --oneline --max-count=8'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files -g '\"'!QA/**'\"' -g '\"'!node_modules'\"' | sort | sed -n '1,240p' && printf '%s\\\\n' '--- dependency/config files ---' && rtk rg --files -g 'requirements*.txt' -g 'pyproject.toml' -g 'pytest.ini' -g 'package*.json' -g 'Dockerfile*' -g 'compose*.yml' -g 'Makefile' -g '.python-version' -g 'playwright.config.*' -g 'AGENTS.md' | sort && printf '%s\\\\n' '--- QA/run references ---' && rtk rg -n \\\"cross_browser|full qualification|run_acceptance|playwright|browser|requirements|python3\\\" README.md TRIP_VISUALIZER_SCHEMA.md manifests scripts tests .github -g '\"'!QA/map_first/exhaustive_states.json'\"' | sed -n '1,320p'\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 31721,
+        "output_sha256": "a802a2559166a3109d070fda56fcd88b178c9c7c5a295c0d8b77463e8fa79d7a",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- requirements-qa.txt ---' && rtk sed -n '1,240p' requirements-qa.txt && printf '%s\\\\n' '--- pipeline.py ---' && rtk sed -n '1,430p' scripts/pipeline.py && printf '%s\\\\n' '--- run_cross_browser.py ---' && rtk sed -n '1,460p' scripts/run_cross_browser.py && printf '%s\\\\n' '--- canonical manifest ---' && rtk sed -n '1,180p' manifests/canonical_pipeline.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import sys,platform,importlib.util; print(sys.executable); print(platform.platform()); print(platform.machine()); print(\\\"playwright\\\", importlib.util.find_spec(\\\"playwright\\\"))'\nrtk timeout 10 docker context ls\nrtk timeout 10 docker info --format '{{.ServerVersion}} {{.OSType}}/{{.Architecture}}' 2>&1 || true\nrtk timeout 10 docker ps --format '{{.ID}} {{.Image}} {{.Status}}' 2>&1 || true\nrtk timeout 10 docker buildx version 2>&1 || true\nrtk git remote -v\nrtk git branch -vv\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy ps -Ao pid,ppid,stat,command'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy docker --version'",
+      "exit_code": 143,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk uname -a\nrtk sw_vers\nrtk arch\nrtk python3 --version\nrtk python3 -c 'import sys, platform; print(sys.executable); print(platform.platform()); print(platform.machine());\\\\ntry:\\\\n import playwright; print(\\\"playwright\\\", playwright.__version__ if hasattr(playwright, \\\"__version__\\\") else \\\"package-present\\\")\\\\nexcept Exception as e: print(\\\"playwright unavailable\\\", type(e).__name__, e)'\nfor tool in docker podman colima lima nerdctl; do command -v \\\"\"'$tool\" || true; done\nrtk docker version --format '\"'{{.Server.Os}}/{{.Server.Arch}} {{.Server.Version}}' 2>&1 || true\nrtk podman version --format '{{.Os}}/{{.Arch}} {{.Version}}' 2>&1 || true\nrtk colima status 2>&1 || true\nrtk lima list 2>&1 || true\nrtk git remote -v\nrtk git branch -vv\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk docker --version\nrtk env | rtk rg 'DOCKER|COLIMA|PODMAN|CONTAINER' || true\nrtk ps -Ao pid,ppid,stat,command | rtk rg 'docker|colima|podman|lima|qemu' || true\nrtk ls -la /var/run/docker.sock \\\"\"'$TMPDIR\" 2>&1 || true\nrtk git remote -v\nrtk git branch -vv'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy kill -TERM 89018 89019 90241 90242 90369 90371 2>&1 || true\nrtk proxy ps -Ao pid,ppid,stat,command | rtk rg '/usr/local/bin/docker|rtk (docker|proxy docker)' || true\nrtk proxy file /usr/local/bin/docker\nrtk proxy ls -l /usr/local/bin/docker\nrtk proxy shasum -a 256 /usr/local/bin/docker\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy pgrep -af 'OrbStack|Docker Desktop|com\\\\.docker|lima|qemu' || true\nrtk proxy ls -ld /Applications/OrbStack.app /Applications/Docker.app 2>&1 || true\nrtk proxy find /Applications/OrbStack.app -maxdepth 3 -type f -name 'orbctl' -o -name 'docker' 2>/dev/null | rtk sed -n '1,80p'\nrtk proxy command -v orbctl || true\nrtk proxy launchctl list | rtk rg -i 'orb|docker|lima' || true\nrtk proxy test -S /var/run/docker.sock && rtk proxy ls -l /var/run/docker.sock || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy open -a /Applications/OrbStack.app'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -Ao pid,ppid,stat,command | rtk rg '(/opt/homebrew/bin/orbctl|/usr/local/bin/docker|rtk proxy (orbctl|docker)|OrbStack)' | rtk sed -n '1,160p'\nrtk proxy kill -TERM 91427 91428 2>&1 || true\nrtk proxy open -a /Applications/OrbStack.app\nrtk proxy sleep 5\nrtk proxy ps -p 91984 -o pid,ppid,stat,etime,command\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sleep 3\nrtk proxy pgrep -af 'OrbStack|orbctl' || true\nrtk proxy ps -Ao pid,ppid,stat,command | rtk rg -i 'OrbStack|orbctl|docker' | rtk sed -n '1,120p'\nrtk proxy timeout 20 orbctl --version 2>&1 || true\nrtk proxy timeout 20 orbctl list 2>&1 || true\nrtk proxy timeout 20 docker info --format '{{.ServerVersion}} {{.OSType}}/{{.Architecture}}' 2>&1 || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sleep 15\nrtk proxy python3 -c 'import subprocess;\\\\nfor command in ((\\\"/opt/homebrew/bin/orbctl\\\",\\\"--version\\\"),(\\\"/opt/homebrew/bin/orbctl\\\",\\\"list\\\"),(\\\"/usr/local/bin/docker\\\",\\\"info\\\",\\\"--format\\\",\\\"{{.ServerVersion}} {{.OSType}}/{{.Architecture}}\\\")):\\\\n try:\\\\n  result=subprocess.run(command, capture_output=True, text=True, timeout=5)\\\\n  print(\\\"COMMAND\\\", \\\" \\\".join(command), \\\"RETURN\\\", result.returncode, \\\"OUT\\\", result.stdout.strip()[:300], \\\"ERR\\\", result.stderr.strip()[:300])\\\\n except Exception as error:\\\\n  print(\\\"COMMAND\\\", \\\" \\\".join(command), \\\"ERROR\\\", type(error).__name__, str(error))'\nrtk proxy ps -Ao pid,ppid,stat,etime,command | rtk rg 'OrbStack|orbctl|docker' | rtk sed -n '1,180p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy ps -p 570,91335,91337 -o pid,ppid,stat,command\nrtk proxy ls -la /Applications/OrbStack.app\nrtk proxy ls -la /opt/homebrew/bin/orbctl\nrtk proxy orbctl --version 2>&1 || true\nrtk proxy orbctl list 2>&1 || true\nrtk proxy orbctl status 2>&1 || true'",
+      "exit_code": 143,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy kill -TERM 89003 90239 91419 92604 92606 2>&1 || true\nrtk proxy python3 -c 'import subprocess\ncommands=((\\\"/opt/homebrew/bin/orbctl\\\",\\\"--version\\\"),(\\\"/opt/homebrew/bin/orbctl\\\",\\\"list\\\"),(\\\"/usr/local/bin/docker\\\",\\\"info\\\",\\\"--format\\\",\\\"{{.ServerVersion}} {{.OSType}}/{{.Architecture}}\\\"))\nfor command in commands:\n    try:\n        result=subprocess.run(command,capture_output=True,text=True,timeout=5)\n        print(\\\"COMMAND\\\", \\\" \\\".join(command), \\\"RETURN\\\", result.returncode, \\\"OUT\\\", result.stdout.strip()[:300], \\\"ERR\\\", result.stderr.strip()[:300])\n    except Exception as error:\n        print(\\\"COMMAND\\\", \\\" \\\".join(command), \\\"ERROR\\\", type(error).__name__, str(error))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy defaults read /Applications/OrbStack.app/Contents/Info CFBundleShortVersionString 2>&1 || true\nrtk proxy defaults read /Applications/OrbStack.app/Contents/Info CFBundleVersion 2>&1 || true\nrtk proxy find /Users/haewonkim/Library/Logs/DiagnosticReports -maxdepth 1 -iname '*OrbStack*' -print 2>/dev/null | rtk sed -n '1,80p'\nrtk proxy find /Users/haewonkim/Library/Containers -maxdepth 4 -iname '*orbstack*' -print 2>/dev/null | rtk sed -n '1,120p'\nrtk proxy find /Users/haewonkim/Library/Application\\\\ Support -maxdepth 4 -iname '*orbstack*' -print 2>/dev/null | rtk sed -n '1,120p'\nrtk proxy find /Applications/OrbStack.app/Contents -maxdepth 3 -type f -print | rtk sed -n '1,120p'\nrtk proxy ps -Ao pid,ppid,stat,etime,command | rtk rg 'OrbStack|orbctl|docker' | rtk sed -n '1,160p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ls -la /Users/haewonkim/.orbstack /Users/haewonkim/.orbstack/run /Users/haewonkim/Library/Application\\\\ Support/OrbStack /Users/haewonkim/Library/Containers/dev.kdrag0n.MacVirt 2>&1 || true\nrtk proxy find /Users/haewonkim -maxdepth 3 -type d \\\\( -iname '*orb*' -o -iname '*docker*' \\\\) -print 2>/dev/null | rtk sed -n '1,160p'\nrtk proxy launchctl list | rtk rg -i 'orb|docker|virt' || true\nrtk proxy ps -p 91984 -o pid,ppid,state,wchan,etime,command\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sed -n '1,240p' /Users/haewonkim/.orbstack/vmstate.json\nrtk proxy find /Users/haewonkim/.orbstack/log -maxdepth 3 -type f -print | sort | rtk sed -n '1,120p'\nrtk proxy find /Users/haewonkim/.orbstack/run/status -maxdepth 2 -type f -print -exec sh -c 'echo --- \\\"\"'$1\"; sed -n \"1,80p\" \"$1\"'\"' sh {} \\\\; 2>/dev/null | rtk sed -n '1,240p'\nrtk proxy ls -la /Users/haewonkim/OrbStack | rtk sed -n '1,120p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy tail -n 160 /Users/haewonkim/.orbstack/log/vmgr.log\nrtk proxy tail -n 160 /Users/haewonkim/.orbstack/log/vmgr.1.log\nrtk proxy sed -n '1,200p' /Users/haewonkim/.orbstack/run/status/running/README.txt 2>&1 || true\nrtk proxy ls -la /Users/haewonkim/OrbStack\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy strings /opt/homebrew/bin/orbctl | rtk rg -i 'usage|start|stop|list|version|machine|vm|status|docker' | rtk sed -n '1,180p'\nrtk proxy stat -f '%N %z bytes %Sm' /Users/haewonkim/.orbstack/run/status/running /Users/haewonkim/.orbstack/run/docker.sock /Users/haewonkim/.orbstack/log/vmgr.log\nrtk proxy tail -n 40 /Users/haewonkim/.orbstack/log/vmgr.log\nrtk proxy find /Users/haewonkim/OrbStack -maxdepth 3 -print | rtk sed -n '1,160p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ls -la /Users/haewonkim/.orbstack/bin /Users/haewonkim/.orbstack/shell\nrtk proxy file /Users/haewonkim/.orbstack/bin/*\nrtk proxy sed -n '1,180p' /Users/haewonkim/.orbstack/run/status/running 2>&1 || true\nrtk proxy xxd -l 256 /Users/haewonkim/.orbstack/run/status/running\nrtk proxy python3 -c 'import os; print(\\\"ORBSTACK_HOME\\\",os.environ.get(\\\"ORBSTACK_HOME\\\")); print(\\\"DOCKER_HOST\\\",os.environ.get(\\\"DOCKER_HOST\\\")); print(\\\"PATH\\\",os.environ.get(\\\"PATH\\\"))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'for tool in qemu-system-aarch64 qemu-system-x86_64 qemu-img multipass tart utmctl vagrant lima colima podman nerdctl kubectl; do rtk proxy sh -c \"command -v $tool\" 2>/dev/null || true; done\nrtk proxy ls -la /Users/haewonkim/.orbstack /Users/haewonkim/.orbstack/run /Users/haewonkim/Library/Group'\"\\\\ Containers/HUAQ24HBR6.dev.orbstack 2>&1 | rtk sed -n '1,220p'\nrtk proxy find /Users/haewonkim/.orbstack /Users/haewonkim/OrbStack -maxdepth 4 -type f -size +100M -print 2>/dev/null | rtk sed -n '1,120p'\nrtk proxy find /Users/haewonkim/.docker -maxdepth 4 -type f -print 2>/dev/null | rtk sed -n '1,160p'\nrtk proxy find /Users/haewonkim/Library/Containers/com.docker.docker -maxdepth 4 -type f -size +100M -print 2>/dev/null | rtk sed -n '1,80p'\nrtk proxy ps -Ao pid,ppid,stat,etime,command | rtk rg -i 'OrbStack|qemu|lima|colima|podman|docker' | rtk sed -n '1,180p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy find /Users/haewonkim/Library/Group\\\\ Containers/HUAQ24HBR6.dev.orbstack/data -maxdepth 4 -print 2>/dev/null | rtk sed -n '1,220p'\nrtk proxy du -sh /Users/haewonkim/Library/Group\\\\ Containers/HUAQ24HBR6.dev.orbstack /Users/haewonkim/.orbstack 2>&1\nrtk proxy find /Users/haewonkim/Library/Group\\\\ Containers/HUAQ24HBR6.dev.orbstack/data -type f -size +100M -print 2>/dev/null | rtk sed -n '1,80p'\nrtk proxy cat /Users/haewonkim/.docker/contexts/meta/2d89b732b01a00a2d1675ed3cee9fd0f965daadf90603c989dd3afd4569c689/meta.json\nrtk proxy cat /Users/haewonkim/.docker/contexts/meta/fe9c6bd7a66301f49ca9b6a70b217107cd1284598bfc254700c989b916da791e/meta.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy find /Users/haewonkim/.docker/contexts/meta -maxdepth 2 -type f -print -exec sed -n '1,80p' {} \\\\; 2>/dev/null | rtk sed -n '1,200p'\nrtk proxy sed -n '1,180p' /Users/haewonkim/Library/Group\\\\ Containers/HUAQ24HBR6.dev.orbstack/data/README.txt\nrtk proxy cat /Users/haewonkim/.docker/contexts/meta/2d89b732b01a00a2d1675ed3cee9fd0f965daadf90603c989dd3afd4569c689/meta.json 2>&1 || true\nrtk proxy find /Users/haewonkim/.docker/contexts/meta -maxdepth 2 -type f -print\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import importlib.metadata as m,sys,platform; print(\\\"python\\\",sys.version.replace(\\\"\\\\\\\\n\\\",\\\" \\\")); print(\\\"executable\\\",sys.executable); print(\\\"platform\\\",platform.platform()); print(\\\"machine\\\",platform.machine()); print(\\\"playwright\\\",m.version(\\\"playwright\\\"))'\nrtk python3 -m playwright --version 2>&1 || true\nrtk python3 -m playwright install --dry-run webkit firefox 2>&1 || true\nrtk proxy find /Users/haewonkim/Library/Caches/ms-playwright -maxdepth 2 -type d -print 2>/dev/null | sort | rtk sed -n '1,120p'\nrtk proxy find /Users/haewonkim/Library/Caches/ms-playwright -maxdepth 2 -type f -name '*revision*' -o -name 'DEPENDENCIES_VALIDATED' 2>/dev/null | sort | rtk sed -n '1,80p'\nrtk proxy git rev-parse HEAD\nrtk proxy git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy kill -TERM 91984 2>&1 || true\nrtk proxy sleep 3\nrtk proxy open -a /Applications/OrbStack.app\nrtk proxy sleep 8\nrtk proxy ps -Ao pid,ppid,stat,etime,command | rtk rg -i 'OrbStack|orbctl|docker' | rtk sed -n '1,160p'\nrtk proxy python3 -c 'import subprocess\nfor command in ((\\\"/opt/homebrew/bin/orbctl\\\",\\\"--version\\\"),(\\\"/opt/homebrew/bin/orbctl\\\",\\\"list\\\"),(\\\"/usr/local/bin/docker\\\",\\\"info\\\",\\\"--format\\\",\\\"{{.ServerVersion}} {{.OSType}}/{{.Architecture}}\\\")):\n    try:\n        result=subprocess.run(command,capture_output=True,text=True,timeout=8)\n        print(\\\"COMMAND\\\", \\\" \\\".join(command), \\\"RETURN\\\", result.returncode, \\\"OUT\\\", result.stdout.strip()[:300], \\\"ERR\\\", result.stderr.strip()[:300])\n    except Exception as error:\n        print(\\\"COMMAND\\\", \\\" \\\".join(command), \\\"ERROR\\\", type(error).__name__, str(error))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 -u -c 'import subprocess,sys\ncommand=(\\\"/opt/homebrew/bin/orbctl\\\",\\\"--version\\\")\ntry:\n    result=subprocess.run(command,capture_output=True,text=True,timeout=5)\n    print(\\\"return\\\",result.returncode,\\\"stdout\\\",result.stdout.strip()[:300],\\\"stderr\\\",result.stderr.strip()[:300],flush=True)\nexcept Exception as error:\n    print(\\\"error\\\",type(error).__name__,str(error),flush=True)'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -Ao pid,ppid,stat,etime,command | rtk rg -i 'OrbStack|orbctl|docker|vmgr|virtue|linux' | rtk sed -n '1,220p'\nrtk proxy tail -n 80 /Users/haewonkim/.orbstack/log/vmgr.log\nrtk proxy stat -f '%N %Sm' /Users/haewonkim/.orbstack/run/status/running /Users/haewonkim/.orbstack/run/docker.sock /Users/haewonkim/.orbstack/log/vmgr.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -Ao pid,ppid,stat,etime,command | rtk rg 'OrbStack|orbctl|docker info|/bin/zsh -c rtk proxy kill -TERM 91984|python3 -u -c' | rtk sed -n '1,180p'\nrtk git branch --show-current\nrtk git rev-parse HEAD\nrtk git show -s --format='candidate=%H%nparent=%P%nsubject=%s' HEAD\nrtk git status --porcelain=v1 --branch\nrtk git diff --exit-code --quiet; printf 'tracked_diff_exit=%s\\\\n' \\\"\"'$?\"\nrtk git rev-parse --verify origin/codex/sf-trip-visualizer-canonical-pipeline-webkit-verify-r4 2>&1 || true\nrtk git rev-parse --verify origin/codex/sf-trip-visualizer-canonical-pipeline-fix-r3 2>&1 || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git remote -v\nrtk git branch -vv\nrtk git show-ref --heads --remotes | rtk rg 'canonical-pipeline-(webkit-verify-r4|fix-r3)' || true\nrtk git config --get remote.origin.url\nrtk git config --get-regexp '\"'^branch'\"\\\\.' | rtk rg 'canonical-pipeline' || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-remote --heads origin codex/sf-trip-visualizer-canonical-pipeline-webkit-verify-r4\nrtk git ls-remote --heads origin codex/sf-trip-visualizer-canonical-pipeline-fix-r3\nrtk git merge-base --is-ancestor main HEAD; printf 'main_ancestor_exit=%s\\\\n' \\\"\"'$?\"\nrtk git merge-base --is-ancestor 54bb51d2c850c73021da0a69c8c505627f3edf56 HEAD; printf '\"'candidate_ancestor_exit=%s\\\\n' \\\"\"'$?\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push --set-upstream origin HEAD:refs/heads/codex/sf-trip-visualizer-canonical-pipeline-webkit-verify-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy ps -p 3056,3129 -o pid,ppid,stat,etime,command 2>&1 || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy kill -TERM 3129 2>&1 || true\nrtk proxy sleep 2\nrtk proxy ps -Ao pid,ppid,stat,etime,command | rtk rg -i 'OrbStack|orbctl|docker info|/bin/zsh -c rtk proxy kill' | rtk sed -n '1,160p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nimport importlib.metadata\nimport json\nimport platform\nimport subprocess\nimport sys\n\ncandidate = \\\"54bb51d2c850c73021da0a69c8c505627f3edf56\\\"\nbranch = subprocess.check_output([\\\"git\\\", \\\"branch\\\", \\\"--show-current\\\"], text=True).strip()\nhead = subprocess.check_output([\\\"git\\\", \\\"rev-parse\\\", \\\"HEAD\\\"], text=True).strip()\nstatus = subprocess.check_output([\\\"git\\\", \\\"status\\\", \\\"--porcelain\\\"], text=True)\nremote = subprocess.run([\\\"git\\\", \\\"ls-remote\\\", \\\"--heads\\\", \\\"origin\\\", branch], capture_output=True, text=True, timeout=15)\nremote_head = remote.stdout.split()[0] if remote.returncode == 0 and remote.stdout.split() else None\nmain_ancestor = subprocess.run([\\\"git\\\", \\\"merge-base\\\", \\\"--is-ancestor\\\", \\\"main\\\", \\\"HEAD\\\"]).returncode == 0\ncandidate_ancestor = subprocess.run([\\\"git\\\", \\\"merge-base\\\", \\\"--is-ancestor\\\", candidate, \\\"HEAD\\\"]).returncode == 0\ncomponents = [\n    \\\"photo_integrity\\\", \\\"map_first_smoke\\\", \\\"map_first_full\\\", \\\"map_first_p0\\\", \\\"standalone\\\",\n    \\\"location_gap\\\", \\\"interaction_dynamics\\\", \\\"route_continuity\\\", \\\"route_panel\\\",\n    \\\"exhaustive_states\\\", \\\"cross_browser\\\", \\\"visual_spots\\\",\n]\nrows = [\n    {\\\"browser\\\": browser, \\\"width\\\": width, \\\"height\\\": height, \\\"status\\\": \\\"UNVERIFIED\\\", \\\"execution\\\": \\\"NOT_RUN_NO_ISOLATED_ENVIRONMENT\\\"}\n    for browser, width, height in ((\\\"firefox\\\", 1280, 800), (\\\"firefox\\\", 390, 844), (\\\"webkit\\\", 1280, 800), (\\\"webkit\\\", 390, 844))\n]\nsummary = {\n    \\\"verification\\\": \\\"CHG-61\\\",\n    \\\"decision\\\": \\\"UNVERIFIED\\\",\n    \\\"reason\\\": \\\"No genuinely isolated WebKit-capable environment could be established; host WebKit was not rerun.\\\",\n    \\\"candidate_sha\\\": candidate,\n    \\\"tested_sha\\\": candidate,\n    \\\"tested_sha_execution\\\": \\\"checkout_pinned_but_browser_contract_not_executed\\\",\n    \\\"ancestry\\\": {\\\"main_is_ancestor\\\": main_ancestor, \\\"candidate_is_HEAD\\\": head == candidate, \\\"candidate_is_ancestor_of_HEAD\\\": candidate_ancestor},\n    \\\"environment\\\": {\n        \\\"isolated\\\": {\n            \\\"status\\\": \\\"UNAVAILABLE\\\",\n            \\\"runtime\\\": \\\"OrbStack\\\",\n            \\\"runtime_version\\\": \\\"2.1.3\\\",\n            \\\"vm_architecture\\\": \\\"arm64\\\",\n            \\\"linux_image\\\": None,\n            \\\"vm_or_service\\\": \\\"not running; no VM process; stale sockets only\\\",\n            \\\"probes\\\": {\\\"orbctl_version\\\": \\\"TIMEOUT_5S\\\", \\\"orbctl_list\\\": \\\"TIMEOUT_5S\\\", \\\"docker_info\\\": \\\"TIMEOUT_5S\\\"},\n        },\n        \\\"host_observation_only\\\": {\n            \\\"os\\\": \\\"macOS 26.6.2\\\",\n            \\\"kernel\\\": platform.release(),\n            \\\"architecture\\\": platform.machine(),\n            \\\"python\\\": sys.version.split()[0],\n            \\\"playwright_package\\\": importlib.metadata.version(\\\"playwright\\\"),\n            \\\"webkit_revision_for_host_package\\\": \\\"2336\\\",\n            \\\"host_webkit_cache_observed\\\": [\\\"webkit-2336\\\", \\\"webkit-2359\\\"],\n            \\\"used_for_decisive_verification\\\": False,\n        },\n    },\n    \\\"browser_rows\\\": rows,\n    \\\"contract_assertions\\\": [\\\"36 marker objects\\\", \\\"one map canvas\\\", \\\"no horizontal overflow\\\", \\\"no broken marker images\\\", \\\"exactly three detail photos\\\", \\\"no page errors\\\", \\\"durable screenshots/evidence\\\"],\n    \\\"full_qualification\\\": {\\\"status\\\": \\\"NOT_RUN_ENVIRONMENT_GATE\\\", \\\"components\\\": {name: \\\"NOT_RUN\\\" for name in components}},\n    \\\"fast_validation\\\": \\\"NOT_RUN\\\",\n    \\\"authored_input_integrity\\\": \\\"UNCHANGED_BY_VERIFY; no tracked source or QA harness was modified and no build/qualification command ran\\\",\n    \\\"reproducibility\\\": \\\"NOT_ASSESSED\\\",\n    \\\"final_state\\\": {\n        \\\"branch\\\": branch,\n        \\\"head\\\": head,\n        \\\"clean_worktree\\\": not status,\n        \\\"remote_head\\\": remote_head,\n        \\\"remote_matches_head\\\": remote_head == head == candidate,\n        \\\"evidence_only_commit_created\\\": False,\n    },\n}\nprint(json.dumps(summary, ensure_ascii=False, separators=(\\\",\\\", \\\":\\\")))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 95,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 95.17,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 2779648,
+      "fresh_input_tokens": 141058,
+      "input_tokens": 2920706,
+      "non_reasoning_output_tokens": 10466,
+      "output_tokens": 24521,
+      "reasoning_output_tokens": 14055,
+      "total_processed_tokens": 2945227
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "54bb51d2c850c73021da0a69c8c505627f3edf56",
+      "subject": "qa: isolate cross-browser qualification cases"
+    },
+    {
+      "sha": "cc2e261a3c0ce0ae0b96cec190984569df6ae47c",
+      "subject": "fabric: capture completed model changes [CF-b593ec021d9eb46ec23e6907]"
+    },
+    {
+      "sha": "3e9dbf78a324e32dc6acbcec8fdbbd38e1f251ee",
+      "subject": "qa: bound cross-browser launch cleanup"
+    },
+    {
+      "sha": "2e30beadff93f8d929edb185f9a426c7448c1c41",
+      "subject": "qa: preserve cross-browser evidence across cleanup"
+    },
+    {
+      "sha": "77b3e79204d7b2c5caae627c9f77d07e0003ff99",
+      "subject": "fabric: capture completed model changes [CF-3ef17e593e1600d50620b3b4]"
+    }
+  ],
+  "diff": {
+    "additions": 8126,
+    "changed_files": 43,
+    "commit_count": 5,
+    "deletions": 564
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 15,
+    "items": [
+      {
+        "bytes": 1814,
+        "path": "QA/map_first/cross_browser.json",
+        "sha256": "c22719b84f0a7fc030e91f440b3aa5768d5b3d0fc55304f8a89fd06ba9602b3a"
+      },
+      {
+        "bytes": 112516,
+        "path": "QA/map_first/exhaustive_states.json",
+        "sha256": "076e11ba2a54a1160755e0884cb048abc48a70e664bed75b44cc7c92e7114d73"
+      },
+      {
+        "bytes": 88871,
+        "path": "QA/map_first/filter_matrix.json",
+        "sha256": "9b05f33060d5ca9552c78c8afa4d21e496118927b433f5493d9de4e4de645beb"
+      },
+      {
+        "bytes": 13097,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "d436fba95af3e7d06c3d20b091f99efff3a284a8ccdaf92ff99f79277d07acc5"
+      },
+      {
+        "bytes": 7935,
+        "path": "QA/map_first/location_gap_visuals.json",
+        "sha256": "e913285a468d63c80718562bf2f9f414f34531fa5bd24eb3ffb8dcfb8256dc6e"
+      },
+      {
+        "bytes": 30186,
+        "path": "QA/map_first/p0_independent.json",
+        "sha256": "13c6396eaf222d277c63e88799b640e78e9dca01e6c65d11fb4b2f9656f97e12"
+      },
+      {
+        "bytes": 12225,
+        "path": "QA/map_first/route_continuity.json",
+        "sha256": "6d032edef6da4adcf3ac3d7ac5557d70cf5a7e4a6105a7d7f4078d12859444ea"
+      },
+      {
+        "bytes": 1125,
+        "path": "QA/map_first/smoke.json",
+        "sha256": "97cfb15ce57ec0712c5c5b8fc01d9314de237a124bc0e2df93b44f9d0366afb9"
+      },
+      {
+        "bytes": 2052,
+        "path": "QA/map_first/visual_spots.json",
+        "sha256": "7ee0b11c30562b3b819e43cb823af0555c3a17ee34b31046826f0fa05c352c24"
+      },
+      {
+        "bytes": 424,
+        "path": "QA/photo_integrity.json",
+        "sha256": "cfaf317b278606352c06b41084c5d8a51474c8b6b7abced4ab2b24a01d5d01f9"
+      },
+      {
+        "bytes": 7219,
+        "path": "QA/route_panel/route_explanations_panel.json",
+        "sha256": "cab1c74b5aab4e3426617480915d5f87cc345de48ab63e5a601707cc55611086"
+      },
+      {
+        "bytes": 7181,
+        "path": "README.md",
+        "sha256": "cb0a0c677494a1e3b58f8d8344d9bf9d1ffb02f135edf917d5a179a9c268742a"
+      },
+      {
+        "bytes": 4370,
+        "path": "TRIP_VISUALIZER_SCHEMA.md",
+        "sha256": "339d3b18d199bf08763fdf9ce186bf15350400f7b4f004345008a46f3ebb156b"
+      },
+      {
+        "bytes": 266292,
+        "path": "manifests/asset_manifest.json",
+        "sha256": "1198dab5137fe2a89f83441de6203b0f0af2a3cad25a79450bed6ce00fe63236"
+      },
+      {
+        "bytes": 3678,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "6bba22140e64bff9fb0ea251998a25e12f3d6dd0aa89f6db0f5483114d29e96f"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-16T13:28:22Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "a4d6e208805dcfb326b0cbf116146b0b27f2dd63",
+    "branch": "codex/sf-trip-visualizer-canonical-pipeline-webkit-verify-r4",
+    "head_sha": "54bb51d2c850c73021da0a69c8c505627f3edf56",
+    "remote_exact_head": true,
+    "remote_head_sha": "54bb51d2c850c73021da0a69c8c505627f3edf56",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "a4d6e208805dcfb326b0cbf116146b0b27f2dd63",
+    "work_branch": "codex/sf-trip-visualizer-canonical-pipeline-webkit-verify-r4",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-089c3b6892b418d92c14b61b",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/canonical-pipeline-webkit-verify-r4",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/canonical-pipeline-webkit-verify-r4"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "6316fd785c456db605cb8cd3f359ac0b65cfd957f2546ebe5d596f3115bd2a61"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "canonical-pipeline-webkit-verify-r4",
+  "schema_version": 1,
+  "started_at": "2026-09-16T13:16:31Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 711,
+    "queue_seconds": 1,
+    "total_seconds": 712
+  },
+  "transport": {
+    "bytes": 5337,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 4981,
+    "prompt_sha256": "6b28c68fb1fd9a0ccb31d6b7468a980ba05c79930178ce933654e15686a911cb",
+    "sha256": "089c3b6892b418d92c14b61b0c406227c61a37073f92ab6f3ad0493417ea480f"
+  }
+}
