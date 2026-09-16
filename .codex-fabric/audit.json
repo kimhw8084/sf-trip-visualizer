@@ -1,0 +1,518 @@
+{
+  "accepted_at": "2026-09-16T14:14:28Z",
+  "changed_files": [
+    {
+      "additions": 66,
+      "deletions": 0,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "A"
+    },
+    {
+      "additions": 19,
+      "deletions": 4,
+      "path": ".github/workflows/deploy-pages.yml",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 0,
+      "path": ".gitignore",
+      "status": "M"
+    },
+    {
+      "additions": 70,
+      "deletions": 0,
+      "path": "QA/map_first/cross_browser.json",
+      "status": "A"
+    },
+    {
+      "additions": 6010,
+      "deletions": 0,
+      "path": "QA/map_first/exhaustive_states.json",
+      "status": "A"
+    },
+    {
+      "additions": 24,
+      "deletions": 24,
+      "path": "QA/map_first/filter_matrix.json",
+      "status": "M"
+    },
+    {
+      "additions": 29,
+      "deletions": 6,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "QA/map_first/location_gap_visuals.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "QA/map_first/p0_independent.json",
+      "status": "M"
+    },
+    {
+      "additions": 10,
+      "deletions": 6,
+      "path": "QA/map_first/route_continuity.json",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 9,
+      "path": "QA/map_first/smoke.json",
+      "status": "M"
+    },
+    {
+      "additions": 99,
+      "deletions": 0,
+      "path": "QA/map_first/visual_spots.json",
+      "status": "A"
+    },
+    {
+      "additions": 4,
+      "deletions": 1,
+      "path": "QA/photo_integrity.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "QA/route_panel/route_explanations_panel.json",
+      "status": "M"
+    },
+    {
+      "additions": 52,
+      "deletions": 28,
+      "path": "README.md",
+      "status": "M"
+    },
+    {
+      "additions": 36,
+      "deletions": 30,
+      "path": "TRIP_VISUALIZER_SCHEMA.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "manifests/asset_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 110,
+      "deletions": 0,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "A"
+    },
+    {
+      "additions": 3,
+      "deletions": 0,
+      "path": "scripts/apply_location_gap_audit.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/build_final.py",
+      "status": "M"
+    },
+    {
+      "additions": 270,
+      "deletions": 170,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 28,
+      "deletions": 15,
+      "path": "scripts/check_photo_integrity.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/expand_photo_manifest.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/package_final.py",
+      "status": "M"
+    },
+    {
+      "additions": 110,
+      "deletions": 125,
+      "path": "scripts/package_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 436,
+      "deletions": 0,
+      "path": "scripts/pipeline.py",
+      "status": "A"
+    },
+    {
+      "additions": 86,
+      "deletions": 46,
+      "path": "scripts/prepare_public_site.py",
+      "status": "M"
+    },
+    {
+      "additions": 42,
+      "deletions": 0,
+      "path": "scripts/qa_cleanup.py",
+      "status": "A"
+    },
+    {
+      "additions": 14,
+      "deletions": 0,
+      "path": "scripts/qa_config.py",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_interaction_dynamics.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_location_gap_visuals.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 40,
+      "deletions": 40,
+      "path": "scripts/qa_map_first_full.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 2,
+      "path": "scripts/qa_map_first_p0.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 3,
+      "path": "scripts/qa_route_explanations_panel.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_standalone_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/run_acceptance.py",
+      "status": "M"
+    },
+    {
+      "additions": 386,
+      "deletions": 35,
+      "path": "scripts/run_cross_browser.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 2,
+      "path": "scripts/run_exhaustive_states.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/run_live_providers.py",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 5,
+      "path": "scripts/run_visual_spots.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "scripts/serve_map.py",
+      "status": "M"
+    },
+    {
+      "additions": 105,
+      "deletions": 0,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "A"
+    },
+    {
+      "additions": 110,
+      "deletions": 0,
+      "path": "tests/test_cross_browser_runner.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"cat /Users/haewonkim/.codex/RTK.md && printf '\\\\n--- law.md ---\\\\n' && cat /Users/haewonkim/.codex/law.md && printf '\\\\n--- repo files ---\\\\n' && pwd && rg --files -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!vendor'\"' | head -50\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'branch=$(rtk git branch --show-current)\nstatus=$(rtk git status --porcelain=v1)\nprintf '\"'branch=%s\\\\n' \\\"\"'$branch\"\nprintf '\"'status=%s\\\\n' \\\"\"'$status\"\nif rtk git merge-base --is-ancestor a4d6e208805dcfb326b0cbf116146b0b27f2dd63 94418cb9560cad7d612a9dc7c4cfb26fc87080ba; then printf '\"'ancestor_base=YES\\\\n'; else printf 'ancestor_base=NO\\\\n'; fi\nif rtk git merge-base --is-ancestor 54bb51d2c850c73021da0a69c8c505627f3edf56 94418cb9560cad7d612a9dc7c4cfb26fc87080ba; then printf 'ancestor_r4=YES\\\\n'; else printf 'ancestor_r4=NO\\\\n'; fi\nprintf 'head=%s\\\\n' \\\"\"'$(rtk git rev-parse HEAD)\"'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'branch_name=$(rtk git branch --show-current)\nworktree_status=$(rtk git status --porcelain=v1)\nprintf '\"'branch=%s\\\\n' \\\"\"'$branch_name\"\nprintf '\"'status=%s\\\\n' \\\"\"'$worktree_status\"\nif rtk git merge-base --is-ancestor a4d6e208805dcfb326b0cbf116146b0b27f2dd63 94418cb9560cad7d612a9dc7c4cfb26fc87080ba; then printf '\"'ancestor_base=YES\\\\n'; else printf 'ancestor_base=NO\\\\n'; fi\nif rtk git merge-base --is-ancestor 54bb51d2c850c73021da0a69c8c505627f3edf56 94418cb9560cad7d612a9dc7c4cfb26fc87080ba; then printf 'ancestor_r4=YES\\\\n'; else printf 'ancestor_r4=NO\\\\n'; fi\nprintf 'head=%s\\\\n' \\\"\"'$(rtk git rev-parse HEAD)\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge --ff-only 94418cb9560cad7d612a9dc7c4cfb26fc87080ba'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check a4d6e208805dcfb326b0cbf116146b0b27f2dd63..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'head_now=$(rtk git rev-parse HEAD)\nprintf '\"'HEAD=%s\\\\n' \\\"\"'$head_now\"\nif test \"$head_now\" = 94418cb9560cad7d612a9dc7c4cfb26fc87080ba; then printf '\"'HEAD_MATCH=YES\\\\n'; else printf 'HEAD_MATCH=NO\\\\n'; fi\nporcelain=\"'$(rtk proxy git status --porcelain=v1)\nprintf '\"'PORCELAIN_BYTES='\nprintf '%s' \\\"\"'$porcelain\" | wc -c\nif test -z \"$porcelain\"; then printf '\"'STATUS_EMPTY=YES\\\\n'; else printf 'STATUS_EMPTY=NO\\\\n%s\\\\n' \\\"\"'$porcelain\"; fi'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ruby -e 'require \\\"yaml\\\"; YAML.load_file(\\\".github/workflows/candidate-qualification.yml\\\"); puts \\\"candidate workflow YAML: valid\\\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py' -v\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'final_branch=$(rtk proxy git branch --show-current)\nfinal_head=$(rtk proxy git rev-parse HEAD)\nfinal_status=$(rtk proxy git status --porcelain=v1)\nprintf '\"'branch=%s\\\\nhead=%s\\\\nstatus_bytes=%s\\\\n' \\\"\"'$final_branch\" \"$final_head\" \"$(printf '\"'%s' \\\"\"'$final_status\" | wc -c)\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 26,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 86.91,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 122112,
+      "fresh_input_tokens": 18399,
+      "input_tokens": 140511,
+      "non_reasoning_output_tokens": 1978,
+      "output_tokens": 3918,
+      "reasoning_output_tokens": 1940,
+      "total_processed_tokens": 144429
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "94418cb9560cad7d612a9dc7c4cfb26fc87080ba",
+      "subject": "ci: qualify Fabric candidates on GitHub runners"
+    },
+    {
+      "sha": "54bb51d2c850c73021da0a69c8c505627f3edf56",
+      "subject": "qa: isolate cross-browser qualification cases"
+    },
+    {
+      "sha": "cc2e261a3c0ce0ae0b96cec190984569df6ae47c",
+      "subject": "fabric: capture completed model changes [CF-b593ec021d9eb46ec23e6907]"
+    },
+    {
+      "sha": "3e9dbf78a324e32dc6acbcec8fdbbd38e1f251ee",
+      "subject": "qa: bound cross-browser launch cleanup"
+    },
+    {
+      "sha": "2e30beadff93f8d929edb185f9a426c7448c1c41",
+      "subject": "qa: preserve cross-browser evidence across cleanup"
+    },
+    {
+      "sha": "77b3e79204d7b2c5caae627c9f77d07e0003ff99",
+      "subject": "fabric: capture completed model changes [CF-3ef17e593e1600d50620b3b4]"
+    }
+  ],
+  "diff": {
+    "additions": 8218,
+    "changed_files": 44,
+    "commit_count": 6,
+    "deletions": 564
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 15,
+    "items": [
+      {
+        "bytes": 1814,
+        "path": "QA/map_first/cross_browser.json",
+        "sha256": "c22719b84f0a7fc030e91f440b3aa5768d5b3d0fc55304f8a89fd06ba9602b3a"
+      },
+      {
+        "bytes": 112516,
+        "path": "QA/map_first/exhaustive_states.json",
+        "sha256": "076e11ba2a54a1160755e0884cb048abc48a70e664bed75b44cc7c92e7114d73"
+      },
+      {
+        "bytes": 88871,
+        "path": "QA/map_first/filter_matrix.json",
+        "sha256": "9b05f33060d5ca9552c78c8afa4d21e496118927b433f5493d9de4e4de645beb"
+      },
+      {
+        "bytes": 13097,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "d436fba95af3e7d06c3d20b091f99efff3a284a8ccdaf92ff99f79277d07acc5"
+      },
+      {
+        "bytes": 7935,
+        "path": "QA/map_first/location_gap_visuals.json",
+        "sha256": "e913285a468d63c80718562bf2f9f414f34531fa5bd24eb3ffb8dcfb8256dc6e"
+      },
+      {
+        "bytes": 30186,
+        "path": "QA/map_first/p0_independent.json",
+        "sha256": "13c6396eaf222d277c63e88799b640e78e9dca01e6c65d11fb4b2f9656f97e12"
+      },
+      {
+        "bytes": 12225,
+        "path": "QA/map_first/route_continuity.json",
+        "sha256": "6d032edef6da4adcf3ac3d7ac5557d70cf5a7e4a6105a7d7f4078d12859444ea"
+      },
+      {
+        "bytes": 1125,
+        "path": "QA/map_first/smoke.json",
+        "sha256": "97cfb15ce57ec0712c5c5b8fc01d9314de237a124bc0e2df93b44f9d0366afb9"
+      },
+      {
+        "bytes": 2052,
+        "path": "QA/map_first/visual_spots.json",
+        "sha256": "7ee0b11c30562b3b819e43cb823af0555c3a17ee34b31046826f0fa05c352c24"
+      },
+      {
+        "bytes": 424,
+        "path": "QA/photo_integrity.json",
+        "sha256": "cfaf317b278606352c06b41084c5d8a51474c8b6b7abced4ab2b24a01d5d01f9"
+      },
+      {
+        "bytes": 7219,
+        "path": "QA/route_panel/route_explanations_panel.json",
+        "sha256": "cab1c74b5aab4e3426617480915d5f87cc345de48ab63e5a601707cc55611086"
+      },
+      {
+        "bytes": 7877,
+        "path": "README.md",
+        "sha256": "2357d2915c14b382ed6ebccf83b818bce52c824c500258ae6097d376fdf9a4ea"
+      },
+      {
+        "bytes": 4370,
+        "path": "TRIP_VISUALIZER_SCHEMA.md",
+        "sha256": "339d3b18d199bf08763fdf9ce186bf15350400f7b4f004345008a46f3ebb156b"
+      },
+      {
+        "bytes": 266292,
+        "path": "manifests/asset_manifest.json",
+        "sha256": "1198dab5137fe2a89f83441de6203b0f0af2a3cad25a79450bed6ce00fe63236"
+      },
+      {
+        "bytes": 3678,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "6bba22140e64bff9fb0ea251998a25e12f3d6dd0aa89f6db0f5483114d29e96f"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-16T14:16:00Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "a4d6e208805dcfb326b0cbf116146b0b27f2dd63",
+    "branch": "codex/sf-trip-visualizer-chg-61-canonical-pipeline-ci-webkit-r5-recovery01",
+    "head_sha": "94418cb9560cad7d612a9dc7c4cfb26fc87080ba",
+    "remote_exact_head": true,
+    "remote_head_sha": "94418cb9560cad7d612a9dc7c4cfb26fc87080ba",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "a4d6e208805dcfb326b0cbf116146b0b27f2dd63",
+    "work_branch": "codex/sf-trip-visualizer-chg-61-canonical-pipeline-ci-webkit-r5-recovery01",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-b57b71cbc32a5e51a0f4f155",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/chg-61-canonical-pipeline-ci-webkit-r5-recovery01",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/chg-61-canonical-pipeline-ci-webkit-r5-recovery01"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "chg-61-canonical-pipeline-ci-webkit-r5-recovery01",
+  "schema_version": 1,
+  "started_at": "2026-09-16T14:14:28Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 92,
+    "queue_seconds": 0,
+    "total_seconds": 92
+  },
+  "transport": {
+    "bytes": 2614,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 2231,
+    "prompt_sha256": "6c04ffbaa2acbc15db2dc65ddd6bfbecdf8f0cd45efdeb5746b22ae177dbea47",
+    "sha256": "b57b71cbc32a5e51a0f4f1557f765067683dcb9490e486c1c2cc9b311c0d6722"
+  }
+}
