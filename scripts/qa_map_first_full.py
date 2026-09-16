@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+from qa_cleanup import bounded_cleanup
 from qa_config import MODULAR_URL
 
 
@@ -15,7 +16,7 @@ URL = MODULAR_URL
 ROUTES = ("A1", "A2", "B1", "B2")
 DATES = ("all", "10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11")
 REGIONS = ("overall", "sf", "monterey", "yosemite")
-report = {"checks": {}, "screenshots": [], "errors": [], "console_errors": [], "failed_requests": []}
+report = {"checks": {}, "screenshots": [], "errors": [], "console_errors": [], "failed_requests": [], "cleanup_warnings": []}
 
 
 def capture(page, name):
@@ -129,7 +130,9 @@ with sync_playwright() as playwright:
     capture(page, "satellite_pan_failure_fallback")
     page.unroute("https://server.arcgisonline.com/**")
     report["checks"]["expected_injected_failure_console"] = report["console_errors"][len(report["checks"]["console_errors_before_injected_failure"]):]
-    browser.close()
+    warning = bounded_cleanup(browser.close, "map-first full Chromium browser")
+    if warning:
+        report["cleanup_warnings"].append(warning)
 
     # Touch-sized browser and independent WebKit/Firefox smoke.
     for engine, width in ((playwright.chromium, 390), (playwright.webkit, 1280), (playwright.firefox, 1280)):
@@ -165,7 +168,9 @@ with sync_playwright() as playwright:
             report["checks"][name] = read(touch_page, """()=>({provider:window.__tripApp.state.provider,features:window.__tripApp.visibleRouteFeatures().length,clusters:document.querySelectorAll('.photo-cluster').length,canvas:document.querySelectorAll('.maplibregl-canvas').length})""")
             capture(touch_page, name)
         report["errors"].extend(local_errors)
-        touch_browser.close()
+        warning = bounded_cleanup(touch_browser.close, f"map-first full {name} browser")
+        if warning:
+            report["cleanup_warnings"].append(warning)
 
 checks = report["checks"]
 report["status"] = "PASS" if (
