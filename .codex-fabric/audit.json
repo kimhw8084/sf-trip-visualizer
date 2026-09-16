@@ -1,0 +1,293 @@
+{
+  "accepted_at": "2026-09-16T13:52:03Z",
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && cat /Users/haewonkim/.codex/RTK.md && printf '\\\\n---LAW---\\\\n' && cat /Users/haewonkim/.codex/law.md && printf '\\\\n---GIT---\\\\n' && git status --short --branch && git log --oneline --decorate -8 --all --date-order\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch -avv'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git log --graph --decorate --oneline --all -20'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show --stat --oneline --decorate HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show --stat --oneline 54bb51d2c850c73021da0a69c8c505627f3edf56'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git switch -c codex/sf-trip-visualizer-canonical-pipeline-fix-r5 54bb51d2c850c73021da0a69c8c505627f3edf56'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk find .github tests -maxdepth 3 -type f -print | sort'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,280p' .github/workflows/deploy-pages.yml\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"pipeline|qualification|cross_browser|deploy-pages|workflow|WebKit|webkit|Pages|main\" README.md tests .github scripts requirements-qa.txt pyproject.toml setup.cfg 2>/dev/null'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,120p' tests/test_canonical_pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,130p' README.md\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '240,455p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,430p' scripts/run_cross_browser.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git merge-base --is-ancestor 54bb51d HEAD; echo ancestry=$?'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- .github/workflows/candidate-qualification.yml README.md tests/test_canonical_pipeline.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,240p' .github/workflows/candidate-qualification.yml\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nfrom pathlib import Path\ntry:\n    import yaml\nexcept ImportError as exc:\n    print(f'PyYAML unavailable: {exc}')\nelse:\n    path = Path('.github/workflows/candidate-qualification.yml')\n    data = yaml.safe_load(path.read_text())\n    print('workflow YAML loaded:', sorted(data))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_canonical_pipeline -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk command -v gh || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk command -v actionlint || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check && rtk git status --short --branch && rtk git log --oneline --decorate -4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py' -v\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nfrom pathlib import Path\ntry:\n    import yaml\nexcept ImportError as exc:\n    print(f'PyYAML unavailable: {exc}')\nelse:\n    data = yaml.safe_load(Path('.github/workflows/candidate-qualification.yml').read_text())\n    print('workflow YAML loaded:', type(data).__name__, 'jobs' in data, 'permissions' in data)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- README.md tests/test_canonical_pipeline.py && rtk git diff --no-index /dev/null .github/workflows/candidate-qualification.yml || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ruby -e 'require \\\"yaml\\\"; p YAML.load_file(\\\".github/workflows/candidate-qualification.yml\\\").keys'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk command -v yamllint || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk command -v yq || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --check && rtk python3 -m unittest discover -s tests -p 'test_*.py'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-files 'QA/release/*' 'QA/map_first/*' 'QA/map_first/screenshots/*' | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show --no-patch --format=fuller 54bb51d2c850c73021da0a69c8c505627f3edf56 && rtk git merge-base --is-ancestor 54bb51d2c850c73021da0a69c8c505627f3edf56 HEAD; echo candidate_ancestor=$?'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --stat && rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add .github/workflows/candidate-qualification.yml README.md tests/test_canonical_pipeline.py && rtk git commit -m \"ci: qualify Fabric candidates on GitHub runners\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git log --graph --decorate --oneline -5'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge-base --is-ancestor 54bb51d2c850c73021da0a69c8c505627f3edf56 HEAD; echo candidate_ancestor=$?; rtk git diff --stat 54bb51d2c850c73021da0a69c8c505627f3edf56 HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check HEAD''^ HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show --stat --oneline --decorate HEAD && rtk git show --format= --name-status HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --porcelain=v1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 97,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 87.86,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 617472,
+      "fresh_input_tokens": 85309,
+      "input_tokens": 702781,
+      "non_reasoning_output_tokens": 6360,
+      "output_tokens": 14837,
+      "reasoning_output_tokens": 8477,
+      "total_processed_tokens": 717618
+    },
+    "warnings": []
+  },
+  "commits": [],
+  "diff": null,
+  "error_code": "WRONG_WORK_BRANCH",
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": null,
+  "fabric_release": "1.2.2",
+  "failure_class": "CONTROL_PLANE",
+  "finished_at": "2026-09-16T13:57:05Z",
+  "git": {},
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-124d69f03f6f78e56ef1fda0",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/canonical-pipeline-ci-webkit-r5",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/canonical-pipeline-ci-webkit-r5"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "6316fd785c456db605cb8cd3f359ac0b65cfd957f2546ebe5d596f3115bd2a61"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": true,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "canonical-pipeline-ci-webkit-r5",
+  "schema_version": 1,
+  "started_at": "2026-09-16T13:52:03Z",
+  "status": "FAILED_INFRA",
+  "timing": {
+    "execution_seconds": 302,
+    "queue_seconds": 0,
+    "total_seconds": 302
+  },
+  "transport": {
+    "bytes": 6436,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6091,
+    "prompt_sha256": "2131207108c3f6c29bfe88763c0fa0b49be3c2867afd0f550cc187dedfb321a9",
+    "sha256": "124d69f03f6f78e56ef1fda09c135694e875484e79d1df45e44f15b254a417f4"
+  }
+}
