@@ -1,0 +1,713 @@
+{
+  "accepted_at": "2026-09-16T03:27:47Z",
+  "changed_files": [
+    {
+      "additions": 19,
+      "deletions": 4,
+      "path": ".github/workflows/deploy-pages.yml",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 0,
+      "path": ".gitignore",
+      "status": "M"
+    },
+    {
+      "additions": 70,
+      "deletions": 0,
+      "path": "QA/map_first/cross_browser.json",
+      "status": "A"
+    },
+    {
+      "additions": 6010,
+      "deletions": 0,
+      "path": "QA/map_first/exhaustive_states.json",
+      "status": "A"
+    },
+    {
+      "additions": 24,
+      "deletions": 24,
+      "path": "QA/map_first/filter_matrix.json",
+      "status": "M"
+    },
+    {
+      "additions": 29,
+      "deletions": 6,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "QA/map_first/location_gap_visuals.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "QA/map_first/p0_independent.json",
+      "status": "M"
+    },
+    {
+      "additions": 10,
+      "deletions": 6,
+      "path": "QA/map_first/route_continuity.json",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 9,
+      "path": "QA/map_first/smoke.json",
+      "status": "M"
+    },
+    {
+      "additions": 99,
+      "deletions": 0,
+      "path": "QA/map_first/visual_spots.json",
+      "status": "A"
+    },
+    {
+      "additions": 4,
+      "deletions": 1,
+      "path": "QA/photo_integrity.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "QA/route_panel/route_explanations_panel.json",
+      "status": "M"
+    },
+    {
+      "additions": 50,
+      "deletions": 28,
+      "path": "README.md",
+      "status": "M"
+    },
+    {
+      "additions": 36,
+      "deletions": 30,
+      "path": "TRIP_VISUALIZER_SCHEMA.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "manifests/asset_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 110,
+      "deletions": 0,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "A"
+    },
+    {
+      "additions": 3,
+      "deletions": 0,
+      "path": "scripts/apply_location_gap_audit.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/build_final.py",
+      "status": "M"
+    },
+    {
+      "additions": 270,
+      "deletions": 170,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 28,
+      "deletions": 15,
+      "path": "scripts/check_photo_integrity.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/expand_photo_manifest.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/package_final.py",
+      "status": "M"
+    },
+    {
+      "additions": 110,
+      "deletions": 125,
+      "path": "scripts/package_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 436,
+      "deletions": 0,
+      "path": "scripts/pipeline.py",
+      "status": "A"
+    },
+    {
+      "additions": 86,
+      "deletions": 46,
+      "path": "scripts/prepare_public_site.py",
+      "status": "M"
+    },
+    {
+      "additions": 42,
+      "deletions": 0,
+      "path": "scripts/qa_cleanup.py",
+      "status": "A"
+    },
+    {
+      "additions": 14,
+      "deletions": 0,
+      "path": "scripts/qa_config.py",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_interaction_dynamics.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_location_gap_visuals.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 40,
+      "deletions": 40,
+      "path": "scripts/qa_map_first_full.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 2,
+      "path": "scripts/qa_map_first_p0.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 3,
+      "path": "scripts/qa_route_explanations_panel.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_standalone_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/run_acceptance.py",
+      "status": "M"
+    },
+    {
+      "additions": 386,
+      "deletions": 35,
+      "path": "scripts/run_cross_browser.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 2,
+      "path": "scripts/run_exhaustive_states.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/run_live_providers.py",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 5,
+      "path": "scripts/run_visual_spots.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "scripts/serve_map.py",
+      "status": "M"
+    },
+    {
+      "additions": 81,
+      "deletions": 0,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "A"
+    },
+    {
+      "additions": 110,
+      "deletions": 0,
+      "path": "tests/test_cross_browser_runner.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk kill -KILL 11357 11359 11360 2>/dev/null || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk find /Users/haewonkim/Library/Caches/ms-playwright/webkit-2359 -maxdepth 4 -type f -perm -111 | head -n 40 && rtk find /Users/haewonkim/Library/Caches/ms-playwright/webkit-2336 -maxdepth 4 -type f -perm -111 | head -n 40'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy find /Users/haewonkim/Library/Caches/ms-playwright/webkit-2359 -maxdepth 5 -type f -perm -111 | head -n 40 && rtk proxy find /Users/haewonkim/Library/Caches/ms-playwright/webkit-2336 -maxdepth 5 -type f -perm -111 | head -n 40'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -u - <<'PY'\nimport tempfile\nfrom playwright.sync_api import sync_playwright\n\nprint(\\\"before start\\\", flush=True)\nplaywright = sync_playwright().start()\nprint(\\\"started\\\", flush=True)\ncontext = playwright.webkit.launch_persistent_context(tempfile.mkdtemp(prefix=\\\"webkit-persistent-\\\"), headless=True, timeout=45000, viewport={\\\"width\\\": 1280, \\\"height\\\": 800})\nprint(\\\"persistent launched\\\", flush=True)\npage = context.pages[0] if context.pages else context.new_page()\nprint(\\\"page\\\", flush=True)\nPY\"",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -axo pid,ppid,pgid,lstart,command | rtk rg 'webkit-2336' | head -n 120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk kill -KILL 11948 2>/dev/null || true && rtk mkdir -p /tmp/playwright-webkit-2359-test && rtk ln -sfn /Users/haewonkim/Library/Caches/ms-playwright/webkit-2359 /tmp/playwright-webkit-2359-test/webkit-2336'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"PLAYWRIGHT_BROWSERS_PATH=/tmp/playwright-webkit-2359-test rtk python3 -u - <<'PY'\nfrom playwright.sync_api import sync_playwright\nprint(\\\"before start\\\", flush=True)\nplaywright = sync_playwright().start()\nprint(\\\"started\\\", flush=True)\nbrowser = playwright.webkit.launch(headless=True, timeout=45000)\nprint(\\\"launched\\\", flush=True)\ncontext = browser.new_context(viewport={\\\"width\\\": 1280, \\\"height\\\": 800})\nprint(\\\"context\\\", flush=True)\npage = context.new_page()\nprint(\\\"page\\\", flush=True)\nPY\"",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk node -e 'try{console.log(require(\\\"@playwright/test/package.json\\\").version)}catch(e){console.log(e.message)}' && rtk npm root -g && rtk ls -ld /Users/haewonkim/.nvm/versions/node/v22.23.2/lib/node_modules/@playwright/test 2>/dev/null || true && rtk ls -ld /Users/haewonkim/.nvm/versions/node/v20.19.4/lib/node_modules/@playwright/test 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -ld /Users/haewonkim/.nvm/versions/node/v22.23.2/lib/node_modules/@playwright/test /Users/haewonkim/.nvm/versions/node/v20.19.4/lib/node_modules/@playwright/test 2>&1 && rtk rg -n '\\\"version\\\"' /Users/haewonkim/.nvm/versions/node/v22.23.2/lib/node_modules/@playwright/test/package.json /Users/haewonkim/.nvm/versions/node/v20.19.4/lib/node_modules/@playwright/test/package.json 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -axo pid,ppid,pgid,lstart,command | rtk rg 'webkit-2336' | head -n 120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -axo pid,ppid,pgid,lstart,command | rtk rg 'webkit-(2336|2359)' | head -n 180\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk mkdir -p /tmp/pw-tmp-webkit && rtk python3 -u - <<'PY'\nimport os\nimport tempfile\nos.environ[\\\"TMPDIR\\\"] = tempfile.mkdtemp(prefix=\\\"pw-case-tmp-\\\")\nfrom playwright.sync_api import sync_playwright\nprint(\\\"tmp\\\", os.environ[\\\"TMPDIR\\\"], flush=True)\nplaywright = sync_playwright().start()\nprint(\\\"started\\\", flush=True)\nbrowser = playwright.webkit.launch(headless=True, timeout=45000)\nprint(\\\"launched\\\", flush=True)\ncontext = browser.new_context(viewport={\\\"width\\\": 1280, \\\"height\\\": 800})\nprint(\\\"context\\\", flush=True)\npage = context.new_page()\nprint(\\\"page\\\", flush=True)\nPY\"",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk kill -KILL 14373 14374 14379 2>/dev/null || true && rtk mkdir -p /tmp/pw-home-webkit-test /tmp/pw-tmp-webkit-test && rtk HOME=/tmp/pw-home-webkit-test TMPDIR=/tmp/pw-tmp-webkit-test rtk python3 -u - <<'PY'\nfrom playwright.sync_api import sync_playwright\nprint(\\\"before start\\\", flush=True)\nplaywright = sync_playwright().start()\nprint(\\\"started\\\", flush=True)\nbrowser = playwright.webkit.launch(headless=True, timeout=45000)\nprint(\\\"launched\\\", flush=True)\ncontext = browser.new_context(viewport={\\\"width\\\": 1280, \\\"height\\\": 800})\nprint(\\\"context\\\", flush=True)\npage = context.new_page()\nprint(\\\"page\\\", flush=True)\nPY\"",
+      "exit_code": 127,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"HOME=/tmp/pw-home-webkit-test TMPDIR=/tmp/pw-tmp-webkit-test rtk python3 -u - <<'PY'\nfrom playwright.sync_api import sync_playwright\nprint(\\\"before start\\\", flush=True)\nplaywright = sync_playwright().start()\nprint(\\\"started\\\", flush=True)\nbrowser = playwright.webkit.launch(headless=True, timeout=45000)\nprint(\\\"launched\\\", flush=True)\ncontext = browser.new_context(viewport={\\\"width\\\": 1280, \\\"height\\\": 800})\nprint(\\\"context\\\", flush=True)\npage = context.new_page()\nprint(\\\"page\\\", flush=True)\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk kill -TERM -- -30863 2>/dev/null || true && rtk kill -KILL 30879 30882 30884 2>/dev/null || true && rtk sleep 1 && rtk proxy ps -axo pid,ppid,pgid,lstart,command | rtk rg '30863|30865|30869|30874|30879|30882|30884|webkit-2336' | head -n 120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk kill -KILL 30865 30869 30874 2>/dev/null || true && rtk sleep 1 && rtk proxy ps -axo pid,ppid,pgid,command | rtk rg 'webkit-2336|30863|30865|30869|30874|30879|30882|30884' | head -n 120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"HOME=/tmp/pw-home-webkit-test TMPDIR=/tmp/pw-tmp-webkit-test PLAYWRIGHT_BROWSERS_PATH=/Users/haewonkim/Library/Caches/ms-playwright rtk python3 -u - <<'PY'\nfrom playwright.sync_api import sync_playwright\nprint(\\\"before start\\\", flush=True)\nplaywright = sync_playwright().start()\nprint(\\\"started\\\", flush=True)\nbrowser = playwright.webkit.launch(headless=True, timeout=45000)\nprint(\\\"launched\\\", flush=True)\ncontext = browser.new_context(viewport={\\\"width\\\": 1280, \\\"height\\\": 800})\nprint(\\\"context\\\", flush=True)\npage = context.new_page()\nprint(\\\"page\\\", flush=True)\nPY\"",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk kill -KILL 16675 16681 16692 2>/dev/null || true && rtk proxy ps -axo pid,ppid,pgid,command | rtk rg 'webkit-2336|webkit-2359|run_cross_browser.py --worker' | head -n 120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show cc2e261''^:scripts/run_cross_browser.py | rtk sed -n '\"'1,260p' && printf '%s\\\\n' '--- R1 cross evidence ---' && rtk git show 77b3e792:QA/map_first/cross_browser.json 2>/dev/null | rtk sed -n '1,180p' || true && printf '%s\\\\n' '--- existing final WebKit rows ---' && rtk sed -n '1,90p' QA/final_cross_browser.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -u - <<'PY'\nfrom playwright.sync_api import sync_playwright\nprint(\\\"before start\\\", flush=True)\nplaywright = sync_playwright().start()\nprint(\\\"started\\\", flush=True)\nbrowser = playwright.webkit.launch(headless=True, timeout=45000)\nprint(\\\"launched\\\", flush=True)\ncontext = browser.new_context(viewport={\\\"width\\\": 1280, \\\"height\\\": 800})\nprint(\\\"context\\\", flush=True)\npage = context.new_page()\nprint(\\\"page\\\", flush=True)\nPY\"",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -axo pid,ppid,pgid,lstart,command | rtk rg 'webkit-2336|webkit-2359' | head -n 160\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk kill -KILL 17995 2>/dev/null || true && rtk proxy ps -axo pid,ppid,pgid,command | rtk rg 'webkit-2336|webkit-2359' | head -n 120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /opt/homebrew/bin/python3 -c 'import sys; print(sys.executable); import importlib.metadata; print(importlib.metadata.version(\\\"playwright\\\"))' 2>&1 || true && rtk /usr/bin/python3 -c 'import sys; print(sys.executable)' 2>&1 || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -u - <<'PY'\nfrom playwright.sync_api import sync_playwright\nprint(\\\"before start\\\", flush=True)\nplaywright = sync_playwright().start()\nprint(\\\"started\\\", flush=True)\nbrowser = playwright.webkit.launch(headless=True, timeout=45000)\nprint(\\\"launched\\\", flush=True)\ncontext = browser.new_context(viewport={\\\"width\\\": 1280, \\\"height\\\": 800})\nprint(\\\"context\\\", flush=True)\npage = context.new_page()\nprint(\\\"page\\\", flush=True)\nPY\"",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -axo pid,ppid,pgid,command | rtk rg 'webkit-2336' | head -n 40\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -axo pid,ppid,pgid,stat,command | rtk rg '19430|webkit-2336' | head -n 80 && rtk proxy sample 19430 3 1 2>/dev/null | head -n 160\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' requirements-qa.txt && rtk python3 - <<'PY'\ntry:\n import psutil\n print('psutil', psutil.__version__)\nexcept Exception as e:\n print('no psutil', e)\nPY\nprintf '%s\\\\n' '--- active debug process ---' && rtk proxy ps -axo pid,ppid,pgid,command | rtk rg 'run_cross_browser.py --worker|webkit-2336|pw:browser' | head -n 100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk kill -KILL 18839 2>/dev/null || true && DEBUG=pw:browser* rtk python3 -u - <<'PY'\nfrom playwright.sync_api import sync_playwright\nprint(\\\"before start\\\", flush=True)\nplaywright = sync_playwright().start()\nprint(\\\"started\\\", flush=True)\nbrowser = playwright.webkit.launch(headless=True, timeout=45000)\nprint(\\\"launched\\\", flush=True)\ncontext = browser.new_context(viewport={\\\"width\\\": 1280, \\\"height\\\": 800})\nprint(\\\"context\\\", flush=True)\npage = context.new_page()\nprint(\\\"page\\\", flush=True)\nPY\"",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -axo pid,ppid,pgid,command | rtk rg 'webkit-2336|webkit-2359' | head -n 120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk kill -KILL 19441 2>/dev/null || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git diff -- scripts/pipeline.py && rtk git diff --numstat && rtk git log --oneline --decorate --max-count=6'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m playwright install --help | head -n 120 && rtk du -sh /Users/haewonkim/Library/Caches/ms-playwright/webkit-2336 /Users/haewonkim/Library/Caches/ms-playwright/webkit-2359'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m playwright install --force --no-progress webkit'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -u - <<'PY'\nfrom playwright.sync_api import sync_playwright\nprint(\\\"before start\\\", flush=True)\nplaywright = sync_playwright().start()\nprint(\\\"started\\\", flush=True)\nbrowser = playwright.webkit.launch(headless=True, timeout=45000)\nprint(\\\"launched\\\", flush=True)\ncontext = browser.new_context(viewport={\\\"width\\\": 1280, \\\"height\\\": 800})\nprint(\\\"context\\\", flush=True)\npage = context.new_page()\nprint(\\\"page\\\", flush=True)\nPY\"",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -axo pid,ppid,pgid,lstart,command | rtk rg 'webkit-2336' | head -n 80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk kill -KILL 22251 2>/dev/null || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest discover -s tests -v && rtk git diff --check && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add scripts/pipeline.py && rtk git commit --amend --no-edit && rtk git status --short --branch && rtk git rev-parse HEAD && rtk git log --oneline --decorate --graph --max-count=8'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py fast --revision 97910bcc37081ab0a793ad56eafe24f5c99bc566 && rtk python3 -m unittest discover -s tests -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision 97910bcc37081ab0a793ad56eafe24f5c99bc566'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/serve_map.py --port 8767 --directory .build/modular'",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy ps -axo pid,ppid,pgid,lstart,command | rtk rg 'webkit-2336|run_cross_browser.py --worker|serve_map.py --port 57672' | head -n 160 && printf '%s\\\\n' '--- current evidence summary ---' && rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('QA/map_first/cross_browser.json').read_text())\nprint(json.dumps({'status':p['status'],'rows':[(r['browser'],r['width'],r['status'],r.get('completed'),r.get('error')) for r in p['rows']],'errors':p['errors']}, indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show --stat --oneline HEAD && printf '%s\\\\n' '--- HEAD changed names vs R2 candidate ---' && rtk git diff-tree --no-commit-id --name-status -r HEAD && printf '%s\\\\n' '--- qualification metadata ---' && rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('QA/release/qualification.json').read_text())\nprint('status:',p['status'])\nprint('candidate_head:',p['candidate_head'])\nprint('authored_inputs_unchanged:',p.get('authored_inputs_unchanged'))\nprint('tests:', [(t['name'],t['status'],t['returncode']) for t in p['tests']])\nprint('fast:', p.get('fast',{}).get('status'), p.get('fast',{}).get('candidate_head'), p.get('fast',{}).get('reproducible'))\nPY\nprintf '%s\\\\n' '--- authored input status hashes ---' && rtk git status --short --untracked-files=all && printf '%s\\\\n' '--- process leftovers ---' && rtk proxy ps -axo pid,ppid,pgid,command | rtk rg 'run_cross_browser.py --worker|webkit-2336|firefox-1455' | head -n 120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- QA/map_first/cross_browser.json | head -n 260 && rtk git add QA/map_first/cross_browser.json && rtk git commit --amend --no-edit && rtk git status --short --branch && rtk git rev-parse HEAD && rtk git show --stat --oneline HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py fast --revision 54bb51d2c850c73021da0a69c8c505627f3edf56 && rtk python3 -m unittest discover -s tests -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files /Users/haewonkim 2>/dev/null | rtk rg '/node_modules/(playwright|@playwright/test)/package.json\"'$'\"' | head -n 80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision 54bb51d2c850c73021da0a69c8c505627f3edf56'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- cross evidence vs committed candidate ---' && rtk git diff --quiet -- QA/map_first/cross_browser.json; echo \\\"cross_evidence_clean=\"'$?\" && rtk python3 - <<'\"'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('QA/map_first/cross_browser.json').read_text())\nprint(json.dumps({'status':p['status'],'expected_rows':p['expected_rows'],'rows':[(r['browser'],r['width'],r['status'],r['completed']) for r in p['rows']],'errors':p['errors']},indent=2))\nPY\nprintf '%s\\\\n' '--- qualification summary ---' && rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('QA/release/qualification.json').read_text())\nprint(json.dumps({'status':p['status'],'candidate_head':p['candidate_head'],'authored_inputs_unchanged':p.get('authored_inputs_unchanged'),'fast':{'status':p['fast']['status'],'candidate_head':p['fast']['candidate_head'],'reproducible':p['fast']['reproducible']},'tests':[(t['name'],t['status'],t['returncode']) for t in p['tests']]},indent=2))\nPY\nprintf '%s\\\\n' '--- generated tracked churn ---' && rtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore -- QA/map_first/full_acceptance.json QA/map_first/smoke.json QA/route_panel/route_explanations_panel.json && rtk git status --short --branch && rtk git diff --check && rtk git diff --quiet; echo \"worktree_diff=$?\" && rtk proxy ps -axo pid,ppid,pgid,command | rtk rg '\"'run_cross_browser.py --worker|webkit-2336|firefox-1455|serve_map.py --port' | head -n 120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- final revision/ancestry ---' && rtk git rev-parse HEAD && rtk git merge-base --is-ancestor cc2e261a3c0ce0ae0b96cec190984569df6ae47c HEAD; echo \\\"r2_candidate_ancestor=\"'$?\" && rtk git log --oneline --decorate --graph --max-count=10 HEAD && printf '\"'%s\\\\n' '--- exact final diff/clean proof ---' && rtk git status --porcelain=v1 && rtk git diff --quiet; echo \\\"working_tree_clean=\"'$?\" && printf '\"'%s\\\\n' '--- final changed files ---' && rtk git diff-tree --no-commit-id --name-status -r HEAD && printf '%s\\\\n' '--- evidence ---' && rtk git show HEAD:QA/map_first/cross_browser.json | rtk python3 -c 'import json,sys; p=json.load(sys.stdin); print(json.dumps({\\\"status\\\":p[\\\"status\\\"],\\\"expected_rows\\\":p[\\\"expected_rows\\\"],\\\"rows\\\":[{\\\"browser\\\":r[\\\"browser\\\"],\\\"width\\\":r[\\\"width\\\"],\\\"status\\\":r[\\\"status\\\"],\\\"completed\\\":r[\\\"completed\\\"]} for r in p[\\\"rows\\\"]],\\\"errors\\\":p[\\\"errors\\\"]},indent=2))' && printf '%s\\\\n' '--- R2 deterministic Fabric audit locator ---' && rtk git show --no-patch --format=fuller 8773f82c58e8c5b13f6852f35ca5739b9156aba9 && rtk git show 8773f82c58e8c5b13f6852f35ca5739b9156aba9:.codex-fabric/audit.json | rtk head -n 40 && printf '%s\\\\n' '--- canonical input digest check ---' && rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('QA/release/qualification.json').read_text())\nprint('qualification_status=',p['status'])\nprint('qualification_candidate=',p['candidate_head'])\nprint('authored_inputs_unchanged=',p.get('authored_inputs_unchanged'))\nprint('fast_status=',p['fast']['status'])\nprint('fast_reproducible=',p['fast'].get('reproducible'))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 197,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 98.42,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 15283712,
+      "fresh_input_tokens": 245228,
+      "input_tokens": 15528940,
+      "non_reasoning_output_tokens": 31542,
+      "output_tokens": 65910,
+      "reasoning_output_tokens": 34368,
+      "total_processed_tokens": 15594850
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "54bb51d2c850c73021da0a69c8c505627f3edf56",
+      "subject": "qa: isolate cross-browser qualification cases"
+    },
+    {
+      "sha": "cc2e261a3c0ce0ae0b96cec190984569df6ae47c",
+      "subject": "fabric: capture completed model changes [CF-b593ec021d9eb46ec23e6907]"
+    },
+    {
+      "sha": "3e9dbf78a324e32dc6acbcec8fdbbd38e1f251ee",
+      "subject": "qa: bound cross-browser launch cleanup"
+    },
+    {
+      "sha": "2e30beadff93f8d929edb185f9a426c7448c1c41",
+      "subject": "qa: preserve cross-browser evidence across cleanup"
+    },
+    {
+      "sha": "77b3e79204d7b2c5caae627c9f77d07e0003ff99",
+      "subject": "fabric: capture completed model changes [CF-3ef17e593e1600d50620b3b4]"
+    }
+  ],
+  "diff": {
+    "additions": 8126,
+    "changed_files": 43,
+    "commit_count": 5,
+    "deletions": 564
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 15,
+    "items": [
+      {
+        "bytes": 1814,
+        "path": "QA/map_first/cross_browser.json",
+        "sha256": "c22719b84f0a7fc030e91f440b3aa5768d5b3d0fc55304f8a89fd06ba9602b3a"
+      },
+      {
+        "bytes": 112516,
+        "path": "QA/map_first/exhaustive_states.json",
+        "sha256": "076e11ba2a54a1160755e0884cb048abc48a70e664bed75b44cc7c92e7114d73"
+      },
+      {
+        "bytes": 88871,
+        "path": "QA/map_first/filter_matrix.json",
+        "sha256": "9b05f33060d5ca9552c78c8afa4d21e496118927b433f5493d9de4e4de645beb"
+      },
+      {
+        "bytes": 13097,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "d436fba95af3e7d06c3d20b091f99efff3a284a8ccdaf92ff99f79277d07acc5"
+      },
+      {
+        "bytes": 7935,
+        "path": "QA/map_first/location_gap_visuals.json",
+        "sha256": "e913285a468d63c80718562bf2f9f414f34531fa5bd24eb3ffb8dcfb8256dc6e"
+      },
+      {
+        "bytes": 30186,
+        "path": "QA/map_first/p0_independent.json",
+        "sha256": "13c6396eaf222d277c63e88799b640e78e9dca01e6c65d11fb4b2f9656f97e12"
+      },
+      {
+        "bytes": 12225,
+        "path": "QA/map_first/route_continuity.json",
+        "sha256": "6d032edef6da4adcf3ac3d7ac5557d70cf5a7e4a6105a7d7f4078d12859444ea"
+      },
+      {
+        "bytes": 1125,
+        "path": "QA/map_first/smoke.json",
+        "sha256": "97cfb15ce57ec0712c5c5b8fc01d9314de237a124bc0e2df93b44f9d0366afb9"
+      },
+      {
+        "bytes": 2052,
+        "path": "QA/map_first/visual_spots.json",
+        "sha256": "7ee0b11c30562b3b819e43cb823af0555c3a17ee34b31046826f0fa05c352c24"
+      },
+      {
+        "bytes": 424,
+        "path": "QA/photo_integrity.json",
+        "sha256": "cfaf317b278606352c06b41084c5d8a51474c8b6b7abced4ab2b24a01d5d01f9"
+      },
+      {
+        "bytes": 7219,
+        "path": "QA/route_panel/route_explanations_panel.json",
+        "sha256": "cab1c74b5aab4e3426617480915d5f87cc345de48ab63e5a601707cc55611086"
+      },
+      {
+        "bytes": 7181,
+        "path": "README.md",
+        "sha256": "cb0a0c677494a1e3b58f8d8344d9bf9d1ffb02f135edf917d5a179a9c268742a"
+      },
+      {
+        "bytes": 4370,
+        "path": "TRIP_VISUALIZER_SCHEMA.md",
+        "sha256": "339d3b18d199bf08763fdf9ce186bf15350400f7b4f004345008a46f3ebb156b"
+      },
+      {
+        "bytes": 266292,
+        "path": "manifests/asset_manifest.json",
+        "sha256": "1198dab5137fe2a89f83441de6203b0f0af2a3cad25a79450bed6ce00fe63236"
+      },
+      {
+        "bytes": 3678,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "6bba22140e64bff9fb0ea251998a25e12f3d6dd0aa89f6db0f5483114d29e96f"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-16T04:12:05Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "a4d6e208805dcfb326b0cbf116146b0b27f2dd63",
+    "branch": "codex/sf-trip-visualizer-canonical-pipeline-fix-r3",
+    "head_sha": "54bb51d2c850c73021da0a69c8c505627f3edf56",
+    "remote_exact_head": true,
+    "remote_head_sha": "54bb51d2c850c73021da0a69c8c505627f3edf56",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "a4d6e208805dcfb326b0cbf116146b0b27f2dd63",
+    "work_branch": "codex/sf-trip-visualizer-canonical-pipeline-fix-r3",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-2e882584e374483ab4046d71",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/canonical-pipeline-fix-r3",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/canonical-pipeline-fix-r3"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "6316fd785c456db605cb8cd3f359ac0b65cfd957f2546ebe5d596f3115bd2a61"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "canonical-pipeline-fix-r3",
+  "schema_version": 1,
+  "started_at": "2026-09-16T03:27:47Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 2658,
+    "queue_seconds": 0,
+    "total_seconds": 2658
+  },
+  "transport": {
+    "bytes": 5382,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 5049,
+    "prompt_sha256": "61be39fd3a3d22a27fb9f1e97aea6d998c9d0ebac34fee66dffd9b90da8c2dbe",
+    "sha256": "2e882584e374483ab4046d71547fb09f91864d1a118aff3c731954579ea519cb"
+  }
+}
