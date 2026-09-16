@@ -252,7 +252,13 @@ def evidence_status(path: Path, returncode: int) -> str:
         return "UNVERIFIED"
     payload = json.loads(path.read_text())
     if isinstance(payload, dict):
-        return payload.get("status", "PASS")
+        status = payload.get("status")
+        if status in {"PASS", "FAIL", "UNVERIFIED"}:
+            return status
+        # Some maintained evidence schemas are terminal by successful exit
+        # and intentionally omit a status field. A stale in-progress record is
+        # never terminal and must remain fail-closed.
+        return "UNVERIFIED" if status == "RUNNING" else ("PASS" if returncode == 0 else "UNVERIFIED")
     if isinstance(payload, list):
         if path.name == "smoke.json":
             return "PASS" if all(not row.get("errors") and not row.get("failed_requests") for row in payload) else "FAIL"

@@ -134,43 +134,38 @@ with sync_playwright() as playwright:
     if warning:
         report["cleanup_warnings"].append(warning)
 
-    # Touch-sized browser and independent WebKit/Firefox smoke.
-    for engine, width in ((playwright.chromium, 390), (playwright.webkit, 1280), (playwright.firefox, 1280)):
-        touch_browser = engine.launch(headless=True, timeout=90000)
-        context = touch_browser.new_context(viewport={"width": width, "height": 844 if width == 390 else 800}, is_mobile=width == 390, has_touch=width == 390)
-        touch_page = context.new_page()
-        touch_page.set_default_timeout(60000)
-        local_errors = []
-        touch_page.on("pageerror", lambda error: local_errors.append(str(error)))
-        touch_page.goto(URL, wait_until="domcontentloaded", timeout=90000)
-        touch_page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-        touch_page.wait_for_timeout(800)
-        if width == 390:
-            touch_page.locator(".photo-cluster").first.click()
-            touch_page.wait_for_timeout(700)
-            cluster_preview = read(touch_page, """()=>document.getElementById('previewCard').classList.contains('show')""")
-            read(touch_page, """()=>window.__tripApp.hidePreview()""")
-            clickable = read(touch_page, """()=>[...document.querySelectorAll('.photo-marker')].find(el=>{if(el.style.display==='none')return false;const r=el.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,target=document.elementFromPoint(x,y);return target===el||el.contains(target)})?.dataset.placeKey||null""")
-            if not clickable:
-                raise AssertionError("No unobscured touch marker after cluster zoom")
-            touch_page.locator(f'.photo-marker[data-place-key="{clickable}"]').click()
-            touch_page.wait_for_timeout(400)
-            touch_preview = read(touch_page, """()=>({visible:document.getElementById('previewCard').classList.contains('show'),photo:document.querySelector('#previewCard .preview-media')?.naturalWidth||0,details:document.querySelectorAll('#detailsPane .photo-grid img').length})""")
-            capture(touch_page, "touch_390_preview")
-            touch_page.locator("#previewCard .preview-action").click()
-            touch_page.wait_for_function("[...document.querySelectorAll('#detailsPane .photo-grid img')].length===3&&[...document.querySelectorAll('#detailsPane .photo-grid img')].every(x=>x.complete&&x.naturalWidth>0)", timeout=15000)
-            report["checks"]["touch_390"] = read(touch_page, """()=>({preview:document.getElementById('previewCard').classList.contains('show'),details:document.querySelectorAll('#detailsPane .photo-grid img').length,decoded:[...document.querySelectorAll('#detailsPane .photo-grid img')].every(x=>x.complete&&x.naturalWidth>0),overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth})""")
-            report["checks"]["touch_390"]["cluster_preview"] = cluster_preview
-            report["checks"]["touch_390"]["marker_preview"] = touch_preview
-            capture(touch_page, "touch_390_detail")
-        else:
-            name = "webkit_1280" if engine == playwright.webkit else "firefox_1280"
-            report["checks"][name] = read(touch_page, """()=>({provider:window.__tripApp.state.provider,features:window.__tripApp.visibleRouteFeatures().length,clusters:document.querySelectorAll('.photo-cluster').length,canvas:document.querySelectorAll('.maplibregl-canvas').length})""")
-            capture(touch_page, name)
-        report["errors"].extend(local_errors)
-        warning = bounded_cleanup(touch_browser.close, f"map-first full {width}px browser")
-        if warning:
-            report["cleanup_warnings"].append(warning)
+    # Chromium touch interaction remains owned here. Firefox/WebKit coverage is
+    # decisively owned by the isolated run_cross_browser.py suite.
+    touch_browser = playwright.chromium.launch(headless=True, timeout=90000)
+    context = touch_browser.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True)
+    touch_page = context.new_page()
+    touch_page.set_default_timeout(60000)
+    local_errors = []
+    touch_page.on("pageerror", lambda error: local_errors.append(str(error)))
+    touch_page.goto(URL, wait_until="domcontentloaded", timeout=90000)
+    touch_page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
+    touch_page.wait_for_timeout(800)
+    touch_page.locator(".photo-cluster").first.click()
+    touch_page.wait_for_timeout(700)
+    cluster_preview = read(touch_page, """()=>document.getElementById('previewCard').classList.contains('show')""")
+    read(touch_page, """()=>window.__tripApp.hidePreview()""")
+    clickable = read(touch_page, """()=>[...document.querySelectorAll('.photo-marker')].find(el=>{if(el.style.display==='none')return false;const r=el.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,target=document.elementFromPoint(x,y);return target===el||el.contains(target)})?.dataset.placeKey||null""")
+    if not clickable:
+        raise AssertionError("No unobscured touch marker after cluster zoom")
+    touch_page.locator(f'.photo-marker[data-place-key="{clickable}"]').click()
+    touch_page.wait_for_timeout(400)
+    touch_preview = read(touch_page, """()=>({visible:document.getElementById('previewCard').classList.contains('show'),photo:document.querySelector('#previewCard .preview-media')?.naturalWidth||0,details:document.querySelectorAll('#detailsPane .photo-grid img').length})""")
+    capture(touch_page, "touch_390_preview")
+    touch_page.locator("#previewCard .preview-action").click()
+    touch_page.wait_for_function("[...document.querySelectorAll('#detailsPane .photo-grid img')].length===3&&[...document.querySelectorAll('#detailsPane .photo-grid img')].every(x=>x.complete&&x.naturalWidth>0)", timeout=15000)
+    report["checks"]["touch_390"] = read(touch_page, """()=>({preview:document.getElementById('previewCard').classList.contains('show'),details:document.querySelectorAll('#detailsPane .photo-grid img').length,decoded:[...document.querySelectorAll('#detailsPane .photo-grid img')].every(x=>x.complete&&x.naturalWidth>0),overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth})""")
+    report["checks"]["touch_390"]["cluster_preview"] = cluster_preview
+    report["checks"]["touch_390"]["marker_preview"] = touch_preview
+    capture(touch_page, "touch_390_detail")
+    report["errors"].extend(local_errors)
+    warning = bounded_cleanup(touch_browser.close, "map-first full Chromium 390px browser")
+    if warning:
+        report["cleanup_warnings"].append(warning)
 
 checks = report["checks"]
 report["status"] = "PASS" if (
@@ -197,7 +192,6 @@ report["status"] = "PASS" if (
     and checks["gap_audit"]["photos"] == 108
     and len(checks["gap_audit"]["audited"]) == 8
     and checks["gap_audit"]["routeLayerColors"]
-    and all(checks[name]["provider"] == "vector" and checks[name]["canvas"] == 1 and checks[name]["features"] > 0 for name in ("webkit_1280", "firefox_1280"))
 ) else "FAIL"
 (OUT / "full_acceptance.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "initial": report["checks"]["initial"], "matrix_states": report["checks"]["matrix"]["states"], "matrix_failures": len(report["checks"]["matrix"]["failed"]), "providers": report["checks"].get("providers"), "errors": report["errors"], "console_errors": report["console_errors"][:5]}, ensure_ascii=False, indent=2))
