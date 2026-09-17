@@ -316,17 +316,23 @@ def sparse_state_checks(page, url: str = MODULAR_URL) -> dict:
 
 
 def interaction_samples(page, count: int, url: str = MODULAR_URL) -> dict:
-    operations = {"route": [], "date": [], "region": [], "preview": [], "detail": [], "panel": [], "provider_recovery": []}
+    operations = {"route": [], "date": [], "region": [], "preview": [], "preview_actionability": [], "preview_handler": [], "detail": [], "panel": [], "provider_recovery": []}
     page.goto(url, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000); wait_for_application_ready(page, timeout=30000)
     for _ in range(count):
         for name, action in (("route", lambda: page.locator('[data-route=A2]').click()), ("date", lambda: page.locator('#dateSelect').select_option('10/8')), ("region", lambda: page.locator('[data-region=yosemite]').click())):
             started=time.perf_counter(); action(); page.wait_for_timeout(40); operations[name].append((time.perf_counter()-started)*1000)
-        marker=page.locator('.photo-marker').first
-        started=time.perf_counter(); marker.focus(); page.wait_for_timeout(60)
-        if not page.locator('#previewCard.show').count():
-            page.evaluate("()=>window.__tripApp.showPreview(document.querySelector('.photo-marker')?.dataset.placeKey,{})")
+        page.evaluate("async()=>await window.__tripApp.whenIdle()")
+        marker=page.locator('.photo-marker:visible').first
+        started=time.perf_counter(); marker.focus(); actionability=(time.perf_counter()-started)*1000
+        page.wait_for_function("document.getElementById('previewCard')?.classList.contains('show')", timeout=5000)
+        operations['preview_actionability'].append(actionability)
         operations['preview'].append((time.perf_counter()-started)*1000)
+        page.evaluate("()=>{window.__tripApp.hidePreview();document.activeElement?.blur()}")
+        handler_started=time.perf_counter()
+        page.evaluate("()=>[...document.querySelectorAll('.photo-marker')].find(el=>getComputedStyle(el).display!=='none'&&getComputedStyle(el).visibility!=='hidden')?.focus()")
+        page.wait_for_function("document.getElementById('previewCard')?.classList.contains('show')", timeout=5000)
+        operations['preview_handler'].append((time.perf_counter()-handler_started)*1000)
         action=page.locator('#previewCard .preview-action'); started=time.perf_counter(); action.click(); page.wait_for_timeout(40); operations['detail'].append((time.perf_counter()-started)*1000)
         started=time.perf_counter(); page.locator('#panelToggle').click(); page.wait_for_timeout(40)
         if page.locator('#mapFocus.show').count(): page.locator('#mapFocus .map-focus-head button').click(force=True)
@@ -377,7 +383,7 @@ def performance_environment_signature(
         },
         "sample_conditions": {
             "sample_count": sample_count,
-            "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+            "measurement_profile": "gate5-performance-r4-paired-blocks-v1",
             "server": "local-http",
             "network": "default-playwright-context",
             "cold_condition": "new-context-and-page",
@@ -490,6 +496,11 @@ def _metric_value(sample: dict, group: str, key: str):
     return value
 
 
+MIN_PAIRED_PAIRS = 6
+MIN_PAIRED_BLOCKS = 2
+MIN_PAIRS_PER_BLOCK = 2
+
+
 def _paired_metric_evidence(paired_measurements: list[dict], group: str, key: str) -> dict:
     rows = []
     for pair in paired_measurements:
@@ -497,9 +508,119 @@ def _paired_metric_evidence(paired_measurements: list[dict], group: str, key: st
         baseline_value = _metric_value(pair.get("baseline", {}), group, key)
         if candidate_value is None or baseline_value is None:
             continue
-        rows.append({"pair": pair.get("pair"), "order": pair.get("order"), "candidate": candidate_value, "baseline": baseline_value, "delta": round(candidate_value - baseline_value, 3)})
+        delta = float(candidate_value) - float(baseline_value)
+        relative = (delta / float(baseline_value) * 100.0) if baseline_value else None
+        rows.append(
+            {
+                "pair": pair.get("pair"),
+                "block": pair.get("block") or pair.get("block_id") or "unlabeled",
+                "order": pair.get("order"),
+                "candidate": round(float(candidate_value), 3),
+                "baseline": round(float(baseline_value), 3),
+                "delta": round(delta, 3),
+                "relative_delta_pct": round(relative, 3) if relative is not None else None,
+            }
+        )
+
     deltas = [row["delta"] for row in rows]
-    return {"pair_count": len(rows), "rows": rows, "consistent_candidate_slower": bool(rows) and all(delta > 0 for delta in deltas), "ambiguous_direction": not rows or not all(delta > 0 for delta in deltas)}
+    baselines = [row["baseline"] for row in rows]
+    relative_deltas = [row["relative_delta_pct"] for row in rows if row["relative_delta_pct"] is not None]
+    grouped: dict[str, list[dict]] = {}
+    for row in rows:
+        grouped.setdefault(str(row["block"]), []).append(row)
+
+    blocks = []
+    for block, block_rows in grouped.items():
+        block_deltas = [row["delta"] for row in block_rows]
+        order_counts = {"candidate>baseline": 0, "baseline>candidate": 0}
+        for row in block_rows:
+            order = row.get("order") or []
+            if list(order) == ["candidate", "baseline"]:
+                order_counts["candidate>baseline"] += 1
+            elif list(order) == ["baseline", "candidate"]:
+                order_counts["baseline>candidate"] += 1
+        median_delta = statistics.median(block_deltas)
+        blocks.append(
+            {
+                "block": block,
+                "pair_count": len(block_rows),
+                "order_counts": order_counts,
+                "deltas": quantiles(block_deltas),
+                "median_delta": round(median_delta, 3),
+                "direction": "candidate_slower" if median_delta > 0 else "candidate_not_slower",
+            }
+        )
+
+    block_medians = [block["median_delta"] for block in blocks]
+    center = statistics.median(deltas) if deltas else 0.0
+    deviations = [abs(delta - center) for delta in deltas]
+    mad_sigma = 1.4826 * statistics.median(deviations) if deviations else 0.0
+    block_stdev = statistics.stdev(block_medians) if len(block_medians) > 1 else 0.0
+    relative_center = statistics.median(relative_deltas) if relative_deltas else 0.0
+    relative_deviations = [abs(delta - relative_center) for delta in relative_deltas]
+    relative_mad_sigma = 1.4826 * statistics.median(relative_deviations) if relative_deviations else 0.0
+    relative_block_deltas = []
+    for block in blocks:
+        values = [row["relative_delta_pct"] for row in grouped[block["block"]] if row["relative_delta_pct"] is not None]
+        if values:
+            relative_block_deltas.append(statistics.median(values))
+    relative_block_stdev = statistics.stdev(relative_block_deltas) if len(relative_block_deltas) > 1 else 0.0
+    noise_envelope = max(mad_sigma, block_stdev)
+    relative_noise_envelope = max(relative_mad_sigma, relative_block_stdev)
+    balanced_blocks = all(
+        block["pair_count"] >= MIN_PAIRS_PER_BLOCK
+        and all(count > 0 for count in block["order_counts"].values())
+        for block in blocks
+    )
+    sufficient = len(rows) >= MIN_PAIRED_PAIRS and len(blocks) >= MIN_PAIRED_BLOCKS and balanced_blocks
+    positive_pairs = sum(delta > 0 for delta in deltas)
+    negative_pairs = sum(delta < 0 for delta in deltas)
+    block_positive = bool(blocks) and all(block["median_delta"] > 0 for block in blocks)
+    block_nonpositive = bool(blocks) and all(block["median_delta"] <= 0 for block in blocks)
+    block_direction_consistent = block_positive or block_nonpositive
+    stable_non_regression = sufficient and block_nonpositive and all(delta <= noise_envelope for delta in deltas)
+    decisive_regression = (
+        sufficient
+        and block_positive
+        and positive_pairs == len(deltas)
+        and center > noise_envelope
+        and all(block["median_delta"] > noise_envelope for block in blocks)
+    )
+    return {
+        "pair_count": len(rows),
+        "block_count": len(blocks),
+        "rows": rows,
+        "blocks": blocks,
+        "order_balanced": balanced_blocks,
+        "sufficient": sufficient,
+        "positive_pairs": positive_pairs,
+        "negative_pairs": negative_pairs,
+        "consistent_candidate_slower": bool(rows) and all(delta > 0 for delta in deltas),
+        "direction_consistent_across_blocks": block_direction_consistent,
+        "ambiguous_direction": not sufficient or not block_direction_consistent,
+        "baseline_jitter": quantiles(baselines),
+        "delta_distribution": quantiles(deltas),
+        "relative_delta_distribution_pct": quantiles(relative_deltas),
+        "noise_estimate": {
+            "pair_delta_mad_sigma_ms": round(mad_sigma, 3),
+            "block_median_stdev_ms": round(block_stdev, 3),
+            "noise_envelope_ms": round(noise_envelope, 3),
+            "relative_pair_delta_mad_sigma_pct": round(relative_mad_sigma, 3),
+            "relative_block_median_stdev_pct": round(relative_block_stdev, 3),
+            "relative_noise_envelope_pct": round(relative_noise_envelope, 3),
+        },
+        "materiality_guard_ms": round(noise_envelope, 3),
+        "materiality_guard_relative_pct": round(relative_noise_envelope, 3),
+        "stable_non_regression": stable_non_regression,
+        "decisive_regression": decisive_regression,
+        "rationale": (
+            "all order-balanced paired deltas are slower in every block and exceed the observed paired noise envelope"
+            if decisive_regression
+            else "all balanced blocks are non-slower and positive pair noise stays within the observed envelope"
+            if stable_non_regression
+            else "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        ),
+    }
 
 
 def compare_performance(candidate: dict, baseline: dict | None, paired_measurements: list[dict] | None = None) -> dict:
@@ -508,7 +629,7 @@ def compare_performance(candidate: dict, baseline: dict | None, paired_measureme
     base_result = {
         "candidate_environment_signature": candidate_signature,
         "baseline_environment_signature": baseline_signature,
-        "method": "candidate median <= max(baseline max, baseline mean + 3*baseline stdev) only for matching exact source/environment bindings",
+        "method": "paired order-balanced blocks are primary; distribution guard is recorded but cannot override paired evidence",
         "candidate_revision": (candidate_signature or {}).get("source_revision") or (candidate.get("source_binding") or {}).get("checked_out_revision") if candidate else None,
         "baseline_revision": (baseline_signature or {}).get("source_revision") or (baseline.get("source_binding") or {}).get("checked_out_revision") if baseline else None,
         "comparisons": [],
@@ -525,6 +646,8 @@ def compare_performance(candidate: dict, baseline: dict | None, paired_measureme
     if mismatches:
         return {**base_result, "status": "VERIFY_REQUIRED", "reason": "Performance environments are materially incompatible; a hard regression conclusion is not evidence-supported.", "mismatch": mismatches}
     comparisons=[]; failures=[]; verify_reasons=[]
+    if paired_measurements is None:
+        return {**base_result, "status": "VERIFY_REQUIRED", "reason": "Paired same-runner evidence is required for a hard performance classification; distribution-only evidence is non-decisive."}
     for group in ("cold_milestones","warm_milestones","interactions"):
         cand_group=candidate.get(group,{})
         base_group=baseline.get(group,{})
@@ -533,18 +656,16 @@ def compare_performance(candidate: dict, baseline: dict | None, paired_measureme
             metric=f"{group}.{key}"
             if not bstats or bstats.get("count",0)<3 or cstats.get("count",0)<3:
                 comparisons.append({"metric":metric,"status":"VERIFY_REQUIRED","reason":"sample count below evidence guard","baseline":bstats,"candidate":cstats}); verify_reasons.append(metric); continue
-            guard=max(bstats["max"], bstats["mean"]+3*bstats.get("stdev",0))
-            status="PASS" if cstats["median"]<=guard else "FAIL"
-            pair_evidence = None
-            if status == "FAIL" and paired_measurements is not None:
-                pair_evidence = _paired_metric_evidence(paired_measurements, group, key)
-                if pair_evidence["ambiguous_direction"]:
-                    status = "VERIFY_REQUIRED"
-                    verify_reasons.append(metric)
-            if status=="FAIL" and bstats.get("stdev",0)<1.0:
+            distribution_guard=max(bstats["max"], bstats["mean"]+3*bstats.get("stdev",0))
+            pair_evidence = _paired_metric_evidence(paired_measurements, group, key)
+            if pair_evidence["decisive_regression"]:
+                status="FAIL"
+            elif pair_evidence["stable_non_regression"]:
+                status="PASS"
+            else:
                 status="VERIFY_REQUIRED"
                 verify_reasons.append(metric)
-            comparisons.append({"metric":metric,"baseline":bstats,"candidate":cstats,"guard":round(guard,3),"status":status,"pair_evidence":pair_evidence,"note":"Baseline spread is below 1 ms; a hard regression conclusion is not evidence-supported." if status=="VERIFY_REQUIRED" and bstats.get("stdev",0)<1.0 else "Order-balanced paired deltas did not reproduce the apparent regression; evidence remains ambiguous." if status=="VERIFY_REQUIRED" and pair_evidence else None})
+            comparisons.append({"metric":metric,"baseline":bstats,"candidate":cstats,"distribution_guard":round(distribution_guard,3),"guard":round(distribution_guard,3),"status":status,"pair_evidence":pair_evidence,"rationale":pair_evidence["rationale"],"note":"The unpaired baseline guard is retained for audit only and cannot convert a slower paired result to PASS." if cstats["median"]<=distribution_guard and pair_evidence["decisive_regression"] else None})
             if status=="FAIL": failures.append(metric)
     return {**base_result, "status":"FAIL" if failures else "VERIFY_REQUIRED" if verify_reasons else "PASS","comparisons":comparisons,"failures":failures,"verify_reasons":verify_reasons}
 
@@ -582,12 +703,20 @@ def _terminate_server(server: subprocess.Popen | None) -> None:
         server.kill()
 
 
-def same_environment_paired_samples(playwright, shots: Path, candidate_source: dict, candidate_url: str = MODULAR_URL, sample_count: int = 3) -> dict:
-    """Measure base and candidate in alternating fresh contexts on one runner.
+def same_environment_paired_samples(
+    playwright,
+    shots: Path,
+    candidate_source: dict,
+    candidate_url: str = MODULAR_URL,
+    block_count: int = 2,
+    pairs_per_block: int = 4,
+) -> dict:
+    """Measure isolated base/candidate pairs in independent balanced blocks.
 
-    Both sides are isolated deterministic builds. Each paired measurement gets
-    a new context and page; pair order alternates candidate→base and base→candidate
-    so browser-process, filesystem, and runner warm-up cannot attach to one side.
+    Each block uses a fresh browser process and each side of every pair uses a
+    fresh context/page. The order is balanced inside every block, while the
+    first side is reversed between blocks. This makes paired deltas primary and
+    leaves enough observations to expose block-to-block jitter.
     """
     worktree = None
     server = None
@@ -626,20 +755,35 @@ def same_environment_paired_samples(playwright, shots: Path, candidate_source: d
         base_binding = source_binding(BASE_REVISION, worktree)
         if base_binding["binding"] != "exact_commit" or base_binding["status"] != "PASS":
             raise RuntimeError(f"detached base source binding was not exact: {base_binding}")
-        browser = playwright.chromium.launch(headless=True, timeout=90000)
         candidate_rows, baseline_rows, paired_measurements, schedule = [], [], [], []
-        for pair_index in range(sample_count):
-            order = ("candidate", "baseline") if pair_index % 2 == 0 else ("baseline", "candidate")
-            pair_rows = {}
-            for position, side in enumerate(order, start=1):
-                source = candidate_source if side == "candidate" else base_binding
-                sample = performance_sample(playwright, browser, candidate_url if side == "candidate" else url, source)
-                pair_rows[side] = _comparison_sample(sample)
-                (candidate_rows if side == "candidate" else baseline_rows).append(sample)
-                schedule.append({"pair": pair_index + 1, "position": position, "side": side, "revision": source.get("checked_out_revision"), "fresh_context": True})
-            paired_measurements.append({"pair": pair_index + 1, "order": list(order), "candidate": pair_rows["candidate"], "baseline": pair_rows["baseline"]})
-        candidate_samples = aggregate_performance_samples(candidate_rows, "candidate", browser.version, candidate_source, sample_count)
-        baseline_samples = aggregate_performance_samples(baseline_rows, "baseline", browser.version, base_binding, sample_count)
+        browser_version = None
+        pair_index = 0
+        order_by_block = []
+        for block_index in range(block_count):
+            browser = playwright.chromium.launch(headless=True, timeout=90000)
+            browser_version = browser.version
+            block_orders = []
+            try:
+                for pair_in_block in range(pairs_per_block):
+                    pair_index += 1
+                    first_candidate = (block_index + pair_in_block) % 2 == 0
+                    order = ("candidate", "baseline") if first_candidate else ("baseline", "candidate")
+                    block_orders.append("candidate>baseline" if first_candidate else "baseline>candidate")
+                    pair_rows = {}
+                    for position, side in enumerate(order, start=1):
+                        source = candidate_source if side == "candidate" else base_binding
+                        sample = performance_sample(playwright, browser, candidate_url if side == "candidate" else url, source)
+                        pair_rows[side] = _comparison_sample(sample)
+                        (candidate_rows if side == "candidate" else baseline_rows).append(sample)
+                        schedule.append({"block": block_index + 1, "pair": pair_index, "pair_in_block": pair_in_block + 1, "position": position, "side": side, "revision": source.get("checked_out_revision"), "fresh_context": True})
+                    paired_measurements.append({"block": block_index + 1, "pair": pair_index, "pair_in_block": pair_in_block + 1, "order": list(order), "candidate": pair_rows["candidate"], "baseline": pair_rows["baseline"]})
+            finally:
+                browser.close()
+                browser = None
+            order_by_block.append(block_orders)
+        total_pairs = len(paired_measurements)
+        candidate_samples = aggregate_performance_samples(candidate_rows, "candidate", browser_version, candidate_source, total_pairs)
+        baseline_samples = aggregate_performance_samples(baseline_rows, "baseline", browser_version, base_binding, total_pairs)
         comparison = compare_performance(candidate_samples, baseline_samples, paired_measurements)
         return {
             "status": "PASS",
@@ -650,11 +794,15 @@ def same_environment_paired_samples(playwright, shots: Path, candidate_source: d
             "comparison": comparison,
             "paired_measurements": paired_measurements,
             "measurement_schedule": {
-                "method": "order-balanced-interleaved-same-runner",
-                "sample_count_per_side": sample_count,
-                "order": ["candidate>baseline" if index % 2 == 0 else "baseline>candidate" for index in range(sample_count)],
+                "method": "two-independent-order-balanced-blocks-same-runner",
+                "block_count": block_count,
+                "pairs_per_block": pairs_per_block,
+                "total_pairs": total_pairs,
+                "sample_count_per_side": total_pairs,
+                "order_by_block": order_by_block,
                 "fresh_context_per_measurement": True,
-                "same_browser_runtime_process": True,
+                "independent_browser_process_per_block": True,
+                "same_runner_environment": True,
                 "candidate_server": {"url": candidate_url, "build": ".build/modular", "isolated": True},
                 "baseline_server": {"url": url, "build": str(build / "modular"), "revision": BASE_REVISION, "isolated": True},
                 "schedule": schedule,
@@ -741,7 +889,7 @@ def performance_summary(report: dict) -> str:
         f"sample_count_baseline={(same_base.get('samples') or {}).get('sample_count')}",
     ]
     for row in comparison.get("comparisons", []):
-        lines.append("metric=" + row.get("metric", "") + " sample_count_baseline=" + str((row.get("baseline") or {}).get("count")) + " sample_count_candidate=" + str((row.get("candidate") or {}).get("count")) + " baseline_distribution=" + json.dumps(row.get("baseline"), sort_keys=True, separators=(",", ":")) + " candidate_distribution=" + json.dumps(row.get("candidate"), sort_keys=True, separators=(",", ":")) + " guard=" + str(row.get("guard")) + " status=" + str(row.get("status")))
+        lines.append("metric=" + row.get("metric", "") + " sample_count_baseline=" + str((row.get("baseline") or {}).get("count")) + " sample_count_candidate=" + str((row.get("candidate") or {}).get("count")) + " baseline_distribution=" + json.dumps(row.get("baseline"), sort_keys=True, separators=(",", ":")) + " candidate_distribution=" + json.dumps(row.get("candidate"), sort_keys=True, separators=(",", ":")) + " distribution_guard=" + str(row.get("distribution_guard", row.get("guard"))) + " paired_evidence=" + json.dumps(row.get("pair_evidence"), sort_keys=True, separators=(",", ":")) + " rationale=" + json.dumps(row.get("rationale"), sort_keys=True) + " status=" + str(row.get("status")))
     lines.append(f"status={comparison.get('status')}")
     lines.append(f"failing_metrics={json.dumps(comparison.get('failures', []), sort_keys=True)}")
     lines.append(f"verify_metrics={json.dumps(comparison.get('verify_reasons', []), sort_keys=True)}")
