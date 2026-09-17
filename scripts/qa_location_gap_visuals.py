@@ -5,6 +5,7 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 from qa_config import MODULAR_URL
+from qa_loading import wait_for_application_ready
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,7 +35,7 @@ with sync_playwright() as playwright:
     page.on("pageerror", lambda error: report["errors"].append(str(error)))
     page.goto(URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    page.wait_for_function("!document.getElementById('loadingScreen')", timeout=10000)
+    wait_for_application_ready(page, timeout=30000)
 
     report["checks"]["data"] = page.evaluate(
         """keys=>{const a=window.__tripApp;return {places:a.DATA.markers.length,timeline:a.DATA.timeline.length,legs:a.DATA.legs.length,missing:keys.filter(k=>!a.DATA.markers.some(m=>m.place_key===k)),photoStatus:keys.map(k=>a.DATA.markers.find(m=>m.place_key===k)?.photo_status),choiceGroups:[...new Set(a.DATA.timeline.map(t=>t.mutually_exclusive_group).filter(Boolean))]}}""",
@@ -87,10 +88,16 @@ with sync_playwright() as playwright:
         page.wait_for_timeout(450)
         page.locator(".photo-marker[data-place-key='pier39']").click()
         page.wait_for_timeout(250)
-        report["checks"][f"mobile_{width}"] = page.evaluate(
+        preview_state = page.evaluate(
             """()=>({overflow:document.documentElement.scrollWidth-innerWidth,preview:document.getElementById('previewCard').classList.contains('show'),photo:document.querySelector('#previewCard .preview-media')?.naturalWidth||0,selected:window.__tripApp.state.selected,details:document.querySelectorAll('#detailsPane .photo-slot img').length,schedule:document.querySelectorAll('.map-slot').length,canvas:document.querySelectorAll('.maplibregl-canvas').length})"""
         )
         capture(page, f"gap_{width}_pier39_tap")
+        page.locator("#previewCard .preview-action").click()
+        page.wait_for_function("[...document.querySelectorAll('#detailsPane .photo-slot img')].length===3&&[...document.querySelectorAll('#detailsPane .photo-slot img')].every(x=>x.complete&&x.naturalWidth>0)", timeout=15000)
+        report["checks"][f"mobile_{width}"] = page.evaluate(
+            """preview=>({...preview,selected:window.__tripApp.state.selected,details:document.querySelectorAll('#detailsPane .photo-slot img').length,detailsVisible:document.getElementById('detailsPane').classList.contains('active')})""",
+            preview_state,
+        )
         page.evaluate("()=>window.__tripApp.hidePreview()")
 
     browser.close()

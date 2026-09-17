@@ -5,6 +5,7 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 from qa_config import STANDALONE_PATH
+from qa_loading import wait_for_application_ready
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,7 +19,7 @@ with sync_playwright() as playwright:
     page.on("request", lambda request: requests.append(request.url))
     page.goto(URL, wait_until="domcontentloaded", timeout=120000)
     page.wait_for_function("window.__tripApp && window.__tripApp.map()?.isStyleLoaded()", timeout=120000)
-    page.wait_for_timeout(1500)
+    wait_for_application_ready(page, timeout=120000)
     result = page.evaluate("""()=>({provider:window.__tripApp.state.provider,health:window.__tripApp.state.providerHealth,clusters:document.querySelectorAll('.photo-cluster').length,features:window.__tripApp.visibleRouteFeatures().length,layers:window.__tripApp.map().getStyle().layers.length,decoded:[...document.querySelectorAll('.photo-cluster img')].every(x=>x.complete&&x.naturalWidth>0)})""")
     result["remote_requests"] = [url for url in requests if url.startswith("http")]
     result["page_errors"] = errors
