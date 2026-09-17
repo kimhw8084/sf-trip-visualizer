@@ -166,16 +166,7 @@
       }
     },
     "initial_console_errors": [],
-    "initial_failed_requests": [
-      {
-        "url": "http://127.0.0.1:62759/assets/vector/sf_trip.pmtiles",
-        "failure": "net::ERR_ABORTED"
-      },
-      {
-        "url": "http://127.0.0.1:62759/assets/vector/sf_trip.pmtiles",
-        "failure": "net::ERR_ABORTED"
-      }
-    ],
+    "initial_failed_requests": [],
     "providers": {
       "satellite": {
         "active": "satellite",
@@ -207,10 +198,9 @@
     "provider_transition_console": [
       "Failed to load resource: net::ERR_FAILED",
       "Failed to load resource: net::ERR_FAILED",
-      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:46:4114\n    at G",
+      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:46:4114\n    at G",
       "Failed to load resource: net::ERR_FAILED",
-      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:46:4114\n    at G",
-      "Failed to load resource: net::ERR_FAILED",
+      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:46:4114\n    at G",
       "Failed to load resource: net::ERR_FAILED",
       "Failed to load resource: net::ERR_FAILED",
       "Failed to load resource: net::ERR_FAILED",
@@ -277,7 +267,7 @@
       },
       {
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3164/1309",
-        "failure": "net::ERR_FAILED"
+        "failure": "net::ERR_ABORTED"
       },
       {
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3165/1308",
@@ -318,23 +308,13 @@
     "unexpected_provider_transition_console": [],
     "unexpected_provider_transition_failed_requests": [],
     "console_errors_before_injected_failure": [],
-    "failed_requests_before_injected_failure": [
-      {
-        "url": "http://127.0.0.1:62759/assets/vector/sf_trip.pmtiles",
-        "failure": "net::ERR_ABORTED"
-      },
-      {
-        "url": "http://127.0.0.1:62759/assets/vector/sf_trip.pmtiles",
-        "failure": "net::ERR_ABORTED"
-      }
-    ],
+    "failed_requests_before_injected_failure": [],
     "expected_injected_failure_console": [
       "Failed to load resource: net::ERR_FAILED",
       "Failed to load resource: net::ERR_FAILED",
-      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:46:4114\n    at G",
+      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:46:4114\n    at G",
       "Failed to load resource: net::ERR_FAILED",
-      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:46:4114\n    at G",
-      "Failed to load resource: net::ERR_FAILED",
+      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:46:4114\n    at G",
       "Failed to load resource: net::ERR_FAILED",
       "Failed to load resource: net::ERR_FAILED",
       "Failed to load resource: net::ERR_FAILED",
@@ -395,10 +375,9 @@
   "console_errors": [
     "Failed to load resource: net::ERR_FAILED",
     "Failed to load resource: net::ERR_FAILED",
-    "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:46:4114\n    at G",
+    "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:46:4114\n    at G",
     "Failed to load resource: net::ERR_FAILED",
-    "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:62759/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:62759/vendor/maplibre-gl.js:46:4114\n    at G",
-    "Failed to load resource: net::ERR_FAILED",
+    "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:61049/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:61049/vendor/maplibre-gl.js:46:4114\n    at G",
     "Failed to load resource: net::ERR_FAILED",
     "Failed to load resource: net::ERR_FAILED",
     "Failed to load resource: net::ERR_FAILED",
@@ -411,14 +390,6 @@
     "Failed to load resource: net::ERR_FAILED"
   ],
   "failed_requests": [
-    {
-      "url": "http://127.0.0.1:62759/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "http://127.0.0.1:62759/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
-    },
     {
       "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=4",
       "failure": "net::ERR_FAILED"
@@ -473,7 +444,7 @@
     },
     {
       "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3164/1309",
-      "failure": "net::ERR_FAILED"
+      "failure": "net::ERR_ABORTED"
     },
     {
       "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3165/1308",

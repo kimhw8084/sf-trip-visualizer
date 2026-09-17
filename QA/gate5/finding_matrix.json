@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "candidate_head": "752219c66f1c973dc12eda4b842bcc1bacc33fb3",
+  "candidate_head": "3972b034ceed166897a32649bede6bc8cd31f5e8",
   "candidate_fingerprint": {
-    "sha256": "2b92e495c0420be509923e667c4c11841fb581f26c2b3cff796fdba7e02874a7",
+    "sha256": "b5a9ba2cfe231a14b0ddf157248204a71bdc7924dfdda5b10cde9f0c5aa79695",
     "file_count": 336,
-    "tracked_head": "752219c66f1c973dc12eda4b842bcc1bacc33fb3",
-    "worktree_dirty": true,
+    "tracked_head": "3972b034ceed166897a32649bede6bc8cd31f5e8",
+    "worktree_dirty": false,
     "excluded_from_hash": [
       "QA/",
       ".build/",
@@ -28,13 +28,8 @@
       "finding": "same-environment performance comparability",
       "status": "VERIFY_REQUIRED",
       "evidence": {
-        "reason": "Source/revision binding is incomplete or mismatched; a hard comparison is not evidence-supported.",
-        "mismatch": [
-          {
-            "field": "source_binding",
-            "reason": "candidate source binding is not an exact clean commit"
-          }
-        ],
+        "reason": null,
+        "mismatch": null,
         "candidate_environment_signature": {
           "schema_version": 1,
           "os": {
@@ -69,8 +64,8 @@
             "user_agent": "playwright-default"
           },
           "sample_conditions": {
-            "sample_count": 3,
-            "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+            "sample_count": 8,
+            "measurement_profile": "gate5-performance-r4-paired-blocks-v1",
             "server": "local-http",
             "network": "default-playwright-context",
             "cold_condition": "new-context-and-page",
@@ -120,8 +115,8 @@
             "user_agent": "playwright-default"
           },
           "sample_conditions": {
-            "sample_count": 3,
-            "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+            "sample_count": 8,
+            "measurement_profile": "gate5-performance-r4-paired-blocks-v1",
             "server": "local-http",
             "network": "default-playwright-context",
             "cold_condition": "new-context-and-page",
@@ -137,31 +132,6 @@
             "interaction_repeat_count": 1
           }
         }
-      }
-    },
-    {
-      "finding": "exact candidate source binding",
-      "status": "VERIFY_REQUIRED",
-      "evidence": {
-        "schema_version": 1,
-        "binding": "source_fingerprint",
-        "status": "VERIFY_REQUIRED",
-        "claimed_revision": "752219c66f1c973dc12eda4b842bcc1bacc33fb3",
-        "checked_out_revision": "752219c66f1c973dc12eda4b842bcc1bacc33fb3",
-        "source_worktree_dirty": true,
-        "source_fingerprint": {
-          "sha256": "2b92e495c0420be509923e667c4c11841fb581f26c2b3cff796fdba7e02874a7",
-          "file_count": 336,
-          "tracked_head": "752219c66f1c973dc12eda4b842bcc1bacc33fb3",
-          "worktree_dirty": true,
-          "excluded_from_hash": [
-            "QA/",
-            ".build/",
-            ".release/",
-            ".public-site/"
-          ]
-        },
-        "reason": "source files changed after checkout; evidence is bound to the fingerprint, not to HEAD"
       }
     },
     {

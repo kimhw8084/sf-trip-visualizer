@@ -25,7 +25,7 @@
     },
     "reason": "clean checkout is bound to the exact checked-out revision"
   },
-  "captured_at": "2026-09-17T19:32:14.392335+00:00",
+  "captured_at": "2026-09-17T23:35:36.033505+00:00",
   "performance": {
     "samples": {
       "browser": "Chromium",
@@ -34,7 +34,7 @@
         "height": 900
       },
       "phase": "baseline",
-      "sample_count": 3,
+      "sample_count": 8,
       "environment_signature": {
         "schema_version": 1,
         "os": {
@@ -69,8 +69,8 @@
           "user_agent": "playwright-default"
         },
         "sample_conditions": {
-          "sample_count": 3,
-          "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+          "sample_count": 8,
+          "measurement_profile": "gate5-performance-r4-paired-blocks-v1",
           "server": "local-http",
           "network": "default-playwright-context",
           "cold_condition": "new-context-and-page",
@@ -109,224 +109,342 @@
       },
       "cold_milestones": {
         "dom_content_loaded": {
-          "count": 3,
+          "count": 8,
           "values": [
-            94.2,
-            94.7,
-            95.7
+            87.6,
+            90.4,
+            92.6,
+            92.8,
+            94.1,
+            101.1,
+            142.5,
+            178.5
           ],
-          "min": 94.2,
-          "median": 94.7,
-          "max": 95.7,
-          "mean": 94.867,
-          "stdev": 0.764,
-          "p95": 95.7
+          "min": 87.6,
+          "median": 93.45,
+          "max": 178.5,
+          "mean": 109.95,
+          "stdev": 32.874,
+          "p95": 178.5
         },
         "smart_style_ready": {
-          "count": 3,
+          "count": 8,
           "values": [
-            1081.0,
-            1114.4,
-            1118.7
+            1015.0,
+            1053.1,
+            1065.8,
+            1093.3,
+            1120.7,
+            1162.3,
+            1247.3,
+            1380.7
           ],
-          "min": 1081.0,
-          "median": 1114.4,
-          "max": 1118.7,
-          "mean": 1104.7,
-          "stdev": 20.637,
-          "p95": 1118.7
+          "min": 1015.0,
+          "median": 1107.0,
+          "max": 1380.7,
+          "mean": 1142.275,
+          "stdev": 120.203,
+          "p95": 1380.7
         },
         "markers_timeline_ready": {
-          "count": 3,
+          "count": 8,
           "values": [
-            1157.3,
-            1169.9,
-            1182.8
+            1089.0,
+            1131.8,
+            1137.1,
+            1173.9,
+            1196.7,
+            1208.6,
+            1287.8,
+            1385.2
           ],
-          "min": 1157.3,
-          "median": 1169.9,
-          "max": 1182.8,
-          "mean": 1170.0,
-          "stdev": 12.75,
-          "p95": 1182.8
+          "min": 1089.0,
+          "median": 1185.3,
+          "max": 1385.2,
+          "mean": 1201.263,
+          "stdev": 95.386,
+          "p95": 1385.2
         },
         "first_actionable_state": {
-          "count": 3,
+          "count": 8,
           "values": [
-            1158.5,
-            1171.2,
-            1183.9
+            1090.2,
+            1133.0,
+            1138.5,
+            1175.4,
+            1197.9,
+            1210.0,
+            1289.2,
+            1386.6
           ],
-          "min": 1158.5,
-          "median": 1171.2,
-          "max": 1183.9,
-          "mean": 1171.2,
-          "stdev": 12.7,
-          "p95": 1183.9
+          "min": 1090.2,
+          "median": 1186.65,
+          "max": 1386.6,
+          "mean": 1202.6,
+          "stdev": 95.438,
+          "p95": 1386.6
         }
       },
       "warm_milestones": {
         "dom_content_loaded": {
-          "count": 3,
+          "count": 8,
           "values": [
-            62.1,
-            77.5,
-            112.4
+            73.7,
+            76.3,
+            79.1,
+            80.6,
+            81.3,
+            91.5,
+            94.8,
+            94.8
           ],
-          "min": 62.1,
-          "median": 77.5,
-          "max": 112.4,
-          "mean": 84.0,
-          "stdev": 25.772,
-          "p95": 112.4
+          "min": 73.7,
+          "median": 80.95,
+          "max": 94.8,
+          "mean": 84.013,
+          "stdev": 8.433,
+          "p95": 94.8
         },
         "smart_style_ready": {
-          "count": 3,
+          "count": 8,
           "values": [
-            1030.4,
-            1119.2,
-            1127.3
+            916.9,
+            940.3,
+            957.5,
+            976.6,
+            1012.8,
+            1014.4,
+            1040.2,
+            1118.9
           ],
-          "min": 1030.4,
-          "median": 1119.2,
-          "max": 1127.3,
-          "mean": 1092.3,
-          "stdev": 53.76,
-          "p95": 1127.3
+          "min": 916.9,
+          "median": 994.7,
+          "max": 1118.9,
+          "mean": 997.2,
+          "stdev": 64.238,
+          "p95": 1118.9
         },
         "markers_timeline_ready": {
-          "count": 3,
+          "count": 8,
           "values": [
-            1033.8,
-            1159.1,
-            1162.2
+            1049.6,
+            1052.8,
+            1065.9,
+            1074.7,
+            1075.7,
+            1077.8,
+            1113.9,
+            1222.2
           ],
-          "min": 1033.8,
-          "median": 1159.1,
-          "max": 1162.2,
-          "mean": 1118.367,
-          "stdev": 73.253,
-          "p95": 1162.2
+          "min": 1049.6,
+          "median": 1075.2,
+          "max": 1222.2,
+          "mean": 1091.575,
+          "stdev": 56.331,
+          "p95": 1222.2
         },
         "first_actionable_state": {
-          "count": 3,
+          "count": 8,
           "values": [
-            1034.9,
-            1160.4,
-            1163.5
+            1050.9,
+            1054.3,
+            1067.6,
+            1076.0,
+            1077.0,
+            1079.1,
+            1115.2,
+            1223.9
           ],
-          "min": 1034.9,
-          "median": 1160.4,
-          "max": 1163.5,
-          "mean": 1119.6,
-          "stdev": 73.369,
-          "p95": 1163.5
+          "min": 1050.9,
+          "median": 1076.5,
+          "max": 1223.9,
+          "mean": 1093.0,
+          "stdev": 56.418,
+          "p95": 1223.9
         }
       },
       "interactions": {
         "route": {
-          "count": 3,
+          "count": 8,
           "values": [
-            205.733,
-            221.703,
-            224.257
+            199.415,
+            210.607,
+            213.191,
+            214.087,
+            214.576,
+            215.936,
+            228.251,
+            268.52
           ],
-          "min": 205.733,
-          "median": 221.703,
-          "max": 224.257,
-          "mean": 217.231,
-          "stdev": 10.039,
-          "p95": 224.257
+          "min": 199.415,
+          "median": 214.332,
+          "max": 268.52,
+          "mean": 220.573,
+          "stdev": 20.904,
+          "p95": 268.52
         },
         "date": {
-          "count": 3,
+          "count": 8,
           "values": [
-            143.034,
-            151.929,
-            209.224
+            132.926,
+            136.995,
+            139.095,
+            145.434,
+            149.823,
+            157.025,
+            157.247,
+            160.152
           ],
-          "min": 143.034,
-          "median": 151.929,
-          "max": 209.224,
-          "mean": 168.062,
-          "stdev": 35.923,
-          "p95": 209.224
+          "min": 132.926,
+          "median": 147.629,
+          "max": 160.152,
+          "mean": 147.337,
+          "stdev": 10.342,
+          "p95": 160.152
         },
         "region": {
-          "count": 3,
+          "count": 8,
           "values": [
-            297.523,
-            310.521,
-            637.923
+            249.354,
+            263.607,
+            268.192,
+            278.378,
+            291.637,
+            305.069,
+            346.749,
+            434.169
           ],
-          "min": 297.523,
-          "median": 310.521,
-          "max": 637.923,
-          "mean": 415.322,
-          "stdev": 192.887,
-          "p95": 637.923
+          "min": 249.354,
+          "median": 285.007,
+          "max": 434.169,
+          "mean": 304.644,
+          "stdev": 60.331,
+          "p95": 434.169
         },
         "preview": {
-          "count": 3,
+          "count": 8,
           "values": [
-            182.493,
-            204.433,
-            310.257
+            151.166,
+            155.947,
+            177.735,
+            182.444,
+            187.168,
+            192.26,
+            228.314,
+            402.746
           ],
-          "min": 182.493,
-          "median": 204.433,
-          "max": 310.257,
-          "mean": 232.394,
-          "stdev": 68.318,
-          "p95": 310.257
+          "min": 151.166,
+          "median": 184.806,
+          "max": 402.746,
+          "mean": 209.722,
+          "stdev": 81.508,
+          "p95": 402.746
+        },
+        "preview_actionability": {
+          "count": 8,
+          "values": [
+            100.648,
+            104.548,
+            123.172,
+            124.799,
+            125.774,
+            128.801,
+            158.794,
+            315.449
+          ],
+          "min": 100.648,
+          "median": 125.287,
+          "max": 315.449,
+          "mean": 147.748,
+          "stdev": 70.003,
+          "p95": 315.449
+        },
+        "preview_handler": {
+          "count": 8,
+          "values": [
+            3.187,
+            6.996,
+            30.132,
+            76.131,
+            77.348,
+            79.241,
+            84.884,
+            86.38
+          ],
+          "min": 3.187,
+          "median": 76.739,
+          "max": 86.38,
+          "mean": 55.537,
+          "stdev": 35.89,
+          "p95": 86.38
         },
         "detail": {
-          "count": 3,
+          "count": 8,
           "values": [
-            135.423,
-            228.431,
-            261.877
+            71.065,
+            81.355,
+            92.73,
+            115.045,
+            140.518,
+            166.319,
+            176.118,
+            246.519
           ],
-          "min": 135.423,
-          "median": 228.431,
-          "max": 261.877,
-          "mean": 208.577,
-          "stdev": 65.523,
-          "p95": 261.877
+          "min": 71.065,
+          "median": 127.781,
+          "max": 246.519,
+          "mean": 136.209,
+          "stdev": 58.891,
+          "p95": 246.519
         },
         "panel": {
-          "count": 3,
+          "count": 8,
           "values": [
-            316.062,
-            323.921,
-            379.485
+            300.944,
+            309.107,
+            316.692,
+            316.707,
+            320.459,
+            329.101,
+            337.737,
+            745.048
           ],
-          "min": 316.062,
-          "median": 323.921,
-          "max": 379.485,
-          "mean": 339.823,
-          "stdev": 34.573,
-          "p95": 379.485
+          "min": 300.944,
+          "median": 318.583,
+          "max": 745.048,
+          "mean": 371.974,
+          "stdev": 151.165,
+          "p95": 745.048
         },
         "provider_recovery": {
-          "count": 3,
+          "count": 8,
           "values": [
-            178.687,
-            182.293,
-            302.706
+            108.337,
+            142.401,
+            151.739,
+            162.923,
+            197.077,
+            197.151,
+            217.955,
+            231.143
           ],
-          "min": 178.687,
-          "median": 182.293,
-          "max": 302.706,
-          "mean": 221.229,
-          "stdev": 70.584,
-          "p95": 302.706
+          "min": 108.337,
+          "median": 180.0,
+          "max": 231.143,
+          "mean": 176.091,
+          "stdev": 41.678,
+          "p95": 231.143
         }
       },
       "request_behavior": {
         "resources": {
-          "count": 3,
+          "count": 8,
           "values": [
+            56.0,
+            56.0,
+            56.0,
+            56.0,
+            56.0,
             56.0,
             56.0,
             56.0
@@ -339,8 +457,13 @@
           "p95": 56.0
         },
         "transfer_bytes": {
-          "count": 3,
+          "count": 8,
           "values": [
+            3869275.0,
+            3869275.0,
+            3869275.0,
+            3869275.0,
+            3869275.0,
             3869275.0,
             3869275.0,
             3869275.0
@@ -352,13 +475,18 @@
           "stdev": 0.0,
           "p95": 3869275.0
         },
-        "remote_requests": 3,
-        "failed_requests": 3
+        "remote_requests": 8,
+        "failed_requests": 8
       },
       "runtime_growth": {
         "map_creations": {
-          "count": 3,
+          "count": 8,
           "values": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
             1.0,
             1.0,
             1.0
@@ -371,8 +499,13 @@
           "p95": 1.0
         },
         "map_removals": {
-          "count": 3,
+          "count": 8,
           "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
             0.0,
             0.0,
             0.0
@@ -385,8 +518,13 @@
           "p95": 0.0
         },
         "markers": {
-          "count": 3,
+          "count": 8,
           "values": [
+            36.0,
+            36.0,
+            36.0,
+            36.0,
+            36.0,
             36.0,
             36.0,
             36.0
@@ -399,8 +537,13 @@
           "p95": 36.0
         },
         "canvas": {
-          "count": 3,
+          "count": 8,
           "values": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
             1.0,
             1.0,
             1.0
@@ -424,7 +567,12 @@
       },
       "memory_js_heap": [
         {
-          "used": 44700000,
+          "used": 42100000,
+          "total": 64000000,
+          "limit": 3760000000
+        },
+        {
+          "used": 42100000,
           "total": 64000000,
           "limit": 3760000000
         },
@@ -435,6 +583,26 @@
         },
         {
           "used": 44700000,
+          "total": 68000000,
+          "limit": 3760000000
+        },
+        {
+          "used": 44700000,
+          "total": 68000000,
+          "limit": 3760000000
+        },
+        {
+          "used": 42100000,
+          "total": 64000000,
+          "limit": 3760000000
+        },
+        {
+          "used": 44700000,
+          "total": 64000000,
+          "limit": 3760000000
+        },
+        {
+          "used": 42100000,
           "total": 64000000,
           "limit": 3760000000
         }
@@ -442,99 +610,123 @@
       "raw_samples": [
         {
           "cold_milestones": {
-            "dom_content_loaded": 94.69999998807907,
-            "smart_style_ready": 1081,
-            "markers_timeline_ready": 1157.2999999970198,
-            "first_actionable_state": 1158.5
+            "dom_content_loaded": 178.5,
+            "smart_style_ready": 1380.7000000029802,
+            "markers_timeline_ready": 1385.2000000029802,
+            "first_actionable_state": 1386.5999999940395
           },
           "warm_milestones": {
-            "dom_content_loaded": 62.099999994039536,
-            "smart_style_ready": 1127.2999999970198,
-            "markers_timeline_ready": 1162.199999988079,
-            "first_actionable_state": 1163.5
+            "dom_content_loaded": 81.29999999701977,
+            "smart_style_ready": 1118.8999999910593,
+            "markers_timeline_ready": 1222.2000000029802,
+            "first_actionable_state": 1223.8999999910593
           },
           "interactions": {
             "route": {
               "count": 1,
               "values": [
-                205.733
+                228.251
               ],
-              "min": 205.733,
-              "median": 205.733,
-              "max": 205.733,
-              "mean": 205.733,
+              "min": 228.251,
+              "median": 228.251,
+              "max": 228.251,
+              "mean": 228.251,
               "stdev": 0.0,
               "p95": null
             },
             "date": {
               "count": 1,
               "values": [
-                143.034
+                157.025
               ],
-              "min": 143.034,
-              "median": 143.034,
-              "max": 143.034,
-              "mean": 143.034,
+              "min": 157.025,
+              "median": 157.025,
+              "max": 157.025,
+              "mean": 157.025,
               "stdev": 0.0,
               "p95": null
             },
             "region": {
               "count": 1,
               "values": [
-                310.521
+                291.637
               ],
-              "min": 310.521,
-              "median": 310.521,
-              "max": 310.521,
-              "mean": 310.521,
+              "min": 291.637,
+              "median": 291.637,
+              "max": 291.637,
+              "mean": 291.637,
               "stdev": 0.0,
               "p95": null
             },
             "preview": {
               "count": 1,
               "values": [
-                204.433
+                192.26
               ],
-              "min": 204.433,
-              "median": 204.433,
-              "max": 204.433,
-              "mean": 204.433,
+              "min": 192.26,
+              "median": 192.26,
+              "max": 192.26,
+              "mean": 192.26,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                125.774
+              ],
+              "min": 125.774,
+              "median": 125.774,
+              "max": 125.774,
+              "mean": 125.774,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                84.884
+              ],
+              "min": 84.884,
+              "median": 84.884,
+              "max": 84.884,
+              "mean": 84.884,
               "stdev": 0.0,
               "p95": null
             },
             "detail": {
               "count": 1,
               "values": [
-                228.431
+                115.045
               ],
-              "min": 228.431,
-              "median": 228.431,
-              "max": 228.431,
-              "mean": 228.431,
+              "min": 115.045,
+              "median": 115.045,
+              "max": 115.045,
+              "mean": 115.045,
               "stdev": 0.0,
               "p95": null
             },
             "panel": {
               "count": 1,
               "values": [
-                316.062
+                316.692
               ],
-              "min": 316.062,
-              "median": 316.062,
-              "max": 316.062,
-              "mean": 316.062,
+              "min": 316.692,
+              "median": 316.692,
+              "max": 316.692,
+              "mean": 316.692,
               "stdev": 0.0,
               "p95": null
             },
             "provider_recovery": {
               "count": 1,
               "values": [
-                182.293
+                197.077
               ],
-              "min": 182.293,
-              "median": 182.293,
-              "max": 182.293,
-              "mean": 182.293,
+              "min": 197.077,
+              "median": 197.077,
+              "max": 197.077,
+              "mean": 197.077,
               "stdev": 0.0,
               "p95": null
             }
@@ -542,99 +734,123 @@
         },
         {
           "cold_milestones": {
-            "dom_content_loaded": 94.20000000298023,
-            "smart_style_ready": 1118.7000000029802,
-            "markers_timeline_ready": 1169.9000000059605,
-            "first_actionable_state": 1171.2000000029802
+            "dom_content_loaded": 92.79999999701977,
+            "smart_style_ready": 1065.7999999970198,
+            "markers_timeline_ready": 1137.1000000089407,
+            "first_actionable_state": 1138.5
           },
           "warm_milestones": {
-            "dom_content_loaded": 112.40000000596046,
-            "smart_style_ready": 1119.2000000029802,
-            "markers_timeline_ready": 1159.1000000089407,
-            "first_actionable_state": 1160.4000000059605
+            "dom_content_loaded": 91.5,
+            "smart_style_ready": 976.5999999940395,
+            "markers_timeline_ready": 1052.7999999970198,
+            "first_actionable_state": 1054.2999999970198
           },
           "interactions": {
             "route": {
               "count": 1,
               "values": [
-                224.257
+                213.191
               ],
-              "min": 224.257,
-              "median": 224.257,
-              "max": 224.257,
-              "mean": 224.257,
+              "min": 213.191,
+              "median": 213.191,
+              "max": 213.191,
+              "mean": 213.191,
               "stdev": 0.0,
               "p95": null
             },
             "date": {
               "count": 1,
               "values": [
-                151.929
+                136.995
               ],
-              "min": 151.929,
-              "median": 151.929,
-              "max": 151.929,
-              "mean": 151.929,
+              "min": 136.995,
+              "median": 136.995,
+              "max": 136.995,
+              "mean": 136.995,
               "stdev": 0.0,
               "p95": null
             },
             "region": {
               "count": 1,
               "values": [
-                297.523
+                268.192
               ],
-              "min": 297.523,
-              "median": 297.523,
-              "max": 297.523,
-              "mean": 297.523,
+              "min": 268.192,
+              "median": 268.192,
+              "max": 268.192,
+              "mean": 268.192,
               "stdev": 0.0,
               "p95": null
             },
             "preview": {
               "count": 1,
               "values": [
-                182.493
+                182.444
               ],
-              "min": 182.493,
-              "median": 182.493,
-              "max": 182.493,
-              "mean": 182.493,
+              "min": 182.444,
+              "median": 182.444,
+              "max": 182.444,
+              "mean": 182.444,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                124.799
+              ],
+              "min": 124.799,
+              "median": 124.799,
+              "max": 124.799,
+              "mean": 124.799,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                79.241
+              ],
+              "min": 79.241,
+              "median": 79.241,
+              "max": 79.241,
+              "mean": 79.241,
               "stdev": 0.0,
               "p95": null
             },
             "detail": {
               "count": 1,
               "values": [
-                261.877
+                176.118
               ],
-              "min": 261.877,
-              "median": 261.877,
-              "max": 261.877,
-              "mean": 261.877,
+              "min": 176.118,
+              "median": 176.118,
+              "max": 176.118,
+              "mean": 176.118,
               "stdev": 0.0,
               "p95": null
             },
             "panel": {
               "count": 1,
               "values": [
-                323.921
+                316.707
               ],
-              "min": 323.921,
-              "median": 323.921,
-              "max": 323.921,
-              "mean": 323.921,
+              "min": 316.707,
+              "median": 316.707,
+              "max": 316.707,
+              "mean": 316.707,
               "stdev": 0.0,
               "p95": null
             },
             "provider_recovery": {
               "count": 1,
               "values": [
-                178.687
+                197.151
               ],
-              "min": 178.687,
-              "median": 178.687,
-              "max": 178.687,
-              "mean": 178.687,
+              "min": 197.151,
+              "median": 197.151,
+              "max": 197.151,
+              "mean": 197.151,
               "stdev": 0.0,
               "p95": null
             }
@@ -642,99 +858,743 @@
         },
         {
           "cold_milestones": {
-            "dom_content_loaded": 95.70000000298023,
-            "smart_style_ready": 1114.4000000059605,
-            "markers_timeline_ready": 1182.800000011921,
-            "first_actionable_state": 1183.9000000059605
+            "dom_content_loaded": 142.5,
+            "smart_style_ready": 1162.2999999970198,
+            "markers_timeline_ready": 1208.5999999940395,
+            "first_actionable_state": 1210
           },
           "warm_milestones": {
-            "dom_content_loaded": 77.5,
-            "smart_style_ready": 1030.4000000059605,
-            "markers_timeline_ready": 1033.7999999970198,
-            "first_actionable_state": 1034.9000000059605
+            "dom_content_loaded": 76.29999999701977,
+            "smart_style_ready": 957.5,
+            "markers_timeline_ready": 1065.8999999910593,
+            "first_actionable_state": 1067.5999999940395
           },
           "interactions": {
             "route": {
               "count": 1,
               "values": [
-                221.703
+                214.576
               ],
-              "min": 221.703,
-              "median": 221.703,
-              "max": 221.703,
-              "mean": 221.703,
+              "min": 214.576,
+              "median": 214.576,
+              "max": 214.576,
+              "mean": 214.576,
               "stdev": 0.0,
               "p95": null
             },
             "date": {
               "count": 1,
               "values": [
-                209.224
+                149.823
               ],
-              "min": 209.224,
-              "median": 209.224,
-              "max": 209.224,
-              "mean": 209.224,
+              "min": 149.823,
+              "median": 149.823,
+              "max": 149.823,
+              "mean": 149.823,
               "stdev": 0.0,
               "p95": null
             },
             "region": {
               "count": 1,
               "values": [
-                637.923
+                278.378
               ],
-              "min": 637.923,
-              "median": 637.923,
-              "max": 637.923,
-              "mean": 637.923,
+              "min": 278.378,
+              "median": 278.378,
+              "max": 278.378,
+              "mean": 278.378,
               "stdev": 0.0,
               "p95": null
             },
             "preview": {
               "count": 1,
               "values": [
-                310.257
+                177.735
               ],
-              "min": 310.257,
-              "median": 310.257,
-              "max": 310.257,
-              "mean": 310.257,
+              "min": 177.735,
+              "median": 177.735,
+              "max": 177.735,
+              "mean": 177.735,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                123.172
+              ],
+              "min": 123.172,
+              "median": 123.172,
+              "max": 123.172,
+              "mean": 123.172,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                77.348
+              ],
+              "min": 77.348,
+              "median": 77.348,
+              "max": 77.348,
+              "mean": 77.348,
               "stdev": 0.0,
               "p95": null
             },
             "detail": {
               "count": 1,
               "values": [
-                135.423
+                140.518
               ],
-              "min": 135.423,
-              "median": 135.423,
-              "max": 135.423,
-              "mean": 135.423,
+              "min": 140.518,
+              "median": 140.518,
+              "max": 140.518,
+              "mean": 140.518,
               "stdev": 0.0,
               "p95": null
             },
             "panel": {
               "count": 1,
               "values": [
-                379.485
+                300.944
               ],
-              "min": 379.485,
-              "median": 379.485,
-              "max": 379.485,
-              "mean": 379.485,
+              "min": 300.944,
+              "median": 300.944,
+              "max": 300.944,
+              "mean": 300.944,
               "stdev": 0.0,
               "p95": null
             },
             "provider_recovery": {
               "count": 1,
               "values": [
-                302.706
+                151.739
               ],
-              "min": 302.706,
-              "median": 302.706,
-              "max": 302.706,
-              "mean": 302.706,
+              "min": 151.739,
+              "median": 151.739,
+              "max": 151.739,
+              "mean": 151.739,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 92.6000000089407,
+            "smart_style_ready": 1093.300000011921,
+            "markers_timeline_ready": 1173.9000000059605,
+            "first_actionable_state": 1175.4000000059605
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 94.80000001192093,
+            "smart_style_ready": 1014.4000000059605,
+            "markers_timeline_ready": 1075.7000000029802,
+            "first_actionable_state": 1077
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                210.607
+              ],
+              "min": 210.607,
+              "median": 210.607,
+              "max": 210.607,
+              "mean": 210.607,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                160.152
+              ],
+              "min": 160.152,
+              "median": 160.152,
+              "max": 160.152,
+              "mean": 160.152,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                305.069
+              ],
+              "min": 305.069,
+              "median": 305.069,
+              "max": 305.069,
+              "mean": 305.069,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                402.746
+              ],
+              "min": 402.746,
+              "median": 402.746,
+              "max": 402.746,
+              "mean": 402.746,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                315.449
+              ],
+              "min": 315.449,
+              "median": 315.449,
+              "max": 315.449,
+              "mean": 315.449,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                6.996
+              ],
+              "min": 6.996,
+              "median": 6.996,
+              "max": 6.996,
+              "mean": 6.996,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                92.73
+              ],
+              "min": 92.73,
+              "median": 92.73,
+              "max": 92.73,
+              "mean": 92.73,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                745.048
+              ],
+              "min": 745.048,
+              "median": 745.048,
+              "max": 745.048,
+              "mean": 745.048,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                108.337
+              ],
+              "min": 108.337,
+              "median": 108.337,
+              "max": 108.337,
+              "mean": 108.337,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 101.1000000089407,
+            "smart_style_ready": 1247.300000011921,
+            "markers_timeline_ready": 1287.800000011921,
+            "first_actionable_state": 1289.2000000029802
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 94.79999999701977,
+            "smart_style_ready": 1040.2000000029802,
+            "markers_timeline_ready": 1113.8999999910593,
+            "first_actionable_state": 1115.2000000029802
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                268.52
+              ],
+              "min": 268.52,
+              "median": 268.52,
+              "max": 268.52,
+              "mean": 268.52,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                145.434
+              ],
+              "min": 145.434,
+              "median": 145.434,
+              "max": 145.434,
+              "mean": 145.434,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                346.749
+              ],
+              "min": 346.749,
+              "median": 346.749,
+              "max": 346.749,
+              "mean": 346.749,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                187.168
+              ],
+              "min": 187.168,
+              "median": 187.168,
+              "max": 187.168,
+              "mean": 187.168,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                128.801
+              ],
+              "min": 128.801,
+              "median": 128.801,
+              "max": 128.801,
+              "mean": 128.801,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                30.132
+              ],
+              "min": 30.132,
+              "median": 30.132,
+              "max": 30.132,
+              "mean": 30.132,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                71.065
+              ],
+              "min": 71.065,
+              "median": 71.065,
+              "max": 71.065,
+              "mean": 71.065,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                309.107
+              ],
+              "min": 309.107,
+              "median": 309.107,
+              "max": 309.107,
+              "mean": 309.107,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                217.955
+              ],
+              "min": 217.955,
+              "median": 217.955,
+              "max": 217.955,
+              "mean": 217.955,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 87.59999999403954,
+            "smart_style_ready": 1015,
+            "markers_timeline_ready": 1089,
+            "first_actionable_state": 1090.199999988079
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 79.09999999403954,
+            "smart_style_ready": 916.8999999910593,
+            "markers_timeline_ready": 1049.5999999940395,
+            "first_actionable_state": 1050.8999999910593
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                199.415
+              ],
+              "min": 199.415,
+              "median": 199.415,
+              "max": 199.415,
+              "mean": 199.415,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                132.926
+              ],
+              "min": 132.926,
+              "median": 132.926,
+              "max": 132.926,
+              "mean": 132.926,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                249.354
+              ],
+              "min": 249.354,
+              "median": 249.354,
+              "max": 249.354,
+              "mean": 249.354,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                151.166
+              ],
+              "min": 151.166,
+              "median": 151.166,
+              "max": 151.166,
+              "mean": 151.166,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                100.648
+              ],
+              "min": 100.648,
+              "median": 100.648,
+              "max": 100.648,
+              "mean": 100.648,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                76.131
+              ],
+              "min": 76.131,
+              "median": 76.131,
+              "max": 76.131,
+              "mean": 76.131,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                246.519
+              ],
+              "min": 246.519,
+              "median": 246.519,
+              "max": 246.519,
+              "mean": 246.519,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                329.101
+              ],
+              "min": 329.101,
+              "median": 329.101,
+              "max": 329.101,
+              "mean": 329.101,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                162.923
+              ],
+              "min": 162.923,
+              "median": 162.923,
+              "max": 162.923,
+              "mean": 162.923,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 90.40000000596046,
+            "smart_style_ready": 1053.1000000089407,
+            "markers_timeline_ready": 1131.800000011921,
+            "first_actionable_state": 1133
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 80.6000000089407,
+            "smart_style_ready": 940.2999999970198,
+            "markers_timeline_ready": 1077.7999999970198,
+            "first_actionable_state": 1079.1000000089407
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                214.087
+              ],
+              "min": 214.087,
+              "median": 214.087,
+              "max": 214.087,
+              "mean": 214.087,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                139.095
+              ],
+              "min": 139.095,
+              "median": 139.095,
+              "max": 139.095,
+              "mean": 139.095,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                263.607
+              ],
+              "min": 263.607,
+              "median": 263.607,
+              "max": 263.607,
+              "mean": 263.607,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                155.947
+              ],
+              "min": 155.947,
+              "median": 155.947,
+              "max": 155.947,
+              "mean": 155.947,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                104.548
+              ],
+              "min": 104.548,
+              "median": 104.548,
+              "max": 104.548,
+              "mean": 104.548,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                86.38
+              ],
+              "min": 86.38,
+              "median": 86.38,
+              "max": 86.38,
+              "mean": 86.38,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                166.319
+              ],
+              "min": 166.319,
+              "median": 166.319,
+              "max": 166.319,
+              "mean": 166.319,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                320.459
+              ],
+              "min": 320.459,
+              "median": 320.459,
+              "max": 320.459,
+              "mean": 320.459,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                142.401
+              ],
+              "min": 142.401,
+              "median": 142.401,
+              "max": 142.401,
+              "mean": 142.401,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 94.1000000089407,
+            "smart_style_ready": 1120.7000000029802,
+            "markers_timeline_ready": 1196.7000000029802,
+            "first_actionable_state": 1197.9000000059605
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 73.70000000298023,
+            "smart_style_ready": 1012.7999999970198,
+            "markers_timeline_ready": 1074.7000000029802,
+            "first_actionable_state": 1076
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                215.936
+              ],
+              "min": 215.936,
+              "median": 215.936,
+              "max": 215.936,
+              "mean": 215.936,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                157.247
+              ],
+              "min": 157.247,
+              "median": 157.247,
+              "max": 157.247,
+              "mean": 157.247,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                434.169
+              ],
+              "min": 434.169,
+              "median": 434.169,
+              "max": 434.169,
+              "mean": 434.169,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                228.314
+              ],
+              "min": 228.314,
+              "median": 228.314,
+              "max": 228.314,
+              "mean": 228.314,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                158.794
+              ],
+              "min": 158.794,
+              "median": 158.794,
+              "max": 158.794,
+              "mean": 158.794,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                3.187
+              ],
+              "min": 3.187,
+              "median": 3.187,
+              "max": 3.187,
+              "mean": 3.187,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                81.355
+              ],
+              "min": 81.355,
+              "median": 81.355,
+              "max": 81.355,
+              "mean": 81.355,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                337.737
+              ],
+              "min": 337.737,
+              "median": 337.737,
+              "max": 337.737,
+              "mean": 337.737,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                231.143
+              ],
+              "min": 231.143,
+              "median": 231.143,
+              "max": 231.143,
+              "mean": 231.143,
               "stdev": 0.0,
               "p95": null
             }
@@ -747,64 +1607,179 @@
       ]
     },
     "measurement_schedule": {
-      "method": "order-balanced-interleaved-same-runner",
-      "sample_count_per_side": 3,
-      "order": [
-        "candidate>baseline",
-        "baseline>candidate",
-        "candidate>baseline"
+      "method": "two-independent-order-balanced-blocks-same-runner",
+      "block_count": 2,
+      "pairs_per_block": 4,
+      "total_pairs": 8,
+      "sample_count_per_side": 8,
+      "order_by_block": [
+        [
+          "candidate>baseline",
+          "baseline>candidate",
+          "candidate>baseline",
+          "baseline>candidate"
+        ],
+        [
+          "baseline>candidate",
+          "candidate>baseline",
+          "baseline>candidate",
+          "candidate>baseline"
+        ]
       ],
       "fresh_context_per_measurement": true,
-      "same_browser_runtime_process": true,
+      "independent_browser_process_per_block": true,
+      "same_runner_environment": true,
       "candidate_server": {
-        "url": "http://127.0.0.1:62759/index.html",
+        "url": "http://127.0.0.1:61049/index.html",
         "build": ".build/modular",
         "isolated": true
       },
       "baseline_server": {
-        "url": "http://127.0.0.1:53818/index.html",
-        "build": "/Users/haewonkim/.codex-fabric/worktrees/gate5-base-rifls_vx/source/.build/modular",
+        "url": "http://127.0.0.1:64081/index.html",
+        "build": "/Users/haewonkim/.codex-fabric/worktrees/gate5-base-o3q5b5b4/source/.build/modular",
         "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
         "isolated": true
       },
       "schedule": [
         {
+          "block": 1,
           "pair": 1,
+          "pair_in_block": 1,
           "position": 1,
           "side": "candidate",
-          "revision": "752219c66f1c973dc12eda4b842bcc1bacc33fb3",
+          "revision": "3972b034ceed166897a32649bede6bc8cd31f5e8",
           "fresh_context": true
         },
         {
+          "block": 1,
           "pair": 1,
+          "pair_in_block": 1,
           "position": 2,
           "side": "baseline",
           "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
           "fresh_context": true
         },
         {
+          "block": 1,
           "pair": 2,
+          "pair_in_block": 2,
           "position": 1,
           "side": "baseline",
           "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
           "fresh_context": true
         },
         {
+          "block": 1,
           "pair": 2,
+          "pair_in_block": 2,
           "position": 2,
           "side": "candidate",
-          "revision": "752219c66f1c973dc12eda4b842bcc1bacc33fb3",
+          "revision": "3972b034ceed166897a32649bede6bc8cd31f5e8",
           "fresh_context": true
         },
         {
+          "block": 1,
           "pair": 3,
+          "pair_in_block": 3,
           "position": 1,
           "side": "candidate",
-          "revision": "752219c66f1c973dc12eda4b842bcc1bacc33fb3",
+          "revision": "3972b034ceed166897a32649bede6bc8cd31f5e8",
           "fresh_context": true
         },
         {
+          "block": 1,
           "pair": 3,
+          "pair_in_block": 3,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 4,
+          "pair_in_block": 4,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 4,
+          "pair_in_block": 4,
+          "position": 2,
+          "side": "candidate",
+          "revision": "3972b034ceed166897a32649bede6bc8cd31f5e8",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 5,
+          "pair_in_block": 1,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 5,
+          "pair_in_block": 1,
+          "position": 2,
+          "side": "candidate",
+          "revision": "3972b034ceed166897a32649bede6bc8cd31f5e8",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 6,
+          "pair_in_block": 2,
+          "position": 1,
+          "side": "candidate",
+          "revision": "3972b034ceed166897a32649bede6bc8cd31f5e8",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 6,
+          "pair_in_block": 2,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 7,
+          "pair_in_block": 3,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 7,
+          "pair_in_block": 3,
+          "position": 2,
+          "side": "candidate",
+          "revision": "3972b034ceed166897a32649bede6bc8cd31f5e8",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 8,
+          "pair_in_block": 4,
+          "position": 1,
+          "side": "candidate",
+          "revision": "3972b034ceed166897a32649bede6bc8cd31f5e8",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 8,
+          "pair_in_block": 4,
           "position": 2,
           "side": "baseline",
           "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
