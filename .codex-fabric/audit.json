@@ -1,0 +1,537 @@
+{
+  "accepted_at": "2026-09-17T04:07:35Z",
+  "changed_files": [
+    {
+      "additions": 29,
+      "deletions": 29,
+      "path": "QA/map_first/canonical_truth.json",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 18,
+      "path": "QA/map_first/cross_browser.json",
+      "status": "M"
+    },
+    {
+      "additions": 48,
+      "deletions": 20,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 5,
+      "path": "QA/map_first/smoke.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "QA/map_first/standalone.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "QA/route_panel/route_explanations_panel.json",
+      "status": "M"
+    },
+    {
+      "additions": 17,
+      "deletions": 0,
+      "path": "TRIP_VISUALIZER_SCHEMA.md",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 2,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "M"
+    },
+    {
+      "additions": 88,
+      "deletions": 0,
+      "path": "manifests/runtime_resilience_contract.json",
+      "status": "A"
+    },
+    {
+      "additions": 4,
+      "deletions": 1,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 1,
+      "path": "scripts/package_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 121,
+      "deletions": 5,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 0,
+      "path": "scripts/prepare_public_site.py",
+      "status": "M"
+    },
+    {
+      "additions": 415,
+      "deletions": 0,
+      "path": "scripts/qa_gate4_resilience.py",
+      "status": "A"
+    },
+    {
+      "additions": 54,
+      "deletions": 34,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "src/map_first.css",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "src/map_shell_template.html",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8767/index.html TRIP_STANDALONE_PATH=.build/standalone/SF_Smart_Minority_Map_First_Standalone.html rtk python3 scripts/qa_gate4_resilience.py --mode browser --output QA/release/gate4_runtime.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8767/index.html TRIP_STANDALONE_PATH=.build/standalone/SF_Smart_Minority_Map_First_Standalone.html rtk python3 scripts/qa_gate4_resilience.py --mode browser --output QA/release/gate4_runtime.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8767/index.html TRIP_STANDALONE_PATH=.build/standalone/SF_Smart_Minority_Map_First_Standalone.html rtk python3 scripts/qa_gate4_resilience.py --mode browser --output QA/release/gate4_runtime.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8767/index.html TRIP_STANDALONE_PATH=.build/standalone/SF_Smart_Minority_Map_First_Standalone.html rtk python3 scripts/qa_gate4_resilience.py --mode browser --output QA/release/gate4_runtime.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\np=json.load(open('QA/release/gate4_runtime.json'))\nprint(json.dumps({k:p.get(k) for k in ('status','failures','external_provider','negative_checks')},ensure_ascii=False,indent=2))\nprint('\\\\nmodular summary',json.dumps({k:p['modular'].get(k) for k in ('critical_pass','failures','remote_requests','page_errors')},ensure_ascii=False,indent=2))\nprint('\\\\ninitial',json.dumps(p['modular'].get('initial'),ensure_ascii=False,indent=2))\nprint('\\\\nblocked',json.dumps({k:p['modular'].get('blocked_provider',{}).get(k) for k in ('provider','provider_identity','planning_state','map','provider_events','local_assets','runtime','provider_stats')},ensure_ascii=False,indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk nl -ba scripts/qa_gate4_resilience.py | sed -n '215,238p'; rtk python3 - <<'PY'\nimport re\nprint(re.match(r\\\"https?://(127\\\\\\\\.0\\\\\\\\.0\\\\\\\\.1|localhost)(:|/)\\\", 'http://127.0.0.1:8767/index.html'))\nprint(re.match(r\\\"https?://(127\\\\.0\\\\.0\\\\.1|localhost)(:|/)\\\", 'http://127.0.0.1:8767/index.html'))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py fast'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8767/index.html TRIP_STANDALONE_PATH=.build/standalone/SF_Smart_Minority_Map_First_Standalone.html rtk python3 scripts/qa_gate4_resilience.py --mode browser --output QA/release/gate4_runtime.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\np=json.load(open('QA/release/gate4_runtime.json'))\nprint(json.dumps({'status':p['status'],'failures':p['failures'],'external_provider':p['external_provider'],'negative_checks':p['negative_checks'],'modular':{k:p['modular'][k] for k in ('critical_pass','remote_requests','page_errors','before_reload','after_reload')},'standalone':{k:p['standalone'][k] for k in ('critical_pass','remote_requests','page_errors')}},ensure_ascii=False,indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\np=json.load(open('QA/release/gate4_runtime.json'))\nfor k in ['blocked_provider','repeated_switches']:\n s=p['modular'][k]\n print(k, {'provider':s['provider'],'health':s['provider_health'],'events':s['provider_events'],'runtime':s['runtime'],'stats':s['provider_stats'],'map':s['map']})\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfor p in ['QA/release/fast.json','QA/release/gate4_static.json','QA/release/gate4.json']:\n try:\n  d=json.load(open(p)); print(p, d.get('status'),d.get('candidate_head'),d.get('gate4_static'))\n except Exception as e: print(p,e)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short; rtk git diff --check; rtk node --check src/app_phase7.js; rtk python3 -m py_compile scripts/pipeline.py scripts/qa_gate4_resilience.py scripts/build_map_first.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8767/index.html TRIP_STANDALONE_PATH=.build/standalone/SF_Smart_Minority_Map_First_Standalone.html rtk python3 scripts/qa_map_first_full.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\np=json.load(open('QA/map_first/full_acceptance.json'))\nc=p['checks']\nprint({k:c.get(k) for k in ('console_errors_before_injected_failure','failed_requests_before_injected_failure','satellite_initial_failure_fallback','post_success_pan_failure_fallback','providers','touch_390','loading_completed','visible_provider_controls','gap_audit')})\nprint('top errors',p['errors'])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py fast'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8767/index.html TRIP_STANDALONE_PATH=.build/standalone/SF_Smart_Minority_Map_First_Standalone.html rtk python3 scripts/qa_map_first_full.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\np=json.load(open('QA/release/gate4_runtime.json'))\nprint(json.dumps({'status':p.get('status'),'failures':p.get('failures'),'modular':{k:p.get('modular',{}).get(k) for k in ('critical_pass','failures','smart_first_use_remote_requests','optional_provider_requests','page_errors')},'standalone':{k:p.get('standalone',{}).get(k) for k in ('critical_pass','remote_requests','page_errors')},'negative':p.get('negative_checks'),'external':p.get('external_provider')},ensure_ascii=False,indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfor p in ['QA/release/qualification.json','QA/release/gate4_runtime.json','QA/release/gate4.json']:\n d=json.load(open(p)); print('\\\\n',p)\n print('status',d.get('status'),'candidate',d.get('candidate_head'))\n if p.endswith('qualification.json'): print('tests',[(x['name'],x['status']) for x in d['tests']])\n if p.endswith('gate4.json'): print('delivery',d.get('delivery'),'package',d.get('package'))\nPY\nrtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision cd780f1eec30466011f71a92626b37effc3f60cf'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py package --revision cd780f1eec30466011f71a92626b37effc3f60cf'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\np=json.load(open('QA/release/gate4.json'))\nprint(json.dumps({'status':p.get('status'),'candidate_head':p.get('candidate_head'),'test_modes':p.get('test_modes'),'delivery':p.get('delivery'),'package':p.get('package'),'runtime':p.get('runtime')},ensure_ascii=False,indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"gate4|runtime_resilience|standalone_sha256|repeat_zip|is_dir\\\\(\\\\)\\\" scripts/pipeline.py scripts/package_map_first.py scripts/prepare_public_site.py manifests/canonical_pipeline.json manifests/runtime_resilience_contract.json TRIP_VISUALIZER_SCHEMA.md\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m py_compile scripts/pipeline.py scripts/package_map_first.py scripts/prepare_public_site.py scripts/qa_gate4_resilience.py; rtk node --check src/app_phase7.js; rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision cd780f1eec30466011f71a92626b37effc3f60cf'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py package --revision cd780f1eec30466011f71a92626b37effc3f60cf'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json, hashlib, pathlib\nfor p in ['QA/release/qualification.json','QA/release/gate4_static.json','QA/release/gate4_runtime.json','QA/release/gate4.json']:\n d=json.load(open(p)); print(p, d.get('status'), d.get('candidate_head'))\ng=json.load(open('QA/release/gate4.json'))\nprint('delivery',g['delivery'])\nprint('package',g['package'])\nprint('build manifest',hashlib.sha256(pathlib.Path('.build/build_manifest.json').read_bytes()).hexdigest())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nfrom pathlib import Path\nimport hashlib, json\n\ndef sha(path):\n    h=hashlib.sha256()\n    with open(path,'rb') as f:\n        for chunk in iter(lambda:f.read(1024*1024), b''):\n            h.update(chunk)\n    return h.hexdigest()\n\npaths = [\n    'manifests/runtime_resilience_contract.json',\n    'manifests/map_first_basemap_manifest.json',\n    'assets/vector/sf_trip.pmtiles',\n    '.build/build_manifest.json',\n    '.build/modular/index.html',\n    '.build/standalone/SF_Smart_Minority_Map_First_Standalone.html',\n    '.public-site/index.html',\n    '.public-site/.release-provenance.json',\n    '.release/package.zip',\n    '.release/package/PACKAGE_MANIFEST.json',\n]\nfor p in paths:\n    q=Path(p)\n    print(f'{p}\\\\t{sha(q) if q.is_file() else \\\"MISSING\\\"}')\n\ng=json.loads(Path('QA/release/gate4.json').read_text())\nprint('gate4.status\\\\t'+str(g.get('status')))\nprint('gate4.candidate_head\\\\t'+str(g.get('candidate_head')))\nprint('gate4.delivery.status\\\\t'+str(g.get('delivery',{}).get('status')))\nfor f in g.get('delivery',{}).get('forms',[]):\n    print('delivery.form\\\\t'+str(f.get('form'))+'\\\\t'+str(f.get('status'))+'\\\\t'+str(f.get('artifact_sha256') or f.get('index_sha256'))+'\\\\ttruth='+str(f.get('truth_digest')))\nprint('gate4.package.status\\\\t'+str(g.get('package',{}).get('status')))\nprint('gate4.package.zip_sha256\\\\t'+str(g.get('package',{}).get('package_sha256')))\nprint('gate4.package.manifest_sha256\\\\t'+str(g.get('package',{}).get('manifest_sha256')))\nprint('gate4.network.limitations\\\\t'+str(g.get('limitations')))\nPY\nrtk git status --short\nrtk git diff --stat\nrtk git diff --check\nrtk node --check src/app_phase7.js\nrtk python3 -m py_compile scripts/pipeline.py scripts/qa_gate4_resilience.py scripts/build_map_first.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nfrom pathlib import Path\nimport json\nfor p in ['QA/release/gate4_static.json','QA/release/gate4_runtime.json','QA/release/gate4.json','QA/release/qualification.json']:\n    d=json.loads(Path(p).read_text())\n    print('\\\\n'+p)\n    print('status=',d.get('status'),'candidate_head=',d.get('candidate_head'))\n    if p.endswith('gate4.json'):\n        print('top_keys=',sorted(d))\n        print('delivery_keys=',sorted(d.get('delivery',{})))\n        print('package_keys=',sorted(d.get('package',{})))\n        for f in d.get('delivery',{}).get('forms',[]): print('form=',f)\n    elif p.endswith('gate4_runtime.json'):\n        print('checks=',[(x.get('name'),x.get('status')) for x in d.get('checks',[])])\n        print('provider_transitions=',d.get('provider_transitions'))\n        print('blocked_network=',d.get('blocked_network'))\n        print('external_provider=',d.get('external_provider'))\n    elif p.endswith('gate4_static.json'):\n        print('checks=',[(x.get('name'),x.get('status')) for x in d.get('checks',[])])\n        print('assets=',d.get('assets'))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nfrom pathlib import Path\nimport json\nfor p in ['QA/release/gate4_static.json','QA/release/gate4_runtime.json','QA/release/gate4.json','QA/release/qualification.json']:\n    d=json.loads(Path(p).read_text())\n    print('\\\\n'+p, 'status=',d.get('status'),'candidate_head=',d.get('candidate_head'))\n    print('keys=',sorted(d))\n    for key in ('checks','tests','assets','provider_transitions','blocked_network','external_provider','delivery','package'):\n        if key in d:\n            v=d[key]\n            if isinstance(v,dict): print(key+' keys=',sorted(v))\n            elif isinstance(v,list): print(key+' len=',len(v),'sample=',v[:2])\n            else: print(key+'=',v)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nfrom pathlib import Path\nimport json\n\ndef status_map(v):\n    if isinstance(v,dict):\n        return {k:(x.get('status') if isinstance(x,dict) else x) for k,x in v.items()}\n    if isinstance(v,list):\n        return [(x.get('name'),x.get('status')) if isinstance(x,dict) else x for x in v]\n    return v\ns=json.loads(Path('QA/release/gate4_static.json').read_text())\nr=json.loads(Path('QA/release/gate4_runtime.json').read_text())\ng=json.loads(Path('QA/release/gate4.json').read_text())\nprint('static_checks=',status_map(s['checks']))\nprint('static_negative=',status_map(s['negative_failure_contract']))\nprint('static_asset_keys=',s['assets'].keys())\nprint('runtime_modular_keys=',sorted(r['modular']))\nprint('runtime_modular_statuses=',status_map(r['modular']))\nprint('runtime_standalone_statuses=',status_map(r['standalone']))\nprint('runtime_negative=',status_map(r['negative_checks']))\nprint('external_provider=',r['external_provider'])\nprint('delivery_forms=')\nfor f in g['delivery']['forms']:\n    print({k:f.get(k) for k in ('form','status','index_sha256','artifact_sha256','standalone_sha256','truth_digest','freshness_sha256','contract_sha256','exact_modular','file_count','total_bytes')})\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nfrom pathlib import Path\nimport json\nfor p in ['QA/release/gate4.json','QA/release/gate4_runtime.json']:\n d=json.loads(Path(p).read_text())\n print(p)\n if p.endswith('gate4.json'):\n  print(json.dumps(d['delivery'], indent=2, sort_keys=True))\n else:\n  for k in ('initial','before_reload','after_reload','blocked_provider','repeated_switches','negative_checks','standalone'):\n   print(k, json.dumps(d.get(k), sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nfrom pathlib import Path\nimport json\nr=json.loads(Path('QA/release/gate4_runtime.json').read_text())\nfor k in ('initial','before_reload','after_reload','blocked_provider','repeated_switches'):\n    v=r['modular'].get(k)\n    print('\\\\n'+k)\n    if isinstance(v,dict):\n        for name in ('provider','provider_identity','local_assets','planning_state','runtime','provider_health','provider_stats','map','remote_requests','page_errors','pass','state_equal','bounded'):\n            if name in v: print(name+'=',json.dumps(v[name],sort_keys=True))\n    else: print(v)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff -- scripts/pipeline.py scripts/build_map_first.py scripts/prepare_public_site.py scripts/package_map_first.py src/map_shell_template.html src/map_first.css TRIP_VISUALIZER_SCHEMA.md manifests/canonical_pipeline.json | sed -n '1,260p'\nprintf '\\\\n--- app diff stat ---\\\\n'\nrtk git diff --numstat -- src/app_phase7.js scripts/qa_gate4_resilience.py manifests/runtime_resilience_contract.json\nprintf '\\\\n--- key pipeline locations ---\\\\n'\nrtk rg -n \\\"gate4|verify_package|delivery_report|runtime_resilience\\\" scripts/pipeline.py scripts/build_map_first.py scripts/prepare_public_site.py scripts/package_map_first.py manifests/canonical_pipeline.json TRIP_VISUALIZER_SCHEMA.md\nprintf '\\\\n--- new file sizes ---\\\\n'\nrtk wc -l scripts/qa_gate4_resilience.py manifests/runtime_resilience_contract.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff -- scripts/pipeline.py | sed -n '240,520p'\nprintf '\\\\n--- package/pipeline tail ---\\\\n'\nrtk sed -n '480,545p' scripts/pipeline.py\nprintf '\\\\n--- runtime contract ---\\\\n'\nrtk sed -n '1,180p' manifests/runtime_resilience_contract.json\nprintf '\\\\n--- app changed symbols ---\\\\n'\nrtk rg -n \\\"RUNTIME_CONTRACT|STORAGE_KEY|showMapFailure|setupVector|returnToSmart|watchLiveTiles|drawMap|runtimeSnapshot|persistState|providerEvents|localAssets\\\" src/app_phase7.js\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,180p' src/app_phase7.js\nrtk sed -n '180,285p' src/app_phase7.js\nprintf '\\\\n--- gate4 key logic ---\\\\n'\nrtk sed -n '1,220p' scripts/qa_gate4_resilience.py\nrtk sed -n '220,430p' scripts/qa_gate4_resilience.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '65,165p' src/app_phase7.js\nrtk sed -n '165,245p' src/app_phase7.js\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff -- QA/map_first/canonical_truth.json QA/map_first/cross_browser.json QA/map_first/full_acceptance.json QA/map_first/smoke.json QA/map_first/standalone.json QA/route_panel/route_explanations_panel.json | sed -n '1,360p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files manifests assets/vector | sort | sed -n '1,220p'\nprintf '\\\\n--- manifest references ---\\\\n'\nrtk rg -n \\\"provider|font|sprite|terrain|basemap|asset_manifest\\\" manifests scripts data TRIP_VISUALIZER_SCHEMA.md | sed -n '1,260p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,135p' scripts/qa_gate4_resilience.py\nrtk sed -n '135,215p' scripts/qa_gate4_resilience.py\nrtk sed -n '1,150p' manifests/basemap_provider_manifest.json\nrtk sed -n '1,145p' manifests/map_first_basemap_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m py_compile scripts/pipeline.py scripts/qa_gate4_resilience.py\nrtk git diff --check\nrtk python3 scripts/pipeline.py fast'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,180p' manifests/basemap_provider_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m py_compile scripts/pipeline.py scripts/qa_gate4_resilience.py\nrtk git diff --check\nrtk python3 scripts/pipeline.py fast'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision cd780f1eec30466011f71a92626b37effc3f60cf'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py package --revision cd780f1eec30466011f71a92626b37effc3f60cf'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 scripts/pipeline.py verify-public --revision cd780f1eec30466011f71a92626b37effc3f60cf\nrtk python3 - <<'PY'\nfrom pathlib import Path\nimport hashlib, json\n\ndef sha(path):\n    h=hashlib.sha256()\n    with open(path,'rb') as f:\n        for chunk in iter(lambda:f.read(1024*1024), b''):\n            h.update(chunk)\n    return h.hexdigest()\nfor p in ('manifests/runtime_resilience_contract.json','manifests/basemap_provider_manifest.json','assets/vector/sf_trip.pmtiles','.build/build_manifest.json','.build/modular/index.html','.build/standalone/SF_Smart_Minority_Map_First_Standalone.html','.public-site/index.html','.public-site/.release-provenance.json','.release/package.zip','.release/package/PACKAGE_MANIFEST.json'):\n    print(p, sha(Path(p)))\ng=json.loads(Path('QA/release/gate4.json').read_text())\nprint('gate4',g['status'],g['candidate_head'],g['delivery']['status'],g['package']['status'],g['package']['package_sha256'],g['package']['manifest_sha256'])\nprint('forms',[(x['form'],x['sha256'],x['truth_digest'],x.get('exact_modular')) for x in g['delivery']['forms']])\nq=json.loads(Path('QA/release/qualification.json').read_text())\nprint('qualification',q['status'],q['candidate_head'],[(x['name'],x['status']) for x in q['tests']])\nr=json.loads(Path('QA/release/gate4_runtime.json').read_text())\nprint('runtime',r['status'],'smart_remote',r['modular']['smart_first_use_remote_requests'],'standalone_remote',r['standalone']['remote_requests'],'external',r['external_provider'])\nprint('negative',[(x['case'],x['pass'],x['provider'],x['provider_identity'],x['remote_requests']) for x in r['negative_checks']])\nPY\nrtk git diff --check\nrtk node --check src/app_phase7.js\nrtk python3 -m py_compile scripts/pipeline.py scripts/qa_gate4_resilience.py scripts/build_map_first.py\nrtk git status --short\nrtk git diff --stat\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nfrom pathlib import Path\nimport json\ns=json.loads(Path('QA/release/gate4_static.json').read_text())\ng=json.loads(Path('QA/release/gate4.json').read_text())\np=json.loads(Path('.release/package/PACKAGE_MANIFEST.json').read_text())\nprint('static_checks_passed',sum(bool(v) for v in s['checks'].values()),'of',len(s['checks']))\nprint('basemap_assets',len(s['assets']['basemap']),'photos',len(s['assets']['photos']),'photo_variants',sum(len(x['variants']) for x in s['assets']['photos']))\nprint('delivery_forms',len(g['delivery']['forms']),'truth_digests',sorted({x['truth_digest'] for x in g['delivery']['forms']}))\nprint('package_tested_sha',p.get('tested_sha'),'package_file_count',p.get('file_count_excluding_manifest'),'package_manifest_file_count',len(p.get('files',{})))\nprint('package_component_evidence',[k for k in p.get('files',{}) if k.startswith('QA/release/gate4')])\nPY\nrtk git diff --name-only\nrtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 318,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 98.84,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 41488384,
+      "fresh_input_tokens": 486311,
+      "input_tokens": 41974695,
+      "non_reasoning_output_tokens": 55792,
+      "output_tokens": 93617,
+      "reasoning_output_tokens": 37825,
+      "total_processed_tokens": 42068312
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "d6c8f4b803390e264f4f04f07ad68569eb9fafcc",
+      "subject": "fabric: capture completed model changes [CF-e6fda86ffeb3f163acdc348b]"
+    }
+  ],
+  "diff": {
+    "additions": 809,
+    "changed_files": 17,
+    "commit_count": 1,
+    "deletions": 117
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 10,
+    "items": [
+      {
+        "bytes": 201732,
+        "path": "QA/map_first/canonical_truth.json",
+        "sha256": "6e32c7cb6f3d4e57c3c5cec29422389ce4059ac5ca5aeef52d2b5c1b766b6c6c"
+      },
+      {
+        "bytes": 2646,
+        "path": "QA/map_first/cross_browser.json",
+        "sha256": "9a04da38608f75e84d8915d73628fa1f80817653da56bb6f4fcf9ba099f4ddb8"
+      },
+      {
+        "bytes": 13271,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "f8763b5574a506143bc3a12063883286762aeead620e4980076dad149e3decd3"
+      },
+      {
+        "bytes": 1158,
+        "path": "QA/map_first/smoke.json",
+        "sha256": "37e78a6de306f8a4ee2cbf982ed26fc5518e2de8f9f1d9d2a91f77a9bbbd6da6"
+      },
+      {
+        "bytes": 215,
+        "path": "QA/map_first/standalone.json",
+        "sha256": "cab6c7df9e344cb36dcede0b660f0e531632375df1e53c7a90fd5bd0dbe17885"
+      },
+      {
+        "bytes": 7219,
+        "path": "QA/route_panel/route_explanations_panel.json",
+        "sha256": "d48a2ea61953b7dafa8f1eba8642b8c81f7e6e1377bce84a16ce0cddbe88d49c"
+      },
+      {
+        "bytes": 6900,
+        "path": "TRIP_VISUALIZER_SCHEMA.md",
+        "sha256": "9dacaaa13395433231617495d3abe33e3ef12f3e4da1c3f0b38f9880c8f9a6d7"
+      },
+      {
+        "bytes": 4639,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "31d64d4481dad2f6c09559e7d05952684fad63361adc25856687247f00c696ee"
+      },
+      {
+        "bytes": 3898,
+        "path": "manifests/runtime_resilience_contract.json",
+        "sha256": "b16fa42b70cac4b73208a9460d737982dbb0852282ccbb29e2ee00b7e1a37955"
+      },
+      {
+        "bytes": 3919,
+        "path": "src/map_shell_template.html",
+        "sha256": "8a7ee2086fba624318b20b7efa15034f32395029622f8b06be462359897253f8"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": true,
+    "commit_message": "fabric: capture completed model changes [CF-e6fda86ffeb3f163acdc348b]",
+    "commit_sha": "d6c8f4b803390e264f4f04f07ad68569eb9fafcc",
+    "paths_before": 17,
+    "status_before": [
+      " M QA/map_first/canonical_truth.json",
+      " M QA/map_first/cross_browser.json",
+      " M QA/map_first/full_acceptance.json",
+      " M QA/map_first/smoke.json",
+      " M QA/map_first/standalone.json",
+      " M QA/route_panel/route_explanations_panel.json",
+      " M TRIP_VISUALIZER_SCHEMA.md",
+      " M manifests/canonical_pipeline.json",
+      " M scripts/build_map_first.py",
+      " M scripts/package_map_first.py",
+      " M scripts/pipeline.py",
+      " M scripts/prepare_public_site.py",
+      " M src/app_phase7.js",
+      " M src/map_first.css",
+      " M src/map_shell_template.html",
+      "?? manifests/runtime_resilience_contract.json",
+      "?? scripts/qa_gate4_resilience.py"
+    ],
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-17T05:01:52Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "cd780f1eec30466011f71a92626b37effc3f60cf",
+    "branch": "codex/sf-trip-visualizer-runtime-resilience-g4-r1",
+    "head_sha": "d6c8f4b803390e264f4f04f07ad68569eb9fafcc",
+    "remote_exact_head": true,
+    "remote_head_sha": "d6c8f4b803390e264f4f04f07ad68569eb9fafcc",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "cd780f1eec30466011f71a92626b37effc3f60cf",
+    "work_branch": "codex/sf-trip-visualizer-runtime-resilience-g4-r1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-e6fda86ffeb3f163acdc348b",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/runtime-resilience-g4-r1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/runtime-resilience-g4-r1"
+  },
+  "operation": "BUILD",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "runtime-resilience-g4-r1",
+  "schema_version": 1,
+  "started_at": "2026-09-17T04:07:35Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 3257,
+    "queue_seconds": 0,
+    "total_seconds": 3257
+  },
+  "transport": {
+    "bytes": 8196,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 7863,
+    "prompt_sha256": "543f0aa4934212433b19c92e96bd02ccedf7b3ec2e9db6f5f31dfcf0746fdfc6",
+    "sha256": "e6fda86ffeb3f163acdc348b9adb12ed7d0f3366637b9251d91fef3ed584a1bb"
+  }
+}
