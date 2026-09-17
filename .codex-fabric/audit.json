@@ -1,0 +1,260 @@
+{
+  "accepted_at": "2026-09-17T10:57:56Z",
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && sed -n '1,260p' /Users/haewonkim/.codex/law.md && git status --short --branch && git remote -v && git branch --show-current && git rev-parse HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main\nrtk git cat-file -t d6c8f4b803390e264f4f04f07ad68569eb9fafcc\nrtk git rev-parse --verify d6c8f4b803390e264f4f04f07ad68569eb9fafcc''^{commit}\nrtk git status --short --branch\nrtk git worktree list --porcelain'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'mktemp -d /tmp/sf-trip-visualizer-g4-verify.XXXXXX'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree add --detach /tmp/sf-trip-visualizer-g4-verify.i4xThz d6c8f4b803390e264f4f04f07ad68569eb9fafcc\nrtk git rev-parse HEAD\nrtk git status --short --branch\nrtk git diff --quiet HEAD --\nrtk git ls-files -m'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-files -m'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --quiet HEAD --'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision d6c8f4b803390e264f4f04f07ad68569eb9fafcc'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files -g 'requirements*.txt' -g 'pyproject.toml' -g 'Pipfile*' -g 'poetry.lock' -g 'uv.lock' -g 'README*' -g 'Makefile' -g '.venv/**' -g 'scripts/pipeline.py' -g 'scripts/qa_gate4_resilience.py' | sed -n '1,200p'\nrtk sed -n '1,220p' scripts/pipeline.py\nrtk sed -n '1,180p' scripts/qa_gate4_resilience.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' requirements-qa.txt\nrtk rg -n \\\"PIL|requirements|venv|pip|pytest|playwright\\\" README.md scripts .github -g '*.md' -g '*.py' -g '*.yml' -g '*.yaml' | sed -n '1,240p'\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 12146,
+        "output_sha256": "e90ec641c6dde2525460f901e3bc2ac819df4e0ca73d2f308909fa24e748d49c",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m pip show Pillow playwright beautifulsoup4 requests\nrtk python3 -m playwright --version\nrtk python3 --version'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m venv /tmp/sf-trip-visualizer-g4-verify-venv'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-visualizer-g4-verify-venv/bin/python -m pip install -r requirements-qa.txt'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-visualizer-g4-verify-venv/bin/python -m playwright install chromium firefox webkit'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PATH=/tmp/sf-trip-visualizer-g4-verify-venv/bin:$PATH rtk python3 scripts/pipeline.py qualify --revision d6c8f4b803390e264f4f04f07ad68569eb9fafcc'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PATH=/tmp/sf-trip-visualizer-g4-verify-venv/bin:$PATH rtk python3 scripts/pipeline.py assemble-public --revision d6c8f4b803390e264f4f04f07ad68569eb9fafcc'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PATH=/tmp/sf-trip-visualizer-g4-verify-venv/bin:$PATH rtk python3 scripts/pipeline.py verify-public --revision d6c8f4b803390e264f4f04f07ad68569eb9fafcc'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'PATH=/tmp/sf-trip-visualizer-g4-verify-venv/bin:$PATH rtk python3 scripts/pipeline.py package --revision d6c8f4b803390e264f4f04f07ad68569eb9fafcc'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,280p' QA/release/gate4.json\nrtk sed -n '1,220p' QA/release/qualification.json\nrtk sed -n '1,220p' QA/release/gate4_static.json\nrtk sed -n '1,260p' QA/release/gate4_runtime.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '220,560p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,180p' .public-site/.release-provenance.json\nrtk sed -n '1,160p' .build/build_manifest.json\nrtk sed -n '1,120p' .release/package/PACKAGE_MANIFEST.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /tmp/sf-trip-visualizer-g4-verify-venv/bin/python -c 'import json,hashlib; from pathlib import Path\nload=lambda p: json.loads(Path(p).read_text())\ndigest=lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()\ng=load(\\\"QA/release/gate4.json\\\"); q=load(\\\"QA/release/qualification.json\\\"); s=load(\\\"QA/release/gate4_static.json\\\"); r=load(\\\"QA/release/gate4_runtime.json\\\"); prov=load(\\\".public-site/.release-provenance.json\\\"); b=load(\\\".build/build_manifest.json\\\"); pm=load(\\\".release/package/PACKAGE_MANIFEST.json\\\")\nprint(json.dumps({\\\"gate4\\\":{\\\"status\\\":g[\\\"status\\\"],\\\"candidate_head\\\":g[\\\"candidate_head\\\"],\\\"static\\\":g[\\\"static\\\"][\\\"status\\\"],\\\"runtime\\\":g[\\\"runtime\\\"][\\\"status\\\"],\\\"delivery\\\":g[\\\"delivery\\\"][\\\"status\\\"],\\\"package\\\":g[\\\"package\\\"][\\\"status\\\"]},\\\"qualification\\\":{\\\"status\\\":q[\\\"status\\\"],\\\"candidate_head\\\":q[\\\"candidate_head\\\"],\\\"working_tree_clean_at_start\\\":q[\\\"working_tree_clean\\\"],\\\"components\\\":{x[\\\"name\\\"]:x[\\\"status\\\"] for x in q[\\\"tests\\\"]}},\\\"hashes\\\":{\\\"qualification\\\":digest(\\\"QA/release/qualification.json\\\"),\\\"fast\\\":digest(\\\"QA/release/fast.json\\\"),\\\"gate4_static\\\":digest(\\\"QA/release/gate4_static.json\\\"),\\\"gate4_runtime\\\":digest(\\\"QA/release/gate4_runtime.json\\\"),\\\"build_manifest\\\":digest(\\\".build/build_manifest.json\\\"),\\\"modular_index\\\":digest(\\\".build/modular/index.html\\\"),\\\"standalone\\\":digest(\\\".build/standalone/SF_Smart_Minority_Map_First_Standalone.html\\\"),\\\"public_artifact\\\":prov[\\\"artifact_sha256_excluding_provenance\\\"],\\\"public_files\\\":prov[\\\"artifact_file_count_excluding_provenance\\\"],\\\"public_bytes\\\":prov[\\\"artifact_bytes_excluding_provenance\\\"],\\\"package_zip\\\":pm.get(\\\"package_sha256\\\", digest(\\\".release/package.zip\\\")),\\\"package_manifest\\\":digest(\\\".release/package/PACKAGE_MANIFEST.json\\\"),\\\"package_files\\\":pm[\\\"file_count_excluding_manifest\\\"],\\\"truth_digest\\\":g[\\\"delivery\\\"][\\\"forms\\\"][0][\\\"truth_digest\\\"]},\\\"package_checks\\\":g[\\\"package\\\"][\\\"checks\\\"],\\\"delivery_forms\\\":g[\\\"delivery\\\"][\\\"forms\\\"]},ensure_ascii=False,indent=2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch --untracked-files=all'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --name-status HEAD -- . ':(exclude)QA/**'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --quiet HEAD -- . ':(exclude)QA/**'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD\nrtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk shasum -a 256 QA/release/gate4.json QA/release/qualification.json QA/release/fast.json QA/release/gate4_static.json QA/release/gate4_runtime.json .build/build_manifest.json .build/modular/index.html .build/standalone/SF_Smart_Minority_Map_First_Standalone.html .public-site/index.html .public-site/.release-provenance.json .release/package.zip .release/package/PACKAGE_MANIFEST.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 72,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 91.46,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 979200,
+      "fresh_input_tokens": 91483,
+      "input_tokens": 1070683,
+      "non_reasoning_output_tokens": 5481,
+      "output_tokens": 12688,
+      "reasoning_output_tokens": 7207,
+      "total_processed_tokens": 1083371
+    },
+    "warnings": []
+  },
+  "commits": [],
+  "diff": {
+    "additions": 0,
+    "changed_files": 0,
+    "commit_count": 0,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-17T11:07:21Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "cd780f1eec30466011f71a92626b37effc3f60cf",
+    "branch": "codex/sf-trip-visualizer-runtime-resilience-g4-verify-r2",
+    "head_sha": "cd780f1eec30466011f71a92626b37effc3f60cf",
+    "remote_exact_head": true,
+    "remote_head_sha": "cd780f1eec30466011f71a92626b37effc3f60cf",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "cd780f1eec30466011f71a92626b37effc3f60cf",
+    "work_branch": "codex/sf-trip-visualizer-runtime-resilience-g4-verify-r2",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-94086550827bdd05f5f96849",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/runtime-resilience-g4-verify-r2",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/runtime-resilience-g4-verify-r2"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "runtime-resilience-g4-verify-r2",
+  "schema_version": 1,
+  "started_at": "2026-09-17T10:57:56Z",
+  "status": "EXECUTED_NO_CHANGE",
+  "timing": {
+    "execution_seconds": 565,
+    "queue_seconds": 0,
+    "total_seconds": 565
+  },
+  "transport": {
+    "bytes": 4229,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 3881,
+    "prompt_sha256": "8e32c7b9551aa84d3194ce5a306816ef4559b1ac504aabf9fbb56587acb5f177",
+    "sha256": "94086550827bdd05f5f96849856131764ba12847d0175157789714eab945d5e1"
+  }
+}
