@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "candidate_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+  "candidate_fingerprint": {
+    "sha256": "9f8364a796ace43ad21859bb0afdd4454dd533e495e3f3282efcf8afb672b867",
+    "file_count": 333,
+    "tracked_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "worktree_dirty": true,
+    "excluded_from_hash": [
+      "QA/",
+      ".build/"
+    ]
+  },
+  "rows": [
+    {
+      "finding": "E2 independent multimodal visual/usability acceptance",
+      "status": "VERIFY_REQUIRED",
+      "evidence": "candidate screenshots and objective checks only; implementation agent cannot self-certify"
+    },
+    {
+      "finding": "real phone/device performance",
+      "status": "VERIFY_REQUIRED",
+      "evidence": "desktop Chromium performance APIs only; no field-device claim"
+    },
+    {
+      "finding": "Gate 4 preservation",
+      "status": "PASS",
+      "evidence": "canonical qualification QA/release/gate4.json when available"
+    },
+    {
+      "finding": "browser chromium 1440x900",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/chromium_1440_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_1440_detail.png"
+      }
+    },
+    {
+      "finding": "browser chromium 834x1112",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/chromium_834_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_834_detail.png"
+      }
+    },
+    {
+      "finding": "browser chromium 390x844",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/chromium_390_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_390_detail.png"
+      }
+    },
+    {
+      "finding": "browser firefox 1440x900",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/firefox_1440_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_1440_detail.png"
+      }
+    },
+    {
+      "finding": "browser firefox 834x1112",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/firefox_834_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_834_detail.png"
+      }
+    },
+    {
+      "finding": "browser firefox 390x844",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/firefox_390_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_390_detail.png"
+      }
+    },
+    {
+      "finding": "browser webkit 1440x900",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/webkit_1440_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_1440_detail.png"
+      }
+    },
+    {
+      "finding": "browser webkit 834x1112",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/webkit_834_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_834_detail.png"
+      }
+    },
+    {
+      "finding": "browser webkit 390x844",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/webkit_390_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_390_detail.png"
+      }
+    }
+  ]
+}

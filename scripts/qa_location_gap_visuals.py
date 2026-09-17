@@ -87,10 +87,16 @@ with sync_playwright() as playwright:
         page.wait_for_timeout(450)
         page.locator(".photo-marker[data-place-key='pier39']").click()
         page.wait_for_timeout(250)
-        report["checks"][f"mobile_{width}"] = page.evaluate(
+        preview_state = page.evaluate(
             """()=>({overflow:document.documentElement.scrollWidth-innerWidth,preview:document.getElementById('previewCard').classList.contains('show'),photo:document.querySelector('#previewCard .preview-media')?.naturalWidth||0,selected:window.__tripApp.state.selected,details:document.querySelectorAll('#detailsPane .photo-slot img').length,schedule:document.querySelectorAll('.map-slot').length,canvas:document.querySelectorAll('.maplibregl-canvas').length})"""
         )
         capture(page, f"gap_{width}_pier39_tap")
+        page.locator("#previewCard .preview-action").click()
+        page.wait_for_function("[...document.querySelectorAll('#detailsPane .photo-slot img')].length===3&&[...document.querySelectorAll('#detailsPane .photo-slot img')].every(x=>x.complete&&x.naturalWidth>0)", timeout=15000)
+        report["checks"][f"mobile_{width}"] = page.evaluate(
+            """preview=>({...preview,selected:window.__tripApp.state.selected,details:document.querySelectorAll('#detailsPane .photo-slot img').length,detailsVisible:document.getElementById('detailsPane').classList.contains('active')})""",
+            preview_state,
+        )
         page.evaluate("()=>window.__tripApp.hidePreview()")
 
     browser.close()

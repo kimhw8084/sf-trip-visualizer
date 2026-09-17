@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_5",
+  "purpose": "Human field-quality evidence for the integrated Gate 4 candidate. This gate does not claim production readiness.",
+  "authority": {
+    "canonical_pipeline": "scripts/pipeline.py",
+    "canonical_build": "scripts/build_map_first.py",
+    "canonical_data": "data/phase7_app_data.json",
+    "freshness": "manifests/trip_freshness.json",
+    "gate4_contract": "manifests/runtime_resilience_contract.json"
+  },
+  "contract": {
+    "first_view": [
+      "overall trip identity and three-region journey",
+      "all four route strategies with understandable trade-offs",
+      "shared versus route-specific structure",
+      "current route/date/region/provider state",
+      "conditional, swap, bonus, recovery, and choice meanings",
+      "freshness/recheck status near the affected planning surface"
+    ],
+    "critical_flows": [
+      "preview to details",
+      "route/date/region selection",
+      "map/timeline/panel controls",
+      "Smart/Satellite provider switching and recovery",
+      "language and theme switching",
+      "route-branch explanation and Escape/close behavior"
+    ],
+    "hard_gates": [
+      "no critical action or explanation is hover-only",
+      "keyboard focus is visible, ordered, owned, and returned after overlays/panels",
+      "critical controls have accessible names and selected/expanded/pressed semantics",
+      "no keyboard trap, accidental horizontal overflow, critical clipping, or center-control occlusion",
+      "Korean/English and light/dark critical states remain coherent",
+      "Smart local-first and Gate 4 recovery invariants remain green",
+      "performance evidence is exact-candidate-bound and variance-aware"
+    ],
+    "wcag_oriented_checks": [
+      "mechanically checkable contrast and non-color state cues",
+      "touch/keyboard target reachability and size",
+      "narrow reflow and 200-percent zoom approximation",
+      "prefers-reduced-motion",
+      "localized label expansion",
+      "focus visibility, collision/occlusion, and DOM accessibility semantics"
+    ]
+  },
+  "browser_matrix": {
+    "families": ["chromium", "firefox", "webkit"],
+    "viewports": [
+      {"name": "desktop", "width": 1440, "height": 900, "touch": false},
+      {"name": "tablet", "width": 834, "height": 1112, "touch": true},
+      {"name": "mobile", "width": 390, "height": 844, "touch": true}
+    ],
+    "states": ["overall", "filtered route/date/region", "detail", "panel hidden", "long localized labels", "provider recovery", "light", "dark"]
+  },
+  "performance": {
+    "milestones": ["dom_content_loaded", "smart_style_ready", "markers_timeline_ready", "first_actionable_state"],
+    "interactions": ["route", "date", "region", "provider_recovery", "preview", "detail", "panel"],
+    "samples": {"baseline": 3, "candidate": 3},
+    "noise_rule": "If a baseline metric has a standard deviation below 1 ms and the candidate exceeds the derived guard, record VERIFY_REQUIRED rather than asserting a hard regression; the observed baseline spread is too narrow for a reliable comparison.",
+    "guard_rationale": "For a matching exact environment, a candidate metric is a regression only when it exceeds the observed baseline maximum and baseline mean plus three standard deviations. No universal millisecond or memory budget is asserted. Percentiles are reported only when the sample count supports them.",
+    "unsupported_claims": ["real phone/device memory", "field-network performance", "independent visual/usability acceptance"]
+  },
+  "evidence": {
+    "runner": "scripts/qa_gate5_field_quality.py",
+    "baseline": "QA/gate5/baseline.json",
+    "candidate": "QA/gate5/candidate.json",
+    "screenshots": "QA/gate5/screenshots/",
+    "finding_matrix": "QA/gate5/finding_matrix.json"
+  },
+  "acceptance_boundaries": {
+    "implementation_status": "PASS means objective Gate 5 checks passed for the exact candidate; it is not a production-readiness claim.",
+    "independent_review": "VERIFY_REQUIRED unless independently supplied, candidate-bound multimodal visual/usability review exists.",
+    "real_device": "VERIFY_REQUIRED when the execution environment cannot establish a real field-device metric.",
+    "rights": "Photo and third-party redistribution rights are outside this gate."
+  }
+}

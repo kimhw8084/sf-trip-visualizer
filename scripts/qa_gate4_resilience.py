@@ -251,6 +251,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         page.wait_for_timeout(400)
         if page.locator(".photo-marker").count():
             page.locator(".photo-marker").first.click()
+            page.locator("#previewCard .preview-action").click()
             page.wait_for_function("document.querySelectorAll('#detailsPane .photo-grid img').length===3", timeout=15000)
             page.wait_for_function("[...document.querySelectorAll('#detailsPane .photo-grid img')].every(x=>x.complete&&x.naturalWidth>0)", timeout=15000)
         page.locator("#panelToggle").click()

@@ -52,6 +52,7 @@ COMPONENTS = (
     ("exhaustive_states", "scripts/run_exhaustive_states.py", "QA/map_first/exhaustive_states.json"),
     ("cross_browser", "scripts/run_cross_browser.py", "QA/map_first/cross_browser.json"),
     ("visual_spots", "scripts/run_visual_spots.py", "QA/map_first/visual_spots.json"),
+    ("gate5_field_quality", "scripts/qa_gate5_field_quality.py", "QA/gate5/candidate.json"),
     ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
 )
 
