@@ -21,6 +21,7 @@ DATA_PATH = ROOT / "data" / "phase7_app_data.json"  # Current authored data; see
 DEFAULT_OUTPUT = ROOT / ".build"
 PHOTO_MANIFEST_PATH = ROOT / "manifests" / "asset_manifest.json"
 FRESHNESS_MANIFEST_PATH = ROOT / "manifests" / "trip_freshness.json"
+RUNTIME_CONTRACT_PATH = ROOT / "manifests" / "runtime_resilience_contract.json"
 COORDINATE_AUDIT_PATH = ROOT / "data" / "coordinate_audit.json"
 
 MODULAR_FILES = (
@@ -113,6 +114,7 @@ def build(output_root: Path) -> dict:
     geometry = json.loads((ROOT / "data" / "route_geometry_cache.json").read_text())
     translations = json.loads((ROOT / "data" / "translations.json").read_text())
     freshness = json.loads(FRESHNESS_MANIFEST_PATH.read_text())
+    runtime_contract = json.loads(RUNTIME_CONTRACT_PATH.read_text())
 
     template = BeautifulSoup((ROOT / "src" / "map_shell_template.html").read_text(), "html.parser")
     template.title.string = "Smart Minority · SF / Monterey / Yosemite Map"
@@ -216,7 +218,7 @@ def build(output_root: Path) -> dict:
         raise SystemExit(f"Unexpected template script layout: {len(scripts)} script tags")
     scripts[0].decompose()
     scripts[1].string = "window.TRIP_DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";"
-    for name, payload in (("TRIP_ROUTE_GEOMETRY", geometry), ("TRIP_I18N", translations), ("TRIP_FRESHNESS", freshness)):
+    for name, payload in (("TRIP_ROUTE_GEOMETRY", geometry), ("TRIP_I18N", translations), ("TRIP_FRESHNESS", freshness), ("TRIP_RUNTIME_CONTRACT", runtime_contract)):
         script = template.new_tag("script")
         script.string = f"window.{name}=" + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";"
         scripts[2].insert_before(script)
@@ -265,6 +267,7 @@ def build(output_root: Path) -> dict:
     manifest = {
         "schema_version": 1,
         "canonical_data": str(DATA_PATH.relative_to(ROOT)),
+        "runtime_contract": str(RUNTIME_CONTRACT_PATH.relative_to(ROOT)),
         "counts": {"places": place_count, "photos": photo_count, "timeline_cards": len(data["timeline"]), "route_legs": len(data["legs"])},
         "modular": {"path": str((modular_dir / "index.html").relative_to(output_root)), "sha256": digest(modular_dir / "index.html")},
         "standalone": {"path": str(standalone_path.relative_to(output_root)), "sha256": digest(standalone_path)},

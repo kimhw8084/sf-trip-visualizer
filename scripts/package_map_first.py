@@ -54,6 +54,9 @@ def main() -> None:
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     if qualification.get("status") != "PASS" or qualification.get("candidate_head") != args.revision or head != args.revision:
         raise SystemExit("A PASS qualification for the exact checkout is required before packaging.")
+    build_manifest = BUILD / "build_manifest.json"
+    if qualification.get("build", {}).get("manifest_sha256") != digest(build_manifest) or qualification.get("build", {}).get("modular_index_sha256") != digest(BUILD / "modular" / "index.html") or qualification.get("build", {}).get("standalone_sha256") != digest(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"):
+        raise SystemExit("Qualified build inputs changed after qualification; refusing to package.")
     for required in (BUILD / "modular" / "index.html", BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html", PUBLIC / "index.html", PUBLIC / ".release-provenance.json"):
         if not required.is_file():
             raise SystemExit(f"Missing qualified release input: {required}")
@@ -83,7 +86,7 @@ def main() -> None:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.mkdir(parents=True, exist_ok=True)
             for path in sorted(source.rglob("*")):
-                if path.is_file() and (path.suffix == ".json" or path.name == "VISUAL_REVIEW.md"):
+                if path.is_file() and path.name != "gate4.json" and (path.suffix == ".json" or path.name == "VISUAL_REVIEW.md"):
                     target_path = destination / path.relative_to(ROOT)
                     target_path.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(path, target_path)

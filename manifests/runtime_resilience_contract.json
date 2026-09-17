@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_4",
+  "purpose": "Runtime resilience, offline behavior, provider recovery, delivery parity, and deterministic package evidence. This gate does not claim production readiness.",
+  "authority": {
+    "canonical_pipeline": "scripts/pipeline.py",
+    "canonical_build": "scripts/build_map_first.py",
+    "canonical_data": "data/phase7_app_data.json",
+    "freshness": "manifests/trip_freshness.json",
+    "asset_manifest": "manifests/asset_manifest.json",
+    "basemap_manifest": "manifests/map_first_basemap_manifest.json",
+    "provider_manifest": "manifests/basemap_provider_manifest.json"
+  },
+  "delivery_modes": {
+    "modular_served": {
+      "artifact": ".build/modular/index.html",
+      "mechanics": "local HTTP with byte-range support from scripts/serve_map.py",
+      "smart_network_requirement": "none; only same-origin local assets"
+    },
+    "standalone_direct_open": {
+      "artifact": ".build/standalone/SF_Smart_Minority_Map_First_Standalone.html",
+      "mechanics": "file:// direct open with embedded PMTiles, fonts, sprites, terrain, and runtime photos",
+      "smart_network_requirement": "none"
+    },
+    "public_staging": {
+      "artifact": ".public-site/index.html",
+      "mechanics": "exact copy of the qualified modular artifact with release provenance",
+      "smart_network_requirement": "none; optional Satellite remains network-bound"
+    },
+    "packaged_release": {
+      "artifact": ".release/package.zip",
+      "mechanics": "deterministic ZIP of exact qualified source, assets, artifacts, and evidence",
+      "smart_network_requirement": "none; optional Satellite remains network-bound"
+    }
+  },
+  "providers": {
+    "vector": {
+      "runtime_id": "vector",
+      "identity": "smart-local-vector",
+      "label": "Smart map",
+      "network_required": false,
+      "critical": true,
+      "failure_behavior": "explicit Smart-map failure; never substitute a remote or raster provider",
+      "local_assets": [
+        "assets/vector/sf_trip.pmtiles",
+        "assets/vector/yosemite_hillshade_source.png",
+        "assets/vector/yosemite_hillshade_shadow.webp",
+        "assets/vector/fonts",
+        "assets/vector/sprites",
+        "assets/photos/thumb",
+        "assets/photos/medium"
+      ],
+      "no_runtime_routing": true,
+      "no_runtime_remote_photos": true
+    },
+    "satellite": {
+      "runtime_id": "satellite",
+      "identity": "satellite-esri-with-local-labels",
+      "label": "Satellite + labels",
+      "network_required": true,
+      "critical": false,
+      "failure_behavior": "bounded probe/tile failure returns to Smart while preserving planning state",
+      "success_evidence": "optional; record VERIFY_REQUIRED when the external provider cannot be independently verified"
+    }
+  },
+  "critical_behaviors": [
+    "local Smart map starts with blocked optional network",
+    "route and timeline render without runtime routing",
+    "date, region, route, preview, and detail interactions use canonical trip truth",
+    "required local photos decode in preview and detail",
+    "Smart local asset failure is explicit and fail-closed",
+    "Satellite failure is observable and recovers to Smart",
+    "reload, resize, orientation, pan, zoom, panel, and provider transitions preserve planning state",
+    "modular, standalone, public, and package forms are exact-revision-bound"
+  ],
+  "evidence_outputs": {
+    "static": "QA/release/gate4_static.json",
+    "runtime": "QA/release/gate4_runtime.json",
+    "summary": "QA/release/gate4.json"
+  },
+  "qualification_policy": {
+    "smart_offline_is_decisive": true,
+    "optional_satellite_success_is_not_a_smart_prerequisite": true,
+    "unverified_external_provider_success_must_be_listed": true,
+    "release_remains_fail_closed_on_existing_authority_and_provenance_checks": true
+  }
+}
