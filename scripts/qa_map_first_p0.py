@@ -4,11 +4,13 @@ import json
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+from qa_config import MODULAR_URL
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "QA/map_first"
-URL = "http://127.0.0.1:8766/index_map_first.html"
+URL = MODULAR_URL
+LOCAL_ORIGIN = URL.rsplit("/", 1)[0] + "/"
 result = {"checks": {}, "detail_reviews": [], "errors": [], "remote_photo_requests": []}
 
 
@@ -20,7 +22,7 @@ with sync_playwright() as playwright:
     browser = playwright.chromium.launch(headless=True)
     page = browser.new_page(viewport={"width": 1440, "height": 900})
     page.on("pageerror", lambda error: result["errors"].append(str(error)))
-    page.on("request", lambda request: result["remote_photo_requests"].append(request.url) if "photo" in request.url.lower() and not request.url.startswith("http://127.0.0.1:8766/") else None)
+    page.on("request", lambda request: result["remote_photo_requests"].append(request.url) if "photo" in request.url.lower() and not request.url.startswith(LOCAL_ORIGIN) else None)
     page.goto(URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
     page.wait_for_function("[...document.querySelectorAll('.photo-marker img')].every(x=>x.complete&&x.naturalWidth>0)", timeout=15000)

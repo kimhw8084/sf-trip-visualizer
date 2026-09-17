@@ -4,11 +4,12 @@ import json
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+from qa_config import MODULAR_URL
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "QA/map_first"
-URL = "http://127.0.0.1:8766/index_map_first.html"
+URL = MODULAR_URL
 report = {"status": "FAIL", "date_route_fits": [], "zoom_states": [], "errors": [], "screenshots": []}
 
 

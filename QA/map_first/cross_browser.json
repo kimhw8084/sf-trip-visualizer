@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "status": "FAIL",
+  "expected_rows": 4,
+  "rows": [
+    {
+      "browser": "firefox",
+      "width": 1280,
+      "height": 800,
+      "status": "PASS",
+      "completed": true,
+      "cleanup_warnings": [],
+      "marker_objects": 36,
+      "canvas": 1,
+      "horizontal_overflow": false,
+      "broken_marker_images": 0,
+      "page_errors": [],
+      "expected_places": 36,
+      "detail_photos": 3,
+      "screenshot": "QA/map_first/screenshots/firefox_1280_detail.png"
+    },
+    {
+      "browser": "firefox",
+      "width": 390,
+      "height": 844,
+      "status": "PASS",
+      "completed": true,
+      "cleanup_warnings": [],
+      "marker_objects": 36,
+      "canvas": 1,
+      "horizontal_overflow": false,
+      "broken_marker_images": 0,
+      "page_errors": [],
+      "expected_places": 36,
+      "detail_photos": 3,
+      "screenshot": "QA/map_first/screenshots/firefox_390_detail.png"
+    },
+    {
+      "browser": "webkit",
+      "width": 1280,
+      "height": 800,
+      "status": "UNVERIFIED",
+      "completed": false,
+      "cleanup_warnings": [],
+      "error": "webkit 1280px worker exceeded the 60s hard timeout before durable completion"
+    },
+    {
+      "browser": "webkit",
+      "width": 390,
+      "height": 844,
+      "status": "UNVERIFIED",
+      "completed": false,
+      "cleanup_warnings": [],
+      "error": "webkit 390px worker exceeded the 60s hard timeout before durable completion"
+    }
+  ],
+  "cleanup_warnings": [],
+  "errors": [
+    {
+      "browser": "webkit",
+      "width": 1280,
+      "error": "webkit 1280px worker exceeded the 60s hard timeout before durable completion"
+    },
+    {
+      "browser": "webkit",
+      "width": 390,
+      "error": "webkit 390px worker exceeded the 60s hard timeout before durable completion"
+    }
+  ]
+}

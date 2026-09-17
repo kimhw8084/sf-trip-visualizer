@@ -8,11 +8,14 @@ from __future__ import annotations
 
 import csv
 import json
+import sys
 from pathlib import Path
 from urllib.parse import quote_plus
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if "--write" not in sys.argv:
+    raise SystemExit("Explicit source-generation step required: python3 scripts/apply_location_gap_audit.py --write")
 DATA_PATH = ROOT / "data/phase7_app_data.json"
 I18N_PATH = ROOT / "data/translations.json"
 ROUTES = ["A1", "A2", "B1", "B2"]

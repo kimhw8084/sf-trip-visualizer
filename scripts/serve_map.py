@@ -55,9 +55,11 @@ class RangeHandler(SimpleHTTPRequestHandler):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--port", type=int, default=8765)
-    parser.add_argument("--directory", default=str(ROOT))
+    parser.add_argument("--directory", default=str(ROOT / ".build" / "modular"))
     args = parser.parse_args()
     directory = str(Path(args.directory).resolve())
+    if not Path(directory).is_dir():
+        raise SystemExit(f"Generated modular build is missing: {directory}; run scripts/pipeline.py fast first.")
     server = ThreadingHTTPServer(("127.0.0.1", args.port), partial(RangeHandler, directory=directory))
     print(f"Map ready at http://127.0.0.1:{args.port}/index.html from {directory}", flush=True)
     server.serve_forever()

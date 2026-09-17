@@ -5,10 +5,11 @@ import json
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+from qa_config import MODULAR_URL
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA/exhaustive_states.json"
+OUT = ROOT / "QA/map_first/exhaustive_states.json"
 ROUTES = ("A1", "A2", "B1", "B2")
 REGIONS = ("overall", "sf", "monterey", "yosemite")
 DATES = ("all", "10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11")
@@ -20,7 +21,7 @@ with sync_playwright() as playwright:
     page.set_default_timeout(600000)
     errors = []
     page.on("pageerror", lambda error: errors.append(str(error)))
-    page.goto("http://127.0.0.1:8766/index.html", wait_until="domcontentloaded", timeout=90000)
+    page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp && document.querySelectorAll('.photo-marker').length===window.__tripApp.DATA.markers.length")
     rows = []
     for size in range(1, 5):

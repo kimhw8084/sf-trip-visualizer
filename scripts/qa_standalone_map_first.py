@@ -4,10 +4,11 @@ import json
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+from qa_config import STANDALONE_PATH
 
 
 ROOT = Path(__file__).resolve().parents[1]
-URL = (ROOT / "SF_Smart_Minority_Map_First_Standalone.html").as_uri()
+URL = STANDALONE_PATH.resolve().as_uri()
 with sync_playwright() as playwright:
     browser = playwright.chromium.launch(headless=True)
     page = browser.new_page(viewport={"width": 1280, "height": 800})

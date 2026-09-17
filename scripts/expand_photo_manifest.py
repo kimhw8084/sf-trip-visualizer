@@ -1,6 +1,8 @@
 """Add gap-audit photo slots without changing the original 84 reviewed assets."""
 from __future__ import annotations
 
+raise SystemExit("DEPRECATED LEGACY ENTRY POINT: 84-photo expansion path; use the canonical 108-photo manifest")
+
 import json
 from pathlib import Path
 
