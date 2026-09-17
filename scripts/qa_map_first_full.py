@@ -74,6 +74,7 @@ with sync_playwright() as playwright:
     report["checks"]["stop_hover"] = read(page, """()=>({preview:document.getElementById('previewCard').classList.contains('show'),photo:document.querySelector('#previewCard img')?.naturalWidth||0,text:document.getElementById('previewCard').innerText.slice(0,350)})""")
     capture(page, "stop_hover_1440")
     page.locator(".photo-marker[data-place-key='ferry']").click()
+    page.locator("#previewCard .preview-action").click()
     page.wait_for_function("[...document.querySelectorAll('#detailsPane .photo-grid img')].length===3&&[...document.querySelectorAll('#detailsPane .photo-grid img')].every(x=>x.complete&&x.naturalWidth>0)", timeout=15000)
     report["checks"]["place_detail"] = read(page, """()=>({focus:document.getElementById('mapFocus').classList.contains('show'),title:document.querySelector('#detailsPane h2')?.innerText,subtitle:document.querySelector('#detailsPane .place-korean')?.innerText,photos:document.querySelectorAll('#detailsPane .photo-grid img').length,decoded:[...document.querySelectorAll('#detailsPane .photo-grid img')].every(x=>x.complete&&x.naturalWidth>0),timingCards:document.querySelectorAll('#detailsPane .fact .timeline-card').length})""")
     capture(page, "ferry_detail_map_only")
