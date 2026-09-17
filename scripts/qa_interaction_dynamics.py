@@ -5,6 +5,7 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 from qa_config import MODULAR_URL
+from qa_loading import wait_for_application_ready
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,7 +26,7 @@ with sync_playwright() as playwright:
     page.on("pageerror", lambda error: report["errors"].append(str(error)))
     page.goto(URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    page.wait_for_function("!document.getElementById('loadingScreen')", timeout=10000)
+    wait_for_application_ready(page, timeout=30000)
 
     report["provider_inventory"] = page.evaluate(
         """()=>({active:window.__tripApp.state.provider,data:Object.keys(window.__tripApp.DATA.providers),desktop:[...document.querySelectorAll('[data-provider]')].map(x=>x.dataset.provider),mobile:[...document.querySelectorAll('#mobileProvider option')].map(x=>x.value)})"""

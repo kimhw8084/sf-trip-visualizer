@@ -8,7 +8,8 @@
     "canonical_renderer": "src/app_phase7.js",
     "canonical_build": "scripts/build_map_first.py",
     "canonical_pipeline": "scripts/pipeline.py",
-    "filename_note": "phase7_app_data.json and app_phase7.js are current maintained inputs; their names do not indicate legacy authority. Authority is defined by this manifest and the supported pipeline."
+    "filename_note": "phase7_app_data.json and app_phase7.js are current maintained inputs; their names do not indicate legacy authority. Authority is defined by this manifest and the supported pipeline.",
+    "gate5_contract": "manifests/gate5_field_quality_contract.json"
   },
   "truth_authority": {
     "scope": "routes, dates, regions, physical places, route occurrences, timeline cards, typed legs, decision rules, endpoint anchors, and provider configuration",
@@ -131,6 +132,10 @@
     "QA/release/qualification.json",
     "QA/release/gate4_static.json",
     "QA/release/gate4_runtime.json",
-    "QA/release/gate4.json"
+    "QA/release/gate4.json",
+    "manifests/gate5_field_quality_contract.json",
+    "QA/gate5/baseline.json",
+    "QA/gate5/candidate.json",
+    "QA/gate5/finding_matrix.json"
   ]
 }

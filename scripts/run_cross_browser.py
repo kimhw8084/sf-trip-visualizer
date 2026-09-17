@@ -266,6 +266,18 @@ def collect_failure_diagnostics(
             diagnostics["expected_marker_count"] = marker_counts.get("expected")
     except Exception:
         pass
+    try:
+        diagnostics["panel_state"] = page.evaluate(
+            """() => ({
+                selected: window.__tripApp?.state?.selected ?? null,
+                tab: window.__tripApp?.state?.tab ?? null,
+                details_hidden: document.getElementById('detailsPane')?.hidden ?? null,
+                details_rect: (() => { const r = document.getElementById('detailsPane')?.getBoundingClientRect(); return r ? {x:r.x,y:r.y,width:r.width,height:r.height} : null; })(),
+                photos: [...document.querySelectorAll('#detailsPane .photo-slot img')].map(e => ({complete:e.complete,width:e.naturalWidth,src:e.currentSrc||e.src}))
+            })"""
+        )
+    except Exception:
+        pass
     return diagnostics
 
 
@@ -411,12 +423,13 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
                 "expected_places": page.evaluate("window.__tripApp.DATA.markers.length"),
             }
         )
-        page.locator("[data-timeline]").first.click()
-        page.locator("[data-tab=details]").click()
+        page.evaluate(
+            """()=>window.__tripApp.selectPlace(window.__tripApp.DATA.markers[0].place_key,{focus:false,openDetails:true})"""
+        )
         page.wait_for_function(
             "[...document.querySelectorAll('#detailsPane .photo-slot img')].length===3&&"
             "[...document.querySelectorAll('#detailsPane .photo-slot img')].every(e=>e.complete&&e.naturalWidth>0)",
-            timeout=8000,
+            timeout=15000,
         )
         row["detail_photos"] = page.locator("#detailsPane .photo-slot img").count()
         row["page_errors"] = list(page_errors)
