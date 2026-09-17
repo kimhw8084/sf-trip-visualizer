@@ -1,11 +1,11 @@
 {
   "version": "2.0-map-first",
-  "generated": "2026-09-15",
+  "generated": "2026-09-16",
   "routing_service_status": "OSM_REFERENCE_GEOMETRY_CACHED_LOCALLY",
-  "acceptance_strategy": "39 car/walk legs use cached OSM network geometry; 2 ferry legs remain explicit conceptual water links. App runtime performs no routing requests.",
-  "exact_routed_legs": 39,
-  "conceptual_legs": 2,
-  "renderable_conceptual_legs": 2,
+  "acceptance_strategy": "35 legs retain cached OSM reference geometry; 2 ferry links and 4 inter-region transfer corridors remain explicit non-track relationships. App runtime performs no routing requests.",
+  "exact_routed_legs": 35,
+  "conceptual_legs": 6,
+  "renderable_conceptual_legs": 6,
   "cross_day_suppressed_legs": [
     "A_1009_MARIPOSA",
     "B1_1009_ACADEMY",
@@ -282,16 +282,16 @@
         "B1",
         "B2"
       ],
-      "geometry_kind": "routed_osm",
+      "geometry_kind": "conceptual_transfer",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.4194,37.7749;-121.93711,36.51599?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
+      "render_style": "transfer_dots",
       "label": "SF → Point Lobos / Monterey",
       "note": "Long transfer shown as dotted travel corridor; not road geometry.",
       "show_overall": true,
       "geometry_point_count": 4905,
       "distance_km": 190.96,
       "reference_duration_min": 147.1,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
+      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
       "leg_id": "T_1007_MONTEREY_YOSE",
@@ -313,16 +313,16 @@
         "B1",
         "B2"
       ],
-      "geometry_kind": "routed_osm",
+      "geometry_kind": "conceptual_transfer",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.8947,36.6002;-119.58982,37.74648?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
+      "render_style": "transfer_dots",
       "label": "Monterey → Yosemite Valley",
       "note": "Official itinerary travel block; dotted corridor only.",
       "show_overall": true,
       "geometry_point_count": 6595,
       "distance_km": 319.73,
       "reference_duration_min": 269.9,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
+      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
       "leg_id": "T_A_1010_YOSE_SF",
@@ -342,16 +342,16 @@
         "A1",
         "A2"
       ],
-      "geometry_kind": "routed_osm",
+      "geometry_kind": "conceptual_transfer",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.5936,37.7456;-122.4194,37.7749?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
+      "render_style": "transfer_dots",
       "label": "Yosemite → SF · 3-night plans",
       "note": "Fleet Week avoidance transfer; dotted corridor only.",
       "show_overall": true,
       "geometry_point_count": 6288,
       "distance_km": 301.78,
       "reference_duration_min": 271.5,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
+      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
       "leg_id": "T_B_1009_YOSE_SF",
@@ -371,16 +371,16 @@
         "B1",
         "B2"
       ],
-      "geometry_kind": "routed_osm",
+      "geometry_kind": "conceptual_transfer",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.5936,37.7456;-122.4194,37.7749?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
+      "render_style": "transfer_dots",
       "label": "Yosemite → SF · 2-night plans",
       "note": "Return day differs from A plans; dotted corridor only.",
       "show_overall": true,
       "geometry_point_count": 6288,
       "distance_km": 301.78,
       "reference_duration_min": 271.5,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
+      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
       "leg_id": "A_1009_MARIPOSA",
@@ -407,6 +407,9 @@
       "note": "A1 flex / A2 fixed intent. Rendered as conceptual branch, not road.",
       "show_overall": true,
       "branch_kind": "conditional",
+      "relationship_scope": "cross_date_scenario",
+      "from_date_key": "10/8",
+      "to_date_key": "10/9",
       "geometry_point_count": 1862,
       "distance_km": 53.34,
       "reference_duration_min": 72.1,
@@ -464,6 +467,10 @@
       "label": "B1 SF west/central option → Academy",
       "note": "Scenario relationship only; day schedule uses Academy after return and this connector is not a road claim.",
       "show_overall": true,
+      "branch_kind": "conditional",
+      "relationship_scope": "cross_date_scenario",
+      "from_date_key": "10/10",
+      "to_date_key": "10/9",
       "geometry_point_count": 231,
       "distance_km": 4.52,
       "reference_duration_min": 8.3,
@@ -492,6 +499,10 @@
       "label": "B2 GGP morning → Academy",
       "note": "Conceptual itinerary connector; explicitly not road geometry.",
       "show_overall": true,
+      "branch_kind": "conditional",
+      "relationship_scope": "cross_date_scenario",
+      "from_date_key": "10/10",
+      "to_date_key": "10/11",
       "geometry_point_count": 35,
       "distance_km": 0.48,
       "reference_duration_min": 6.4,
@@ -1294,5 +1305,5 @@
     }
   ],
   "geometry_cache_path": "data/route_geometry_cache.json",
-  "geometry_cache_sha256": "f75bd65d59fd3536a20ab452337cfa6dce9b5d1a6c2bd44d2c5eca79ca5a0ae7"
+  "geometry_cache_sha256": "03ebb160fb0fc79ca429033e1e95edea477673ffb95c05bad294ff3ed13c45fc"
 }

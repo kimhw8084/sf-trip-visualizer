@@ -10,6 +10,24 @@
     "canonical_pipeline": "scripts/pipeline.py",
     "filename_note": "phase7_app_data.json and app_phase7.js are current maintained inputs; their names do not indicate legacy authority. Authority is defined by this manifest and the supported pipeline."
   },
+  "truth_authority": {
+    "scope": "routes, dates, regions, physical places, route occurrences, timeline cards, typed legs, decision rules, endpoint anchors, and provider configuration",
+    "authored_source": "data/phase7_app_data.json",
+    "required_top_level_fields": [
+      "routes",
+      "dates",
+      "region_cfg",
+      "markers",
+      "place_region",
+      "timeline",
+      "legs",
+      "endpoint_anchors",
+      "replan_rules",
+      "providers"
+    ],
+    "parallel_file_policy": "Reference snapshots and audits may corroborate or reconcile the canonical source, but never override it and never drive the runtime build.",
+    "validator": "scripts/validate_trip_data.py"
+  },
   "authored_inputs": [
     "data/phase7_app_data.json",
     "src/map_shell_template.html",
@@ -26,6 +44,9 @@
     "assets/vector/yosemite_hillshade_shadow.webp",
     "manifests/photo_selection.json",
     "manifests/photo_acquisition_queue.json",
+    "manifests/trip_freshness.json"
+  ],
+  "reference_evidence_inputs": [
     "manifests/source_manifest.json",
     "data/routes.json",
     "data/itineraries.json",
@@ -92,6 +113,7 @@
     "photo_roles": ["HERO", "EXPERIENCE", "SCALE_CONTEXT"]
   },
   "qualification_evidence": [
+    "QA/map_first/canonical_truth.json",
     "QA/photo_integrity.json",
     "QA/map_first/smoke.json",
     "QA/map_first/full_acceptance.json",

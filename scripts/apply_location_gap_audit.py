@@ -347,6 +347,7 @@ def leg(leg_id: str, date: str, start: str, end: str, mode: str, label: str,
     points = {m["place_key"]: [m["lat"], m["lon"]] for m in ADDITIONS}
     data = json.loads(DATA_PATH.read_text())
     points.update({m["place_key"]: [m["lat"], m["lon"]] for m in data["markers"]})
+    is_ferry = mode == "ferry"
     return {
         "leg_id": leg_id,
         "date": date,
@@ -356,9 +357,9 @@ def leg(leg_id: str, date: str, start: str, end: str, mode: str, label: str,
         "to_latlon": points[end],
         "mode": mode,
         "routes": routes or ROUTES,
-        "geometry_kind": "osm_reference_pending",
-        "geometry_source": "official itinerary endpoints; cached OSM route generated at build time",
-        "render_style": "cached_osm_reference_line",
+        "geometry_kind": "conceptual_ferry" if is_ferry else "osm_reference_pending",
+        "geometry_source": "authoritative dock/island endpoints; exact vessel track not asserted" if is_ferry else "official itinerary endpoints; cached OSM route generated at build time",
+        "render_style": "conceptual_dots" if is_ferry else "cached_osm_reference_line",
         "label": label,
         "note": note,
         "show_overall": True,
@@ -648,6 +649,13 @@ def apply() -> None:
         i18n["ko_to_en"][ko] = en
         i18n["en_to_ko"][en] = ko
     extra_pairs = {
+        "Chinatown → Coit 선택": "Chinatown → choose Coit",
+        "Chinatown → Lombard 선택": "Chinatown → choose Lombard",
+        "Chinatown → Powell–Hyde 선택": "Chinatown → choose Powell–Hyde",
+        "Musée → Ghirardelli 보너스": "Musée → Ghirardelli bonus",
+        "Point Lobos → Bixby 대체": "Point Lobos → Bixby alternative",
+        "El Capitan → Tunnel View 선택": "El Capitan → choose Tunnel View",
+        "El Capitan → Valley View 선택": "El Capitan → choose Valley View",
         "Coit 또는 Lombard 중 딱 하나": "Choose exactly one: Coit or Lombard",
         "Carmel Gate에서 들어가 북상하는 지리. 차 안을 낮잠 가능 창으로 활용. Bixby를 선택하면 삭제한다.": "Enter through Carmel Gate and continue north, using the car as a possible nap window. Remove this stop if choosing Bixby.",
         "이른 점심·기저귀·Aquarium 리셋": "Early lunch, diaper, and Aquarium reset",

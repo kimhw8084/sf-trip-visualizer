@@ -22,6 +22,9 @@ from urllib.request import urlopen
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from validate_trip_data import validate_trip_data
+
 MANIFEST_PATH = ROOT / "manifests" / "canonical_pipeline.json"
 BUILD = ROOT / ".build"
 PUBLIC = ROOT / ".public-site"
@@ -31,6 +34,7 @@ QUALIFICATION = ROOT / "QA" / "release" / "qualification.json"
 COMPONENT_TIMEOUT_SECONDS = int(os.environ.get("TRIP_QUALIFICATION_TIMEOUT_SECONDS", "300"))
 
 COMPONENTS = (
+    ("canonical_truth", "scripts/qa_canonical_truth.py", "QA/map_first/canonical_truth.json"),
     ("photo_integrity", "scripts/check_photo_integrity.py", "QA/photo_integrity.json"),
     ("map_first_smoke", "scripts/qa_map_first.py", "QA/map_first/smoke.json"),
     ("map_first_full", "scripts/qa_map_first_full.py", "QA/map_first/full_acceptance.json"),
@@ -110,6 +114,9 @@ def validate_product() -> dict:
     marker_keys = [marker["place_key"] for marker in data["markers"]]
     if len(marker_keys) != len(set(marker_keys)):
         raise RuntimeError("Canonical data contains duplicate physical place keys.")
+    truth_report = validate_trip_data()
+    if truth_report["status"] != "PASS":
+        raise RuntimeError("Canonical truth validation failed: " + "; ".join(truth_report["failures"][:12]))
     checks = {
         "places": len(marker_keys) == expected["places"],
         "photos": len(asset_manifest["assets"]) == expected["photos"] and asset_manifest["required_assets"] == expected["photos"],
@@ -134,7 +141,7 @@ def validate_product() -> dict:
     if not all(checks.values()):
         failed = [name for name, passed in checks.items() if not passed]
         raise RuntimeError(f"Canonical source/schema checks failed: {', '.join(failed)}")
-    return {"checks": checks, "counts": {"places": len(marker_keys), "photos": len(asset_manifest["assets"]), "timeline_cards": len(data["timeline"]), "route_legs": len(data["legs"])}, "providers": providers}
+    return {"checks": checks, "truth_validation": {"status": truth_report["status"], "counts": truth_report["counts"]}, "counts": {"places": len(marker_keys), "photos": len(asset_manifest["assets"]), "timeline_cards": len(data["timeline"]), "route_legs": len(data["legs"])}, "providers": providers}
 
 
 def validate_authority_boundaries() -> None:

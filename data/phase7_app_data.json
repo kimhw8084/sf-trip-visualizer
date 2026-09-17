@@ -3649,7 +3649,10 @@
       "label": "Glacier-area → Mariposa option",
       "note": "A1 flex / A2 fixed intent. Rendered as conceptual branch, not road.",
       "show_overall": true,
-      "branch_kind": "conditional"
+      "branch_kind": "conditional",
+      "relationship_scope": "cross_date_scenario",
+      "from_date_key": "10/8",
+      "to_date_key": "10/9"
     },
     {
       "leg_id": "A_1011_GGP",
@@ -3698,7 +3701,11 @@
       "render_style": "conceptual_dots",
       "label": "B1 SF west/central option → Academy",
       "note": "Scenario relationship only; day schedule uses Academy after return and this connector is not a road claim.",
-      "show_overall": true
+      "show_overall": true,
+      "branch_kind": "conditional",
+      "relationship_scope": "cross_date_scenario",
+      "from_date_key": "10/10",
+      "to_date_key": "10/9"
     },
     {
       "leg_id": "B2_1011_GGP",
@@ -3722,7 +3729,11 @@
       "render_style": "conceptual_dots",
       "label": "B2 GGP morning → Academy",
       "note": "Conceptual itinerary connector; explicitly not road geometry.",
-      "show_overall": true
+      "show_overall": true,
+      "branch_kind": "conditional",
+      "relationship_scope": "cross_date_scenario",
+      "from_date_key": "10/10",
+      "to_date_key": "10/11"
     },
     {
       "leg_id": "GAP_1004_01",
@@ -4276,9 +4287,9 @@
         "B1",
         "B2"
       ],
-      "geometry_kind": "osm_reference_pending",
-      "geometry_source": "official itinerary endpoints; cached OSM route generated at build time",
-      "render_style": "cached_osm_reference_line",
+      "geometry_kind": "conceptual_ferry",
+      "geometry_source": "authoritative dock/island endpoints; exact vessel track not asserted",
+      "render_style": "conceptual_dots",
       "label": "Alcatraz return ferry → Pier 33 / waterfront",
       "note": "실제 페리는 Pier 33으로 돌아온다. 선은 가까운 PIER 39 일정 마커까지의 개념 연결이며 선박 항적이 아니다.",
       "show_overall": true,
@@ -6319,6 +6330,7 @@
   "region_cfg": {
     "overall": {
       "label": "Overall",
+      "label_ko": "전체",
       "center": {
         "lat": 37.28,
         "lon": -121.25
@@ -6327,6 +6339,7 @@
     },
     "sf": {
       "label": "SF + Marin",
+      "label_ko": "SF + 마린",
       "center": {
         "lat": 37.79,
         "lon": -122.44
@@ -6335,6 +6348,7 @@
     },
     "monterey": {
       "label": "Monterey",
+      "label_ko": "몬터레이",
       "center": {
         "lat": 36.58,
         "lon": -121.93
@@ -6343,6 +6357,7 @@
     },
     "yosemite": {
       "label": "Yosemite",
+      "label_ko": "요세미티",
       "center": {
         "lat": 37.66,
         "lon": -119.61
@@ -6387,6 +6402,36 @@
     "bixby": "monterey",
     "monterey_wharf": "monterey",
     "el_capitan": "yosemite"
+  },
+  "endpoint_anchors": {
+    "Pier 33 Alcatraz Landing": {
+      "lat": 37.80671,
+      "lon": -122.40538,
+      "region": "sf",
+      "role": "ferry_embarkation",
+      "coordinate_provenance": "operational embarkation anchor; exact vessel track not asserted"
+    },
+    "sf_center": {
+      "lat": 37.7749,
+      "lon": -122.4194,
+      "region": "sf",
+      "role": "transfer_anchor",
+      "coordinate_provenance": "regional planning anchor; not a place identity"
+    },
+    "monterey_center": {
+      "lat": 36.6002,
+      "lon": -121.8947,
+      "region": "monterey",
+      "role": "transfer_anchor",
+      "coordinate_provenance": "regional planning anchor; not a place identity"
+    },
+    "yosemite_valley": {
+      "lat": 37.7456,
+      "lon": -119.5936,
+      "region": "yosemite",
+      "role": "transfer_anchor",
+      "coordinate_provenance": "regional planning anchor; not a place identity"
+    }
   },
   "replan_rules": {
     "glacier_bad": "move to next Yosemite day in 3-night plans",
