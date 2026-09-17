@@ -1,0 +1,830 @@
+{
+  "schema_version": 1,
+  "candidate_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+  "baseline_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+  "candidate_source_binding": {
+    "schema_version": 1,
+    "binding": "source_fingerprint",
+    "status": "RECORDED",
+    "claimed_revision": null,
+    "checked_out_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "source_worktree_dirty": true,
+    "source_fingerprint": {
+      "sha256": "68ba89fa5316b46cbcb509d78505277d41c5d4a0a2b42571d8bccbb967d825c5",
+      "file_count": 336,
+      "tracked_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+      "worktree_dirty": true,
+      "excluded_from_hash": [
+        "QA/",
+        ".build/",
+        ".release/",
+        ".public-site/"
+      ]
+    },
+    "reason": "source files changed after checkout; evidence is bound to the fingerprint, not to HEAD"
+  },
+  "baseline_source_binding": {
+    "schema_version": 1,
+    "binding": "exact_commit",
+    "status": "PASS",
+    "claimed_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "checked_out_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "source_worktree_dirty": false,
+    "source_fingerprint": {
+      "sha256": "7948b2ca4e070c442fb316b6e10d660bdf03918b5e69555c32cb2022f14932fd",
+      "file_count": 331,
+      "tracked_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+      "worktree_dirty": false,
+      "excluded_from_hash": [
+        "QA/",
+        ".build/",
+        ".release/",
+        ".public-site/"
+      ]
+    },
+    "reason": "clean checkout is bound to the exact checked-out revision"
+  },
+  "candidate_environment_signature": {
+    "schema_version": 1,
+    "os": {
+      "system": "Darwin",
+      "release": "25.6.0",
+      "version": "Darwin Kernel Version 25.6.0: Fri Jul 31 19:16:36 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6030"
+    },
+    "architecture": {
+      "machine": "arm64",
+      "bits": "64bit"
+    },
+    "browser": {
+      "family": "chromium",
+      "runtime_version": "151.0.7922.34",
+      "playwright_version": "1.62.0"
+    },
+    "execution": {
+      "mode": "local",
+      "ci_value": null,
+      "headless": true,
+      "display_backend": "none",
+      "software_gl": null
+    },
+    "device_emulation": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "device_scale_factor": 1,
+      "has_touch": false,
+      "is_mobile": false,
+      "user_agent": "playwright-default"
+    },
+    "sample_conditions": {
+      "sample_count": 3,
+      "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+      "server": "local-http",
+      "network": "default-playwright-context",
+      "cold_condition": "new-context-and-page",
+      "warm_condition": "same-page-reload-readiness-after-cold-sample",
+      "browser_cache_condition": "isolated-new-context",
+      "runner_order_condition": "alternated-paired-same-browser-process",
+      "ready_milestones": [
+        "dom_content_loaded",
+        "smart_style_ready",
+        "markers_timeline_ready",
+        "first_actionable_state"
+      ],
+      "interaction_repeat_count": 1
+    }
+  },
+  "baseline_environment_signature": {
+    "schema_version": 1,
+    "os": {
+      "system": "Darwin",
+      "release": "25.6.0",
+      "version": "Darwin Kernel Version 25.6.0: Fri Jul 31 19:16:36 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6030"
+    },
+    "architecture": {
+      "machine": "arm64",
+      "bits": "64bit"
+    },
+    "browser": {
+      "family": "chromium",
+      "runtime_version": "151.0.7922.34",
+      "playwright_version": "1.62.0"
+    },
+    "execution": {
+      "mode": "local",
+      "ci_value": null,
+      "headless": true,
+      "display_backend": "none",
+      "software_gl": null
+    },
+    "device_emulation": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "device_scale_factor": 1,
+      "has_touch": false,
+      "is_mobile": false,
+      "user_agent": "playwright-default"
+    },
+    "sample_conditions": {
+      "sample_count": 3,
+      "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+      "server": "local-http",
+      "network": "default-playwright-context",
+      "cold_condition": "new-context-and-page",
+      "warm_condition": "same-page-reload-readiness-after-cold-sample",
+      "browser_cache_condition": "isolated-new-context",
+      "runner_order_condition": "alternated-paired-same-browser-process",
+      "ready_milestones": [
+        "dom_content_loaded",
+        "smart_style_ready",
+        "markers_timeline_ready",
+        "first_actionable_state"
+      ],
+      "interaction_repeat_count": 1
+    }
+  },
+  "measurement_schedule": {
+    "method": "order-balanced-interleaved-same-runner",
+    "sample_count_per_side": 3,
+    "order": [
+      "candidate>baseline",
+      "baseline>candidate",
+      "candidate>baseline"
+    ],
+    "fresh_context_per_measurement": true,
+    "same_browser_runtime_process": true,
+    "candidate_server": {
+      "url": "http://127.0.0.1:8777/index.html",
+      "build": ".build/modular",
+      "isolated": true
+    },
+    "baseline_server": {
+      "url": "http://127.0.0.1:54091/index.html",
+      "build": "/Users/haewonkim/.codex-fabric/worktrees/gate5-base-udjv4m3d/source/.build/modular",
+      "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+      "isolated": true
+    },
+    "schedule": [
+      {
+        "pair": 1,
+        "position": 1,
+        "side": "candidate",
+        "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+        "fresh_context": true
+      },
+      {
+        "pair": 1,
+        "position": 2,
+        "side": "baseline",
+        "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+        "fresh_context": true
+      },
+      {
+        "pair": 2,
+        "position": 1,
+        "side": "baseline",
+        "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+        "fresh_context": true
+      },
+      {
+        "pair": 2,
+        "position": 2,
+        "side": "candidate",
+        "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+        "fresh_context": true
+      },
+      {
+        "pair": 3,
+        "position": 1,
+        "side": "candidate",
+        "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+        "fresh_context": true
+      },
+      {
+        "pair": 3,
+        "position": 2,
+        "side": "baseline",
+        "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+        "fresh_context": true
+      }
+    ]
+  },
+  "paired_measurements": [
+    {
+      "pair": 1,
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "candidate": {
+        "cold_milestones": {
+          "dom_content_loaded": 147.59999999403954,
+          "smart_style_ready": 1305,
+          "markers_timeline_ready": 1348.3999999910593,
+          "first_actionable_state": 1349.7000000029802
+        },
+        "warm_milestones": {
+          "dom_content_loaded": 81,
+          "smart_style_ready": 1247.2000000029802,
+          "markers_timeline_ready": 1251.6000000089407,
+          "first_actionable_state": 1253.800000011921
+        },
+        "interactions": {
+          "route": {
+            "count": 1,
+            "min": 188.887,
+            "median": 188.887,
+            "max": 188.887,
+            "mean": 188.887,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "date": {
+            "count": 1,
+            "min": 162.997,
+            "median": 162.997,
+            "max": 162.997,
+            "mean": 162.997,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "region": {
+            "count": 1,
+            "min": 328.729,
+            "median": 328.729,
+            "max": 328.729,
+            "mean": 328.729,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "preview": {
+            "count": 1,
+            "min": 219.866,
+            "median": 219.866,
+            "max": 219.866,
+            "mean": 219.866,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "detail": {
+            "count": 1,
+            "min": 218.551,
+            "median": 218.551,
+            "max": 218.551,
+            "mean": 218.551,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "panel": {
+            "count": 1,
+            "min": 347.523,
+            "median": 347.523,
+            "max": 347.523,
+            "mean": 347.523,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "provider_recovery": {
+            "count": 1,
+            "min": 180.397,
+            "median": 180.397,
+            "max": 180.397,
+            "mean": 180.397,
+            "stdev": 0.0,
+            "p95": null
+          }
+        }
+      },
+      "baseline": {
+        "cold_milestones": {
+          "dom_content_loaded": 142.79999999701977,
+          "smart_style_ready": 1395.7999999970198,
+          "markers_timeline_ready": 1445.2000000029802,
+          "first_actionable_state": 1447.2000000029802
+        },
+        "warm_milestones": {
+          "dom_content_loaded": 108.5,
+          "smart_style_ready": 1316,
+          "markers_timeline_ready": 1360.199999988079,
+          "first_actionable_state": 1361.5
+        },
+        "interactions": {
+          "route": {
+            "count": 1,
+            "min": 210.145,
+            "median": 210.145,
+            "max": 210.145,
+            "mean": 210.145,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "date": {
+            "count": 1,
+            "min": 137.668,
+            "median": 137.668,
+            "max": 137.668,
+            "mean": 137.668,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "region": {
+            "count": 1,
+            "min": 286.293,
+            "median": 286.293,
+            "max": 286.293,
+            "mean": 286.293,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "preview": {
+            "count": 1,
+            "min": 174.711,
+            "median": 174.711,
+            "max": 174.711,
+            "mean": 174.711,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "detail": {
+            "count": 1,
+            "min": 284.057,
+            "median": 284.057,
+            "max": 284.057,
+            "mean": 284.057,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "panel": {
+            "count": 1,
+            "min": 348.083,
+            "median": 348.083,
+            "max": 348.083,
+            "mean": 348.083,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "provider_recovery": {
+            "count": 1,
+            "min": 196.308,
+            "median": 196.308,
+            "max": 196.308,
+            "mean": 196.308,
+            "stdev": 0.0,
+            "p95": null
+          }
+        }
+      }
+    },
+    {
+      "pair": 2,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "candidate": {
+        "cold_milestones": {
+          "dom_content_loaded": 202.59999999403954,
+          "smart_style_ready": 1397.7000000029802,
+          "markers_timeline_ready": 2423.0999999940395,
+          "first_actionable_state": 2427.3999999910593
+        },
+        "warm_milestones": {
+          "dom_content_loaded": 110.8999999910593,
+          "smart_style_ready": 1321.7999999970198,
+          "markers_timeline_ready": 1815.8999999910593,
+          "first_actionable_state": 1819.2999999970198
+        },
+        "interactions": {
+          "route": {
+            "count": 1,
+            "min": 234.081,
+            "median": 234.081,
+            "max": 234.081,
+            "mean": 234.081,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "date": {
+            "count": 1,
+            "min": 258.259,
+            "median": 258.259,
+            "max": 258.259,
+            "mean": 258.259,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "region": {
+            "count": 1,
+            "min": 447.921,
+            "median": 447.921,
+            "max": 447.921,
+            "mean": 447.921,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "preview": {
+            "count": 1,
+            "min": 231.378,
+            "median": 231.378,
+            "max": 231.378,
+            "mean": 231.378,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "detail": {
+            "count": 1,
+            "min": 256.952,
+            "median": 256.952,
+            "max": 256.952,
+            "mean": 256.952,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "panel": {
+            "count": 1,
+            "min": 346.087,
+            "median": 346.087,
+            "max": 346.087,
+            "mean": 346.087,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "provider_recovery": {
+            "count": 1,
+            "min": 221.479,
+            "median": 221.479,
+            "max": 221.479,
+            "mean": 221.479,
+            "stdev": 0.0,
+            "p95": null
+          }
+        }
+      },
+      "baseline": {
+        "cold_milestones": {
+          "dom_content_loaded": 90.6000000089407,
+          "smart_style_ready": 1056.9000000059605,
+          "markers_timeline_ready": 1102.4000000059605,
+          "first_actionable_state": 1103.800000011921
+        },
+        "warm_milestones": {
+          "dom_content_loaded": 81.3999999910593,
+          "smart_style_ready": 1009.3999999910593,
+          "markers_timeline_ready": 1045,
+          "first_actionable_state": 1046.2999999970198
+        },
+        "interactions": {
+          "route": {
+            "count": 1,
+            "min": 224.601,
+            "median": 224.601,
+            "max": 224.601,
+            "mean": 224.601,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "date": {
+            "count": 1,
+            "min": 178.997,
+            "median": 178.997,
+            "max": 178.997,
+            "mean": 178.997,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "region": {
+            "count": 1,
+            "min": 393.351,
+            "median": 393.351,
+            "max": 393.351,
+            "mean": 393.351,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "preview": {
+            "count": 1,
+            "min": 194.995,
+            "median": 194.995,
+            "max": 194.995,
+            "mean": 194.995,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "detail": {
+            "count": 1,
+            "min": 106.669,
+            "median": 106.669,
+            "max": 106.669,
+            "mean": 106.669,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "panel": {
+            "count": 1,
+            "min": 326.168,
+            "median": 326.168,
+            "max": 326.168,
+            "mean": 326.168,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "provider_recovery": {
+            "count": 1,
+            "min": 336.69,
+            "median": 336.69,
+            "max": 336.69,
+            "mean": 336.69,
+            "stdev": 0.0,
+            "p95": null
+          }
+        }
+      }
+    },
+    {
+      "pair": 3,
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "candidate": {
+        "cold_milestones": {
+          "dom_content_loaded": 153.30000001192093,
+          "smart_style_ready": 1347.5,
+          "markers_timeline_ready": 1395.1000000089407,
+          "first_actionable_state": 1396.5
+        },
+        "warm_milestones": {
+          "dom_content_loaded": 83.20000000298023,
+          "smart_style_ready": 1150.6000000089407,
+          "markers_timeline_ready": 1154.1000000089407,
+          "first_actionable_state": 1155.2999999970198
+        },
+        "interactions": {
+          "route": {
+            "count": 1,
+            "min": 232.647,
+            "median": 232.647,
+            "max": 232.647,
+            "mean": 232.647,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "date": {
+            "count": 1,
+            "min": 184.856,
+            "median": 184.856,
+            "max": 184.856,
+            "mean": 184.856,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "region": {
+            "count": 1,
+            "min": 423.093,
+            "median": 423.093,
+            "max": 423.093,
+            "mean": 423.093,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "preview": {
+            "count": 1,
+            "min": 221.104,
+            "median": 221.104,
+            "max": 221.104,
+            "mean": 221.104,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "detail": {
+            "count": 1,
+            "min": 60.954,
+            "median": 60.954,
+            "max": 60.954,
+            "mean": 60.954,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "panel": {
+            "count": 1,
+            "min": 307.858,
+            "median": 307.858,
+            "max": 307.858,
+            "mean": 307.858,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "provider_recovery": {
+            "count": 1,
+            "min": 278.713,
+            "median": 278.713,
+            "max": 278.713,
+            "mean": 278.713,
+            "stdev": 0.0,
+            "p95": null
+          }
+        }
+      },
+      "baseline": {
+        "cold_milestones": {
+          "dom_content_loaded": 200.30000001192093,
+          "smart_style_ready": 1523.5,
+          "markers_timeline_ready": 1562.5,
+          "first_actionable_state": 1563.800000011921
+        },
+        "warm_milestones": {
+          "dom_content_loaded": 88.29999999701977,
+          "smart_style_ready": 1207.5,
+          "markers_timeline_ready": 1257.2999999970198,
+          "first_actionable_state": 1259.2000000029802
+        },
+        "interactions": {
+          "route": {
+            "count": 1,
+            "min": 259.704,
+            "median": 259.704,
+            "max": 259.704,
+            "mean": 259.704,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "date": {
+            "count": 1,
+            "min": 213.205,
+            "median": 213.205,
+            "max": 213.205,
+            "mean": 213.205,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "region": {
+            "count": 1,
+            "min": 453.151,
+            "median": 453.151,
+            "max": 453.151,
+            "mean": 453.151,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "preview": {
+            "count": 1,
+            "min": 178.934,
+            "median": 178.934,
+            "max": 178.934,
+            "mean": 178.934,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "detail": {
+            "count": 1,
+            "min": 63.882,
+            "median": 63.882,
+            "max": 63.882,
+            "mean": 63.882,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "panel": {
+            "count": 1,
+            "min": 315.219,
+            "median": 315.219,
+            "max": 315.219,
+            "mean": 315.219,
+            "stdev": 0.0,
+            "p95": null
+          },
+          "provider_recovery": {
+            "count": 1,
+            "min": 228.538,
+            "median": 228.538,
+            "max": 228.538,
+            "mean": 228.538,
+            "stdev": 0.0,
+            "p95": null
+          }
+        }
+      }
+    }
+  ],
+  "comparison": {
+    "candidate_environment_signature": {
+      "schema_version": 1,
+      "os": {
+        "system": "Darwin",
+        "release": "25.6.0",
+        "version": "Darwin Kernel Version 25.6.0: Fri Jul 31 19:16:36 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6030"
+      },
+      "architecture": {
+        "machine": "arm64",
+        "bits": "64bit"
+      },
+      "browser": {
+        "family": "chromium",
+        "runtime_version": "151.0.7922.34",
+        "playwright_version": "1.62.0"
+      },
+      "execution": {
+        "mode": "local",
+        "ci_value": null,
+        "headless": true,
+        "display_backend": "none",
+        "software_gl": null
+      },
+      "device_emulation": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "device_scale_factor": 1,
+        "has_touch": false,
+        "is_mobile": false,
+        "user_agent": "playwright-default"
+      },
+      "sample_conditions": {
+        "sample_count": 3,
+        "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+        "server": "local-http",
+        "network": "default-playwright-context",
+        "cold_condition": "new-context-and-page",
+        "warm_condition": "same-page-reload-readiness-after-cold-sample",
+        "browser_cache_condition": "isolated-new-context",
+        "runner_order_condition": "alternated-paired-same-browser-process",
+        "ready_milestones": [
+          "dom_content_loaded",
+          "smart_style_ready",
+          "markers_timeline_ready",
+          "first_actionable_state"
+        ],
+        "interaction_repeat_count": 1
+      }
+    },
+    "baseline_environment_signature": {
+      "schema_version": 1,
+      "os": {
+        "system": "Darwin",
+        "release": "25.6.0",
+        "version": "Darwin Kernel Version 25.6.0: Fri Jul 31 19:16:36 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6030"
+      },
+      "architecture": {
+        "machine": "arm64",
+        "bits": "64bit"
+      },
+      "browser": {
+        "family": "chromium",
+        "runtime_version": "151.0.7922.34",
+        "playwright_version": "1.62.0"
+      },
+      "execution": {
+        "mode": "local",
+        "ci_value": null,
+        "headless": true,
+        "display_backend": "none",
+        "software_gl": null
+      },
+      "device_emulation": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "device_scale_factor": 1,
+        "has_touch": false,
+        "is_mobile": false,
+        "user_agent": "playwright-default"
+      },
+      "sample_conditions": {
+        "sample_count": 3,
+        "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+        "server": "local-http",
+        "network": "default-playwright-context",
+        "cold_condition": "new-context-and-page",
+        "warm_condition": "same-page-reload-readiness-after-cold-sample",
+        "browser_cache_condition": "isolated-new-context",
+        "runner_order_condition": "alternated-paired-same-browser-process",
+        "ready_milestones": [
+          "dom_content_loaded",
+          "smart_style_ready",
+          "markers_timeline_ready",
+          "first_actionable_state"
+        ],
+        "interaction_repeat_count": 1
+      }
+    },
+    "method": "candidate median <= max(baseline max, baseline mean + 3*baseline stdev) only for matching exact source/environment bindings",
+    "candidate_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "baseline_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "comparisons": [],
+    "failures": [],
+    "status": "VERIFY_REQUIRED",
+    "reason": "Source/revision binding is incomplete or mismatched; a hard comparison is not evidence-supported.",
+    "mismatch": [
+      {
+        "field": "source_binding",
+        "reason": "candidate source binding is not an exact clean commit"
+      }
+    ],
+    "baseline_source": "temporary_detached_worktree_order_balanced"
+  }
+}

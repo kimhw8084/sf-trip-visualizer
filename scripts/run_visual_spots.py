@@ -5,6 +5,7 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 from qa_config import MODULAR_URL
+from qa_loading import wait_for_application_ready
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,7 +21,7 @@ with sync_playwright() as playwright:
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
         page.wait_for_function("window.__tripApp && document.querySelectorAll('.photo-marker').length===window.__tripApp.DATA.markers.length")
-        page.wait_for_function("!document.getElementById('loadingScreen')", timeout=10000)
+        wait_for_application_ready(page, timeout=30000)
         for route in ("A1", "A2", "B1", "B2"):
             page.evaluate("""async route=>{const a=window.__tripApp;a.state.routes=new Set([route]);a.state.region='sf';a.state.date='all';a.renderTimeline();await a.drawMap(false)}""", route)
             page.wait_for_function("window.__tripApp.map().getSource('trip-routes')")

@@ -86,6 +86,12 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertIn("actions/upload-artifact@v4", workflow)
         self.assertIn("candidate-qualification-${{ github.sha }}", workflow)
         self.assertIn("QA/release/*.json", workflow)
+        self.assertIn("QA/gate5/candidate.json", workflow)
+        self.assertIn("QA/gate5/baseline.json", workflow)
+        self.assertIn("QA/gate5/finding_matrix.json", workflow)
+        self.assertIn("QA/gate5/paired_comparison.json", workflow)
+        self.assertIn("QA/gate5/performance_summary.log", workflow)
+        self.assertIn("QA/gate5/screenshots/**", workflow)
         self.assertIn("QA/map_first/**/*.json", workflow)
         self.assertIn("QA/map_first/screenshots/**", workflow)
 

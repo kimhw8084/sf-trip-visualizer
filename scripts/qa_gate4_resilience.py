@@ -16,6 +16,7 @@ import subprocess
 from pathlib import Path
 
 from PIL import Image
+from qa_loading import wait_for_application_ready
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -218,7 +219,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
     def wait_ready(page, standalone=False):
         page.wait_for_function("window.__tripApp?.map?.()", timeout=30000)
         page.wait_for_function("window.__tripApp.map().isStyleLoaded()", timeout=30000)
-        page.wait_for_function("!document.getElementById('loadingScreen')", timeout=15000)
+        wait_for_application_ready(page, timeout=30000)
         page.wait_for_timeout(500)
 
     def snapshot(page):
@@ -251,6 +252,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         page.wait_for_timeout(400)
         if page.locator(".photo-marker").count():
             page.locator(".photo-marker").first.click()
+            page.locator("#previewCard .preview-action").click()
             page.wait_for_function("document.querySelectorAll('#detailsPane .photo-grid img').length===3", timeout=15000)
             page.wait_for_function("[...document.querySelectorAll('#detailsPane .photo-grid img')].every(x=>x.complete&&x.naturalWidth>0)", timeout=15000)
         page.locator("#panelToggle").click()

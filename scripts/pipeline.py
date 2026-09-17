@@ -52,6 +52,7 @@ COMPONENTS = (
     ("exhaustive_states", "scripts/run_exhaustive_states.py", "QA/map_first/exhaustive_states.json"),
     ("cross_browser", "scripts/run_cross_browser.py", "QA/map_first/cross_browser.json"),
     ("visual_spots", "scripts/run_visual_spots.py", "QA/map_first/visual_spots.json"),
+    ("gate5_field_quality", "scripts/qa_gate5_field_quality.py", "QA/gate5/candidate.json"),
     ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
 )
 
@@ -315,14 +316,12 @@ def free_local_port() -> int:
 def evidence_status(path: Path, returncode: int) -> str:
     if returncode == 124:
         return "UNVERIFIED"
-    if returncode:
-        return "FAIL" if path.is_file() else "UNVERIFIED"
     if not path.is_file():
-        return "UNVERIFIED"
+        return "FAIL" if returncode else "UNVERIFIED"
     payload = json.loads(path.read_text())
     if isinstance(payload, dict):
         status = payload.get("status")
-        if status in {"PASS", "FAIL", "UNVERIFIED"}:
+        if status in {"PASS", "FAIL", "UNVERIFIED", "VERIFY_REQUIRED"}:
             return status
         # Some maintained evidence schemas are terminal by successful exit
         # and intentionally omit a status field. A stale in-progress record is
@@ -370,9 +369,15 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
                 command.append("--runtime-only")
             if name == "gate4_runtime":
                 command.extend(["--mode", "browser", "--output", str(output_path)])
+            if name == "gate5_field_quality":
+                command.extend(["--expected-revision", report["candidate_head"]])
             code, stdout, stderr = run_process(command, env)
+            if name == "gate5_field_quality":
+                print(stdout, end="", flush=True)
+                if stderr:
+                    print(stderr, end="", file=sys.stderr, flush=True)
             status = evidence_status(output_path, code)
-            command_text = f"python3 {script}" + (" --runtime-only" if name == "photo_integrity" else "") + (f" --mode browser --output {output}" if name == "gate4_runtime" else "")
+            command_text = f"python3 {script}" + (" --runtime-only" if name == "photo_integrity" else "") + (f" --mode browser --output {output}" if name == "gate4_runtime" else "") + (f" --expected-revision {report['candidate_head']}" if name == "gate5_field_quality" else "")
             test_report = {"name": name, "command": command_text, "evidence": output, "status": status, "returncode": code, "timeout_seconds": COMPONENT_TIMEOUT_SECONDS, "stdout_tail": stdout, "stderr_tail": stderr}
             if code == 124:
                 test_report["status_reason"] = f"Component exceeded the {COMPONENT_TIMEOUT_SECONDS}s bound; gate remains unverified and release is fail-closed."

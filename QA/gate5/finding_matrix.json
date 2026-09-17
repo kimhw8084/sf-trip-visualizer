@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "candidate_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+  "candidate_fingerprint": {
+    "sha256": "68ba89fa5316b46cbcb509d78505277d41c5d4a0a2b42571d8bccbb967d825c5",
+    "file_count": 336,
+    "tracked_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "worktree_dirty": true,
+    "excluded_from_hash": [
+      "QA/",
+      ".build/",
+      ".release/",
+      ".public-site/"
+    ]
+  },
+  "rows": [
+    {
+      "finding": "E2 independent multimodal visual/usability acceptance",
+      "status": "VERIFY_REQUIRED",
+      "evidence": "candidate screenshots and objective checks only; implementation agent cannot self-certify"
+    },
+    {
+      "finding": "real phone/device performance",
+      "status": "VERIFY_REQUIRED",
+      "evidence": "desktop Chromium performance APIs only; no field-device claim"
+    },
+    {
+      "finding": "same-environment performance comparability",
+      "status": "VERIFY_REQUIRED",
+      "evidence": {
+        "reason": "Source/revision binding is incomplete or mismatched; a hard comparison is not evidence-supported.",
+        "mismatch": [
+          {
+            "field": "source_binding",
+            "reason": "candidate source binding is not an exact clean commit"
+          }
+        ],
+        "candidate_environment_signature": {
+          "schema_version": 1,
+          "os": {
+            "system": "Darwin",
+            "release": "25.6.0",
+            "version": "Darwin Kernel Version 25.6.0: Fri Jul 31 19:16:36 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6030"
+          },
+          "architecture": {
+            "machine": "arm64",
+            "bits": "64bit"
+          },
+          "browser": {
+            "family": "chromium",
+            "runtime_version": "151.0.7922.34",
+            "playwright_version": "1.62.0"
+          },
+          "execution": {
+            "mode": "local",
+            "ci_value": null,
+            "headless": true,
+            "display_backend": "none",
+            "software_gl": null
+          },
+          "device_emulation": {
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_scale_factor": 1,
+            "has_touch": false,
+            "is_mobile": false,
+            "user_agent": "playwright-default"
+          },
+          "sample_conditions": {
+            "sample_count": 3,
+            "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+            "server": "local-http",
+            "network": "default-playwright-context",
+            "cold_condition": "new-context-and-page",
+            "warm_condition": "same-page-reload-readiness-after-cold-sample",
+            "browser_cache_condition": "isolated-new-context",
+            "runner_order_condition": "alternated-paired-same-browser-process",
+            "ready_milestones": [
+              "dom_content_loaded",
+              "smart_style_ready",
+              "markers_timeline_ready",
+              "first_actionable_state"
+            ],
+            "interaction_repeat_count": 1
+          }
+        },
+        "baseline_environment_signature": {
+          "schema_version": 1,
+          "os": {
+            "system": "Darwin",
+            "release": "25.6.0",
+            "version": "Darwin Kernel Version 25.6.0: Fri Jul 31 19:16:36 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6030"
+          },
+          "architecture": {
+            "machine": "arm64",
+            "bits": "64bit"
+          },
+          "browser": {
+            "family": "chromium",
+            "runtime_version": "151.0.7922.34",
+            "playwright_version": "1.62.0"
+          },
+          "execution": {
+            "mode": "local",
+            "ci_value": null,
+            "headless": true,
+            "display_backend": "none",
+            "software_gl": null
+          },
+          "device_emulation": {
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_scale_factor": 1,
+            "has_touch": false,
+            "is_mobile": false,
+            "user_agent": "playwright-default"
+          },
+          "sample_conditions": {
+            "sample_count": 3,
+            "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+            "server": "local-http",
+            "network": "default-playwright-context",
+            "cold_condition": "new-context-and-page",
+            "warm_condition": "same-page-reload-readiness-after-cold-sample",
+            "browser_cache_condition": "isolated-new-context",
+            "runner_order_condition": "alternated-paired-same-browser-process",
+            "ready_milestones": [
+              "dom_content_loaded",
+              "smart_style_ready",
+              "markers_timeline_ready",
+              "first_actionable_state"
+            ],
+            "interaction_repeat_count": 1
+          }
+        }
+      }
+    },
+    {
+      "finding": "exact candidate source binding",
+      "status": "RECORDED",
+      "evidence": {
+        "schema_version": 1,
+        "binding": "source_fingerprint",
+        "status": "RECORDED",
+        "claimed_revision": null,
+        "checked_out_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+        "source_worktree_dirty": true,
+        "source_fingerprint": {
+          "sha256": "68ba89fa5316b46cbcb509d78505277d41c5d4a0a2b42571d8bccbb967d825c5",
+          "file_count": 336,
+          "tracked_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "worktree_dirty": true,
+          "excluded_from_hash": [
+            "QA/",
+            ".build/",
+            ".release/",
+            ".public-site/"
+          ]
+        },
+        "reason": "source files changed after checkout; evidence is bound to the fingerprint, not to HEAD"
+      }
+    },
+    {
+      "finding": "Gate 4 preservation",
+      "status": "VERIFY_REQUIRED",
+      "evidence": "canonical qualification QA/release/gate4.json when available"
+    },
+    {
+      "finding": "browser chromium 1440x900",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/chromium_1440_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_1440_detail.png"
+      }
+    },
+    {
+      "finding": "browser chromium 834x1112",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/chromium_834_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_834_detail.png"
+      }
+    },
+    {
+      "finding": "browser chromium 390x844",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/chromium_390_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_390_detail.png"
+      }
+    },
+    {
+      "finding": "browser firefox 1440x900",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/firefox_1440_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_1440_detail.png"
+      }
+    },
+    {
+      "finding": "browser firefox 834x1112",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/firefox_834_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_834_detail.png"
+      }
+    },
+    {
+      "finding": "browser firefox 390x844",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/firefox_390_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_390_detail.png"
+      }
+    },
+    {
+      "finding": "browser webkit 1440x900",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/webkit_1440_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_1440_detail.png"
+      }
+    },
+    {
+      "finding": "browser webkit 834x1112",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/webkit_834_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_834_detail.png"
+      }
+    },
+    {
+      "finding": "browser webkit 390x844",
+      "status": "PASS",
+      "evidence": {
+        "screenshot": "QA/gate5/screenshots/candidate/webkit_390_overall.png",
+        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_390_detail.png"
+      }
+    }
+  ]
+}
