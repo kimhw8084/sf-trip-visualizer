@@ -1,0 +1,599 @@
+{
+  "accepted_at": "2026-09-17T03:14:30Z",
+  "changed_files": [
+    {
+      "additions": 3651,
+      "deletions": 0,
+      "path": "QA/map_first/canonical_truth.json",
+      "status": "A"
+    },
+    {
+      "additions": 60,
+      "deletions": 21,
+      "path": "QA/map_first/cross_browser.json",
+      "status": "M"
+    },
+    {
+      "additions": 13,
+      "deletions": 51,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "QA/map_first/smoke.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "QA/route_panel/route_explanations_panel.json",
+      "status": "M"
+    },
+    {
+      "additions": 29,
+      "deletions": 1,
+      "path": "TRIP_VISUALIZER_SCHEMA.md",
+      "status": "M"
+    },
+    {
+      "additions": 51,
+      "deletions": 6,
+      "path": "data/phase7_app_data.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "data/route_geometry_cache.json",
+      "status": "M"
+    },
+    {
+      "additions": 29,
+      "deletions": 18,
+      "path": "data/route_geometry_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 16,
+      "deletions": 2,
+      "path": "data/translations.json",
+      "status": "M"
+    },
+    {
+      "additions": 22,
+      "deletions": 0,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "manifests/source_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 429,
+      "deletions": 0,
+      "path": "manifests/trip_freshness.json",
+      "status": "A"
+    },
+    {
+      "additions": 11,
+      "deletions": 3,
+      "path": "scripts/apply_location_gap_audit.py",
+      "status": "M"
+    },
+    {
+      "additions": 11,
+      "deletions": 0,
+      "path": "scripts/build_i18n.py",
+      "status": "M"
+    },
+    {
+      "additions": 10,
+      "deletions": 1,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 1,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 34,
+      "deletions": 0,
+      "path": "scripts/qa_canonical_truth.py",
+      "status": "A"
+    },
+    {
+      "additions": 11,
+      "deletions": 5,
+      "path": "scripts/refresh_map_first_manifests.py",
+      "status": "M"
+    },
+    {
+      "additions": 129,
+      "deletions": 0,
+      "path": "scripts/refresh_trip_data.py",
+      "status": "A"
+    },
+    {
+      "additions": 341,
+      "deletions": 0,
+      "path": "scripts/validate_trip_data.py",
+      "status": "A"
+    },
+    {
+      "additions": 3,
+      "deletions": 2,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "src/map_shell_template.html",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/build_i18n.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'Chinatown →|Musée →|Point Lobos → Bixby|El Capitan →' scripts/apply_location_gap_audit.py data/translations.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '620,700p' scripts/apply_location_gap_audit.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/apply_location_gap_audit.py --write'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '.legs[]|select(.leg_id|IN(\\\"UX_1005_RETURN\\\",\\\"A_1009_MARIPOSA\\\",\\\"B1_1009_ACADEMY\\\",\\\"B2_1011_GGP\\\"))|{id:.leg_id,render:.render_style,geometry:.geometry_kind,branch:(.branch_kind//null),scope:(.relationship_scope//null),from_date:(.from_date_key//null),to_date:(.to_date_key//null)}' data/phase7_app_data.json; rtk jq '[.ko_to_en | has(\\\"Chinatown → Coit 선택\\\"),has(\\\"El Capitan → Valley View 선택\\\")]' data/translations.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n '\"'^def leg|UX_1005_RETURN|cached_osm_reference_line|osm_reference_pending'\"' scripts/apply_location_gap_audit.py | sed -n '1,120p'; rtk sed -n '250,330p' scripts/apply_location_gap_audit.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '335,375p' scripts/apply_location_gap_audit.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/apply_location_gap_audit.py --write && rtk python3 scripts/refresh_map_first_manifests.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '.legs[]|select(.leg_id==\\\"UX_1005_RETURN\\\")|{geometry_kind,render_style,geometry_source}' data/phase7_app_data.json; rtk python3 scripts/validate_trip_data.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --stat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff -- manifests/canonical_pipeline.json TRIP_VISUALIZER_SCHEMA.md manifests/source_manifest.json scripts/pipeline.py scripts/build_map_first.py scripts/refresh_map_first_manifests.py scripts/validate_trip_data.py scripts/refresh_trip_data.py scripts/qa_canonical_truth.py | sed -n '1,340p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff -- manifests/trip_freshness.json src/app_phase7.js src/map_shell_template.html scripts/apply_location_gap_audit.py scripts/build_i18n.py | sed -n '1,380p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff -- data/phase7_app_data.json data/route_geometry_cache.json data/route_geometry_manifest.json data/translations.json | sed -n '1,300p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- manifests/map_first_basemap_manifest.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py fast'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'TRIP_FRESHNESS|RECHECK_REQUIRED|conceptual_transfer' .build/modular/index.html .build/build_manifest.json | sed -n '1,30p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,source:(.source|{checks,truth_validation,counts,providers}),authored_inputs_unchanged,reproducible,errors}' QA/release/fast.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/qa_canonical_truth.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/refresh_trip_data.py validate'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 scripts/refresh_trip_data.py refresh --offline && rtk shasum -a 256 manifests/trip_freshness.json && rtk python3 scripts/refresh_trip_data.py refresh --offline >/tmp/sf_trip_refresh_second.json && rtk shasum -a 256 manifests/trip_freshness.json && rtk jq '{status,mode,manifest_changed,pipeline_status:.pipeline.status}' /tmp/sf_trip_refresh_second.json && rtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --stat -- QA/map_first QA/route_panel && rtk git diff -- QA/map_first/smoke.json QA/map_first/cross_browser.json QA/route_panel/route_explanations_panel.json | sed -n '1,260p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '15,30p' scripts/build_map_first.py; rtk sed -n '98,122p' scripts/build_map_first.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 scripts/pipeline.py fast && rtk python3 - <<'PY'\nimport json,re\nfrom pathlib import Path\nhtml=Path('.build/modular/index.html').read_text()\nprint(json.dumps({'coordinate_role_embedded': 'coordinate_role' in html, 'freshness_embedded': 'TRIP_FRESHNESS' in html}, ensure_ascii=False))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom refresh_trip_data import apply_observations, load_manifest\nmanifest=load_manifest()\nrecord=manifest['records'][0]\nobservation={'fact_id':record['fact_id'],'status':'UNVERIFIED','certainty':'SOURCE_RETRIEVAL_BLOCKED','observed_on':None,'source_url':record['source']['source_urls'][0],'note':'test plumbing only'}\nupdated=apply_observations(manifest,[observation])\nresult=updated['records'][0]\nprint(json.dumps({'fact_id':result['fact_id'],'status':result['status'],'observed_on':result['observed_on'],'source_bound':result['last_observation']['source_url']==observation['source_url'],'generated_files_touched':False},ensure_ascii=False))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --stat -- . ':\"'!QA/map_first/smoke.json'\"' ':\"'!QA/map_first/full_acceptance.json'\"' ':\"'!QA/map_first/cross_browser.json'\"' ':\"'!QA/route_panel/route_explanations_panel.json'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD; rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,tests:(.tests|map({name,status,returncode})),errors,authored_inputs_unchanged}' QA/release/qualification.json; rtk jq '{status,validator_status:.validator.status,refresh_plumbing}' QA/map_first/canonical_truth.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check && rtk python3 -m compileall -q scripts'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json,sys\nsys.path.insert(0,'scripts')\nfrom refresh_trip_data import apply_observations, load_manifest\nmanifest=load_manifest()\nrecord=manifest['records'][0]\nobservation={'fact_id':record['fact_id'],'status':'UNVERIFIED','certainty':'SOURCE_RETRIEVAL_BLOCKED','observed_on':None,'source_url':record['source']['source_urls'][0],'note':'test plumbing only'}\nupdated=apply_observations(manifest,[observation])\nresult=updated['records'][0]\nprint(json.dumps({'fact_id':result['fact_id'],'status':result['status'],'observed_on':result['observed_on'],'source_bound':result['last_observation']['source_url']==observation['source_url'],'generated_files_touched':False},ensure_ascii=False))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --numstat -- QA/map_first/cross_browser.json QA/map_first/full_acceptance.json QA/map_first/smoke.json QA/route_panel/route_explanations_panel.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,errors,authored_inputs_unchanged,tests:(.tests|map(.status)|group_by(.)|map({status:.[0],count:length}))}' QA/release/qualification.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,errors,authored_inputs_unchanged,reproducible,truth:(.source.truth_validation),counts:(.source.counts)}' QA/release/fast.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,failure_count,counts,geometry_statuses,freshness_statuses,refresh_plumbing}' QA/map_first/canonical_truth.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status:.status,failure_count:.validator.failure_count,counts:.validator.counts,geometry_statuses:.validator.geometry_statuses,freshness_statuses:.validator.freshness_statuses,refresh_plumbing:.refresh_plumbing}' QA/map_first/canonical_truth.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check && rtk python3 scripts/validate_trip_data.py && rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,78p' TRIP_VISUALIZER_SCHEMA.md; rtk jq '.source_manifest' /dev/null 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'Time and|Naval|USNO|OneYear' manifests/trip_freshness.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '406,418p' manifests/trip_freshness.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py fast'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD; rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,authored_inputs_unchanged,errors,tests:(.tests|map({name,status})|group_by(.status)|map({status:.[0].status,count:length}))}' QA/release/qualification.json; rtk jq '{status,failure_count:.validator.failure_count,counts:.validator.counts,geometry_statuses:.validator.geometry_statuses,freshness_statuses:.validator.freshness_statuses,refresh:.refresh_plumbing}' QA/map_first/canonical_truth.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --stat; rtk git ls-files --others --exclude-standard | sort'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check && rtk python3 scripts/validate_trip_data.py && rtk python3 scripts/refresh_trip_data.py validate'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk shasum -a 256 manifests/trip_freshness.json; rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 scripts/refresh_trip_data.py refresh --offline >/tmp/sf_refresh_final_1.json && rtk python3 scripts/refresh_trip_data.py refresh --offline >/tmp/sf_refresh_final_2.json && rtk jq '{first:{status,mode,manifest_changed,pipeline:.pipeline.status}}' /tmp/sf_refresh_final_1.json && rtk jq '{second:{status,mode,manifest_changed,pipeline:.pipeline.status}}' /tmp/sf_refresh_final_2.json && rtk shasum -a 256 manifests/trip_freshness.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 428,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 98.59,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 23243520,
+      "fresh_input_tokens": 331478,
+      "input_tokens": 23574998,
+      "non_reasoning_output_tokens": 42668,
+      "output_tokens": 68069,
+      "reasoning_output_tokens": 25401,
+      "total_processed_tokens": 23643067
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "2906c44791ccc055fa15e49780f040ed672a4ab1",
+      "subject": "fabric: capture completed model changes [CF-b7832e9f8082ad910f697478]"
+    }
+  ],
+  "diff": {
+    "additions": 4871,
+    "changed_files": 23,
+    "commit_count": 1,
+    "deletions": 122
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 14,
+    "items": [
+      {
+        "bytes": 201732,
+        "path": "QA/map_first/canonical_truth.json",
+        "sha256": "9cfc57d2ef84a8fda70cc48a0ff72cc07ed775e120512b50f7d66e238f1cdbc4"
+      },
+      {
+        "bytes": 2954,
+        "path": "QA/map_first/cross_browser.json",
+        "sha256": "29a319fc87d53560316cf1aac9c42142eb3b411ce5dbf34694dad7d3a1366438"
+      },
+      {
+        "bytes": 11937,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "7ceb6500a342b0621af18471425f1f20fcc870e8d284b95a112219cc6658067e"
+      },
+      {
+        "bytes": 1125,
+        "path": "QA/map_first/smoke.json",
+        "sha256": "c95065fe59464fd95e4434006198229452d072e0c2fb46bb6a68b966f37174c1"
+      },
+      {
+        "bytes": 7219,
+        "path": "QA/route_panel/route_explanations_panel.json",
+        "sha256": "1b4503b3ec2f7c234e54c5229c55b1d4e1df38fa42eded3a2234939a6436963f"
+      },
+      {
+        "bytes": 5958,
+        "path": "TRIP_VISUALIZER_SCHEMA.md",
+        "sha256": "c19b4e792175c4a376eb68dc30aaaa27aeca99af8868e1508bfb0471df923a93"
+      },
+      {
+        "bytes": 231488,
+        "path": "data/phase7_app_data.json",
+        "sha256": "3b5660f0f60d03f5790a620e42880122fe34ff9fbdb66811e91f5f6b10721f70"
+      },
+      {
+        "bytes": 2150973,
+        "path": "data/route_geometry_cache.json",
+        "sha256": "03ebb160fb0fc79ca429033e1e95edea477673ffb95c05bad294ff3ed13c45fc"
+      },
+      {
+        "bytes": 41708,
+        "path": "data/route_geometry_manifest.json",
+        "sha256": "9c732045f81fcf1d5d76705c29bbdc7aa493dca8cd94465c9a2ec2a631ca61b0"
+      },
+      {
+        "bytes": 85922,
+        "path": "data/translations.json",
+        "sha256": "ac6a2b5246e9b03894879d4aec6c5ef3d9e1859bf51497f588d15b7beb6f4905"
+      },
+      {
+        "bytes": 4487,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "b897732c7adb826a1b5487b4448094ba19039a492544058cba0ca26264129f01"
+      },
+      {
+        "bytes": 1927,
+        "path": "manifests/source_manifest.json",
+        "sha256": "ad43860781baa97f4fdc55a3c67637f0e584179370edabba890e0c174994e516"
+      },
+      {
+        "bytes": 13379,
+        "path": "manifests/trip_freshness.json",
+        "sha256": "1d870b4f39358b2a45df8d859ca32d7639a48956fc1a1bbc1ec1d2ee438061b7"
+      },
+      {
+        "bytes": 3847,
+        "path": "src/map_shell_template.html",
+        "sha256": "667a86dc7cd4d7531585be63994faf0bc8e7f4653693eb14b2f8416ca9723958"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": true,
+    "commit_message": "fabric: capture completed model changes [CF-b7832e9f8082ad910f697478]",
+    "commit_sha": "2906c44791ccc055fa15e49780f040ed672a4ab1",
+    "paths_before": 23,
+    "status_before": [
+      " M QA/map_first/cross_browser.json",
+      " M QA/map_first/full_acceptance.json",
+      " M QA/map_first/smoke.json",
+      " M QA/route_panel/route_explanations_panel.json",
+      " M TRIP_VISUALIZER_SCHEMA.md",
+      " M data/phase7_app_data.json",
+      " M data/route_geometry_cache.json",
+      " M data/route_geometry_manifest.json",
+      " M data/translations.json",
+      " M manifests/canonical_pipeline.json",
+      " M manifests/source_manifest.json",
+      " M scripts/apply_location_gap_audit.py",
+      " M scripts/build_i18n.py",
+      " M scripts/build_map_first.py",
+      " M scripts/pipeline.py",
+      " M scripts/refresh_map_first_manifests.py",
+      " M src/app_phase7.js",
+      " M src/map_shell_template.html",
+      "?? QA/map_first/canonical_truth.json",
+      "?? manifests/trip_freshness.json",
+      "?? scripts/qa_canonical_truth.py",
+      "?? scripts/refresh_trip_data.py",
+      "?? scripts/validate_trip_data.py"
+    ],
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-17T03:46:56Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "1fbf5abb3b292eba6713afd516d19150a65bbb8b",
+    "branch": "codex/sf-trip-visualizer-trip-data-truth-g3-r1",
+    "head_sha": "2906c44791ccc055fa15e49780f040ed672a4ab1",
+    "remote_exact_head": true,
+    "remote_head_sha": "2906c44791ccc055fa15e49780f040ed672a4ab1",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "1fbf5abb3b292eba6713afd516d19150a65bbb8b",
+    "work_branch": "codex/sf-trip-visualizer-trip-data-truth-g3-r1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-b7832e9f8082ad910f697478",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/trip-data-truth-g3-r1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/trip-data-truth-g3-r1"
+  },
+  "operation": "BUILD",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "trip-data-truth-g3-r1",
+  "schema_version": 1,
+  "started_at": "2026-09-17T03:14:30Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1946,
+    "queue_seconds": 0,
+    "total_seconds": 1946
+  },
+  "transport": {
+    "bytes": 9029,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8702,
+    "prompt_sha256": "0fe4e529c1217bff4f3947498db294ac2c572f217aa87d7046fcd724dc6dffdc",
+    "sha256": "b7832e9f8082ad910f6974786baafd53bc309129697b82f5de7599d7a2b61cfa"
+  }
+}
