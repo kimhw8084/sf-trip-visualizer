@@ -28,6 +28,17 @@ ko_to_en.update({
     "몬터레이권": "Monterey area",
     "요세미티권": "Yosemite area",
 })
+critical_pairs = {
+    "Chinatown → Coit 선택": "Chinatown → choose Coit",
+    "Chinatown → Lombard 선택": "Chinatown → choose Lombard",
+    "Chinatown → Powell–Hyde 선택": "Chinatown → choose Powell–Hyde",
+    "Musée → Ghirardelli 보너스": "Musée → Ghirardelli bonus",
+    "Point Lobos → Bixby 대체": "Point Lobos → Bixby alternative",
+    "El Capitan → Tunnel View 선택": "El Capitan → choose Tunnel View",
+    "El Capitan → Valley View 선택": "El Capitan → choose Valley View",
+}
+ko_to_en.update(critical_pairs)
+en_to_ko.update({english: korean for korean, english in critical_pairs.items()})
 place_names = {
     "ferry": ["Ferry Building + Farmers Market", "페리 빌딩 · 파머스 마켓"],
     "exploratorium": ["Exploratorium", "익스플로라토리움"],

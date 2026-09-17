@@ -1,0 +1,429 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "authority_role": "Only freshness/source/recheck authority for decision-relevant facts in the configured trip. It never supplies route, place, timeline, or provider truth.",
+  "observation_policy": "A null observed_on is intentional: this checkout does not claim that the source was checked for the candidate trip revision. A refresh may replace it only with a genuinely observed date.",
+  "default_status": "RECHECK_REQUIRED",
+  "default_certainty": "NOT_CURRENTLY_VERIFIED",
+  "records": [
+    {
+      "fact_id": "ferry_plaza_event_2026_10_03",
+      "scope": {
+        "date": "10/3",
+        "region": "sf",
+        "place_keys": [
+          "ferry"
+        ]
+      },
+      "claim": "The planned Ferry Plaza / Latine Makers event is available on the configured date.",
+      "source": {
+        "publisher": "Foodwise",
+        "source_urls": [
+          "https://foodwise.org/articles/more-ferry-plaza-farmers-market-layout-changes-start-this-saturday/"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "event date, schedule change, or source change",
+        "window": "T-48H"
+      },
+      "product_claim_refs": [
+        "markers.ferry.occurrences[*].reason",
+        "timeline[*].title/reason where date_key=10/3"
+      ]
+    },
+    {
+      "fact_id": "exploratorium_hours_and_closures",
+      "scope": {
+        "date_range": [
+          "10/3",
+          "10/11"
+        ],
+        "region": "sf",
+        "place_keys": [
+          "exploratorium"
+        ]
+      },
+      "claim": "Exploratorium hours and closure status support the scheduled visit.",
+      "source": {
+        "publisher": "Exploratorium",
+        "source_urls": [
+          "https://www.exploratorium.edu/hours",
+          "https://www.exploratorium.edu/visit"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "hours, closure, or special-event change",
+        "window": "T-48H"
+      },
+      "product_claim_refs": [
+        "markers.exploratorium.occurrences[*]",
+        "timeline[*] where spatial_keys includes exploratorium"
+      ]
+    },
+    {
+      "fact_id": "muir_woods_reservation_access",
+      "scope": {
+        "date": "10/4",
+        "region": "sf",
+        "place_keys": [
+          "muir"
+        ]
+      },
+      "claim": "Muir Woods entry and parking/reservation requirements support the opening-slot plan.",
+      "source": {
+        "publisher": "National Park Service",
+        "source_urls": [
+          "https://www.nps.gov/muwo/planyourvisit/index.htm",
+          "https://www.nps.gov/planyourvisit/event-details.htm?id=67960439-C5F8-15BC-C3CAFDE611FBB2F1"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "reservation, parking, shuttle, or access-rule change",
+        "window": "T-72H"
+      },
+      "product_claim_refs": [
+        "markers.muir.occurrences[*].reason/stop_reason",
+        "markers.muir.decision_rules"
+      ]
+    },
+    {
+      "fact_id": "alcatraz_ticket_and_ferry_schedule",
+      "scope": {
+        "date": "10/5",
+        "region": "sf",
+        "place_keys": [
+          "alcatraz"
+        ]
+      },
+      "claim": "The Alcatraz reservation and ferry schedule support the planned crossing and return block.",
+      "source": {
+        "publisher": "National Park Service / Recreation.gov",
+        "source_urls": [
+          "https://www.recreation.gov/gateways/2558",
+          "https://www.nps.gov/alca/planyourvisit/index.htm"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "ticket availability, operator schedule, or boarding-rule change",
+        "window": "T-72H and reservation confirmation"
+      },
+      "product_claim_refs": [
+        "markers.alcatraz.occurrences[*]",
+        "legs.C_1005_FERRY",
+        "legs.UX_1005_RETURN"
+      ]
+    },
+    {
+      "fact_id": "cable_car_service_and_stroller_rules",
+      "scope": {
+        "date": "10/5",
+        "region": "sf",
+        "place_keys": [
+          "cable_car"
+        ]
+      },
+      "claim": "Powell–Hyde service, queue conditions, and stroller boarding rules support the swap option.",
+      "source": {
+        "publisher": "San Francisco Municipal Transportation Agency",
+        "source_urls": [
+          "https://www.sfmta.com/routes/powell-hyde-cable-car"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "service disruption, queue, accessibility, or stroller-rule change",
+        "window": "T-24H and at decision time"
+      },
+      "product_claim_refs": [
+        "markers.cable_car.decision_rules",
+        "legs.GAP_1005_CABLE_01/02"
+      ]
+    },
+    {
+      "fact_id": "point_lobos_access_and_parking",
+      "scope": {
+        "date": "10/6",
+        "region": "monterey",
+        "place_keys": [
+          "point_lobos"
+        ]
+      },
+      "claim": "Point Lobos access, opening conditions, and parking capacity support the early arrival plan.",
+      "source": {
+        "publisher": "California State Parks",
+        "source_urls": [
+          "https://www.parks.ca.gov/?page_id=571"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "park closure, access, parking, or hours change",
+        "window": "T-24H and departure morning"
+      },
+      "product_claim_refs": [
+        "markers.point_lobos.occurrences[*].reason/stop_reason",
+        "timeline[*] where spatial_keys includes point_lobos"
+      ]
+    },
+    {
+      "fact_id": "highway_1_bixby_access",
+      "scope": {
+        "date": "10/6",
+        "region": "monterey",
+        "place_keys": [
+          "bixby"
+        ]
+      },
+      "claim": "Highway 1 and the Bixby access/viewpoint conditions support the conditional southbound swap.",
+      "source": {
+        "publisher": "Caltrans District 5",
+        "source_urls": [
+          "https://dot.ca.gov/caltrans-near-me/district-5"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "closure, construction, incident, or coastal access change",
+        "window": "T-24H and departure morning"
+      },
+      "product_claim_refs": [
+        "markers.bixby.decision_rules",
+        "legs.GAP_1006_SWAP_01/02"
+      ]
+    },
+    {
+      "fact_id": "monterey_aquarium_hours",
+      "scope": {
+        "date": "10/6",
+        "region": "monterey",
+        "place_keys": [
+          "aquarium"
+        ]
+      },
+      "claim": "Aquarium operating hours support the afternoon/evening schedule.",
+      "source": {
+        "publisher": "Monterey Bay Aquarium",
+        "source_urls": [
+          "https://www.montereybayaquarium.org/visit/hours"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "hours, timed-entry, or closure change",
+        "window": "T-48H"
+      },
+      "product_claim_refs": [
+        "markers.aquarium.occurrences[*]",
+        "legs.GAP_1006_BONUS_01"
+      ]
+    },
+    {
+      "fact_id": "yosemite_access_and_weather_constraints",
+      "scope": {
+        "date_range": [
+          "10/7",
+          "10/10"
+        ],
+        "region": "yosemite",
+        "place_keys": [
+          "cooks",
+          "tunnel_view",
+          "valley_view",
+          "washburn",
+          "glacier",
+          "mariposa",
+          "el_capitan"
+        ]
+      },
+      "claim": "Current Yosemite road, trail, weather, and access conditions support the selected viewpoint or recovery branch.",
+      "source": {
+        "publisher": "National Park Service",
+        "source_urls": [
+          "https://www.nps.gov/yose/planyourvisit/conditions.htm",
+          "https://www.nps.gov/yose/planyourvisit/roadconditions.htm",
+          "https://www.nps.gov/yose/planyourvisit/weather.htm"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "road closure, weather, shuttle, trail, or reservation change",
+        "window": "T-24H and each departure morning"
+      },
+      "product_claim_refs": [
+        "markers.glacier.decision_rules",
+        "markers.mariposa.occurrences[*].reason",
+        "legs.C_1008_01",
+        "legs.UX_1008_OUT/RETURN",
+        "legs.A1_1009_MARIPOSA"
+      ]
+    },
+    {
+      "fact_id": "mariposa_grove_parking_and_shuttle",
+      "scope": {
+        "date": "10/9",
+        "region": "yosemite",
+        "place_keys": [
+          "mariposa"
+        ]
+      },
+      "claim": "Mariposa Grove Welcome Plaza parking and shuttle/access conditions support the optional visit.",
+      "source": {
+        "publisher": "National Park Service",
+        "source_urls": [
+          "https://www.nps.gov/yose/planyourvisit/mg.htm"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "shuttle, parking, road, or grove access change",
+        "window": "T-24H and departure morning"
+      },
+      "product_claim_refs": [
+        "markers.mariposa.occurrences[*]",
+        "legs.A1_1009_MARIPOSA"
+      ]
+    },
+    {
+      "fact_id": "fleet_week_event_schedule_and_access",
+      "scope": {
+        "date_range": [
+          "10/3",
+          "10/11"
+        ],
+        "region": "sf",
+        "place_keys": [
+          "ferry",
+          "bay_lights",
+          "academy",
+          "botanical",
+          "painted",
+          "twin_peaks"
+        ]
+      },
+      "claim": "Fleet Week event timing, crowd/access restrictions, and related waterfront conditions support the route strategy.",
+      "source": {
+        "publisher": "San Francisco Fleet Week",
+        "source_urls": [
+          "https://fleetweeksf.org/"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "event schedule, air-show, road closure, parking, or crowd-control change",
+        "window": "T-72H and each affected morning"
+      },
+      "product_claim_refs": [
+        "routes.*.explanation.*",
+        "timeline[*].reason",
+        "markers.*.occurrences[*].reason where text mentions Fleet Week"
+      ]
+    },
+    {
+      "fact_id": "sf_viewpoint_visibility_and_parking",
+      "scope": {
+        "date_range": [
+          "10/3",
+          "10/11"
+        ],
+        "region": "sf",
+        "place_keys": [
+          "battery",
+          "twin_peaks",
+          "painted",
+          "ggb"
+        ]
+      },
+      "claim": "Weather visibility, wind, and parking/access conditions support optional viewpoint decisions.",
+      "source": {
+        "publisher": "National Weather Service / site operators",
+        "source_urls": [
+          "https://www.weather.gov/"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "fog, wind, visibility, parking, or access change",
+        "window": "T-6H and at decision time"
+      },
+      "product_claim_refs": [
+        "markers.battery.decision_rules",
+        "markers.twin_peaks.decision_rules",
+        "markers.*.occurrences[*].reason where text mentions weather/visibility"
+      ]
+    },
+    {
+      "fact_id": "sunrise_sunset_and_light_windows",
+      "scope": {
+        "date_range": [
+          "10/3",
+          "10/11"
+        ],
+        "region": "sf/monterey/yosemite",
+        "place_keys": [
+          "ggb",
+          "bay_lights",
+          "glacier",
+          "twin_peaks"
+        ]
+      },
+      "claim": "The displayed light-window planning assumptions remain suitable for the configured dates.",
+      "source": {
+        "publisher": "U.S. Naval Observatory",
+        "source_urls": [
+          "https://aa.usno.navy.mil/data/docs/RS_OneYear.php"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "date/time-zone or astronomical calculation change",
+        "window": "T-72H"
+      },
+      "product_claim_refs": [
+        "markers.*.occurrences[*].reason where text mentions sunrise/sunset/light"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 {
   "generated": "2026-09-14",
+  "reference_role": "locked_reference_evidence",
+  "authority_policy": "These snapshots preserve upstream planning evidence and reconciliation provenance; they never override data/phase7_app_data.json and never drive the runtime build.",
   "authoritative_sources": [
     {
       "local_input": "SF_Trip_Smart_Minority_4_Itineraries_Data(1).json",
@@ -39,5 +41,5 @@
     "B1",
     "B2"
   ],
-  "authoritative_precedence": "itineraries.json governs the original trip/rules/plans; routes.json governs the original 28 spatial identities. The dated workbook reconciliation and official-source location audit govern the eight transparent supplemental stops without altering the two locked source copies."
+  "authoritative_precedence": "data/phase7_app_data.json is the sole runtime truth authority. itineraries.json, routes.json, the dated workbook reconciliation, and the official-source location audit are locked reference evidence checked against that authority; they do not govern runtime output."
 }

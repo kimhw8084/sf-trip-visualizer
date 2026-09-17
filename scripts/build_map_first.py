@@ -20,6 +20,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data" / "phase7_app_data.json"  # Current authored data; see canonical_pipeline.json.
 DEFAULT_OUTPUT = ROOT / ".build"
 PHOTO_MANIFEST_PATH = ROOT / "manifests" / "asset_manifest.json"
+FRESHNESS_MANIFEST_PATH = ROOT / "manifests" / "trip_freshness.json"
+COORDINATE_AUDIT_PATH = ROOT / "data" / "coordinate_audit.json"
 
 MODULAR_FILES = (
     "src/app_phase7.css",
@@ -100,10 +102,17 @@ def build(output_root: Path) -> dict:
         "status_at_build": "LOCAL_VECTOR_PM_TILES_READY".replace(" ", ""),
     }
     data["providers"] = {key: value for key, value in data["providers"].items() if key in {"vector", "satellite"}}
+    coordinate_audit = {row["place_key"]: row for row in json.loads(COORDINATE_AUDIT_PATH.read_text())}
+    for marker in data["markers"]:
+        audit = coordinate_audit.get(marker["place_key"])
+        if audit:
+            marker["coordinate_role"] = audit["coordinate_type"]
+            marker["coordinate_provenance"] = audit["verification_source"]
     data["phase2_frozen"] = False
     data["phase2_note"] = f"{photo_count} local real photographs for {place_count} places, with local thumbnails and medium derivatives."
     geometry = json.loads((ROOT / "data" / "route_geometry_cache.json").read_text())
     translations = json.loads((ROOT / "data" / "translations.json").read_text())
+    freshness = json.loads(FRESHNESS_MANIFEST_PATH.read_text())
 
     template = BeautifulSoup((ROOT / "src" / "map_shell_template.html").read_text(), "html.parser")
     template.title.string = "Smart Minority · SF / Monterey / Yosemite Map"
@@ -207,7 +216,7 @@ def build(output_root: Path) -> dict:
         raise SystemExit(f"Unexpected template script layout: {len(scripts)} script tags")
     scripts[0].decompose()
     scripts[1].string = "window.TRIP_DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";"
-    for name, payload in (("TRIP_ROUTE_GEOMETRY", geometry), ("TRIP_I18N", translations)):
+    for name, payload in (("TRIP_ROUTE_GEOMETRY", geometry), ("TRIP_I18N", translations), ("TRIP_FRESHNESS", freshness)):
         script = template.new_tag("script")
         script.string = f"window.{name}=" + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";"
         scripts[2].insert_before(script)

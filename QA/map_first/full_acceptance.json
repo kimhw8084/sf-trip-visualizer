@@ -188,16 +188,7 @@
       ]
     },
     "console_errors_before_injected_failure": [],
-    "failed_requests_before_injected_failure": [
-      {
-        "url": "http://127.0.0.1:8766/assets/vector/sf_trip.pmtiles",
-        "failure": "net::ERR_ABORTED"
-      },
-      {
-        "url": "http://127.0.0.1:8766/assets/vector/sf_trip.pmtiles",
-        "failure": "net::ERR_ABORTED"
-      }
-    ],
+    "failed_requests_before_injected_failure": [],
     "satellite_initial_failure_fallback": {
       "active": "vector",
       "satelliteHealth": "failed",
@@ -212,13 +203,9 @@
     "expected_injected_failure_console": [
       "Failed to load resource: net::ERR_FAILED",
       "Failed to load resource: net::ERR_FAILED",
-      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:8766/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:8766/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:46:4114\n    at Generat",
+      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:55614/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:55614/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:46:4114\n    at G",
       "Failed to load resource: net::ERR_FAILED",
-      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:8766/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:8766/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:46:4114\n    at Generat",
-      "Failed to load resource: net::ERR_FAILED",
-      "Failed to load resource: net::ERR_FAILED",
-      "Failed to load resource: net::ERR_FAILED",
-      "Failed to load resource: net::ERR_FAILED",
+      "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:55614/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:55614/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:46:4114\n    at G",
       "Failed to load resource: net::ERR_FAILED"
     ],
     "touch_390": {
@@ -232,18 +219,6 @@
         "photo": 1200,
         "details": 0
       }
-    },
-    "webkit_1280": {
-      "provider": "vector",
-      "features": 139,
-      "clusters": 3,
-      "canvas": 1
-    },
-    "firefox_1280": {
-      "provider": "vector",
-      "features": 139,
-      "clusters": 3,
-      "canvas": 1
     }
   },
   "screenshots": [
@@ -270,34 +245,20 @@
     "QA/map_first/satellite_failure_fallback.png",
     "QA/map_first/satellite_pan_failure_fallback.png",
     "QA/map_first/touch_390_preview.png",
-    "QA/map_first/touch_390_detail.png",
-    "QA/map_first/webkit_1280.png",
-    "QA/map_first/firefox_1280.png"
+    "QA/map_first/touch_390_detail.png"
   ],
   "errors": [],
   "console_errors": [
     "Failed to load resource: net::ERR_FAILED",
     "Failed to load resource: net::ERR_FAILED",
-    "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:8766/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:8766/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:46:4114\n    at Generat",
+    "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:55614/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:55614/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:46:4114\n    at G",
     "Failed to load resource: net::ERR_FAILED",
-    "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:8766/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:8766/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:8766/vendor/maplibre-gl.js:46:4114\n    at Generat",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
-    "Failed to load resource: net::ERR_FAILED",
+    "Map layer error: TypeError: Failed to fetch\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:7068\n    at Generator.next (<anonymous>)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:343\n    at new Promise (<anonymous>)\n    at e (http://127.0.0.1:55614/vendor/maplibre-gl.js:42:82)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:42:6784\n    at Object.O [as m] (http://127.0.0.1:55614/vendor/maplibre-gl.js:42:7394)\n    at http://127.0.0.1:55614/vendor/maplibre-gl.js:46:4114\n    at G",
     "Failed to load resource: net::ERR_FAILED"
   ],
   "failed_requests": [
     {
-      "url": "http://127.0.0.1:8766/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "http://127.0.0.1:8766/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1789513785111",
+      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1789616636485",
       "failure": "net::ERR_FAILED"
     },
     {
@@ -309,24 +270,24 @@
       "failure": "net::ERR_FAILED"
     },
     {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?viewport=1789513787372",
+      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?viewport=1789616638820",
       "failure": "net::ERR_FAILED"
     },
     {
       "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3166/1309",
-      "failure": "net::ERR_FAILED"
+      "failure": "net::ERR_ABORTED"
     },
     {
       "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3165/1309",
-      "failure": "net::ERR_FAILED"
+      "failure": "net::ERR_ABORTED"
     },
     {
       "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3166/1311",
-      "failure": "net::ERR_FAILED"
+      "failure": "net::ERR_ABORTED"
     },
     {
       "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3167/1310",
-      "failure": "net::ERR_FAILED"
+      "failure": "net::ERR_ABORTED"
     },
     {
       "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3165/1311",
@@ -377,5 +338,6 @@
       "failure": "net::ERR_ABORTED"
     }
   ],
+  "cleanup_warnings": [],
   "status": "PASS"
 }

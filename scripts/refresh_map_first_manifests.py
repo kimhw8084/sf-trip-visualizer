@@ -72,11 +72,13 @@ manifest = json.loads(manifest_path.read_text())
 cache = json.loads((ROOT / "data/route_geometry_cache.json").read_text())
 app_data = json.loads((ROOT / "data/phase7_app_data.json").read_text())
 exact_count = sum(entry["status"] == "routed_osm" for entry in cache.values())
-conceptual_count = sum(entry["status"] != "routed_osm" for entry in cache.values())
+conceptual_ferry_count = sum(entry["status"] == "conceptual_ferry" for entry in cache.values())
+conceptual_transfer_count = sum(entry["status"] == "conceptual_transfer" for entry in cache.values())
+conceptual_count = conceptual_ferry_count + conceptual_transfer_count
 manifest.update({
     "version": "2.0-map-first", "generated": str(date.today()),
     "routing_service_status": "OSM_REFERENCE_GEOMETRY_CACHED_LOCALLY",
-    "acceptance_strategy": f"{exact_count} car/walk legs use cached OSM network geometry; {conceptual_count} ferry legs remain explicit conceptual water links. App runtime performs no routing requests.",
+    "acceptance_strategy": f"{exact_count} legs retain cached OSM reference geometry; {conceptual_ferry_count} ferry links and {conceptual_transfer_count} inter-region transfer corridors remain explicit non-track relationships. App runtime performs no routing requests.",
     "exact_routed_legs": exact_count,
     "conceptual_legs": conceptual_count,
     "renderable_conceptual_legs": conceptual_count,
@@ -93,8 +95,12 @@ for source_leg in app_data["legs"]:
     leg["geometry_point_count"] = len(entry["coordinates"])
     leg["distance_km"] = entry.get("distance_km")
     leg["reference_duration_min"] = entry.get("duration_min_reference")
-    leg["render_style"] = "conceptual_ferry_dots" if entry["status"] == "conceptual_ferry" else "cached_osm_reference_line"
-    leg["source_limitation"] = "Reference OSM routing, not live closure/traffic advice" if entry["status"] == "routed_osm" else "Direct ferry relationship, not a surveyed boat track"
+    leg["render_style"] = {"conceptual_ferry": "conceptual_ferry_dots", "conceptual_transfer": "transfer_dots"}.get(entry["status"], "cached_osm_reference_line")
+    leg["source_limitation"] = {
+        "routed_osm": "Reference OSM routing, not live closure/traffic advice",
+        "conceptual_ferry": "Direct ferry relationship, not a surveyed boat track",
+        "conceptual_transfer": "Regional transfer corridor, not a verified road track or live navigation",
+    }.get(entry["status"], "Geometry status requires review")
     manifest["legs"].append(leg)
 manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
-print(f"Basemap assets: {len(map_assets)}; route geometry: {manifest['exact_routed_legs']} cached car/walk, {manifest['conceptual_legs']} conceptual ferry")
+print(f"Basemap assets: {len(map_assets)}; route geometry: {manifest['exact_routed_legs']} cached reference, {conceptual_ferry_count} ferry, {conceptual_transfer_count} transfer")
