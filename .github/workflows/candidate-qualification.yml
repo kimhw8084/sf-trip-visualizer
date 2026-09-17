@@ -38,11 +38,15 @@ jobs:
       - name: Assert the checkout matches the triggering SHA
         run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
 
-      - name: Run exact-revision full qualification
+      - name: Run exact-revision full qualification under hosted Linux display
+        env:
+          TRIP_CROSS_BROWSER_FIREFOX_MODE: hosted-linux
+          LIBGL_ALWAYS_SOFTWARE: "1"
         run: |
           mkdir -p QA/release
           set -o pipefail
-          python3 scripts/pipeline.py qualify --revision "$GITHUB_SHA" 2>&1 | tee QA/release/qualification.log
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" \
+            python3 scripts/pipeline.py qualify --revision "$GITHUB_SHA" 2>&1 | tee QA/release/qualification.log
 
       - name: Run repository unit and contract checks
         if: always()

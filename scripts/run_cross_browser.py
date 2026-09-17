@@ -27,6 +27,9 @@ SHOTS = ROOT / "QA/map_first/screenshots"
 CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "60"))
 TERM_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_TERM_GRACE_SECONDS", "2"))
 KILL_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_KILL_GRACE_SECONDS", "2"))
+FIREFOX_MODE_ENV = "TRIP_CROSS_BROWSER_FIREFOX_MODE"
+FIREFOX_HOSTED_LINUX_MODE = "hosted-linux"
+SOFTWARE_GL_ENV = "LIBGL_ALWAYS_SOFTWARE"
 TERMINAL_STATUSES = {"PASS", "FAIL", "UNVERIFIED"}
 REQUIRED_CASES = (
     ("firefox", 1280, 800),
@@ -36,8 +39,46 @@ REQUIRED_CASES = (
 )
 
 
-def case_key(case: tuple[str, int, int]) -> tuple[str, int]:
-    return case[0], case[1]
+def case_key(case: tuple[str, int, int]) -> tuple[str, int, int]:
+    return case
+
+
+def firefox_hosted_linux_enabled() -> bool:
+    """Return whether hosted Linux Firefox should run headful under Xvfb."""
+
+    return sys.platform.startswith("linux") and os.environ.get(FIREFOX_MODE_ENV) == FIREFOX_HOSTED_LINUX_MODE
+
+
+def worker_environment() -> dict[str, str]:
+    """Preserve the parent environment and request software GL for hosted Firefox."""
+
+    environment = os.environ.copy()
+    if firefox_hosted_linux_enabled():
+        environment[SOFTWARE_GL_ENV] = "1"
+    return environment
+
+
+def browser_launch_options(browser_name: str) -> dict:
+    """Select only the hosted-Linux Firefox launch mode; keep other cases headless."""
+
+    hosted_firefox = browser_name == "firefox" and firefox_hosted_linux_enabled()
+    options = {"headless": not hosted_firefox, "timeout": 45000}
+    if hosted_firefox:
+        options["env"] = worker_environment()
+    return options
+
+
+def launch_mode(browser_name: str) -> str:
+    if browser_name == "firefox" and firefox_hosted_linux_enabled():
+        return "hosted-linux-xvfb"
+    return "headless"
+
+
+def recorded_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
 
 
 def durable_json(path: Path, payload: dict) -> None:
@@ -69,9 +110,14 @@ def base_row(case: tuple[str, int, int]) -> dict:
         "browser": browser,
         "width": width,
         "height": height,
+        "launch_mode": launch_mode(browser),
         "status": "UNVERIFIED",
         "completed": False,
         "cleanup_warnings": [],
+        "page_errors": [],
+        "console_errors": [],
+        "failed_requests": [],
+        "map_error_events": [],
     }
 
 
@@ -99,6 +145,174 @@ def load_worker_result(path: Path, case: tuple[str, int, int]) -> dict | None:
     ):
         return None
     return payload
+
+
+MAP_ERROR_HOOK = """() => {
+    const app = window.__tripApp;
+    const map = app && typeof app.map === 'function' ? app.map() : null;
+    if (!map || typeof map.on !== 'function') return false;
+    if (!window.__crossBrowserMapErrors) {
+        window.__crossBrowserMapErrors = [];
+        map.on('error', event => {
+            const error = event && event.error;
+            window.__crossBrowserMapErrors.push({
+                message: error?.message || event?.message || String(error || event || 'Map error'),
+                source_id: event?.sourceId ?? null,
+                source: event?.source ? String(event.source) : null,
+                tile_url: event?.tile?.url ?? null,
+            });
+        });
+    }
+    return true;
+}"""
+
+
+def attach_map_error_listener(page) -> bool:
+    """Attach a best-effort MapLibre error listener without masking the real check."""
+
+    try:
+        return bool(page.evaluate(MAP_ERROR_HOOK))
+    except Exception:
+        return False
+
+
+def read_map_error_events(page) -> list:
+    try:
+        events = page.evaluate("window.__crossBrowserMapErrors || []")
+    except Exception:
+        return []
+    return events if isinstance(events, list) else []
+
+
+def collect_failure_diagnostics(
+    page,
+    case: tuple[str, int, int],
+    page_errors: list[str],
+    console_errors: list[dict],
+    failed_requests: list[dict],
+    map_listener_attached: bool,
+) -> dict:
+    """Collect browser/app state while the page is still alive after a failure."""
+
+    browser, width, height = case
+    diagnostics = {
+        "browser": browser,
+        "viewport": {"width": width, "height": height},
+        "launch_mode": launch_mode(browser),
+        "environment": {
+            "platform": sys.platform,
+            "display": os.environ.get("DISPLAY"),
+            SOFTWARE_GL_ENV: os.environ.get(SOFTWARE_GL_ENV),
+        },
+        "map_object_present": None,
+        "provider": None,
+        "provider_health": None,
+        "is_style_loaded": None,
+        "canvas_count": None,
+        "current_marker_count": None,
+        "expected_marker_count": None,
+        "page_errors": list(page_errors),
+        "console_errors": list(console_errors),
+        "failed_requests": list(failed_requests),
+        "map_error_listener_attached": map_listener_attached,
+        "map_error_events": read_map_error_events(page) if page is not None else [],
+    }
+    if page is None:
+        return diagnostics
+
+    map_listener_attached = attach_map_error_listener(page) or map_listener_attached
+    diagnostics["map_error_listener_attached"] = map_listener_attached
+    diagnostics["map_error_events"] = read_map_error_events(page)
+    try:
+        diagnostics["map_object_present"] = bool(
+            page.evaluate("Boolean(window.__tripApp?.map?.())")
+        )
+    except Exception:
+        pass
+    try:
+        provider_state = page.evaluate(
+            """() => {
+                const state = window.__tripApp?.state;
+                return {provider: state?.provider ?? null, provider_health: state?.providerHealth ?? null};
+            }"""
+        )
+        if isinstance(provider_state, dict):
+            diagnostics["provider"] = provider_state.get("provider")
+            diagnostics["provider_health"] = provider_state.get("provider_health")
+    except Exception:
+        pass
+    try:
+        diagnostics["is_style_loaded"] = page.evaluate(
+            """() => {
+                const map = window.__tripApp?.map?.();
+                return map && typeof map.isStyleLoaded === 'function' ? map.isStyleLoaded() : null;
+            }"""
+        )
+    except Exception:
+        pass
+    try:
+        diagnostics["canvas_count"] = page.locator(".maplibregl-canvas").count()
+    except Exception:
+        pass
+    try:
+        marker_counts = page.evaluate(
+            """() => ({
+                current: document.querySelectorAll('.photo-marker').length,
+                expected: window.__tripApp?.DATA?.markers?.length ?? null,
+            })"""
+        )
+        if isinstance(marker_counts, dict):
+            diagnostics["current_marker_count"] = marker_counts.get("current")
+            diagnostics["expected_marker_count"] = marker_counts.get("expected")
+    except Exception:
+        pass
+    return diagnostics
+
+
+def capture_failure_evidence(
+    row: dict,
+    page,
+    case: tuple[str, int, int],
+    screenshot_path: Path,
+    page_errors: list[str],
+    console_errors: list[dict],
+    failed_requests: list[dict],
+    map_listener_attached: bool,
+    error: Exception,
+) -> None:
+    """Record diagnostics and a screenshot without ever making a failed case pass."""
+
+    diagnostics = collect_failure_diagnostics(
+        page,
+        case,
+        page_errors,
+        console_errors,
+        failed_requests,
+        map_listener_attached,
+    )
+    row["diagnostics"] = diagnostics
+    row["page_errors"] = diagnostics["page_errors"]
+    row["console_errors"] = diagnostics["console_errors"]
+    row["failed_requests"] = diagnostics["failed_requests"]
+    row["map_error_events"] = diagnostics["map_error_events"]
+    row["error"] = f"{type(error).__name__}: {error}"
+    row["status"] = "UNVERIFIED"
+    row["completed"] = False
+    if page is not None:
+        try:
+            screenshot_path.parent.mkdir(parents=True, exist_ok=True)
+            page.screenshot(path=str(screenshot_path), timeout=5000)
+            relative = recorded_path(screenshot_path)
+            diagnostics["failure_screenshot"] = relative
+            row["failure_screenshot"] = relative
+        except Exception as screenshot_error:
+            diagnostics["failure_screenshot_error"] = f"{type(screenshot_error).__name__}: {screenshot_error}"
+
+
+def start_playwright():
+    from playwright.sync_api import sync_playwright
+
+    return sync_playwright().start()
 
 
 def terminate_process_group(process: subprocess.Popen, label: str) -> tuple[bool, list[str]]:
@@ -134,18 +348,21 @@ def terminate_process_group(process: subprocess.Popen, label: str) -> tuple[bool
 def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: Path) -> int:
     """Run one case and persist its result before attempting any teardown."""
 
-    from playwright.sync_api import sync_playwright
-
     browser_name, width, height = case
     row = base_row(case)
     playwright = None
     browser = None
     context = None
+    page = None
+    page_errors = []
+    console_errors = []
+    failed_requests = []
+    map_listener_attached = False
     persisted = False
 
     try:
-        playwright = sync_playwright().start()
-        browser = getattr(playwright, browser_name).launch(headless=True, timeout=45000)
+        playwright = start_playwright()
+        browser = getattr(playwright, browser_name).launch(**browser_launch_options(browser_name))
         context = browser.new_context(
             viewport={"width": width, "height": height},
             has_touch=width == 390,
@@ -153,9 +370,31 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
         )
         page = context.new_page()
         page.set_default_timeout(15000)
-        page_errors = []
         page.on("pageerror", lambda error: page_errors.append(str(error)))
+        page.on(
+            "console",
+            lambda message: console_errors.append({"type": message.type, "text": message.text})
+            if message.type == "error"
+            else None,
+        )
+        page.on(
+            "requestfailed",
+            lambda request: failed_requests.append(
+                {
+                    "url": request.url,
+                    "method": request.method,
+                    "failure": request.failure,
+                }
+            ),
+        )
         page.goto(URL, wait_until="domcontentloaded", timeout=45000)
+        map_listener_attached = attach_map_error_listener(page)
+        if not map_listener_attached:
+            try:
+                page.wait_for_function(MAP_ERROR_HOOK, timeout=5000)
+                map_listener_attached = True
+            except Exception:
+                pass
         page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
         page.wait_for_function(
             "document.querySelectorAll('.photo-marker').length===window.__tripApp.DATA.markers.length",
@@ -169,7 +408,6 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
                 "broken_marker_images": page.locator(".photo-marker img").evaluate_all(
                     "es=>es.filter(e=>!e.complete||e.naturalWidth===0).length"
                 ),
-                "page_errors": page_errors,
                 "expected_places": page.evaluate("window.__tripApp.DATA.markers.length"),
             }
         )
@@ -181,6 +419,10 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
             timeout=8000,
         )
         row["detail_photos"] = page.locator("#detailsPane .photo-slot img").count()
+        row["page_errors"] = list(page_errors)
+        row["console_errors"] = list(console_errors)
+        row["failed_requests"] = list(failed_requests)
+        row["map_error_events"] = read_map_error_events(page)
         row["status"] = (
             "PASS"
             if row["marker_objects"] == row["expected_places"]
@@ -193,11 +435,21 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
         )
         screenshot_path.parent.mkdir(parents=True, exist_ok=True)
         page.screenshot(path=str(screenshot_path))
-        row["screenshot"] = str(screenshot_path.relative_to(ROOT))
+        row["map_error_listener_attached"] = map_listener_attached
+        row["screenshot"] = recorded_path(screenshot_path)
         row["completed"] = True
     except Exception as error:
-        row["status"] = "UNVERIFIED"
-        row["error"] = f"{type(error).__name__}: {error}"
+        capture_failure_evidence(
+            row,
+            page,
+            case,
+            screenshot_path,
+            page_errors,
+            console_errors,
+            failed_requests,
+            map_listener_attached,
+            error,
+        )
     finally:
         # This write is deliberately before browser/context/driver cleanup.  If
         # Playwright transport blocks during teardown, the parent can preserve
@@ -259,7 +511,7 @@ def run_isolated_case(
         process = subprocess.Popen(
             command,
             cwd=ROOT,
-            env=os.environ.copy(),
+            env=worker_environment(),
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             start_new_session=True,
@@ -321,11 +573,11 @@ def parent_evidence() -> dict:
     }
 
 
-def ordered_rows(rows_by_case: dict[tuple[str, int], dict]) -> list[dict]:
+def ordered_rows(rows_by_case: dict[tuple[str, int, int], dict]) -> list[dict]:
     return [rows_by_case.get(case_key(case), timeout_row(case, "case did not run")) for case in REQUIRED_CASES]
 
 
-def finalize_evidence(evidence: dict, rows_by_case: dict[tuple[str, int], dict]) -> dict:
+def finalize_evidence(evidence: dict, rows_by_case: dict[tuple[str, int, int], dict]) -> dict:
     evidence["rows"] = ordered_rows(rows_by_case)
     required_keys = {case_key(case) for case in REQUIRED_CASES}
     actual_keys = {case_key((row.get("browser"), row.get("width"), row.get("height", -1))) for row in evidence["rows"]}
