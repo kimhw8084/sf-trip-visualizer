@@ -84,3 +84,20 @@ Qualification components have a 300-second default timeout. A timeout is machine
 The generated modular artifact is `.build/modular/index.html`; serve it with `python3 scripts/pipeline.py serve --port 8766`. The direct-open artifact is `.build/standalone/SF_Smart_Minority_Map_First_Standalone.html`. `package` requires PASS qualification and produces `.release/package/` plus `.release/package.zip` containing modular, standalone, public, source, manifests, and current evidence.
 
 GitHub Pages runs the same exact-revision release command, checks the staged `.public-site/.release-provenance.json`, and uploads/deploys only after the qualification and provenance checks pass. Historical root HTML, `QA/final_*`, phase evidence, `build_final.py`, `package_final.py`, and provider-era scripts are retained for history but are not supported authority.
+
+## Gate 4 runtime-resilience contract
+
+`manifests/runtime_resilience_contract.json` is the single Gate 4 contract for
+the four delivery forms and the two maintained providers. `vector` is the
+explicit `smart-local-vector` identity: its PMTiles, fonts, sprites, terrain,
+and local photo derivatives are critical local assets. Missing or corrupt local
+assets are a qualification failure or a visible Smart-map failure; they never
+authorize a remote substitute. Satellite is optional network behavior. Its
+health probes, tile failures, bounded fallback, state preservation, and any
+unverified external-provider success are recorded by
+`scripts/qa_gate4_resilience.py` in `QA/release/gate4*.json`.
+
+Gate 4 evidence is run by `scripts/pipeline.py fast` and `qualify`; public and
+package hashes are added by the existing canonical assembly/package commands.
+This contract is a production-readiness gate only and is not a production
+release claim.

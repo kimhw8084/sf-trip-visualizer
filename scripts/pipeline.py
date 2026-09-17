@@ -17,6 +17,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import zipfile
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -24,6 +25,7 @@ from urllib.request import urlopen
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from validate_trip_data import validate_trip_data
+from qa_gate4_resilience import delivery_report
 
 MANIFEST_PATH = ROOT / "manifests" / "canonical_pipeline.json"
 BUILD = ROOT / ".build"
@@ -31,6 +33,9 @@ PUBLIC = ROOT / ".public-site"
 RELEASE = ROOT / ".release"
 FAST_EVIDENCE = ROOT / "QA" / "release" / "fast.json"
 QUALIFICATION = ROOT / "QA" / "release" / "qualification.json"
+GATE4_STATIC = ROOT / "QA" / "release" / "gate4_static.json"
+GATE4_RUNTIME = ROOT / "QA" / "release" / "gate4_runtime.json"
+GATE4_SUMMARY = ROOT / "QA" / "release" / "gate4.json"
 COMPONENT_TIMEOUT_SECONDS = int(os.environ.get("TRIP_QUALIFICATION_TIMEOUT_SECONDS", "300"))
 
 COMPONENTS = (
@@ -47,6 +52,7 @@ COMPONENTS = (
     ("exhaustive_states", "scripts/run_exhaustive_states.py", "QA/map_first/exhaustive_states.json"),
     ("cross_browser", "scripts/run_cross_browser.py", "QA/map_first/cross_browser.json"),
     ("visual_spots", "scripts/run_visual_spots.py", "QA/map_first/visual_spots.json"),
+    ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
 )
 
 
@@ -60,6 +66,10 @@ def digest(path: Path) -> str:
         for chunk in iter(lambda: handle.read(4 * 1024 * 1024), b""):
             hasher.update(chunk)
     return hasher.hexdigest()
+
+
+def digest_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
 
 
 def tree_hashes(root: Path, exclude: set[str] | None = None) -> dict[str, str]:
@@ -183,6 +193,56 @@ def run_build(output: Path) -> None:
         raise RuntimeError(f"Canonical build failed ({code}).\n{stdout}\n{stderr}")
 
 
+def run_gate4_static() -> dict:
+    code, stdout, stderr = run_process([sys.executable, str(ROOT / "scripts" / "qa_gate4_resilience.py"), "--mode", "static", "--output", str(GATE4_STATIC)])
+    status = evidence_status(GATE4_STATIC, code)
+    report = load_json(GATE4_STATIC) if GATE4_STATIC.is_file() else {"status": status, "failures": [stderr or stdout]}
+    report["returncode"] = code
+    if code or status != "PASS":
+        raise RuntimeError(f"Gate 4 static validation failed ({status}). {report.get('failures', [])}")
+    return report
+
+
+def write_gate4_summary(package: dict | None = None) -> dict:
+    static = load_json(GATE4_STATIC) if GATE4_STATIC.is_file() else {"status": "VERIFY_REQUIRED", "failures": ["fast static evidence has not run"]}
+    runtime = load_json(GATE4_RUNTIME) if GATE4_RUNTIME.is_file() else {"status": "VERIFY_REQUIRED", "failures": ["full browser evidence has not run"]}
+    if PUBLIC.is_dir() and (PUBLIC / "index.html").is_file():
+        delivery = delivery_report(PUBLIC)
+    else:
+        delivery = {"status": "VERIFY_REQUIRED", "reason": "public staging is assembled only after PASS qualification", "forms": []}
+    package_evidence = package
+    if package_evidence is None and GATE4_SUMMARY.is_file():
+        previous = load_json(GATE4_SUMMARY).get("package", {})
+        archive = RELEASE / "package.zip"
+        manifest = RELEASE / "package" / "PACKAGE_MANIFEST.json"
+        if (
+            previous.get("status") == "PASS"
+            and previous.get("revision") == current_revision()
+            and archive.is_file()
+            and manifest.is_file()
+            and previous.get("package_sha256") == digest(archive)
+            and previous.get("manifest_sha256") == digest(manifest)
+            and all(previous.get("checks", {}).values())
+        ):
+            package_evidence = previous
+    report = {
+        "schema_version": 1,
+        "project": "sf-trip-visualizer",
+        "gate": "production_readiness_gate_4",
+        "status": "PASS" if static.get("status") == "PASS" and runtime.get("status") == "PASS" else "INCOMPLETE",
+        "candidate_head": current_revision(),
+        "test_modes": ["static", "browser", "delivery_parity"],
+        "static": {"status": static.get("status"), "evidence": "QA/release/gate4_static.json"},
+        "runtime": {"status": runtime.get("status"), "evidence": "QA/release/gate4_runtime.json", "external_provider": runtime.get("external_provider")},
+        "delivery": delivery,
+        "package": package_evidence or {"status": "VERIFY_REQUIRED", "reason": "package is assembled after qualification"},
+        "limitations": ["This is Gate 4 evidence only; it is not a production-readiness or production-release claim."],
+    }
+    GATE4_SUMMARY.parent.mkdir(parents=True, exist_ok=True)
+    GATE4_SUMMARY.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    return report
+
+
 def run_fast(expected_revision: str | None = None, require_clean: bool = False) -> dict:
     evidence = {
         "schema_version": 1,
@@ -214,6 +274,7 @@ def run_fast(expected_revision: str | None = None, require_clean: bool = False) 
         if first_hashes != repeat_hashes:
             differences = sorted(set(first_hashes) ^ set(repeat_hashes) | {key for key in first_hashes.keys() & repeat_hashes.keys() if first_hashes[key] != repeat_hashes[key]})
             raise RuntimeError(f"Canonical build is not reproducible; differing output(s): {', '.join(differences[:10])}")
+        gate4_static = run_gate4_static()
         evidence["authored_inputs_unchanged"] = True
         evidence["reproducible"] = True
         evidence["build"] = {
@@ -223,6 +284,7 @@ def run_fast(expected_revision: str | None = None, require_clean: bool = False) 
             "standalone_sha256": digest(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"),
             "file_count": len(build_manifest["files"]),
         }
+        evidence["gate4_static"] = {"status": gate4_static["status"], "evidence": "QA/release/gate4_static.json"}
         evidence["status"] = "PASS"
     except (Exception, SystemExit) as error:
         evidence["errors"].append(str(error))
@@ -306,9 +368,11 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
             command = [sys.executable, str(ROOT / script)]
             if name == "photo_integrity":
                 command.append("--runtime-only")
+            if name == "gate4_runtime":
+                command.extend(["--mode", "browser", "--output", str(output_path)])
             code, stdout, stderr = run_process(command, env)
             status = evidence_status(output_path, code)
-            command_text = f"python3 {script}" + (" --runtime-only" if name == "photo_integrity" else "")
+            command_text = f"python3 {script}" + (" --runtime-only" if name == "photo_integrity" else "") + (f" --mode browser --output {output}" if name == "gate4_runtime" else "")
             test_report = {"name": name, "command": command_text, "evidence": output, "status": status, "returncode": code, "timeout_seconds": COMPONENT_TIMEOUT_SECONDS, "stdout_tail": stdout, "stderr_tail": stderr}
             if code == 124:
                 test_report["status_reason"] = f"Component exceeded the {COMPONENT_TIMEOUT_SECONDS}s bound; gate remains unverified and release is fail-closed."
@@ -319,6 +383,7 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
             raise RuntimeError(f"Qualification mutated authored input(s): {', '.join(changed)}")
         report["authored_inputs_unchanged"] = True
         report["build"] = fast["build"]
+        write_gate4_summary()
         if not report["tests"] or not all(test["status"] == "PASS" for test in report["tests"]):
             raise RuntimeError("One or more decisive qualification gates failed or were unverified.")
         report["status"] = "PASS"
@@ -355,13 +420,54 @@ def verify_public(revision: str) -> dict:
         "qualification_sha256": provenance.get("qualification_sha256") == qualification_hash,
         "build_manifest_sha256": provenance.get("build_manifest_sha256") == digest(BUILD / "build_manifest.json"),
         "modular_index_sha256": provenance.get("modular_index_sha256") == digest(BUILD / "modular" / "index.html"),
+        "standalone_sha256": load_json(QUALIFICATION).get("build", {}).get("standalone_sha256") == digest(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"),
         "artifact_sha256": provenance.get("artifact_sha256_excluding_provenance") == artifact_hash,
         "artifact_file_count": provenance.get("artifact_file_count_excluding_provenance") == file_count,
         "artifact_bytes": provenance.get("artifact_bytes_excluding_provenance") == byte_count,
     }
     if not all(checks.values()):
         raise RuntimeError(f"Public provenance verification failed: {', '.join(name for name, passed in checks.items() if not passed)}")
-    return {"status": "PASS", "revision": revision, "checks": checks, "artifact_sha256": artifact_hash, "files": file_count}
+    parity = delivery_report(PUBLIC)
+    if parity["status"] != "PASS":
+        raise RuntimeError(f"Public delivery parity failed: {', '.join(parity.get('failures', []))}")
+    return {"status": "PASS", "revision": revision, "checks": checks, "artifact_sha256": artifact_hash, "files": file_count, "parity": parity}
+
+
+def verify_package(revision: str) -> dict:
+    package_dir = RELEASE / "package"
+    archive = RELEASE / "package.zip"
+    manifest_path = package_dir / "PACKAGE_MANIFEST.json"
+    if not package_dir.is_dir() or not archive.is_file() or not manifest_path.is_file():
+        raise RuntimeError("Package output or PACKAGE_MANIFEST.json is missing.")
+    manifest = load_json(manifest_path)
+    files = tree_hashes(package_dir, {"PACKAGE_MANIFEST.json"})
+    checks = {
+        "tested_sha": manifest.get("tested_sha") == revision == current_revision(),
+        "qualification_sha256": manifest.get("qualification_sha256") == digest(QUALIFICATION),
+        "file_hashes": manifest.get("files") == files,
+        "file_count": manifest.get("file_count_excluding_manifest") == len(files),
+    }
+    with zipfile.ZipFile(archive) as zip_file:
+        infos = {info.filename: info for info in zip_file.infolist()}
+        expected_names = {str(Path(package_dir.name) / relative) for relative in [*files, "PACKAGE_MANIFEST.json"]}
+        checks["zip_members"] = set(infos) == expected_names
+        checks["zip_timestamps_deterministic"] = all(info.date_time == (1980, 1, 1, 0, 0, 0) for info in infos.values())
+        checks["zip_content_hashes"] = all(digest_bytes(zip_file.read(name)) == (digest(package_dir / name.split("/", 1)[1]) if "/" in name else "") for name in infos)
+    if not all(checks.values()):
+        raise RuntimeError(f"Package integrity verification failed: {', '.join(name for name, passed in checks.items() if not passed)}")
+    original_zip_hash = digest(archive)
+    with tempfile.TemporaryDirectory(prefix="package-repro-", dir=ROOT) as temporary:
+        repeat_dir = Path(temporary) / "package"
+        repeat_archive = Path(temporary) / "package.zip"
+        code, stdout, stderr = run_process([sys.executable, str(ROOT / "scripts" / "package_map_first.py"), "--destination", str(repeat_dir), "--archive", str(repeat_archive), "--revision", revision])
+        if code:
+            raise RuntimeError(f"Repeat package failed ({code}).\n{stdout}\n{stderr}")
+        repeat_zip_hash = digest(repeat_archive)
+    checks["repeat_zip_sha256"] = original_zip_hash == repeat_zip_hash
+    if not checks["repeat_zip_sha256"]:
+        raise RuntimeError("Repeated packaging of the exact qualified revision changed the ZIP hash.")
+    result = {"status": "PASS", "revision": revision, "package_sha256": original_zip_hash, "manifest_sha256": digest(manifest_path), "files": len(files), "checks": checks}
+    return result
 
 
 def require_qualified(revision: str | None) -> str:
@@ -408,21 +514,29 @@ def main() -> int:
     if args.command == "assemble-public":
         revision = require_qualified(args.revision)
         assemble_public(revision)
-        print(json.dumps(verify_public(revision), ensure_ascii=False))
+        public_report = verify_public(revision)
+        write_gate4_summary()
+        print(json.dumps(public_report, ensure_ascii=False))
         return 0
     if args.command == "verify-public":
-        print(json.dumps(verify_public(args.revision), ensure_ascii=False))
+        public_report = verify_public(args.revision)
+        write_gate4_summary()
+        print(json.dumps(public_report, ensure_ascii=False))
         return 0
     if args.command == "package":
         revision = require_qualified(args.revision)
         if not (PUBLIC / "index.html").is_file():
             assemble_public(revision)
+        verify_public(revision)
         code, stdout, stderr = run_process([sys.executable, str(ROOT / "scripts" / "package_map_first.py"), "--revision", revision])
         if code:
             print(stdout, end="")
             print(stderr, end="", file=sys.stderr)
             return code
+        package_report = verify_package(revision)
+        write_gate4_summary(package_report)
         print(stdout, end="")
+        print(json.dumps(package_report, ensure_ascii=False))
         return 0
     if args.command == "release":
         report = run_qualification(args.revision, require_clean=True)
@@ -430,7 +544,9 @@ def main() -> int:
             print(json.dumps({"status": report["status"], "candidate_head": report["candidate_head"], "errors": report["errors"]}, ensure_ascii=False))
             return 1
         assemble_public(args.revision)
-        print(json.dumps({"status": "PASS", "candidate_head": args.revision, "public": verify_public(args.revision)}, ensure_ascii=False))
+        public_report = verify_public(args.revision)
+        write_gate4_summary()
+        print(json.dumps({"status": "PASS", "candidate_head": args.revision, "public": public_report}, ensure_ascii=False))
         return 0
     if args.command == "serve":
         if not (BUILD / "modular" / "index.html").is_file():

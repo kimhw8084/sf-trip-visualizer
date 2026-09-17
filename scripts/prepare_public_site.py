@@ -76,6 +76,10 @@ def main() -> None:
     expected_build_sha = qualification.get("build", {}).get("modular_index_sha256")
     if expected_build_sha != build.get("modular", {}).get("sha256") or expected_build_sha != digest(source / "index.html"):
         raise SystemExit("The modular build changed after qualification; refusing to assemble public output.")
+    expected_standalone_sha = qualification.get("build", {}).get("standalone_sha256")
+    standalone = ROOT / ".build" / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"
+    if not expected_standalone_sha or expected_standalone_sha != digest(standalone):
+        raise SystemExit("The standalone build changed after qualification; refusing to assemble public output.")
 
     if output.exists():
         shutil.rmtree(output)
