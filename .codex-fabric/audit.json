@@ -1,0 +1,727 @@
+{
+  "accepted_at": "2026-09-16T23:57:22Z",
+  "changed_files": [
+    {
+      "additions": 70,
+      "deletions": 0,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "A"
+    },
+    {
+      "additions": 19,
+      "deletions": 4,
+      "path": ".github/workflows/deploy-pages.yml",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 0,
+      "path": ".gitignore",
+      "status": "M"
+    },
+    {
+      "additions": 70,
+      "deletions": 0,
+      "path": "QA/map_first/cross_browser.json",
+      "status": "A"
+    },
+    {
+      "additions": 6010,
+      "deletions": 0,
+      "path": "QA/map_first/exhaustive_states.json",
+      "status": "A"
+    },
+    {
+      "additions": 24,
+      "deletions": 24,
+      "path": "QA/map_first/filter_matrix.json",
+      "status": "M"
+    },
+    {
+      "additions": 29,
+      "deletions": 6,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "QA/map_first/location_gap_visuals.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "QA/map_first/p0_independent.json",
+      "status": "M"
+    },
+    {
+      "additions": 10,
+      "deletions": 6,
+      "path": "QA/map_first/route_continuity.json",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 9,
+      "path": "QA/map_first/smoke.json",
+      "status": "M"
+    },
+    {
+      "additions": 99,
+      "deletions": 0,
+      "path": "QA/map_first/visual_spots.json",
+      "status": "A"
+    },
+    {
+      "additions": 4,
+      "deletions": 1,
+      "path": "QA/photo_integrity.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "QA/route_panel/route_explanations_panel.json",
+      "status": "M"
+    },
+    {
+      "additions": 52,
+      "deletions": 28,
+      "path": "README.md",
+      "status": "M"
+    },
+    {
+      "additions": 36,
+      "deletions": 30,
+      "path": "TRIP_VISUALIZER_SCHEMA.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "manifests/asset_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 110,
+      "deletions": 0,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "A"
+    },
+    {
+      "additions": 3,
+      "deletions": 0,
+      "path": "scripts/apply_location_gap_audit.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/build_final.py",
+      "status": "M"
+    },
+    {
+      "additions": 270,
+      "deletions": 170,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 28,
+      "deletions": 15,
+      "path": "scripts/check_photo_integrity.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/expand_photo_manifest.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/package_final.py",
+      "status": "M"
+    },
+    {
+      "additions": 110,
+      "deletions": 125,
+      "path": "scripts/package_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 436,
+      "deletions": 0,
+      "path": "scripts/pipeline.py",
+      "status": "A"
+    },
+    {
+      "additions": 86,
+      "deletions": 46,
+      "path": "scripts/prepare_public_site.py",
+      "status": "M"
+    },
+    {
+      "additions": 42,
+      "deletions": 0,
+      "path": "scripts/qa_cleanup.py",
+      "status": "A"
+    },
+    {
+      "additions": 14,
+      "deletions": 0,
+      "path": "scripts/qa_config.py",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_interaction_dynamics.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_location_gap_visuals.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 40,
+      "deletions": 40,
+      "path": "scripts/qa_map_first_full.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 2,
+      "path": "scripts/qa_map_first_p0.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 3,
+      "path": "scripts/qa_route_explanations_panel.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_standalone_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/run_acceptance.py",
+      "status": "M"
+    },
+    {
+      "additions": 638,
+      "deletions": 35,
+      "path": "scripts/run_cross_browser.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 2,
+      "path": "scripts/run_exhaustive_states.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/run_live_providers.py",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 5,
+      "path": "scripts/run_visual_spots.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "scripts/serve_map.py",
+      "status": "M"
+    },
+    {
+      "additions": 108,
+      "deletions": 0,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "A"
+    },
+    {
+      "additions": 304,
+      "deletions": 0,
+      "path": "tests/test_cross_browser_runner.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8767/index.html rtk python3 scripts/run_cross_browser.py --worker --browser webkit --width 390 --height 844 --result /tmp/codex-cross-browser-r6-local/webkit_390_final.json --screenshot /Users/haewonkim/.codex-fabric/worktrees/CF-d608e169222f7dec3ebd2df6/.build/cross-browser-local/webkit_390_final.png'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8767/index.html rtk python3 scripts/run_cross_browser.py --worker --browser webkit --width 1280 --height 800 --result /tmp/codex-cross-browser-r6-local/webkit_1280_final.json --screenshot /Users/haewonkim/.codex-fabric/worktrees/CF-d608e169222f7dec3ebd2df6/.build/cross-browser-local/webkit_1280_final.png'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8767/index.html rtk python3 scripts/run_cross_browser.py --worker --browser firefox --width 390 --height 844 --result /tmp/codex-cross-browser-r6-local/firefox_390_final.json --screenshot /Users/haewonkim/.codex-fabric/worktrees/CF-d608e169222f7dec3ebd2df6/.build/cross-browser-local/firefox_390_final.png'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8767/index.html rtk python3 scripts/run_cross_browser.py --worker --browser firefox --width 1280 --height 800 --result /tmp/codex-cross-browser-r6-local/firefox_1280_final.json --screenshot /Users/haewonkim/.codex-fabric/worktrees/CF-d608e169222f7dec3ebd2df6/.build/cross-browser-local/firefox_1280_final.png'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"for p in /tmp/codex-cross-browser-r6-local/*_final.json; do rtk jq -c '{browser,width,status,completed,launch_mode,marker_objects,expected_places,canvas,detail_photos,page_errors,console_errors,failed_requests,map_error_events,screenshot}' \\\"\"'$p\"; done'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/serve_map.py --port 8767 --directory .build/modular'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --stat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"FIREFOX_MODE_ENV|firefox_hosted_linux_enabled|worker_environment|browser_launch_options|MAP_ERROR_HOOK|collect_failure_diagnostics|capture_failure_evidence|wait_for_function|terminate_process_group|durable_json|finalize_evidence|REQUIRED_CASES\" scripts/run_cross_browser.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-status'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,130p' .github/workflows/candidate-qualification.yml && rtk sed -n '1,100p' .github/workflows/deploy-pages.yml\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git rev-parse HEAD && rtk git merge-base --is-ancestor 1eb3b7146745e4f30f4633fd26401db6fdb805c5 HEAD; printf 'evidence_is_ancestor=%s\\\\n' \"'$?; rtk git log --oneline --decorate --ancestry-path 94418cb9560cad7d612a9dc7c4cfb26fc87080ba..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,340p' scripts/run_cross_browser.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '340,660p' scripts/run_cross_browser.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- tests/test_cross_browser_runner.py tests/test_canonical_pipeline.py README.md'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff 94418cb -- scripts/run_cross_browser.py .github/workflows/candidate-qualification.yml README.md tests/test_canonical_pipeline.py tests/test_cross_browser_runner.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'from playwright.sync_api import Request; import inspect; print(Request.failure); print(inspect.signature(Request.failure.fget) if isinstance(Request.failure, property) else inspect.signature(Request.failure))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"TRIP_QA_URL=http://127.0.0.1:8766/index.html rtk python3 -c 'import json,sys; from pathlib import Path; sys.path.insert(0,\\\"scripts\\\"); import run_cross_browser as r; r.OUTPUT=Path(\\\"/tmp/codex-cross-browser-r6-local/parent.json\\\"); r.SHOTS=Path(\\\".build/cross-browser-local-parent\\\"); e=r.run_parent(); print(json.dumps({\\\"status\\\":e[\\\"status\\\"],\\\"rows\\\":[(x[\\\"browser\\\"],x[\\\"width\\\"],x[\\\"height\\\"],x[\\\"status\\\"],x[\\\"completed\\\"]) for x in e[\\\"rows\\\"]],\\\"errors\\\":e[\\\"errors\\\"]})); raise SystemExit(0 if e[\\\"status\\\"]==\\\"PASS\\\" else 1)'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --stat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch -vv && rtk git remote -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --unified=2 -- .github/workflows/candidate-qualification.yml README.md scripts/run_cross_browser.py tests/test_canonical_pipeline.py tests/test_cross_browser_runner.py | sed -n '1,520p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add .github/workflows/candidate-qualification.yml README.md scripts/run_cross_browser.py tests/test_canonical_pipeline.py tests/test_cross_browser_runner.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --cached --stat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --cached --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git commit -m \"qa: run hosted Firefox qualification under Xvfb\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git rev-parse HEAD && rtk git show -s --format='%H%n%P%n%s' HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git merge-base --is-ancestor 94418cb9560cad7d612a9dc7c4cfb26fc87080ba HEAD; printf 'candidate_parent_is_ancestor=%s\\\\n' \"'$?; rtk git merge-base --is-ancestor 1eb3b7146745e4f30f4633fd26401db6fdb805c5 HEAD; printf '\"'evidence_ancestor=%s\\\\n' \"'$?'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/codex/sf-trip-visualizer-firefox-ci-fix-r6'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run list --repo kimhw8084/sf-trip-visualizer --workflow candidate-qualification.yml --branch codex/sf-trip-visualizer-firefox-ci-fix-r6 --limit 5 --json databaseId,headSha,status,conclusion,workflowName,createdAt,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run watch 35165759285 --repo kimhw8084/sf-trip-visualizer --exit-status'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mkdir -p /tmp/codex-gh-r6-35165759285 && rtk gh run download 35165759285 --repo kimhw8084/sf-trip-visualizer --dir /tmp/codex-gh-r6-35165759285 && rtk find /tmp/codex-gh-r6-35165759285 -maxdepth 4 -type f | sort'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg --files /tmp/codex-gh-r6-35165759285 | sort'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk tail -40 /tmp/codex-gh-r6-35165759285/candidate-qualification-9fbcbcdcfc9cbcc684472c16dd56f317ffe30513/release/unit-tests.log'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{schema_version,status,expected_rows,rows:[.rows[]|{browser,width,height,status,completed,launch_mode,marker_objects,expected_places,canvas,detail_photos,page_errors,console_errors,failed_requests,map_error_events,screenshot,failure_screenshot,diagnostics}],errors,cleanup_warnings}' /tmp/codex-gh-r6-35165759285/candidate-qualification-9fbcbcdcfc9cbcc684472c16dd56f317ffe30513/map_first/cross_browser.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,working_tree_clean,tests:[.tests[]|{name,status,returncode,evidence}],errors,fast:{status:.fast.status,candidate_head:.fast.candidate_head}}' /tmp/codex-gh-r6-35165759285/candidate-qualification-9fbcbcdcfc9cbcc684472c16dd56f317ffe30513/release/qualification.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,working_tree_clean,reproducible,authored_inputs_unchanged,errors}' /tmp/codex-gh-r6-35165759285/candidate-qualification-9fbcbcdcfc9cbcc684472c16dd56f317ffe30513/release/fast.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq -c '{status,expected_rows,rows:[.rows[]|[.browser,.width,.height,.status,.completed,.launch_mode,.marker_objects,.canvas,.detail_photos]],errors}' /tmp/codex-gh-r6-35165759285/candidate-qualification-9fbcbcdcfc9cbcc684472c16dd56f317ffe30513/map_first/cross_browser.json && rtk jq -c '{status,candidate_head,tests:[.tests[]|[.name,.status,.returncode]],errors}' /tmp/codex-gh-r6-35165759285/candidate-qualification-9fbcbcdcfc9cbcc684472c16dd56f317ffe30513/release/qualification.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy jq -c '{status,expected_rows,rows:[.rows[]|[.browser,.width,.height,.status,.completed,.launch_mode,.marker_objects,.canvas,.detail_photos]],errors}' /tmp/codex-gh-r6-35165759285/candidate-qualification-9fbcbcdcfc9cbcc684472c16dd56f317ffe30513/map_first/cross_browser.json && rtk proxy jq -c '{status,candidate_head,tests:[.tests[]|[.name,.status,.returncode]],errors}' /tmp/codex-gh-r6-35165759285/candidate-qualification-9fbcbcdcfc9cbcc684472c16dd56f317ffe30513/release/qualification.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show -s --format='%H%n%P%n%s' HEAD && rtk git merge-base --is-ancestor 1eb3b7146745e4f30f4633fd26401db6fdb805c5 HEAD; printf 'r5_evidence_ancestor=%s\\\\n' \"'$?'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show --stat --oneline HEAD && rtk git diff HEAD''^ HEAD --name-only'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/codex/sf-trip-visualizer-firefox-ci-fix-r6'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35165759285 --repo kimhw8084/sf-trip-visualizer --json databaseId,headSha,status,conclusion,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 271,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.62,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 9521408,
+      "fresh_input_tokens": 232388,
+      "input_tokens": 9753796,
+      "non_reasoning_output_tokens": 20814,
+      "output_tokens": 44651,
+      "reasoning_output_tokens": 23837,
+      "total_processed_tokens": 9798447
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "9fbcbcdcfc9cbcc684472c16dd56f317ffe30513",
+      "subject": "qa: run hosted Firefox qualification under Xvfb"
+    },
+    {
+      "sha": "94418cb9560cad7d612a9dc7c4cfb26fc87080ba",
+      "subject": "ci: qualify Fabric candidates on GitHub runners"
+    },
+    {
+      "sha": "54bb51d2c850c73021da0a69c8c505627f3edf56",
+      "subject": "qa: isolate cross-browser qualification cases"
+    },
+    {
+      "sha": "cc2e261a3c0ce0ae0b96cec190984569df6ae47c",
+      "subject": "fabric: capture completed model changes [CF-b593ec021d9eb46ec23e6907]"
+    },
+    {
+      "sha": "3e9dbf78a324e32dc6acbcec8fdbbd38e1f251ee",
+      "subject": "qa: bound cross-browser launch cleanup"
+    },
+    {
+      "sha": "2e30beadff93f8d929edb185f9a426c7448c1c41",
+      "subject": "qa: preserve cross-browser evidence across cleanup"
+    },
+    {
+      "sha": "77b3e79204d7b2c5caae627c9f77d07e0003ff99",
+      "subject": "fabric: capture completed model changes [CF-3ef17e593e1600d50620b3b4]"
+    }
+  ],
+  "diff": {
+    "additions": 8671,
+    "changed_files": 44,
+    "commit_count": 7,
+    "deletions": 564
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 15,
+    "items": [
+      {
+        "bytes": 1814,
+        "path": "QA/map_first/cross_browser.json",
+        "sha256": "c22719b84f0a7fc030e91f440b3aa5768d5b3d0fc55304f8a89fd06ba9602b3a"
+      },
+      {
+        "bytes": 112516,
+        "path": "QA/map_first/exhaustive_states.json",
+        "sha256": "076e11ba2a54a1160755e0884cb048abc48a70e664bed75b44cc7c92e7114d73"
+      },
+      {
+        "bytes": 88871,
+        "path": "QA/map_first/filter_matrix.json",
+        "sha256": "9b05f33060d5ca9552c78c8afa4d21e496118927b433f5493d9de4e4de645beb"
+      },
+      {
+        "bytes": 13097,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "d436fba95af3e7d06c3d20b091f99efff3a284a8ccdaf92ff99f79277d07acc5"
+      },
+      {
+        "bytes": 7935,
+        "path": "QA/map_first/location_gap_visuals.json",
+        "sha256": "e913285a468d63c80718562bf2f9f414f34531fa5bd24eb3ffb8dcfb8256dc6e"
+      },
+      {
+        "bytes": 30186,
+        "path": "QA/map_first/p0_independent.json",
+        "sha256": "13c6396eaf222d277c63e88799b640e78e9dca01e6c65d11fb4b2f9656f97e12"
+      },
+      {
+        "bytes": 12225,
+        "path": "QA/map_first/route_continuity.json",
+        "sha256": "6d032edef6da4adcf3ac3d7ac5557d70cf5a7e4a6105a7d7f4078d12859444ea"
+      },
+      {
+        "bytes": 1125,
+        "path": "QA/map_first/smoke.json",
+        "sha256": "97cfb15ce57ec0712c5c5b8fc01d9314de237a124bc0e2df93b44f9d0366afb9"
+      },
+      {
+        "bytes": 2052,
+        "path": "QA/map_first/visual_spots.json",
+        "sha256": "7ee0b11c30562b3b819e43cb823af0555c3a17ee34b31046826f0fa05c352c24"
+      },
+      {
+        "bytes": 424,
+        "path": "QA/photo_integrity.json",
+        "sha256": "cfaf317b278606352c06b41084c5d8a51474c8b6b7abced4ab2b24a01d5d01f9"
+      },
+      {
+        "bytes": 7219,
+        "path": "QA/route_panel/route_explanations_panel.json",
+        "sha256": "cab1c74b5aab4e3426617480915d5f87cc345de48ab63e5a601707cc55611086"
+      },
+      {
+        "bytes": 7976,
+        "path": "README.md",
+        "sha256": "b16be788d800dbc84656d2bd9cad8247b9e20db3d82f04971458cd0f0c4c4a5b"
+      },
+      {
+        "bytes": 4370,
+        "path": "TRIP_VISUALIZER_SCHEMA.md",
+        "sha256": "339d3b18d199bf08763fdf9ce186bf15350400f7b4f004345008a46f3ebb156b"
+      },
+      {
+        "bytes": 266292,
+        "path": "manifests/asset_manifest.json",
+        "sha256": "1198dab5137fe2a89f83441de6203b0f0af2a3cad25a79450bed6ce00fe63236"
+      },
+      {
+        "bytes": 3678,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "6bba22140e64bff9fb0ea251998a25e12f3d6dd0aa89f6db0f5483114d29e96f"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.2",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.2",
+  "failure_class": null,
+  "finished_at": "2026-09-17T00:22:30Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "a4d6e208805dcfb326b0cbf116146b0b27f2dd63",
+    "branch": "codex/sf-trip-visualizer-firefox-ci-fix-r6",
+    "head_sha": "9fbcbcdcfc9cbcc684472c16dd56f317ffe30513",
+    "remote_exact_head": true,
+    "remote_head_sha": "9fbcbcdcfc9cbcc684472c16dd56f317ffe30513",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "a4d6e208805dcfb326b0cbf116146b0b27f2dd63",
+    "work_branch": "codex/sf-trip-visualizer-firefox-ci-fix-r6",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-d608e169222f7dec3ebd2df6",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/firefox-ci-fix-r6",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/firefox-ci-fix-r6"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.2",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "firefox-ci-fix-r6",
+  "schema_version": 1,
+  "started_at": "2026-09-16T23:57:22Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1508,
+    "queue_seconds": 0,
+    "total_seconds": 1508
+  },
+  "transport": {
+    "bytes": 6430,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6113,
+    "prompt_sha256": "68ffb6a8c869fc895503409d84ba282b95f76134dc85a164b1c6442b8c2a7a38",
+    "sha256": "d608e169222f7dec3ebd2df6d6c68d1df2411c0443d3152d7385a8eb24439e10"
+  }
+}
