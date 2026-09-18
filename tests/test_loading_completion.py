@@ -58,7 +58,8 @@ class LoadingCompletionTests(unittest.TestCase):
         self.assertIn("function waitForMapVisualReady", source)
         self.assertIn("snapshot.localPending===0", source)
         self.assertIn("snapshot.tilesLoaded", source)
-        self.assertIn("idleSeen", source)
+        self.assertIn("renderSeen", source)
+        self.assertIn("renderedVersion===snapshot.resourceVersion", source)
         self.assertIn("stableFrames>=2", source)
 
 
