@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "status": "FAIL",
+  "project": "sf-trip-visualizer",
+  "candidate_head": "e9f6b752764a7e93c6f4308a2948e595af84cd30",
+  "working_tree_clean": false,
+  "canonical": {
+    "manifest": "manifests/canonical_pipeline.json",
+    "build": "scripts/build_map_first.py",
+    "data": "data/phase7_app_data.json"
+  },
+  "component_timeout_seconds": 300,
+  "tests": [
+    {
+      "name": "canonical_truth",
+      "command": "python3 scripts/qa_canonical_truth.py",
+      "evidence": "QA/map_first/canonical_truth.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"failure_count\": 0,\n  \"offline_recheck_idempotent\": true\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "photo_integrity",
+      "command": "python3 scripts/check_photo_integrity.py --runtime-only",
+      "evidence": "QA/photo_integrity.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"required\": 108,\n  \"present_decodable_originals\": 0,\n  \"present_decodable_thumbnails\": 108,\n  \"present_decodable_medium\": 108,\n  \"places_with_exact_roles\": 36,\n  \"unique_original_hashes\": 108,\n  \"near_duplicate_review_queue\": [],\n  \"runtime_only\": true,\n  \"originals_unavailable_locally\": 108,\n  \"original_verification\": \"separate source/rights gate; manifest provenance retained\",\n  \"failures\": [],\n  \"status\": \"PASS\"\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "map_first_smoke",
+      "command": "python3 scripts/qa_map_first.py",
+      "evidence": "QA/map_first/smoke.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "[\n  {\n    \"state\": {\n      \"app\": true,\n      \"provider\": \"vector\",\n      \"health\": {\n        \"vector\": \"ready\",\n        \"satellite\": \"untested\"\n      },\n      \"theme\": \"light\",\n      \"lang\": \"ko\",\n      \"canvas\": 1,\n      \"clusters\": 3,\n      \"slots\": 9,\n      \"routes\": 139,\n      \"mapLayers\": 135,\n      \"zoom\": 7.512999108220854\n    },\n    \"errors\": [],\n    \"console\": [\n      {\n        \"type\": \"warning\",\n        \"text\": \"[.WebGL-0x114004d1400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels\"\n      },\n      {\n        \"type\": \"warning\",\n        \"text\": \"[.WebGL-0x114004d1400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels\"\n      },\n      {\n        \"type\": \"warning\",\n        \"text\": \"[.WebGL-0x114004d1400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels\"\n      },\n      {\n        \"type\": \"warning\",\n        \"text\": \"[.WebGL-0x114004d1400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)\"\n      }\n    ],\n    \"failed_requests\": []\n  }\n]\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "map_first_full",
+      "command": "python3 scripts/qa_map_first_full.py",
+      "evidence": "QA/map_first/full_acceptance.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"initial\": {\n    \"provider\": \"vector\",\n    \"health\": \"ready\",\n    \"features\": 139,\n    \"clusters\": 3,\n    \"dayChips\": 10,\n    \"dayCards\": 9,\n    \"legLabels\": 4,\n    \"routeLayers\": [\n      true,\n      true,\n      true,\n      true\n    ],\n    \"canvas\": 1\n  },\n  \"matrix_states\": 600,\n  \"matrix_failures\": 0,\n  \"providers\": {\n    \"satellite\": {\n      \"active\": \"vector\",\n      \"health\": \"ready\",\n      \"canvas\": 1,\n      \"tilesLoaded\": false\n    },\n    \"vector\": {\n      \"active\": \"vector\",\n      \"health\": \"ready\",\n      \"canvas\": 1,\n      \"tilesLoaded\": true\n    }\n  },\n  \"errors\": [],\n  \"console_errors\": [\n    \"Failed to load resource: net::ERR_FAILED\"\n  ]\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "map_first_p0",
+      "command": "python3 scripts/qa_map_first_p0.py",
+      "evidence": "QA/map_first/p0_independent.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"passed\": 72,\n  \"total\": 72,\n  \"details\": 36,\n  \"max_marker_drift_px\": 0.607,\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "standalone",
+      "command": "python3 scripts/qa_standalone_map_first.py",
+      "evidence": "QA/map_first/standalone.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"provider\": \"vector\",\n  \"health\": {\n    \"vector\": \"ready\",\n    \"satellite\": \"untested\"\n  },\n  \"clusters\": 3,\n  \"features\": 139,\n  \"layers\": 135,\n  \"decoded\": true,\n  \"remote_requests\": [],\n  \"page_errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "location_gap",
+      "command": "python3 scripts/qa_location_gap_visuals.py",
+      "evidence": "QA/map_first/location_gap_visuals.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"data\": {\n    \"places\": 36,\n    \"timeline\": 79,\n    \"legs\": 41,\n    \"missing\": [],\n    \"photoStatus\": [\n      \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n      \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n      \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n      \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n      \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n      \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n      \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n      \"LOCAL_3_REAL_PHOTOS_VERIFIED\"\n    ],\n    \"choiceGroups\": [\n      \"sf_afternoon_icon\",\n      \"monterey_scenic\",\n      \"yosemite_sunset_view\",\n      \"yosemite_arrival_view\",\n      \"sf_return_view\",\n      \"last_day_choice\"\n    ]\n  },\n  \"sf\": {\n    \"markers\": [\n      \"alcatraz\",\n      \"north_beach\",\n      \"fortune\",\n      \"cable_car\",\n      \"coit\",\n      \"lombard\",\n      \"pier39\",\n      \"musee\",\n      \"ghirardelli\"\n    ],\n    \"features\": 44,\n    \"kinds\": [\n      \"bonus\",\n      \"local\",\n      \"option\",\n      \"recovery\"\n    ],\n    \"colors\": [\n      \"#1f77b4\",\n      \"#2ca02c\",\n      \"#9467bd\",\n      \"#d62728\"\n    ],\n    \"schedule\": [\n      \"08:00 체크인 / 첫 Day Tour\\nAlcatraz Island\\n알카트라즈 섬 · A1/A2/B1/B2 · 사진 장소\",\n      \"12:00–13:00\\nNorth Beach\\n노스 비치 · A1/A2/B1/B2 · 사진 장소\",\n      \"13:10–14:10\\nGolden Gate Fortune Cookie Factory\\n골든 게이트 포춘 쿠키 공장 · A1/A2/B1/B2 · 사진 장소\",\n      \"14:10–15:05 · 택1\\nCoit 또는 Lombard 중 딱 하나\\nA1/A2/B1/B2 · 택1 대체\",\n      \"14:10–15:25 · Coit/Lombard 대체\\nPowell–Hyde Cable Car\\n파월–하이드 케이블카 · A1/A2/B1/B2 · 택1 대체\",\n      \"15:20–16:05\\nPIER 39 Sea Lions\\n피어 39 바다사자 · K-도크 · A1/A2/B1/B2 · 필수\",\n      \"16:10–17:20\\nMusée Mécanique\\n뮤제 메카니크 · A1/A2/B1/B2 · 사진 장소\",\n      \"17:30–18:05 · 에너지 남을 때\\nGhirardelli Square + Aquatic Park\\n기라델리 스퀘어 · 아쿠아틱 파크 · A1/A2/B1/B2 · 보너스\"\n    ]\n  },\n  \"mobile\": {\n    \"430\": {\n      \"overflow\": 0,\n      \"preview\": true,\n      \"photo\": 1200,\n      \"selected\": \"pier39\",\n      \"details\": 3,\n      \"schedule\": 8,\n      \"canvas\": 1,\n      \"detailsVisible\": true\n    },\n    \"390\": {\n      \"overflow\": 0,\n      \"preview\": true,\n      \"photo\": 1200,\n      \"selected\": \"pier39\",\n      \"details\": 3,\n      \"schedule\": 8,\n      \"canvas\": 1,\n      \"detailsVisible\": true\n    }\n  },\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "interaction_dynamics",
+      "command": "python3 scripts/qa_interaction_dynamics.py",
+      "evidence": "QA/map_first/interaction_dynamics.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"fit_failures\": [],\n  \"thursday\": {\n    \"provider\": \"vector\",\n    \"zoom\": 11.51,\n    \"markers\": [\n      \"cooks\",\n      \"washburn\",\n      \"glacier\"\n    ],\n    \"legs\": [\n      \"C_1008_01\",\n      \"UX_1008_OUT\",\n      \"UX_1008_RETURN\"\n    ],\n    \"schedule\": [\n      \"07:00 예보판정\\nGlacier Point\\n글레이셔 포인트 · A1 · 조건부\",\n      \"08:15–11:15\\nWashburn Point 짧게 + Glacier Point 길게\\nA1 · 조건부\",\n      \"12:15–15:30\\nCook’s Meadow Loop\\n쿡스 메도우 루프 · A1 · 사진 장소\",\n      \"16:00–18:00\\nCook’s Meadow Loop\\n쿡스 메도우 루프 · A1 · 사진 장소\",\n      \"07:00 판정\\n와시번 + 글래시어 포인트\\nA2 · 조건부\",\n      \"12:00 이후\\nCook’s Meadow Loop\\n쿡스 메도우 루프 · A2 · 사진 장소\",\n      \"07:00 판정\\n와시번 + 글래시어 포인트\\nB1 · 조건부\",\n      \"12:00 이후\\nCook’s Meadow Loop\\n쿡스 메도우 루프 · B1 · 사진 장소\",\n      \"07:00 판정\\n와시번 + 글래시어 포인트\\nB2 · 조건부\",\n      \"12:00 이후\\nCook’s Meadow Loop\\n쿡스 메도우 루프 · B2 · 사진 장소\"\n    ],\n    \"legend\": [\n      \"A1\\n3박 Yosemite — 옵션가치 극대화형\",\n      \"A2\\n3박 Yosemite — 감동 스펙트럼 최대형\",\n      \"B1\\n2박 Yosemite — Fleet Week 역이용형\",\n      \"B2\\n2박 Yosemite — Yosemite 아침 보호 + SF 회복형\"\n    ]\n  },\n  \"zoom_states\": [\n    {\n      \"zoom\": 3,\n      \"provider\": \"vector\",\n      \"features\": 12,\n      \"rendered\": 2,\n      \"canvas\": 1\n    },\n    {\n      \"zoom\": 5,\n      \"provider\": \"vector\",\n      \"features\": 12,\n      \"rendered\": 3,\n      \"canvas\": 1\n    },\n    {\n      \"zoom\": 8,\n      \"provider\": \"vector\",\n      \"features\": 12,\n      \"rendered\": 5,\n      \"canvas\": 1\n    },\n    {\n      \"zoom\": 10,\n      \"provider\": \"vector\",\n      \"features\": 12,\n      \"rendered\": 5,\n      \"canvas\": 1\n    },\n    {\n      \"zoom\": 12,\n      \"provider\": \"vector\",\n      \"features\": 12,\n      \"rendered\": 6,\n      \"canvas\": 1\n    },\n    {\n      \"zoom\": 15,\n      \"provider\": \"vector\",\n      \"features\": 12,\n      \"rendered\": 8,\n      \"canvas\": 1\n    },\n    {\n      \"zoom\": 18,\n      \"provider\": \"vector\",\n      \"features\": 12,\n      \"rendered\": 8,\n      \"canvas\": 1\n    }\n  ],\n  \"tooltip\": {\n    \"visible\": true,\n    \"text\": \"B2 · 10/8 목 · Glacier Point → Valley recovery base\\n회복 간격 · 07:00 판정 → 12:00 이후 · Valley 회복 베이스 · 차량 · 48.1 km\\n전망 뒤 Valley로 돌아와 점심·낮잠·자유시간을 보호한다.\\n로컬 캐시 OSM 참조 경로 · 도로 폐쇄 별도 확인\"\n  },\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "route_continuity",
+      "command": "python3 scripts/audit_route_continuity.py",
+      "evidence": "QA/map_first/route_continuity.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"states_tested\": 36,\n  \"connected_multi_marker_states\": 30,\n  \"failures\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "route_panel",
+      "command": "python3 scripts/qa_route_explanations_panel.py",
+      "evidence": "QA/route_panel/route_explanations_panel.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "     \"expanded\": \"true\",\n      \"text\": \"A1 · 3박 Yosemite — 옵션가치 극대화형\\n전체 1순위 · 가장 안정적이고 똑똑한 소수 전략\\n×\\n이 경로가 맞는 경우\\n첫 여행에서 핵심을 놓치지 않으면서 아기 컨디션·날씨 변화까지 흡수하고 싶은 가족. 현재 전체 추천 1순위.\\n감수할 것\\nMariposa Grove는 고정 일정이 아니다. 10/8 Glacier Point 성공 여부와 가족 에너지에 따라 10/9에 실행한다.\\n선택·전환 규칙\\nA1을 기본으로 잡고 10/9 06:45에 결정: Glacier 실패면 재시도, 성공+에너지 충분이면 Mariposa, 피곤하면 Valley만.\\n후회 방지\\nYosemite 3박과 완전 FLEX 하루가 고지대 날씨·아기 낮잠·지연을 가장 잘 흡수한다. 옵션은 미련 없이 삭제한다.\\n군중차익 10/10\\n아기편안 10/10\\n기상옵션 10/10\\n동선효율 9/10\\n후회방지 10/10\\n사진/빛 9/10\\n후반체력 10/10\",\n      \"items\": 4,\n      \"scores\": 7\n    },\n    {\n      \"route\": \"A2\",\n      \"visible\": true,\n      \"expanded\": \"true\",\n      \"text\": \"A2 · 3박 Yosemite — 감동 스펙트럼 최대형\\nGlacier + Mariposa까지 확실히 먹는 3박형\\n×\\n이 경로가 맞는 경우\\nGlacier Point의 절벽 스케일과 Mariposa의 거목 스케일을 모두 확실히 경험하고 싶은 가족.\\n감수할 것\\nA1보다 체력 요구가 높고 Glacier Point 날씨 재시도 여유가 작다. 두 아기 컨디션이 흔들리면 과부하가 된다.\\n선택·전환 규칙\\n10/8 Glacier Point가 날씨 때문에 실패하면 10/9 Mariposa를 취소하고 Glacier 재시도를 우선한다. 둘 다 한꺼번에 밀어 넣지 않는다.\\n후회 방지\\n서로 다른 두 종류의 Yosemite 감동을 확보하되, 날씨가 나쁘면 Glacier가 Mariposa보다 우선이라는 규칙으로 핵심 후회를 막는다.\\n군중차익 9/10\\n아기편안 8/10\\n기상옵션 8/10\\n동선효율 9/10\\n후회방지 10/10\\n사진/빛 9/10\\n후반체력 8/10\",\n      \"items\": 4,\n      \"scores\": 7\n    },\n    {\n      \"route\": \"B1\",\n      \"visible\": true,\n      \"expanded\": \"true\",\n      \"text\": \"B1 · 2박 Yosemite — Fleet Week 역이용형\\n2박 중 가장 기회주의적\\n×\\n이 경로가 맞는 경우\\nYosemite 마지막 아침보다 금요일 California Academy 평일 방문과 SF 실내 안정성을 더 중시하는 가족.\\n감수할 것\\n10/9 06:45 Yosemite 출발로 마지막 산책을 포기한다. 고지대 날씨 기회가 한 번뿐이라 네 경로 중 후회 리스크가 가장 크다.\\n선택·전환 규칙\\nAcademy가 확실한 우선순위이고 호텔의 이른 짐 보관이 확인될 때만 선택한다. 둘 중 하나라도 불확실하면 B2 또는 A1로 간다.\\n후회 방지\\n10/8 Glacier Point를 반드시 우선하고, 금요일에는 워터프런트 대신 Academy만 실행한 뒤 호텔에서 완전 휴식한다.\\n군중차익 10/10\\n아기편안 7/10\\n기상옵션 6/10\\n동선효율 10/10\\n후회방지 9/10\\n사진/빛 8/10\\n후반체력 8/10\",\n      \"items\": 4,\n      \"scores\": 7\n    },\n    {\n      \"route\": \"B2\",\n      \"visible\": true,\n      \"expanded\": \"true\",\n      \"text\": \"B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형\\n2박이지만 금요일 새벽 출발을 강요하지 않음\\n×\\n이 경로가 맞는 경우\\nYosemite는 2박만 가능하지만 마지막 아침과 아기 회복을 지키고 싶은 가족. 2박안 중 추천.\\n감수할 것\\nMariposa Grove를 포기하고 Glacier Point 날씨 재시도 여유도 거의 없다. 금요일 SF 관광 대부분을 비운다.\\n선택·전환 규칙\\n숙박 제약 때문에 2박이어야 하면 B2를 기본으로 한다. Academy 평일 방문이 마지막 Yosemite 아침보다 중요할 때만 B1로 전환한다.\\n후회 방지\\n금요일 아침을 Yosemite에 남기고 SF 도착 뒤 낮잠·세탁을 우선해 장거리 이동 누적 피로를 막는다.\\n군중차익 8/10\\n아기편안 9/10\\n기상옵션 6/10\\n동선효율 9/10\\n후회방지 9/10\\n사진/빛 9/10\\n후반체력 9/10\",\n      \"items\": 4,\n      \"scores\": 7\n    }\n  ],\n  \"route_repair\": {\n    \"markers\": [\n      \"cooks\",\n      \"el_capitan\",\n      \"tunnel_view\",\n      \"valley_view\"\n    ],\n    \"legs\": [\n      \"GAP_1007_01\",\n      \"GAP_1007_02\",\n      \"GAP_1007_03\"\n    ],\n    \"timeline\": [\n      \"El Capitan Meadow14:35–14:55 · 잠들지 않았을 때엘 캐피탄 메도우공통사진 장소강력B1왜 지금?: 장거리 이동 뒤 Cook’s Meadow를 마친 다음 짧게 정차한다. 아이가 잠들었으면 차창으로만 보고 체크인·낮잠을 보호한다.장점: 스케일 / 짧은 정차\",\n      \"몬터레이 → 요세미티07:15–12:15경로 전용계획·회복B1왜 지금?: 도착일 저강도.장점: 동선 전용\",\n      \"Tunnel View/Valley View 중 숙소 방향에 맞는 1개16:45–18:25경로 전용사진 장소택1 대체B1Tunnel View · Valley View↔ 같은 선택 그룹은 하나만 실행왜 지금?: 2박 경로에서도 놓치기 아까운 상징 장면을 하나만 확보. Yosemite West/Wawona면 Tunnel View, Foresta/El Portal이면 Valley View.장점: 상징 전망 / 역주행 방지\"\n    ],\n    \"features\": 3,\n    \"screenshot\": \"QA/route_panel/b1_oct7_arrival_overlooks_1440.png\"\n  },\n  \"desktop\": {\n    \"tooltip_screenshot\": \"QA/route_panel/route_a1_explanation_1440_ko.png\",\n    \"before\": 390,\n    \"after_larger\": 450,\n    \"after_smaller\": 390,\n    \"after_drag\": 464,\n    \"hidden\": true,\n    \"reopen_visible\": true,\n    \"reopened\": true,\n    \"resized_screenshot\": \"QA/route_panel/panel_resized_1440.png\",\n    \"english_tooltip\": \"B1 · 2 nights in Yosemite — make Fleet Week work for us\\nThe most opportunistic of the 2 nights.\\n×\\nBEST FOR\\nFamilies who value a weekday California Academy visit and an indoor San Francisco afternoon more than Yosemite's final morning.\\nTRADE-OFF\\nThe 06:45 Yosemite departure on October 9 sacrifices the last walk and leaves only one high-country weather opportunity—the highest regret risk of the four routes.\\nCHOOSE / SWITCH RULE\\nChoose it only when the Academy is a firm priority and early hotel luggage drop is confirmed. Otherwise use B2 or A1.\\nREGRET GUARD\\nProtect Glacier Point on October 8, avoid the waterfront Friday, do only the Academy after the drive, then fully recover at the hotel.\\nCrowd edge 10/10\\nInfant comfort 7/10\\nWeather options 6/10\\nRoute efficiency 10/10\\nRegret protection 9/10\\nPhoto / light 8/10\\nLate-trip energy 8/10\",\n    \"english_tooltip_screenshot\": \"QA/route_panel/route_b1_explanation_1440_en.png\"\n  },\n  \"mobile\": {\n    \"430\": {\n      \"initial\": 330.234375,\n      \"larger\": 399.03125,\n      \"smaller\": 330.234375,\n      \"map_when_hidden\": 688,\n      \"reopen_visible\": true,\n      \"overflow\": 0,\n      \"screenshot\": \"QA/route_panel/panel_mobile_430.png\"\n    },\n    \"390\": {\n      \"initial\": 330.234375,\n      \"larger\": 399.03125,\n      \"smaller\": 330.234375,\n      \"map_when_hidden\": 688,\n      \"reopen_visible\": true,\n      \"overflow\": 0,\n      \"screenshot\": \"QA/route_panel/panel_mobile_390.png\"\n    }\n  },\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "exhaustive_states",
+      "command": "python3 scripts/run_exhaustive_states.py",
+      "evidence": "QA/map_first/exhaustive_states.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "Rendered A1 40 states; failures 0\nRendered A2 40 states; failures 0\nRendered B1 40 states; failures 0\nRendered B2 40 states; failures 0\nRendered A1,A2 40 states; failures 0\nRendered A1,B1 40 states; failures 0\nRendered A1,B2 40 states; failures 0\nRendered A2,B1 40 states; failures 0\nRendered A2,B2 40 states; failures 0\nRendered B1,B2 40 states; failures 0\nRendered A1,A2,B1 40 states; failures 0\nRendered A1,A2,B2 40 states; failures 0\nRendered A1,B1,B2 40 states; failures 0\nRendered A2,B1,B2 40 states; failures 0\nRendered A1,A2,B1,B2 40 states; failures 0\n{\n  \"status\": \"PASS\",\n  \"rendered_states\": 600,\n  \"failed_states\": [],\n  \"page_errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "cross_browser",
+      "command": "python3 scripts/run_cross_browser.py",
+      "evidence": "QA/map_first/cross_browser.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"schema_version\": 1,\n  \"status\": \"PASS\",\n  \"expected_rows\": 4,\n  \"rows\": [\n    {\n      \"browser\": \"firefox\",\n      \"width\": 1280,\n      \"height\": 800,\n      \"launch_mode\": \"headless\",\n      \"status\": \"PASS\",\n      \"completed\": true,\n      \"cleanup_warnings\": [],\n      \"page_errors\": [],\n      \"console_errors\": [],\n      \"failed_requests\": [],\n      \"map_error_events\": [],\n      \"marker_objects\": 36,\n      \"canvas\": 1,\n      \"horizontal_overflow\": false,\n      \"broken_marker_images\": 0,\n      \"expected_places\": 36,\n      \"detail_photos\": 3,\n      \"map_error_listener_attached\": true,\n      \"screenshot\": \"QA/map_first/screenshots/firefox_1280_detail.png\"\n    },\n    {\n      \"browser\": \"firefox\",\n      \"width\": 390,\n      \"height\": 844,\n      \"launch_mode\": \"headless\",\n      \"status\": \"PASS\",\n      \"completed\": true,\n      \"cleanup_warnings\": [],\n      \"page_errors\": [],\n      \"console_errors\": [],\n      \"failed_requests\": [],\n      \"map_error_events\": [],\n      \"marker_objects\": 36,\n      \"canvas\": 1,\n      \"horizontal_overflow\": false,\n      \"broken_marker_images\": 0,\n      \"expected_places\": 36,\n      \"detail_photos\": 3,\n      \"map_error_listener_attached\": true,\n      \"screenshot\": \"QA/map_first/screenshots/firefox_390_detail.png\"\n    },\n    {\n      \"browser\": \"webkit\",\n      \"width\": 1280,\n      \"height\": 800,\n      \"launch_mode\": \"headless\",\n      \"status\": \"PASS\",\n      \"completed\": true,\n      \"cleanup_warnings\": [],\n      \"page_errors\": [],\n      \"console_errors\": [],\n      \"failed_requests\": [],\n      \"map_error_events\": [],\n      \"marker_objects\": 36,\n      \"canvas\": 1,\n      \"horizontal_overflow\": false,\n      \"broken_marker_images\": 0,\n      \"expected_places\": 36,\n      \"detail_photos\": 3,\n      \"map_error_listener_attached\": true,\n      \"screenshot\": \"QA/map_first/screenshots/webkit_1280_detail.png\"\n    },\n    {\n      \"browser\": \"webkit\",\n      \"width\": 390,\n      \"height\": 844,\n      \"launch_mode\": \"headless\",\n      \"status\": \"PASS\",\n      \"completed\": true,\n      \"cleanup_warnings\": [],\n      \"page_errors\": [],\n      \"console_errors\": [],\n      \"failed_requests\": [],\n      \"map_error_events\": [],\n      \"marker_objects\": 36,\n      \"canvas\": 1,\n      \"horizontal_overflow\": false,\n      \"broken_marker_images\": 0,\n      \"expected_places\": 36,\n      \"detail_photos\": 3,\n      \"map_error_listener_attached\": true,\n      \"screenshot\": \"QA/map_first/screenshots/webkit_390_detail.png\"\n    }\n  ],\n  \"cleanup_warnings\": [],\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "visual_spots",
+      "command": "python3 scripts/run_visual_spots.py",
+      "evidence": "QA/map_first/visual_spots.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"rows\": [\n    {\n      \"width\": 1440,\n      \"route\": \"A1\",\n      \"region\": \"sf\",\n      \"colors\": [\n        \"#1f77b4\"\n      ],\n      \"markers\": 22,\n      \"screenshot\": \"QA/map_first/screenshots/visual_1440_A1_sf.png\",\n      \"errors\": []\n    },\n    {\n      \"width\": 1440,\n      \"route\": \"A2\",\n      \"region\": \"sf\",\n      \"colors\": [\n        \"#2ca02c\"\n      ],\n      \"markers\": 22,\n      \"screenshot\": \"QA/map_first/screenshots/visual_1440_A2_sf.png\",\n      \"errors\": []\n    },\n    {\n      \"width\": 1440,\n      \"route\": \"B1\",\n      \"region\": \"sf\",\n      \"colors\": [\n        \"#d62728\"\n      ],\n      \"markers\": 23,\n      \"screenshot\": \"QA/map_first/screenshots/visual_1440_B1_sf.png\",\n      \"errors\": []\n    },\n    {\n      \"width\": 1440,\n      \"route\": \"B2\",\n      \"region\": \"sf\",\n      \"colors\": [\n        \"#9467bd\"\n      ],\n      \"markers\": 22,\n      \"screenshot\": \"QA/map_first/screenshots/visual_1440_B2_sf.png\",\n      \"errors\": []\n    },\n    {\n      \"width\": 390,\n      \"route\": \"A1\",\n      \"region\": \"sf\",\n      \"colors\": [\n        \"#1f77b4\"\n      ],\n      \"markers\": 22,\n      \"screenshot\": \"QA/map_first/screenshots/visual_390_A1_sf.png\",\n      \"errors\": []\n    },\n    {\n      \"width\": 390,\n      \"route\": \"A2\",\n      \"region\": \"sf\",\n      \"colors\": [\n        \"#2ca02c\"\n      ],\n      \"markers\": 22,\n      \"screenshot\": \"QA/map_first/screenshots/visual_390_A2_sf.png\",\n      \"errors\": []\n    },\n    {\n      \"width\": 390,\n      \"route\": \"B1\",\n      \"region\": \"sf\",\n      \"colors\": [\n        \"#d62728\"\n      ],\n      \"markers\": 23,\n      \"screenshot\": \"QA/map_first/screenshots/visual_390_B1_sf.png\",\n      \"errors\": []\n    },\n    {\n      \"width\": 390,\n      \"route\": \"B2\",\n      \"region\": \"sf\",\n      \"colors\": [\n        \"#9467bd\"\n      ],\n      \"markers\": 22,\n      \"screenshot\": \"QA/map_first/screenshots/visual_390_B2_sf.png\",\n      \"errors\": []\n    },\n    {\n      \"width\": 390,\n      \"view\": \"expanded_route_guide\",\n      \"screenshot\": \"QA/map_first/screenshots/visual_390_route_guide.png\",\n      \"errors\": []\n    }\n  ]\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "gate4_runtime",
+      "command": "python3 scripts/qa_gate4_resilience.py --mode browser --output QA/release/gate4_runtime.json",
+      "evidence": "QA/release/gate4_runtime.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\"status\": \"PASS\", \"candidate_head\": \"e9f6b752764a7e93c6f4308a2948e595af84cd30\", \"mode\": \"browser\", \"failures\": []}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "gate5_field_quality",
+      "command": "python3 scripts/qa_gate5_field_quality.py --expected-revision e9f6b752764a7e93c6f4308a2948e595af84cd30",
+      "evidence": "QA/gate5/candidate.json",
+      "status": "VERIFY_REQUIRED",
+      "returncode": 1,
+      "timeout_seconds": 300,
+      "stdout_tail": "e\",\"candidate\"],\"pair\":7,\"relative_delta_pct\":-2.707},{\"baseline\":336.339,\"block\":2,\"candidate\":337.95,\"delta\":1.611,\"order\":[\"candidate\",\"baseline\"],\"pair\":8,\"relative_delta_pct\":0.479}],\"stable_non_regression\":false,\"sufficient\":true} rationale=\"paired direction, block materiality, or the minimum balanced evidence design is unresolved\" status=VERIFY_REQUIRED\nmetric=interactions.provider_recovery sample_count_baseline=8 sample_count_candidate=8 baseline_distribution={\"count\":8,\"max\":427.164,\"mean\":270.812,\"median\":255.055,\"min\":207.07,\"p95\":427.164,\"stdev\":67.78,\"values\":[207.07,224.857,243.19,245.095,265.016,275.97,278.137,427.164]} candidate_distribution={\"count\":8,\"max\":267.312,\"mean\":216.008,\"median\":221.19,\"min\":148.678,\"p95\":267.312,\"stdev\":39.071,\"values\":[148.678,179.337,201.241,211.519,230.86,237.969,251.146,267.312]} distribution_guard=474.152 paired_evidence={\"ambiguous_direction\":false,\"baseline_jitter\":{\"count\":8,\"max\":427.164,\"mean\":270.812,\"median\":255.055,\"min\":207.07,\"p95\":427.164,\"stdev\":67.78,\"values\":[207.07,224.857,243.19,245.095,265.016,275.97,278.137,427.164]},\"block_count\":2,\"blocks\":[{\"block\":\"1\",\"deltas\":{\"count\":4,\"max\":-13.87,\"mean\":-95.746,\"median\":-60.645,\"min\":-247.827,\"p95\":-13.87,\"stdev\":104.529,\"values\":[-247.827,-76.179,-45.11,-13.87]},\"direction\":\"candidate_not_slower\",\"median_delta\":-60.645,\"order_counts\":{\"baseline>candidate\":2,\"candidate>baseline\":2},\"pair_count\":4},{\"block\":\"2\",\"deltas\":{\"count\":4,\"max\":30.899,\"mean\":-13.863,\"median\":-4.727,\"min\":-76.896,\"p95\":30.899,\"stdev\":51.017,\"values\":[-76.896,-33.576,24.122,30.899]},\"direction\":\"candidate_not_slower\",\"median_delta\":-4.727,\"order_counts\":{\"baseline>candidate\":2,\"candidate>baseline\":2},\"pair_count\":4}],\"consistent_candidate_slower\":false,\"decisive_regression\":false,\"delta_distribution\":{\"count\":8,\"max\":30.899,\"mean\":-54.805,\"median\":-39.343,\"min\":-247.827,\"p95\":30.899,\"stdev\":87.829,\"values\":[-247.827,-76.896,-76.179,-45.11,-33.576,-13.87,24.122,30.899]},\"direction_consistent_across_blocks\":true,\"materiality_guard_ms\":55.145,\"materiality_guard_relative_pct\":23.337,\"negative_pairs\":6,\"noise_estimate\":{\"block_median_stdev_ms\":39.54,\"noise_envelope_ms\":55.145,\"pair_delta_mad_sigma_ms\":55.145,\"relative_block_median_stdev_pct\":16.421,\"relative_noise_envelope_pct\":23.337,\"relative_pair_delta_mad_sigma_pct\":23.337},\"order_balanced\":true,\"pair_count\":8,\"positive_pairs\":2,\"rationale\":\"all balanced blocks are non-slower and positive pair noise stays within the observed envelope\",\"relative_delta_distribution_pct\":{\"count\":8,\"max\":14.922,\"mean\":-16.248,\"median\":-15.023,\"min\":-58.017,\"p95\":14.922,\"stdev\":23.813,\"values\":[-58.017,-33.879,-27.647,-16.346,-13.699,-5.234,9.919,14.922]},\"rows\":[{\"baseline\":427.164,\"block\":1,\"candidate\":179.337,\"delta\":-247.827,\"order\":[\"candidate\",\"baseline\"],\"pair\":1,\"relative_delta_pct\":-58.017},{\"baseline\":224.857,\"block\":1,\"candidate\":148.678,\"delta\":-76.179,\"order\":[\"baseline\",\"candidate\"],\"pair\":2,\"relative_delta_pct\":-33.879},{\"baseline\":265.016,\"block\":1,\"candidate\":251.146,\"delta\":-13.87,\"order\":[\"candidate\",\"baseline\"],\"pair\":3,\"relative_delta_pct\":-5.234},{\"baseline\":275.97,\"block\":1,\"candidate\":230.86,\"delta\":-45.11,\"order\":[\"baseline\",\"candidate\"],\"pair\":4,\"relative_delta_pct\":-16.346},{\"baseline\":245.095,\"block\":2,\"candidate\":211.519,\"delta\":-33.576,\"order\":[\"baseline\",\"candidate\"],\"pair\":5,\"relative_delta_pct\":-13.699},{\"baseline\":278.137,\"block\":2,\"candidate\":201.241,\"delta\":-76.896,\"order\":[\"candidate\",\"baseline\"],\"pair\":6,\"relative_delta_pct\":-27.647},{\"baseline\":207.07,\"block\":2,\"candidate\":237.969,\"delta\":30.899,\"order\":[\"baseline\",\"candidate\"],\"pair\":7,\"relative_delta_pct\":14.922},{\"baseline\":243.19,\"block\":2,\"candidate\":267.312,\"delta\":24.122,\"order\":[\"candidate\",\"baseline\"],\"pair\":8,\"relative_delta_pct\":9.919}],\"stable_non_regression\":true,\"sufficient\":true} rationale=\"all balanced blocks are non-slower and positive pair noise stays within the observed envelope\" status=PASS\nstatus=VERIFY_REQUIRED\nfailing_metrics=[]\nverify_metrics=[\"cold_milestones.dom_content_loaded\", \"cold_milestones.smart_style_ready\", \"cold_milestones.map_visual_ready\", \"cold_milestones.markers_timeline_ready\", \"cold_milestones.first_actionable_state\", \"warm_milestones.dom_content_loaded\", \"warm_milestones.smart_style_ready\", \"warm_milestones.map_visual_ready\", \"warm_milestones.markers_timeline_ready\", \"warm_milestones.first_actionable_state\", \"interactions.route\", \"interactions.date\", \"interactions.region\", \"interactions.preview\", \"interactions.preview_actionability\", \"interactions.preview_handler\", \"interactions.detail\", \"interactions.panel\"]\n{\n  \"status\": \"VERIFY_REQUIRED\",\n  \"phase\": \"candidate\",\n  \"candidate_head\": \"e9f6b752764a7e93c6f4308a2948e595af84cd30\",\n  \"failures\": [],\n  \"verify_required\": [\n    \"E2 independent multimodal visual/usability acceptance\",\n    \"real field-device performance and memory claim\",\n    \"same-environment performance comparison: comparison is not evidence-complete\"\n  ]\n}\n",
+      "stderr_tail": ""
+    }
+  ],
+  "errors": [
+    "One or more decisive qualification gates failed or were unverified."
+  ],
+  "historical_evidence_excluded": [
+    "QA/final_acceptance.json",
+    "QA/final_cross_browser.json",
+    "QA/final_live_providers.json",
+    "P0_PROOF_REPORT.md"
+  ],
+  "fast": {
+    "schema_version": 1,
+    "status": "PASS",
+    "candidate_head": "e9f6b752764a7e93c6f4308a2948e595af84cd30",
+    "working_tree_clean": false,
+    "errors": [],
+    "source": {
+      "checks": {
+        "places": true,
+        "photos": true,
+        "timeline_cards": true,
+        "route_legs": true,
+        "route_strategies": true,
+        "dates": true,
+        "regions": true,
+        "providers": true,
+        "place_region": true,
+        "photo_roles": true,
+        "photo_status": true,
+        "semantic_links": true,
+        "photo_files": true,
+        "vector_bundle": true
+      },
+      "truth_validation": {
+        "status": "PASS",
+        "counts": {
+          "places": 36,
+          "timeline_cards": 79,
+          "legs": 41,
+          "routes": 4,
+          "dates": 9,
+          "freshness_records": 13,
+          "geometry_entries": 41
+        }
+      },
+      "counts": {
+        "places": 36,
+        "photos": 108,
+        "timeline_cards": 79,
+        "route_legs": 41
+      },
+      "providers": [
+        "satellite",
+        "vector"
+      ]
+    },
+    "authored_inputs_unchanged": true,
+    "reproducible": true,
+    "build": {
+      "root": ".build",
+      "manifest_sha256": "3adcd7b2ac0cbac2c8d2f4eab0f5e8a45fc7360519e1ac9eda13fd0441108cf0",
+      "modular_index_sha256": "40525226cf5330c6a70fb39c519e0be073fba7096909b79a5de3d36fda43fae4",
+      "standalone_sha256": "8a640729161ecb9a6ea84b301c0d5c9b1dba502acf6c81d019dc219fe1addfc2",
+      "file_count": 241
+    },
+    "gate4_static": {
+      "status": "PASS",
+      "evidence": "QA/release/gate4_static.json"
+    }
+  },
+  "authored_inputs_unchanged": true,
+  "build": {
+    "root": ".build",
+    "manifest_sha256": "3adcd7b2ac0cbac2c8d2f4eab0f5e8a45fc7360519e1ac9eda13fd0441108cf0",
+    "modular_index_sha256": "40525226cf5330c6a70fb39c519e0be073fba7096909b79a5de3d36fda43fae4",
+    "standalone_sha256": "8a640729161ecb9a6ea84b301c0d5c9b1dba502acf6c81d019dc219fe1addfc2",
+    "file_count": 241
+  }
+}
