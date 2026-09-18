@@ -53,10 +53,14 @@ APPLICATION_READY = """() => {
     && app.state.provider === 'vector'
     && app.state.providerHealth?.vector === 'ready'
     && app.state.localAssets?.status === 'ready'
+    && (app.state.mapVisualReady === true || app.state.mapVisualReady === undefined)
     && map?.isStyleLoaded?.()
+    && (typeof map.areTilesLoaded !== 'function' || map.areTilesLoaded())
+    && !map.isMoving?.()
+    && !map.isZooming?.()
     && document.querySelectorAll('.maplibregl-canvas').length === 1
-    && document.querySelectorAll('.photo-marker').length === app.DATA.markers.filter(app.markerVisible).length
-    && document.querySelectorAll('[data-timeline]').length === app.DATA.timeline.filter(app.timelineVisible).length
+    && document.querySelectorAll('.photo-marker').length === window.TRIP_DATA.markers.filter(app.markerVisible).length
+    && document.querySelectorAll('[data-timeline]').length === window.TRIP_DATA.timeline.filter(app.timelineVisible).length
     && screenReady
   );
 }"""
