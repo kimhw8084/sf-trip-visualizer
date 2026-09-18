@@ -46,6 +46,7 @@ COMPONENTS = (
     ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
     ("standalone", "scripts/qa_standalone_map_first.py", "QA/map_first/standalone.json"),
     ("location_gap", "scripts/qa_location_gap_visuals.py", "QA/map_first/location_gap_visuals.json"),
+    ("location_gap_race", "scripts/qa_location_gap_race.py", "QA/map_first/location_gap_race.json"),
     ("interaction_dynamics", "scripts/qa_interaction_dynamics.py", "QA/map_first/interaction_dynamics.json"),
     ("route_continuity", "scripts/audit_route_continuity.py", "QA/map_first/route_continuity.json"),
     ("route_panel", "scripts/qa_route_explanations_panel.py", "QA/route_panel/route_explanations_panel.json"),
