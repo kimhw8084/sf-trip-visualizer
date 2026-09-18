@@ -29,6 +29,7 @@ from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
 from qa_loading import wait_for_application_ready
+from qa_map_visual_integrity import crop_map, image_from_path, integrity_result
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -154,8 +155,9 @@ def wait_ready(page, url: str = MODULAR_URL) -> dict:
     milestones["dom_content_loaded"] = page.evaluate("performance.now()")
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
     milestones["smart_style_ready"] = page.evaluate("performance.now()")
-    page.wait_for_function("document.querySelectorAll('.photo-marker').length===window.__tripApp.DATA.markers.filter(window.__tripApp.markerVisible).length", timeout=30000)
+    page.wait_for_function("document.querySelectorAll('.photo-marker').length===window.TRIP_DATA.markers.filter(window.__tripApp.markerVisible).length", timeout=30000)
     wait_for_application_ready(page, timeout=30000)
+    milestones["map_visual_ready"] = page.evaluate("performance.now()")
     milestones["markers_timeline_ready"] = page.evaluate("performance.now()")
     page.wait_for_function("document.querySelector('[data-route]') && document.querySelector('[data-provider]')", timeout=10000)
     milestones["first_actionable_state"] = page.evaluate("performance.now()")
@@ -228,6 +230,32 @@ def reduced_motion_check(page) -> dict:
         """() => { const el=document.querySelector('#loadingScreen')||document.body; const pseudo=document.querySelector('.loading-progress'); const s=getComputedStyle(el); const p=pseudo?getComputedStyle(pseudo,'::after'):null; return {media:matchMedia('(prefers-reduced-motion: reduce)').matches,animation:s.animationDuration,transition:s.transitionDuration,progressAnimation:p?.animationDuration||null}; }"""
     )
     page.emulate_media(reduced_motion="no-preference")
+    return result
+
+
+def map_visual_integrity(page, shots: Path, name: str, clean_reference: Path) -> dict:
+    """Capture only the map canvas and compare it with the clean same-state capture."""
+
+    path = shots / f"{name}_map_visual.png"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    selectors = ".map-badge,.date-ribbon,.map-schedule,.map-focus,.preview-card,.route-tip,.maplibregl-control-container,.maplibregl-marker"
+    saved = page.evaluate("""selectors => [...document.querySelectorAll(selectors)].map(element => element.getAttribute('style'))""", selectors)
+    try:
+        page.evaluate("""selectors => document.querySelectorAll(selectors).forEach(element => element.style.setProperty('display','none','important'))""", selectors)
+        page.locator("#map").screenshot(path=str(path))
+    finally:
+        page.evaluate("""({selectors, saved}) => [...document.querySelectorAll(selectors)].forEach((element, index) => saved[index] === null ? element.removeAttribute('style') : element.setAttribute('style', saved[index]))""", {"selectors": selectors, "saved": saved})
+    current = image_from_path(path)
+    reference = image_from_path(clean_reference)
+    box = page.locator("#map").bounding_box()
+    if not box:
+        return {"status": "VERIFY_REQUIRED", "reason": "map element has no rendered bounds", "screenshot": rel(path)}
+    reference = crop_map(reference, tuple(round(box[key]) for key in ("x", "y", "width", "height")))
+    if reference.size != current.size:
+        reference = reference.resize(current.size)
+    result = integrity_result(current, reference)
+    result["screenshot"] = rel(path)
+    result["clean_reference"] = rel(clean_reference)
     return result
 
 
@@ -837,7 +865,7 @@ def same_environment_base_samples(playwright, shots: Path, source: dict) -> dict
 def matrix_case(playwright, browser_name: str, width: int, height: int, touch: bool, phase: str, shots: Path) -> dict:
     browser=getattr(playwright,browser_name).launch(headless=True,timeout=90000); context=browser.new_context(viewport={"width":width,"height":height},has_touch=touch,is_mobile=width<=390); page=context.new_page(); errors=[]; console_errors=[]; failed=[]; errors_for(page,errors,console_errors,failed); row={"browser":browser_name,"viewport":{"width":width,"height":height},"touch":touch,"errors":errors,"console_errors":console_errors,"failed_requests":failed}
     try:
-        wait_ready(page); row["checks"]=js_checks(page); row["visual"]={"screenshot":screenshot(page,shots,f"{browser_name}_{width}_overall")}; page.locator('[data-route=A2]').click(); page.wait_for_timeout(100); page.locator('[data-tab=details]').click(); page.wait_for_timeout(100); row["checks"]["detail"]=js_checks(page); row["visual"]["detail_screenshot"]=screenshot(page,shots,f"{browser_name}_{width}_detail"); row["status"]="PASS" if not errors and not console_errors and row["checks"]["canvas"]==1 and row["checks"]["overflow"]==0 and all(x["hit"] for x in row["checks"]["occluded"]) else "FAIL"
+        wait_ready(page); row["checks"]=js_checks(page); overall_name=f"{browser_name}_{width}_overall"; row["visual"]={"screenshot":screenshot(page,shots,overall_name)}; row["visual"]["map_visual_integrity"]=map_visual_integrity(page,shots,overall_name,ROOT/"QA/gate5/screenshots/baseline"/f"{browser_name}_{width}_overall.png"); page.locator('[data-route=A2]').click(); page.wait_for_timeout(100); page.locator('[data-tab=details]').click(); page.wait_for_timeout(100); row["checks"]["detail"]=js_checks(page); detail_name=f"{browser_name}_{width}_detail"; row["visual"]["detail_screenshot"]=screenshot(page,shots,detail_name); row["visual"]["detail_map_visual_integrity"]=map_visual_integrity(page,shots,detail_name,ROOT/"QA/gate5/screenshots/baseline"/f"{browser_name}_{width}_detail.png"); row["status"]="PASS" if not errors and not console_errors and row["checks"]["canvas"]==1 and row["checks"]["overflow"]==0 and all(x["hit"] for x in row["checks"]["occluded"]) and row["visual"]["map_visual_integrity"].get("status")=="PASS" and row["visual"]["detail_map_visual_integrity"].get("status")=="PASS" else "FAIL"
     except Exception as error: row["status"]="UNVERIFIED"; row["error"]=f"{type(error).__name__}: {error}"
     browser.close(); return row
 
