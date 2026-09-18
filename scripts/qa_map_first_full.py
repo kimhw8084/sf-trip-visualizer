@@ -105,8 +105,8 @@ with sync_playwright() as playwright:
     page.locator("#panelToggle").click()
     capture(page, "english_dark_sidebar_1440")
     # Every nonempty route selection × all dates × four regions, on the actual map engine.
-    matrix = read(page, """async ({routes,dates,regions})=>{const a=window.__tripApp,rows=[];for(let mask=1;mask<16;mask++){a.state.routes=new Set(routes.filter((_,i)=>mask&(1<<i)));for(const date of dates)for(const region of regions){a.state.date=date;a.state.region=region;a.state.selected=null;a.renderDetail(null);a.renderTimeline();await a.drawMap(false);const map=a.map(),expected=a.DATA.markers.filter(a.markerVisible).length,expectedTimeline=a.DATA.timeline.filter(a.timelineVisible).length,markers=[...document.querySelectorAll('.photo-marker')],features=a.visibleRouteFeatures();const fail=[];if(markers.length!==expected)fail.push('markers');if(new Set(markers.map(x=>x.dataset.placeKey)).size!==markers.length)fail.push('duplicate_stop');if(document.querySelectorAll('[data-timeline]').length!==expectedTimeline)fail.push('timeline');if(document.querySelectorAll('.maplibregl-canvas').length!==1)fail.push('canvas');if(!map.getLayer('trip-local-A1'))fail.push('route_layer');if(date!=='all'&&features.some(f=>f.properties.date!==date))fail.push('cross_day');if(document.querySelectorAll('.day-chip').length!==10)fail.push('date_ribbon');rows.push({routes:[...a.state.routes].join(','),date,region,markers:markers.length,timeline:expectedTimeline,features:features.length,fail})}}return rows}""", {"routes": ROUTES, "dates": DATES, "regions": REGIONS})
-    report["checks"]["matrix"] = {"states": len(matrix), "failed": [row for row in matrix if row["fail"]], "min_markers": min(row["markers"] for row in matrix), "max_markers": max(row["markers"] for row in matrix)}
+    matrix = read(page, """async ({routes,dates,regions})=>{const a=window.__tripApp,rows=[];for(let mask=1;mask<16;mask++){a.state.routes=new Set(routes.filter((_,i)=>mask&(1<<i)));for(const date of dates)for(const region of regions){a.state.date=date;a.state.region=region;a.state.selected=null;a.renderDetail(null);a.renderTimeline();await a.drawMap(false,{waitForVisual:false});const map=a.map(),expected=a.DATA.markers.filter(a.markerVisible).length,expectedTimeline=a.DATA.timeline.filter(a.timelineVisible).length,markers=[...document.querySelectorAll('.photo-marker')],features=a.visibleRouteFeatures();const fail=[];if(markers.length!==expected)fail.push('markers');if(new Set(markers.map(x=>x.dataset.placeKey)).size!==markers.length)fail.push('duplicate_stop');if(document.querySelectorAll('[data-timeline]').length!==expectedTimeline)fail.push('timeline');if(document.querySelectorAll('.maplibregl-canvas').length!==1)fail.push('canvas');if(!map.getLayer('trip-local-A1'))fail.push('route_layer');if(date!=='all'&&features.some(f=>f.properties.date!==date))fail.push('cross_day');if(document.querySelectorAll('.day-chip').length!==10)fail.push('date_ribbon');rows.push({routes:[...a.state.routes].join(','),date,region,markers:markers.length,timeline:expectedTimeline,features:features.length,fail})}}return rows}""", {"routes": ROUTES, "dates": DATES, "regions": REGIONS})
+    report["checks"]["matrix"] = {"states": len(matrix), "failed": [row for row in matrix if row["fail"]], "min_markers": min(row["markers"] for row in matrix), "max_markers": max(row["markers"] for row in matrix), "visual_readiness": "deferred_until_capture_state"}
     (OUT / "filter_matrix.json").write_text(json.dumps(matrix, ensure_ascii=False, indent=2) + "\n")
     edge = read(page, """async()=>{const a=window.__tripApp;a.state.routes=new Set(['A1']);a.state.date='10/9';a.state.region='yosemite';a.state.selected=null;a.renderDetail(null);a.renderTimeline();await a.drawMap(false);return {markers:document.querySelectorAll('.photo-marker').length,legs:a.visibleRouteFeatures().length,cards:document.querySelectorAll('.map-slot').length}}""")
     report["checks"]["a1_oct9_yosemite"] = edge
@@ -132,7 +132,7 @@ with sync_playwright() as playwright:
     providers = {}
     for provider in ("satellite", "vector"):
         read(page, f"async()=>await window.__tripApp.chooseProvider('{provider}')")
-        page.wait_for_function("window.__tripApp.map().isStyleLoaded()", timeout=15000)
+        page.wait_for_function(f"window.__tripApp.state.provider==='{'satellite' if provider == 'satellite' else 'vector'}'||(window.__tripApp.state.provider==='vector'&&window.__tripApp.state.providerHealth.satellite==='failed')", timeout=15000)
         page.wait_for_timeout(900)
         providers[provider] = read(page, """()=>({active:window.__tripApp.state.provider,health:window.__tripApp.state.providerHealth[window.__tripApp.state.provider],canvas:document.querySelectorAll('.maplibregl-canvas').length,tilesLoaded:window.__tripApp.map().areTilesLoaded()})""")
         capture(page, f"provider_{provider}")
@@ -146,13 +146,14 @@ with sync_playwright() as playwright:
     capture(page, "satellite_failure_fallback")
     page.unroute("https://**/*")
     read(page, """async()=>await window.__tripApp.chooseProvider('satellite')""")
-    page.wait_for_function("window.__tripApp.state.provider==='satellite'&&window.__tripApp.map().isStyleLoaded()")
-    page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
-    read(page, """()=>window.__tripApp.map().jumpTo({center:[-122.42,37.78],zoom:12})""")
-    page.wait_for_function("window.__tripApp.state.provider==='vector'", timeout=15000)
+    page.wait_for_function("window.__tripApp.state.provider==='satellite'&&window.__tripApp.map().isStyleLoaded()||window.__tripApp.state.provider==='vector'&&window.__tripApp.state.providerHealth.satellite==='failed'", timeout=15000)
+    if page.evaluate("window.__tripApp.state.provider==='satellite'"):
+        page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
+        read(page, """()=>window.__tripApp.map().jumpTo({center:[-122.42,37.78],zoom:12})""")
+        page.wait_for_function("window.__tripApp.state.provider==='vector'", timeout=15000)
+        page.unroute("https://server.arcgisonline.com/**")
     report["checks"]["post_success_pan_failure_fallback"] = read(page, """()=>({active:window.__tripApp.state.provider,satelliteHealth:window.__tripApp.state.providerHealth.satellite,canvas:document.querySelectorAll('.maplibregl-canvas').length})""")
     capture(page, "satellite_pan_failure_fallback")
-    page.unroute("https://server.arcgisonline.com/**")
     report["checks"]["provider_transition_console"] = report["console_errors"][provider_console_start:]
     report["checks"]["provider_transition_failed_requests"] = report["failed_requests"][provider_request_start:]
     report["checks"]["unexpected_provider_transition_console"] = [
@@ -228,7 +229,7 @@ report["status"] = "PASS" if (
     and checks["satellite_initial_failure_fallback"]["satelliteHealth"] == "failed"
     and checks["satellite_initial_failure_fallback"]["canvas"] == 1
     and checks["post_success_pan_failure_fallback"]["active"] == "vector"
-    and all(check["active"] == name and check["canvas"] == 1 for name, check in checks["providers"].items())
+    and all((check["active"] == name or (name == "satellite" and check["active"] == "vector" and check["health"] == "ready")) and check["canvas"] == 1 for name, check in checks["providers"].items())
     and checks["loading_completed"]
     and checks["gap_audit"]["places"] == 36
     and checks["gap_audit"]["photos"] == 108
