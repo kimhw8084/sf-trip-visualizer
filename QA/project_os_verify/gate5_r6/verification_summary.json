@@ -1,0 +1,4473 @@
+{
+  "schema_version": 3,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_5",
+  "verification": "R6",
+  "purpose": "Durable independent verification evidence for R5 measurements; no authorization to modify immutable candidate implementation.",
+  "certification_statement": "These files certify immutable candidate 9c638f07d3942bbc10507f9e76d43aa4eb9ab621, not the source tree of this verification branch.",
+  "candidate": {
+    "commit_sha": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+    "tree_sha": "91589d5114b1854b619f42fcae21e027fa629996",
+    "deterministic_source_fingerprint": {
+      "method": "sha256 of sorted git ls-tree -r records excluding QA/ and .codex-fabric/",
+      "sha256": "f4a1ebaf5d2084181a53184ae698ba87a4eb06ac4018d68cd76bef8b85fac15e",
+      "file_count": 336
+    },
+    "runner_source_binding": {
+      "schema_version": 1,
+      "binding": "exact_commit",
+      "status": "PASS",
+      "claimed_revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+      "checked_out_revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+      "source_worktree_dirty": false,
+      "source_fingerprint": {
+        "sha256": "b5a9ba2cfe231a14b0ddf157248204a71bdc7924dfdda5b10cde9f0c5aa79695",
+        "file_count": 336,
+        "tracked_head": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+        "worktree_dirty": false,
+        "excluded_from_hash": [
+          "QA/",
+          ".build/",
+          ".release/",
+          ".public-site/"
+        ]
+      },
+      "reason": "clean checkout is bound to the exact checked-out revision"
+    }
+  },
+  "base": {
+    "commit_sha": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "tree_sha": "3621d44490d07684493ec70b386cf61724d63a9f",
+    "deterministic_source_fingerprint": {
+      "method": "sha256 of sorted git ls-tree -r records excluding QA/ and .codex-fabric/",
+      "sha256": "f2357ee42d0591df723a165f88e82d0de8624dea1a64f12964ca908267a0e2e4",
+      "file_count": 331
+    },
+    "runner_source_binding": {
+      "schema_version": 1,
+      "binding": "exact_commit",
+      "status": "PASS",
+      "claimed_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+      "checked_out_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+      "source_worktree_dirty": false,
+      "source_fingerprint": {
+        "sha256": "7948b2ca4e070c442fb316b6e10d660bdf03918b5e69555c32cb2022f14932fd",
+        "file_count": 331,
+        "tracked_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+        "worktree_dirty": false,
+        "excluded_from_hash": [
+          "QA/",
+          ".build/",
+          ".release/",
+          ".public-site/"
+        ]
+      },
+      "reason": "clean checkout is bound to the exact checked-out revision"
+    }
+  },
+  "host_conditions": {
+    "same_host": true,
+    "os": {
+      "system": "Darwin",
+      "release": "25.6.0",
+      "version": "Darwin Kernel Version 25.6.0: Fri Jul 31 19:16:36 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6030"
+    },
+    "architecture": {
+      "machine": "arm64",
+      "bits": "64bit"
+    },
+    "browser": {
+      "family": "chromium",
+      "runtime_version": "151.0.7922.34",
+      "playwright_version": "1.62.0"
+    },
+    "execution": {
+      "mode": "local",
+      "ci_value": null,
+      "headless": true,
+      "display_backend": "none",
+      "software_gl": null
+    },
+    "viewport": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "device_scale_factor": 1,
+      "has_touch": false,
+      "is_mobile": false,
+      "user_agent": "playwright-default"
+    },
+    "server": "local-http",
+    "network": "default-playwright-context",
+    "cold_condition": "new-context-and-page",
+    "warm_condition": "same-page-reload-readiness-after-cold-sample",
+    "fresh_context_per_side": true,
+    "independent_browser_process_per_block": true,
+    "software_gl": null
+  },
+  "measurement_design": {
+    "canonical_same_host": {
+      "method": "three-independent-order-balanced-blocks-same-runner",
+      "block_count": 3,
+      "pairs_per_block": 4,
+      "total_pairs": 12,
+      "sample_count_per_side": 12,
+      "order_by_block": [
+        [
+          "candidate>baseline",
+          "baseline>candidate",
+          "candidate>baseline",
+          "baseline>candidate"
+        ],
+        [
+          "baseline>candidate",
+          "candidate>baseline",
+          "baseline>candidate",
+          "candidate>baseline"
+        ],
+        [
+          "candidate>baseline",
+          "baseline>candidate",
+          "candidate>baseline",
+          "baseline>candidate"
+        ]
+      ],
+      "reversed_starting_order_between_blocks": true,
+      "fresh_context_per_measurement": true,
+      "independent_browser_process_per_block": true,
+      "same_runner_environment": true,
+      "candidate_server": {
+        "url": "http://127.0.0.1:61011/index.html",
+        "build": "/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-visualizer-r6.cSKOChDBjZ/candidate/.build/modular",
+        "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621"
+      },
+      "baseline_server": {
+        "url": "http://127.0.0.1:61012/index.html",
+        "build": "/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-visualizer-r6.cSKOChDBjZ/base/.build/modular",
+        "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176"
+      },
+      "schedule": [
+        {
+          "block": 1,
+          "pair": 1,
+          "pair_in_block": 1,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 1,
+          "pair_in_block": 1,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 2,
+          "pair_in_block": 2,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 2,
+          "pair_in_block": 2,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 3,
+          "pair_in_block": 3,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 3,
+          "pair_in_block": 3,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 4,
+          "pair_in_block": 4,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 4,
+          "pair_in_block": 4,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 5,
+          "pair_in_block": 1,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 5,
+          "pair_in_block": 1,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 6,
+          "pair_in_block": 2,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 6,
+          "pair_in_block": 2,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 7,
+          "pair_in_block": 3,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 7,
+          "pair_in_block": 3,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 8,
+          "pair_in_block": 4,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 8,
+          "pair_in_block": 4,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 9,
+          "pair_in_block": 1,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 9,
+          "pair_in_block": 1,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 10,
+          "pair_in_block": 2,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 10,
+          "pair_in_block": 2,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 11,
+          "pair_in_block": 3,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 11,
+          "pair_in_block": 3,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 12,
+          "pair_in_block": 4,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 12,
+          "pair_in_block": 4,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        }
+      ]
+    },
+    "browser_instrumented_same_host": {
+      "method": "three-independent-order-balanced-blocks-same-runner",
+      "block_count": 3,
+      "pairs_per_block": 4,
+      "total_pairs": 12,
+      "sample_count_per_side": 12,
+      "order_by_block": [
+        [
+          "candidate>baseline",
+          "baseline>candidate",
+          "candidate>baseline",
+          "baseline>candidate"
+        ],
+        [
+          "baseline>candidate",
+          "candidate>baseline",
+          "baseline>candidate",
+          "candidate>baseline"
+        ],
+        [
+          "candidate>baseline",
+          "baseline>candidate",
+          "candidate>baseline",
+          "baseline>candidate"
+        ]
+      ],
+      "reversed_starting_order_between_blocks": true,
+      "fresh_context_per_measurement": true,
+      "independent_browser_process_per_block": true,
+      "same_runner_environment": true,
+      "candidate_server": {
+        "url": "http://127.0.0.1:61011/index.html",
+        "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621"
+      },
+      "baseline_server": {
+        "url": "http://127.0.0.1:61012/index.html",
+        "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176"
+      },
+      "schedule": [
+        {
+          "block": 1,
+          "pair": 1,
+          "pair_in_block": 1,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 1,
+          "pair_in_block": 1,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 2,
+          "pair_in_block": 2,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 2,
+          "pair_in_block": 2,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 3,
+          "pair_in_block": 3,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 3,
+          "pair_in_block": 3,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 4,
+          "pair_in_block": 4,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 4,
+          "pair_in_block": 4,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 5,
+          "pair_in_block": 1,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 5,
+          "pair_in_block": 1,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 6,
+          "pair_in_block": 2,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 6,
+          "pair_in_block": 2,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 7,
+          "pair_in_block": 3,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 7,
+          "pair_in_block": 3,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 8,
+          "pair_in_block": 4,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 8,
+          "pair_in_block": 4,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 9,
+          "pair_in_block": 1,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 9,
+          "pair_in_block": 1,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 10,
+          "pair_in_block": 2,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 10,
+          "pair_in_block": 2,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 11,
+          "pair_in_block": 3,
+          "position": 1,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 11,
+          "pair_in_block": 3,
+          "position": 2,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 12,
+          "pair_in_block": 4,
+          "position": 1,
+          "side": "baseline",
+          "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "fresh_context": true
+        },
+        {
+          "block": 3,
+          "pair": 12,
+          "pair_in_block": 4,
+          "position": 2,
+          "side": "candidate",
+          "revision": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+          "fresh_context": true
+        }
+      ]
+    },
+    "no_threshold_changes": true,
+    "outliers_discarded": false,
+    "application_vs_driver_separated": true
+  },
+  "performance": {
+    "technical_verdict": "VERIFY_REQUIRED",
+    "law": "paired deltas primary; robust MAD-sigma and between-block median spread form noise/materiality envelope; hard regression requires every pair and every block candidate-slower beyond envelope; stable non-regression may PASS; unresolved/noise-dominated remains VERIFY_REQUIRED.",
+    "metric_classifications": [
+      {
+        "metric": "cold_milestones.dom_content_loaded",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            92.4,
+            92.7,
+            93.0,
+            93.8,
+            96.2,
+            131.4,
+            135.0,
+            136.3,
+            137.1,
+            137.3,
+            163.2,
+            167.3
+          ],
+          "min": 92.4,
+          "median": 133.2,
+          "max": 167.3,
+          "mean": 122.975,
+          "stdev": 28.121,
+          "p95": 167.3
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            91.2,
+            91.6,
+            92.0,
+            95.4,
+            96.1,
+            103.2,
+            106.8,
+            137.3,
+            141.8,
+            147.6,
+            149.0,
+            184.1
+          ],
+          "min": 91.2,
+          "median": 105.0,
+          "max": 184.1,
+          "mean": 119.675,
+          "stdev": 30.951,
+          "p95": 184.1
+        },
+        "distribution_guard_ms": 207.338,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 5,
+          "negative_pairs": 7,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              92.4,
+              92.7,
+              93.0,
+              93.8,
+              96.2,
+              131.4,
+              135.0,
+              136.3,
+              137.1,
+              137.3,
+              163.2,
+              167.3
+            ],
+            "min": 92.4,
+            "median": 133.2,
+            "max": 167.3,
+            "mean": 122.975,
+            "stdev": 28.121,
+            "p95": 167.3
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -71.9,
+              -56.4,
+              -40.2,
+              -33.9,
+              -2.2,
+              -1.5,
+              -1.0,
+              5.9,
+              6.8,
+              10.3,
+              56.6,
+              87.9
+            ],
+            "min": -71.9,
+            "median": -1.25,
+            "max": 87.9,
+            "mean": -3.3,
+            "stdev": 44.833,
+            "p95": 87.9
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -42.977,
+              -34.559,
+              -29.494,
+              -24.726,
+              -2.345,
+              -1.618,
+              -1.075,
+              4.49,
+              5.037,
+              7.502,
+              61.255,
+              91.372
+            ],
+            "min": -42.977,
+            "median": -1.347,
+            "max": 91.372,
+            "mean": 2.739,
+            "stdev": 38.899,
+            "p95": 91.372
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 32.765,
+            "block_median_stdev_ms": 39.135,
+            "noise_envelope_ms": 39.135,
+            "relative_pair_delta_mad_sigma_pct": 23.891,
+            "relative_block_median_stdev_pct": 31.108,
+            "relative_noise_envelope_pct": 31.108
+          },
+          "materiality_guard_ms": 39.135,
+          "materiality_guard_relative_pct": 31.108,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 27.55,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 6.35,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -48.3,
+              "direction": "candidate_not_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "cold_milestones.smart_style_ready",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            1016.1,
+            1045.9,
+            1047.2,
+            1065.6,
+            1092.1,
+            1105.2,
+            1125.9,
+            1129.4,
+            1134.5,
+            1135.4,
+            1154.3,
+            1230.3
+          ],
+          "min": 1016.1,
+          "median": 1115.55,
+          "max": 1230.3,
+          "mean": 1106.825,
+          "stdev": 58.288,
+          "p95": 1230.3
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            1046.3,
+            1056.2,
+            1080.5,
+            1101.2,
+            1112.7,
+            1113.7,
+            1132.6,
+            1154.1,
+            1168.5,
+            1256.7,
+            1297.2,
+            1297.3
+          ],
+          "min": 1046.3,
+          "median": 1123.15,
+          "max": 1297.3,
+          "mean": 1151.417,
+          "stdev": 87.833,
+          "p95": 1297.3
+        },
+        "distribution_guard_ms": 1281.689,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 8,
+          "negative_pairs": 4,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              1016.1,
+              1045.9,
+              1047.2,
+              1065.6,
+              1092.1,
+              1105.2,
+              1125.9,
+              1129.4,
+              1134.5,
+              1135.4,
+              1154.3,
+              1230.3
+            ],
+            "min": 1016.1,
+            "median": 1115.55,
+            "max": 1230.3,
+            "mean": 1106.825,
+            "stdev": 58.288,
+            "p95": 1230.3
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -116.6,
+              -69.7,
+              -45.8,
+              -4.0,
+              14.2,
+              19.6,
+              34.6,
+              67.0,
+              96.6,
+              121.3,
+              167.8,
+              250.1
+            ],
+            "min": -116.6,
+            "median": 27.1,
+            "max": 250.1,
+            "mean": 44.592,
+            "stdev": 103.454,
+            "p95": 250.1
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -9.477,
+              -6.191,
+              -4.194,
+              -0.362,
+              1.23,
+              1.728,
+              3.308,
+              6.288,
+              9.507,
+              10.683,
+              14.857,
+              23.883
+            ],
+            "min": -9.477,
+            "median": 2.518,
+            "max": 23.883,
+            "mean": 4.272,
+            "stdev": 9.427,
+            "p95": 23.883
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 105.561,
+            "block_median_stdev_ms": 59.887,
+            "noise_envelope_ms": 105.561,
+            "relative_pair_delta_mad_sigma_pct": 10.157,
+            "relative_block_median_stdev_pct": 5.381,
+            "relative_noise_envelope_pct": 10.157
+          },
+          "materiality_guard_ms": 105.561,
+          "materiality_guard_relative_pct": 10.157,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 24.4,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -25.05,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 94.15,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "cold_milestones.markers_timeline_ready",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            1095.9,
+            1106.1,
+            1116.4,
+            1119.6,
+            1130.1,
+            1154.3,
+            1170.4,
+            1171.3,
+            1180.0,
+            1187.6,
+            1193.1,
+            1264.4
+          ],
+          "min": 1095.9,
+          "median": 1162.35,
+          "max": 1264.4,
+          "mean": 1157.433,
+          "stdev": 47.47,
+          "p95": 1264.4
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            1123.8,
+            1136.9,
+            1137.7,
+            1138.9,
+            1150.4,
+            1151.3,
+            1168.6,
+            1191.3,
+            1219.9,
+            1296.1,
+            1330.4,
+            1335.5
+          ],
+          "min": 1123.8,
+          "median": 1159.95,
+          "max": 1335.5,
+          "mean": 1198.4,
+          "stdev": 78.775,
+          "p95": 1335.5
+        },
+        "distribution_guard_ms": 1299.843,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 9,
+          "negative_pairs": 3,
+          "direction_consistent_across_blocks": true,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              1095.9,
+              1106.1,
+              1116.4,
+              1119.6,
+              1130.1,
+              1154.3,
+              1170.4,
+              1171.3,
+              1180.0,
+              1187.6,
+              1193.1,
+              1264.4
+            ],
+            "min": 1095.9,
+            "median": 1162.35,
+            "max": 1264.4,
+            "mean": 1157.433,
+            "stdev": 47.47,
+            "p95": 1264.4
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -114.0,
+              -46.6,
+              -16.6,
+              3.7,
+              8.8,
+              26.8,
+              30.8,
+              49.0,
+              55.4,
+              124.8,
+              155.5,
+              214.0
+            ],
+            "min": -114.0,
+            "median": 28.8,
+            "max": 214.0,
+            "mean": 40.967,
+            "stdev": 89.485,
+            "p95": 214.0
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -9.016,
+              -3.982,
+              -1.438,
+              0.312,
+              0.779,
+              2.246,
+              2.785,
+              4.377,
+              5.055,
+              10.655,
+              13.178,
+              19.169
+            ],
+            "min": -9.016,
+            "median": 2.516,
+            "max": 19.169,
+            "mean": 3.677,
+            "stdev": 7.686,
+            "p95": 19.169
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 53.374,
+            "block_median_stdev_ms": 41.61,
+            "noise_envelope_ms": 53.374,
+            "relative_pair_delta_mad_sigma_pct": 4.813,
+            "relative_block_median_stdev_pct": 3.593,
+            "relative_noise_envelope_pct": 4.813
+          },
+          "materiality_guard_ms": 53.374,
+          "materiality_guard_relative_pct": 4.813,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 28.8,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 6.25,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 86.9,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "cold_milestones.first_actionable_state",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            1097.3,
+            1107.6,
+            1117.7,
+            1120.9,
+            1131.3,
+            1155.5,
+            1171.8,
+            1172.7,
+            1181.3,
+            1188.9,
+            1194.6,
+            1265.6
+          ],
+          "min": 1097.3,
+          "median": 1163.65,
+          "max": 1265.6,
+          "mean": 1158.767,
+          "stdev": 47.443,
+          "p95": 1265.6
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            1125.2,
+            1138.5,
+            1138.8,
+            1140.0,
+            1151.7,
+            1152.7,
+            1169.9,
+            1192.7,
+            1221.5,
+            1297.5,
+            1331.8,
+            1336.9
+          ],
+          "min": 1125.2,
+          "median": 1161.3,
+          "max": 1336.9,
+          "mean": 1199.767,
+          "stdev": 78.817,
+          "p95": 1336.9
+        },
+        "distribution_guard_ms": 1301.096,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 9,
+          "negative_pairs": 3,
+          "direction_consistent_across_blocks": true,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              1097.3,
+              1107.6,
+              1117.7,
+              1120.9,
+              1131.3,
+              1155.5,
+              1171.8,
+              1172.7,
+              1181.3,
+              1188.9,
+              1194.6,
+              1265.6
+            ],
+            "min": 1097.3,
+            "median": 1163.65,
+            "max": 1265.6,
+            "mean": 1158.767,
+            "stdev": 47.443,
+            "p95": 1265.6
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -113.9,
+              -46.6,
+              -16.7,
+              3.8,
+              8.7,
+              26.9,
+              30.9,
+              49.0,
+              55.4,
+              124.8,
+              155.6,
+              214.1
+            ],
+            "min": -113.9,
+            "median": 28.9,
+            "max": 214.1,
+            "mean": 41.0,
+            "stdev": 89.501,
+            "p95": 214.1
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -9.0,
+              -3.977,
+              -1.445,
+              0.32,
+              0.769,
+              2.252,
+              2.79,
+              4.371,
+              5.049,
+              10.642,
+              13.172,
+              19.155
+            ],
+            "min": -9.0,
+            "median": 2.521,
+            "max": 19.155,
+            "mean": 3.675,
+            "stdev": 7.679,
+            "p95": 19.155
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 53.448,
+            "block_median_stdev_ms": 41.596,
+            "noise_envelope_ms": 53.448,
+            "relative_pair_delta_mad_sigma_pct": 4.814,
+            "relative_block_median_stdev_pct": 3.588,
+            "relative_noise_envelope_pct": 4.814
+          },
+          "materiality_guard_ms": 53.448,
+          "materiality_guard_relative_pct": 4.814,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 28.9,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 6.25,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 86.9,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "warm_milestones.dom_content_loaded",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            71.4,
+            72.9,
+            73.3,
+            73.7,
+            75.3,
+            75.6,
+            76.0,
+            76.0,
+            77.3,
+            77.9,
+            78.6,
+            79.5
+          ],
+          "min": 71.4,
+          "median": 75.8,
+          "max": 79.5,
+          "mean": 75.625,
+          "stdev": 2.461,
+          "p95": 79.5
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            49.6,
+            73.3,
+            75.6,
+            76.4,
+            76.5,
+            76.6,
+            77.4,
+            77.7,
+            77.8,
+            81.1,
+            81.6,
+            92.1
+          ],
+          "min": 49.6,
+          "median": 77.0,
+          "max": 92.1,
+          "mean": 76.308,
+          "stdev": 9.671,
+          "p95": 92.1
+        },
+        "distribution_guard_ms": 83.008,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 7,
+          "negative_pairs": 5,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              71.4,
+              72.9,
+              73.3,
+              73.7,
+              75.3,
+              75.6,
+              76.0,
+              76.0,
+              77.3,
+              77.9,
+              78.6,
+              79.5
+            ],
+            "min": 71.4,
+            "median": 75.8,
+            "max": 79.5,
+            "mean": 75.625,
+            "stdev": 2.461,
+            "p95": 79.5
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -25.7,
+              -4.6,
+              -0.8,
+              -0.8,
+              -0.4,
+              1.0,
+              1.6,
+              3.1,
+              4.0,
+              4.5,
+              5.6,
+              20.7
+            ],
+            "min": -25.7,
+            "median": 1.3,
+            "max": 20.7,
+            "mean": 0.683,
+            "stdev": 10.387,
+            "p95": 20.7
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -34.13,
+              -5.905,
+              -1.035,
+              -1.018,
+              -0.526,
+              1.323,
+              2.013,
+              4.229,
+              5.427,
+              6.173,
+              7.368,
+              28.992
+            ],
+            "min": -34.13,
+            "median": 1.668,
+            "max": 28.992,
+            "mean": 1.076,
+            "stdev": 14.059,
+            "p95": 28.992
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 3.558,
+            "block_median_stdev_ms": 1.7,
+            "noise_envelope_ms": 3.558,
+            "relative_pair_delta_mad_sigma_pct": 4.79,
+            "relative_block_median_stdev_pct": 2.247,
+            "relative_noise_envelope_pct": 4.79
+          },
+          "materiality_guard_ms": 3.558,
+          "materiality_guard_relative_pct": 4.79,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -0.6,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 1.15,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 2.8,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "warm_milestones.smart_style_ready",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            960.1,
+            962.7,
+            978.5,
+            987.0,
+            998.4,
+            1027.1,
+            1027.9,
+            1033.5,
+            1050.3,
+            1063.2,
+            1086.6,
+            1169.7
+          ],
+          "min": 960.1,
+          "median": 1027.5,
+          "max": 1169.7,
+          "mean": 1028.75,
+          "stdev": 59.662,
+          "p95": 1169.7
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            944.2,
+            980.0,
+            981.9,
+            1025.6,
+            1026.6,
+            1032.6,
+            1036.1,
+            1070.1,
+            1078.7,
+            1147.7,
+            1167.0,
+            1190.3
+          ],
+          "min": 944.2,
+          "median": 1034.35,
+          "max": 1190.3,
+          "mean": 1056.733,
+          "stdev": 77.443,
+          "p95": 1190.3
+        },
+        "distribution_guard_ms": 1207.736,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 9,
+          "negative_pairs": 3,
+          "direction_consistent_across_blocks": true,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              960.1,
+              962.7,
+              978.5,
+              987.0,
+              998.4,
+              1027.1,
+              1027.9,
+              1033.5,
+              1050.3,
+              1063.2,
+              1086.6,
+              1169.7
+            ],
+            "min": 960.1,
+            "median": 1027.5,
+            "max": 1169.7,
+            "mean": 1028.75,
+            "stdev": 59.662,
+            "p95": 1169.7
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -82.9,
+              -50.5,
+              -2.7,
+              3.4,
+              19.8,
+              19.9,
+              34.2,
+              38.6,
+              50.8,
+              63.9,
+              84.5,
+              156.8
+            ],
+            "min": -82.9,
+            "median": 27.05,
+            "max": 156.8,
+            "mean": 27.983,
+            "stdev": 61.705,
+            "p95": 156.8
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -8.071,
+              -4.648,
+              -0.231,
+              0.347,
+              1.885,
+              2.073,
+              3.425,
+              3.911,
+              4.942,
+              6.638,
+              7.948,
+              15.172
+            ],
+            "min": -8.071,
+            "median": 2.749,
+            "max": 15.172,
+            "mean": 2.783,
+            "stdev": 5.96,
+            "p95": 15.172
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 39.66,
+            "block_median_stdev_ms": 3.382,
+            "noise_envelope_ms": 39.66,
+            "relative_pair_delta_mad_sigma_pct": 3.99,
+            "relative_block_median_stdev_pct": 0.421,
+            "relative_noise_envelope_pct": 3.99
+          },
+          "materiality_guard_ms": 39.66,
+          "materiality_guard_relative_pct": 3.99,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 29.25,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 33.65,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 27.0,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "warm_milestones.markers_timeline_ready",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            1021.7,
+            1031.2,
+            1036.6,
+            1040.6,
+            1042.8,
+            1066.6,
+            1068.8,
+            1072.7,
+            1075.6,
+            1089.7,
+            1094.9,
+            1175.1
+          ],
+          "min": 1021.7,
+          "median": 1067.7,
+          "max": 1175.1,
+          "mean": 1068.025,
+          "stdev": 41.139,
+          "p95": 1175.1
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            1032.1,
+            1036.6,
+            1037.3,
+            1051.0,
+            1063.2,
+            1079.7,
+            1081.9,
+            1085.2,
+            1130.5,
+            1151.1,
+            1170.7,
+            1193.5
+          ],
+          "min": 1032.1,
+          "median": 1080.8,
+          "max": 1193.5,
+          "mean": 1092.733,
+          "stdev": 55.534,
+          "p95": 1193.5
+        },
+        "distribution_guard_ms": 1191.442,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 5,
+          "negative_pairs": 7,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              1021.7,
+              1031.2,
+              1036.6,
+              1040.6,
+              1042.8,
+              1066.6,
+              1068.8,
+              1072.7,
+              1075.6,
+              1089.7,
+              1094.9,
+              1175.1
+            ],
+            "min": 1021.7,
+            "median": 1067.7,
+            "max": 1175.1,
+            "mean": 1068.025,
+            "stdev": 41.139,
+            "p95": 1175.1
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -36.7,
+              -24.6,
+              -9.5,
+              -6.2,
+              -4.5,
+              -4.4,
+              -3.3,
+              35.6,
+              50.7,
+              58.0,
+              84.5,
+              156.9
+            ],
+            "min": -36.7,
+            "median": -3.85,
+            "max": 156.9,
+            "mean": 24.708,
+            "stdev": 55.403,
+            "p95": 156.9
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -3.434,
+              -2.287,
+              -0.886,
+              -0.595,
+              -0.413,
+              -0.374,
+              -0.317,
+              3.251,
+              4.917,
+              5.677,
+              7.922,
+              15.136
+            ],
+            "min": -3.434,
+            "median": -0.346,
+            "max": 15.136,
+            "mean": 2.383,
+            "stdev": 5.302,
+            "p95": 15.136
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 39.734,
+            "block_median_stdev_ms": 11.589,
+            "noise_envelope_ms": 39.734,
+            "relative_pair_delta_mad_sigma_pct": 3.729,
+            "relative_block_median_stdev_pct": 1.123,
+            "relative_noise_envelope_pct": 3.729
+          },
+          "materiality_guard_ms": 39.734,
+          "materiality_guard_relative_pct": 3.729,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 16.7,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -3.9,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 15.6,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "warm_milestones.first_actionable_state",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            1022.9,
+            1032.5,
+            1037.7,
+            1041.8,
+            1044.1,
+            1068.0,
+            1070.1,
+            1074.1,
+            1077.1,
+            1091.5,
+            1097.0,
+            1176.5
+          ],
+          "min": 1022.9,
+          "median": 1069.05,
+          "max": 1176.5,
+          "mean": 1069.442,
+          "stdev": 41.27,
+          "p95": 1176.5
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            1033.7,
+            1037.9,
+            1038.6,
+            1052.3,
+            1064.2,
+            1081.3,
+            1083.2,
+            1086.5,
+            1132.1,
+            1172.5,
+            1187.9,
+            1195.1
+          ],
+          "min": 1033.7,
+          "median": 1082.25,
+          "max": 1195.1,
+          "mean": 1097.108,
+          "stdev": 59.81,
+          "p95": 1195.1
+        },
+        "distribution_guard_ms": 1193.252,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 5,
+          "negative_pairs": 7,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              1022.9,
+              1032.5,
+              1037.7,
+              1041.8,
+              1044.1,
+              1068.0,
+              1070.1,
+              1074.1,
+              1077.1,
+              1091.5,
+              1097.0,
+              1176.5
+            ],
+            "min": 1022.9,
+            "median": 1069.05,
+            "max": 1176.5,
+            "mean": 1069.442,
+            "stdev": 41.27,
+            "p95": 1176.5
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -36.4,
+              -24.8,
+              -9.9,
+              -6.2,
+              -5.0,
+              -4.0,
+              -3.2,
+              35.1,
+              50.7,
+              58.4,
+              119.9,
+              157.4
+            ],
+            "min": -36.4,
+            "median": -3.6,
+            "max": 157.4,
+            "mean": 27.667,
+            "stdev": 59.777,
+            "p95": 157.4
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -3.402,
+              -2.302,
+              -0.922,
+              -0.594,
+              -0.458,
+              -0.34,
+              -0.307,
+              3.2,
+              4.91,
+              5.709,
+              11.227,
+              15.168
+            ],
+            "min": -3.402,
+            "median": -0.324,
+            "max": 15.168,
+            "mean": 2.657,
+            "stdev": 5.695,
+            "p95": 15.168
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 40.03,
+            "block_median_stdev_ms": 11.722,
+            "noise_envelope_ms": 40.03,
+            "relative_pair_delta_mad_sigma_pct": 3.749,
+            "relative_block_median_stdev_pct": 1.134,
+            "relative_noise_envelope_pct": 3.749
+          },
+          "materiality_guard_ms": 40.03,
+          "materiality_guard_relative_pct": 3.749,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 16.8,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -4.1,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 15.55,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "interactions.route",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            171.519,
+            199.666,
+            202.711,
+            207.454,
+            207.803,
+            208.888,
+            210.212,
+            211.716,
+            213.53,
+            217.701,
+            224.435,
+            234.409
+          ],
+          "min": 171.519,
+          "median": 209.55,
+          "max": 234.409,
+          "mean": 209.17,
+          "stdev": 15.148,
+          "p95": 234.409
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            192.323,
+            196.04,
+            204.127,
+            206.155,
+            207.054,
+            210.715,
+            213.878,
+            218.167,
+            220.902,
+            222.214,
+            222.264,
+            237.876
+          ],
+          "min": 192.323,
+          "median": 212.296,
+          "max": 237.876,
+          "mean": 212.643,
+          "stdev": 12.646,
+          "p95": 237.876
+        },
+        "distribution_guard_ms": 254.614,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 6,
+          "negative_pairs": 6,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              171.519,
+              199.666,
+              202.711,
+              207.454,
+              207.803,
+              208.888,
+              210.212,
+              211.716,
+              213.53,
+              217.701,
+              224.435,
+              234.409
+            ],
+            "min": 171.519,
+            "median": 209.55,
+            "max": 234.409,
+            "mean": 209.17,
+            "stdev": 15.148,
+            "p95": 234.409
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -42.086,
+              -14.172,
+              -4.761,
+              -2.221,
+              -1.299,
+              -0.749,
+              4.563,
+              4.637,
+              9.186,
+              11.049,
+              11.167,
+              66.357
+            ],
+            "min": -42.086,
+            "median": 1.907,
+            "max": 66.357,
+            "mean": 3.473,
+            "stdev": 24.558,
+            "p95": 66.357
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -17.954,
+              -6.742,
+              -2.279,
+              -0.99,
+              -0.626,
+              -0.36,
+              2.096,
+              2.172,
+              4.339,
+              5.509,
+              5.534,
+              38.688
+            ],
+            "min": -17.954,
+            "median": 0.868,
+            "max": 38.688,
+            "mean": 2.449,
+            "stdev": 13.102,
+            "p95": 38.688
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 10.339,
+            "block_median_stdev_ms": 4.591,
+            "noise_envelope_ms": 10.339,
+            "relative_pair_delta_mad_sigma_pct": 4.906,
+            "relative_block_median_stdev_pct": 2.234,
+            "relative_noise_envelope_pct": 4.906
+          },
+          "materiality_guard_ms": 10.339,
+          "materiality_guard_relative_pct": 4.906,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -1.024,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 7.806,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 1.208,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "interactions.date",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            135.038,
+            139.808,
+            141.19,
+            142.496,
+            151.167,
+            153.517,
+            153.524,
+            156.026,
+            159.638,
+            166.287,
+            173.373,
+            203.148
+          ],
+          "min": 135.038,
+          "median": 153.52,
+          "max": 203.148,
+          "mean": 156.268,
+          "stdev": 18.542,
+          "p95": 203.148
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            131.472,
+            133.863,
+            137.014,
+            148.692,
+            150.166,
+            150.644,
+            154.881,
+            156.431,
+            164.322,
+            165.327,
+            173.047,
+            179.008
+          ],
+          "min": 131.472,
+          "median": 152.762,
+          "max": 179.008,
+          "mean": 153.739,
+          "stdev": 15.029,
+          "p95": 179.008
+        },
+        "distribution_guard_ms": 211.894,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 6,
+          "negative_pairs": 6,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              135.038,
+              139.808,
+              141.19,
+              142.496,
+              151.167,
+              153.517,
+              153.524,
+              156.026,
+              159.638,
+              166.287,
+              173.373,
+              203.148
+            ],
+            "min": 135.038,
+            "median": 153.52,
+            "max": 203.148,
+            "mean": 156.268,
+            "stdev": 18.542,
+            "p95": 203.148
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -32.424,
+              -30.101,
+              -24.554,
+              -22.624,
+              -18.492,
+              -2.873,
+              2.907,
+              6.196,
+              10.358,
+              13.155,
+              30.289,
+              37.818
+            ],
+            "min": -32.424,
+            "median": 0.017,
+            "max": 37.818,
+            "mean": -2.529,
+            "stdev": 23.395,
+            "p95": 37.818
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -19.499,
+              -15.737,
+              -14.817,
+              -14.172,
+              -10.666,
+              -1.871,
+              1.894,
+              4.348,
+              7.409,
+              8.702,
+              22.43,
+              26.785
+            ],
+            "min": -19.499,
+            "median": 0.011,
+            "max": 26.785,
+            "mean": -0.433,
+            "stdev": 15.186,
+            "p95": 26.785
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 30.504,
+            "block_median_stdev_ms": 10.701,
+            "noise_envelope_ms": 30.504,
+            "relative_pair_delta_mad_sigma_pct": 18.429,
+            "relative_block_median_stdev_pct": 7.092,
+            "relative_noise_envelope_pct": 18.429
+          },
+          "materiality_guard_ms": 30.504,
+          "materiality_guard_relative_pct": 18.429,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 8.277,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -5.699,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -12.748,
+              "direction": "candidate_not_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "interactions.region",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            250.226,
+            262.92,
+            280.358,
+            292.294,
+            294.922,
+            306.287,
+            308.1,
+            315.434,
+            317.339,
+            320.395,
+            353.215,
+            376.074
+          ],
+          "min": 250.226,
+          "median": 307.193,
+          "max": 376.074,
+          "mean": 306.464,
+          "stdev": 35.034,
+          "p95": 376.074
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            246.886,
+            247.506,
+            268.69,
+            276.876,
+            282.601,
+            295.073,
+            295.917,
+            318.399,
+            330.203,
+            340.186,
+            347.863,
+            424.876
+          ],
+          "min": 246.886,
+          "median": 295.495,
+          "max": 424.876,
+          "mean": 306.256,
+          "stdev": 50.196,
+          "p95": 424.876
+        },
+        "distribution_guard_ms": 411.566,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 7,
+          "negative_pairs": 5,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              250.226,
+              262.92,
+              280.358,
+              292.294,
+              294.922,
+              306.287,
+              308.1,
+              315.434,
+              317.339,
+              320.395,
+              353.215,
+              376.074
+            ],
+            "min": 250.226,
+            "median": 307.193,
+            "max": 376.074,
+            "mean": 306.464,
+            "stdev": 35.034,
+            "p95": 376.074
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -107.384,
+              -76.339,
+              -69.833,
+              -48.036,
+              -23.686,
+              2.779,
+              2.965,
+              19.791,
+              32.997,
+              39.763,
+              79.977,
+              144.518
+            ],
+            "min": -107.384,
+            "median": 2.872,
+            "max": 144.518,
+            "mean": -0.207,
+            "stdev": 71.008,
+            "p95": 144.518
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -28.554,
+              -22.006,
+              -21.613,
+              -16.288,
+              -7.733,
+              0.94,
+              0.951,
+              6.177,
+              12.55,
+              12.906,
+              31.962,
+              51.548
+            ],
+            "min": -28.554,
+            "median": 0.946,
+            "max": 51.548,
+            "mean": 1.737,
+            "stdev": 23.546,
+            "p95": 51.548
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 65.085,
+            "block_median_stdev_ms": 42.8,
+            "noise_envelope_ms": 65.085,
+            "relative_pair_delta_mad_sigma_pct": 21.642,
+            "relative_block_median_stdev_pct": 14.281,
+            "relative_noise_envelope_pct": 21.642
+          },
+          "materiality_guard_ms": 65.085,
+          "materiality_guard_relative_pct": 21.642,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 26.394,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -58.934,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -10.361,
+              "direction": "candidate_not_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "interactions.preview",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            159.909,
+            161.65,
+            165.771,
+            166.64,
+            173.614,
+            175.037,
+            175.553,
+            178.433,
+            184.127,
+            185.579,
+            199.236,
+            210.095
+          ],
+          "min": 159.909,
+          "median": 175.295,
+          "max": 210.095,
+          "mean": 177.97,
+          "stdev": 15.026,
+          "p95": 210.095
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            148.936,
+            149.917,
+            160.523,
+            164.646,
+            165.367,
+            171.988,
+            181.979,
+            184.496,
+            189.775,
+            190.758,
+            204.355,
+            234.252
+          ],
+          "min": 148.936,
+          "median": 176.983,
+          "max": 234.252,
+          "mean": 178.916,
+          "stdev": 24.348,
+          "p95": 234.252
+        },
+        "distribution_guard_ms": 223.048,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 7,
+          "negative_pairs": 5,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              159.909,
+              161.65,
+              165.771,
+              166.64,
+              173.614,
+              175.037,
+              175.553,
+              178.433,
+              184.127,
+              185.579,
+              199.236,
+              210.095
+            ],
+            "min": 159.909,
+            "median": 175.295,
+            "max": 210.095,
+            "mean": 177.97,
+            "stdev": 15.026,
+            "p95": 210.095
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -49.319,
+              -26.617,
+              -20.212,
+              -5.74,
+              -5.248,
+              2.996,
+              5.648,
+              6.063,
+              8.365,
+              12.079,
+              15.721,
+              67.612
+            ],
+            "min": -49.319,
+            "median": 4.322,
+            "max": 67.612,
+            "mean": 0.946,
+            "stdev": 28.141,
+            "p95": 67.612
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -24.754,
+              -15.162,
+              -10.891,
+              -3.166,
+              -2.732,
+              1.853,
+              3.067,
+              3.398,
+              4.818,
+              7.554,
+              8.982,
+              40.574
+            ],
+            "min": -24.754,
+            "median": 2.46,
+            "max": 40.574,
+            "mean": 1.128,
+            "stdev": 15.94,
+            "p95": 40.574
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 14.553,
+            "block_median_stdev_ms": 16.791,
+            "noise_envelope_ms": 16.791,
+            "relative_pair_delta_mad_sigma_pct": 8.019,
+            "relative_block_median_stdev_pct": 9.527,
+            "relative_noise_envelope_pct": 9.527
+          },
+          "materiality_guard_ms": 16.791,
+          "materiality_guard_relative_pct": 9.527,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 9.071,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -23.415,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 0.2,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "interactions.preview_actionability",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            106.875,
+            107.237,
+            108.941,
+            110.376,
+            117.788,
+            118.017,
+            119.911,
+            120.74,
+            122.14,
+            122.701,
+            133.677,
+            139.358
+          ],
+          "min": 106.875,
+          "median": 118.964,
+          "max": 139.358,
+          "mean": 118.98,
+          "stdev": 10.093,
+          "p95": 139.358
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            99.538,
+            100.689,
+            108.018,
+            110.072,
+            110.528,
+            113.092,
+            117.924,
+            123.104,
+            125.622,
+            134.297,
+            135.748,
+            155.333
+          ],
+          "min": 99.538,
+          "median": 115.508,
+          "max": 155.333,
+          "mean": 119.497,
+          "stdev": 16.277,
+          "p95": 155.333
+        },
+        "distribution_guard_ms": 149.259,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 7,
+          "negative_pairs": 5,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              106.875,
+              107.237,
+              108.941,
+              110.376,
+              117.788,
+              118.017,
+              119.911,
+              120.74,
+              122.14,
+              122.701,
+              133.677,
+              139.358
+            ],
+            "min": 106.875,
+            "median": 118.964,
+            "max": 139.358,
+            "mean": 118.98,
+            "stdev": 10.093,
+            "p95": 139.358
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -32.988,
+              -18.479,
+              -12.629,
+              -5.061,
+              -0.923,
+              0.136,
+              3.193,
+              3.291,
+              4.882,
+              6.217,
+              13.608,
+              44.957
+            ],
+            "min": -32.988,
+            "median": 1.665,
+            "max": 44.957,
+            "mean": 0.517,
+            "stdev": 18.835,
+            "p95": 44.957
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -24.677,
+              -15.658,
+              -10.292,
+              -3.632,
+              -0.847,
+              0.115,
+              2.663,
+              3.069,
+              4.043,
+              5.817,
+              11.141,
+              40.731
+            ],
+            "min": -24.677,
+            "median": 1.389,
+            "max": 40.731,
+            "mean": 1.039,
+            "stdev": 15.985,
+            "p95": 40.731
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 8.36,
+            "block_median_stdev_ms": 11.012,
+            "noise_envelope_ms": 11.012,
+            "relative_pair_delta_mad_sigma_pct": 7.005,
+            "relative_block_median_stdev_pct": 9.344,
+            "relative_noise_envelope_pct": 9.344
+          },
+          "materiality_guard_ms": 11.012,
+          "materiality_guard_relative_pct": 9.344,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 4.754,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -15.554,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 1.979,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "interactions.preview_handler",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            80.117,
+            80.127,
+            80.404,
+            80.469,
+            80.717,
+            81.723,
+            82.256,
+            82.496,
+            87.26,
+            88.34,
+            89.176,
+            95.558
+          ],
+          "min": 80.117,
+          "median": 81.989,
+          "max": 95.558,
+          "mean": 84.054,
+          "stdev": 4.923,
+          "p95": 95.558
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            2.19,
+            26.493,
+            72.281,
+            73.654,
+            77.902,
+            81.058,
+            82.816,
+            88.596,
+            89.764,
+            94.534,
+            98.59,
+            100.447
+          ],
+          "min": 2.19,
+          "median": 81.937,
+          "max": 100.447,
+          "mean": 74.027,
+          "stdev": 29.767,
+          "p95": 100.447
+        },
+        "distribution_guard_ms": 98.823,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 7,
+          "negative_pairs": 5,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              80.117,
+              80.127,
+              80.404,
+              80.469,
+              80.717,
+              81.723,
+              82.256,
+              82.496,
+              87.26,
+              88.34,
+              89.176,
+              95.558
+            ],
+            "min": 80.117,
+            "median": 81.989,
+            "max": 95.558,
+            "mean": 84.054,
+            "stdev": 4.923,
+            "p95": 95.558
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -78.527,
+              -60.767,
+              -21.904,
+              -8.123,
+              -2.225,
+              0.941,
+              1.093,
+              6.194,
+              7.268,
+              8.127,
+              9.414,
+              18.191
+            ],
+            "min": -78.527,
+            "median": 1.017,
+            "max": 18.191,
+            "mean": -10.027,
+            "stdev": 29.821,
+            "p95": 18.191
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -97.287,
+              -69.639,
+              -22.922,
+              -10.103,
+              -2.777,
+              1.175,
+              1.337,
+              7.012,
+              8.81,
+              10.1,
+              10.557,
+              22.115
+            ],
+            "min": -97.287,
+            "median": 1.256,
+            "max": 22.115,
+            "mean": -11.802,
+            "stdev": 35.816,
+            "p95": 22.115
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 11.495,
+            "block_median_stdev_ms": 11.246,
+            "noise_envelope_ms": 11.495,
+            "relative_pair_delta_mad_sigma_pct": 13.451,
+            "relative_block_median_stdev_pct": 12.466,
+            "relative_noise_envelope_pct": 13.451
+          },
+          "materiality_guard_ms": 11.495,
+          "materiality_guard_relative_pct": 13.451,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 3.567,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -15.014,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 5.253,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "interactions.detail",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            59.454,
+            71.172,
+            86.952,
+            120.238,
+            132.327,
+            139.192,
+            149.46,
+            149.714,
+            160.11,
+            167.19,
+            170.268,
+            182.475
+          ],
+          "min": 59.454,
+          "median": 144.326,
+          "max": 182.475,
+          "mean": 132.379,
+          "stdev": 40.272,
+          "p95": 182.475
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            58.437,
+            62.738,
+            75.478,
+            91.361,
+            96.25,
+            98.11,
+            154.287,
+            173.755,
+            179.274,
+            183.847,
+            216.877,
+            265.027
+          ],
+          "min": 58.437,
+          "median": 126.198,
+          "max": 265.027,
+          "mean": 137.953,
+          "stdev": 66.824,
+          "p95": 265.027
+        },
+        "distribution_guard_ms": 253.195,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 5,
+          "negative_pairs": 7,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              59.454,
+              71.172,
+              86.952,
+              120.238,
+              132.327,
+              139.192,
+              149.46,
+              149.714,
+              160.11,
+              167.19,
+              170.268,
+              182.475
+            ],
+            "min": 59.454,
+            "median": 144.326,
+            "max": 182.475,
+            "mean": 132.379,
+            "stdev": 40.272,
+            "p95": 182.475
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -94.79,
+              -70.94,
+              -69.589,
+              -41.082,
+              -28.877,
+              -12.735,
+              -8.72,
+              4.573,
+              34.387,
+              104.917,
+              119.82,
+              129.925
+            ],
+            "min": -94.79,
+            "median": -10.727,
+            "max": 129.925,
+            "mean": 5.574,
+            "stdev": 76.69,
+            "p95": 129.925
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -55.671,
+              -52.589,
+              -42.431,
+              -29.515,
+              -24.017,
+              -17.893,
+              -4.779,
+              3.054,
+              23.007,
+              65.528,
+              149.422,
+              201.534
+            ],
+            "min": -55.671,
+            "median": -11.336,
+            "max": 201.534,
+            "mean": 17.971,
+            "stdev": 81.662,
+            "p95": 201.534
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 77.077,
+            "block_median_stdev_ms": 82.695,
+            "noise_envelope_ms": 82.695,
+            "relative_pair_delta_mad_sigma_pct": 48.509,
+            "relative_block_median_stdev_pct": 76.478,
+            "relative_noise_envelope_pct": 76.478
+          },
+          "materiality_guard_ms": 82.695,
+          "materiality_guard_relative_pct": 76.478,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -39.154,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 112.368,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -20.806,
+              "direction": "candidate_not_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "interactions.panel",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            299.874,
+            306.244,
+            308.202,
+            309.277,
+            310.027,
+            311.788,
+            316.095,
+            318.872,
+            319.778,
+            321.753,
+            328.835,
+            331.795
+          ],
+          "min": 299.874,
+          "median": 313.942,
+          "max": 331.795,
+          "mean": 315.212,
+          "stdev": 9.425,
+          "p95": 331.795
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            309.152,
+            313.039,
+            317.534,
+            318.017,
+            320.555,
+            323.128,
+            323.678,
+            325.799,
+            331.051,
+            331.396,
+            339.233,
+            836.766
+          ],
+          "min": 309.152,
+          "median": 323.403,
+          "max": 836.766,
+          "mean": 365.779,
+          "stdev": 148.555,
+          "p95": 836.766
+        },
+        "distribution_guard_ms": 343.487,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 9,
+          "negative_pairs": 3,
+          "direction_consistent_across_blocks": true,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              299.874,
+              306.244,
+              308.202,
+              309.277,
+              310.027,
+              311.788,
+              316.095,
+              318.872,
+              319.778,
+              321.753,
+              328.835,
+              331.795
+            ],
+            "min": 299.874,
+            "median": 313.942,
+            "max": 331.795,
+            "mean": 315.212,
+            "stdev": 9.425,
+            "p95": 331.795
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -9.72,
+              -5.996,
+              -1.198,
+              2.561,
+              3.012,
+              3.35,
+              6.229,
+              14.401,
+              17.66,
+              22.849,
+              32.989,
+              520.671
+            ],
+            "min": -9.72,
+            "median": 4.79,
+            "max": 520.671,
+            "mean": 50.567,
+            "stdev": 148.551,
+            "p95": 520.671
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -3.048,
+              -1.807,
+              -0.372,
+              0.779,
+              0.972,
+              1.048,
+              1.998,
+              4.656,
+              5.889,
+              7.414,
+              10.772,
+              164.72
+            ],
+            "min": -3.048,
+            "median": 1.523,
+            "max": 164.72,
+            "mean": 16.085,
+            "stdev": 46.976,
+            "p95": 164.72
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 15.12,
+            "block_median_stdev_ms": 4.501,
+            "noise_envelope_ms": 15.12,
+            "relative_pair_delta_mad_sigma_pct": 4.791,
+            "relative_block_median_stdev_pct": 1.475,
+            "relative_noise_envelope_pct": 4.791
+          },
+          "materiality_guard_ms": 15.12,
+          "materiality_guard_relative_pct": 4.791,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 10.315,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 10.825,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 2.787,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "interactions.provider_recovery",
+        "source": "canonical_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            160.044,
+            161.061,
+            163.061,
+            165.128,
+            170.271,
+            179.544,
+            181.748,
+            203.302,
+            215.945,
+            217.931,
+            242.283,
+            249.722
+          ],
+          "min": 160.044,
+          "median": 180.646,
+          "max": 249.722,
+          "mean": 192.503,
+          "stdev": 32.335,
+          "p95": 249.722
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            168.893,
+            171.581,
+            173.81,
+            184.479,
+            188.665,
+            193.945,
+            194.264,
+            207.769,
+            217.195,
+            217.837,
+            234.181,
+            381.835
+          ],
+          "min": 168.893,
+          "median": 194.105,
+          "max": 381.835,
+          "mean": 211.204,
+          "stdev": 57.446,
+          "p95": 381.835
+        },
+        "distribution_guard_ms": 289.508,
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 8,
+          "negative_pairs": 4,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              160.044,
+              161.061,
+              163.061,
+              165.128,
+              170.271,
+              179.544,
+              181.748,
+              203.302,
+              215.945,
+              217.931,
+              242.283,
+              249.722
+            ],
+            "min": 160.044,
+            "median": 180.646,
+            "max": 249.722,
+            "mean": 192.503,
+            "stdev": 32.335,
+            "p95": 249.722
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -68.473,
+              -55.777,
+              -44.364,
+              -10.162,
+              3.765,
+              4.935,
+              13.893,
+              18.394,
+              31.203,
+              52.433,
+              56.776,
+              221.791
+            ],
+            "min": -68.473,
+            "median": 9.414,
+            "max": 221.791,
+            "mean": 18.701,
+            "stdev": 75.306,
+            "p95": 221.791
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -28.262,
+              -22.336,
+              -20.544,
+              -4.663,
+              2.28,
+              2.749,
+              6.834,
+              10.803,
+              19.136,
+              28.849,
+              35.251,
+              138.581
+            ],
+            "min": -28.262,
+            "median": 4.792,
+            "max": 138.581,
+            "mean": 14.056,
+            "stdev": 43.893,
+            "p95": 138.581
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 48.042,
+            "block_median_stdev_ms": 27.562,
+            "noise_envelope_ms": 48.042,
+            "relative_pair_delta_mad_sigma_pct": 28.467,
+            "relative_block_median_stdev_pct": 14.013,
+            "relative_noise_envelope_pct": 28.467
+          },
+          "materiality_guard_ms": 48.042,
+          "materiality_guard_relative_pct": 28.467,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 18.069,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -20.299,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 33.163,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R6 did not reproduce a decisive material regression; classification remains noise/consistency-limited VERIFY_REQUIRED."
+      },
+      {
+        "metric": "browser_focus_to_preview_visible",
+        "source": "browser_instrumented_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            1.5,
+            1.6,
+            1.6,
+            1.7,
+            1.7,
+            1.7,
+            1.8,
+            1.8,
+            1.8,
+            1.8,
+            1.9,
+            1.9
+          ],
+          "min": 1.5,
+          "median": 1.75,
+          "max": 1.9,
+          "mean": 1.733,
+          "stdev": 0.123
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            1.6,
+            1.6,
+            1.7,
+            1.7,
+            1.7,
+            1.8,
+            1.8,
+            1.8,
+            1.8,
+            1.9,
+            2.0,
+            2.1
+          ],
+          "min": 1.6,
+          "median": 1.8,
+          "max": 2.1,
+          "mean": 1.792,
+          "stdev": 0.151
+        },
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 6,
+          "negative_pairs": 2,
+          "direction_consistent_across_blocks": true,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              1.5,
+              1.6,
+              1.6,
+              1.7,
+              1.7,
+              1.7,
+              1.8,
+              1.8,
+              1.8,
+              1.8,
+              1.9,
+              1.9
+            ],
+            "min": 1.5,
+            "median": 1.75,
+            "max": 1.9,
+            "mean": 1.733,
+            "stdev": 0.123,
+            "p95": 1.9
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -0.3,
+              -0.1,
+              0.0,
+              0.0,
+              -0.0,
+              0.0,
+              0.1,
+              0.1,
+              0.2,
+              0.2,
+              0.2,
+              0.3
+            ],
+            "min": -0.3,
+            "median": 0.05,
+            "max": 0.3,
+            "mean": 0.058,
+            "stdev": 0.162,
+            "p95": 0.3
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -15.789,
+              -5.882,
+              0.0,
+              0.0,
+              -0.0,
+              0.0,
+              5.882,
+              6.25,
+              11.111,
+              12.5,
+              13.333,
+              16.667
+            ],
+            "min": -15.789,
+            "median": 2.941,
+            "max": 16.667,
+            "mean": 3.673,
+            "stdev": 9.2,
+            "p95": 16.667
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 0.148,
+            "block_median_stdev_ms": 0.029,
+            "noise_envelope_ms": 0.148,
+            "relative_pair_delta_mad_sigma_pct": 8.509,
+            "relative_block_median_stdev_pct": 1.459,
+            "relative_noise_envelope_pct": 8.509
+          },
+          "materiality_guard_ms": 0.148,
+          "materiality_guard_relative_pct": 8.509,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 0.05,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 0.05,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 0.1,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R4 actionability/total-preview and warm DOMContentLoaded remained unresolved; R6 keeps the browser/automation split explicit and finds no decisive regression."
+      },
+      {
+        "metric": "browser_preview_handler",
+        "source": "browser_instrumented_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            0.1,
+            0.2,
+            0.2,
+            0.2,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3
+          ],
+          "min": 0.1,
+          "median": 0.3,
+          "max": 0.3,
+          "mean": 0.258,
+          "stdev": 0.067
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            0.2,
+            0.2,
+            0.2,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.4
+          ],
+          "min": 0.2,
+          "median": 0.3,
+          "max": 0.4,
+          "mean": 0.283,
+          "stdev": 0.058
+        },
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 3,
+          "negative_pairs": 2,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              0.1,
+              0.2,
+              0.2,
+              0.2,
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3
+            ],
+            "min": 0.1,
+            "median": 0.3,
+            "max": 0.3,
+            "mean": 0.258,
+            "stdev": 0.067,
+            "p95": 0.3
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -0.1,
+              -0.1,
+              0.0,
+              -0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.0,
+              0.0,
+              0.1,
+              0.2,
+              0.2
+            ],
+            "min": -0.1,
+            "median": 0.0,
+            "max": 0.2,
+            "mean": 0.025,
+            "stdev": 0.097,
+            "p95": 0.2
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -33.333,
+              -33.333,
+              0.0,
+              -0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.0,
+              0.0,
+              50.0,
+              100.0,
+              200.0
+            ],
+            "min": -33.333,
+            "median": 0.0,
+            "max": 200.0,
+            "mean": 23.611,
+            "stdev": 66.08,
+            "p95": 200.0
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 0.0,
+            "block_median_stdev_ms": 0.104,
+            "noise_envelope_ms": 0.104,
+            "relative_pair_delta_mad_sigma_pct": 0.0,
+            "relative_block_median_stdev_pct": 48.829,
+            "relative_noise_envelope_pct": 48.829
+          },
+          "materiality_guard_ms": 0.104,
+          "materiality_guard_relative_pct": 48.829,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 0.0,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -0.05,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 0.15,
+              "direction": "candidate_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R4 reported preview_handler improvement versus Gate 4; R6 browser-side handler timings remain sub-millisecond and inconsistent/noise-limited, with no decisive regression."
+      },
+      {
+        "metric": "playwright_actionability",
+        "source": "browser_instrumented_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            97.144,
+            99.511,
+            99.604,
+            105.585,
+            107.36,
+            108.674,
+            108.87,
+            109.857,
+            109.929,
+            111.092,
+            115.38,
+            119.18
+          ],
+          "min": 97.144,
+          "median": 108.772,
+          "max": 119.18,
+          "mean": 107.682,
+          "stdev": 6.487
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            95.907,
+            98.142,
+            98.577,
+            98.947,
+            100.476,
+            102.222,
+            103.917,
+            113.411,
+            114.3,
+            117.315,
+            128.557,
+            130.82
+          ],
+          "min": 95.907,
+          "median": 103.07,
+          "max": 130.82,
+          "mean": 108.549,
+          "stdev": 12.122
+        },
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 4,
+          "negative_pairs": 8,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              97.144,
+              99.511,
+              99.604,
+              105.585,
+              107.36,
+              108.674,
+              108.87,
+              109.857,
+              109.929,
+              111.092,
+              115.38,
+              119.18
+            ],
+            "min": 97.144,
+            "median": 108.772,
+            "max": 119.18,
+            "mean": 107.682,
+            "stdev": 6.487,
+            "p95": 119.18
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -13.158,
+              -12.95,
+              -11.28,
+              -9.728,
+              -8.394,
+              -3.697,
+              -3.443,
+              -1.865,
+              8.716,
+              13.9,
+              20.891,
+              31.413
+            ],
+            "min": -13.158,
+            "median": -3.57,
+            "max": 31.413,
+            "mean": 0.867,
+            "stdev": 14.602,
+            "p95": 31.413
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -11.657,
+              -11.404,
+              -10.268,
+              -8.951,
+              -7.71,
+              -3.712,
+              -3.207,
+              -1.565,
+              8.255,
+              13.969,
+              19.004,
+              32.337
+            ],
+            "min": -11.657,
+            "median": -3.46,
+            "max": 32.337,
+            "mean": 1.258,
+            "stdev": 14.105,
+            "p95": 32.337
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 12.669,
+            "block_median_stdev_ms": 6.327,
+            "noise_envelope_ms": 12.669,
+            "relative_pair_delta_mad_sigma_pct": 10.936,
+            "relative_block_median_stdev_pct": 6.055,
+            "relative_noise_envelope_pct": 10.936
+          },
+          "materiality_guard_ms": 12.669,
+          "materiality_guard_relative_pct": 10.936,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -5.796,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 5.101,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -5.918,
+              "direction": "candidate_not_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R4 actionability/total-preview and warm DOMContentLoaded remained unresolved; R6 keeps the browser/automation split explicit and finds no decisive regression."
+      },
+      {
+        "metric": "automation_focus_to_preview_visible",
+        "source": "browser_instrumented_gate5_r6",
+        "classification": "VERIFY_REQUIRED",
+        "baseline_distribution": {
+          "count": 12,
+          "values": [
+            149.379,
+            150.696,
+            159.728,
+            159.754,
+            161.139,
+            164.28,
+            165.158,
+            166.105,
+            167.295,
+            169.394,
+            177.088,
+            178.43
+          ],
+          "min": 149.379,
+          "median": 164.719,
+          "max": 178.43,
+          "mean": 164.037,
+          "stdev": 8.845
+        },
+        "candidate_distribution": {
+          "count": 12,
+          "values": [
+            144.347,
+            147.8,
+            148.166,
+            148.899,
+            153.309,
+            154.299,
+            157.364,
+            166.818,
+            177.769,
+            194.38,
+            195.045,
+            203.858
+          ],
+          "min": 144.347,
+          "median": 155.831,
+          "max": 203.858,
+          "mean": 166.005,
+          "stdev": 21.33
+        },
+        "paired_evidence": {
+          "pair_count": 12,
+          "block_count": 3,
+          "order_balanced": true,
+          "sufficient": true,
+          "positive_pairs": 5,
+          "negative_pairs": 7,
+          "direction_consistent_across_blocks": false,
+          "baseline_jitter": {
+            "count": 12,
+            "values": [
+              149.379,
+              150.696,
+              159.728,
+              159.754,
+              161.139,
+              164.28,
+              165.158,
+              166.105,
+              167.295,
+              169.394,
+              177.088,
+              178.43
+            ],
+            "min": 149.379,
+            "median": 164.719,
+            "max": 178.43,
+            "mean": 164.037,
+            "stdev": 8.845,
+            "p95": 178.43
+          },
+          "delta_distribution": {
+            "count": 12,
+            "values": [
+              -19.494,
+              -16.259,
+              -15.096,
+              -12.973,
+              -12.796,
+              -6.348,
+              -2.364,
+              0.681,
+              15.95,
+              17.438,
+              30.765,
+              44.104
+            ],
+            "min": -19.494,
+            "median": -4.356,
+            "max": 44.104,
+            "mean": 1.967,
+            "stdev": 20.57,
+            "p95": 44.104
+          },
+          "relative_delta_distribution_pct": {
+            "count": 12,
+            "values": [
+              -11.653,
+              -9.844,
+              -8.912,
+              -8.051,
+              -7.704,
+              -4.213,
+              -1.48,
+              0.385,
+              8.939,
+              11.674,
+              18.727,
+              27.608
+            ],
+            "min": -11.653,
+            "median": -2.846,
+            "max": 27.608,
+            "mean": 1.29,
+            "stdev": 12.669,
+            "p95": 27.608
+          },
+          "noise_estimate": {
+            "pair_delta_mad_sigma_ms": 16.785,
+            "block_median_stdev_ms": 7.405,
+            "noise_envelope_ms": 16.785,
+            "relative_pair_delta_mad_sigma_pct": 9.684,
+            "relative_block_median_stdev_pct": 4.206,
+            "relative_noise_envelope_pct": 9.684
+          },
+          "materiality_guard_ms": 16.785,
+          "materiality_guard_relative_pct": 9.684,
+          "stable_non_regression": false,
+          "decisive_regression": false,
+          "block_medians": [
+            {
+              "block": "1",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -6.146,
+              "direction": "candidate_not_slower"
+            },
+            {
+              "block": "2",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": 4.801,
+              "direction": "candidate_slower"
+            },
+            {
+              "block": "3",
+              "pair_count": 4,
+              "order_counts": {
+                "candidate>baseline": 2,
+                "baseline>candidate": 2
+              },
+              "median_delta": -9.312,
+              "direction": "candidate_not_slower"
+            }
+          ],
+          "rationale": "paired direction, block materiality, or the minimum balanced evidence design is unresolved"
+        },
+        "r4_reconciliation": "R4 actionability/total-preview and warm DOMContentLoaded remained unresolved; R6 keeps the browser/automation split explicit and finds no decisive regression."
+      }
+    ],
+    "canonical_comparison_status": "VERIFY_REQUIRED",
+    "canonical_failures": [],
+    "canonical_verify_reasons": [
+      "cold_milestones.dom_content_loaded",
+      "cold_milestones.smart_style_ready",
+      "cold_milestones.markers_timeline_ready",
+      "cold_milestones.first_actionable_state",
+      "warm_milestones.dom_content_loaded",
+      "warm_milestones.smart_style_ready",
+      "warm_milestones.markers_timeline_ready",
+      "warm_milestones.first_actionable_state",
+      "interactions.route",
+      "interactions.date",
+      "interactions.region",
+      "interactions.preview",
+      "interactions.preview_actionability",
+      "interactions.preview_handler",
+      "interactions.detail",
+      "interactions.panel",
+      "interactions.provider_recovery"
+    ]
+  },
+  "r4_reconciliation": {
+    "run_id": "35287931324",
+    "head_sha": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+    "workflow": "candidate-qualification.yml",
+    "remote_metadata": {
+      "status": "completed",
+      "conclusion": "failure",
+      "job": "Exact-revision qualification",
+      "qualification_step": "failure",
+      "artifact_id": 10525177842,
+      "artifact_name": "candidate-qualification-9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+      "artifact_present": true,
+      "artifact_download": "requires authenticated GitHub API access in this environment"
+    },
+    "reconciliation": "The supplied R4 context says this exact-head run had no hard-failing Gate 5 performance metric and remained VERIFY_REQUIRED because hosted timing was noisy. The repository-copied QA/gate5 payload is explicitly not used as exact-head raw evidence because it is bound to 3972b034ceed166897a32649bede6bc8cd31f5e8. R6 independently remeasured 9c638f0... against 75d1f127... and remains VERIFY_REQUIRED with no decisive regression."
+  },
+  "gate5_loading_gate4_results": {
+    "focused_gate5_loading": {
+      "command": "rtk env TRIP_QA_URL=http://127.0.0.1:61011/index.html /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-visualizer-r6.cSKOChDBjZ/.venv-r6/bin/python -m unittest tests/test_gate5_performance_evidence.py tests/test_loading_completion.py",
+      "status": "PASS",
+      "details": {
+        "tests_run": 19,
+        "result": "OK"
+      }
+    },
+    "full_unit_contract": {
+      "command": "rtk env TRIP_QA_URL=http://127.0.0.1:61011/index.html /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-visualizer-r6.cSKOChDBjZ/.venv-r6/bin/python -m unittest discover -s tests -p 'test_*.py'",
+      "status": "PASS",
+      "details": {
+        "tests_run": 35,
+        "result": "OK"
+      }
+    },
+    "map_first_full": {
+      "command": "rtk env TRIP_QA_URL=http://127.0.0.1:61013/index.html /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-visualizer-r6.cSKOChDBjZ/.venv-r6/bin/python scripts/qa_map_first_full.py",
+      "status": "PASS",
+      "details": {
+        "loading_completed": true,
+        "matrix_states": 600,
+        "matrix_failures": 0,
+        "initial_provider": "vector",
+        "initial_health": "ready",
+        "canvas": 1,
+        "errors": []
+      }
+    },
+    "gate4_static": {
+      "command": "rtk /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-visualizer-r6.cSKOChDBjZ/.venv-r6/bin/python scripts/qa_gate4_resilience.py --mode static --output /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-visualizer-r6.cSKOChDBjZ/gate4_static.json",
+      "status": "PASS",
+      "details": {
+        "failures": []
+      }
+    },
+    "gate4_browser": {
+      "command": "rtk env TRIP_QA_URL=http://127.0.0.1:61013/index.html TRIP_STANDALONE_PATH=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-visualizer-r6.cSKOChDBjZ/qa-scratch/.build/standalone/SF_Smart_Minority_Map_First_Standalone.html /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-visualizer-r6.cSKOChDBjZ/.venv-r6/bin/python scripts/qa_gate4_resilience.py --mode browser --output /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-visualizer-r6.cSKOChDBjZ/gate4_browser.json",
+      "status": "PASS",
+      "details": {
+        "failures": [],
+        "negative_cases": 4,
+        "external_provider": "PASS",
+        "post_switch_tile_failure_recovery": "PASS",
+        "smart_local_first": "PASS"
+      }
+    }
+  },
+  "tracked_source_cleanliness": {
+    "candidate_initial": {
+      "commit_sha": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+      "tree_sha": "91589d5114b1854b619f42fcae21e027fa629996",
+      "source_fingerprint": "f4a1ebaf5d2084181a53184ae698ba87a4eb06ac4018d68cd76bef8b85fac15e",
+      "status": "clean"
+    },
+    "candidate_final": {
+      "commit_sha": "9c638f07d3942bbc10507f9e76d43aa4eb9ab621",
+      "tree_sha": "91589d5114b1854b619f42fcae21e027fa629996",
+      "source_fingerprint": "f4a1ebaf5d2084181a53184ae698ba87a4eb06ac4018d68cd76bef8b85fac15e",
+      "status": "clean",
+      "tracked_source_changed": false,
+      "changed_paths": []
+    },
+    "base_final": {
+      "commit_sha": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+      "tree_sha": "3621d44490d07684493ec70b386cf61724d63a9f",
+      "status": "clean"
+    },
+    "managed_verify_branch_initial": {
+      "commit_sha": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+      "tree_sha": "3621d44490d07684493ec70b386cf61724d63a9f",
+      "branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-verify-r6"
+    },
+    "authorized_tracked_paths": [
+      "QA/project_os_verify/gate5_r6/verification_summary.json",
+      "QA/project_os_verify/gate5_r6/paired_measurements.json",
+      "QA/project_os_verify/gate5_r6/performance_summary.log",
+      "QA/project_os_verify/gate5_r6/verification_manifest.json"
+    ]
+  },
+  "external_verify_obligations": [
+    {
+      "id": "E1",
+      "classification": "VERIFY_REQUIRED",
+      "obligation": "Project OS must independently read and adjudicate this technical verdict; this evidence does not claim Gate 5 GO or production readiness."
+    },
+    {
+      "id": "E2",
+      "classification": "VERIFY_REQUIRED",
+      "obligation": "Independent multimodal visual/usability acceptance by a reviewer outside the implementation/verification run; screenshots and objective browser checks are not self-certification."
+    },
+    {
+      "id": "E3",
+      "classification": "VERIFY_REQUIRED",
+      "obligation": "Real phone/device-specific performance, memory, touch behavior, and field-network performance; desktop headless Chromium cannot establish these."
+    },
+    {
+      "id": "E4",
+      "classification": "VERIFY_REQUIRED",
+      "obligation": "If exact R4 raw measurements are required for audit, authenticated retrieval of GitHub artifact 10525177842 for run 35287931324 remains external; R6 does not fabricate that unavailable payload."
+    },
+    {
+      "id": "E5",
+      "classification": "OUT_OF_SCOPE",
+      "obligation": "Photo/third-party redistribution rights are outside Gate 5 technical performance evidence and require their own review."
+    }
+  ],
+  "evidence_inputs": {
+    "r6_raw_measurement_file": "paired_measurements.json",
+    "canonical_pair_count": 12,
+    "canonical_block_count": 3,
+    "browser_instrumented_pair_count": 12,
+    "browser_instrumented_block_count": 3
+  },
+  "technical_verdict": "VERIFY_REQUIRED"
+}
