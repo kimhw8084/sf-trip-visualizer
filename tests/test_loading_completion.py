@@ -53,9 +53,10 @@ class LoadingCompletionTests(unittest.TestCase):
         self.assertNotIn("page.wait_for_timeout(900)\n    report[\"checks\"][\"loading_completed\"]", source)
         self.assertNotIn("!document.getElementById('loadingScreen')", source)
 
-    def test_map_visual_readiness_waits_for_resources_idle_and_stable_frames(self):
+    def test_map_visual_readiness_only_strictly_settles_webkit(self):
         source = (ROOT / "src/app_phase7.js").read_text()
         self.assertIn("function waitForMapVisualReady", source)
+        self.assertIn("semanticReady", source)
         self.assertIn("snapshot.localPending===0", source)
         self.assertIn("snapshot.tilesLoaded", source)
         self.assertIn("renderSeen", source)
@@ -65,7 +66,11 @@ class LoadingCompletionTests(unittest.TestCase):
         self.assertIn("strictWebKit", source)
         self.assertIn("AppleWebKit", source)
         self.assertIn("requiredStableFrames", source)
-        self.assertIn("strictWebKit?3:2", source)
+        self.assertIn("requiredStableFrames=3", source)
+        self.assertIn("if(!strictWebKit){finish", source)
+        self.assertIn("stableFrames:0", source)
+        self.assertIn("options.waitForVisual!==false&&isStrictWebKit()", source)
+        self.assertIn("whenMapVisualReady:()=>isStrictWebKit()?", source)
 
 
 if __name__ == "__main__":

@@ -29,7 +29,7 @@ from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
 from qa_loading import wait_for_application_ready
-from qa_map_visual_integrity import crop_map, image_from_path, integrity_result
+from qa_map_visual_integrity import crop_map, image_from_path, integrity_result, measure
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,9 +39,11 @@ BASELINE_OUTPUT = ROOT / "QA/gate5/baseline.json"
 PAIRED_COMPARISON_OUTPUT = ROOT / "QA/gate5/paired_comparison.json"
 PERFORMANCE_SUMMARY_OUTPUT = ROOT / "QA/gate5/performance_summary.log"
 FINDING_MATRIX = ROOT / "QA/gate5/finding_matrix.json"
+SAME_HOST_WEBKIT_OUTPUT = ROOT / "QA/gate5/same_host_webkit_control.json"
 BASE_REVISION = "75d1f127dd5ce332df54e205e9a3d152de7af176"
 SOURCE_EXCLUDED_PREFIXES = ("QA/", ".build/", ".release/", ".public-site/")
 MATRIX = (("chromium", 1440, 900, False), ("chromium", 834, 1112, True), ("chromium", 390, 844, True), ("firefox", 1440, 900, False), ("firefox", 834, 1112, True), ("firefox", 390, 844, True), ("webkit", 1440, 900, False), ("webkit", 834, 1112, True), ("webkit", 390, 844, True))
+WEBKIT_CONTROL_MATRIX = ((1440, 900, False), (834, 1112, True), (390, 844, True))
 
 
 def revision(root: Path = ROOT) -> str:
@@ -257,6 +259,122 @@ def map_visual_integrity(page, shots: Path, name: str, clean_reference: Path) ->
     result["screenshot"] = rel(path)
     result["clean_reference"] = rel(clean_reference)
     return result
+
+
+def _capture_raw_map(page, path: Path) -> None:
+    selectors = ".map-badge,.date-ribbon,.map-schedule,.map-focus,.preview-card,.route-tip,.maplibregl-control-container,.maplibregl-marker"
+    saved = page.evaluate("selectors => [...document.querySelectorAll(selectors)].map(element => element.getAttribute('style'))", selectors)
+    try:
+        page.evaluate("selectors => document.querySelectorAll(selectors).forEach(element => element.style.setProperty('display','none','important'))", selectors)
+        page.locator("#map").screenshot(path=str(path))
+    finally:
+        page.evaluate("({selectors, saved}) => [...document.querySelectorAll(selectors)].forEach((element, index) => saved[index] === null ? element.removeAttribute('style') : element.setAttribute('style', saved[index]))", {"selectors": selectors, "saved": saved})
+
+
+def _capture_webkit_control_state(page, root: Path, name: str) -> dict:
+    full_path = root / f"{name}.png"
+    map_path = root / f"{name}_map_visual.png"
+    root.mkdir(parents=True, exist_ok=True)
+    page.screenshot(path=str(full_path), full_page=True)
+    _capture_raw_map(page, map_path)
+    map_image = image_from_path(map_path)
+    return {
+        "screenshot": rel(full_path),
+        "map_screenshot": rel(map_path),
+        "detector_metric": measure(map_image),
+        "runtime_state": page.evaluate("""()=>({viewport:{width:innerWidth,height:innerHeight},theme:window.__tripApp.state.theme,lang:window.__tripApp.state.lang,provider:window.__tripApp.state.provider,region:window.__tripApp.state.region,date:window.__tripApp.state.date,routes:[...window.__tripApp.state.routes].sort(),tab:window.__tripApp.state.tab,selected:window.__tripApp.state.selected,zoom:window.__tripApp.map()?.getZoom(),canvas:document.querySelectorAll('.maplibregl-canvas').length})"""),
+    }
+
+
+def _capture_webkit_control_side(browser, url: str, width: int, height: int, touch: bool, root: Path, name: str) -> dict:
+    context = browser.new_context(viewport={"width": width, "height": height}, has_touch=touch, is_mobile=width <= 390)
+    page = context.new_page()
+    errors, console_errors, failed = [], [], []
+    errors_for(page, errors, console_errors, failed)
+    try:
+        milestones = wait_ready(page, url)
+        overall = _capture_webkit_control_state(page, root, f"{name}_overall")
+        page.locator('[data-route="A2"]').click()
+        page.wait_for_timeout(100)
+        page.locator('[data-tab="details"]').click()
+        page.wait_for_timeout(100)
+        detail = _capture_webkit_control_state(page, root, f"{name}_detail")
+        return {"milestones": milestones, "overall": overall, "detail": detail, "errors": errors, "console_errors": console_errors, "failed_requests": failed}
+    finally:
+        page.close()
+        context.close()
+
+
+def same_host_webkit_control(playwright, candidate_url: str, candidate_source: dict) -> dict:
+    """Render Gate-4 and candidate states in fresh contexts on one WebKit runtime."""
+    temporary = None
+    worktree = None
+    server = None
+    browser = None
+    try:
+        temporary = tempfile.mkdtemp(prefix="gate5-webkit-control-", dir=ROOT.parent)
+        worktree = Path(temporary) / "source"
+        added = subprocess.run(["git", "worktree", "add", "--detach", "--quiet", str(worktree), BASE_REVISION], cwd=ROOT, capture_output=True, text=True)
+        if added.returncode:
+            raise RuntimeError(f"could not create detached base worktree: {added.stderr.strip()}")
+        build = worktree / ".build"
+        built = subprocess.run([sys.executable, str(worktree / "scripts/build_map_first.py"), "--output-dir", str(build)], cwd=worktree, capture_output=True, text=True, timeout=120)
+        if built.returncode:
+            raise RuntimeError(f"detached base build failed: {built.stderr[-1200:]}")
+        port = free_local_port()
+        base_url = f"http://127.0.0.1:{port}/index.html"
+        server = subprocess.Popen([sys.executable, str(worktree / "scripts/serve_map.py"), "--port", str(port), "--directory", str(build / "modular")], cwd=worktree, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+        wait_for_server(base_url, server)
+        base_binding = source_binding(BASE_REVISION, worktree)
+        if base_binding["binding"] != "exact_commit" or base_binding["status"] != "PASS":
+            raise RuntimeError(f"detached base source binding was not exact: {base_binding}")
+        browser = playwright.webkit.launch(headless=True, timeout=90000)
+        cases = []
+        for width, height, touch in WEBKIT_CONTROL_MATRIX:
+            base_root = ROOT / "QA/gate5/screenshots/same_host_webkit/base" / str(width)
+            candidate_root = ROOT / "QA/gate5/screenshots/same_host_webkit/candidate" / str(width)
+            base = _capture_webkit_control_side(browser, base_url, width, height, touch, base_root, "webkit")
+            candidate = _capture_webkit_control_side(browser, candidate_url, width, height, touch, candidate_root, "webkit")
+            states = {}
+            for state in ("overall", "detail"):
+                base_image = image_from_path(ROOT / base[state]["map_screenshot"])
+                candidate_image = image_from_path(ROOT / candidate[state]["map_screenshot"])
+                comparison = integrity_result(candidate_image, base_image)
+                states[state] = {
+                    "base": base[state],
+                    "candidate": candidate[state],
+                    "detector": comparison,
+                    "interpretation": "candidate_differs_from_same_host_base" if comparison["status"] == "FAIL" else "candidate_within_same_host_base_envelope",
+                }
+            cases.append({"viewport": {"width": width, "height": height}, "touch": touch, "base": {"errors": base["errors"], "console_errors": base["console_errors"], "failed_requests": base["failed_requests"], "milestones": base["milestones"]}, "candidate": {"errors": candidate["errors"], "console_errors": candidate["console_errors"], "failed_requests": candidate["failed_requests"], "milestones": candidate["milestones"]}, "states": states})
+        return {
+            "status": "RECORDED",
+            "decision": "VERIFY_REQUIRED",
+            "base_revision": BASE_REVISION,
+            "candidate_revision": candidate_source.get("checked_out_revision"),
+            "base_source_binding": base_binding,
+            "candidate_source_binding": candidate_source,
+            "runtime": {"browser": "webkit", "browser_version": browser.version, "playwright_version": _package_version("playwright"), "same_browser_process": True, "fresh_context_per_revision_state": True, "theme": "light", "language": "ko", "provider": "vector", "screenshot_timing": "wait_ready_then_capture; detail after route A2 click + 100ms + details tab + 100ms", "detector": "scripts/qa_map_visual_integrity.py"},
+            "cases": cases,
+            "interpretation_rule": "A base/candidate relative FAIL is candidate-specific only after manual confirmation that the fresh same-host base metric is clean; matching corruption is VERIFY_REQUIRED pending representative Safari/macOS WebKit adjudication.",
+        }
+    except Exception as error:
+        return {"status": "VERIFY_REQUIRED", "decision": "VERIFY_REQUIRED", "base_revision": BASE_REVISION, "candidate_revision": candidate_source.get("checked_out_revision"), "reason": str(error)}
+    finally:
+        if browser is not None:
+            browser.close()
+        _terminate_server(server)
+        if worktree is not None:
+            subprocess.run(["git", "worktree", "remove", "--force", str(worktree)], cwd=ROOT, capture_output=True, text=True)
+            try:
+                worktree.parent.rmdir()
+            except OSError:
+                pass
+        elif temporary is not None:
+            try:
+                Path(temporary).rmdir()
+            except OSError:
+                pass
 
 
 def run_workflow(page, shots: Path, touch: bool = False, url: str = MODULAR_URL) -> dict:
@@ -881,6 +999,8 @@ def finding_matrix(report: dict) -> dict:
     if binding.get("status") != "PASS":
         rows.append({"finding":"exact candidate source binding","status":binding.get("status", "VERIFY_REQUIRED"),"evidence":binding})
     rows.append({"finding":"Gate 4 preservation","status":report.get("gate4_reference","VERIFY_REQUIRED"),"evidence":"canonical qualification QA/release/gate4.json when available"})
+    if report.get("same_host_webkit_control"):
+        rows.append({"finding":"same-host Gate-4 versus candidate WebKit low-zoom control","status":report["same_host_webkit_control"].get("decision", "VERIFY_REQUIRED"),"evidence":report["same_host_webkit_control"]})
     rows.extend({"finding":f"browser {row['browser']} {row['viewport']['width']}x{row['viewport']['height']}","status":row.get("status","UNVERIFIED"),"evidence":row.get("visual",{})} for row in report.get("browser_matrix",[]))
     return {"schema_version":1,"candidate_head":report["candidate_head"],"candidate_fingerprint":report["candidate_fingerprint"],"rows":rows}
 
@@ -933,7 +1053,7 @@ def main() -> int:
     output=Path(args.output); output=output if output.is_absolute() else ROOT/output; output.parent.mkdir(parents=True,exist_ok=True)
     shot_root=ROOT/"QA/gate5/screenshots"/args.phase; shot_root.mkdir(parents=True,exist_ok=True)
     binding=source_binding(args.expected_revision)
-    report={"schema_version":1,"status":"FAIL","gate":"production_readiness_gate_5","phase":args.phase,"candidate_head":revision(),"candidate_fingerprint":binding["source_fingerprint"],"source_binding":binding,"captured_at":now(),"environment":{"platform":platform.platform(),"python":sys.version.split()[0],"ci":os.environ.get("CI"),"url":MODULAR_URL,"playwright":None},"contract":rel(CONTRACT_PATH),"browser_matrix":[],"workflow":{},"performance":{},"verify_required":[],"failures":[]}
+    report={"schema_version":1,"status":"FAIL","gate":"production_readiness_gate_5","phase":args.phase,"candidate_head":revision(),"candidate_fingerprint":binding["source_fingerprint"],"source_binding":binding,"captured_at":now(),"environment":{"platform":platform.platform(),"python":sys.version.split()[0],"ci":os.environ.get("CI"),"url":MODULAR_URL,"playwright":None},"contract":rel(CONTRACT_PATH),"browser_matrix":[],"workflow":{},"performance":{},"same_host_webkit_control":{},"verify_required":[],"failures":[]}
     if binding["binding"] == "mismatch":
         report["status"]="VERIFY_REQUIRED"
         report["verify_required"].append(binding["reason"])
@@ -946,6 +1066,8 @@ def main() -> int:
         report["environment"]["browser_versions"]={}
         for browser_name in ("chromium","firefox","webkit"):
             browser=getattr(playwright,browser_name).launch(headless=True); report["environment"]["browser_versions"][browser_name]=browser.version; browser.close()
+        if args.phase == "candidate":
+            report["same_host_webkit_control"] = same_host_webkit_control(playwright, MODULAR_URL, binding)
         for browser_name,width,height,touch in MATRIX:
             report["browser_matrix"].append(matrix_case(playwright,browser_name,width,height,touch,args.phase,shot_root))
         browser=playwright.chromium.launch(headless=True,timeout=90000); context=browser.new_context(viewport={"width":1440,"height":900}); page=context.new_page(); errors=[]; console_errors=[]; failed=[]; errors_for(page,errors,console_errors,failed); wait_ready(page); report["workflow"]["main"]=run_workflow(page,shot_root); report["workflow"]["states"]=sparse_state_checks(page); report["workflow"]["keyboard"]=keyboard_checks(page); report["workflow"]["provider_recovery"]=provider_recovery(page); page.close(); context.close(); browser.close()
@@ -977,6 +1099,7 @@ def main() -> int:
             }
             BASELINE_OUTPUT.write_text(json.dumps(baseline_artifact, ensure_ascii=False, indent=2) + "\n")
             PAIRED_COMPARISON_OUTPUT.write_text(json.dumps({"schema_version": 1, "candidate_revision": report["candidate_head"], "baseline_revision": BASE_REVISION, "candidate_source_binding": binding, "baseline_source_binding": paired.get("source_binding"), "candidate_environment_signature": (report["performance"].get("samples") or {}).get("environment_signature"), "baseline_environment_signature": (paired.get("samples") or {}).get("environment_signature"), "measurement_schedule": paired.get("measurement_schedule"), "paired_measurements": paired.get("paired_measurements", []), "comparison": comparison}, ensure_ascii=False, indent=2) + "\n")
+            SAME_HOST_WEBKIT_OUTPUT.write_text(json.dumps(report["same_host_webkit_control"], ensure_ascii=False, indent=2) + "\n")
         else:
             report["performance"]["samples"] = performance_samples(playwright, 3, args.phase, shot_root, source=binding)
             comparison = compare_performance(report["performance"]["samples"], None)
