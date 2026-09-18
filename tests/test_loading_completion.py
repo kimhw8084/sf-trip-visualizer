@@ -62,7 +62,10 @@ class LoadingCompletionTests(unittest.TestCase):
         self.assertIn("renderedVersion===snapshot.resourceVersion", source)
         self.assertIn("idleSeen", source)
         self.assertIn("postIdleRenderSeen", source)
-        self.assertIn("stableFrames>=3", source)
+        self.assertIn("strictWebKit", source)
+        self.assertIn("AppleWebKit", source)
+        self.assertIn("requiredStableFrames", source)
+        self.assertIn("strictWebKit?3:2", source)
 
 
 if __name__ == "__main__":
