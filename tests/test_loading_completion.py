@@ -39,6 +39,10 @@ class LoadingCompletionTests(unittest.TestCase):
     def test_readiness_requires_product_ready_state_and_nonblocking_screen(self):
         self.assertIn("app.state.loadingStatus === 'ready'", APPLICATION_READY)
         self.assertIn("legacyProductReady", APPLICATION_READY)
+        self.assertIn("app.state.mapVisualReady === true", APPLICATION_READY)
+        self.assertIn("map.areTilesLoaded", APPLICATION_READY)
+        self.assertIn("!map.isMoving", APPLICATION_READY)
+        self.assertIn("!map.isZooming", APPLICATION_READY)
         self.assertIn("screen.classList.contains('ready')", APPLICATION_READY)
         self.assertIn("screen.getAttribute('aria-hidden') === 'true'", APPLICATION_READY)
         self.assertIn("getComputedStyle(screen).pointerEvents === 'none'", APPLICATION_READY)
@@ -48,6 +52,14 @@ class LoadingCompletionTests(unittest.TestCase):
         self.assertIn("wait_for_application_ready", source)
         self.assertNotIn("page.wait_for_timeout(900)\n    report[\"checks\"][\"loading_completed\"]", source)
         self.assertNotIn("!document.getElementById('loadingScreen')", source)
+
+    def test_map_visual_readiness_waits_for_resources_idle_and_stable_frames(self):
+        source = (ROOT / "src/app_phase7.js").read_text()
+        self.assertIn("function waitForMapVisualReady", source)
+        self.assertIn("snapshot.localPending===0", source)
+        self.assertIn("snapshot.tilesLoaded", source)
+        self.assertIn("idleSeen", source)
+        self.assertIn("stableFrames>=2", source)
 
 
 if __name__ == "__main__":
