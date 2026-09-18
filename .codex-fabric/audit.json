@@ -1,0 +1,307 @@
+{
+  "accepted_at": "2026-09-18T02:27:18Z",
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && sed -n '1,260p' /Users/haewonkim/.codex/law.md && printf '\\\\n--- git status ---\\\\n' && git status --short --branch && printf '\\\\n--- remotes ---\\\\n' && git remote -v && printf '\\\\n--- refs ---\\\\n' && git rev-parse HEAD && git branch --show-current && git show-ref --heads --dereference | sed -n '1,120p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-remote origin refs/heads/main && printf '\\\\n--- managed branch invariants ---\\\\n' && rtk git rev-parse HEAD && rtk git symbolic-ref --short HEAD && rtk git merge-base --is-ancestor HEAD 75d1f127dd5ce332df54e205e9a3d152de7af176; printf 'ancestor_exit=%s\\\\n' \\\"\"'$?\" && printf '\"'\\\\n--- top-level files ---\\\\n' && rtk rg --files -g '\"'!node_modules'\"' -g '\"'!dist'\"' -g '\"'!build'\"' | sed -n '1,220p' && printf '\\\\n--- package/config candidates ---\\\\n' && rtk rg -n 'gate5|field_quality|preview_handler|DOMContentLoaded|map_first|visual_spots|35287931324|Gate 5|gate 5' -g '\"'!node_modules'\"' -g '\"'!dist'\"' -g '\"'!build'\"' . | sed -n '1,260p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk printf '%s\\\\n' '--- project manifests ---' && rtk rg --files -g 'package.json' -g 'pyproject.toml' -g 'requirements*.txt' -g 'playwright.config.*' -g 'Makefile' -g '.github/workflows/**' -g 'QA/release/**' -g 'QA/map_first/*gate*' -g 'QA/map_first/*performance*' -g 'QA/map_first/*timing*' | sort | sed -n '1,240p' && rtk printf '%s\\\\n' '--- package/requirements/workflows ---' && for f in package.json pyproject.toml requirements.txt .github/workflows/*.yml .github/workflows/*.yaml; do if test -f \\\"\"'$f\"; then echo \"### $f\"; sed -n '\"'1,260p' \\\"\"'$f\"; fi; done && rtk printf '\"'%s\\\\n' '--- release evidence filenames ---' && rtk rg --files QA/release 2>/dev/null | sort | sed -n '1,260p' && rtk printf '%s\\\\n' '--- scripts with gate/performance ---' && rtk rg -l 'gate5|Gate 5|field_quality|DOMContentLoaded|preview_actionability|preview_handler|focus.*preview|warm_milestones|performance' scripts tests QA/release QA/map_first 2>/dev/null | sort | sed -n '1,240p'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk printf '%s\\\\n' '--- project manifests ---' && rtk rg --files -g 'package.json' -g 'pyproject.toml' -g 'requirements*.txt' -g 'playwright.config.*' -g 'Makefile' -g '.github/workflows/**' -g 'QA/release/**' -g 'QA/map_first/*gate*' -g 'QA/map_first/*performance*' -g 'QA/map_first/*timing*' | sort | sed -n '1,260p' && rtk printf '%s\\\\n' '--- requirements ---' && sed -n '1,260p' requirements-qa.txt && rtk printf '%s\\\\n' '--- workflow files ---' && rtk rg --files .github/workflows 2>/dev/null | sort | while IFS= read -r f; do echo \\\"### \"'$f\"; sed -n '\"'1,300p' \\\"\"'$f\"; done && rtk printf '\"'%s\\\\n' '--- release evidence filenames ---' && rtk rg --files QA/release 2>/dev/null | sort | sed -n '1,300p' && rtk printf '%s\\\\n' '--- scripts with gate/performance ---' && rtk rg -l 'gate5|Gate 5|field_quality|DOMContentLoaded|preview_actionability|preview_handler|focus.*preview|warm_milestones|performance' scripts tests QA/release QA/map_first 2>/dev/null | sort | sed -n '1,260p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk printf '%s\\\\n' '--- README operational section ---' && sed -n '1,220p' README.md && rtk printf '%s\\\\n' '--- pipeline entrypoints ---' && sed -n '1,620p' scripts/pipeline.py && rtk printf '%s\\\\n' '--- build script ---' && sed -n '1,300p' scripts/build_map_first.py && rtk printf '%s\\\\n' '--- test inventory ---' && rtk rg -n '\"'^class |''^def test_|''^    def test_'\"' tests | sed -n '1,260p' && rtk printf '%s\\\\n' '--- current QA release artifacts ---' && rtk find QA/release -maxdepth 2 -type f -print 2>/dev/null | sort | sed -n '1,200p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk printf '%s\\\\n' '--- worktrees ---' && rtk git worktree list --porcelain && rtk printf '%s\\\\n' '--- server ---' && sed -n '1,280p' scripts/serve_map.py && rtk printf '%s\\\\n' '--- smoke runner ---' && sed -n '1,320p' scripts/qa_map_first.py && rtk printf '%s\\\\n' '--- full runner beginning ---' && sed -n '1,360p' scripts/qa_map_first_full.py && rtk printf '%s\\\\n' '--- app preview-related code ---' && rtk rg -n -C 8 'preview|mouseenter|focus|DOMContentLoaded|loadingScreen|map\\\\.once|idle|loaded' src/app_phase7.js src/map_shell_template.html scripts/qa_map_first.py scripts/qa_map_first_full.py | sed -n '1,520p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk printf '%s\\\\n' '--- app functions 130-205 ---' && sed -n '120,210p' src/app_phase7.js && rtk printf '%s\\\\n' '--- qa config ---' && sed -n '1,240p' scripts/qa_config.py && rtk printf '%s\\\\n' '--- Gate 4 evidence references ---' && rtk rg -n -C 5 'gate4|loading|map_first_full|candidate_head|baseline|comparison|verification|VERIFY_REQUIRED|35287931324|9c638f07' QA .github scripts tests README.md 2>/dev/null | sed -n '1,520p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk mkdir -p /tmp/sf-trip-g5-r5-candidate /tmp/sf-trip-g5-r5-base /tmp/sf-trip-g5-r5-evidence && rtk git worktree add --detach /tmp/sf-trip-g5-r5-candidate 9c638f07d3942bbc10507f9e76d43aa4eb9ab621 && rtk git worktree add --detach /tmp/sf-trip-g5-r5-base 75d1f127dd5ce332df54e205e9a3d152de7af176 && printf '%s\\\\n' '--- candidate assertions ---' && cd /tmp/sf-trip-g5-r5-candidate && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree} && rtk git status --short --branch && rtk git diff --quiet && rtk git diff --cached --quiet && printf '\"'candidate_tracked_clean=PASS\\\\n' && printf '%s\\\\n' '--- base assertions ---' && cd /tmp/sf-trip-g5-r5-base && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree} && rtk git status --short --branch && rtk git diff --quiet && rtk git diff --cached --quiet && printf '\"'base_tracked_clean=PASS\\\\n' && printf '%s\\\\n' '--- host/runtime ---' && uname -a && python3 --version && python3 -c 'import playwright; print(\\\"playwright\\\", playwright.__file__)' && rtk python3 -m playwright --version 2>&1 || true && command -v xvfb-run || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"cd /tmp/sf-trip-g5-r5-candidate && printf '%s\\\\n' '--- candidate revision/source fingerprints ---' && rtk git rev-parse HEAD HEAD\"'^{tree} && rtk git show -s --format='\"'%H%n%P%n%ad%n%s' --date=iso-strict HEAD && rtk git ls-tree -r --full-tree HEAD | shasum -a 256 && for f in src/app_phase7.js src/app_phase7.css src/map_first.css src/map_shell_template.html src/vector_entry.js scripts/build_map_first.py; do shasum -a 256 \\\"\"'$f\"; done && cd /tmp/sf-trip-g5-r5-base && printf '\"'%s\\\\n' '--- base revision/source fingerprints ---' && rtk git rev-parse HEAD HEAD\"'^{tree} && rtk git show -s --format='\"'%H%n%P%n%ad%n%s' --date=iso-strict HEAD && rtk git ls-tree -r --full-tree HEAD | shasum -a 256 && for f in src/app_phase7.js src/app_phase7.css src/map_first.css src/map_shell_template.html src/vector_entry.js scripts/build_map_first.py; do shasum -a 256 \\\"\"'$f\"; done && cd /tmp/sf-trip-g5-r5-candidate && printf '\"'%s\\\\n' '--- candidate vs base diff summary ---' && rtk git diff --stat 75d1f127dd5ce332df54e205e9a3d152de7af176..9c638f07d3942bbc10507f9e76d43aa4eb9ab621 && rtk git diff --name-status 75d1f127dd5ce332df54e205e9a3d152de7af176..9c638f07d3942bbc10507f9e76d43aa4eb9ab621\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"cd /tmp/sf-trip-g5-r5-candidate && rtk printf '%s\\\\n' '--- gate5 script structure ---' && rtk rg -n '\"'^(ROOT|OUT|BASE|CANDIDATE|def |class |if __name__|parser|OUTPUT|write_text|screenshots|ArgumentParser)|preview|warm_milestones|pair|block|order|baseline|candidate|actionability|handler|focus'\"' scripts/qa_gate5_field_quality.py | sed -n '1,520p' && rtk printf '%s\\\\n' '--- gate5 contract ---' && sed -n '1,260p' manifests/gate5_field_quality_contract.json && rtk printf '%s\\\\n' '--- gate5 evidence summary ---' && for f in QA/gate5/baseline.json QA/gate5/candidate.json QA/gate5/paired_comparison.json QA/gate5/finding_matrix.json QA/gate5/performance_summary.log; do echo \\\"### \"'$f\"; if test -f \"$f\"; then sed -n '\"'1,260p' \\\"\"'$f\"; fi; done'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"cd /tmp/sf-trip-g5-r5-candidate && sed -n '318,470p' scripts/qa_gate5_field_quality.py && sed -n '470,700p' scripts/qa_gate5_field_quality.py && sed -n '700,860p' scripts/qa_gate5_field_quality.py && sed -n '860,1040p' scripts/qa_gate5_field_quality.py && rtk printf '%s\\\\n' '--- existing gate5 evidence top-level keys ---' && python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor p in [Path('QA/gate5/candidate.json'),Path('QA/gate5/baseline.json'),Path('QA/gate5/paired_comparison.json'),Path('QA/gate5/finding_matrix.json')]:\n    d=json.loads(p.read_text())\n    print('\\\\n',p)\n    print('keys',list(d))\n    for k in ['status','candidate_head','baseline_revision','candidate_revision','environment_signature','source_binding','comparison','paired_measurements','method','failures','verify_metrics']:\n        if k in d:\n            v=d[k]\n            print(k, (list(v)[:12] if isinstance(v,dict) else (len(v) if isinstance(v,list) else v)))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"cd /tmp/sf-trip-g5-r5-candidate && nl -ba scripts/qa_gate5_field_quality.py | sed -n '680,830p' && nl -ba scripts/qa_gate5_field_quality.py | sed -n '85,135p' && nl -ba scripts/qa_gate5_field_quality.py | sed -n '360,430p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"cd /tmp/sf-trip-g5-r5-candidate && nl -ba scripts/qa_gate5_field_quality.py | sed -n '1,92p' && nl -ba scripts/qa_gate5_field_quality.py | sed -n '630,685p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"cd /tmp/sf-trip-g5-r5-candidate && nl -ba scripts/qa_gate5_field_quality.py | sed -n '138,178p' && sed -n '1,220p' scripts/qa_loading.py && sed -n '1,160p' scripts/qa_config.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -l /tmp/sf-trip-g5-r5-evidence/measure_gate5.py && rtk python3 -m py_compile /tmp/sf-trip-g5-r5-evidence/measure_gate5.py && printf 'temp_measure_script=PASS\\\\n'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m py_compile /tmp/sf-trip-g5-r5-evidence/measure_gate5.py && printf 'temp_measure_script=PASS\\\\n'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/build_map_first.py --output-dir /tmp/sf-trip-g5-r5-base-build'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/build_map_first.py --output-dir /tmp/sf-trip-g5-r5-candidate-build'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m pip install -r /tmp/sf-trip-g5-r5-candidate/requirements-qa.txt'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m venv /tmp/sf-trip-g5-r5-venv'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g5-r5-venv/bin/python -m pip install -r /tmp/sf-trip-g5-r5-candidate/requirements-qa.txt'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /tmp/sf-trip-g5-r5-venv/bin/python -m playwright --version && rtk /tmp/sf-trip-g5-r5-venv/bin/python -c 'from playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n print(\\\"chromium\\\",p.chromium.executable_path)\n print(\\\"firefox\\\",p.firefox.executable_path)\n print(\\\"webkit\\\",p.webkit.executable_path)'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g5-r5-venv/bin/python scripts/build_map_first.py --output-dir /tmp/sf-trip-g5-r5-candidate-build'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g5-r5-venv/bin/python scripts/build_map_first.py --output-dir /tmp/sf-trip-g5-r5-base-build'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g5-r5-venv/bin/python scripts/serve_map.py --port 8766 --directory /tmp/sf-trip-g5-r5-candidate-build/modular'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env LIBGL_ALWAYS_SOFTWARE=1 /tmp/sf-trip-g5-r5-venv/bin/python /tmp/sf-trip-g5-r5-evidence/measure_gate5.py --candidate-url http://127.0.0.1:8776/index.html --base-url http://127.0.0.1:8767/index.html --output /tmp/sf-trip-g5-r5-evidence/paired_measurements.json --candidate-root /tmp/sf-trip-g5-r5-candidate --base-root /tmp/sf-trip-g5-r5-base'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /tmp/sf-trip-g5-r5-venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('/tmp/sf-trip-g5-r5-evidence/paired_measurements.json').read_text())\nprint('candidate binding:',json.dumps(p['candidate_binding'],indent=2))\nprint('base binding:',json.dumps(p['baseline_binding'],indent=2))\nfor name,v in p['comparisons'].items():\n    print('\\\\nMETRIC',name,'class=',v['classification'],'pairs=',v['pair_count'],'median_delta=',v['median_delta'],'noise=',v['noise_envelope_ms'],'mad=',v['pair_delta_mad_sigma_ms'],'block_stdev=',v['block_median_stdev_ms'])\n    print('blocks',[(b['block'],b['median_delta'],b['direction'],b['order_counts']) for b in v['blocks']])\n    print('rows',[(r['pair'],r['block'],''.join('C' if x=='candidate' else 'B' for x in r['order']),r['baseline'],r['candidate'],r['delta'],r['relative_delta_pct']) for r in v['rows']])\nprint('\\\\nANOMALIES',p['anomalies'])\n# Raw per side medians for required metrics\nfor side in ('baseline','candidate'):\n    rows=[x[side] for x in p['pairs']]\n    print('\\\\nSIDE',side)\n    for name in ('cold.dom_content_loaded','warm.dom_content_loaded','preview_handler_browser_ms','focus_to_preview_visible_browser_ms','preview_actionability_ms','preview_automation_visible_ms','preview_handler_automation_ms'):\n        vals=[]\n        for row in rows:\n            if name.startswith('cold.'): vals.append(row['cold_milestones'][name.split('.',1)[1]])\n            elif name.startswith('warm.'): vals.append(row['warm_milestones'][name.split('.',1)[1]])\n            elif name=='preview_handler_browser_ms': vals.append(row['browser_side_focus']['median_handler_ms'])\n            elif name=='focus_to_preview_visible_browser_ms': vals.append(row['browser_side_focus']['median_focus_to_visible_ms'])\n            elif name=='preview_actionability_ms': vals.append(row['automation_diagnostics']['preview_actionability_ms'])\n            elif name=='preview_automation_visible_ms': vals.append(row['automation_diagnostics']['preview_focus_to_visible_ms'])\n            elif name=='preview_handler_automation_ms': vals.append(row['automation_diagnostics']['preview_handler_diagnostic_ms'])\n        vals=sorted(vals)\n        import statistics\n        print(name, 'median', round(statistics.median(vals),3),'values', [round(x,3) for x in vals])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"cd /tmp/sf-trip-g5-r5-candidate && rtk printf '%s\\\\n' '--- focused Gate 5 tests ---' && rtk /tmp/sf-trip-g5-r5-venv/bin/python -m unittest tests.test_gate5_performance_evidence tests.test_loading_completion -v && rtk printf '%s\\\\n' '--- full unit/contract tests ---' && rtk /tmp/sf-trip-g5-r5-venv/bin/python -m unittest discover -s tests -p 'test_*.py' -v\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g5-r5-venv/bin/python scripts/qa_gate4_resilience.py --mode static --output /tmp/sf-trip-g5-r5-evidence/gate4_static.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g5-r5-venv/bin/python scripts/build_map_first.py --output-dir .build && rtk /tmp/sf-trip-g5-r5-venv/bin/python scripts/qa_gate4_resilience.py --mode static --output /tmp/sf-trip-g5-r5-evidence/gate4_static.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rm -rf /tmp/sf-trip-g5-r5-full-copy && rtk mkdir -p /tmp/sf-trip-g5-r5-full-copy && rtk git archive --format=tar HEAD | rtk tar -xf - -C /tmp/sf-trip-g5-r5-full-copy && rtk env TRIP_QA_URL=http://127.0.0.1:8776/index.html LIBGL_ALWAYS_SOFTWARE=1 /tmp/sf-trip-g5-r5-venv/bin/python scripts/qa_map_first_full.py'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git archive --format=tar HEAD | rtk tar -xf - -C /tmp/sf-trip-g5-r5-full-copy && rtk env TRIP_QA_URL=http://127.0.0.1:8776/index.html LIBGL_ALWAYS_SOFTWARE=1 /tmp/sf-trip-g5-r5-venv/bin/python scripts/qa_map_first_full.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"cd /tmp/sf-trip-g5-r5-candidate && rtk rg -n 'argparse|--mode|runtime|def run|def main|OUTPUT|build|server' scripts/qa_gate4_resilience.py | sed -n '1,220p' && rtk printf '%s\\\\n' '--- candidate full-run generated checks ---' && rtk /tmp/sf-trip-g5-r5-venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/tmp/sf-trip-g5-r5-full-copy/QA/map_first/full_acceptance.json')\nd=json.loads(p.read_text())\nprint(json.dumps({'loading_completed':d['checks'].get('loading_completed'),'matrix':d['checks'].get('matrix'),'initial':d['checks'].get('initial'),'errors':d.get('errors'),'console_errors_before_injected_failure':d['checks'].get('console_errors_before_injected_failure')},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env TRIP_QA_URL=http://127.0.0.1:8776/index.html TRIP_STANDALONE_PATH=/tmp/sf-trip-g5-r5-candidate/.build/standalone/SF_Smart_Minority_Map_First_Standalone.html /tmp/sf-trip-g5-r5-venv/bin/python scripts/qa_gate4_resilience.py --mode browser --output /tmp/sf-trip-g5-r5-evidence/gate4_runtime.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- remote and managed VERIFY branch ---' && rtk git ls-remote origin refs/heads/main && rtk git rev-parse HEAD && rtk git symbolic-ref --short HEAD && rtk git merge-base --is-ancestor HEAD 75d1f127dd5ce332df54e205e9a3d152de7af176; printf 'managed_head_ancestor_of_authoritative_main_exit=%s\\\\n' \\\"\"'$?\" && printf '\"'%s\\\\n' '--- candidate/base final refs and cleanliness ---' && cd /tmp/sf-trip-g5-r5-candidate && rtk git rev-parse HEAD HEAD\"'^{tree} && rtk git status --short --untracked-files=all && rtk git diff --quiet && rtk git diff --cached --quiet && printf '\"'candidate_tracked_clean=PASS\\\\n' && cd /tmp/sf-trip-g5-r5-base && rtk git rev-parse HEAD HEAD\"'^{tree} && rtk git status --short --untracked-files=all && rtk git diff --quiet && rtk git diff --cached --quiet && printf '\"'base_tracked_clean=PASS\\\\n' && printf '%s\\\\n' '--- evidence summaries ---' && cd /tmp/sf-trip-g5-r5-candidate && rtk /tmp/sf-trip-g5-r5-venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nfor f in ('/tmp/sf-trip-g5-r5-evidence/gate4_static.json','/tmp/sf-trip-g5-r5-evidence/gate4_runtime.json','/tmp/sf-trip-g5-r5-evidence/paired_measurements.json'):\n d=json.loads(Path(f).read_text()); print(Path(f).name, json.dumps({'status':d.get('status'),'candidate_head':d.get('candidate_head') or d.get('candidate_revision'),'baseline_revision':d.get('baseline_revision'),'pairs':d.get('measurement_schedule',{}).get('total_pairs'),'blocks':d.get('measurement_schedule',{}).get('block_count')},sort_keys=True))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"cd /tmp/sf-trip-g5-r5-candidate && rtk git diff --name-status && rtk git restore --source=HEAD -- QA/map_first/full_acceptance.json && rtk git status --short --untracked-files=all && rtk git diff --quiet && rtk git diff --cached --quiet && printf 'candidate_tracked_clean_after_discard=PASS\\\\n' && rtk git rev-parse HEAD HEAD\"'^{tree} && cd /Users/haewonkim/.codex-fabric/worktrees/CF-45912e2bcb16f49886d77abc && rtk git status --short --branch && rtk git rev-parse HEAD && rtk git symbolic-ref --short HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g5-r5-venv/bin/python scripts/serve_map.py --port 8776 --directory /tmp/sf-trip-g5-r5-candidate-build/modular'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g5-r5-venv/bin/python scripts/serve_map.py --port 8767 --directory /tmp/sf-trip-g5-r5-base-build/modular'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /tmp/sf-trip-g5-r5-venv/bin/python --version && rtk python3 --version && rtk /tmp/sf-trip-g5-r5-venv/bin/python -c 'import platform,sys,playwright,importlib.metadata; print(sys.executable); print(platform.platform()); print(importlib.metadata.version(\\\"playwright\\\"))' && rtk git -C /tmp/sf-trip-g5-r5-candidate status --short --untracked-files=all && rtk git -C /tmp/sf-trip-g5-r5-base status --short --untracked-files=all && rtk git -C /Users/haewonkim/.codex-fabric/worktrees/CF-45912e2bcb16f49886d77abc status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git worktree list --porcelain | sed -n '1,180p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 101,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.63,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 4668160,
+      "fresh_input_tokens": 162596,
+      "input_tokens": 4830756,
+      "non_reasoning_output_tokens": 15188,
+      "output_tokens": 32320,
+      "reasoning_output_tokens": 17132,
+      "total_processed_tokens": 4863076
+    },
+    "warnings": []
+  },
+  "commits": [],
+  "diff": {
+    "additions": 0,
+    "changed_files": 0,
+    "commit_count": 0,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-18T02:44:02Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-verify-r5",
+    "head_sha": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "remote_exact_head": true,
+    "remote_head_sha": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "work_branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-verify-r5",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-45912e2bcb16f49886d77abc",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-verify-r5",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-verify-r5"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "field-ux-a11y-performance-g5-verify-r5",
+  "schema_version": 1,
+  "started_at": "2026-09-18T02:27:18Z",
+  "status": "EXECUTED_NO_CHANGE",
+  "timing": {
+    "execution_seconds": 1004,
+    "queue_seconds": 0,
+    "total_seconds": 1004
+  },
+  "transport": {
+    "bytes": 7215,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6853,
+    "prompt_sha256": "0ee9f18a12f78da319c0179acc4c7c671a269154aab94bc63a0ee716701c0e36",
+    "sha256": "45912e2bcb16f49886d77abc78b0af0bb5d98d593d51849169ddf03d2e8be2b0"
+  }
+}
