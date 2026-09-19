@@ -1,0 +1,540 @@
+{
+  "accepted_at": "2026-09-19T14:22:50Z",
+  "changed_files": [
+    {
+      "additions": 7,
+      "deletions": 5,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "M"
+    },
+    {
+      "additions": 9,
+      "deletions": 6,
+      "path": ".github/workflows/deploy-pages.yml",
+      "status": "M"
+    },
+    {
+      "additions": 61,
+      "deletions": 61,
+      "path": "QA/map_first/canonical_truth.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 8,
+      "path": "QA/map_first/cross_browser.json",
+      "status": "M"
+    },
+    {
+      "additions": 29,
+      "deletions": 35,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "QA/photo_integrity.json",
+      "status": "M"
+    },
+    {
+      "additions": 226,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r2/evidence.json",
+      "status": "A"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "QA/route_panel/route_explanations_panel.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 2,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "manifests/public_asset_rights.json",
+      "status": "M"
+    },
+    {
+      "additions": 296,
+      "deletions": 0,
+      "path": "manifests/security_privacy_contract.json",
+      "status": "A"
+    },
+    {
+      "additions": 28,
+      "deletions": 4,
+      "path": "requirements-qa.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 22,
+      "deletions": 2,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 11,
+      "deletions": 3,
+      "path": "scripts/public_asset_rights.py",
+      "status": "M"
+    },
+    {
+      "additions": 538,
+      "deletions": 0,
+      "path": "scripts/security_privacy.py",
+      "status": "A"
+    },
+    {
+      "additions": 54,
+      "deletions": 28,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "src/map_shell_template.html",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 2,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 1,
+      "path": "tests/test_public_asset_rights.py",
+      "status": "M"
+    },
+    {
+      "additions": 170,
+      "deletions": 0,
+      "path": "tests/test_security_privacy.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && printf '%s\\\\n' '--- RTK ---' && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && printf '%s\\\\n' '--- LAW ---' && sed -n '1,260p' /Users/haewonkim/.codex/law.md && printf '%s\\\\n' '--- STATUS ---' && git status --short --branch && printf '%s\\\\n' '--- TOP ---' && git log --oneline --decorate -12\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git cat-file -t 250dd19e562da7cdc936921a214dba625061bdbb && rtk git show --no-renames --stat --oneline 250dd19e562da7cdc936921a214dba625061bdbb && printf '%s\\\\n' '--- R1 parents ---' && rtk git rev-list --parents -n 1 250dd19e562da7cdc936921a214dba625061bdbb && printf '%s\\\\n' '--- R1 branches ---' && rtk git branch -a --contains 250dd19e562da7cdc936921a214dba625061bdbb\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git cherry-pick 250dd19e562da7cdc936921a214dba625061bdbb'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && printf '%s\\\\n' '--- requirements ---' && sed -n '1,220p' requirements-qa.txt && printf '%s\\\\n' '--- security script symbols ---' && rg -n \\\"urllib3|advis|dependency|inventory|PASS|VERIFY|FIX|hash|requirements|Playwright|fflate|PMTiles|protomaps|vendor|secret|unsafe|localStorage\\\" scripts/security_privacy.py manifests/security_privacy_contract.json tests/test_security_privacy.py scripts/pipeline.py .github/workflows/candidate-qualification.yml .github/workflows/deploy-pages.yml && printf '%s\\\\n' '--- contract ---' && sed -n '1,320p' manifests/security_privacy_contract.json && printf '%s\\\\n' '--- security script 1 ---' && sed -n '1,260p' scripts/security_privacy.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '240,620p' scripts/security_privacy.py && printf '%s\\\\n' '--- tests ---' && rtk sed -n '1,260p' tests/test_security_privacy.py && printf '%s\\\\n' '--- contract 1-280 ---' && rtk sed -n '1,280p' manifests/security_privacy_contract.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS https://pypi.org/pypi/urllib3/2.8.0/json | jq -r '.info.requires_python, (.urls[] | [.filename,.python_version,.packagetype,.digests.sha256] | @tsv)' && printf '%s\\\\n' '--- requests requires ---' && rtk curl -sS https://pypi.org/pypi/requests/2.33.0/json | jq -r '.info.requires_dist[]? // empty' && printf '%s\\\\n' '--- closure metadata ---' && for package in beautifulsoup4 Pillow playwright requests soupsieve greenlet pyee typing-extensions certifi charset-normalizer idna urllib3; do rtk curl -sS \\\"https://pypi.org/pypi/\"'${package}/json\" | jq -r --arg p \"$package\" '\"'[ \"'$p, .info.version, .info.requires_python, (.info.requires_dist // [])[] ] | @tsv'\"'; done\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- QA dirs ---' && rtk find QA -maxdepth 3 -type f | sort | sed -n '1,240p' && printf '%s\\\\n' '--- pipeline commands ---' && rtk rg -n \\\"def (fast|qualify|assemble|package|verify|release|main)|subparsers|public|gate|rights|resilien|pytest|unittest\\\" scripts/pipeline.py && printf '%s\\\\n' '--- manifests ---' && rtk sed -n '1,240p' manifests/canonical_pipeline.json && printf '%s\\\\n' '--- package scripts ---' && rtk rg -n \\\"argparse|def main|revision|qualification|PACKAGE_MANIFEST|release-provenance|public\\\" scripts/{prepare_public_site.py,package_map_first.py,public_asset_rights.py}\"",
+      "exit_code": 0,
+      "test_result": {
+        "exit_code": 0,
+        "framework": "pytest",
+        "outcome": "passed",
+        "output_bytes": 21976,
+        "output_sha256": "3415f6cadd0cf982abf32fa1c3c1a852acb1f39dff24a13e40a0a0c2f7ea7e5e",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,230p' scripts/pipeline.py && rtk sed -n '230,545p' scripts/pipeline.py && rtk sed -n '545,630p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- ignore ---' && rtk sed -n '1,240p' .gitignore && printf '%s\\\\n' '--- project_os dirs ---' && rtk find . -maxdepth 4 -type d -name '*project_os*' -o -path './QA/project_os_verify*' && printf '%s\\\\n' '--- existing evidence references ---' && rtk rg -n \\\"project_os_verify|source_candidate|VERIFY_REQUIRED|advisory_review|qualification_sha|post-verification|evidence\\\" QA manifests scripts tests .github | sed -n '1,260p'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS -H 'Accept: application/vnd.github+json' 'https://api.github.com/advisories?ecosystem=pip&package=urllib3&per_page=100' | jq -r '.[] | [.ghsa_id,.severity,.published_at,.updated_at,.vulnerabilities[0].vulnerable_version_range,.vulnerabilities[0].first_patched_version.identifier,.summary] | @tsv'\"",
+      "exit_code": 5,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS -H 'Accept: application/vnd.github+json' 'https://api.github.com/advisories?ecosystem=pip&package=urllib3&per_page=100' | jq -r '.[] | [.ghsa_id,.severity,.published_at,.updated_at,((.vulnerabilities // [])[0].vulnerable_version_range // \\\"\\\"),((.vulnerabilities // [])[0].first_patched_version // \\\"\\\" | if type==\\\"object\\\" then .identifier else . end),.summary] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS -H 'Accept: application/vnd.github+json' 'https://api.github.com/advisories?ecosystem=pip&per_page=100' | jq -r '.[] | select(any(.vulnerabilities[]?; .package.name == \\\"urllib3\\\")) | [.ghsa_id,.severity,.published_at,.updated_at,([.vulnerabilities[] | select(.package.name==\\\"urllib3\\\") | .vulnerable_version_range] | join(\\\";\\\")),([.vulnerabilities[] | select(.package.name==\\\"urllib3\\\") | (.first_patched_version.identifier // \\\"\\\")] | join(\\\";\\\")),.summary] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom urllib.request import Request, urlopen\npackages = {\\\"beautifulsoup4\\\", \\\"Pillow\\\", \\\"playwright\\\", \\\"requests\\\", \\\"soupsieve\\\", \\\"greenlet\\\", \\\"pyee\\\", \\\"typing-extensions\\\", \\\"certifi\\\", \\\"charset-normalizer\\\", \\\"idna\\\", \\\"urllib3\\\"}\nseen = set()\nfor page in range(1, 11):\n    request = Request(f\\\"https://api.github.com/advisories?ecosystem=pip&per_page=100&page={page}\\\", headers={\\\"Accept\\\": \\\"application/vnd.github+json\\\", \\\"User-Agent\\\": \\\"gate7-review\\\"})\n    with urlopen(request, timeout=20) as response:\n        payload = json.load(response)\n    if not payload:\n        break\n    for advisory in payload:\n        matches = [v for v in advisory.get(\\\"vulnerabilities\\\", []) if v.get(\\\"package\\\", {}).get(\\\"name\\\", \\\"\\\").lower() in {p.lower() for p in packages}]\n        if not matches or advisory[\\\"ghsa_id\\\"] in seen:\n            continue\n        seen.add(advisory[\\\"ghsa_id\\\"])\n        print(json.dumps({\\\"ghsa_id\\\": advisory[\\\"ghsa_id\\\"], \\\"severity\\\": advisory.get(\\\"severity\\\"), \\\"published_at\\\": advisory.get(\\\"published_at\\\"), \\\"updated_at\\\": advisory.get(\\\"updated_at\\\"), \\\"summary\\\": advisory.get(\\\"summary\\\"), \\\"vulnerabilities\\\": matches, \\\"html_url\\\": advisory.get(\\\"html_url\\\")}, sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk pip-audit --version || true && rtk python3 -m pip_audit --version || true && rtk command -v pip-audit || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"for package in urllib3 soupsieve requests Pillow playwright beautifulsoup4 greenlet pyee typing-extensions certifi charset-normalizer idna; do rtk curl -sS -H 'Accept: application/vnd.github+json' \\\"https://api.github.com/advisories?ecosystem=pip&affects=\"'${package}&per_page=100\" | jq -r --arg p \"$package\" --argjson count 0 '\"'[.[] | select(any(.vulnerabilities[]?; (.package.name // \\\"\\\" | ascii_downcase) == (\"'$p | ascii_downcase)))] | length as $n | \"'\"\\\\(\"'$p)'\"\\\\t\\\\(\"'$n)\"'\"'; done\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfrom urllib.request import Request, urlopen\nfrom packaging.specifiers import SpecifierSet, InvalidSpecifier\nfrom packaging.version import Version, InvalidVersion\n\nrequirements = {}\nfor line in Path('requirements-qa.txt').read_text().splitlines():\n    line = line.strip()\n    if not line or line.startswith('#'):\n        continue\n    name, version = line.split('==', 1)[0], line.split('==', 1)[1].split()[0].rstrip('\\\\\\\\')\n    requirements[name.lower()] = (name, version)\nfor normalized, (name, version_text) in requirements.items():\n    request = Request(f'https://api.github.com/advisories?ecosystem=pip&affects={name}&per_page=100', headers={'Accept':'application/vnd.github+json','User-Agent':'gate7-review'})\n    with urlopen(request, timeout=30) as response:\n        advisories = json.load(response)\n    try:\n        version = Version(version_text)\n    except InvalidVersion:\n        print(name, version_text, 'INVALID_VERSION')\n        continue\n    applicable = []\n    for advisory in advisories:\n        for vulnerability in advisory.get('vulnerabilities', []):\n            if vulnerability.get('package', {}).get('name', '').lower() \"'!= normalized:\n                continue\n            version_range = vulnerability.get('\"'vulnerable_version_range', '')\n            try:\n                affected = version in SpecifierSet(version_range)\n            except InvalidSpecifier:\n                affected = None\n            if affected:\n                patched = vulnerability.get('first_patched_version')\n                if isinstance(patched, dict):\n                    patched = patched.get('identifier')\n                applicable.append((advisory['ghsa_id'], advisory.get('severity'), version_range, patched, advisory.get('html_url'), advisory.get('summary')))\n    print(json.dumps({'package':name,'version':version_text,'advisory_count':len(advisories),'applicable':applicable}, sort_keys=True))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json, re\nfrom pathlib import Path\nfrom urllib.request import Request, urlopen\nfrom packaging.specifiers import SpecifierSet, InvalidSpecifier\nfrom packaging.version import Version, InvalidVersion\n\nrequirements = {}\nfor line in Path('requirements-qa.txt').read_text().splitlines():\n    match = re.match(r'\\\\s*([A-Za-z0-9_.-]+)==([\"'^'\"\\\\s\\\\\\\\]+)', line)\n    if match:\n        requirements[match.group(1).lower()] = (match.group(1), match.group(2))\nfor normalized, (name, version_text) in requirements.items():\n    request = Request(f'https://api.github.com/advisories?ecosystem=pip&affects={name}&per_page=100', headers={'Accept':'application/vnd.github+json','User-Agent':'gate7-review'})\n    with urlopen(request, timeout=30) as response:\n        advisories = json.load(response)\n    try:\n        version = Version(version_text)\n    except InvalidVersion:\n        print(name, version_text, 'INVALID_VERSION')\n        continue\n    applicable = []\n    malformed = []\n    for advisory in advisories:\n        for vulnerability in advisory.get('vulnerabilities', []):\n            if vulnerability.get('package', {}).get('name', '').lower() \"'!= normalized:\n                continue\n            version_range = vulnerability.get('\"'vulnerable_version_range', '')\n            try:\n                affected = version in SpecifierSet(version_range)\n            except InvalidSpecifier:\n                affected = None\n                malformed.append((advisory['ghsa_id'], version_range))\n            if affected:\n                patched = vulnerability.get('first_patched_version')\n                if isinstance(patched, dict):\n                    patched = patched.get('identifier')\n                applicable.append((advisory['ghsa_id'], advisory.get('severity'), version_range, patched, advisory.get('html_url'), advisory.get('summary')))\n    print(json.dumps({'package':name,'version':version_text,'advisory_count':len(advisories),'applicable':applicable,'malformed_ranges':malformed}, sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom urllib.request import Request, urlopen\nfor package in ('urllib3','soupsieve'):\n    request = Request(f'https://api.github.com/advisories?ecosystem=pip&affects={package}&per_page=100', headers={'Accept':'application/vnd.github+json','User-Agent':'gate7-review'})\n    with urlopen(request, timeout=30) as response:\n        advisories = json.load(response)\n    print(f'--- {package} ---')\n    for advisory in advisories:\n        for vulnerability in advisory.get('vulnerabilities', []):\n            if vulnerability.get('package', {}).get('name','').lower() == package:\n                print('\\\\t'.join([advisory['ghsa_id'], advisory.get('severity',''), vulnerability.get('vulnerable_version_range',''), str(vulnerability.get('first_patched_version') or ''), advisory.get('html_url',''), advisory.get('summary','')]))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS https://pypi.org/pypi/soupsieve/2.9.2/json | jq -r '.info.requires_python, (.info.requires_dist[]? // empty), (.urls[] | [.filename,.python_version,.packagetype,.digests.sha256] | @tsv)' && printf '%s\\\\n' '--- exact closure requirements ---' && for spec in beautifulsoup4/4.12.2 Pillow/12.3.0 playwright/1.62.0 requests/2.33.0 soupsieve/2.9.2 greenlet/3.5.5 pyee/13.0.1 typing-extensions/4.16.0 certifi/2026.7.22 charset-normalizer/2.0.4 idna/3.19 urllib3/2.8.0; do package=\"'${spec%%/*}; version=${spec##*/}; rtk curl -sS \"https://pypi.org/pypi/${package}/${version}/json\" | jq -r --arg p \"$package\" --arg v \"$version\" '\"'[ \"'$p, $v, .info.requires_python, (.info.requires_dist[]? // empty) ] | @tsv'\"'; done\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"for package in requests Pillow certifi idna; do printf '%s\\\\n' \\\"--- \"'$package ---\"; rtk curl -sS -H '\"'Accept: application/vnd.github+json' \\\"https://api.github.com/advisories?ecosystem=pip&affects=\"'${package}&per_page=100\" | jq -r --arg p \"$package\" '\"'.[] | . as \"'$a | .vulnerabilities[]? | select((.package.name // \"\" | ascii_downcase) == ($p | ascii_downcase)) | [$a.ghsa_id,$a.severity,.vulnerable_version_range,(.first_patched_version // \"\"),$a.html_url,$a.summary] | @tsv'\"'; done\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk nl -ba manifests/security_privacy_contract.json | sed -n '145,255p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m json.tool manifests/security_privacy_contract.json >/dev/null && rtk python3 -m py_compile scripts/security_privacy.py && rtk git diff --check && rtk git diff --stat && rtk git diff -- requirements-qa.txt scripts/security_privacy.py | sed -n '1,280p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_security_privacy -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_security_privacy.SecurityPrivacyContractTests.test_advisory_validation_rejects_known_affected_transitive_pin -v && rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 --version && rtk python3 -m pip install --dry-run --require-hashes -r requirements-qa.txt'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short && rtk git diff --stat && rtk git diff --check && rtk git add requirements-qa.txt manifests/security_privacy_contract.json scripts/security_privacy.py tests/test_security_privacy.py && rtk git commit -m 'fix Gate 7 dependency advisory validation' && rtk git rev-parse HEAD && rtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"class .*Tests|def test_|public_asset|canonical_pipeline|pipeline\\\" tests | sed -n '1,260p' && printf '%s\\\\n' '--- focused security ---' && rtk python3 -m unittest tests.test_security_privacy -v && printf '%s\\\\n' '--- rights/canonical ---' && rtk python3 -m unittest tests.test_public_asset_rights tests.test_canonical_pipeline -v\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest discover -s tests -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py fast --revision fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,working_tree_clean,authored_inputs_unchanged,reproducible,build,gate4_static,public_asset_rights,security_privacy}' QA/release/fast.json && printf '%s\\\\n' '--- security ---' && rtk jq '{status,candidate_head,exact_candidate_bound,checks,requirements:{status,advisory_review},verify_required,failures}' QA/release/security_privacy.json && printf '%s\\\\n' '--- qualification present ---' && rtk test -f QA/release/qualification.json; echo \"'$?'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py verify-public --revision fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py package --revision fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- changed from base ---' && rtk git diff --name-status bb1b58619629448d99cd6a20b27e882492d1d0d7 fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 && printf '%s\\\\n' '--- identities ---' && rtk git rev-parse fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3\"'^{tree} && rtk git rev-parse fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3''^ && printf '\"'%s\\\\n' '--- qualification summary ---' && rtk jq '{status,candidate_head,working_tree_clean,fast_status:.fast.status,tests:[.tests[]|{name,status,returncode,evidence}]}' QA/release/qualification.json && printf '%s\\\\n' '--- public/package evidence ---' && rtk jq '{status,revision,artifact_sha256,files,checks}' QA/release/public_asset_rights.json 2>/dev/null || true && rtk jq '{status,revision,package_sha256,manifest_sha256,files,checks}' QA/release/gate4.json 2>/dev/null || true && printf '%s\\\\n' '--- generated hashes ---' && rtk sha256sum QA/release/fast.json QA/release/qualification.json QA/release/security_privacy.json QA/release/public_asset_rights.json QA/release/public_asset_rights_package.json QA/release/gate4_static.json QA/release/gate4_runtime.json QA/release/gate4.json .public-site/.release-provenance.json .release/package/PACKAGE_MANIFEST.json .release/package.zip\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,static,runtime,package:{status:.package.status,revision:.package.revision,package_sha256:.package.package_sha256,manifest_sha256:.package.manifest_sha256,files:.package.files,checks:.package.checks}}' QA/release/gate4.json && printf '%s\\\\n' '--- rights package ---' && rtk jq '{public_tree:{status:.public_tree.status,file_count:.public_tree.file_count},package_tree:{status:.package_tree.status,file_count:.package_tree.file_count}}' QA/release/public_asset_rights_package.json && printf '%s\\\\n' '--- qualification tests ---' && rtk jq '[.tests[]|{name,status,returncode,evidence}]' QA/release/qualification.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m json.tool QA/project_os_verify/gate7_r2/evidence.json >/dev/null && rtk git diff --check && rtk git status --short && rtk git add QA/project_os_verify/gate7_r2/evidence.json && rtk git commit -m 'record Gate 7 R2 verification evidence' && rtk git rev-parse HEAD && rtk git diff --name-only fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- status ---' && rtk git status --short && printf '%s\\\\n' '--- diff names/stat ---' && rtk git diff --name-status && rtk git diff --stat && printf '%s\\\\n' '--- diff headers ---' && rtk git diff --unified=0 -- QA/map_first/canonical_truth.json QA/map_first/cross_browser.json QA/map_first/full_acceptance.json QA/map_first/smoke.json QA/route_panel/route_explanations_panel.json | sed -n '1,260p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sha256sum QA/map_first/canonical_truth.json QA/map_first/cross_browser.json QA/map_first/full_acceptance.json QA/map_first/smoke.json QA/route_panel/route_explanations_panel.json && printf '%s\\\\n' '--- source candidate to current diff paths ---' && rtk git diff --name-only fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 | sed -n '1,80p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m json.tool QA/project_os_verify/gate7_r2/evidence.json >/dev/null && rtk git diff --check && rtk git add QA/project_os_verify/gate7_r2/evidence.json QA/map_first/canonical_truth.json QA/map_first/cross_browser.json QA/map_first/full_acceptance.json QA/map_first/smoke.json QA/route_panel/route_explanations_panel.json && rtk git commit -m 'preserve deterministic Gate 7 QA evidence' && rtk git rev-parse HEAD && rtk git diff --name-only fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 HEAD && rtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- branch/remotes ---' && rtk git branch -vv && rtk git remote -v && printf '%s\\\\n' '--- target and work branch remote refs ---' && rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-fix-r2 && printf '%s\\\\n' '--- post-candidate diff ---' && rtk git diff --name-status fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 HEAD && printf '%s\\\\n' '--- non-evidence mutation check ---' && rtk git diff --name-only fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 HEAD -- . ':\"'!QA'\"' && printf '%s\\\\n' '--- final tracked status ---' && rtk git status --short --branch && printf '%s\\\\n' '--- final identities/hashes ---' && rtk git rev-parse HEAD HEAD\"'^{tree} && rtk sha256sum QA/project_os_verify/gate7_r2/evidence.json QA/map_first/canonical_truth.json QA/map_first/cross_browser.json QA/map_first/full_acceptance.json QA/map_first/smoke.json QA/route_panel/route_explanations_panel.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-fix-r2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-fix-r2 && rtk git rev-parse HEAD && rtk git status --porcelain && rtk python3 -m json.tool QA/project_os_verify/gate7_r2/evidence.json >/dev/null && rtk git diff --name-only fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 HEAD -- . ':\"'!QA'\"' && rtk git log --oneline --decorate -4 && rtk sha256sum QA/project_os_verify/gate7_r2/evidence.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m json.tool QA/project_os_verify/gate7_r2/evidence.json >/dev/null && rtk git diff --check && rtk git add QA/project_os_verify/gate7_r2/evidence.json && rtk git commit -m 'normalize Gate 7 evidence date' && rtk git push origin HEAD:refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-fix-r2 && rtk git rev-parse HEAD && rtk sha256sum QA/project_os_verify/gate7_r2/evidence.json && rtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-fix-r2 && rtk git rev-parse HEAD HEAD''^{tree} && rtk git diff --name-only fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 HEAD -- . '\"':\"'!QA'\"' && rtk git status --porcelain && rtk python3 -m json.tool QA/project_os_verify/gate7_r2/evidence.json >/dev/null && rtk git log --oneline --decorate -5\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 130,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.21,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 8408832,
+      "fresh_input_tokens": 241178,
+      "input_tokens": 8650010,
+      "non_reasoning_output_tokens": 29279,
+      "output_tokens": 49027,
+      "reasoning_output_tokens": 19748,
+      "total_processed_tokens": 8699037
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "7e3f7918033ccddc92eef9449a11096bfedfd408",
+      "subject": "normalize Gate 7 evidence date"
+    },
+    {
+      "sha": "52317ba03a2c539bc0f5642b0bfe1bd0d4127ed4",
+      "subject": "preserve deterministic Gate 7 QA evidence"
+    },
+    {
+      "sha": "2ab5da8e8770a10e73e2c6c668f0d1c4ef0d4764",
+      "subject": "record Gate 7 R2 verification evidence"
+    },
+    {
+      "sha": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3",
+      "subject": "fix Gate 7 dependency advisory validation"
+    },
+    {
+      "sha": "9f5964fbfc434cea7221d3bdb70061bb13affa7e",
+      "subject": "fabric: capture completed model changes [CF-03dbb13801b2d416edca2798]"
+    }
+  ],
+  "diff": {
+    "additions": 1472,
+    "changed_files": 21,
+    "commit_count": 5,
+    "deletions": 163
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 10,
+    "items": [
+      {
+        "bytes": 201732,
+        "path": "QA/map_first/canonical_truth.json",
+        "sha256": "9cfc57d2ef84a8fda70cc48a0ff72cc07ed775e120512b50f7d66e238f1cdbc4"
+      },
+      {
+        "bytes": 2954,
+        "path": "QA/map_first/cross_browser.json",
+        "sha256": "9d5a5937d6819a7da603d7f12a7f6e0f7acffab87ee3b70f311c56513d65ca31"
+      },
+      {
+        "bytes": 12398,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "c54e7d339f2333074f97f0d3d4cfeb890cc2cb4bca63637fa219761762bbbeaf"
+      },
+      {
+        "bytes": 424,
+        "path": "QA/photo_integrity.json",
+        "sha256": "cfaf317b278606352c06b41084c5d8a51474c8b6b7abced4ab2b24a01d5d01f9"
+      },
+      {
+        "bytes": 21951,
+        "path": "QA/project_os_verify/gate7_r2/evidence.json",
+        "sha256": "74035777c80c7f374b513136da0d919938b11e97e5236b2767bc519ee9a0676f"
+      },
+      {
+        "bytes": 7219,
+        "path": "QA/route_panel/route_explanations_panel.json",
+        "sha256": "18300fc78adac1a5633a3298722ffb3ecab17603348040b7cd6ba51ab864af18"
+      },
+      {
+        "bytes": 4905,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "c8b1bb8abefa80fb81ef21204dc877b5683c51fe4db4b4ffebead74923a6f517"
+      },
+      {
+        "bytes": 549501,
+        "path": "manifests/public_asset_rights.json",
+        "sha256": "35d2e1e7de45d6a3242bc56c2730b0dc63ca01810a92dab2d024785105494830"
+      },
+      {
+        "bytes": 26749,
+        "path": "manifests/security_privacy_contract.json",
+        "sha256": "85602991e34814bdfc6ce20ca0d788b9a46566d59a533774e12f8992e7f58e09"
+      },
+      {
+        "bytes": 4039,
+        "path": "src/map_shell_template.html",
+        "sha256": "8d9a4a7ba41d3ce00dc05cb5b9a4b4a9751d6e4b899a0869a04f1e74bd088120"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-19T14:47:50Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+    "branch": "codex/sf-trip-visualizer-security-privacy-dependency-g7-fix-r2",
+    "detached_verify": false,
+    "head_sha": "7e3f7918033ccddc92eef9449a11096bfedfd408",
+    "remote_exact_head": true,
+    "remote_head_sha": "7e3f7918033ccddc92eef9449a11096bfedfd408",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+    "work_branch": "codex/sf-trip-visualizer-security-privacy-dependency-g7-fix-r2",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-0b960113e933bcb14e1e36f9",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/security-privacy-dependency-g7-fix-r2",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/security-privacy-dependency-g7-fix-r2"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "security-privacy-dependency-g7-fix-r2",
+  "schema_version": 1,
+  "started_at": "2026-09-19T14:22:50Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1500,
+    "queue_seconds": 0,
+    "total_seconds": 1500
+  },
+  "transport": {
+    "bytes": 7790,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 7433,
+    "prompt_sha256": "0c849cff5626f4aa02e507ce1f72e58cf307331d1ce0370b469ed2e69534aa21",
+    "sha256": "0b960113e933bcb14e1e36f9b7b5e0479a2b2ebd41fa2d12444daf2053c90b74"
+  }
+}
