@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_5",
+  "change": "CHG-65",
+  "status": "VERIFY_REQUIRED",
+  "result": "native Safari session unavailable",
+  "candidate_capture": "9545401f2dad58d932b5de7f19c8f121ac024d9d",
+  "candidate_source_revision": "f9edf2021451cc3040407636c226897a4505a8b7",
+  "base_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+  "host": {
+    "os": "macOS",
+    "os_version": "26.6.2",
+    "os_build": "25G83",
+    "kernel": "Darwin 25.6.0",
+    "architecture": "arm64",
+    "model_identifier": "Mac15,7",
+    "chip": "Apple M3 Pro"
+  },
+  "browser": {
+    "path": "/Applications/Safari.app",
+    "bundle_id": "com.apple.Safari",
+    "version": "26.6.2",
+    "build": "21624.5.1.11.3",
+    "driver_identity": "Included with Safari 26.6.2 (21624.5.1.11.3)",
+    "driver_status": "ready",
+    "automation": "WebDriver session rejected; Allow remote automation is disabled"
+  },
+  "attempts": {
+    "candidate_url": "http://127.0.0.1:8870/index.html",
+    "base_url": "http://127.0.0.1:8871/index.html",
+    "driver_endpoint": "http://127.0.0.1:4444",
+    "candidate_exercised": false,
+    "base_exercised": false,
+    "screenshots": [],
+    "observations": [],
+    "session_error": "Could not create a session: You must enable 'Allow remote automation' in the Developer section of Safari Settings to control Safari via WebDriver.",
+    "cua_attach_error": "cgWindowNotFound"
+  },
+  "interpretation": {
+    "product_status": "not_failed_by_environment_boundary",
+    "safari_evidence": "VERIFY_REQUIRED",
+    "webkit_substitute_used": false,
+    "responsive_emulation_is_hardware_evidence": false,
+    "fix_required": false
+  },
+  "physical_device": {
+    "status": "VERIFY_REQUIRED",
+    "available": false,
+    "device": null,
+    "simulators_detected": true,
+    "simulator_used_as_hardware_evidence": false,
+    "reason": "No physical iPhone/iPad or USB/device bridge was detected."
+  }
+}

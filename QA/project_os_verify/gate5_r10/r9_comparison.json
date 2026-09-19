@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_5",
+  "change": "CHG-65",
+  "base_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+  "r9_capture": "9545401f2dad58d932b5de7f19c8f121ac024d9d",
+  "r9_source_revision": "f9edf2021451cc3040407636c226897a4505a8b7",
+  "detached_checkouts": {
+    "base": {
+      "revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+      "clean": true,
+      "purpose": "exact Gate-4 base control"
+    },
+    "r9_candidate": {
+      "revision": "9545401f2dad58d932b5de7f19c8f121ac024d9d",
+      "source_revision": "f9edf2021451cc3040407636c226897a4505a8b7",
+      "clean": true,
+      "purpose": "immutable R9 candidate capture plus generated QA/evidence"
+    }
+  },
+  "new_native_safari_comparison": {
+    "status": "VERIFY_REQUIRED",
+    "candidate_run": "blocked before session creation",
+    "base_run": "blocked before session creation",
+    "candidate_specific_difference": "not adjudicated",
+    "reason": "Safari remote automation was disabled; no genuine Safari page state was available"
+  },
+  "carried_r9_evidence": {
+    "canonical_map_first_full_acceptance": {
+      "status": "PASS",
+      "path": "QA/map_first/full_acceptance.json",
+      "git_blob_sha1": "be73e6a78ee4799143a57753b4ac8d3d381d2df6"
+    },
+    "location_gap_race": {
+      "status": "PASS",
+      "path": "QA/map_first/location_gap_visuals.json",
+      "git_blob_sha1": "94f3df37c194b3bbc07963773f603c6253e227d3"
+    },
+    "finding_matrix": {
+      "rows": 14,
+      "pass": 10,
+      "verify_required": 4,
+      "fail": 0,
+      "path": "QA/gate5/finding_matrix.json",
+      "git_blob_sha1": "572478eec3c2db223213c3343f69a437850bc29f"
+    },
+    "automated_browser_matrix": {
+      "status": "PASS",
+      "rows": [
+        "chromium 1440x900",
+        "chromium 834x1112",
+        "chromium 390x844",
+        "firefox 1440x900",
+        "firefox 834x1112",
+        "firefox 390x844",
+        "webkit 1440x900",
+        "webkit 834x1112",
+        "webkit 390x844"
+      ],
+      "path": "QA/gate5/candidate.json",
+      "git_blob_sha1": "4c427ac972522c433c9002e12cd669188ec44f7c",
+      "interpretation": "automated browser/emulation evidence only; not native Safari or hardware"
+    },
+    "same_host_webkit_control": {
+      "status": "RECORDED",
+      "decision": "VERIFY_REQUIRED",
+      "detector_result": "PASS at 1440x900, 834x1112, and 390x844 overall/detail states; candidate within same-host base envelope",
+      "path": "QA/gate5/same_host_webkit_control.json",
+      "git_blob_sha1": "6ad69937086d7106e5e4588e8749f1be350629e8",
+      "interpretation": "Playwright WebKit control; not Safari evidence"
+    },
+    "performance": {
+      "status": "VERIFY_REQUIRED",
+      "decisive_regression": false,
+      "finding": "paired measurements noisy/inconclusive; no decisive regression",
+      "comparison_path": "QA/gate5/paired_comparison.json",
+      "comparison_git_blob_sha1": "c287d82da11481ed4b837bf014b7eeff850b07ba",
+      "summary_path": "QA/gate5/performance_summary.log",
+      "summary_git_blob_sha1": "2092664ce3c3ba06102a49b6707fef2b0c7b8517"
+    }
+  },
+  "conclusion": {
+    "concrete_candidate_defect_established": false,
+    "fix_required": false,
+    "gate5_go": false,
+    "production_readiness_claim": false,
+    "remaining_boundaries": [
+      "genuine Safari-on-macOS execution",
+      "independent E2 multimodal visual/usability acceptance",
+      "physical iPhone/iPad field check if required",
+      "performance qualification remains variance-aware VERIFY_REQUIRED"
+    ]
+  }
+}
