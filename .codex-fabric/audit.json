@@ -1,0 +1,1711 @@
+{
+  "accepted_at": "2026-09-18T23:19:38Z",
+  "changed_files": [
+    {
+      "additions": 6,
+      "deletions": 0,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "M"
+    },
+    {
+      "additions": 1845,
+      "deletions": 0,
+      "path": "QA/gate5/baseline.json",
+      "status": "A"
+    },
+    {
+      "additions": 45779,
+      "deletions": 0,
+      "path": "QA/gate5/candidate.json",
+      "status": "A"
+    },
+    {
+      "additions": 2411,
+      "deletions": 0,
+      "path": "QA/gate5/finding_matrix.json",
+      "status": "A"
+    },
+    {
+      "additions": 7815,
+      "deletions": 0,
+      "path": "QA/gate5/paired_comparison.json",
+      "status": "A"
+    },
+    {
+      "additions": 33,
+      "deletions": 0,
+      "path": "QA/gate5/performance_summary.log",
+      "status": "A"
+    },
+    {
+      "additions": 774,
+      "deletions": 0,
+      "path": "QA/gate5/same_host_webkit_control.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/chromium_1440_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/chromium_1440_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/chromium_390_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/chromium_390_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/chromium_834_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/chromium_834_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/detail_1440_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/detail_1440_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/filtered_1440_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/firefox_1440_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/firefox_1440_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/firefox_390_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/firefox_390_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/firefox_834_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/firefox_834_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/overall_1440_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/webkit_1440_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/webkit_1440_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/webkit_390_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/webkit_390_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/webkit_834_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/baseline/webkit_834_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_1440_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_1440_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_1440_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_1440_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_390_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_390_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_390_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_390_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_834_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_834_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_834_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/chromium_834_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/detail_1440_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/detail_1440_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/filtered_1440_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_1440_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_1440_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_1440_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_1440_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_390_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_390_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_390_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_390_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_834_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_834_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_834_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/firefox_834_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/overall_1440_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_1440_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_1440_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_1440_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_1440_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_390_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_390_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_390_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_390_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_834_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_834_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_834_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/candidate/webkit_834_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_detail_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_overall.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_overall_map_visual.png",
+      "status": "A"
+    },
+    {
+      "additions": 30,
+      "deletions": 30,
+      "path": "QA/map_first/canonical_truth.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 7,
+      "path": "QA/map_first/cross_browser.json",
+      "status": "M"
+    },
+    {
+      "additions": 129,
+      "deletions": 26,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "QA/map_first/interaction_dynamics.json",
+      "status": "M"
+    },
+    {
+      "additions": 73,
+      "deletions": 0,
+      "path": "QA/map_first/location_gap_race.json",
+      "status": "A"
+    },
+    {
+      "additions": 6,
+      "deletions": 4,
+      "path": "QA/map_first/location_gap_visuals.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "QA/map_first/smoke.json",
+      "status": "M"
+    },
+    {
+      "additions": 9,
+      "deletions": 9,
+      "path": "QA/route_panel/route_explanations_panel.json",
+      "status": "M"
+    },
+    {
+      "additions": 9,
+      "deletions": 2,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "M"
+    },
+    {
+      "additions": 85,
+      "deletions": 0,
+      "path": "manifests/gate5_field_quality_contract.json",
+      "status": "A"
+    },
+    {
+      "additions": 7,
+      "deletions": 4,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 11,
+      "deletions": 5,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "scripts/qa_gate4_resilience.py",
+      "status": "M"
+    },
+    {
+      "additions": 1138,
+      "deletions": 0,
+      "path": "scripts/qa_gate5_field_quality.py",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_interaction_dynamics.py",
+      "status": "M"
+    },
+    {
+      "additions": 84,
+      "deletions": 0,
+      "path": "scripts/qa_loading.py",
+      "status": "A"
+    },
+    {
+      "additions": 105,
+      "deletions": 0,
+      "path": "scripts/qa_location_gap_race.py",
+      "status": "A"
+    },
+    {
+      "additions": 9,
+      "deletions": 2,
+      "path": "scripts/qa_location_gap_visuals.py",
+      "status": "M"
+    },
+    {
+      "additions": 57,
+      "deletions": 14,
+      "path": "scripts/qa_map_first_full.py",
+      "status": "M"
+    },
+    {
+      "additions": 148,
+      "deletions": 0,
+      "path": "scripts/qa_map_visual_integrity.py",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_route_explanations_panel.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/qa_standalone_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 16,
+      "deletions": 3,
+      "path": "scripts/run_cross_browser.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/run_visual_spots.py",
+      "status": "M"
+    },
+    {
+      "additions": 39,
+      "deletions": 33,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "src/map_first.css",
+      "status": "M"
+    },
+    {
+      "additions": 12,
+      "deletions": 11,
+      "path": "src/map_shell_template.html",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 0,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 224,
+      "deletions": 0,
+      "path": "tests/test_gate5_performance_evidence.py",
+      "status": "A"
+    },
+    {
+      "additions": 77,
+      "deletions": 0,
+      "path": "tests/test_loading_completion.py",
+      "status": "A"
+    },
+    {
+      "additions": 24,
+      "deletions": 0,
+      "path": "tests/test_location_gap_race.py",
+      "status": "A"
+    },
+    {
+      "additions": 40,
+      "deletions": 0,
+      "path": "tests/test_map_visual_integrity.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk date -u && rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json createdAt,updatedAt,status,conclusion'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk date -u && rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | select(.status==\\\"in_progress\\\") | {name,status}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk date -u && rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk date -u'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk sleep 30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,jobs --jq '{status,conclusion,steps: [.jobs[0].steps[] | {name,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json conclusion,headSha,artifacts,url && rtk gh run download 35407179777 --repo kimhw8084/sf-trip-visualizer --name candidate-qualification-f9edf2021451cc3040407636c226897a4505a8b7 --dir /tmp/cf-r9-hosted'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk mkdir -p /tmp/cf-r9-hosted && rtk gh run download 35407179777 --repo kimhw8084/sf-trip-visualizer --name candidate-qualification-f9edf2021451cc3040407636c226897a4505a8b7 --dir /tmp/cf-r9-hosted && rtk find /tmp/cf-r9-hosted -maxdepth 4 -type f | sort | sed -n '1,240p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /tmp/cf-r9-hosted -type f | sort | rtk rg 'same_host|webkit|qualification.json|unit-tests.log|candidate.json|paired_comparison' | sed -n '1,320p' && printf '%s\\\\n' '--- root dirs ---' && rtk find /tmp/cf-r9-hosted -maxdepth 3 -type d | sort | sed -n '1,160p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /tmp/cf-r9-hosted/gate5/screenshots/same_host_webkit -type f | sort | sed -n '1,160p' && rtk find /tmp/cf-r9-hosted/release -maxdepth 1 -type f -print | sort\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,gate4_reference,failures,verify_required,source_binding,same_host_webkit_control}' /tmp/cf-r9-hosted/gate5/candidate.json > /tmp/hosted-control.txt && rtk sed -n '1,260p' /tmp/hosted-control.txt && printf '%s\\\\n' '--- hosted control metrics ---' && rtk jq -r '.same_host_webkit_control.cases[] | \\\"\\\\(.viewport.width)x\\\\(.viewport.height) overall base=\\\\(.states.overall.base.detector_metric.components)/\\\\(.states.overall.base.detector_metric.total_area)/\\\\(.states.overall.base.detector_metric.max_area) candidate=\\\\(.states.overall.candidate.detector_metric.components)/\\\\(.states.overall.candidate.detector_metric.total_area)/\\\\(.states.overall.candidate.detector_metric.max_area) detector=\\\\(.states.overall.detector.status) detail base=\\\\(.states.detail.base.detector_metric.components)/\\\\(.states.detail.base.detector_metric.total_area)/\\\\(.states.detail.base.detector_metric.max_area) candidate=\\\\(.states.detail.candidate.detector_metric.components)/\\\\(.states.detail.candidate.detector_metric.total_area)/\\\\(.states.detail.candidate.detector_metric.max_area) detector=\\\\(.states.detail.detector.status)\\\"' /tmp/cf-r9-hosted/gate5/candidate.json && printf '%s\\\\n' '--- hosted webkit matrix metrics ---' && rtk jq -r '.browser_matrix[] | select(.browser==\\\"webkit\\\") | [.viewport.width,.viewport.height,.status,.visual.map_visual_integrity.status,.visual.map_visual_integrity.metric.components,.visual.map_visual_integrity.metric.total_area,.visual.map_visual_integrity.metric.max_area,.visual.detail_map_visual_integrity.status,.visual.detail_map_visual_integrity.metric.components,.visual.detail_map_visual_integrity.metric.total_area,.visual.detail_map_visual_integrity.metric.max_area] | @tsv' /tmp/cf-r9-hosted/gate5/candidate.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'for w in 1440 834 390; do echo \"--- ${w} overall ---\"; rtk jq -r \".same_host_webkit_control.cases[] | select(.viewport.width==${w}) | [.states.overall.base.detector_metric.components,.states.overall.base.detector_metric.total_area,.states.overall.base.detector_metric.max_area,.states.overall.candidate.detector_metric.components,.states.overall.candidate.detector_metric.total_area,.states.overall.candidate.detector_metric.max_area,.states.overall.detector.status] | @tsv\" /tmp/cf-r9-hosted/gate5/candidate.json; echo \"--- ${w} detail ---\"; rtk jq -r \".same_host_webkit_control.cases[] | select(.viewport.width==${w}) | [.states.detail.base.detector_metric.components,.states.detail.base.detector_metric.total_area,.states.detail.base.detector_metric.max_area,.states.detail.candidate.detector_metric.components,.states.detail.candidate.detector_metric.total_area,.states.detail.candidate.detector_metric.max_area,.states.detail.detector.status] | @tsv\" /tmp/cf-r9-hosted/gate5/candidate.json; done'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- hosted performance map visual ---' && rtk jq -r '.performance.comparison.comparisons[] | select(.metric==\\\"cold_milestones.map_visual_ready\\\" or .metric==\\\"warm_milestones.map_visual_ready\\\") | [.metric,.status,.baseline.median,.candidate.median,.pair_evidence.delta_distribution.median,.pair_evidence.positive_pairs,.pair_evidence.pair_count,.pair_evidence.blocks[0].median_delta,.pair_evidence.blocks[1].median_delta,.pair_evidence.noise_estimate.noise_envelope_ms,.pair_evidence.rationale] | @tsv' /tmp/cf-r9-hosted/gate5/candidate.json && printf '%s\\\\n' '--- hosted qualification statuses ---' && rtk jq -r '.tests[] | [.name,.status,.returncode] | @tsv' /tmp/cf-r9-hosted/release/qualification.json && printf '%s\\\\n' '--- hosted release summary ---' && rtk jq '{status,candidate_head,errors,tests}' /tmp/cf-r9-hosted/release/qualification.json | sed -n '1,240p' && printf '%s\\\\n' '--- hosted unit tail ---' && rtk tail -40 /tmp/cf-r9-hosted/release/unit-tests.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- final HEAD/remote ---' && rtk git rev-parse HEAD && rtk git status --short --branch | sed -n '1,100p' && printf '%s\\\\n' '--- R8 lineage reapplied + R9 commit ---' && rtk git log --oneline --reverse 75d1f127dd5ce332df54e205e9a3d152de7af176..HEAD && printf '%s\\\\n' '--- product runtime files changed since authoritative main ---' && rtk git diff --name-only 75d1f127dd5ce332df54e205e9a3d152de7af176..HEAD | rtk rg '\"'^(src/|scripts/qa_|tests/|manifests/|'\"\\\\.github/workflows/)' | sed -n '1,180p' && printf '%s\\\\n' '--- hosted screenshot paths ---' && rtk jq -r '.cases[] | .viewport.width as \"'$w | \"'\"\\\\(\"'$w)x'\"\\\\(.viewport.height): base=gate5/screenshots/same_host_webkit/base/\\\\(\"'$w)/webkit_{overall,detail}{,_map_visual}.png candidate=gate5/screenshots/same_host_webkit/candidate/'\"\\\\(\"'$w)/webkit_{overall,detail}{,_map_visual}.png\"'\"' /tmp/cf-r9-hosted/gate5/candidate.json\"",
+      "exit_code": 5,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq -r '.same_host_webkit_control.cases[] | .viewport.width as \"'$w | \"'\"\\\\(\"'$w)x'\"\\\\(.viewport.height): base=gate5/screenshots/same_host_webkit/base/\\\\(\"'$w)/webkit_{overall,detail}{,_map_visual}.png candidate=gate5/screenshots/same_host_webkit/candidate/'\"\\\\(\"'$w)/webkit_{overall,detail}{,_map_visual}.png\"'\"' /tmp/cf-r9-hosted/gate5/candidate.json && printf '%s\\\\n' '--- candidate.json size ---' && rtk wc -c /tmp/cf-r9-hosted/gate5/candidate.json && printf '%s\\\\n' '--- hosted run ---' && rtk gh run view 35407179777 --repo kimhw8084/sf-trip-visualizer --json conclusion,status,headSha,url\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 321,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 98.91,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 28094464,
+      "fresh_input_tokens": 308543,
+      "input_tokens": 28403007,
+      "non_reasoning_output_tokens": 38678,
+      "output_tokens": 64018,
+      "reasoning_output_tokens": 25340,
+      "total_processed_tokens": 28467025
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "9545401f2dad58d932b5de7f19c8f121ac024d9d",
+      "subject": "fabric: capture completed model changes [CF-8ec8ab85ef8ed63e117bd84e]"
+    },
+    {
+      "sha": "f9edf2021451cc3040407636c226897a4505a8b7",
+      "subject": "fix gate5 non-webkit readiness regression"
+    },
+    {
+      "sha": "74bd2dcc70d75649f6837273934465caf34cae8c",
+      "subject": "scope strict visual settling to WebKit"
+    },
+    {
+      "sha": "f9ec7bb5095cc846ea4f06260609da85d1c264fb",
+      "subject": "fix Gate 5 WebKit readiness and marker callback race"
+    },
+    {
+      "sha": "0d3dcc59ff04953ad7083e661a2cbac0f522ed2a",
+      "subject": "qa: keep full state matrix and optional provider bounded"
+    },
+    {
+      "sha": "b277aa31cbcdffacf0914b911b36dba4198cb1e8",
+      "subject": "perf: use post-glyph render stability for map readiness"
+    },
+    {
+      "sha": "ffd8d543ede0d293c024456318f2042c8fd87e2e",
+      "subject": "perf: preserve ready Smart map during provider recovery"
+    },
+    {
+      "sha": "084d4dd8542b100e57cb2cab19e52252f5ec8ef8",
+      "subject": "fix: gate Smart-map readiness on stable WebKit rendering"
+    },
+    {
+      "sha": "fb418fe3776ef5dcabd36c215f0e294ec0d2c59e",
+      "subject": "run gate4 before gate5 exact-head qualification"
+    },
+    {
+      "sha": "277880d9c71b81d984d35bd51f8c0d39ba0ca5fb",
+      "subject": "fix gate5 paired performance evidence and preview path"
+    },
+    {
+      "sha": "99b93afb005729478cd94f5a6fbf4362458b81b3",
+      "subject": "qa: fix gate5 loading race and paired performance evidence"
+    }
+  ],
+  "diff": {
+    "additions": 61020,
+    "changed_files": 125,
+    "commit_count": 11,
+    "deletions": 160
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 104,
+    "items": [
+      {
+        "bytes": 48307,
+        "path": "QA/gate5/baseline.json",
+        "sha256": "1dfb83c9a6de1d03aa596b1391565bef6ff719c047b5f563aac2e5ca760bdf79"
+      },
+      {
+        "bytes": 1523940,
+        "path": "QA/gate5/candidate.json",
+        "sha256": "b2049ade4de1cf4dbf07f1640a43e76a52c82c8a693955f2d573f6073ba12df8"
+      },
+      {
+        "bytes": 75417,
+        "path": "QA/gate5/finding_matrix.json",
+        "sha256": "2bf495d3551cf22da8491387d4e1dbffb72b1fa268dc6f7e7154a7897ff65917"
+      },
+      {
+        "bytes": 209466,
+        "path": "QA/gate5/paired_comparison.json",
+        "sha256": "763358d79d7c8289643aaf1fab4013572bb43636665a6142e96f6ff1cd658d76"
+      },
+      {
+        "bytes": 71279,
+        "path": "QA/gate5/performance_summary.log",
+        "sha256": "57426b3770cc331627e79c8bca386cebc07574779674ff7abfa85299969a210b"
+      },
+      {
+        "bytes": 23599,
+        "path": "QA/gate5/same_host_webkit_control.json",
+        "sha256": "7207542923755b9fa530037de0db13d1a1e817afcc923db504ae779989c9377b"
+      },
+      {
+        "bytes": 572198,
+        "path": "QA/gate5/screenshots/baseline/chromium_1440_detail.png",
+        "sha256": "2f039f3192a254cacb78c77643bab6e2b243cd6342bc154eb0d5f88e7b5770eb"
+      },
+      {
+        "bytes": 516666,
+        "path": "QA/gate5/screenshots/baseline/chromium_1440_overall.png",
+        "sha256": "6fa92eb032ce07ea306b15a070c1e823bf01feafbf6a91f88e245e4fd1fc8be8"
+      },
+      {
+        "bytes": 134546,
+        "path": "QA/gate5/screenshots/baseline/chromium_390_detail.png",
+        "sha256": "10083455fc3c07854337bf484a3172f6df0906f8b06db0f142d83b3120d65240"
+      },
+      {
+        "bytes": 118762,
+        "path": "QA/gate5/screenshots/baseline/chromium_390_overall.png",
+        "sha256": "b99f9885a380d7d4728d60fafed214cc332db97aa7f9b79852c91bf51cf58c3c"
+      },
+      {
+        "bytes": 408511,
+        "path": "QA/gate5/screenshots/baseline/chromium_834_detail.png",
+        "sha256": "e1d6fdd714f38ef8bc9cadd014443cab73a8c690a2a4f4a9426428fc73a1c5f9"
+      },
+      {
+        "bytes": 329447,
+        "path": "QA/gate5/screenshots/baseline/chromium_834_overall.png",
+        "sha256": "595ac5eb088a7018a72678aa2d9f917b0505154be025edac1dacbe4e15da5a01"
+      },
+      {
+        "bytes": 775233,
+        "path": "QA/gate5/screenshots/baseline/detail_1440_en_dark.png",
+        "sha256": "ea6a304c8b9dce7c416600d5d779c635579673c7eb9ad429aa26413a07f497c1"
+      },
+      {
+        "bytes": 1010433,
+        "path": "QA/gate5/screenshots/baseline/detail_1440_ko_light.png",
+        "sha256": "6dfd0738e4764a586ead6ca8bfd7cfc677b0088b58bb411b5f8d2ac88e8de952"
+      },
+      {
+        "bytes": 756214,
+        "path": "QA/gate5/screenshots/baseline/filtered_1440_ko_light.png",
+        "sha256": "29faa3d49982342f847dd2a38c530032b1aa940680a937613b286dcf42b3884a"
+      },
+      {
+        "bytes": 638875,
+        "path": "QA/gate5/screenshots/baseline/firefox_1440_detail.png",
+        "sha256": "b2d43cecf99d25ca073cb0ec8509054a051513135a99c6a320c4c90d8b57852f"
+      },
+      {
+        "bytes": 573188,
+        "path": "QA/gate5/screenshots/baseline/firefox_1440_overall.png",
+        "sha256": "2c79b5b0e631d9fa696788d87c6277f2605ece2087f922162c23ff9bbac33dff"
+      },
+      {
+        "bytes": 156473,
+        "path": "QA/gate5/screenshots/baseline/firefox_390_detail.png",
+        "sha256": "d1943bf8f465191126de346173a85c02955b0fd49d0d133d1d61d16f6eb8e9bd"
+      },
+      {
+        "bytes": 136797,
+        "path": "QA/gate5/screenshots/baseline/firefox_390_overall.png",
+        "sha256": "00018c8f2f797ac5d8b3773ceae3bdf35a2e884786aef35a9d270fa514165ea8"
+      },
+      {
+        "bytes": 460079,
+        "path": "QA/gate5/screenshots/baseline/firefox_834_detail.png",
+        "sha256": "cf3624146bea4339e52d22d051654e4003386f8a966daae5b1bffb58db31ad71"
+      },
+      {
+        "bytes": 371061,
+        "path": "QA/gate5/screenshots/baseline/firefox_834_overall.png",
+        "sha256": "688e4dbaf24ae873fdcd508d34b554acd84418f44cfdd00397d15a050634e2b4"
+      },
+      {
+        "bytes": 516666,
+        "path": "QA/gate5/screenshots/baseline/overall_1440_ko_light.png",
+        "sha256": "6fa92eb032ce07ea306b15a070c1e823bf01feafbf6a91f88e245e4fd1fc8be8"
+      },
+      {
+        "bytes": 705602,
+        "path": "QA/gate5/screenshots/baseline/webkit_1440_detail.png",
+        "sha256": "af1ae8fa3853ae928a6e02f9f3f702d4fdfa5a43820dfbef530e97212ea184b7"
+      },
+      {
+        "bytes": 638694,
+        "path": "QA/gate5/screenshots/baseline/webkit_1440_overall.png",
+        "sha256": "ebc07e7cfbd07af1c445589e8589156f82ad11660905289825d16d7fc24b559c"
+      },
+      {
+        "bytes": 166577,
+        "path": "QA/gate5/screenshots/baseline/webkit_390_detail.png",
+        "sha256": "bfa08f615de327bb5e8416f4f8df1dc26a9c7be4132b2ed2c13201a6ba79a872"
+      },
+      {
+        "bytes": 146080,
+        "path": "QA/gate5/screenshots/baseline/webkit_390_overall.png",
+        "sha256": "c7141233f0346bbe4b87607ff44d1101db4773095b5968558f29f947ed299316"
+      },
+      {
+        "bytes": 505949,
+        "path": "QA/gate5/screenshots/baseline/webkit_834_detail.png",
+        "sha256": "631bcc89836c8782a1350cd36739e7b8b54932b197c5e6c9ba3ec4e41edf9963"
+      },
+      {
+        "bytes": 408437,
+        "path": "QA/gate5/screenshots/baseline/webkit_834_overall.png",
+        "sha256": "e68f54acc9b793ec2b375f1aece624f32d43d33b112e7ba88b94703a0d3c1b24"
+      },
+      {
+        "bytes": 581187,
+        "path": "QA/gate5/screenshots/candidate/chromium_1440_detail.png",
+        "sha256": "387b9c0ec895cd6db76218e1a8503090280e341e24c12e2a91c3a55d3ea7d52b"
+      },
+      {
+        "bytes": 390647,
+        "path": "QA/gate5/screenshots/candidate/chromium_1440_detail_map_visual.png",
+        "sha256": "348d699b3f87cdcad82f98334daf355155e930e827f99ddac936372eea6b5f0e"
+      },
+      {
+        "bytes": 547931,
+        "path": "QA/gate5/screenshots/candidate/chromium_1440_overall.png",
+        "sha256": "43fb7b7907cd639a9666b64f7a66e5f1e0f000e01008735d62fe0f3c7cc3a3d6"
+      },
+      {
+        "bytes": 396807,
+        "path": "QA/gate5/screenshots/candidate/chromium_1440_overall_map_visual.png",
+        "sha256": "b8b2e4e350bc9eb44071893e174660833866d2b7066eaeca3afbe6b7d2fed12a"
+      },
+      {
+        "bytes": 136639,
+        "path": "QA/gate5/screenshots/candidate/chromium_390_detail.png",
+        "sha256": "6a37b88400409d495e01ec08323c732c3c953a0a69ece858e9d19c17c2c11aae"
+      },
+      {
+        "bytes": 59600,
+        "path": "QA/gate5/screenshots/candidate/chromium_390_detail_map_visual.png",
+        "sha256": "41e77b9bdef96ff913fce660b4efd58be9b77b74683d45db84cd8795c2aee9c1"
+      },
+      {
+        "bytes": 131950,
+        "path": "QA/gate5/screenshots/candidate/chromium_390_overall.png",
+        "sha256": "70fa80352339361f7a46b5efe127685f3cad3bc315c77f6091a8282798a744f9"
+      },
+      {
+        "bytes": 60852,
+        "path": "QA/gate5/screenshots/candidate/chromium_390_overall_map_visual.png",
+        "sha256": "ba2d6b5eb159a52798f4d8883e8166f53926fb3eb7b19706434a8777f43351ad"
+      },
+      {
+        "bytes": 415445,
+        "path": "QA/gate5/screenshots/candidate/chromium_834_detail.png",
+        "sha256": "397def4d0189cbd9f5db74ef37d5e62785d5b80d7e9d9d2a09ca83bda57d158c"
+      },
+      {
+        "bytes": 173209,
+        "path": "QA/gate5/screenshots/candidate/chromium_834_detail_map_visual.png",
+        "sha256": "cd0e8f455cdc2521afd8102b01cea73003af4d7b7bf64387b2c6be923ec462e0"
+      },
+      {
+        "bytes": 362591,
+        "path": "QA/gate5/screenshots/candidate/chromium_834_overall.png",
+        "sha256": "16da7ac8eead0664b39db6c4f19e937a3e59d3181cb3c6eec4db85db3addda53"
+      },
+      {
+        "bytes": 175663,
+        "path": "QA/gate5/screenshots/candidate/chromium_834_overall_map_visual.png",
+        "sha256": "a4b0c6f1daacd3eb4b6656265bc8d17909922cf3eabd2d6c3b3b7945c049f2af"
+      },
+      {
+        "bytes": 783468,
+        "path": "QA/gate5/screenshots/candidate/detail_1440_en_dark.png",
+        "sha256": "c37d80b30626c83b4724de2d884f1e00ff696f585f657c58d4862b64871dbd00"
+      },
+      {
+        "bytes": 1022260,
+        "path": "QA/gate5/screenshots/candidate/detail_1440_ko_light.png",
+        "sha256": "0bf09b915e8b4a75c2dee0776c4be1b1c7fd3826e4564abfaf1f59b677849037"
+      },
+      {
+        "bytes": 796118,
+        "path": "QA/gate5/screenshots/candidate/filtered_1440_ko_light.png",
+        "sha256": "6b4942c8510790d01f90c0f43a5af42a5738f3e98d88992e62db277b07db2003"
+      },
+      {
+        "bytes": 649536,
+        "path": "QA/gate5/screenshots/candidate/firefox_1440_detail.png",
+        "sha256": "cd7431c026db729083c06ba91dcc1aa61a4b444f8e16cc61e22218fdd111aa1c"
+      },
+      {
+        "bytes": 419095,
+        "path": "QA/gate5/screenshots/candidate/firefox_1440_detail_map_visual.png",
+        "sha256": "6fc4f564cfbaacfc19c08d3f5efb4d93f9b3e41d9f4312060f0e8d3c2633b99f"
+      },
+      {
+        "bytes": 609231,
+        "path": "QA/gate5/screenshots/candidate/firefox_1440_overall.png",
+        "sha256": "5aa5b63ce110615763414a1d71afe498de066f8ee7391f7ad51f5ed56702b30c"
+      },
+      {
+        "bytes": 424389,
+        "path": "QA/gate5/screenshots/candidate/firefox_1440_overall_map_visual.png",
+        "sha256": "c1ec3aa00a4cc408ae15d8927329fb8360f419e03b63a813970d4febe2065c2f"
+      },
+      {
+        "bytes": 157670,
+        "path": "QA/gate5/screenshots/candidate/firefox_390_detail.png",
+        "sha256": "d3b771d438b91332a8eeada742a843da14f868f1cd55f1382fa94bfd57d2a6a2"
+      },
+      {
+        "bytes": 66267,
+        "path": "QA/gate5/screenshots/candidate/firefox_390_detail_map_visual.png",
+        "sha256": "33ee1426a10b76d252b34426a95c3e2835b830b0dab0fb60406ff93b6baf9e25"
+      },
+      {
+        "bytes": 152239,
+        "path": "QA/gate5/screenshots/candidate/firefox_390_overall.png",
+        "sha256": "008d4dc2fd79a5993b3415ec1b64e47df4641565884b69812489a4522dfc104f"
+      },
+      {
+        "bytes": 67706,
+        "path": "QA/gate5/screenshots/candidate/firefox_390_overall_map_visual.png",
+        "sha256": "45375d8ef1a5a16de859b4160fc8fe1a20fb7fbc3f9031b72577fd099be8ec1a"
+      },
+      {
+        "bytes": 464620,
+        "path": "QA/gate5/screenshots/candidate/firefox_834_detail.png",
+        "sha256": "cd7db6fa30d29f6de37d8d8edd7e3927a1d8391a0d782137eba4963d2e532b0c"
+      },
+      {
+        "bytes": 189976,
+        "path": "QA/gate5/screenshots/candidate/firefox_834_detail_map_visual.png",
+        "sha256": "2a07b91c7acd4143d95cd7ad9b1ac0d71647c6bf44a5ccd0de95068ad6ae8816"
+      },
+      {
+        "bytes": 402635,
+        "path": "QA/gate5/screenshots/candidate/firefox_834_overall.png",
+        "sha256": "a439ec7a4c1db4201af43f485352dc29e9a7e40f2a6eb75d73d8bd0215df105c"
+      },
+      {
+        "bytes": 192672,
+        "path": "QA/gate5/screenshots/candidate/firefox_834_overall_map_visual.png",
+        "sha256": "1b7108f4207dd1d3a5d34ce47b5d8a9feae995f9b70a3e5fbdf2364908cc1ac5"
+      },
+      {
+        "bytes": 547931,
+        "path": "QA/gate5/screenshots/candidate/overall_1440_ko_light.png",
+        "sha256": "43fb7b7907cd639a9666b64f7a66e5f1e0f000e01008735d62fe0f3c7cc3a3d6"
+      },
+      {
+        "bytes": 712293,
+        "path": "QA/gate5/screenshots/candidate/webkit_1440_detail.png",
+        "sha256": "c1bf74961e8f421905c6adee6a7616b224d318b6f9a0335df2ce3d4ea7f2c1d3"
+      },
+      {
+        "bytes": 479086,
+        "path": "QA/gate5/screenshots/candidate/webkit_1440_detail_map_visual.png",
+        "sha256": "826c4dad0dbb7c3de1c33fb83528c3f5e56d500565775b8e575cef3c2ce7d6e6"
+      },
+      {
+        "bytes": 673759,
+        "path": "QA/gate5/screenshots/candidate/webkit_1440_overall.png",
+        "sha256": "bf7f6e3a3cdb48d307ea3f537aeb075e3b8d7ff9da72e1be8874d23df8e37798"
+      },
+      {
+        "bytes": 484066,
+        "path": "QA/gate5/screenshots/candidate/webkit_1440_overall_map_visual.png",
+        "sha256": "0b38ca27bbf134cc7968057e5f5011f0d20519620e0e3079e4cc26dcee7993a8"
+      },
+      {
+        "bytes": 167957,
+        "path": "QA/gate5/screenshots/candidate/webkit_390_detail.png",
+        "sha256": "100a95d94fa887d66b3d02b1155fd7f5a5c56a0eefa481cd7df618a534042795"
+      },
+      {
+        "bytes": 74304,
+        "path": "QA/gate5/screenshots/candidate/webkit_390_detail_map_visual.png",
+        "sha256": "55a5765ce2e5f864059f3c5f6c96fb70651bf478d7065d8bbdf8e8238118bcf1"
+      },
+      {
+        "bytes": 161932,
+        "path": "QA/gate5/screenshots/candidate/webkit_390_overall.png",
+        "sha256": "255e165873cd52be6ffa7456b84fb89ebce3d3ea83833e72fba5bb239f874b4c"
+      },
+      {
+        "bytes": 76260,
+        "path": "QA/gate5/screenshots/candidate/webkit_390_overall_map_visual.png",
+        "sha256": "c38fcb5460df272672cf67c9b94972edfbf23ee10f6133e6b405b396295e8e0d"
+      },
+      {
+        "bytes": 506086,
+        "path": "QA/gate5/screenshots/candidate/webkit_834_detail.png",
+        "sha256": "5387646591d40201b187b557da2872feb9e52cc9d26e64d7c217d1699441aad6"
+      },
+      {
+        "bytes": 215144,
+        "path": "QA/gate5/screenshots/candidate/webkit_834_detail_map_visual.png",
+        "sha256": "5f047204a00d080764721bd11f6b19c514d08ccabae781264dc5378de63d596d"
+      },
+      {
+        "bytes": 443899,
+        "path": "QA/gate5/screenshots/candidate/webkit_834_overall.png",
+        "sha256": "14054e702f10021a50725e8440bf31a04b4b053482c388ad7efcacad0f58f546"
+      },
+      {
+        "bytes": 218161,
+        "path": "QA/gate5/screenshots/candidate/webkit_834_overall_map_visual.png",
+        "sha256": "85c4184fc6ce8ddfb62cff1981b287754e3073fe1c16c995c7a764f4e596e732"
+      },
+      {
+        "bytes": 705602,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_detail.png",
+        "sha256": "af1ae8fa3853ae928a6e02f9f3f702d4fdfa5a43820dfbef530e97212ea184b7"
+      },
+      {
+        "bytes": 479086,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_detail_map_visual.png",
+        "sha256": "826c4dad0dbb7c3de1c33fb83528c3f5e56d500565775b8e575cef3c2ce7d6e6"
+      },
+      {
+        "bytes": 638694,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_overall.png",
+        "sha256": "ebc07e7cfbd07af1c445589e8589156f82ad11660905289825d16d7fc24b559c"
+      },
+      {
+        "bytes": 484066,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_overall_map_visual.png",
+        "sha256": "0b38ca27bbf134cc7968057e5f5011f0d20519620e0e3079e4cc26dcee7993a8"
+      },
+      {
+        "bytes": 166577,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_detail.png",
+        "sha256": "bfa08f615de327bb5e8416f4f8df1dc26a9c7be4132b2ed2c13201a6ba79a872"
+      },
+      {
+        "bytes": 76021,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_detail_map_visual.png",
+        "sha256": "ca06b4f648d3bde6e54c17425c211f009fd85087f80526b9c95c6cf6fd2345b7"
+      },
+      {
+        "bytes": 146080,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_overall.png",
+        "sha256": "c7141233f0346bbe4b87607ff44d1101db4773095b5968558f29f947ed299316"
+      },
+      {
+        "bytes": 77896,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_overall_map_visual.png",
+        "sha256": "e96663ea5894083795d6856f74367c365782665308e4106a7b38087eafb5b9c1"
+      },
+      {
+        "bytes": 505949,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_detail.png",
+        "sha256": "631bcc89836c8782a1350cd36739e7b8b54932b197c5e6c9ba3ec4e41edf9963"
+      },
+      {
+        "bytes": 217839,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_detail_map_visual.png",
+        "sha256": "a84ed3a4109c7fd89d53d75fd34bc066962bdf7471ecdb876158163d1e538d26"
+      },
+      {
+        "bytes": 408437,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_overall.png",
+        "sha256": "e68f54acc9b793ec2b375f1aece624f32d43d33b112e7ba88b94703a0d3c1b24"
+      },
+      {
+        "bytes": 221028,
+        "path": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_overall_map_visual.png",
+        "sha256": "9e8a7db6ce7a9d22f122985db87519d113e9f18ddf1f883efc4a37e264e26794"
+      },
+      {
+        "bytes": 712293,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_detail.png",
+        "sha256": "c1bf74961e8f421905c6adee6a7616b224d318b6f9a0335df2ce3d4ea7f2c1d3"
+      },
+      {
+        "bytes": 479086,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_detail_map_visual.png",
+        "sha256": "826c4dad0dbb7c3de1c33fb83528c3f5e56d500565775b8e575cef3c2ce7d6e6"
+      },
+      {
+        "bytes": 673759,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_overall.png",
+        "sha256": "bf7f6e3a3cdb48d307ea3f537aeb075e3b8d7ff9da72e1be8874d23df8e37798"
+      },
+      {
+        "bytes": 484066,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_overall_map_visual.png",
+        "sha256": "0b38ca27bbf134cc7968057e5f5011f0d20519620e0e3079e4cc26dcee7993a8"
+      },
+      {
+        "bytes": 167957,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_detail.png",
+        "sha256": "100a95d94fa887d66b3d02b1155fd7f5a5c56a0eefa481cd7df618a534042795"
+      },
+      {
+        "bytes": 74304,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_detail_map_visual.png",
+        "sha256": "55a5765ce2e5f864059f3c5f6c96fb70651bf478d7065d8bbdf8e8238118bcf1"
+      },
+      {
+        "bytes": 161932,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_overall.png",
+        "sha256": "255e165873cd52be6ffa7456b84fb89ebce3d3ea83833e72fba5bb239f874b4c"
+      },
+      {
+        "bytes": 76260,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_overall_map_visual.png",
+        "sha256": "c38fcb5460df272672cf67c9b94972edfbf23ee10f6133e6b405b396295e8e0d"
+      },
+      {
+        "bytes": 506086,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_detail.png",
+        "sha256": "5387646591d40201b187b557da2872feb9e52cc9d26e64d7c217d1699441aad6"
+      },
+      {
+        "bytes": 215144,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_detail_map_visual.png",
+        "sha256": "5f047204a00d080764721bd11f6b19c514d08ccabae781264dc5378de63d596d"
+      },
+      {
+        "bytes": 443899,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_overall.png",
+        "sha256": "14054e702f10021a50725e8440bf31a04b4b053482c388ad7efcacad0f58f546"
+      },
+      {
+        "bytes": 218161,
+        "path": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_overall_map_visual.png",
+        "sha256": "85c4184fc6ce8ddfb62cff1981b287754e3073fe1c16c995c7a764f4e596e732"
+      },
+      {
+        "bytes": 201732,
+        "path": "QA/map_first/canonical_truth.json",
+        "sha256": "40f84a9358193a3bd6c820c61be2dccdea5b1a07fb80e84edda2a9bed1a3060a"
+      },
+      {
+        "bytes": 2486,
+        "path": "QA/map_first/cross_browser.json",
+        "sha256": "4182fe64b14831fce9ae0be530cc925ee91eadad2e8e704d070ec1e3f6674340"
+      },
+      {
+        "bytes": 18325,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "ae34f44b8dc0f91bb651381ee3a098a2d8ac906eda82c75a1eacd9b5d0056b1f"
+      },
+      {
+        "bytes": 16293,
+        "path": "QA/map_first/interaction_dynamics.json",
+        "sha256": "ee3fdd571e893e60e18bfc3e8c56cd7be92591fa9599068ecf146d45ac359b63"
+      },
+      {
+        "bytes": 1419,
+        "path": "QA/map_first/location_gap_race.json",
+        "sha256": "e1ea426c4c1cc7cf903f3ab9e7cf59142f64a9c0e8ad1104084911e23dca63ba"
+      },
+      {
+        "bytes": 7993,
+        "path": "QA/map_first/location_gap_visuals.json",
+        "sha256": "0f93aa561aead03ff7df5c5955b67a65fefb3f7eb1d5e0417732be308b0262e8"
+      },
+      {
+        "bytes": 1158,
+        "path": "QA/map_first/smoke.json",
+        "sha256": "3fceeed70b3f1307c2f2f4eb97bc6b6cf23650d75cfe2fff56c23ffb8b37167f"
+      },
+      {
+        "bytes": 7230,
+        "path": "QA/route_panel/route_explanations_panel.json",
+        "sha256": "0dc1f964e1b2aa4172835f7cc2b24740c0609293bc6d69901464ee8de140b54b"
+      },
+      {
+        "bytes": 4945,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "dbbfb097f8b0bba12709acbb748b838ba8e49bc257936c6f248abf578ac4e4a6"
+      },
+      {
+        "bytes": 6741,
+        "path": "manifests/gate5_field_quality_contract.json",
+        "sha256": "28ad8e6c1844b4ae475b292714549702647967c08fbaa98fc28169d285ba6ea4"
+      },
+      {
+        "bytes": 4554,
+        "path": "src/map_shell_template.html",
+        "sha256": "3465b26f2ef042eb97151234381d05dc2b8e6741a36c00cbd3efba2996bb4ead"
+      },
+      {
+        "bytes": 10903,
+        "path": "tests/test_gate5_performance_evidence.py",
+        "sha256": "84c59f861e37a3ad3b3865c8e0a059c73d65b7d31e918ef74d5d7b8b43eaaf09"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": true,
+    "commit_message": "fabric: capture completed model changes [CF-8ec8ab85ef8ed63e117bd84e]",
+    "commit_sha": "9545401f2dad58d932b5de7f19c8f121ac024d9d",
+    "paths_before": 34,
+    "status_before": [
+      " M QA/gate5/baseline.json",
+      " M QA/gate5/candidate.json",
+      " M QA/gate5/finding_matrix.json",
+      " M QA/gate5/paired_comparison.json",
+      " M QA/gate5/performance_summary.log",
+      " M QA/gate5/screenshots/candidate/chromium_390_detail.png",
+      " M QA/gate5/screenshots/candidate/chromium_834_detail.png",
+      " M QA/gate5/screenshots/candidate/detail_1440_en_dark.png",
+      " M QA/gate5/screenshots/candidate/filtered_1440_ko_light.png",
+      " M QA/map_first/canonical_truth.json",
+      " M QA/map_first/full_acceptance.json",
+      " M QA/map_first/smoke.json",
+      " M QA/route_panel/route_explanations_panel.json",
+      "?? QA/gate5/same_host_webkit_control.json",
+      "?? QA/gate5/screenshots/candidate/chromium_1440_detail_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/chromium_1440_overall_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/chromium_390_detail_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/chromium_390_overall_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/chromium_834_detail_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/chromium_834_overall_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/firefox_1440_detail_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/firefox_1440_overall_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/firefox_390_detail_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/firefox_390_overall_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/firefox_834_detail_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/firefox_834_overall_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/webkit_1440_detail_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/webkit_1440_overall_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/webkit_390_detail_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/webkit_390_overall_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/webkit_834_detail_map_visual.png",
+      "?? QA/gate5/screenshots/candidate/webkit_834_overall_map_visual.png",
+      "?? QA/gate5/screenshots/same_host_webkit/",
+      "?? QA/map_first/location_gap_race.json"
+    ],
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-19T00:06:26Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-fix-r9",
+    "detached_verify": false,
+    "head_sha": "9545401f2dad58d932b5de7f19c8f121ac024d9d",
+    "remote_exact_head": true,
+    "remote_head_sha": "9545401f2dad58d932b5de7f19c8f121ac024d9d",
+    "target_branch": "main",
+    "work_branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-fix-r9",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-8ec8ab85ef8ed63e117bd84e",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-fix-r9",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-fix-r9"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": false
+  },
+  "request": "field-ux-a11y-performance-g5-fix-r9",
+  "schema_version": 1,
+  "started_at": "2026-09-18T23:19:38Z",
+  "status": "EXECUTED_WITH_WARNINGS",
+  "timing": {
+    "execution_seconds": 2732,
+    "queue_seconds": 0,
+    "total_seconds": 2732
+  },
+  "transport": {
+    "bytes": 5813,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 5460,
+    "prompt_sha256": "840196b8407cab44128c2921d81f689d7b6be04eb7255ab553c6a188b030adb3",
+    "sha256": "8ec8ab85ef8ed63e117bd84e77b144b1bfc4d4b73dfde832aa48dfb9e99154ff"
+  }
+}
