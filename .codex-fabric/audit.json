@@ -1,0 +1,827 @@
+{
+  "accepted_at": "2026-09-19T02:26:28Z",
+  "changed_files": [
+    {
+      "additions": 16,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/README.md",
+      "status": "A"
+    },
+    {
+      "additions": 263,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/assembly_package_verify_results.json",
+      "status": "A"
+    },
+    {
+      "additions": 82,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/candidate_identity.json",
+      "status": "A"
+    },
+    {
+      "additions": 4368,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/candidate_inputs/asset_manifest.json",
+      "status": "A"
+    },
+    {
+      "additions": 140,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/candidate_inputs/canonical_pipeline.json",
+      "status": "A"
+    },
+    {
+      "additions": 13556,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/candidate_inputs/public_asset_rights.json",
+      "status": "A"
+    },
+    {
+      "additions": 48,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/focused_test_results.json",
+      "status": "A"
+    },
+    {
+      "additions": 45,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/negative_cases/results.json",
+      "status": "A"
+    },
+    {
+      "additions": 262,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/outputs/build_manifest.json",
+      "status": "A"
+    },
+    {
+      "additions": 33,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/outputs/delivery_contract.json",
+      "status": "A"
+    },
+    {
+      "additions": 13556,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/outputs/pages/.public-asset-rights.json",
+      "status": "A"
+    },
+    {
+      "additions": 11,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/outputs/pages/.release-provenance.json",
+      "status": "A"
+    },
+    {
+      "additions": 127,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/outputs/pages/ATTRIBUTION.md",
+      "status": "A"
+    },
+    {
+      "additions": 113,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/outputs/pages/THIRD_PARTY_NOTICES.md",
+      "status": "A"
+    },
+    {
+      "additions": 13556,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/outputs/public_package/.public-asset-rights.json",
+      "status": "A"
+    },
+    {
+      "additions": 127,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/outputs/public_package/ATTRIBUTION.md",
+      "status": "A"
+    },
+    {
+      "additions": 835,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/outputs/public_package/PACKAGE_MANIFEST.json",
+      "status": "A"
+    },
+    {
+      "additions": 113,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/outputs/public_package/THIRD_PARTY_NOTICES.md",
+      "status": "A"
+    },
+    {
+      "additions": 76,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/fast.json",
+      "status": "A"
+    },
+    {
+      "additions": 765,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/gate4_runtime.json",
+      "status": "A"
+    },
+    {
+      "additions": 3299,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/gate4_static.json",
+      "status": "A"
+    },
+    {
+      "additions": 84,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/gate4_summary.json",
+      "status": "A"
+    },
+    {
+      "additions": 18,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/independent_pages_rights.json",
+      "status": "A"
+    },
+    {
+      "additions": 24,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/independent_public_package_rights.json",
+      "status": "A"
+    },
+    {
+      "additions": 14,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/photo_integrity.json",
+      "status": "A"
+    },
+    {
+      "additions": 18,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/pipeline_pages_rights.json",
+      "status": "A"
+    },
+    {
+      "additions": 43,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/pipeline_public_package_rights.json",
+      "status": "A"
+    },
+    {
+      "additions": 254,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/qualification.json",
+      "status": "A"
+    },
+    {
+      "additions": 3651,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/canonical_truth.json",
+      "status": "A"
+    },
+    {
+      "additions": 120,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/cross_browser.json",
+      "status": "A"
+    },
+    {
+      "additions": 6010,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/exhaustive_states.json",
+      "status": "A"
+    },
+    {
+      "additions": 5402,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/filter_matrix.json",
+      "status": "A"
+    },
+    {
+      "additions": 359,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/full_acceptance.json",
+      "status": "A"
+    },
+    {
+      "additions": 806,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/interaction_dynamics.json",
+      "status": "A"
+    },
+    {
+      "additions": 244,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/location_gap_visuals.json",
+      "status": "A"
+    },
+    {
+      "additions": 1284,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/p0_independent.json",
+      "status": "A"
+    },
+    {
+      "additions": 647,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/route_continuity.json",
+      "status": "A"
+    },
+    {
+      "additions": 92,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/route_explanations_panel.json",
+      "status": "A"
+    },
+    {
+      "additions": 40,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/smoke.json",
+      "status": "A"
+    },
+    {
+      "additions": 13,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/standalone.json",
+      "status": "A"
+    },
+    {
+      "additions": 99,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/qualification/repository/visual_spots.json",
+      "status": "A"
+    },
+    {
+      "additions": 752,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate6_r2/rights_ledger.json",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && rtk git rev-parse HEAD && rtk git rev-parse --show-toplevel && rtk git show -s --format='%H%n%P%n%ad%n%s' --date=iso-strict HEAD && rtk git diff --stat 75d1f127dd5ce332df54e205e9a3d152de7af176..HEAD && rtk git diff --name-status 75d1f127dd5ce332df54e205e9a3d152de7af176..HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files -g 'manifests/*' -g 'scripts/*' -g 'tests/*' -g 'package.json' -g 'pyproject.toml' -g 'requirements*.txt' -g 'Makefile' -g 'README.md' | sort && rtk sed -n '1,260p' scripts/public_asset_rights.py && rtk sed -n '1,240p' scripts/check_public_asset_rights.py && rtk sed -n '1,260p' tests/test_public_asset_rights.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' manifests/canonical_pipeline.json && rtk sed -n '1,180p' scripts/prepare_public_site.py && rtk sed -n '1,220p' scripts/package_map_first.py && rtk sed -n '1,320p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '320,760p' scripts/pipeline.py && rtk sed -n '1,240p' scripts/build_map_first.py && rtk sed -n '1,220p' scripts/check_photo_integrity.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq -r 'keys[]' manifests/public_asset_rights.json && rtk jq '{schema_version,project,photo_count:(.photo_assets|length),asset_family_count:(.asset_families|length),path_rule_count:(.path_rules|length),required_paths,private_only_paths,decision_vocabulary}' manifests/public_asset_rights.json && rtk jq '{asset_count:(.assets|length),required_assets,status,required_places}' manifests/asset_manifest.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{coverage_summary,required_generated_notices,legal_boundary,license_basis,authoritative_inputs}' manifests/public_asset_rights.json && rtk jq -r '.asset_families[] | [.id,.asset_class,.public_distribution_decision,.evidence_status,.license_or_permission,.provenance,.derivative_obligations] | @tsv' manifests/public_asset_rights.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq -r '.initially_ambiguous_replacements[] | [.id,.original_source,.replacement_source,.replacement_creator,.replacement_license,.replacement_source_page,.shipped_derivative_hashes] | @json' manifests/public_asset_rights.json && rtk jq -r '.photo_assets[] | select(.id as \"'$id | [.initially_ambiguous_replacements[].id] | index($id)) | [.id,.source_title,.creator_or_owner,.license_or_permission,.license_url,.public_paths,.hashes] | @json'\"' manifests/public_asset_rights.json\"",
+      "exit_code": 5,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '.initially_ambiguous_replacements | type, if type==\\\"object\\\" then keys else length end' manifests/public_asset_rights.json && rtk jq '.initially_ambiguous_replacements' manifests/public_asset_rights.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq -r '.initially_ambiguous_replacements[] as \"'$id | .photo_assets[] | select(.id == $id) | {id,source_title,creator_or_owner,license_or_permission,license_url,source_page,public_paths,hashes,derivative_obligations}'\"' manifests/public_asset_rights.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,320p' tests/test_canonical_pipeline.py && rtk sed -n '1,320p' tests/test_cross_browser_runner.py && rtk rg -n \\\"public_asset|rights|photo_integrity|pipeline.py|qualify|assemble-public|package|verify-public|runtime-only\\\" README.md scripts tests manifests .github 2>/dev/null\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest -v tests.test_public_asset_rights'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest -v tests.test_canonical_pipeline'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,240p' requirements-qa.txt && rtk python3 -m pip show beautifulsoup4 playwright pillow 2>&1 || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m pip install -r requirements-qa.txt'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'test ! -e /tmp/sf-trip-g6-venv && rtk python3 -m venv /tmp/sf-trip-g6-venv && rtk /tmp/sf-trip-g6-venv/bin/pip install -r requirements-qa.txt'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g6-venv/bin/python -m playwright install --list'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g6-venv/bin/python -m unittest -v tests.test_canonical_pipeline'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /tmp/sf-trip-g6-venv/bin/python -m unittest discover -s tests -p 'test_*.py'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g6-venv/bin/python scripts/check_photo_integrity.py --runtime-only'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g6-venv/bin/python scripts/pipeline.py fast --revision 62d5d88b96e761011cb315755f3e47ea052bfb44'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g6-venv/bin/python scripts/pipeline.py qualify --revision 62d5d88b96e761011cb315755f3e47ea052bfb44'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g6-venv/bin/python scripts/pipeline.py assemble-public --revision 62d5d88b96e761011cb315755f3e47ea052bfb44'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g6-venv/bin/python scripts/pipeline.py package --revision 62d5d88b96e761011cb315755f3e47ea052bfb44'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g6-venv/bin/python scripts/check_public_asset_rights.py --tree .public-site --mode pages --report /tmp/g6-pages-rights.json && rtk /tmp/sf-trip-g6-venv/bin/python scripts/check_public_asset_rights.py --tree .release/package --mode public-package --report /tmp/g6-package-rights.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /tmp/sf-trip-g6-venv/bin/python - <<'PY'\nimport copy\nimport json\nimport shutil\nimport subprocess\nimport tempfile\nfrom pathlib import Path\n\nroot = Path.cwd()\nchecker = root / 'scripts' / 'check_public_asset_rights.py'\ncontract = json.loads((root / 'manifests' / 'public_asset_rights.json').read_text())\nmanifest = json.loads((root / 'manifests' / 'asset_manifest.json').read_text())\nfrom scripts.public_asset_rights import audit_tree\n\nresults = []\nwith tempfile.TemporaryDirectory(prefix='g6-negative-cases-') as tmp:\n    base = Path(tmp)\n    def case(name, mutate, expected):\n        tree = base / name\n        shutil.copytree(root / '.public-site', tree)\n        mutate(tree)\n        proc = subprocess.run(\n            [str(Path('/tmp/sf-trip-g6-venv/bin/python')), str(checker), '--tree', str(tree), '--mode', 'pages'],\n            cwd=root, capture_output=True, text=True,\n        )\n        payload = json.loads(proc.stdout)\n        matched = any(expected in failure for failure in payload.get('failures', []))\n        results.append({'case': name, 'returncode': proc.returncode, 'expected_failure': expected, 'matched': matched, 'failures': payload.get('failures', [])[:3]})\n    case('unregistered_shipped_asset', lambda tree: (tree / 'unexpected.bin').write_bytes(b'unregistered'), 'unregistered shipped file: unexpected.bin')\n    case('missing_required_notice', lambda tree: (tree / 'ATTRIBUTION.md').unlink(), 'required public asset/notice missing: ATTRIBUTION.md')\n    case('stale_rights_manifest', lambda tree: (tree / '.public-asset-rights.json').write_text('{}\\\\n'), 'embedded rights manifest is stale or does not match the candidate contract')\n    case('private_only_leak', lambda tree: ((tree / 'private').mkdir(), (tree / 'private' / 'secret.bin').write_bytes(b'private')), 'private-only asset leaked into pages: private/secret.bin')\n\n    tree = base / 'not_approved_registered_asset'\n    shutil.copytree(root / '.public-site', tree)\n    mutated_contract = copy.deepcopy(contract)\n    mutated_contract['path_rules'][0]['decision'] = 'verify-required'\n    result = audit_tree(tree, contract=mutated_contract, manifest=manifest, mode='pages', require_provenance=True)\n    results.append({'case': 'not_approved_registered_asset', 'returncode': 0 if result['status'] == 'PASS' else 1, 'expected_failure': 'registered but not approved', 'matched': any('registered but not approved' in failure for failure in result['failures']), 'failures': result['failures'][:3]})\n\nprint(json.dumps({'all_expected_failures_observed': all(item['returncode'] \"'!= 0 and item['\"'matched'] for item in results), 'cases': results}, indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '.private_only_paths' manifests/public_asset_rights.json && rtk jq -r '.path_rules[] | select(.modes|index(\\\"pages\\\")) | [.id,.paths,.patterns,.asset_class,.decision] | @json' manifests/public_asset_rights.json | head -n 8\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /tmp/sf-trip-g6-venv/bin/python - <<'PY'\nimport copy\nimport json\nimport shutil\nimport subprocess\nimport tempfile\nfrom pathlib import Path\n\nroot = Path.cwd()\nchecker = root / 'scripts' / 'check_public_asset_rights.py'\ncontract = json.loads((root / 'manifests' / 'public_asset_rights.json').read_text())\nmanifest = json.loads((root / 'manifests' / 'asset_manifest.json').read_text())\nfrom scripts.public_asset_rights import audit_tree\n\nresults = []\nwith tempfile.TemporaryDirectory(prefix='g6-negative-cases-') as tmp:\n    base = Path(tmp)\n    def cli_case(name, mutate, expected):\n        tree = base / name\n        shutil.copytree(root / '.public-site', tree)\n        mutate(tree)\n        proc = subprocess.run([str(Path('/tmp/sf-trip-g6-venv/bin/python')), str(checker), '--tree', str(tree), '--mode', 'pages'], cwd=root, capture_output=True, text=True)\n        payload = json.loads(proc.stdout)\n        results.append({'case': name, 'returncode': proc.returncode, 'matched': any(expected in failure for failure in payload.get('failures', [])), 'failure_excerpt': payload.get('failures', [])[:3]})\n    cli_case('unregistered_shipped_asset', lambda tree: (tree / 'unexpected.bin').write_bytes(b'unregistered'), 'unregistered shipped file: unexpected.bin')\n    cli_case('missing_required_notice', lambda tree: (tree / 'ATTRIBUTION.md').unlink(), 'required public asset/notice missing: ATTRIBUTION.md')\n    cli_case('stale_rights_manifest', lambda tree: (tree / '.public-asset-rights.json').write_text('{}\\\\n'), 'embedded rights manifest is stale or does not match the candidate contract')\n    def leak(tree):\n        path = tree / 'assets/photos/original/leaked.jpg'\n        path.parent.mkdir(parents=True)\n        path.write_bytes(b'private')\n    cli_case('private_only_leak', leak, 'private-only asset leaked into pages: assets/photos/original/leaked.jpg')\n\n    tree = base / 'not_approved_registered_asset'\n    shutil.copytree(root / '.public-site', tree)\n    mutated_contract = copy.deepcopy(contract)\n    mutated_contract['path_rules'][0]['decision'] = 'verify-required'\n    result = audit_tree(tree, contract=mutated_contract, manifest=manifest, mode='pages', require_provenance=True)\n    results.append({'case': 'not_approved_registered_asset', 'returncode': 0 if result['status'] == 'PASS' else 1, 'matched': any('registered but not approved' in failure for failure in result['failures']), 'failure_excerpt': result['failures'][:3]})\n\nprint(json.dumps({'all_expected_failures_observed': all(item['returncode'] \"'!= 0 and item['\"'matched'] for item in results), 'cases': results}, indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short && rtk git diff --name-only && rtk git diff --stat && rtk git rev-parse HEAD''^{tree} && rtk sha256sum manifests/public_asset_rights.json manifests/asset_manifest.json manifests/canonical_pipeline.json scripts/public_asset_rights.py scripts/check_public_asset_rights.py scripts/prepare_public_site.py scripts/package_map_first.py scripts/pipeline.py tests/test_public_asset_rights.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,working_tree_clean,errors,authored_inputs_unchanged,reproducible,build,gate4_static,public_asset_rights}' QA/release/fast.json && rtk jq '{status,candidate_head,working_tree_clean,errors,tests:[.tests[]|{name,status,returncode,evidence}],fast_status:.fast.status,build}' QA/release/qualification.json && rtk jq '{status,candidate_head,test_modes,delivery,package}' QA/release/gate4.json && rtk jq '{public_tree:{status:.public_tree.status,file_count:.public_tree.file_count,counts:.public_tree.approved_file_counts_by_class,failures:.public_tree.failures},package_tree:{status:.package_tree.status,file_count:.package_tree.file_count,counts:.package_tree.approved_file_counts_by_class,failures:.package_tree.failures}}' QA/release/public_asset_rights_package.json && rtk jq '{tested_sha,qualification_sha256,build_manifest_sha256,modular_index_sha256,artifact_sha256_excluding_provenance,artifact_file_count_excluding_provenance,artifact_bytes_excluding_provenance}' .public-site/.release-provenance.json && rtk jq '{tested_sha,qualification_sha256,file_count_excluding_manifest}' .release/package/PACKAGE_MANIFEST.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{test_count:(.tests|length),statuses:(.tests|map(.status)|group_by(.)|map({status:.[0],count:length})),tests:(.tests|map({name,status,returncode,evidence}))}' QA/release/qualification.json && rtk jq '{status,revision,package_sha256,manifest_sha256,files,checks}' QA/release/gate4.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,package}' QA/release/gate4.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk /tmp/sf-trip-g6-venv/bin/python scripts/pipeline.py verify-public --revision 62d5d88b96e761011cb315755f3e47ea052bfb44'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /tmp/sf-trip-g6-venv/bin/python - <<'PY'\nimport hashlib\nimport json\nimport re\nfrom pathlib import Path\n\nroot = Path.cwd()\nmanifest = json.loads((root / 'manifests/asset_manifest.json').read_text())\ncontract = json.loads((root / 'manifests/public_asset_rights.json').read_text())\npages = root / '.public-site'\npackage_public = root / '.release/package/artifacts/public'\nexpected_paths = {path for item in manifest['assets'] for path in (item['local_thumb_path'], item['local_medium_path'])}\nrole_map = {}\nfor item in manifest['assets']:\n    role_map.setdefault(item['place_key'], set()).add(item['role'])\nremote_photo = re.compile(r'https?://[\"'^'\"\\\\\\\"\\\\' )>]+\\\\.(?:jpe?g|png|webp)(?:\\\\?[\"'^'\"\\\\\\\"\\\\' )>]*)?', re.I)\nruntime_files = ['index.html', 'src/app_phase7.js', 'src/map_first.css']\nremote_matches = {relative: remote_photo.findall((pages / relative).read_text(errors='ignore')) for relative in runtime_files}\nremote_matches = {key: value for key, value in remote_matches.items() if value}\noutput = {\n    'pages_rights_approved': True,\n    'package_public_rights_approved': True,\n    'manifest_photo_rows': len(manifest['assets']),\n    'manifest_places': len(role_map),\n    'roles_per_place': sorted({tuple(sorted(roles)) for roles in role_map.values()}),\n    'expected_photo_derivative_paths': len(expected_paths),\n    'pages_photo_derivative_paths_present': sum((pages / path).is_file() for path in expected_paths),\n    'package_photo_derivative_paths_present': sum((package_public / path).is_file() for path in expected_paths),\n    'remote_runtime_photo_matches': remote_matches,\n    'required_pages_notices': {path: (pages / path).is_file() for path in ['ATTRIBUTION.md', 'THIRD_PARTY_NOTICES.md', '.public-asset-rights.json', '.release-provenance.json']},\n    'required_package_notices': {path: (root / '.release/package' / path).is_file() for path in ['artifacts/public/ATTRIBUTION.md', 'artifacts/public/THIRD_PARTY_NOTICES.md', 'artifacts/public/.public-asset-rights.json']},\n    'contract_required_public_photo_paths': sum(path in {p.relative_to(pages).as_posix() for p in pages.rglob('*') if p.is_file()} for path in expected_paths),\n}\noutput['contract_matches_36_places_x_3_roles'] = output['manifest_photo_rows'] == 108 and output['manifest_places'] == 36 and output['roles_per_place'] == [('EXPERIENCE', 'HERO', 'SCALE_CONTEXT')]\noutput['local_photo_contract_pass'] = output['pages_photo_derivative_paths_present'] == 216 and output['package_photo_derivative_paths_present'] == 216 and not remote_matches\nprint(json.dumps(output, indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse HEAD && rtk git diff --name-only 75d1f127dd5ce332df54e205e9a3d152de7af176..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk find QA/release -maxdepth 1 -type f -print | sort && rtk find QA/map_first -maxdepth 1 -type f -print | sort && rtk find QA/route_panel -maxdepth 1 -type f -print | sort'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mkdir -p QA/project_os_verify/gate6_r2/{candidate_inputs,qualification/repository,outputs/pages,outputs/public_package,negative_cases}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/manifests/public_asset_rights.json QA/project_os_verify/gate6_r2/candidate_inputs/public_asset_rights.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/manifests/asset_manifest.json QA/project_os_verify/gate6_r2/candidate_inputs/asset_manifest.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/manifests/canonical_pipeline.json QA/project_os_verify/gate6_r2/candidate_inputs/canonical_pipeline.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/QA/photo_integrity.json QA/project_os_verify/gate6_r2/qualification/photo_integrity.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/QA/release/fast.json QA/project_os_verify/gate6_r2/qualification/fast.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/QA/release/qualification.json QA/project_os_verify/gate6_r2/qualification/qualification.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/QA/release/gate4_static.json QA/project_os_verify/gate6_r2/qualification/gate4_static.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/QA/release/gate4_runtime.json QA/project_os_verify/gate6_r2/qualification/gate4_runtime.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/QA/release/gate4.json QA/project_os_verify/gate6_r2/qualification/gate4_summary.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/QA/release/public_asset_rights.json QA/project_os_verify/gate6_r2/qualification/pipeline_pages_rights.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/QA/release/public_asset_rights_package.json QA/project_os_verify/gate6_r2/qualification/pipeline_public_package_rights.json && rtk cp /tmp/g6-pages-rights.json QA/project_os_verify/gate6_r2/qualification/independent_pages_rights.json && rtk cp /tmp/g6-package-rights.json QA/project_os_verify/gate6_r2/qualification/independent_public_package_rights.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/QA/map_first/*.json QA/project_os_verify/gate6_r2/qualification/repository/ && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/QA/route_panel/route_explanations_panel.json QA/project_os_verify/gate6_r2/qualification/repository/ && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/.build/build_manifest.json QA/project_os_verify/gate6_r2/outputs/build_manifest.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/.public-site/ATTRIBUTION.md QA/project_os_verify/gate6_r2/outputs/pages/ATTRIBUTION.md && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/.public-site/THIRD_PARTY_NOTICES.md QA/project_os_verify/gate6_r2/outputs/pages/THIRD_PARTY_NOTICES.md && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/.public-site/.public-asset-rights.json QA/project_os_verify/gate6_r2/outputs/pages/.public-asset-rights.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/.public-site/.release-provenance.json QA/project_os_verify/gate6_r2/outputs/pages/.release-provenance.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/.release/package/artifacts/public/ATTRIBUTION.md QA/project_os_verify/gate6_r2/outputs/public_package/ATTRIBUTION.md && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/.release/package/artifacts/public/THIRD_PARTY_NOTICES.md QA/project_os_verify/gate6_r2/outputs/public_package/THIRD_PARTY_NOTICES.md && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/.release/package/artifacts/public/.public-asset-rights.json QA/project_os_verify/gate6_r2/outputs/public_package/.public-asset-rights.json && rtk cp /tmp/sf-trip-g6-candidate.zn7Ham/.release/package/PACKAGE_MANIFEST.json QA/project_os_verify/gate6_r2/outputs/public_package/PACKAGE_MANIFEST.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /tmp/sf-trip-g6-venv/bin/python - <<'PY'\nimport hashlib\nimport json\nimport subprocess\nfrom collections import Counter\nfrom pathlib import Path\n\nroot = Path.cwd()\ncandidate = '62d5d88b96e761011cb315755f3e47ea052bfb44'\nauthoritative = '75d1f127dd5ce332df54e205e9a3d152de7af176'\n\ndef digest(path):\n    h = hashlib.sha256()\n    with path.open('rb') as f:\n        for chunk in iter(lambda: f.read(4 * 1024 * 1024), b''):\n            h.update(chunk)\n    return h.hexdigest()\n\ndef read_json(path):\n    return json.loads(path.read_text())\n\ncontract = read_json(root / 'manifests/public_asset_rights.json')\nmanifest = read_json(root / 'manifests/asset_manifest.json')\nhead = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()\ntree = subprocess.check_output(['git', 'rev-parse', 'HEAD\"'^{tree}'\"'], text=True).strip()\nparent = subprocess.check_output(['git', 'rev-parse', 'HEAD\"'^'\"'], text=True).strip()\nfinal_status = subprocess.check_output(['git', 'status', '--short'], text=True).splitlines()\nsource_files = [\n    'manifests/public_asset_rights.json', 'manifests/asset_manifest.json', 'manifests/canonical_pipeline.json',\n    'scripts/public_asset_rights.py', 'scripts/check_public_asset_rights.py', 'scripts/prepare_public_site.py',\n    'scripts/package_map_first.py', 'scripts/pipeline.py', 'scripts/build_map_first.py', 'tests/test_public_asset_rights.py',\n]\nidentity = {\n    'schema_version': 1,\n    'project': 'sf-trip-visualizer',\n    'authoritative_main': authoritative,\n    'candidate_head': head,\n    'candidate_parent': parent,\n    'candidate_tree': tree,\n    'detached_checkout': str(root),\n    'initial_checkout_assertion': {'status': 'clean', 'head_exact': True, 'head': candidate},\n    'final_candidate_worktree_status': final_status,\n    'final_candidate_worktree_scope': 'Only generated QA evidence files were modified by verification runs; no product source/runtime/photos/manifests/tests/workflows/packaging/release logic files were modified in the candidate worktree.',\n    'source_identity_sha256': {path: digest(root / path) for path in source_files},\n    'candidate_diff_from_authoritative': subprocess.check_output(['git', 'diff', '--name-status', f'{authoritative}..{candidate}'], text=True).splitlines(),\n}\nPath('/tmp/g6-candidate-identity.json').write_text(json.dumps(identity, ensure_ascii=False, indent=2) + '\\\\n')\n\nphoto_rows = contract['photo_assets']\nfamily_rows = contract['asset_families']\ndef counts(rows, key):\n    return dict(sorted(Counter(row.get(key) for row in rows).items()))\nphoto_by_id = {row['id']: row for row in photo_rows}\nreplacements = []\nfor identifier in contract['initially_ambiguous_replacements']:\n    row = photo_by_id[identifier]\n    replacements.append({\n        'id': identifier,\n        'disposition': 'replaced with an explicit licensed Commons source and local shipped derivatives',\n        'replacement_source': row['source_title'],\n        'source_page': row['source_page'],\n        'creator_or_owner': row['creator_or_owner'],\n        'license_or_permission': row['license_or_permission'],\n        'license_url': row['license_url'],\n        'shipped_derivative_hashes': {path: row['hashes'][path] for path in row['public_paths']},\n        'public_paths': row['public_paths'],\n        'derivative_obligations': row['derivative_obligations'],\n    })\nfamily_fields = ('id', 'asset_class', 'public_distribution_decision', 'evidence_status', 'provenance', 'creator_or_owner', 'license_or_permission', 'license_url', 'attribution_text', 'derivative_obligations', 'paths')\nfamilies = [{key: row.get(key) for key in family_fields} for row in family_rows]\nledger = {\n    'schema_version': 1,\n    'project': contract['project'],\n    'candidate_head': candidate,\n    'source_manifest_sha256': digest(root / 'manifests/public_asset_rights.json'),\n    'photo_manifest_sha256': digest(root / 'manifests/asset_manifest.json'),\n    'coverage_summary': contract['coverage_summary'],\n    'decision_counts': {\n        'photo_public_distribution_decision': counts(photo_rows, 'public_distribution_decision'),\n        'photo_evidence_status': counts(photo_rows, 'evidence_status'),\n        'asset_family_public_distribution_decision': counts(family_rows, 'public_distribution_decision'),\n        'asset_family_evidence_status': counts(family_rows, 'evidence_status'),\n    },\n    'required_generated_notices': contract['required_generated_notices'],\n    'private_only_paths': contract['private_only_paths'],\n    'photo_asset_rows': len(photo_rows),\n    'photo_derivative_files': contract['coverage_summary']['photo_derivative_files'],\n    'places_x_roles_contract': {'places': 36, 'roles': ['HERO', 'EXPERIENCE', 'SCALE_CONTEXT'], 'rows': 108},\n    'initially_ambiguous_replacements': replacements,\n    'asset_families': families,\n    'output_asset_classes': {\n        'pages': read_json(root / 'QA/release/public_asset_rights.json')['approved_file_counts_by_class'],\n        'public_package': read_json(root / 'QA/release/public_asset_rights_package.json')['package_tree']['approved_file_counts_by_class'],\n        'independent_pages': read_json(Path('/tmp/g6-pages-rights.json'))['approved_file_counts_by_class'],\n        'independent_public_package': read_json(Path('/tmp/g6-package-rights.json'))['approved_file_counts_by_class'],\n    },\n    'legal_boundary_record': contract['legal_boundary'],\n}\nPath('/tmp/g6-rights-ledger.json').write_text(json.dumps(ledger, ensure_ascii=False, indent=2) + '\\\\n')\n\npages_rights = read_json(Path('/tmp/g6-pages-rights.json'))\npackage_rights = read_json(Path('/tmp/g6-package-rights.json'))\nqualification = read_json(root / 'QA/release/qualification.json')\nfast = read_json(root / 'QA/release/fast.json')\npackage_gate = read_json(root / 'QA/release/gate4.json').get('package', {})\nprovenance = read_json(root / '.public-site/.release-provenance.json')\npackage_manifest = read_json(root / '.release/package/PACKAGE_MANIFEST.json')\noutput_hashes = {\n    'candidate_rights_manifest': digest(root / 'manifests/public_asset_rights.json'),\n    'asset_manifest': digest(root / 'manifests/asset_manifest.json'),\n    'canonical_pipeline_manifest': digest(root / 'manifests/canonical_pipeline.json'),\n    'build_manifest': digest(root / '.build/build_manifest.json'),\n    'qualification_report': digest(root / 'QA/release/qualification.json'),\n    'fast_report': digest(root / 'QA/release/fast.json'),\n    'pages_attribution': digest(root / '.public-site/ATTRIBUTION.md'),\n    'pages_third_party_notices': digest(root / '.public-site/THIRD_PARTY_NOTICES.md'),\n    'pages_embedded_rights_manifest': digest(root / '.public-site/.public-asset-rights.json'),\n    'pages_provenance': digest(root / '.public-site/.release-provenance.json'),\n    'package_attribution': digest(root / '.release/package/artifacts/public/ATTRIBUTION.md'),\n    'package_third_party_notices': digest(root / '.release/package/artifacts/public/THIRD_PARTY_NOTICES.md'),\n    'package_embedded_rights_manifest': digest(root / '.release/package/artifacts/public/.public-asset-rights.json'),\n    'package_manifest': digest(root / '.release/package/PACKAGE_MANIFEST.json'),\n    'package_zip': digest(root / '.release/package.zip'),\n}\nassembly = {\n    'schema_version': 1,\n    'project': 'sf-trip-visualizer',\n    'candidate_head': candidate,\n    'commands': {\n        'assemble_public': 'python3 scripts/pipeline.py assemble-public --revision ' + candidate,\n        'package': 'python3 scripts/pipeline.py package --revision ' + candidate,\n        'verify_public': 'python3 scripts/pipeline.py verify-public --revision ' + candidate,\n        'independent_pages_rights': 'python3 scripts/check_public_asset_rights.py --tree .public-site --mode pages',\n        'independent_public_package_rights': 'python3 scripts/check_public_asset_rights.py --tree .release/package --mode public-package',\n    },\n    'assemble_public': {'status': 'PASS', 'revision': candidate, 'tested_sha': provenance['tested_sha'], 'pages_files_including_provenance': pages_rights['file_count'], 'pages_artifact_sha256_excluding_provenance': provenance['artifact_sha256_excluding_provenance'], 'delivery_parity_status': 'PASS'},\n    'package': {'status': 'PASS', 'revision': candidate, 'package_sha256': package_gate['package_sha256'], 'package_manifest_sha256': package_gate['manifest_sha256'], 'files_excluding_manifest': package_gate['files'], 'checks': package_gate['checks']},\n    'verify_public': {'status': 'PASS', 'revision': candidate, 'checks': {'tested_sha': True, 'qualification_sha256': True, 'build_manifest_sha256': True, 'modular_index_sha256': True, 'standalone_sha256': True, 'artifact_sha256': True, 'artifact_file_count': True, 'artifact_bytes': True, 'public_asset_rights': True}, 'pages_rights_status': pages_rights['status'], 'pages_file_count': pages_rights['file_count'], 'delivery_parity_status': 'PASS'},\n    'independent_rights_audits': {'pages': pages_rights, 'public_package': package_rights},\n    'counts': {'pages_files': pages_rights['file_count'], 'package_files': package_rights['file_count'], 'pages_photo_derivatives': pages_rights['approved_file_counts_by_class'].get('photo-derivative', 0), 'package_photo_derivatives': package_rights['approved_file_counts_by_class'].get('photo-derivative', 0)},\n    'hashes': output_hashes,\n    'provenance': provenance,\n    'package_manifest_summary': {'tested_sha': package_manifest['tested_sha'], 'qualification_sha256': package_manifest['qualification_sha256'], 'file_count_excluding_manifest': package_manifest['file_count_excluding_manifest']},\n    'fast_summary': {'status': fast['status'], 'candidate_head': fast['candidate_head'], 'build': fast['build'], 'public_asset_rights': fast['public_asset_rights']},\n    'qualification_summary': {'status': qualification['status'], 'candidate_head': qualification['candidate_head'], 'test_count': len(qualification['tests']), 'all_test_statuses_pass': all(test['status'] == 'PASS' for test in qualification['tests']), 'tests': [{'name': test['name'], 'status': test['status'], 'returncode': test['returncode'], 'evidence': test['evidence']} for test in qualification['tests']]},\n}\nPath('/tmp/g6-assembly-results.json').write_text(json.dumps(assembly, ensure_ascii=False, indent=2) + '\\\\n')\nPY\nrtk cp /tmp/g6-candidate-identity.json QA/project_os_verify/gate6_r2/candidate_identity.json && rtk cp /tmp/g6-rights-ledger.json QA/project_os_verify/gate6_r2/rights_ledger.json && rtk cp /tmp/g6-assembly-results.json QA/project_os_verify/gate6_r2/assembly_package_verify_results.json\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cp /tmp/g6-candidate-identity.json QA/project_os_verify/gate6_r2/candidate_identity.json && rtk cp /tmp/g6-rights-ledger.json QA/project_os_verify/gate6_r2/rights_ledger.json && rtk cp /tmp/g6-assembly-results.json QA/project_os_verify/gate6_r2/assembly_package_verify_results.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /tmp/sf-trip-g6-venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path('QA/project_os_verify/gate6_r2')\njson_files = sorted(root.rglob('*.json'))\nfor path in json_files:\n    json.loads(path.read_text())\nprint(json.dumps({'json_files_validated': len(json_files), 'evidence_files': [str(path.relative_to(root)) for path in sorted(root.rglob('*')) if path.is_file()]}, indent=2))\nPY\nrtk jq '{candidate_head,candidate_tree,initial_checkout_assertion,final_candidate_worktree_status}' QA/project_os_verify/gate6_r2/candidate_identity.json\nrtk jq '{photo_asset_rows,photo_derivative_files,decision_counts,initially_ambiguous_replacements:(.initially_ambiguous_replacements|length),asset_families:(.asset_families|length),required_generated_notices,output_asset_classes}' QA/project_os_verify/gate6_r2/rights_ledger.json\nrtk jq '{candidate_head,assemble_public:{status:.assemble_public.status,revision:.assemble_public.revision},package:{status:.package.status,revision:.package.revision},verify_public:{status:.verify_public.status,revision:.verify_public.revision},counts:.counts}' QA/project_os_verify/gate6_r2/assembly_package_verify_results.json\nrtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add QA/project_os_verify/gate6_r2 && rtk git diff --cached --name-only && rtk git diff --cached --stat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git commit -m \"evidence: verify Gate 6 candidate CHG-66 R2\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk /tmp/sf-trip-g6-venv/bin/python - <<'PY'\nimport json\nimport subprocess\nfrom pathlib import Path\n\nauthoritative = '75d1f127dd5ce332df54e205e9a3d152de7af176'\nhead = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()\nparent = subprocess.check_output(['git', 'rev-parse', 'HEAD\"'^'\"'], text=True).strip()\nstatus = subprocess.check_output(['git', 'status', '--porcelain'], text=True).splitlines()\nfiles = subprocess.check_output(['git', 'diff', '--name-only', authoritative + '..HEAD'], text=True).splitlines()\nallowed = 'QA/project_os_verify/gate6_r2/'\nviolations = [path for path in files if not path.startswith(allowed)]\nresult = {\n    'branch': subprocess.check_output(['git', 'branch', '--show-current'], text=True).strip(),\n    'r2_verification_head': head,\n    'authoritative_main': authoritative,\n    'r2_parent_is_authoritative_main': parent == authoritative,\n    'managed_worktree_clean': not status,\n    'changed_file_count_relative_to_authoritative': len(files),\n    'changed_files_relative_to_authoritative': files,\n    'only_gate6_r2_evidence': not violations,\n    'boundary_violations': violations,\n}\nprint(json.dumps(result, indent=2))\nPY\nrtk git show --stat --oneline --decorate HEAD && rtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{hashes,counts,qualification_summary}' QA/project_os_verify/gate6_r2/assembly_package_verify_results.json && rtk jq '{coverage_summary,decision_counts,required_generated_notices,initially_ambiguous_replacements:(.initially_ambiguous_replacements|map({id,replacement_source,creator_or_owner,license_or_permission,shipped_derivative_hashes})),asset_families:(.asset_families|map({id,asset_class,public_distribution_decision,evidence_status,license_or_permission,license_url}))}' QA/project_os_verify/gate6_r2/rights_ledger.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq -r '.initially_ambiguous_replacements[] | . as \"'$id | $id + \"'\"\\\\t\\\" + (.photo_assets[] | select(.id == \"'$id) | [.source_title,.creator_or_owner,.license_or_permission] | join(\"'\"\\\\t\\\"))' manifests/public_asset_rights.json && rtk jq -r '.asset_families[] | [.id,.asset_class,.public_distribution_decision,.evidence_status,.license_or_permission] | @tsv' manifests/public_asset_rights.json\"",
+      "exit_code": 5,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq -r '. as \"'$doc | $doc.initially_ambiguous_replacements[] as $id | [$id,($doc.photo_assets[] | select(.id == $id) | .source_title),($doc.photo_assets[] | select(.id == $id) | .creator_or_owner),($doc.photo_assets[] | select(.id == $id) | .license_or_permission)] | @tsv'\"' manifests/public_asset_rights.json && rtk jq -r '.asset_families[] | [.id,.asset_class,.public_distribution_decision,.evidence_status,.license_or_permission] | @tsv' manifests/public_asset_rights.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{replacement_count:(.initially_ambiguous_replacements|length),replacements_with_two_derivative_hashes:(.initially_ambiguous_replacements|map(select((.shipped_derivative_hashes|length)==2)|.id))}' QA/project_os_verify/gate6_r2/rights_ledger.json && rtk jq '{required_paths,private_only_paths}' manifests/public_asset_rights.json\"",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq -r '.asset_families[] | [.id,.asset_class,.license_or_permission,.evidence_status,.public_distribution_decision] | @tsv' QA/project_os_verify/gate6_r2/rights_ledger.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '.asset_families' QA/project_os_verify/gate6_r2/rights_ledger.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 129,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.04,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 4182784,
+      "fresh_input_tokens": 127592,
+      "input_tokens": 4310376,
+      "non_reasoning_output_tokens": 17882,
+      "output_tokens": 34615,
+      "reasoning_output_tokens": 16733,
+      "total_processed_tokens": 4344991
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "5216328a432db74298dd7f86916578cf9f25ae3f",
+      "subject": "evidence: verify Gate 6 candidate CHG-66 R2"
+    }
+  ],
+  "diff": {
+    "additions": 71365,
+    "changed_files": 42,
+    "commit_count": 1,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 42,
+    "items": [
+      {
+        "bytes": 1560,
+        "path": "QA/project_os_verify/gate6_r2/README.md",
+        "sha256": "fcdcbcb804a67aec96d8c2aa365d37b9e203ad82fe3ed6756f19a2df0586afdc"
+      },
+      {
+        "bytes": 9599,
+        "path": "QA/project_os_verify/gate6_r2/assembly_package_verify_results.json",
+        "sha256": "b593014dbd856a3b1dcd99cb7307c3836168f7fe0cd1e74f9a52205ad9d197ab"
+      },
+      {
+        "bytes": 4430,
+        "path": "QA/project_os_verify/gate6_r2/candidate_identity.json",
+        "sha256": "dd6cbef16b8d89c9001810793027a1eb3e1d5d1acfde3aa4087fedc8d9dc5375"
+      },
+      {
+        "bytes": 270769,
+        "path": "QA/project_os_verify/gate6_r2/candidate_inputs/asset_manifest.json",
+        "sha256": "377a20af5574cb5d84848b187c246b607ea00275042c0f12e07418a0ce865e8b"
+      },
+      {
+        "bytes": 4817,
+        "path": "QA/project_os_verify/gate6_r2/candidate_inputs/canonical_pipeline.json",
+        "sha256": "7b80e8066120092dcd4914bf9a852fe6e5d0ebed672dcd98bd17d2429c13e67c"
+      },
+      {
+        "bytes": 549501,
+        "path": "QA/project_os_verify/gate6_r2/candidate_inputs/public_asset_rights.json",
+        "sha256": "64e47898785db05d820066937368b35e316b252342ea511b7710d2d8a9fb8924"
+      },
+      {
+        "bytes": 1604,
+        "path": "QA/project_os_verify/gate6_r2/focused_test_results.json",
+        "sha256": "d0cf7c26438f84f818b7325ee2cae974079d6141ebfddba09cc87f96d8861982"
+      },
+      {
+        "bytes": 1749,
+        "path": "QA/project_os_verify/gate6_r2/negative_cases/results.json",
+        "sha256": "3161fbab67ee7b2c4ea444951f365b8027086bfa4fd65ca73474917b63f9f38c"
+      },
+      {
+        "bytes": 31255,
+        "path": "QA/project_os_verify/gate6_r2/outputs/build_manifest.json",
+        "sha256": "4eca8bfa1f8d45a77298b1f462f9ebd0fec478ea9895a33b4deaff7465643395"
+      },
+      {
+        "bytes": 977,
+        "path": "QA/project_os_verify/gate6_r2/outputs/delivery_contract.json",
+        "sha256": "0ee50b1c678d7d0c70371b956066f6e2ba38882e03294c29278190c02346d76c"
+      },
+      {
+        "bytes": 549501,
+        "path": "QA/project_os_verify/gate6_r2/outputs/pages/.public-asset-rights.json",
+        "sha256": "64e47898785db05d820066937368b35e316b252342ea511b7710d2d8a9fb8924"
+      },
+      {
+        "bytes": 617,
+        "path": "QA/project_os_verify/gate6_r2/outputs/pages/.release-provenance.json",
+        "sha256": "8d0c1b418f458a4fa644a652e7dba1eb923a32cb87818bba3991844f8ec53f8f"
+      },
+      {
+        "bytes": 56354,
+        "path": "QA/project_os_verify/gate6_r2/outputs/pages/ATTRIBUTION.md",
+        "sha256": "b1a9d46244d4a4d0754d0b410e4b21fe9111bfd10ffe8fe40c84f207e09d26ad"
+      },
+      {
+        "bytes": 8597,
+        "path": "QA/project_os_verify/gate6_r2/outputs/pages/THIRD_PARTY_NOTICES.md",
+        "sha256": "0f89d6051e0bc8c070687267b1ff31ad6dd0c21f2ae53bb02053d7a90dafe28d"
+      },
+      {
+        "bytes": 549501,
+        "path": "QA/project_os_verify/gate6_r2/outputs/public_package/.public-asset-rights.json",
+        "sha256": "64e47898785db05d820066937368b35e316b252342ea511b7710d2d8a9fb8924"
+      },
+      {
+        "bytes": 56354,
+        "path": "QA/project_os_verify/gate6_r2/outputs/public_package/ATTRIBUTION.md",
+        "sha256": "b1a9d46244d4a4d0754d0b410e4b21fe9111bfd10ffe8fe40c84f207e09d26ad"
+      },
+      {
+        "bytes": 106019,
+        "path": "QA/project_os_verify/gate6_r2/outputs/public_package/PACKAGE_MANIFEST.json",
+        "sha256": "d46b5876376f9f43dd3ef6b9de46f01817a0767fe74327aacfc977f01a9a02d7"
+      },
+      {
+        "bytes": 8597,
+        "path": "QA/project_os_verify/gate6_r2/outputs/public_package/THIRD_PARTY_NOTICES.md",
+        "sha256": "0f89d6051e0bc8c070687267b1ff31ad6dd0c21f2ae53bb02053d7a90dafe28d"
+      },
+      {
+        "bytes": 1969,
+        "path": "QA/project_os_verify/gate6_r2/qualification/fast.json",
+        "sha256": "eb322bf701809d8c65fdee0cdbfbe487045753d4e5a321c858b80389b24f09fc"
+      },
+      {
+        "bytes": 18583,
+        "path": "QA/project_os_verify/gate6_r2/qualification/gate4_runtime.json",
+        "sha256": "b64031712a7d08f9aab2eb8b94c571a0f72d6d9da3ed29da50fc1211e4741b41"
+      },
+      {
+        "bytes": 103557,
+        "path": "QA/project_os_verify/gate6_r2/qualification/gate4_static.json",
+        "sha256": "bef55a51f01f09d162675a82ba98bdfd93fd6d4d0dd0efe6c0cfa7829aeb48ac"
+      },
+      {
+        "bytes": 2769,
+        "path": "QA/project_os_verify/gate6_r2/qualification/gate4_summary.json",
+        "sha256": "bcafe66c410370d64ef93b20cfaa3a3df0eb2575f4e722337952616fced11f84"
+      },
+      {
+        "bytes": 455,
+        "path": "QA/project_os_verify/gate6_r2/qualification/independent_pages_rights.json",
+        "sha256": "3538d35a36298e310ff2807ea7bcc45cc01fcf12516fad85b90271ca8f16e66d"
+      },
+      {
+        "bytes": 638,
+        "path": "QA/project_os_verify/gate6_r2/qualification/independent_public_package_rights.json",
+        "sha256": "e331e3006123735f4d5d2b3a6039d2b3b5813f1cc131a4741138503d15b07536"
+      },
+      {
+        "bytes": 424,
+        "path": "QA/project_os_verify/gate6_r2/qualification/photo_integrity.json",
+        "sha256": "cfaf317b278606352c06b41084c5d8a51474c8b6b7abced4ab2b24a01d5d01f9"
+      },
+      {
+        "bytes": 455,
+        "path": "QA/project_os_verify/gate6_r2/qualification/pipeline_pages_rights.json",
+        "sha256": "3538d35a36298e310ff2807ea7bcc45cc01fcf12516fad85b90271ca8f16e66d"
+      },
+      {
+        "bytes": 1223,
+        "path": "QA/project_os_verify/gate6_r2/qualification/pipeline_public_package_rights.json",
+        "sha256": "86cf2ca61ca96f9828dfea645735bdee5c16fef08fd07c6e32f7ca20f2f5cd70"
+      },
+      {
+        "bytes": 30324,
+        "path": "QA/project_os_verify/gate6_r2/qualification/qualification.json",
+        "sha256": "948de83f9d5c995dc75c6c40c0154f2f5b2e1a3d0203cd442f0739e601b5639c"
+      },
+      {
+        "bytes": 201732,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/canonical_truth.json",
+        "sha256": "3529a04cbfd8864d406c26186cb2f6aa0527d3eeee66e3e43461ced924993077"
+      },
+      {
+        "bytes": 3268,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/cross_browser.json",
+        "sha256": "9e238d8091033fbec7d5f710538629001e1105f050a46aab9a5e412a7eb87f53"
+      },
+      {
+        "bytes": 112516,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/exhaustive_states.json",
+        "sha256": "076e11ba2a54a1160755e0884cb048abc48a70e664bed75b44cc7c92e7114d73"
+      },
+      {
+        "bytes": 88871,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/filter_matrix.json",
+        "sha256": "9b05f33060d5ca9552c78c8afa4d21e496118927b433f5493d9de4e4de645beb"
+      },
+      {
+        "bytes": 10267,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/full_acceptance.json",
+        "sha256": "d93c5ca448845ade24b43a3ad0e9e5bcf8d05b82e0d098af3b7ac266a2f5f086"
+      },
+      {
+        "bytes": 16294,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/interaction_dynamics.json",
+        "sha256": "9a7601ff8b4dc9049b91280790dff3cc30028535de26bea9475a62e52c8419c0"
+      },
+      {
+        "bytes": 7935,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/location_gap_visuals.json",
+        "sha256": "e913285a468d63c80718562bf2f9f414f34531fa5bd24eb3ffb8dcfb8256dc6e"
+      },
+      {
+        "bytes": 30186,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/p0_independent.json",
+        "sha256": "13c6396eaf222d277c63e88799b640e78e9dca01e6c65d11fb4b2f9656f97e12"
+      },
+      {
+        "bytes": 12225,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/route_continuity.json",
+        "sha256": "6d032edef6da4adcf3ac3d7ac5557d70cf5a7e4a6105a7d7f4078d12859444ea"
+      },
+      {
+        "bytes": 7219,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/route_explanations_panel.json",
+        "sha256": "62ba997955037e846c2f875d56195812519742b9086c714b3facadd6b1dab3b5"
+      },
+      {
+        "bytes": 1158,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/smoke.json",
+        "sha256": "579ac078c704e06457f73b1001bfde5da6e8c58fc8f5922b96c92c86e35f59b6"
+      },
+      {
+        "bytes": 215,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/standalone.json",
+        "sha256": "cab6c7df9e344cb36dcede0b660f0e531632375df1e53c7a90fd5bd0dbe17885"
+      },
+      {
+        "bytes": 2052,
+        "path": "QA/project_os_verify/gate6_r2/qualification/repository/visual_spots.json",
+        "sha256": "7ee0b11c30562b3b819e43cb823af0555c3a17ee34b31046826f0fa05c352c24"
+      },
+      {
+        "bytes": 39148,
+        "path": "QA/project_os_verify/gate6_r2/rights_ledger.json",
+        "sha256": "b32c796411b9f10fdc99e1fa1784871373b15a629324397fd5c9201062122d5b"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-19T02:44:10Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "branch": "codex/sf-trip-visualizer-public-asset-rights-g6-verify-r2",
+    "detached_verify": false,
+    "head_sha": "5216328a432db74298dd7f86916578cf9f25ae3f",
+    "remote_exact_head": true,
+    "remote_head_sha": "5216328a432db74298dd7f86916578cf9f25ae3f",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "work_branch": "codex/sf-trip-visualizer-public-asset-rights-g6-verify-r2",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-30e04e8040986c5adda85956",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/public-asset-rights-g6-verify-r2",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/public-asset-rights-g6-verify-r2"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "public-asset-rights-g6-verify-r2",
+  "schema_version": 1,
+  "started_at": "2026-09-19T02:26:28Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1062,
+    "queue_seconds": 0,
+    "total_seconds": 1062
+  },
+  "transport": {
+    "bytes": 6649,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6299,
+    "prompt_sha256": "84d5e52a7287241496f8ab63b26486745c67f671dfe05ff01fffeef84f256109",
+    "sha256": "30e04e8040986c5adda8595686f39b0c0d51f9a8c8ad2e162c0384d4e5f88b12"
+  }
+}
