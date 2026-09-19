@@ -18,21 +18,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the exact triggering revision
-        uses: actions/checkout@v7
+        # actions/checkout v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: ${{ github.sha }}
           fetch-depth: 0
           lfs: true
 
       - name: Set up the qualification runtime
-        uses: actions/setup-python@v5
+        # actions/setup-python v5.6.0
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: "3.11"
 
       - name: Install the repository QA dependencies and browsers
         run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install -r requirements-qa.txt
+          python3 -m pip install --require-hashes -r requirements-qa.txt
           python3 -m playwright install --with-deps chromium firefox webkit
 
       - name: Assert the checkout matches the triggering SHA
@@ -57,7 +58,8 @@ jobs:
 
       - name: Upload candidate qualification evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        # actions/upload-artifact v4.6.2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: candidate-qualification-${{ github.sha }}
           if-no-files-found: warn

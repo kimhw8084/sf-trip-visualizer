@@ -209,7 +209,7 @@ def build(output_root: Path) -> dict:
     )
     template.body.insert(0, loading)
     early_script = template.new_tag("script")
-    early_script.string = "window.__tripLoadStarted=performance.now();try{document.documentElement.dataset.theme=localStorage.getItem('trip_theme')||'light'}catch{document.documentElement.dataset.theme='light'}"
+    early_script.string = "window.__tripLoadStarted=performance.now();try{const t=localStorage.getItem('trip_theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch{document.documentElement.dataset.theme='light'}"
     template.head.insert(0, early_script)
     for href in ("vendor/maplibre-gl.css", "src/map_first.css"):
         template.head.append(template.new_tag("link", rel="stylesheet", href=href))

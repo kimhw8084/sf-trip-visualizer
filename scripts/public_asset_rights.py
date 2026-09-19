@@ -182,13 +182,21 @@ def write_notices(tree: Path, contract: dict, manifest: dict, mode: str) -> None
     embedded_path.write_text(json.dumps(contract, ensure_ascii=False, indent=2) + "\n")
 
 
+def evidence_tree_label(tree: Path) -> str:
+    """Keep operator-local filesystem paths out of public/package evidence."""
+    try:
+        return str(tree.resolve().relative_to(ROOT.resolve()))
+    except ValueError:
+        return "<candidate-tree>"
+
+
 def audit_tree(tree: Path, contract: dict | None = None, manifest: dict | None = None, mode: str = "pages", require_provenance: bool = True) -> dict:
     contract = contract or load_contract()
     manifest = manifest or load_json(PHOTO_MANIFEST)
     failures = validate_contract(contract, manifest)
     if not tree.is_dir():
-        failures.append(f"candidate tree missing: {tree}")
-        return {"status": "FAIL", "mode": mode, "tree": str(tree), "failures": failures}
+        failures.append(f"candidate tree missing: {evidence_tree_label(tree)}")
+        return {"status": "FAIL", "mode": mode, "tree": evidence_tree_label(tree), "failures": failures}
     files = []
     for path in sorted(tree.rglob("*")):
         relative = path.relative_to(tree).as_posix()
@@ -250,7 +258,7 @@ def audit_tree(tree: Path, contract: dict | None = None, manifest: dict | None =
         if rules:
             asset_class = rules[0].get("asset_class", "unclassified")
             counts[asset_class] = counts.get(asset_class, 0) + 1
-    return {"status": "PASS" if not failures else "FAIL", "mode": mode, "tree": str(tree), "file_count": len(files), "approved_file_counts_by_class": dict(sorted(counts.items())), "failures": failures}
+    return {"status": "PASS" if not failures else "FAIL", "mode": mode, "tree": evidence_tree_label(tree), "file_count": len(files), "approved_file_counts_by_class": dict(sorted(counts.items())), "failures": failures}
 
 
 def audit_and_report(tree: Path, mode: str, report: Path | None = None, require_provenance: bool = True) -> dict:

@@ -38,6 +38,7 @@ QUALIFICATION = ROOT / "QA" / "release" / "qualification.json"
 GATE4_STATIC = ROOT / "QA" / "release" / "gate4_static.json"
 GATE4_RUNTIME = ROOT / "QA" / "release" / "gate4_runtime.json"
 GATE4_SUMMARY = ROOT / "QA" / "release" / "gate4.json"
+SECURITY_EVIDENCE = ROOT / "QA" / "release" / "security_privacy.json"
 COMPONENT_TIMEOUT_SECONDS = int(os.environ.get("TRIP_QUALIFICATION_TIMEOUT_SECONDS", "300"))
 
 COMPONENTS = (
@@ -225,6 +226,19 @@ def run_gate4_static() -> dict:
     return report
 
 
+def run_security_gate(expected_revision: str | None = None, extra_roots: list[Path] | None = None) -> dict:
+    revision = expected_revision or current_revision()
+    command = [sys.executable, str(ROOT / "scripts" / "security_privacy.py"), "--revision", revision]
+    for path in extra_roots or []:
+        command.extend(["--scan-root", str(path)])
+    code, stdout, stderr = run_process(command)
+    report = load_json(SECURITY_EVIDENCE) if SECURITY_EVIDENCE.is_file() else {"status": "UNVERIFIED", "failures": [stderr or stdout]}
+    report["returncode"] = code
+    if code or report.get("status") != "PASS":
+        raise RuntimeError(f"Gate 7 security/privacy validation failed ({report.get('status')}). {report.get('failures', [])[:12]}")
+    return report
+
+
 def write_gate4_summary(package: dict | None = None) -> dict:
     static = load_json(GATE4_STATIC) if GATE4_STATIC.is_file() else {"status": "VERIFY_REQUIRED", "failures": ["fast static evidence has not run"]}
     runtime = load_json(GATE4_RUNTIME) if GATE4_RUNTIME.is_file() else {"status": "VERIFY_REQUIRED", "failures": ["full browser evidence has not run"]}
@@ -298,6 +312,7 @@ def run_fast(expected_revision: str | None = None, require_clean: bool = False) 
             raise RuntimeError(f"Canonical build is not reproducible; differing output(s): {', '.join(differences[:10])}")
         public_rights = run_public_rights_audit()
         gate4_static = run_gate4_static()
+        security = run_security_gate(expected_revision or evidence["candidate_head"])
         evidence["authored_inputs_unchanged"] = True
         evidence["reproducible"] = True
         evidence["build"] = {
@@ -309,6 +324,7 @@ def run_fast(expected_revision: str | None = None, require_clean: bool = False) 
         }
         evidence["gate4_static"] = {"status": gate4_static["status"], "evidence": "QA/release/gate4_static.json"}
         evidence["public_asset_rights"] = {"status": public_rights["status"], "evidence": "QA/release/public_asset_rights.json", "candidate_file_count": public_rights["file_count"], "approved_file_counts_by_class": public_rights["approved_file_counts_by_class"]}
+        evidence["security_privacy"] = {"status": security["status"], "evidence": "QA/release/security_privacy.json", "verify_required": security.get("verify_required", [])}
         evidence["status"] = "PASS"
     except (Exception, SystemExit) as error:
         evidence["errors"].append(str(error))
@@ -453,12 +469,14 @@ def verify_public(revision: str) -> dict:
     rights = audit_tree(PUBLIC, mode="pages", require_provenance=True)
     (ROOT / "QA" / "release" / "public_asset_rights.json").write_text(json.dumps(rights, ensure_ascii=False, indent=2) + "\n")
     checks["public_asset_rights"] = rights["status"] == "PASS"
+    security = run_security_gate(revision, [PUBLIC])
+    checks["security_privacy"] = security["status"] == "PASS"
     if not all(checks.values()):
         raise RuntimeError(f"Public provenance verification failed: {', '.join(name for name, passed in checks.items() if not passed)}")
     parity = delivery_report(PUBLIC)
     if parity["status"] != "PASS":
         raise RuntimeError(f"Public delivery parity failed: {', '.join(parity.get('failures', []))}")
-    return {"status": "PASS", "revision": revision, "checks": checks, "artifact_sha256": artifact_hash, "files": file_count, "parity": parity, "public_asset_rights": rights}
+    return {"status": "PASS", "revision": revision, "checks": checks, "artifact_sha256": artifact_hash, "files": file_count, "parity": parity, "public_asset_rights": rights, "security_privacy": security}
 
 
 def verify_package(revision: str) -> dict:
@@ -494,7 +512,9 @@ def verify_package(revision: str) -> dict:
     checks["repeat_zip_sha256"] = original_zip_hash == repeat_zip_hash
     if not checks["repeat_zip_sha256"]:
         raise RuntimeError("Repeated packaging of the exact qualified revision changed the ZIP hash.")
-    result = {"status": "PASS", "revision": revision, "package_sha256": original_zip_hash, "manifest_sha256": digest(manifest_path), "files": len(files), "checks": checks}
+    security = run_security_gate(revision, [package_dir])
+    checks["security_privacy"] = security["status"] == "PASS"
+    result = {"status": "PASS", "revision": revision, "package_sha256": original_zip_hash, "manifest_sha256": digest(manifest_path), "files": len(files), "checks": checks, "security_privacy": security}
     return result
 
 
