@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "candidate_head": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+  "commands": {
+    "assemble_public": "python3 scripts/pipeline.py assemble-public --revision 62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "package": "python3 scripts/pipeline.py package --revision 62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "verify_public": "python3 scripts/pipeline.py verify-public --revision 62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "independent_pages_rights": "python3 scripts/check_public_asset_rights.py --tree .public-site --mode pages",
+    "independent_public_package_rights": "python3 scripts/check_public_asset_rights.py --tree .release/package --mode public-package"
+  },
+  "assemble_public": {
+    "status": "PASS",
+    "revision": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "tested_sha": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "pages_files_including_provenance": 246,
+    "pages_artifact_sha256_excluding_provenance": "4ccaec46c42c109cf62feae3f77a51c3d037dda3f867b3abe8f241d45097c743",
+    "delivery_parity_status": "PASS"
+  },
+  "package": {
+    "status": "PASS",
+    "revision": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "package_sha256": "53f55fab2002c553ba81d48bcc9b913c6b2ea32e482972b9cff98d0bd1bf6b95",
+    "package_manifest_sha256": "d46b5876376f9f43dd3ef6b9de46f01817a0767fe74327aacfc977f01a9a02d7",
+    "files_excluding_manifest": 826,
+    "checks": {
+      "tested_sha": true,
+      "qualification_sha256": true,
+      "file_hashes": true,
+      "file_count": true,
+      "zip_members": true,
+      "zip_timestamps_deterministic": true,
+      "zip_content_hashes": true,
+      "repeat_zip_sha256": true
+    }
+  },
+  "verify_public": {
+    "status": "PASS",
+    "revision": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "checks": {
+      "tested_sha": true,
+      "qualification_sha256": true,
+      "build_manifest_sha256": true,
+      "modular_index_sha256": true,
+      "standalone_sha256": true,
+      "artifact_sha256": true,
+      "artifact_file_count": true,
+      "artifact_bytes": true,
+      "public_asset_rights": true
+    },
+    "pages_rights_status": "PASS",
+    "pages_file_count": 246,
+    "delivery_parity_status": "PASS"
+  },
+  "independent_rights_audits": {
+    "pages": {
+      "status": "PASS",
+      "mode": "pages",
+      "tree": "/private/tmp/sf-trip-g6-candidate.zn7Ham/.public-site",
+      "file_count": 246,
+      "approved_file_counts_by_class": {
+        "first-party-runtime": 3,
+        "font-glyph-data": 6,
+        "generated-release-file": 7,
+        "generated-third-party-bundle": 1,
+        "government-relief-data": 1,
+        "map-data": 1,
+        "map-sprite-data": 8,
+        "photo-derivative": 216,
+        "third-party-software": 3
+      },
+      "failures": []
+    },
+    "public_package": {
+      "status": "PASS",
+      "mode": "public-package",
+      "tree": "/private/tmp/sf-trip-g6-candidate.zn7Ham/.release/package",
+      "file_count": 827,
+      "approved_file_counts_by_class": {
+        "font-glyph-data": 6,
+        "generated-product-artifact": 241,
+        "generated-release-file": 7,
+        "map-data": 3,
+        "map-sprite-data": 8,
+        "package-data": 11,
+        "package-documentation": 3,
+        "package-integrity-manifest": 1,
+        "package-manifest": 11,
+        "package-script": 52,
+        "package-source": 5,
+        "package-vendor": 4,
+        "photo-derivative": 216,
+        "public-artifact-copy": 239,
+        "qualification-evidence": 20
+      },
+      "failures": []
+    }
+  },
+  "counts": {
+    "pages_files": 246,
+    "package_files": 827,
+    "pages_photo_derivatives": 216,
+    "package_photo_derivatives": 216
+  },
+  "hashes": {
+    "candidate_rights_manifest": "64e47898785db05d820066937368b35e316b252342ea511b7710d2d8a9fb8924",
+    "asset_manifest": "377a20af5574cb5d84848b187c246b607ea00275042c0f12e07418a0ce865e8b",
+    "canonical_pipeline_manifest": "7b80e8066120092dcd4914bf9a852fe6e5d0ebed672dcd98bd17d2429c13e67c",
+    "build_manifest": "4eca8bfa1f8d45a77298b1f462f9ebd0fec478ea9895a33b4deaff7465643395",
+    "qualification_report": "948de83f9d5c995dc75c6c40c0154f2f5b2e1a3d0203cd442f0739e601b5639c",
+    "fast_report": "eb322bf701809d8c65fdee0cdbfbe487045753d4e5a321c858b80389b24f09fc",
+    "pages_attribution": "b1a9d46244d4a4d0754d0b410e4b21fe9111bfd10ffe8fe40c84f207e09d26ad",
+    "pages_third_party_notices": "0f89d6051e0bc8c070687267b1ff31ad6dd0c21f2ae53bb02053d7a90dafe28d",
+    "pages_embedded_rights_manifest": "64e47898785db05d820066937368b35e316b252342ea511b7710d2d8a9fb8924",
+    "pages_provenance": "8d0c1b418f458a4fa644a652e7dba1eb923a32cb87818bba3991844f8ec53f8f",
+    "package_attribution": "b1a9d46244d4a4d0754d0b410e4b21fe9111bfd10ffe8fe40c84f207e09d26ad",
+    "package_third_party_notices": "0f89d6051e0bc8c070687267b1ff31ad6dd0c21f2ae53bb02053d7a90dafe28d",
+    "package_embedded_rights_manifest": "64e47898785db05d820066937368b35e316b252342ea511b7710d2d8a9fb8924",
+    "package_manifest": "d46b5876376f9f43dd3ef6b9de46f01817a0767fe74327aacfc977f01a9a02d7",
+    "package_zip": "53f55fab2002c553ba81d48bcc9b913c6b2ea32e482972b9cff98d0bd1bf6b95"
+  },
+  "provenance": {
+    "schema_version": 1,
+    "project": "sf-trip-visualizer",
+    "tested_sha": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "qualification_sha256": "948de83f9d5c995dc75c6c40c0154f2f5b2e1a3d0203cd442f0739e601b5639c",
+    "build_manifest_sha256": "4eca8bfa1f8d45a77298b1f462f9ebd0fec478ea9895a33b4deaff7465643395",
+    "modular_index_sha256": "af5f034607abc2d224b954f759e59617fd038224138a6af55df9437b7cb7b615",
+    "artifact_sha256_excluding_provenance": "4ccaec46c42c109cf62feae3f77a51c3d037dda3f867b3abe8f241d45097c743",
+    "artifact_file_count_excluding_provenance": 245,
+    "artifact_bytes_excluding_provenance": 186196271
+  },
+  "package_manifest_summary": {
+    "tested_sha": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "qualification_sha256": "948de83f9d5c995dc75c6c40c0154f2f5b2e1a3d0203cd442f0739e601b5639c",
+    "file_count_excluding_manifest": 826
+  },
+  "fast_summary": {
+    "status": "PASS",
+    "candidate_head": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "build": {
+      "root": ".build",
+      "manifest_sha256": "4eca8bfa1f8d45a77298b1f462f9ebd0fec478ea9895a33b4deaff7465643395",
+      "modular_index_sha256": "af5f034607abc2d224b954f759e59617fd038224138a6af55df9437b7cb7b615",
+      "standalone_sha256": "7d0655b743336378b3af9070c4fd684ef06e2bfd1fde3d818635d664f5f358d7",
+      "file_count": 241
+    },
+    "public_asset_rights": {
+      "status": "PASS",
+      "evidence": "QA/release/public_asset_rights.json",
+      "candidate_file_count": 245,
+      "approved_file_counts_by_class": {
+        "first-party-runtime": 3,
+        "font-glyph-data": 6,
+        "generated-release-file": 6,
+        "generated-third-party-bundle": 1,
+        "government-relief-data": 1,
+        "map-data": 1,
+        "map-sprite-data": 8,
+        "photo-derivative": 216,
+        "third-party-software": 3
+      }
+    }
+  },
+  "qualification_summary": {
+    "status": "PASS",
+    "candidate_head": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "test_count": 15,
+    "all_test_statuses_pass": true,
+    "tests": [
+      {
+        "name": "public_asset_rights",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/release/public_asset_rights.json"
+      },
+      {
+        "name": "canonical_truth",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/map_first/canonical_truth.json"
+      },
+      {
+        "name": "photo_integrity",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/photo_integrity.json"
+      },
+      {
+        "name": "map_first_smoke",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/map_first/smoke.json"
+      },
+      {
+        "name": "map_first_full",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/map_first/full_acceptance.json"
+      },
+      {
+        "name": "map_first_p0",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/map_first/p0_independent.json"
+      },
+      {
+        "name": "standalone",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/map_first/standalone.json"
+      },
+      {
+        "name": "location_gap",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/map_first/location_gap_visuals.json"
+      },
+      {
+        "name": "interaction_dynamics",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/map_first/interaction_dynamics.json"
+      },
+      {
+        "name": "route_continuity",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/map_first/route_continuity.json"
+      },
+      {
+        "name": "route_panel",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/route_panel/route_explanations_panel.json"
+      },
+      {
+        "name": "exhaustive_states",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/map_first/exhaustive_states.json"
+      },
+      {
+        "name": "cross_browser",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/map_first/cross_browser.json"
+      },
+      {
+        "name": "visual_spots",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/map_first/visual_spots.json"
+      },
+      {
+        "name": "gate4_runtime",
+        "status": "PASS",
+        "returncode": 0,
+        "evidence": "QA/release/gate4_runtime.json"
+      }
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "candidate_head": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+  "results": [
+    {
+      "name": "public_asset_rights_unit_contract",
+      "command": "python3 -m unittest -v tests.test_public_asset_rights",
+      "exit_code": 0,
+      "tests_run": 8,
+      "passed": 8,
+      "status": "PASS"
+    },
+    {
+      "name": "canonical_pipeline_unit_suite",
+      "command": "python3 -m unittest -v tests.test_canonical_pipeline",
+      "exit_code": 0,
+      "tests_run": 7,
+      "passed": 7,
+      "status": "PASS"
+    },
+    {
+      "name": "repository_unit_suite",
+      "command": "python3 -m unittest discover -s tests -p 'test_*.py'",
+      "exit_code": 0,
+      "tests_run": 24,
+      "passed": 24,
+      "status": "PASS"
+    },
+    {
+      "name": "runtime_photo_integrity",
+      "command": "python3 scripts/check_photo_integrity.py --runtime-only",
+      "exit_code": 0,
+      "status": "PASS",
+      "evidence": "qualification/photo_integrity.json",
+      "deterministic_result": {
+        "required": 108,
+        "present_decodable_thumbnails": 108,
+        "present_decodable_medium": 108,
+        "places_with_exact_roles": 36,
+        "unique_original_hashes": 108,
+        "near_duplicate_review_queue": [],
+        "failures": []
+      }
+    }
+  ],
+  "environment_note": "The system Python initially lacked declared QA dependencies (bs4/Pillow/Playwright). requirements-qa.txt was installed into isolated /tmp/sf-trip-g6-venv; reruns above are the recorded results. This was an environment boundary, not a candidate defect."
+}

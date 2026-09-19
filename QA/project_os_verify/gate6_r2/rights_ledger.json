@@ -1,0 +1,752 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "candidate_head": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+  "source_manifest_sha256": "64e47898785db05d820066937368b35e316b252342ea511b7710d2d8a9fb8924",
+  "photo_manifest_sha256": "377a20af5574cb5d84848b187c246b607ea00275042c0f12e07418a0ce865e8b",
+  "coverage_summary": {
+    "photo_assets": 108,
+    "photo_derivative_files": 216,
+    "asset_families": 11,
+    "licensed_photo_rows_by_basis": {
+      "CC BY 2.0": 19,
+      "CC BY 3.0": 1,
+      "CC BY 4.0": 3,
+      "CC BY-SA 2.0": 7,
+      "CC BY-SA 3.0": 30,
+      "CC BY-SA 4.0": 39,
+      "CC0": 6,
+      "FAL": 1,
+      "Public domain": 2
+    },
+    "initially_ambiguous_rows_replaced": 12,
+    "verify_required_public_assets": 0,
+    "excluded_public_assets": 0
+  },
+  "decision_counts": {
+    "photo_public_distribution_decision": {
+      "approved": 108
+    },
+    "photo_evidence_status": {
+      "exact-source-metadata": 108
+    },
+    "asset_family_public_distribution_decision": {
+      "approved": 11
+    },
+    "asset_family_evidence_status": {
+      "embedded-header-and-pinned-artifact": 3,
+      "exact-source-metadata": 4,
+      "first-party-generated": 2,
+      "official-public-domain-source": 1,
+      "operational-derived-notice": 1
+    }
+  },
+  "required_generated_notices": {
+    "attribution": "ATTRIBUTION.md",
+    "third_party": "THIRD_PARTY_NOTICES.md",
+    "embedded_contract": ".public-asset-rights.json"
+  },
+  "private_only_paths": [
+    "assets/photos/original/**",
+    "assets/basemap/**",
+    "assets/vector/yosemite_contours_source.png",
+    "assets/vector/yosemite_index_contours_source.png"
+  ],
+  "photo_asset_rows": 108,
+  "photo_derivative_files": 216,
+  "places_x_roles_contract": {
+    "places": 36,
+    "roles": [
+      "HERO",
+      "EXPERIENCE",
+      "SCALE_CONTEXT"
+    ],
+    "rows": 108
+  },
+  "initially_ambiguous_replacements": [
+    {
+      "id": "botanical/EXPERIENCE",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:San Francisco Botanical Garden 26 2024-04-23.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:San_Francisco_Botanical_Garden_26_2024-04-23.jpg",
+      "creator_or_owner": "Fastily",
+      "license_or_permission": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/botanical__experience.webp": "95ac5e4921bf21672dc54dffda2e9540a10b693b3572d863617a6e206b34b93d",
+        "assets/photos/medium/botanical__experience.webp": "cda6ebb2a96b9aae864e74bd752a38b610d072c92c2bfe13e55fee108869131c"
+      },
+      "public_paths": [
+        "assets/photos/thumb/botanical__experience.webp",
+        "assets/photos/medium/botanical__experience.webp"
+      ],
+      "derivative_obligations": "Preserve creator attribution, source link, license link, and an indication of changes; keep adaptations under the applicable ShareAlike terms."
+    },
+    {
+      "id": "botanical/HERO",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:General view - San Francisco Botanical Garden - DSC09901.JPG",
+      "source_page": "https://commons.wikimedia.org/wiki/File:General_view_-_San_Francisco_Botanical_Garden_-_DSC09901.JPG",
+      "creator_or_owner": "Daderot",
+      "license_or_permission": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/botanical__hero.webp": "75a896150ec026b03aea6d4494345f342d9128c175dd01f5a5866e12a61657be",
+        "assets/photos/medium/botanical__hero.webp": "68fec22a024f13622b134033181dace7da7649bbd1559f673acb2424955374d1"
+      },
+      "public_paths": [
+        "assets/photos/thumb/botanical__hero.webp",
+        "assets/photos/medium/botanical__hero.webp"
+      ],
+      "derivative_obligations": "No attribution is required by the CC0 dedication; retain this source record for provenance."
+    },
+    {
+      "id": "cooks/EXPERIENCE",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:Yosemite Valley Fall Morning.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Yosemite_Valley_Fall_Morning.jpg",
+      "creator_or_owner": "MichaelDPhotos",
+      "license_or_permission": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/cooks__experience.webp": "8f45e21e7ef1ee9c84b0b39ce23e5fdf93709f281616b7885e18c5397e0d5b93",
+        "assets/photos/medium/cooks__experience.webp": "73d851d9cad4c3d2369f12c8836ce7fdab92614446a5d75f8ab8f403467e3224"
+      },
+      "public_paths": [
+        "assets/photos/thumb/cooks__experience.webp",
+        "assets/photos/medium/cooks__experience.webp"
+      ],
+      "derivative_obligations": "Preserve creator attribution, source link, license link, and an indication of changes; keep adaptations under the applicable ShareAlike terms."
+    },
+    {
+      "id": "cooks/HERO",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:Cook's Meadow.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Cook's_Meadow.jpg",
+      "creator_or_owner": "Win Mon",
+      "license_or_permission": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/cooks__hero.webp": "33198c7ca5c07a62aa27ec84ba361924bfd3e6b81e06408c252e62e135a1cd13",
+        "assets/photos/medium/cooks__hero.webp": "789e29fd663445c4047f2314c25346e67afdb86f79a1fffe883a4f92a69591ac"
+      },
+      "public_paths": [
+        "assets/photos/thumb/cooks__hero.webp",
+        "assets/photos/medium/cooks__hero.webp"
+      ],
+      "derivative_obligations": "Preserve creator attribution, source link, license link, and an indication of changes; keep adaptations under the applicable ShareAlike terms."
+    },
+    {
+      "id": "cooks/SCALE_CONTEXT",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:Yosemite Falls (Explore, 9-11-21) - Flickr - billackerman1.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Yosemite_Falls_(Explore,_9-11-21)_-_Flickr_-_billackerman1.jpg",
+      "creator_or_owner": "Bill Ackerman",
+      "license_or_permission": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/cooks__scale_context.webp": "90b0598e4a4eacb0518bf739b2701b7b446e44bd57dc81d4af60d4e6279c5adf",
+        "assets/photos/medium/cooks__scale_context.webp": "98dea09eda4341d9afdab93e7c90ce4f09e2ee8d2d79245b2e0e56acf8fa8ed9"
+      },
+      "public_paths": [
+        "assets/photos/thumb/cooks__scale_context.webp",
+        "assets/photos/medium/cooks__scale_context.webp"
+      ],
+      "derivative_obligations": "Preserve creator attribution, source link, license link, and an indication of changes."
+    },
+    {
+      "id": "exploratorium/EXPERIENCE",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:Inside exploratorium.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Inside_exploratorium.jpg",
+      "creator_or_owner": "Amy Snyder",
+      "license_or_permission": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/exploratorium__experience.webp": "34bbf94426a0d2d6c6514e99f50c71438ccd3a527d4d98853ee42a4541c2a8b5",
+        "assets/photos/medium/exploratorium__experience.webp": "34890f680179753911746c3814d136b94e2d597780fdcfd533d82c19e082351e"
+      },
+      "public_paths": [
+        "assets/photos/thumb/exploratorium__experience.webp",
+        "assets/photos/medium/exploratorium__experience.webp"
+      ],
+      "derivative_obligations": "Preserve creator attribution, source link, license link, and an indication of changes; keep adaptations under the applicable ShareAlike terms."
+    },
+    {
+      "id": "exploratorium/SCALE_CONTEXT",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:Exploratorium Pier 15 (San Francisco).JPG",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Exploratorium_Pier_15_(San_Francisco).JPG",
+      "creator_or_owner": "Benoît Prieur",
+      "license_or_permission": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/exploratorium__scale_context.webp": "c0ef45f42f8b51437c63d6766f9776a9f4d84ed60c2cba25eeee2828306b17ff",
+        "assets/photos/medium/exploratorium__scale_context.webp": "862fa7489835ae1607104931f4347c1eb3655ff43c738d64e54fa747f5f1330e"
+      },
+      "public_paths": [
+        "assets/photos/thumb/exploratorium__scale_context.webp",
+        "assets/photos/medium/exploratorium__scale_context.webp"
+      ],
+      "derivative_obligations": "No attribution is required by the CC0 dedication; retain this source record for provenance."
+    },
+    {
+      "id": "fortune/SCALE_CONTEXT",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:Fortune cookie factory.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Fortune_cookie_factory.jpg",
+      "creator_or_owner": "Crypticfirefly",
+      "license_or_permission": "FAL",
+      "license_url": "http://artlibre.org/licence/lal/en",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/fortune__scale_context.webp": "429dc23bdbcbd4a2b7e76735501c4ab1ee9cb12fc2b2d532fc083a4e21dfcffc",
+        "assets/photos/medium/fortune__scale_context.webp": "e4d18da8aa4fb39e411184686222020e03977bbb58ece82f20448c495d395a9b"
+      },
+      "public_paths": [
+        "assets/photos/thumb/fortune__scale_context.webp",
+        "assets/photos/medium/fortune__scale_context.webp"
+      ],
+      "derivative_obligations": "Preserve the Free Art License notice and license access for copies/adaptations; follow the exact license text for derivatives."
+    },
+    {
+      "id": "tunnel_tops/EXPERIENCE",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:Tunnel Tops Park with Alcatraz.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Tunnel_Tops_Park_with_Alcatraz.jpg",
+      "creator_or_owner": "Dicklyon",
+      "license_or_permission": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/tunnel_tops__experience.webp": "bae78555e14c57c0bf786fd418230e99043cb3ef4f804d4534323b97a7f6aaf7",
+        "assets/photos/medium/tunnel_tops__experience.webp": "b70b2b41d15640e2b98e66418dfa5c14a30a9afd7b117a6daa51c1c1f964112a"
+      },
+      "public_paths": [
+        "assets/photos/thumb/tunnel_tops__experience.webp",
+        "assets/photos/medium/tunnel_tops__experience.webp"
+      ],
+      "derivative_obligations": "Preserve creator attribution, source link, license link, and an indication of changes; keep adaptations under the applicable ShareAlike terms."
+    },
+    {
+      "id": "tunnel_tops/HERO",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:Presidio Tunnel Tops aerial (cropped).jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Presidio_Tunnel_Tops_aerial_(cropped).jpg",
+      "creator_or_owner": "Dicklyon",
+      "license_or_permission": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/tunnel_tops__hero.webp": "b602f7f58f84f4e086f16b955a7cfc4fbf08be2094ccaf1f0923dcac8f55b135",
+        "assets/photos/medium/tunnel_tops__hero.webp": "140e88c48bf09e80787b70b725fc4653f5d12def8b0205fdab0c83fef2921b0f"
+      },
+      "public_paths": [
+        "assets/photos/thumb/tunnel_tops__hero.webp",
+        "assets/photos/medium/tunnel_tops__hero.webp"
+      ],
+      "derivative_obligations": "Preserve creator attribution, source link, license link, and an indication of changes; keep adaptations under the applicable ShareAlike terms."
+    },
+    {
+      "id": "tunnel_tops/SCALE_CONTEXT",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:Presidio of San Francisco (2023)-L1003404.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Presidio_of_San_Francisco_(2023)-L1003404.jpg",
+      "creator_or_owner": "Frank Schulenburg",
+      "license_or_permission": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/tunnel_tops__scale_context.webp": "1a30b205a0305c2eb49a6044d1997bb5b541ced0ab774d9927957fa5d9b7267d",
+        "assets/photos/medium/tunnel_tops__scale_context.webp": "4b9bfd23a1dc3a7a7fbc833f86102eab0b322d3602f4da472a14ae8cebf98737"
+      },
+      "public_paths": [
+        "assets/photos/thumb/tunnel_tops__scale_context.webp",
+        "assets/photos/medium/tunnel_tops__scale_context.webp"
+      ],
+      "derivative_obligations": "Preserve creator attribution, source link, license link, and an indication of changes; keep adaptations under the applicable ShareAlike terms."
+    },
+    {
+      "id": "valley_view/HERO",
+      "disposition": "replaced with an explicit licensed Commons source and local shipped derivatives",
+      "replacement_source": "File:Yosemite Valley View.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Yosemite_Valley_View.jpg",
+      "creator_or_owner": "Joel Olives",
+      "license_or_permission": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "shipped_derivative_hashes": {
+        "assets/photos/thumb/valley_view__hero.webp": "a2d09885c4c5f2402604840fff9eac7f9957b5d03950f9dec0dbe1c75e7eaa7e",
+        "assets/photos/medium/valley_view__hero.webp": "8a189c3487d20a7863c78d5d2cf5bfcf93726180d5edbd2a42b747b150163dc9"
+      },
+      "public_paths": [
+        "assets/photos/thumb/valley_view__hero.webp",
+        "assets/photos/medium/valley_view__hero.webp"
+      ],
+      "derivative_obligations": "Preserve creator attribution, source link, license link, and an indication of changes."
+    }
+  ],
+  "asset_families": [
+    {
+      "id": "photo-derivatives",
+      "asset_class": "photo-derivative",
+      "public_distribution_decision": "approved",
+      "evidence_status": "exact-source-metadata",
+      "provenance": "manifests/asset_manifest.json",
+      "creator_or_owner": "Per-photo source creator in photo_assets",
+      "license_or_permission": "Per-photo exact source license in photo_assets",
+      "license_url": "Per-photo source/license URL in photo_assets",
+      "attribution_text": "Generated per-photo attribution in ATTRIBUTION.md",
+      "derivative_obligations": "Per-photo license basis; CC BY/CC BY-SA/FAL conditions are preserved in each row and notice.",
+      "paths": [
+        "assets/photos/medium/academy__experience.webp",
+        "assets/photos/medium/academy__hero.webp",
+        "assets/photos/medium/academy__scale_context.webp",
+        "assets/photos/medium/alcatraz__experience.webp",
+        "assets/photos/medium/alcatraz__hero.webp",
+        "assets/photos/medium/alcatraz__scale_context.webp",
+        "assets/photos/medium/aquarium__experience.webp",
+        "assets/photos/medium/aquarium__hero.webp",
+        "assets/photos/medium/aquarium__scale_context.webp",
+        "assets/photos/medium/battery__experience.webp",
+        "assets/photos/medium/battery__hero.webp",
+        "assets/photos/medium/battery__scale_context.webp",
+        "assets/photos/medium/bay_lights__experience.webp",
+        "assets/photos/medium/bay_lights__hero.webp",
+        "assets/photos/medium/bay_lights__scale_context.webp",
+        "assets/photos/medium/bixby__experience.webp",
+        "assets/photos/medium/bixby__hero.webp",
+        "assets/photos/medium/bixby__scale_context.webp",
+        "assets/photos/medium/botanical__experience.webp",
+        "assets/photos/medium/botanical__hero.webp",
+        "assets/photos/medium/botanical__scale_context.webp",
+        "assets/photos/medium/cable_car__experience.webp",
+        "assets/photos/medium/cable_car__hero.webp",
+        "assets/photos/medium/cable_car__scale_context.webp",
+        "assets/photos/medium/carmel__experience.webp",
+        "assets/photos/medium/carmel__hero.webp",
+        "assets/photos/medium/carmel__scale_context.webp",
+        "assets/photos/medium/coit__experience.webp",
+        "assets/photos/medium/coit__hero.webp",
+        "assets/photos/medium/coit__scale_context.webp",
+        "assets/photos/medium/cooks__experience.webp",
+        "assets/photos/medium/cooks__hero.webp",
+        "assets/photos/medium/cooks__scale_context.webp",
+        "assets/photos/medium/crissy__experience.webp",
+        "assets/photos/medium/crissy__hero.webp",
+        "assets/photos/medium/crissy__scale_context.webp",
+        "assets/photos/medium/el_capitan__experience.webp",
+        "assets/photos/medium/el_capitan__hero.webp",
+        "assets/photos/medium/el_capitan__scale_context.webp",
+        "assets/photos/medium/exploratorium__experience.webp",
+        "assets/photos/medium/exploratorium__hero.webp",
+        "assets/photos/medium/exploratorium__scale_context.webp",
+        "assets/photos/medium/ferry__experience.webp",
+        "assets/photos/medium/ferry__hero.webp",
+        "assets/photos/medium/ferry__scale_context.webp",
+        "assets/photos/medium/fortune__experience.webp",
+        "assets/photos/medium/fortune__hero.webp",
+        "assets/photos/medium/fortune__scale_context.webp",
+        "assets/photos/medium/ggb__experience.webp",
+        "assets/photos/medium/ggb__hero.webp",
+        "assets/photos/medium/ggb__scale_context.webp",
+        "assets/photos/medium/ghirardelli__experience.webp",
+        "assets/photos/medium/ghirardelli__hero.webp",
+        "assets/photos/medium/ghirardelli__scale_context.webp",
+        "assets/photos/medium/glacier__experience.webp",
+        "assets/photos/medium/glacier__hero.webp",
+        "assets/photos/medium/glacier__scale_context.webp",
+        "assets/photos/medium/lands_end__experience.webp",
+        "assets/photos/medium/lands_end__hero.webp",
+        "assets/photos/medium/lands_end__scale_context.webp",
+        "assets/photos/medium/lombard__experience.webp",
+        "assets/photos/medium/lombard__hero.webp",
+        "assets/photos/medium/lombard__scale_context.webp",
+        "assets/photos/medium/lone_cypress__experience.webp",
+        "assets/photos/medium/lone_cypress__hero.webp",
+        "assets/photos/medium/lone_cypress__scale_context.webp",
+        "assets/photos/medium/mariposa__experience.webp",
+        "assets/photos/medium/mariposa__hero.webp",
+        "assets/photos/medium/mariposa__scale_context.webp",
+        "assets/photos/medium/monterey_wharf__experience.webp",
+        "assets/photos/medium/monterey_wharf__hero.webp",
+        "assets/photos/medium/monterey_wharf__scale_context.webp",
+        "assets/photos/medium/muir__experience.webp",
+        "assets/photos/medium/muir__hero.webp",
+        "assets/photos/medium/muir__scale_context.webp",
+        "assets/photos/medium/musee__experience.webp",
+        "assets/photos/medium/musee__hero.webp",
+        "assets/photos/medium/musee__scale_context.webp",
+        "assets/photos/medium/north_beach__experience.webp",
+        "assets/photos/medium/north_beach__hero.webp",
+        "assets/photos/medium/north_beach__scale_context.webp",
+        "assets/photos/medium/painted__experience.webp",
+        "assets/photos/medium/painted__hero.webp",
+        "assets/photos/medium/painted__scale_context.webp",
+        "assets/photos/medium/palace__experience.webp",
+        "assets/photos/medium/palace__hero.webp",
+        "assets/photos/medium/palace__scale_context.webp",
+        "assets/photos/medium/pier39__experience.webp",
+        "assets/photos/medium/pier39__hero.webp",
+        "assets/photos/medium/pier39__scale_context.webp",
+        "assets/photos/medium/point_lobos__experience.webp",
+        "assets/photos/medium/point_lobos__hero.webp",
+        "assets/photos/medium/point_lobos__scale_context.webp",
+        "assets/photos/medium/tunnel_tops__experience.webp",
+        "assets/photos/medium/tunnel_tops__hero.webp",
+        "assets/photos/medium/tunnel_tops__scale_context.webp",
+        "assets/photos/medium/tunnel_view__experience.webp",
+        "assets/photos/medium/tunnel_view__hero.webp",
+        "assets/photos/medium/tunnel_view__scale_context.webp",
+        "assets/photos/medium/twin_peaks__experience.webp",
+        "assets/photos/medium/twin_peaks__hero.webp",
+        "assets/photos/medium/twin_peaks__scale_context.webp",
+        "assets/photos/medium/valley_view__experience.webp",
+        "assets/photos/medium/valley_view__hero.webp",
+        "assets/photos/medium/valley_view__scale_context.webp",
+        "assets/photos/medium/washburn__experience.webp",
+        "assets/photos/medium/washburn__hero.webp",
+        "assets/photos/medium/washburn__scale_context.webp",
+        "assets/photos/thumb/academy__experience.webp",
+        "assets/photos/thumb/academy__hero.webp",
+        "assets/photos/thumb/academy__scale_context.webp",
+        "assets/photos/thumb/alcatraz__experience.webp",
+        "assets/photos/thumb/alcatraz__hero.webp",
+        "assets/photos/thumb/alcatraz__scale_context.webp",
+        "assets/photos/thumb/aquarium__experience.webp",
+        "assets/photos/thumb/aquarium__hero.webp",
+        "assets/photos/thumb/aquarium__scale_context.webp",
+        "assets/photos/thumb/battery__experience.webp",
+        "assets/photos/thumb/battery__hero.webp",
+        "assets/photos/thumb/battery__scale_context.webp",
+        "assets/photos/thumb/bay_lights__experience.webp",
+        "assets/photos/thumb/bay_lights__hero.webp",
+        "assets/photos/thumb/bay_lights__scale_context.webp",
+        "assets/photos/thumb/bixby__experience.webp",
+        "assets/photos/thumb/bixby__hero.webp",
+        "assets/photos/thumb/bixby__scale_context.webp",
+        "assets/photos/thumb/botanical__experience.webp",
+        "assets/photos/thumb/botanical__hero.webp",
+        "assets/photos/thumb/botanical__scale_context.webp",
+        "assets/photos/thumb/cable_car__experience.webp",
+        "assets/photos/thumb/cable_car__hero.webp",
+        "assets/photos/thumb/cable_car__scale_context.webp",
+        "assets/photos/thumb/carmel__experience.webp",
+        "assets/photos/thumb/carmel__hero.webp",
+        "assets/photos/thumb/carmel__scale_context.webp",
+        "assets/photos/thumb/coit__experience.webp",
+        "assets/photos/thumb/coit__hero.webp",
+        "assets/photos/thumb/coit__scale_context.webp",
+        "assets/photos/thumb/cooks__experience.webp",
+        "assets/photos/thumb/cooks__hero.webp",
+        "assets/photos/thumb/cooks__scale_context.webp",
+        "assets/photos/thumb/crissy__experience.webp",
+        "assets/photos/thumb/crissy__hero.webp",
+        "assets/photos/thumb/crissy__scale_context.webp",
+        "assets/photos/thumb/el_capitan__experience.webp",
+        "assets/photos/thumb/el_capitan__hero.webp",
+        "assets/photos/thumb/el_capitan__scale_context.webp",
+        "assets/photos/thumb/exploratorium__experience.webp",
+        "assets/photos/thumb/exploratorium__hero.webp",
+        "assets/photos/thumb/exploratorium__scale_context.webp",
+        "assets/photos/thumb/ferry__experience.webp",
+        "assets/photos/thumb/ferry__hero.webp",
+        "assets/photos/thumb/ferry__scale_context.webp",
+        "assets/photos/thumb/fortune__experience.webp",
+        "assets/photos/thumb/fortune__hero.webp",
+        "assets/photos/thumb/fortune__scale_context.webp",
+        "assets/photos/thumb/ggb__experience.webp",
+        "assets/photos/thumb/ggb__hero.webp",
+        "assets/photos/thumb/ggb__scale_context.webp",
+        "assets/photos/thumb/ghirardelli__experience.webp",
+        "assets/photos/thumb/ghirardelli__hero.webp",
+        "assets/photos/thumb/ghirardelli__scale_context.webp",
+        "assets/photos/thumb/glacier__experience.webp",
+        "assets/photos/thumb/glacier__hero.webp",
+        "assets/photos/thumb/glacier__scale_context.webp",
+        "assets/photos/thumb/lands_end__experience.webp",
+        "assets/photos/thumb/lands_end__hero.webp",
+        "assets/photos/thumb/lands_end__scale_context.webp",
+        "assets/photos/thumb/lombard__experience.webp",
+        "assets/photos/thumb/lombard__hero.webp",
+        "assets/photos/thumb/lombard__scale_context.webp",
+        "assets/photos/thumb/lone_cypress__experience.webp",
+        "assets/photos/thumb/lone_cypress__hero.webp",
+        "assets/photos/thumb/lone_cypress__scale_context.webp",
+        "assets/photos/thumb/mariposa__experience.webp",
+        "assets/photos/thumb/mariposa__hero.webp",
+        "assets/photos/thumb/mariposa__scale_context.webp",
+        "assets/photos/thumb/monterey_wharf__experience.webp",
+        "assets/photos/thumb/monterey_wharf__hero.webp",
+        "assets/photos/thumb/monterey_wharf__scale_context.webp",
+        "assets/photos/thumb/muir__experience.webp",
+        "assets/photos/thumb/muir__hero.webp",
+        "assets/photos/thumb/muir__scale_context.webp",
+        "assets/photos/thumb/musee__experience.webp",
+        "assets/photos/thumb/musee__hero.webp",
+        "assets/photos/thumb/musee__scale_context.webp",
+        "assets/photos/thumb/north_beach__experience.webp",
+        "assets/photos/thumb/north_beach__hero.webp",
+        "assets/photos/thumb/north_beach__scale_context.webp",
+        "assets/photos/thumb/painted__experience.webp",
+        "assets/photos/thumb/painted__hero.webp",
+        "assets/photos/thumb/painted__scale_context.webp",
+        "assets/photos/thumb/palace__experience.webp",
+        "assets/photos/thumb/palace__hero.webp",
+        "assets/photos/thumb/palace__scale_context.webp",
+        "assets/photos/thumb/pier39__experience.webp",
+        "assets/photos/thumb/pier39__hero.webp",
+        "assets/photos/thumb/pier39__scale_context.webp",
+        "assets/photos/thumb/point_lobos__experience.webp",
+        "assets/photos/thumb/point_lobos__hero.webp",
+        "assets/photos/thumb/point_lobos__scale_context.webp",
+        "assets/photos/thumb/tunnel_tops__experience.webp",
+        "assets/photos/thumb/tunnel_tops__hero.webp",
+        "assets/photos/thumb/tunnel_tops__scale_context.webp",
+        "assets/photos/thumb/tunnel_view__experience.webp",
+        "assets/photos/thumb/tunnel_view__hero.webp",
+        "assets/photos/thumb/tunnel_view__scale_context.webp",
+        "assets/photos/thumb/twin_peaks__experience.webp",
+        "assets/photos/thumb/twin_peaks__hero.webp",
+        "assets/photos/thumb/twin_peaks__scale_context.webp",
+        "assets/photos/thumb/valley_view__experience.webp",
+        "assets/photos/thumb/valley_view__hero.webp",
+        "assets/photos/thumb/valley_view__scale_context.webp",
+        "assets/photos/thumb/washburn__experience.webp",
+        "assets/photos/thumb/washburn__hero.webp",
+        "assets/photos/thumb/washburn__scale_context.webp"
+      ]
+    },
+    {
+      "id": "protomaps-osm-pmtiles",
+      "asset_class": "map-data",
+      "public_distribution_decision": "approved",
+      "evidence_status": "exact-source-metadata",
+      "provenance": "https://build.protomaps.com/20260912.pmtiles",
+      "creator_or_owner": "OpenStreetMap contributors; Protomaps distribution/build",
+      "license_or_permission": "Open Database License 1.0 for the OSM Produced Work; Protomaps map design/code notices apply to the distribution",
+      "license_url": "https://opendatacommons.org/licenses/odbl/1-0/",
+      "attribution_text": "© OpenStreetMap contributors · Protomaps; data available under the Open Database License.",
+      "derivative_obligations": "Keep the OSM/Protomaps attribution accessible and preserve the ODbL notice/link for the database/Produced Work.",
+      "paths": [
+        "assets/vector/sf_trip.pmtiles"
+      ]
+    },
+    {
+      "id": "noto-glyph-pbf",
+      "asset_class": "font-glyph-data",
+      "public_distribution_decision": "approved",
+      "evidence_status": "exact-source-metadata",
+      "provenance": "https://github.com/protomaps/basemaps-assets/tree/main/fonts",
+      "creator_or_owner": "Noto Sans authors; Protomaps basemaps-assets packaging",
+      "license_or_permission": "SIL Open Font License 1.1",
+      "license_url": "https://openfontlicense.org/",
+      "attribution_text": "Noto Sans glyph data is distributed under the SIL Open Font License 1.1; the local PBF files are from Protomaps basemaps-assets.",
+      "derivative_obligations": "Preserve the OFL notice and do not distribute the font data under a more restrictive license.",
+      "paths": [
+        "assets/vector/fonts/Noto Sans Italic/0-255.pbf",
+        "assets/vector/fonts/Noto Sans Italic/256-511.pbf",
+        "assets/vector/fonts/Noto Sans Medium/0-255.pbf",
+        "assets/vector/fonts/Noto Sans Medium/256-511.pbf",
+        "assets/vector/fonts/Noto Sans Regular/0-255.pbf",
+        "assets/vector/fonts/Noto Sans Regular/256-511.pbf"
+      ]
+    },
+    {
+      "id": "protomaps-sprites",
+      "asset_class": "map-sprite-data",
+      "public_distribution_decision": "approved",
+      "evidence_status": "exact-source-metadata",
+      "provenance": "https://github.com/protomaps/basemaps-assets/tree/main/sprites",
+      "creator_or_owner": "Protomaps basemaps-assets; derived icon source attributed to Tangram Icons where applicable",
+      "license_or_permission": "MIT for the derived sprite/icon source as documented by basemaps-assets",
+      "license_url": "https://opensource.org/license/mit/",
+      "attribution_text": "Local Protomaps sprite assets; derived icon source retains the applicable MIT notice.",
+      "derivative_obligations": "Preserve the MIT notice and the basemaps-assets provenance for the distributed sprite set.",
+      "paths": [
+        "assets/vector/sprites/dark.json",
+        "assets/vector/sprites/dark.png",
+        "assets/vector/sprites/dark@2x.json",
+        "assets/vector/sprites/dark@2x.png",
+        "assets/vector/sprites/light.json",
+        "assets/vector/sprites/light.png",
+        "assets/vector/sprites/light@2x.json",
+        "assets/vector/sprites/light@2x.png"
+      ]
+    },
+    {
+      "id": "usgs-yosemite-relief",
+      "asset_class": "government-relief-data",
+      "public_distribution_decision": "approved",
+      "evidence_status": "official-public-domain-source",
+      "provenance": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer",
+      "creator_or_owner": "U.S. Geological Survey, National Geospatial Program",
+      "license_or_permission": "U.S. Government public domain source data; USGS requests source acknowledgment",
+      "license_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+      "attribution_text": "Map services and data available from U.S. Geological Survey, National Geospatial Program.",
+      "derivative_obligations": "Keep the requested USGS acknowledgment; verify any credited third-party exception on the exact source service before replacing the source.",
+      "paths": [
+        "assets/vector/yosemite_hillshade_source.png",
+        "assets/vector/yosemite_hillshade_shadow.webp"
+      ]
+    },
+    {
+      "id": "maplibre-gl",
+      "asset_class": "third-party-software",
+      "public_distribution_decision": "approved",
+      "evidence_status": "embedded-header-and-pinned-artifact",
+      "provenance": "https://github.com/maplibre/maplibre-gl-js/tree/v4.7.1",
+      "creator_or_owner": "MapLibre contributors",
+      "license_or_permission": "3-Clause BSD License",
+      "license_url": "https://github.com/maplibre/maplibre-gl-js/blob/v4.7.1/LICENSE.txt",
+      "attribution_text": "MapLibre GL JS v4.7.1; licensed under the 3-Clause BSD License.",
+      "derivative_obligations": "Preserve the copyright and license notice in redistributions.",
+      "paths": [
+        "vendor/maplibre-gl.js",
+        "vendor/maplibre-gl.css"
+      ]
+    },
+    {
+      "id": "plotly",
+      "asset_class": "third-party-software",
+      "public_distribution_decision": "approved",
+      "evidence_status": "embedded-header-and-pinned-artifact",
+      "provenance": "https://github.com/plotly/plotly.js/tree/v3.3.1",
+      "creator_or_owner": "Plotly, Inc.",
+      "license_or_permission": "MIT License",
+      "license_url": "https://github.com/plotly/plotly.js/blob/v3.3.1/LICENSE",
+      "attribution_text": "Plotly.js v3.3.1; licensed under the MIT License.",
+      "derivative_obligations": "Preserve the copyright and MIT license notice in redistributions.",
+      "paths": [
+        "vendor/plotly.min.js"
+      ]
+    },
+    {
+      "id": "trip-vector-bundle",
+      "asset_class": "generated-third-party-bundle",
+      "public_distribution_decision": "approved",
+      "evidence_status": "embedded-header-and-pinned-artifact",
+      "provenance": "scripts/vector_entry.js; bundle committed by git source identity 3455a3ec339f434d840551f425ee7b68a690377f",
+      "creator_or_owner": "Bundle contains fflate, @protomaps/pmtiles, and @protomaps/basemaps modules",
+      "license_or_permission": "Bundled dependency notices: BSD-3-Clause for PMTiles/basemaps components and MIT for fflate, subject to the exact upstream texts linked here",
+      "license_url": [
+        "https://github.com/protomaps/PMTiles/blob/main/LICENSE",
+        "https://github.com/protomaps/basemaps/blob/main/LICENSE",
+        "https://github.com/101arrowz/fflate/blob/master/LICENSE"
+      ],
+      "attribution_text": "The local trip-vector bundle includes fflate, PMTiles and Protomaps basemaps code; preserve the linked BSD-3-Clause/MIT notices.",
+      "derivative_obligations": "Preserve each embedded dependency's license notice; semver is not embedded, so the bundle SHA-256 and source commit are the release binding.",
+      "paths": [
+        "vendor/trip-vector.js"
+      ]
+    },
+    {
+      "id": "first-party-runtime",
+      "asset_class": "first-party-runtime",
+      "public_distribution_decision": "approved",
+      "evidence_status": "first-party-generated",
+      "provenance": "Project source at the candidate commit",
+      "creator_or_owner": "sf-trip-visualizer project",
+      "license_or_permission": "Project-owned source distributed with this public package",
+      "license_url": "",
+      "attribution_text": "sf-trip-visualizer project runtime source.",
+      "derivative_obligations": "No third-party asset license is inferred; project policy and recipient package terms govern this first-party code.",
+      "paths": [
+        "src/app_phase7.css",
+        "src/app_phase7.js",
+        "src/map_first.css"
+      ]
+    },
+    {
+      "id": "generated-product",
+      "asset_class": "generated-product-artifact",
+      "public_distribution_decision": "approved",
+      "evidence_status": "first-party-generated",
+      "provenance": "scripts/build_map_first.py",
+      "creator_or_owner": "sf-trip-visualizer project",
+      "license_or_permission": "Generated from approved local inputs; candidate qualification binds the exact output hash",
+      "license_url": "",
+      "attribution_text": "Product artifact generated by the project build.",
+      "derivative_obligations": "The embedded photos, map, font and software obligations remain those recorded for the embedded source assets.",
+      "paths": [
+        "index.html",
+        "artifacts/public/index.html",
+        "artifacts/modular/index.html",
+        "artifacts/standalone/SF_Smart_Minority_Map_First_Standalone.html"
+      ]
+    },
+    {
+      "id": "generated-notices",
+      "asset_class": "generated-attribution-notice",
+      "public_distribution_decision": "approved",
+      "evidence_status": "operational-derived-notice",
+      "provenance": "scripts/public_asset_rights.py",
+      "creator_or_owner": "sf-trip-visualizer project from this rights contract",
+      "license_or_permission": "Operational release notice generated from the machine-readable rights record",
+      "license_url": "",
+      "attribution_text": "See the generated notice itself; it is part of the public artifact.",
+      "derivative_obligations": "Do not remove or stale the notice when redistributing the candidate.",
+      "paths": [
+        "ATTRIBUTION.md",
+        "THIRD_PARTY_NOTICES.md",
+        ".public-asset-rights.json",
+        "artifacts/public/ATTRIBUTION.md",
+        "artifacts/public/THIRD_PARTY_NOTICES.md",
+        "artifacts/public/.public-asset-rights.json"
+      ]
+    }
+  ],
+  "output_asset_classes": {
+    "pages": {
+      "first-party-runtime": 3,
+      "font-glyph-data": 6,
+      "generated-release-file": 7,
+      "generated-third-party-bundle": 1,
+      "government-relief-data": 1,
+      "map-data": 1,
+      "map-sprite-data": 8,
+      "photo-derivative": 216,
+      "third-party-software": 3
+    },
+    "public_package": {
+      "font-glyph-data": 6,
+      "generated-product-artifact": 241,
+      "generated-release-file": 7,
+      "map-data": 3,
+      "map-sprite-data": 8,
+      "package-data": 11,
+      "package-documentation": 3,
+      "package-manifest": 11,
+      "package-script": 52,
+      "package-source": 5,
+      "package-vendor": 4,
+      "photo-derivative": 216,
+      "public-artifact-copy": 239,
+      "qualification-evidence": 20
+    },
+    "independent_pages": {
+      "first-party-runtime": 3,
+      "font-glyph-data": 6,
+      "generated-release-file": 7,
+      "generated-third-party-bundle": 1,
+      "government-relief-data": 1,
+      "map-data": 1,
+      "map-sprite-data": 8,
+      "photo-derivative": 216,
+      "third-party-software": 3
+    },
+    "independent_public_package": {
+      "font-glyph-data": 6,
+      "generated-product-artifact": 241,
+      "generated-release-file": 7,
+      "map-data": 3,
+      "map-sprite-data": 8,
+      "package-data": 11,
+      "package-documentation": 3,
+      "package-integrity-manifest": 1,
+      "package-manifest": 11,
+      "package-script": 52,
+      "package-source": 5,
+      "package-vendor": 4,
+      "photo-derivative": 216,
+      "public-artifact-copy": 239,
+      "qualification-evidence": 20
+    }
+  },
+  "legal_boundary_record": "This is an evidence-backed release-eligibility record, not legal advice or a representation of legal certainty."
+}

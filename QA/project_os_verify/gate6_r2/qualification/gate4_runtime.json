@@ -1,0 +1,765 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "candidate_head": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+  "test_mode": "browser",
+  "modular": {
+    "initial": {
+      "provider": "vector",
+      "provider_identity": "smart-local-vector",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "untested"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "smart-local-vector"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "planning_state": {
+        "routes": [
+          "A1",
+          "A2",
+          "B1",
+          "B2"
+        ],
+        "date": "all",
+        "region": "overall",
+        "selected": null,
+        "tab": "timeline",
+        "lang": "ko",
+        "theme": "light",
+        "panel_hidden": false
+      },
+      "runtime": {
+        "sequence": 1,
+        "probeSequence": 0,
+        "mapCreations": 1,
+        "mapRemovals": 0,
+        "drawRequests": 1,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "smart-local-vector"
+          }
+        ]
+      },
+      "provider_stats": {
+        "vector": {
+          "healthProbes": 0,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 0
+        },
+        "satellite": {
+          "healthProbes": 0,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 0
+        }
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 36,
+        "photo_marker_keys": [
+          "ferry",
+          "exploratorium",
+          "bay_lights",
+          "ggb",
+          "muir",
+          "battery",
+          "palace",
+          "crissy",
+          "tunnel_tops",
+          "alcatraz",
+          "north_beach",
+          "fortune",
+          "cable_car",
+          "coit",
+          "lombard",
+          "pier39",
+          "musee",
+          "ghirardelli",
+          "point_lobos",
+          "carmel",
+          "bixby",
+          "lone_cypress",
+          "aquarium",
+          "monterey_wharf",
+          "cooks",
+          "el_capitan",
+          "tunnel_view",
+          "valley_view",
+          "washburn",
+          "glacier",
+          "mariposa",
+          "painted",
+          "twin_peaks",
+          "botanical",
+          "academy",
+          "lands_end"
+        ],
+        "clusters": 3,
+        "leg_markers": 4,
+        "layers": 135
+      }
+    },
+    "before_reload": {
+      "provider": "vector",
+      "provider_identity": "smart-local-vector",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "untested"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "smart-local-vector"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "planning_state": {
+        "routes": [
+          "A1",
+          "B1",
+          "B2"
+        ],
+        "date": "10/3",
+        "region": "sf",
+        "selected": "ferry",
+        "tab": "details",
+        "lang": "en",
+        "theme": "dark",
+        "panel_hidden": false
+      },
+      "runtime": {
+        "sequence": 1,
+        "probeSequence": 0,
+        "mapCreations": 2,
+        "mapRemovals": 1,
+        "drawRequests": 6,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "smart-local-vector"
+          }
+        ]
+      },
+      "provider_stats": {
+        "vector": {
+          "healthProbes": 0,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 0
+        },
+        "satellite": {
+          "healthProbes": 0,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 0
+        }
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 3,
+        "photo_marker_keys": [
+          "ferry",
+          "exploratorium",
+          "bay_lights"
+        ],
+        "clusters": 0,
+        "leg_markers": 0,
+        "layers": 135
+      }
+    },
+    "after_reload": {
+      "provider": "vector",
+      "provider_identity": "smart-local-vector",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "untested"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "smart-local-vector"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "planning_state": {
+        "routes": [
+          "A1",
+          "B1",
+          "B2"
+        ],
+        "date": "10/3",
+        "region": "sf",
+        "selected": "ferry",
+        "tab": "details",
+        "lang": "en",
+        "theme": "dark",
+        "panel_hidden": false
+      },
+      "runtime": {
+        "sequence": 1,
+        "probeSequence": 0,
+        "mapCreations": 1,
+        "mapRemovals": 0,
+        "drawRequests": 1,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "smart-local-vector"
+          }
+        ]
+      },
+      "provider_stats": {
+        "vector": {
+          "healthProbes": 0,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 0
+        },
+        "satellite": {
+          "healthProbes": 0,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 0
+        }
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 3,
+        "photo_marker_keys": [
+          "ferry",
+          "exploratorium",
+          "bay_lights"
+        ],
+        "clusters": 0,
+        "leg_markers": 0,
+        "layers": 135
+      }
+    },
+    "blocked_provider": {
+      "provider": "vector",
+      "provider_identity": "smart-local-vector",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "failed"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "smart-local-vector"
+        },
+        {
+          "seq": 2,
+          "type": "health_probe_started",
+          "provider": "satellite"
+        },
+        {
+          "seq": 3,
+          "type": "health_probe_failed",
+          "provider": "satellite"
+        },
+        {
+          "seq": 4,
+          "type": "fallback_to_smart",
+          "provider": "satellite",
+          "reason": "probe_failure",
+          "active": "vector"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "planning_state": {
+        "routes": [
+          "A1",
+          "B1",
+          "B2"
+        ],
+        "date": "10/3",
+        "region": "sf",
+        "selected": "ferry",
+        "tab": "details",
+        "lang": "en",
+        "theme": "dark",
+        "panel_hidden": false
+      },
+      "runtime": {
+        "sequence": 4,
+        "probeSequence": 1,
+        "mapCreations": 1,
+        "mapRemovals": 0,
+        "drawRequests": 2,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "smart-local-vector"
+          },
+          {
+            "seq": 2,
+            "type": "health_probe_started",
+            "provider": "satellite"
+          },
+          {
+            "seq": 3,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 4,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure",
+            "active": "vector"
+          }
+        ]
+      },
+      "provider_stats": {
+        "vector": {
+          "healthProbes": 0,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 0
+        },
+        "satellite": {
+          "healthProbes": 1,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 1
+        }
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 3,
+        "photo_marker_keys": [
+          "ferry",
+          "exploratorium",
+          "bay_lights"
+        ],
+        "clusters": 0,
+        "leg_markers": 0,
+        "layers": 135
+      }
+    },
+    "repeated_switches": {
+      "provider": "vector",
+      "provider_identity": "smart-local-vector",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "failed"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "smart-local-vector"
+        },
+        {
+          "seq": 2,
+          "type": "health_probe_started",
+          "provider": "satellite"
+        },
+        {
+          "seq": 3,
+          "type": "health_probe_failed",
+          "provider": "satellite"
+        },
+        {
+          "seq": 4,
+          "type": "fallback_to_smart",
+          "provider": "satellite",
+          "reason": "probe_failure",
+          "active": "vector"
+        },
+        {
+          "seq": 5,
+          "type": "health_probe_started",
+          "provider": "satellite"
+        },
+        {
+          "seq": 6,
+          "type": "health_probe_failed",
+          "provider": "satellite"
+        },
+        {
+          "seq": 7,
+          "type": "fallback_to_smart",
+          "provider": "satellite",
+          "reason": "probe_failure",
+          "active": "vector"
+        },
+        {
+          "seq": 8,
+          "type": "health_probe_started",
+          "provider": "satellite"
+        },
+        {
+          "seq": 9,
+          "type": "health_probe_failed",
+          "provider": "satellite"
+        },
+        {
+          "seq": 10,
+          "type": "fallback_to_smart",
+          "provider": "satellite",
+          "reason": "probe_failure",
+          "active": "vector"
+        },
+        {
+          "seq": 11,
+          "type": "health_probe_started",
+          "provider": "satellite"
+        },
+        {
+          "seq": 12,
+          "type": "health_probe_failed",
+          "provider": "satellite"
+        },
+        {
+          "seq": 13,
+          "type": "fallback_to_smart",
+          "provider": "satellite",
+          "reason": "probe_failure",
+          "active": "vector"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "planning_state": {
+        "routes": [
+          "A1",
+          "B1",
+          "B2"
+        ],
+        "date": "10/3",
+        "region": "sf",
+        "selected": "ferry",
+        "tab": "details",
+        "lang": "en",
+        "theme": "dark",
+        "panel_hidden": false
+      },
+      "runtime": {
+        "sequence": 13,
+        "probeSequence": 4,
+        "mapCreations": 1,
+        "mapRemovals": 0,
+        "drawRequests": 5,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "smart-local-vector"
+          },
+          {
+            "seq": 2,
+            "type": "health_probe_started",
+            "provider": "satellite"
+          },
+          {
+            "seq": 3,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 4,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure",
+            "active": "vector"
+          },
+          {
+            "seq": 5,
+            "type": "health_probe_started",
+            "provider": "satellite"
+          },
+          {
+            "seq": 6,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 7,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure",
+            "active": "vector"
+          },
+          {
+            "seq": 8,
+            "type": "health_probe_started",
+            "provider": "satellite"
+          },
+          {
+            "seq": 9,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 10,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure",
+            "active": "vector"
+          },
+          {
+            "seq": 11,
+            "type": "health_probe_started",
+            "provider": "satellite"
+          },
+          {
+            "seq": 12,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 13,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure",
+            "active": "vector"
+          }
+        ]
+      },
+      "provider_stats": {
+        "vector": {
+          "healthProbes": 0,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 0
+        },
+        "satellite": {
+          "healthProbes": 4,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 4
+        }
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 3,
+        "photo_marker_keys": [
+          "ferry",
+          "exploratorium",
+          "bay_lights"
+        ],
+        "clusters": 0,
+        "leg_markers": 0,
+        "layers": 135
+      }
+    },
+    "smart_first_use_remote_requests": [],
+    "optional_provider_requests": [
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=2",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=3",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=4"
+    ],
+    "remote_requests": [
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=2",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=3",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=4"
+    ],
+    "page_errors": [],
+    "critical_pass": true,
+    "failures": []
+  },
+  "standalone": {
+    "snapshot": {
+      "provider": "vector",
+      "provider_identity": "smart-local-vector",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "untested"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "smart-local-vector"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "planning_state": {
+        "routes": [
+          "A1",
+          "A2",
+          "B1",
+          "B2"
+        ],
+        "date": "all",
+        "region": "overall",
+        "selected": "ggb",
+        "tab": "details",
+        "lang": "ko",
+        "theme": "light",
+        "panel_hidden": false
+      },
+      "runtime": {
+        "sequence": 1,
+        "probeSequence": 0,
+        "mapCreations": 1,
+        "mapRemovals": 0,
+        "drawRequests": 1,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "smart-local-vector"
+          }
+        ]
+      },
+      "provider_stats": {
+        "vector": {
+          "healthProbes": 0,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 0
+        },
+        "satellite": {
+          "healthProbes": 0,
+          "viewportProbes": 0,
+          "tileErrors": 0,
+          "fallbacks": 0
+        }
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 36,
+        "photo_marker_keys": [
+          "ferry",
+          "exploratorium",
+          "bay_lights",
+          "ggb",
+          "muir",
+          "battery",
+          "palace",
+          "crissy",
+          "tunnel_tops",
+          "alcatraz",
+          "north_beach",
+          "fortune",
+          "cable_car",
+          "coit",
+          "lombard",
+          "pier39",
+          "musee",
+          "ghirardelli",
+          "point_lobos",
+          "carmel",
+          "bixby",
+          "lone_cypress",
+          "aquarium",
+          "monterey_wharf",
+          "cooks",
+          "el_capitan",
+          "tunnel_view",
+          "valley_view",
+          "washburn",
+          "glacier",
+          "mariposa",
+          "painted",
+          "twin_peaks",
+          "botanical",
+          "academy",
+          "lands_end"
+        ],
+        "clusters": 3,
+        "leg_markers": 4,
+        "layers": 135
+      }
+    },
+    "remote_requests": [],
+    "page_errors": [],
+    "critical_pass": true
+  },
+  "negative_checks": [
+    {
+      "case": "missing_pmtiles",
+      "visible_failure": true,
+      "provider": "vector",
+      "provider_identity": "smart-local-vector",
+      "remote_requests": [],
+      "pass": true
+    },
+    {
+      "case": "corrupt_pmtiles",
+      "visible_failure": true,
+      "provider": "vector",
+      "provider_identity": "smart-local-vector",
+      "remote_requests": [],
+      "pass": true
+    },
+    {
+      "case": "missing_required_photo",
+      "visible_failure": true,
+      "provider": "vector",
+      "provider_identity": "smart-local-vector",
+      "remote_requests": [],
+      "pass": true
+    },
+    {
+      "case": "missing_terrain",
+      "visible_failure": true,
+      "provider": "vector",
+      "provider_identity": "smart-local-vector",
+      "remote_requests": [],
+      "pass": true
+    }
+  ],
+  "external_provider": {
+    "status": "PASS",
+    "provider": "satellite",
+    "success_requests": 22,
+    "note": "optional success path independently observed in this environment",
+    "post_switch_tile_failure_recovery": "PASS"
+  },
+  "failures": []
+}

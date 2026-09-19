@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "candidate_head": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+  "fixture_scope": "temporary copies of the generated Pages tree; candidate source was not mutated",
+  "all_expected_failures_observed": true,
+  "cases": [
+    {
+      "case": "unregistered_shipped_asset",
+      "command": "check_public_asset_rights.py --tree <temporary-copy> --mode pages",
+      "return_code": 1,
+      "expected_diagnostic": "unregistered shipped file: unexpected.bin",
+      "observed": true
+    },
+    {
+      "case": "not_approved_registered_asset",
+      "command": "audit_tree(<temporary-copy>, contract with one registered decision changed to verify-required)",
+      "return_code": 1,
+      "expected_diagnostic": "registered but not approved for pages",
+      "observed": true
+    },
+    {
+      "case": "missing_required_notice",
+      "command": "check_public_asset_rights.py --tree <temporary-copy> --mode pages",
+      "return_code": 1,
+      "expected_diagnostic": "required public asset/notice missing: ATTRIBUTION.md",
+      "observed": true
+    },
+    {
+      "case": "stale_rights_manifest",
+      "command": "check_public_asset_rights.py --tree <temporary-copy> --mode pages",
+      "return_code": 1,
+      "expected_diagnostic": "embedded rights manifest is stale or does not match the candidate contract",
+      "observed": true
+    },
+    {
+      "case": "private_only_leak",
+      "command": "check_public_asset_rights.py --tree <temporary-copy> --mode pages",
+      "return_code": 1,
+      "fixture_path": "assets/photos/original/leaked.jpg",
+      "expected_diagnostic": "private-only asset leaked into pages: assets/photos/original/leaked.jpg",
+      "observed": true
+    }
+  ]
+}

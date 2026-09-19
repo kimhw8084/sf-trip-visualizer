@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_4",
+  "status": "PASS",
+  "candidate_head": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+  "test_modes": [
+    "static",
+    "browser",
+    "delivery_parity"
+  ],
+  "static": {
+    "status": "PASS",
+    "evidence": "QA/release/gate4_static.json"
+  },
+  "runtime": {
+    "status": "PASS",
+    "evidence": "QA/release/gate4_runtime.json",
+    "external_provider": {
+      "status": "PASS",
+      "provider": "satellite",
+      "success_requests": 22,
+      "note": "optional success path independently observed in this environment",
+      "post_switch_tile_failure_recovery": "PASS"
+    }
+  },
+  "delivery": {
+    "schema_version": 1,
+    "status": "PASS",
+    "candidate_head": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "test_mode": "delivery_parity",
+    "forms": [
+      {
+        "form": "modular",
+        "path": ".build/modular/index.html",
+        "sha256": "af5f034607abc2d224b954f759e59617fd038224138a6af55df9437b7cb7b615",
+        "truth_digest": "c927a42ac3ecebc8099fe16c5e3b2923faab623d089f100c7c60739dcb2d07d5",
+        "truth_matches": true,
+        "freshness_matches": true,
+        "contract_matches": true
+      },
+      {
+        "form": "standalone",
+        "path": ".build/standalone/SF_Smart_Minority_Map_First_Standalone.html",
+        "sha256": "7d0655b743336378b3af9070c4fd684ef06e2bfd1fde3d818635d664f5f358d7",
+        "truth_digest": "c927a42ac3ecebc8099fe16c5e3b2923faab623d089f100c7c60739dcb2d07d5",
+        "truth_matches": true,
+        "freshness_matches": true,
+        "contract_matches": true
+      },
+      {
+        "form": "public_staging",
+        "path": ".public-site/index.html",
+        "sha256": "af5f034607abc2d224b954f759e59617fd038224138a6af55df9437b7cb7b615",
+        "exact_modular": true,
+        "truth_digest": "c927a42ac3ecebc8099fe16c5e3b2923faab623d089f100c7c60739dcb2d07d5",
+        "truth_matches": true,
+        "freshness_matches": true,
+        "contract_matches": true
+      }
+    ],
+    "failures": []
+  },
+  "package": {
+    "status": "PASS",
+    "revision": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+    "package_sha256": "53f55fab2002c553ba81d48bcc9b913c6b2ea32e482972b9cff98d0bd1bf6b95",
+    "manifest_sha256": "d46b5876376f9f43dd3ef6b9de46f01817a0767fe74327aacfc977f01a9a02d7",
+    "files": 826,
+    "checks": {
+      "tested_sha": true,
+      "qualification_sha256": true,
+      "file_hashes": true,
+      "file_count": true,
+      "zip_members": true,
+      "zip_timestamps_deterministic": true,
+      "zip_content_hashes": true,
+      "repeat_zip_sha256": true
+    }
+  },
+  "limitations": [
+    "This is Gate 4 evidence only; it is not a production-readiness or production-release claim."
+  ]
+}
