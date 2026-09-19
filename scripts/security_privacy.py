@@ -263,6 +263,93 @@ def check_advisories(packages: dict[str, dict], contract: dict) -> dict:
     return {"status": "PASS" if not failures else "FAIL", "constraints": results, "failures": failures}
 
 
+def check_dependency_artifact_coverage(packages: dict[str, dict], contract: dict) -> dict:
+    """Check exact pins and hashes against the approved platform artifact matrix."""
+    inventory = next((entry for entry in contract.get("dependency_inventory", []) if entry.get("id") == "python-qa-closure"), {})
+    coverage = inventory.get("artifact_coverage", {})
+    pin_records = coverage.get("package_version_pins", [])
+    if pin_records:
+        pins = {
+            str(record.get("name", "")).lower().replace("-", "_"): str(record.get("version", ""))
+            for record in pin_records
+        }
+    else:
+        pins = {
+            item.split("==", 1)[0].lower().replace("-", "_"): item.split("==", 1)[1]
+            for item in inventory.get("packages", [])
+            if "==" in item
+        }
+    platforms = coverage.get("supported_platforms", [])
+    platform_ids = [platform.get("id") for platform in platforms]
+    failures: list[str] = []
+    if not platforms:
+        failures.append("dependency artifact coverage has no supported platforms")
+    if len(platform_ids) != len(set(platform_ids)) or any(not platform_id for platform_id in platform_ids):
+        failures.append("dependency artifact coverage has missing or duplicate platform ids")
+
+    artifacts = coverage.get("approved_artifacts", [])
+    approved_by_package: dict[str, list[dict]] = {}
+    approved_hashes: dict[str, set[str]] = {}
+    seen_platform_artifacts: set[tuple[str, str]] = set()
+    for artifact in artifacts:
+        name = str(artifact.get("package", "")).lower().replace("-", "_")
+        version = str(artifact.get("version", ""))
+        filename = str(artifact.get("filename", ""))
+        digest = str(artifact.get("sha256", ""))
+        artifact_platforms = artifact.get("platforms", [])
+        if name not in pins:
+            failures.append(f"artifact coverage lists an unpinned package: {artifact.get('package', '<missing>')}")
+        elif version != pins[name]:
+            failures.append(f"artifact coverage version differs for {name}: expected {pins[name]}, found {version}")
+        if not filename.endswith(".whl"):
+            failures.append(f"artifact coverage entry for {name} is not a wheel filename")
+        if not re.fullmatch(r"[0-9a-f]{64}", digest):
+            failures.append(f"artifact coverage entry for {name} has an invalid SHA-256")
+        if not artifact_platforms:
+            failures.append(f"artifact coverage entry for {name} has no supported platform")
+        unknown_platforms = set(artifact_platforms) - set(platform_ids)
+        for platform_id in sorted(unknown_platforms):
+            failures.append(f"artifact coverage entry for {name} names unknown platform {platform_id}")
+        for platform_id in artifact_platforms:
+            key = (name, platform_id)
+            if key in seen_platform_artifacts:
+                failures.append(f"multiple approved artifacts for {name} on {platform_id}")
+            seen_platform_artifacts.add(key)
+        approved_by_package.setdefault(name, []).append(artifact)
+        approved_hashes.setdefault(name, set()).add(digest)
+
+    expected_names = set(pins)
+    if set(packages) != expected_names:
+        failures.append(f"artifact coverage package set differs: expected {sorted(expected_names)}, found {sorted(packages)}")
+    for name, version in pins.items():
+        record = packages.get(name)
+        if record is None:
+            failures.append(f"{name}: exact package pin is missing from requirements")
+            continue
+        if record.get("version") != version:
+            failures.append(f"{name}: package version pin differs from artifact coverage ({version} != {record.get('version')})")
+        approved = approved_by_package.get(name, [])
+        for platform_id in platform_ids:
+            matches = [artifact for artifact in approved if platform_id in artifact.get("platforms", [])]
+            if len(matches) != 1:
+                failures.append(f"{name}: expected exactly one approved artifact for {platform_id}, found {len(matches)}")
+                continue
+            selected_hash = matches[0].get("sha256")
+            if selected_hash not in record.get("hashes", []):
+                failures.append(f"{name}: selected {platform_id} artifact hash is not authorized by requirements")
+        unapproved_hashes = set(record.get("hashes", [])) - approved_hashes.get(name, set())
+        for digest in sorted(unapproved_hashes):
+            failures.append(f"{name}: requirements authorizes unapproved artifact hash {digest}")
+
+    return {
+        "status": "PASS" if not failures else "FAIL",
+        "supported_platforms": platforms,
+        "approved_artifacts": artifacts,
+        "package_version_pins": [{"name": name, "version": version} for name, version in sorted(pins.items())],
+        "failures": failures,
+    }
+
+
 def check_requirements(root: Path = ROOT, contract: dict | None = None) -> dict:
     path = root / "requirements-qa.txt"
     lines = path.read_text(encoding="utf-8").splitlines() if path.is_file() else []
@@ -301,11 +388,14 @@ def check_requirements(root: Path = ROOT, contract: dict | None = None) -> dict:
     for name, record in packages.items():
         if not record["hashes"]:
             failures.append(f"{name}: no artifact hash")
+    artifact_coverage = check_dependency_artifact_coverage(packages, expected)
+    failures.extend(artifact_coverage["failures"])
     advisory_review = check_advisories(packages, expected)
     failures.extend(advisory_review["failures"])
     return {
         "status": "PASS" if not failures else "FAIL",
         "packages": packages,
+        "artifact_coverage": artifact_coverage,
         "advisory_review": advisory_review,
         "failures": failures,
     }

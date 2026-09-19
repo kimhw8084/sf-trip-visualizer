@@ -156,6 +156,73 @@
       "role": "build/test/release qualification only",
       "paths": ["requirements-qa.txt"],
       "packages": ["beautifulsoup4==4.12.2", "Pillow==12.3.0", "playwright==1.62.0", "requests==2.33.0", "soupsieve==2.9.2", "greenlet==3.5.5", "pyee==13.0.1", "typing-extensions==4.16.0", "certifi==2026.7.22", "charset-normalizer==2.0.4", "idna==3.19", "urllib3==2.8.0"],
+      "artifact_coverage": {
+        "selection_basis": "Each exact package pin is authorized only for the listed PyPI wheel artifact selected by pip for the supported CPython 3.11 platform. The package version pin set and platform artifact hash set are checked independently.",
+        "authoritative_metadata": {
+          "beautifulsoup4==4.12.2": "https://pypi.org/pypi/beautifulsoup4/4.12.2/json",
+          "Pillow==12.3.0": "https://pypi.org/pypi/Pillow/12.3.0/json",
+          "playwright==1.62.0": "https://pypi.org/pypi/playwright/1.62.0/json",
+          "requests==2.33.0": "https://pypi.org/pypi/requests/2.33.0/json",
+          "soupsieve==2.9.2": "https://pypi.org/pypi/soupsieve/2.9.2/json",
+          "greenlet==3.5.5": "https://pypi.org/pypi/greenlet/3.5.5/json",
+          "pyee==13.0.1": "https://pypi.org/pypi/pyee/13.0.1/json",
+          "typing-extensions==4.16.0": "https://pypi.org/pypi/typing-extensions/4.16.0/json",
+          "certifi==2026.7.22": "https://pypi.org/pypi/certifi/2026.7.22/json",
+          "charset-normalizer==2.0.4": "https://pypi.org/pypi/charset-normalizer/2.0.4/json",
+          "idna==3.19": "https://pypi.org/pypi/idna/3.19/json",
+          "urllib3==2.8.0": "https://pypi.org/pypi/urllib3/2.8.0/json"
+        },
+        "verified_at": "2026-09-19",
+        "supported_platforms": [
+          {
+            "id": "macos-arm64-cp311",
+            "python": "3.11",
+            "implementation": "cp",
+            "abi": "cp311",
+            "platform_tags": ["macosx_11_0_arm64"],
+            "environment": "owner/developer macOS ARM CPython 3.11"
+          },
+          {
+            "id": "linux-x86_64-cp311",
+            "python": "3.11",
+            "implementation": "cp",
+            "abi": "cp311",
+            "platform_tags": ["manylinux1_x86_64", "manylinux_2_24_x86_64", "manylinux_2_28_x86_64"],
+            "environment": "GitHub-hosted Ubuntu 24.04 x86_64 CPython 3.11.16"
+          }
+        ],
+        "package_version_pins": [
+          {"name": "beautifulsoup4", "version": "4.12.2"},
+          {"name": "Pillow", "version": "12.3.0"},
+          {"name": "playwright", "version": "1.62.0"},
+          {"name": "requests", "version": "2.33.0"},
+          {"name": "soupsieve", "version": "2.9.2"},
+          {"name": "greenlet", "version": "3.5.5"},
+          {"name": "pyee", "version": "13.0.1"},
+          {"name": "typing-extensions", "version": "4.16.0"},
+          {"name": "certifi", "version": "2026.7.22"},
+          {"name": "charset-normalizer", "version": "2.0.4"},
+          {"name": "idna", "version": "3.19"},
+          {"name": "urllib3", "version": "2.8.0"}
+        ],
+        "approved_artifacts": [
+          {"package": "beautifulsoup4", "version": "4.12.2", "filename": "beautifulsoup4-4.12.2-py3-none-any.whl", "sha256": "bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "Pillow", "version": "12.3.0", "filename": "pillow-12.3.0-cp311-cp311-macosx_11_0_arm64.whl", "sha256": "37d6d0a00072fd2948eb22bce7e1475f34569d90c87c59f7a2ec59541b77f7a6", "platforms": ["macos-arm64-cp311"]},
+          {"package": "Pillow", "version": "12.3.0", "filename": "pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", "sha256": "23d27a3e0307ec2244cc51e7287b919aa68d097504ebe19df4e76a98a3eea5bd", "platforms": ["linux-x86_64-cp311"]},
+          {"package": "playwright", "version": "1.62.0", "filename": "playwright-1.62.0-py3-none-macosx_11_0_arm64.whl", "sha256": "db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034", "platforms": ["macos-arm64-cp311"]},
+          {"package": "playwright", "version": "1.62.0", "filename": "playwright-1.62.0-py3-none-manylinux1_x86_64.whl", "sha256": "ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3", "platforms": ["linux-x86_64-cp311"]},
+          {"package": "requests", "version": "2.33.0", "filename": "requests-2.33.0-py3-none-any.whl", "sha256": "3324635456fa185245e24865e810cecec7b4caf933d7eb133dcde67d48cee69b", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "soupsieve", "version": "2.9.2", "filename": "soupsieve-2.9.2-py3-none-any.whl", "sha256": "8089a26fd974ca7a1f30276d3d8492ab266ab15af581642dfe8aa162e0c1c823", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "greenlet", "version": "3.5.5", "filename": "greenlet-3.5.5-cp311-cp311-macosx_11_0_universal2.whl", "sha256": "be63afcbbccfad3dd95a1ba12ada84dab2ef32031973d80b5b92df67fa763a61", "platforms": ["macos-arm64-cp311"]},
+          {"package": "greenlet", "version": "3.5.5", "filename": "greenlet-3.5.5-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", "sha256": "74cc6df89ec5302337adc9cf096221cbed2510fd444b0e0f1586cf0470740864", "platforms": ["linux-x86_64-cp311"]},
+          {"package": "pyee", "version": "13.0.1", "filename": "pyee-13.0.1-py3-none-any.whl", "sha256": "af2f8fede4171ef667dfded53f96e2ed0d6e6bd7ee3bb46437f77e3b57689228", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "typing-extensions", "version": "4.16.0", "filename": "typing_extensions-4.16.0-py3-none-any.whl", "sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "certifi", "version": "2026.7.22", "filename": "certifi-2026.7.22-py3-none-any.whl", "sha256": "62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "charset-normalizer", "version": "2.0.4", "filename": "charset_normalizer-2.0.4-py3-none-any.whl", "sha256": "0c8911edd15d19223366a194a513099a302055a962bca2cec0f54b8b63175d8b", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "idna", "version": "3.19", "filename": "idna-3.19-py3-none-any.whl", "sha256": "815e7be7a7806d54abb586dc943addc79e8b2ee16915059658cbeff4b1b43bf4", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "urllib3", "version": "2.8.0", "filename": "urllib3-2.8.0-py3-none-any.whl", "sha256": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]}
+        ]
+      },
       "compatibility_review": {
         "requests": "2.33.0 requires urllib3>=1.26,<3; selected urllib3==2.8.0 satisfies the exact parent constraint.",
         "beautifulsoup4": "4.12.2 requires soupsieve>1.2; selected soupsieve==2.9.2 satisfies the exact parent constraint.",

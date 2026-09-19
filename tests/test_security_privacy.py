@@ -61,6 +61,70 @@ class SecurityPrivacyContractTests(unittest.TestCase):
         self.assertEqual(failed["status"], "FAIL")
         self.assertTrue(any("lacks hash" in failure or "no artifact hash" in failure for failure in failed["failures"]))
 
+    def test_platform_coverage_requires_linux_playwright_hash(self):
+        requirements = (ROOT / "requirements-qa.txt").read_text()
+        linux_hash = "ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3"
+        mac_only = requirements.replace(f"    --hash=sha256:{linux_hash}\n", "")
+        with tempfile.TemporaryDirectory(prefix="g7-platform-missing-") as directory:
+            root = Path(directory)
+            (root / "requirements-qa.txt").write_text(mac_only)
+            failed = security_privacy.check_requirements(root, self.contract)
+        self.assertEqual(failed["artifact_coverage"]["status"], "FAIL")
+        self.assertTrue(any("playwright" in failure and "linux-x86_64-cp311" in failure for failure in failed["artifact_coverage"]["failures"]))
+
+    def test_repaired_artifact_matrix_covers_supported_platforms(self):
+        with tempfile.TemporaryDirectory(prefix="g7-platform-repaired-") as directory:
+            root = Path(directory)
+            (root / "requirements-qa.txt").write_text((ROOT / "requirements-qa.txt").read_text())
+            passed = security_privacy.check_requirements(root, self.contract)
+        coverage = passed["artifact_coverage"]
+        self.assertEqual(coverage["status"], "PASS", coverage["failures"])
+        self.assertEqual({platform["id"] for platform in coverage["supported_platforms"]}, {"macos-arm64-cp311", "linux-x86_64-cp311"})
+
+    def test_wrong_linux_artifact_hash_fails_coverage(self):
+        requirements = (ROOT / "requirements-qa.txt").read_text()
+        linux_hash = "ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3"
+        wrong_hash = "0" * 64
+        wrong_linux = requirements.replace(linux_hash, wrong_hash)
+        with tempfile.TemporaryDirectory(prefix="g7-platform-wrong-hash-") as directory:
+            root = Path(directory)
+            (root / "requirements-qa.txt").write_text(wrong_linux)
+            failed = security_privacy.check_requirements(root, self.contract)
+        self.assertEqual(failed["artifact_coverage"]["status"], "FAIL")
+        self.assertTrue(any("unapproved artifact hash" in failure for failure in failed["artifact_coverage"]["failures"]))
+
+    def test_unapproved_platform_artifact_hash_fails_closed(self):
+        requirements = (ROOT / "requirements-qa.txt").read_text()
+        linux_hash = "ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3"
+        unknown_hash = "1" * 64
+        extra_hash = f"    --hash=sha256:{unknown_hash}\n"
+        unapproved = requirements.replace(f"    --hash=sha256:{linux_hash}\n", f"    --hash=sha256:{linux_hash} \\\n{extra_hash}")
+        with tempfile.TemporaryDirectory(prefix="g7-platform-unapproved-") as directory:
+            root = Path(directory)
+            (root / "requirements-qa.txt").write_text(unapproved)
+            failed = security_privacy.check_requirements(root, self.contract)
+        self.assertEqual(failed["artifact_coverage"]["status"], "FAIL")
+        self.assertTrue(any(unknown_hash in failure and "unapproved artifact hash" in failure for failure in failed["artifact_coverage"]["failures"]))
+
+    def test_unknown_platform_artifact_is_rejected(self):
+        contract = json.loads(json.dumps(self.contract))
+        inventory = next(entry for entry in contract["dependency_inventory"] if entry["id"] == "python-qa-closure")
+        inventory["artifact_coverage"]["approved_artifacts"].append(
+            {
+                "package": "playwright",
+                "version": "1.62.0",
+                "filename": "playwright-1.62.0-py3-none-unknown_platform.whl",
+                "sha256": "db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034",
+                "platforms": ["unknown-linux-x86_64-cp311"],
+            }
+        )
+        with tempfile.TemporaryDirectory(prefix="g7-platform-unknown-") as directory:
+            root = Path(directory)
+            (root / "requirements-qa.txt").write_text((ROOT / "requirements-qa.txt").read_text())
+            failed = security_privacy.check_requirements(root, contract)
+        self.assertEqual(failed["artifact_coverage"]["status"], "FAIL")
+        self.assertTrue(any("unknown platform unknown-linux-x86_64-cp311" in failure for failure in failed["artifact_coverage"]["failures"]))
+
     def test_advisory_validation_rejects_known_affected_transitive_pin(self):
         requirements = (ROOT / "requirements-qa.txt").read_text()
         old_state = requirements.replace("urllib3==2.8.0 \\", "urllib3==2.0.7 \\").replace(
