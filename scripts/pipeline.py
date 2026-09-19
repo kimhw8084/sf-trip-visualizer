@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 import signal
+import shutil
 import socket
 import subprocess
 import sys
@@ -26,6 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from validate_trip_data import validate_trip_data
 from qa_gate4_resilience import delivery_report
+from public_asset_rights import audit_tree, load_contract, load_json as load_rights_json, write_notices
 
 MANIFEST_PATH = ROOT / "manifests" / "canonical_pipeline.json"
 BUILD = ROOT / ".build"
@@ -193,6 +195,26 @@ def run_build(output: Path) -> None:
         raise RuntimeError(f"Canonical build failed ({code}).\n{stdout}\n{stderr}")
 
 
+def run_public_rights_audit() -> dict:
+    contract = load_contract()
+    photo_manifest = load_rights_json(ROOT / "manifests" / "asset_manifest.json")
+    with tempfile.TemporaryDirectory(prefix="public-candidate-", dir=ROOT) as temporary:
+        candidate = Path(temporary) / "public"
+        shutil.copytree(BUILD / "modular", candidate)
+        (candidate / ".release-qualification.json").write_text(json.dumps({"status": "CANDIDATE", "candidate_head": current_revision()}))
+        (candidate / ".nojekyll").touch()
+        write_notices(candidate, contract, photo_manifest, "pages")
+        result = audit_tree(candidate, contract=contract, manifest=photo_manifest, mode="pages", require_provenance=False)
+    result["candidate_head"] = current_revision()
+    result["build_manifest_sha256"] = digest(BUILD / "build_manifest.json")
+    report_path = ROOT / "QA" / "release" / "public_asset_rights.json"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
+    if result["status"] != "PASS":
+        raise RuntimeError("Public asset rights audit failed: " + "; ".join(result["failures"][:12]))
+    return result
+
+
 def run_gate4_static() -> dict:
     code, stdout, stderr = run_process([sys.executable, str(ROOT / "scripts" / "qa_gate4_resilience.py"), "--mode", "static", "--output", str(GATE4_STATIC)])
     status = evidence_status(GATE4_STATIC, code)
@@ -274,6 +296,7 @@ def run_fast(expected_revision: str | None = None, require_clean: bool = False) 
         if first_hashes != repeat_hashes:
             differences = sorted(set(first_hashes) ^ set(repeat_hashes) | {key for key in first_hashes.keys() & repeat_hashes.keys() if first_hashes[key] != repeat_hashes[key]})
             raise RuntimeError(f"Canonical build is not reproducible; differing output(s): {', '.join(differences[:10])}")
+        public_rights = run_public_rights_audit()
         gate4_static = run_gate4_static()
         evidence["authored_inputs_unchanged"] = True
         evidence["reproducible"] = True
@@ -285,6 +308,7 @@ def run_fast(expected_revision: str | None = None, require_clean: bool = False) 
             "file_count": len(build_manifest["files"]),
         }
         evidence["gate4_static"] = {"status": gate4_static["status"], "evidence": "QA/release/gate4_static.json"}
+        evidence["public_asset_rights"] = {"status": public_rights["status"], "evidence": "QA/release/public_asset_rights.json", "candidate_file_count": public_rights["file_count"], "approved_file_counts_by_class": public_rights["approved_file_counts_by_class"]}
         evidence["status"] = "PASS"
     except (Exception, SystemExit) as error:
         evidence["errors"].append(str(error))
@@ -354,6 +378,7 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
         report["fast"] = fast
         if fast["status"] != "PASS":
             raise RuntimeError("Fast validation did not pass; decisive browser qualification was not authorized.")
+        report["tests"].append({"name": "public_asset_rights", "command": "candidate-tree audit via scripts/public_asset_rights.py", "evidence": "QA/release/public_asset_rights.json", "status": fast.get("public_asset_rights", {}).get("status", "UNVERIFIED"), "returncode": 0, "timeout_seconds": COMPONENT_TIMEOUT_SECONDS})
         before = authored_snapshot(pipeline_manifest())
         port = free_local_port()
         qa_url = f"http://127.0.0.1:{port}/index.html"
@@ -425,12 +450,15 @@ def verify_public(revision: str) -> dict:
         "artifact_file_count": provenance.get("artifact_file_count_excluding_provenance") == file_count,
         "artifact_bytes": provenance.get("artifact_bytes_excluding_provenance") == byte_count,
     }
+    rights = audit_tree(PUBLIC, mode="pages", require_provenance=True)
+    (ROOT / "QA" / "release" / "public_asset_rights.json").write_text(json.dumps(rights, ensure_ascii=False, indent=2) + "\n")
+    checks["public_asset_rights"] = rights["status"] == "PASS"
     if not all(checks.values()):
         raise RuntimeError(f"Public provenance verification failed: {', '.join(name for name, passed in checks.items() if not passed)}")
     parity = delivery_report(PUBLIC)
     if parity["status"] != "PASS":
         raise RuntimeError(f"Public delivery parity failed: {', '.join(parity.get('failures', []))}")
-    return {"status": "PASS", "revision": revision, "checks": checks, "artifact_sha256": artifact_hash, "files": file_count, "parity": parity}
+    return {"status": "PASS", "revision": revision, "checks": checks, "artifact_sha256": artifact_hash, "files": file_count, "parity": parity, "public_asset_rights": rights}
 
 
 def verify_package(revision: str) -> dict:
