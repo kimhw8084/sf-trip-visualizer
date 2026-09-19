@@ -1,0 +1,415 @@
+{
+  "accepted_at": "2026-09-19T15:00:44Z",
+  "changed_files": [
+    {
+      "additions": 18,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r3/ADVISORY_REVIEW.md",
+      "status": "A"
+    },
+    {
+      "additions": 28,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r3/PLAYWRIGHT_INSTALL_LIST.txt",
+      "status": "A"
+    },
+    {
+      "additions": 84,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r3/REPORT.md",
+      "status": "A"
+    },
+    {
+      "additions": 36,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r3/REPRODUCTION.md",
+      "status": "A"
+    },
+    {
+      "additions": 235,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r3/evidence.json",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk node -e 'require(\\\"esbuild\\\").build({entryPoints:[\\\"src/vector_entry.js\\\"],bundle:true,minify:true,format:\\\"iife\\\",outfile:\\\"vendor/trip-vector.js\\\"}).then(()=>console.log(\\\"build ok\\\")).catch(e=>{console.error(e);process.exit(1)})'\nrtk shasum -a 256 vendor/trip-vector.js\nrtk wc -c -l vendor/trip-vector.js\nrtk sed -n '1,6p' vendor/trip-vector.js\nrtk rg -n -m 8 'node_modules/(fflate|pmtiles|@protomaps)|src/vector_entry.js' vendor/trip-vector.js || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy node -e 'require(\\\"esbuild\\\").build({entryPoints:[\\\"src/vector_entry.js\\\"],bundle:true,minify:true,format:\\\"iife\\\",outfile:\\\"vendor/trip-vector.js\\\"}).then(()=>console.log(\\\"build ok\\\")).catch(e=>{console.error(e);process.exit(1)})'\nrtk shasum -a 256 vendor/trip-vector.js\nrtk wc -c -l vendor/trip-vector.js\nrtk sed -n '1,6p' vendor/trip-vector.js\nrtk rg -n -m 8 'node_modules/(fflate|pmtiles|@protomaps)|src/vector_entry.js' vendor/trip-vector.js || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk file .tools/jsdeps/node_modules/@esbuild/darwin-arm64/bin/esbuild\nrtk otool -L .tools/jsdeps/node_modules/@esbuild/darwin-arm64/bin/esbuild\nrtk file .tools/jsdeps/node_modules/esbuild/bin/esbuild\nrtk sed -n '1,80p' .tools/jsdeps/node_modules/esbuild/bin/esbuild\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy /bin/echo rtk-proxy-ok\nrtk proxy /bin/sh -c 'printf %s rtk-shell-ok'\nrtk npm view esbuild-wasm@0.28.2 version dist.integrity dist.tarball --json\"",
+      "exit_code": 134,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy npm view esbuild-wasm@0.28.2 version dist.integrity dist.tarball --json\nrtk proxy npm install --prefix /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps --no-audit --no-fund --ignore-scripts --save-exact esbuild-wasm@0.28.2'",
+      "exit_code": 134,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk --version\nrtk which rtk\nrtk which node\nrtk which npm\nrtk which sh\nrtk ls -l /opt/homebrew/opt/simdutf/lib /opt/homebrew/Cellar/simdutf/9.2.0/lib 2>/dev/null || true\nrtk ls -l /opt/homebrew/Cellar/merve/1.2.2_1/lib 2>/dev/null || true\nrtk env | rtk rg 'RTK|MER|PATH' | head -30\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk --help | head -120\nrtk gain'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk run 'node --version'\nrtk run 'npm view esbuild-wasm@0.28.2 version dist.integrity dist.tarball --json'\nrtk run 'npm install --prefix /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps --no-audit --no-fund --ignore-scripts --save-exact esbuild-wasm@0.28.2'\nrtk run 'node -e '\\\\''require(\\\"esbuild-wasm\\\").initialize({wasmPath:require.resolve(\\\"esbuild-wasm/esbuild.wasm\\\")}).then(()=>require(\\\"esbuild-wasm\\\").build({entryPoints:[\\\"src/vector_entry.js\\\"],bundle:true,minify:true,format:\\\"iife\\\",outfile:\\\"vendor/trip-vector.js\\\"})).then(()=>console.log(\\\"build ok\\\")).catch(e=>{console.error(e);process.exit(1)})'\\\\'''\nrtk shasum -a 256 vendor/trip-vector.js\nrtk wc -c -l vendor/trip-vector.js\nrtk sed -n '1,6p' vendor/trip-vector.js\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk mkdir -p /private/tmp/sf-trip-g7-r3-libs\nrtk ln -sf /opt/homebrew/Cellar/simdutf/9.2.0/lib/libsimdutf.36.dylib /private/tmp/sf-trip-g7-r3-libs/libsimdutf.34.dylib\nrtk run 'DYLD_LIBRARY_PATH=/private/tmp/sf-trip-g7-r3-libs node --version'\nrtk run 'DYLD_LIBRARY_PATH=/private/tmp/sf-trip-g7-r3-libs npm view esbuild-wasm@0.28.2 version dist.integrity dist.tarball --json'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk run 'DYLD_LIBRARY_PATH=/private/tmp/sf-trip-g7-r3-libs npm install --prefix /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps --no-audit --no-fund --ignore-scripts --save-exact esbuild-wasm@0.28.2'\nrtk run 'DYLD_LIBRARY_PATH=/private/tmp/sf-trip-g7-r3-libs node -e '\\\\''const e=require(\\\"esbuild-wasm\\\"); console.log(Object.keys(e)); console.log(require.resolve(\\\"esbuild-wasm/esbuild.wasm\\\"));'\\\\'''\nrtk run 'DYLD_LIBRARY_PATH=/private/tmp/sf-trip-g7-r3-libs node -e '\\\\''const e=require(\\\"esbuild-wasm\\\"); e.initialize({wasmPath:require.resolve(\\\"esbuild-wasm/esbuild.wasm\\\"),worker:false}).then(()=>e.build({entryPoints:[\\\"src/vector_entry.js\\\"],bundle:true,minify:true,format:\\\"iife\\\",outfile:\\\"vendor/trip-vector.js\\\"})).then(()=>console.log(\\\"build ok\\\")).catch(x=>{console.error(x);process.exit(1)})'\\\\'''\nrtk shasum -a 256 vendor/trip-vector.js\nrtk wc -c -l vendor/trip-vector.js\nrtk sed -n '1,6p' vendor/trip-vector.js\nrtk rg -n -m 8 'node_modules/(fflate|pmtiles|@protomaps)|src/vector_entry.js' vendor/trip-vector.js || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -ld /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps/node_modules/esbuild-wasm /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/node_modules\nrtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/node --version'\nrtk run 'DYLD_LIBRARY_PATH=/private/tmp/sf-trip-g7-r3-libs /Users/haewonkim/.nvm/versions/node/v20.19.4/bin/npm --version'\nrtk run 'DYLD_LIBRARY_PATH=/private/tmp/sf-trip-g7-r3-libs /Users/haewonkim/.nvm/versions/node/v20.19.4/bin/npm install --prefix /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps --no-audit --no-fund --ignore-scripts --save-exact esbuild-wasm@0.28.2'\nrtk ls -ld /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps/node_modules/esbuild-wasm\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"DYLD_LIBRARY_PATH=/private/tmp/sf-trip-g7-r3-libs rtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/npm --version'\nDYLD_LIBRARY_PATH=/private/tmp/sf-trip-g7-r3-libs rtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/npm install --prefix /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps --no-audit --no-fund --ignore-scripts --save-exact esbuild-wasm@0.28.2'\nDYLD_LIBRARY_PATH=/private/tmp/sf-trip-g7-r3-libs rtk ls -ld /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps/node_modules/esbuild-wasm\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk test -e /opt/homebrew/opt/simdutf/lib/libsimdutf.34.dylib\nrtk ln -s /opt/homebrew/Cellar/simdutf/9.2.0/lib/libsimdutf.36.dylib /opt/homebrew/opt/simdutf/lib/libsimdutf.34.dylib\nrtk ls -l /opt/homebrew/opt/simdutf/lib/libsimdutf.34.dylib\nrtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/npm --version'\nrtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/npm install --prefix /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps --no-audit --no-fund --ignore-scripts --save-exact esbuild-wasm@0.28.2'\nrtk ls -ld /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps/node_modules/esbuild-wasm\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/node -e '\\\\''const e=require(\\\"esbuild-wasm\\\"); console.log(Object.keys(e)); console.log(require.resolve(\\\"esbuild-wasm/esbuild.wasm\\\")); e.initialize({wasmPath:require.resolve(\\\"esbuild-wasm/esbuild.wasm\\\"),worker:false}).then(()=>e.build({entryPoints:[\\\"src/vector_entry.js\\\"],bundle:true,minify:true,format:\\\"iife\\\",outfile:\\\"vendor/trip-vector.js\\\"})).then(()=>console.log(\\\"build ok\\\")).catch(x=>{console.error(x);process.exit(1)})'\\\\'''\nrtk shasum -a 256 vendor/trip-vector.js\nrtk wc -c -l vendor/trip-vector.js\nrtk sed -n '1,6p' vendor/trip-vector.js\nrtk rg -n -m 8 'node_modules/(fflate|pmtiles|@protomaps)|src/vector_entry.js' vendor/trip-vector.js || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -m 20 'wasmURL|wasmPath|initialize' .tools/jsdeps/node_modules/esbuild-wasm/lib/main.js\nrtk sed -n '500,555p' .tools/jsdeps/node_modules/esbuild-wasm/lib/main.js\nrtk sed -n '2045,2075p' .tools/jsdeps/node_modules/esbuild-wasm/lib/main.js\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/node -e '\\\\''const e=require(\\\"esbuild-wasm\\\"); e.build({entryPoints:[\\\"src/vector_entry.js\\\"],bundle:true,minify:true,format:\\\"iife\\\",outfile:\\\"vendor/trip-vector.js\\\"}).then(()=>console.log(\\\"build ok\\\")).catch(x=>{console.error(x);process.exit(1)})'\\\\'''\nrtk shasum -a 256 vendor/trip-vector.js\nrtk wc -c -l vendor/trip-vector.js\nrtk sed -n '1,6p' vendor/trip-vector.js\nrtk rg -n -m 8 'node_modules/(fflate|pmtiles|@protomaps)|src/vector_entry.js' vendor/trip-vector.js || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/node -e '\\\\''const e=require(\\\"esbuild-wasm\\\"); e.build({entryPoints:[\\\"src/vector_entry.js\\\"],bundle:true,minify:false,format:\\\"iife\\\",outfile:\\\"vendor/trip-vector.js\\\"}).then(()=>console.log(\\\"build ok\\\")).catch(x=>{console.error(x);process.exit(1)})'\\\\'''\nrtk shasum -a 256 vendor/trip-vector.js\nrtk wc -c -l vendor/trip-vector.js\nrtk sed -n '1,12p' vendor/trip-vector.js\nrtk rg -n -m 8 'node_modules/(fflate|pmtiles|@protomaps)|src/vector_entry.js' vendor/trip-vector.js || true\nrtk diff -u /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-r3.vCKxGbAiug/historical/vendor/trip-vector.js vendor/trip-vector.js | head -80 || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/node -e '\\\\''const e=require(\\\"esbuild\\\"); console.log(e.version); e.build({entryPoints:[\\\"src/vector_entry.js\\\"],bundle:true,minify:false,format:\\\"iife\\\",outfile:\\\"vendor/trip-vector-native.js\\\"}).then(()=>console.log(\\\"native build ok\\\")).catch(x=>{console.error(x);process.exit(1)})'\\\\'''\nrtk shasum -a 256 vendor/trip-vector-native.js\nrtk cmp vendor/trip-vector-native.js vendor/trip-vector.js\nrtk printf 'cmp_exit=%s\\\\n' \\\"\"'$?\"\nrtk wc -c -l vendor/trip-vector-native.js'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'playwright' /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-r3.vCKxGbAiug/candidate/requirements-qa.txt\nrtk python3 --version\nrtk python3 -c 'import playwright,sys; print(\\\"playwright_module\\\",playwright.__file__); print(\\\"playwright_version\\\",getattr(playwright,\\\"__version__\\\",\\\"<no __version__>\\\"))'\nrtk python3 -m playwright --version\nrtk python3 -m playwright install --list\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import pathlib,playwright; print(pathlib.Path(playwright.__file__).parent)'\nrtk rg -n -C 2 'chromium|firefox|webkit|revision|1234|1538|2336' /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/browsers.json\nrtk sed -n '1,220p' /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/browsers.json\nrtk rg -n -m 80 'DOWNLOAD_CONNECTION_TIMEOUT|PLAYWRIGHT_DOWNLOAD_HOST|cdn|builds|revision|browserName|download' /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/lib/server/registry /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/lib/server 2>/dev/null || true\nrtk rg -n '\"'^Version:|''^Name:|''^Requires-Python:|''^Requires-Dist:'\"' /opt/anaconda3/lib/python3.11/site-packages/playwright-1.62.0.dist-info/METADATA\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -C 3 'DOWNLOAD|download|builds|cdn|revisionOverrides|PLAYWRIGHT_BROWSERS_PATH|browserVersion' /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/lib/server/registry/index.js | head -220\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/lib/server -maxdepth 3 -type f | rtk rg 'registry|browser' | head -80\nrtk find /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/lib/server -maxdepth 3 -type f | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -la /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/lib/server\nrtk rg --files /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/lib | rtk rg 'registry|registry\\\\.js|browser' | head -100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -C 2 'revisionOverrides|1234|1538|2336|playwright\\\\.download|builds/' /opt/anaconda3/lib/python3.11/site-packages/playwright | head -260\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -C 1 'function cftUrl|cftUrl\\\\(|\\\"mac14-arm64\\\"|\\\"mac15-arm64\\\"|\\\"ubuntu22\\\\.04-x64\\\"' /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/lib/coreBundle.js | rtk rg 'cftUrl|mac14-arm64|mac15-arm64|ubuntu22.04-x64|\"'^-'\"' | head -180\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '32230,32252p' /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/lib/coreBundle.js\nrtk sed -n '32455,32500p' /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/lib/coreBundle.js\nrtk sed -n '32620,32708p' /opt/anaconda3/lib/python3.11/site-packages/playwright/driver/package/lib/coreBundle.js\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"for spec in fflate@0.8.3 pmtiles@4.5.0 '@protomaps/basemaps@5.7.2' esbuild@0.28.2 playwright@1.62.0; do\n  rtk printf '%s\\\\n' \\\"[\"'$spec]\"\n  case \"$spec\" in\n    '\"'@protomaps/basemaps@5.7.2') url='https://registry.npmjs.org/@protomaps%2fbasemaps'; version='5.7.2';;\n    esbuild@0.28.2) url='https://registry.npmjs.org/esbuild'; version='0.28.2';;\n    pmtiles@4.5.0) url='https://registry.npmjs.org/pmtiles'; version='4.5.0';;\n    fflate@0.8.3) url='https://registry.npmjs.org/fflate'; version='0.8.3';;\n    playwright@1.62.0) url='https://registry.npmjs.org/playwright'; version='1.62.0';;\n  esac\n  rtk curl -fsSL \\\"\"'$url\" | rtk node -e '\"'let s=\\\"\\\";process.stdin.on(\\\"data\\\",d=>s+=d).on(\\\"end\\\",()=>{const x=JSON.parse(s),v=process.argv[1],m=x.versions[v]; console.log(JSON.stringify({name:m.name,version:m.version,time:x.time[v],dist:m.dist,gitHead:m.gitHead,repository:m.repository,dependencies:m.dependencies},null,2));})' \\\"\"'$version\"\ndone\nrtk printf '\"'%s\\\\n' '--- exact temporary lock entries ---'\nrtk node -e 'const p=require(\\\"/private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps/package-lock.json\\\"); const a=Object.entries(p.packages).filter(([k,v])=>[\\\"fflate\\\",\\\"pmtiles\\\",\\\"@protomaps/basemaps\\\",\\\"esbuild\\\",\\\"esbuild-wasm\\\"].some(n=>k.endsWith(\\\"node_modules/\\\"+n))); console.log(JSON.stringify({lockfileVersion:p.lockfileVersion,entries:Object.fromEntries(a)},null,2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote --tags https://github.com/101arrowz/fflate.git refs/tags/v0.8.3 refs/tags/0.8.3\nrtk git ls-remote --tags https://github.com/protomaps/PMTiles.git refs/tags/v4.5.0 refs/tags/4.5.0\nrtk git ls-remote --tags https://github.com/protomaps/basemaps.git refs/tags/v5.7.2 refs/tags/5.7.2\nrtk git ls-remote --tags https://github.com/evanw/esbuild.git refs/tags/v0.28.2 refs/tags/0.28.2\nrtk git ls-remote --tags https://github.com/microsoft/playwright.git refs/tags/v1.62.0 refs/tags/1.62.0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-remote --tags https://github.com/protomaps/PMTiles.git | rtk rg '4\\\\.5|4\\\\.4|v4' | tail -30 || true\nrtk git ls-remote --tags https://github.com/protomaps/basemaps.git | rtk rg '5\\\\.7|v5' | tail -30 || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk node -e 'const p=require(\\\"/private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps/package-lock.json\\\"); console.log(JSON.stringify(p.packages[\\\"\\\"],null,2))'\nrtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/npm audit --prefix /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps --json' | rtk node -e 'let s=\\\"\\\";process.stdin.on(\\\"data\\\",d=>s+=d).on(\\\"end\\\",()=>{try{let x=JSON.parse(s);console.log(JSON.stringify({auditReportVersion:x.auditReportVersion,metadata:x.metadata,vulnerabilities:x.vulnerabilities},null,2))}catch(e){console.error(\\\"parse error\\\",e.message,s.slice(0,500));process.exit(1)}})'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/npm install --prefix /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps --no-audit --no-fund --ignore-scripts --save-exact playwright@1.62.0'\nrtk run '/Users/haewonkim/.nvm/versions/node/v20.19.4/bin/npm audit --prefix /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps --json' | rtk node -e 'let s=\\\"\\\";process.stdin.on(\\\"data\\\",d=>s+=d).on(\\\"end\\\",()=>{try{let x=JSON.parse(s);console.log(JSON.stringify({auditReportVersion:x.auditReportVersion,metadata:x.metadata,vulnerabilities:x.vulnerabilities},null,2))}catch(e){console.error(\\\"parse error\\\",e.message,s.slice(0,500));process.exit(1)}})'\nrtk node -e 'const p=require(\\\"/private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps/package-lock.json\\\"); const a=Object.entries(p.packages).filter(([k])=>k.endsWith(\\\"node_modules/playwright\\\")||k.endsWith(\\\"node_modules/playwright-core\\\")); console.log(JSON.stringify(Object.fromEntries(a),null,2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,80p' /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-r3.vCKxGbAiug/candidate/requirements-qa.txt\nrtk python3 -m pip show playwright pyee greenlet | rtk rg '\"'^(Name|Version|Location):'\"'\nrtk curl -fsSL https://pypi.org/pypi/playwright/1.62.0/json | rtk node -e 'let s=\\\"\\\";process.stdin.on(\\\"data\\\",d=>s+=d).on(\\\"end\\\",()=>{const x=JSON.parse(s);console.log(JSON.stringify({info:{name:x.info.name,version:x.info.version,requires_dist:x.info.requires_dist,project_urls:x.info.project_urls},files:x.urls.map(f=>({filename:f.filename,packagetype:f.packagetype,sha256:f.digests.sha256,url:f.url}))},null,2))})'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mkdir -p /private/tmp/sf-trip-g7-r3-tarballs\nrtk curl -fsSL https://registry.npmjs.org/fflate/-/fflate-0.8.3.tgz -o /private/tmp/sf-trip-g7-r3-tarballs/fflate-0.8.3.tgz\nrtk curl -fsSL https://registry.npmjs.org/pmtiles/-/pmtiles-4.5.0.tgz -o /private/tmp/sf-trip-g7-r3-tarballs/pmtiles-4.5.0.tgz\nrtk curl -fsSL https://registry.npmjs.org/@protomaps/basemaps/-/basemaps-5.7.2.tgz -o /private/tmp/sf-trip-g7-r3-tarballs/basemaps-5.7.2.tgz\nrtk curl -fsSL https://registry.npmjs.org/esbuild/-/esbuild-0.28.2.tgz -o /private/tmp/sf-trip-g7-r3-tarballs/esbuild-0.28.2.tgz\nrtk curl -fsSL https://registry.npmjs.org/playwright/-/playwright-1.62.0.tgz -o /private/tmp/sf-trip-g7-r3-tarballs/playwright-1.62.0.tgz\nrtk shasum -a 256 /private/tmp/sf-trip-g7-r3-tarballs/*.tgz\nrtk wc -c /private/tmp/sf-trip-g7-r3-tarballs/*.tgz'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk run '/private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-js.CJixpuBfiL/.tools/jsdeps/node_modules/.bin/esbuild src/vector_entry.js --bundle --format=iife --outfile=vendor/trip-vector-cli.js'\nrtk shasum -a 256 vendor/trip-vector-cli.js\nrtk cmp vendor/trip-vector.js vendor/trip-vector-cli.js\nrtk printf 'cmp_exit=%s\\\\n' \\\"\"'$?\"\nrtk cmp /private/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-r3.vCKxGbAiug/historical/vendor/trip-vector.js vendor/trip-vector-cli.js\nrtk printf '\"'historical_cmp_exit=%s\\\\n' \\\"\"'$?\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-r3.vCKxGbAiug/candidate/QA/project_os_verify | sort\nrtk rg -n -I 'fed7f839|bb1b586|7e3f791|3455a3ec|fccb368f|urllib3|soupsieve|candidate|R2|tail|QA-only|source' /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-r3.vCKxGbAiug/candidate/QA/project_os_verify | head -260 || true\nrtk git -C /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-g7-r3.vCKxGbAiug/candidate log --oneline --decorate --all --max-count=12\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-tree -r --name-only 7e3f7918033ccddc92eef9449a11096bfedfd408 -- QA/project_os_verify | sort\nrtk git show 7e3f7918033ccddc92eef9449a11096bfedfd408:QA/project_os_verify/gate7_r2/README.md 2>/dev/null || true\nrtk git grep -n -I -E 'fed7f839|bb1b586|7e3f791|3455a3ec|fccb368f|urllib3|soupsieve|source candidate|QA-only|tail' 7e3f7918033ccddc92eef9449a11096bfedfd408 -- QA/project_os_verify || true\nrtk git log --oneline --decorate --ancestry-path fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3..7e3f7918033ccddc92eef9449a11096bfedfd408\nrtk git diff --stat fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 7e3f7918033ccddc92eef9449a11096bfedfd408 -- . ':\"'!QA/project_os_verify'\"' || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --name-status fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 7e3f7918033ccddc92eef9449a11096bfedfd408\nrtk git diff --name-status 7e3f7918033ccddc92eef9449a11096bfedfd408 bb1b58619629448d99cd6a20b27e882492d1d0d7 | head -120\nrtk git merge-base --is-ancestor fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 7e3f7918033ccddc92eef9449a11096bfedfd408; rtk printf 'fed_ancestor_exit=%s\\\\n' \\\"\"'$?\"\nrtk git merge-base --is-ancestor bb1b58619629448d99cd6a20b27e882492d1d0d7 fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3; rtk printf '\"'main_ancestor_source_exit=%s\\\\n' \\\"\"'$?\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 7e3f7918033ccddc92eef9449a11096bfedfd408:QA/project_os_verify/gate7_r2/evidence.json | rtk sed -n '1,250p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk date -u '+%Y-%m-%dT%H:%M:%SZ' && rtk git status --short --branch && rtk git rev-parse 7e3f7918033ccddc92eef9449a11096bfedfd408:QA/project_os_verify/gate7_r2/evidence.json && rtk git ls-remote origin refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-verify-r3\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mkdir -p QA/project_os_verify/gate7_r3 && rtk git rev-parse 7e3f7918033ccddc92eef9449a11096bfedfd408''^{tree} && rtk git show -s --format='\"'%H%n%T%n%P%n%cI%n%s' fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3 && rtk git show -s --format='%H%n%T%n%P%n%cI%n%s' 3455a3ec339f434d840551f425ee7b68a690377f\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk jq empty QA/project_os_verify/gate7_r3/evidence.json && rtk git diff --check && rtk git status --short && rtk git diff --stat -- QA/project_os_verify/gate7_r3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -l /opt/homebrew/opt/simdutf/lib/libsimdutf.34.dylib && rtk rm /opt/homebrew/opt/simdutf/lib/libsimdutf.34.dylib && rtk test ! -e /opt/homebrew/opt/simdutf/lib/libsimdutf.34.dylib'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -l /opt/homebrew/opt/simdutf/lib/libsimdutf.34.dylib; rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git add -- QA/project_os_verify/gate7_r3 && rtk git commit -m 'Verify Gate 7 dependency provenance recovery'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-verify-r3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD && rtk git status --short --branch && rtk git diff --name-status bb1b58619629448d99cd6a20b27e882492d1d0d7 HEAD && rtk git ls-remote origin refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-verify-r3 refs/heads/main && rtk git show --stat --oneline --decorate HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 7e3f7918033ccddc92eef9449a11096bfedfd408:QA/project_os_verify/gate7_r2/evidence.json | rtk jq -r '.source_candidate.sha, .source_candidate.tree, .bundle.sha256' && rtk git show fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3:vendor/trip-vector.js | rtk shasum -a 256 && rtk git show 3455a3ec339f434d840551f425ee7b68a690377f:vendor/trip-vector.js | rtk shasum -a 256 && rtk git diff --exit-code --name-only bb1b58619629448d99cd6a20b27e882492d1d0d7 HEAD -- ':\"'!QA/project_os_verify/gate7_r3'\"' && true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 7e3f7918033ccddc92eef9449a11096bfedfd408:QA/project_os_verify/gate7_r2/evidence.json | rtk jq '{keys, source_candidate, bundle, target}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 7e3f7918033ccddc92eef9449a11096bfedfd408:QA/project_os_verify/gate7_r2/evidence.json | rtk jq 'keys' && rtk git show 7e3f7918033ccddc92eef9449a11096bfedfd408:QA/project_os_verify/gate7_r2/evidence.json | rtk jq '.. | objects | select(has(\\\"sha256\\\")) | .sha256' | rtk head -20\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 7e3f7918033ccddc92eef9449a11096bfedfd408:QA/project_os_verify/gate7_r2/evidence.json | rtk jq '{candidate_source_hashes, durable_source_and_generated_evidence_hashes, dependency_inventory, remaining_verify_required}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 164,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.39,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 8901888,
+      "fresh_input_tokens": 333462,
+      "input_tokens": 9235350,
+      "non_reasoning_output_tokens": 32693,
+      "output_tokens": 59881,
+      "reasoning_output_tokens": 27188,
+      "total_processed_tokens": 9295231
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "ab8fd36f61443ae47dfa12dc65434e14f68cd108",
+      "subject": "Verify Gate 7 dependency provenance recovery"
+    }
+  ],
+  "diff": {
+    "additions": 401,
+    "changed_files": 5,
+    "commit_count": 1,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 4,
+    "items": [
+      {
+        "bytes": 2464,
+        "path": "QA/project_os_verify/gate7_r3/ADVISORY_REVIEW.md",
+        "sha256": "f39b6293d6062e9232fb0f4c9d3df8952e29bf826858ae3e7d4fbacf7952fc3c"
+      },
+      {
+        "bytes": 7357,
+        "path": "QA/project_os_verify/gate7_r3/REPORT.md",
+        "sha256": "95b6e6610dea0b39182b8b5e747648045b4ee5cfc8bc84195db911b9bd70b9ad"
+      },
+      {
+        "bytes": 1502,
+        "path": "QA/project_os_verify/gate7_r3/REPRODUCTION.md",
+        "sha256": "3556cb6f35a9df84a72959804111c1532d66ed3656645f193f06d054f54a56b1"
+      },
+      {
+        "bytes": 16796,
+        "path": "QA/project_os_verify/gate7_r3/evidence.json",
+        "sha256": "4bee443a966a0876b6f3cd9ca5d28c32eb1e5ad4392a57f78e07cb95d7cb8b3e"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-19T15:34:47Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+    "branch": "codex/sf-trip-visualizer-security-privacy-dependency-g7-verify-r3",
+    "detached_verify": false,
+    "head_sha": "ab8fd36f61443ae47dfa12dc65434e14f68cd108",
+    "remote_exact_head": true,
+    "remote_head_sha": "ab8fd36f61443ae47dfa12dc65434e14f68cd108",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+    "work_branch": "codex/sf-trip-visualizer-security-privacy-dependency-g7-verify-r3",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-cf995f3dc6cc7dfa4f65565c",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/security-privacy-dependency-g7-verify-r3",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/security-privacy-dependency-g7-verify-r3"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "security-privacy-dependency-g7-verify-r3",
+  "schema_version": 1,
+  "started_at": "2026-09-19T15:00:44Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 2043,
+    "queue_seconds": 0,
+    "total_seconds": 2043
+  },
+  "transport": {
+    "bytes": 7181,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6815,
+    "prompt_sha256": "09bf7deec7ff7b737cda7978efe49003472dd3619f5dd2cc73becad4ba480886",
+    "sha256": "cf995f3dc6cc7dfa4f65565c819bb258042db12d779f7f5bdb269fe0e14d6316"
+  }
+}
