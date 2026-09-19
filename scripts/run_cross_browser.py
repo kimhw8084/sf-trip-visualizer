@@ -18,6 +18,11 @@ from pathlib import Path
 
 from qa_cleanup import bounded_cleanup
 from qa_config import MODULAR_URL
+from hosted_linux_pipeline import (
+    FIREFOX_HOSTED_LINUX_MODE,
+    FIREFOX_MODE_ENV,
+    SOFTWARE_GL_ENV,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,9 +32,6 @@ SHOTS = ROOT / "QA/map_first/screenshots"
 CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "60"))
 TERM_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_TERM_GRACE_SECONDS", "2"))
 KILL_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_KILL_GRACE_SECONDS", "2"))
-FIREFOX_MODE_ENV = "TRIP_CROSS_BROWSER_FIREFOX_MODE"
-FIREFOX_HOSTED_LINUX_MODE = "hosted-linux"
-SOFTWARE_GL_ENV = "LIBGL_ALWAYS_SOFTWARE"
 TERMINAL_STATUSES = {"PASS", "FAIL", "UNVERIFIED"}
 REQUIRED_CASES = (
     ("firefox", 1280, 800),

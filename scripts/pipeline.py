@@ -28,6 +28,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from validate_trip_data import validate_trip_data
 from qa_gate4_resilience import delivery_report
 from public_asset_rights import audit_tree, load_contract, load_json as load_rights_json, write_notices
+from hosted_linux_pipeline import contract_failures
 
 MANIFEST_PATH = ROOT / "manifests" / "canonical_pipeline.json"
 BUILD = ROOT / ".build"
@@ -160,8 +161,11 @@ def validate_product() -> dict:
 def validate_authority_boundaries() -> None:
     manifest = pipeline_manifest()
     workflow = (ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text()
-    if "python3 scripts/pipeline.py release" not in workflow:
-        raise RuntimeError("Pages workflow does not use the canonical release pipeline.")
+    hosted_runner = (ROOT / "scripts" / "hosted_linux_pipeline.py").read_text()
+    if "python3 scripts/hosted_linux_pipeline.py release" not in workflow:
+        raise RuntimeError("Pages workflow does not use the hosted canonical release runner.")
+    if "scripts/pipeline.py" not in hosted_runner or "release" not in hosted_runner:
+        raise RuntimeError("Hosted release runner does not delegate to the canonical pipeline.")
     forbidden_workflow_refs = ("prepare_public_site.py", "build_final.py", "package_final.py", "run_acceptance.py", "run_live_providers.py")
     if any(reference in workflow for reference in forbidden_workflow_refs):
         raise RuntimeError("Pages workflow references a legacy/direct release entry point.")
@@ -390,6 +394,13 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
     }
     server = None
     try:
+        if require_clean:
+            failures = contract_failures()
+            if failures:
+                raise RuntimeError(
+                    "Hosted Linux release qualification contract is not satisfied: "
+                    + "; ".join(failures)
+                )
         fast = run_fast(expected_revision, require_clean)
         report["fast"] = fast
         if fast["status"] != "PASS":
