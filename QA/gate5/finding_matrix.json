@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "candidate_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+  "candidate_head": "f9edf2021451cc3040407636c226897a4505a8b7",
   "candidate_fingerprint": {
-    "sha256": "68ba89fa5316b46cbcb509d78505277d41c5d4a0a2b42571d8bccbb967d825c5",
-    "file_count": 336,
-    "tracked_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
-    "worktree_dirty": true,
+    "sha256": "3b76e5c630b718433d60e9e23c6846433964e2b23f5b15bb5a74a25860ccd831",
+    "file_count": 340,
+    "tracked_head": "f9edf2021451cc3040407636c226897a4505a8b7",
+    "worktree_dirty": false,
     "excluded_from_hash": [
       "QA/",
       ".build/",
@@ -28,13 +28,8 @@
       "finding": "same-environment performance comparability",
       "status": "VERIFY_REQUIRED",
       "evidence": {
-        "reason": "Source/revision binding is incomplete or mismatched; a hard comparison is not evidence-supported.",
-        "mismatch": [
-          {
-            "field": "source_binding",
-            "reason": "candidate source binding is not an exact clean commit"
-          }
-        ],
+        "reason": null,
+        "mismatch": null,
         "candidate_environment_signature": {
           "schema_version": 1,
           "os": {
@@ -69,8 +64,8 @@
             "user_agent": "playwright-default"
           },
           "sample_conditions": {
-            "sample_count": 3,
-            "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+            "sample_count": 8,
+            "measurement_profile": "gate5-performance-r4-paired-blocks-v1",
             "server": "local-http",
             "network": "default-playwright-context",
             "cold_condition": "new-context-and-page",
@@ -120,8 +115,8 @@
             "user_agent": "playwright-default"
           },
           "sample_conditions": {
-            "sample_count": 3,
-            "measurement_profile": "gate5-performance-r3-order-balanced-v1",
+            "sample_count": 8,
+            "measurement_profile": "gate5-performance-r4-paired-blocks-v1",
             "server": "local-http",
             "network": "default-playwright-context",
             "cold_condition": "new-context-and-page",
@@ -140,41 +135,1004 @@
       }
     },
     {
-      "finding": "exact candidate source binding",
-      "status": "RECORDED",
-      "evidence": {
-        "schema_version": 1,
-        "binding": "source_fingerprint",
-        "status": "RECORDED",
-        "claimed_revision": null,
-        "checked_out_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
-        "source_worktree_dirty": true,
-        "source_fingerprint": {
-          "sha256": "68ba89fa5316b46cbcb509d78505277d41c5d4a0a2b42571d8bccbb967d825c5",
-          "file_count": 336,
-          "tracked_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
-          "worktree_dirty": true,
-          "excluded_from_hash": [
-            "QA/",
-            ".build/",
-            ".release/",
-            ".public-site/"
-          ]
-        },
-        "reason": "source files changed after checkout; evidence is bound to the fingerprint, not to HEAD"
-      }
+      "finding": "Gate 4 preservation",
+      "status": "PASS",
+      "evidence": "canonical qualification QA/release/gate4.json when available"
     },
     {
-      "finding": "Gate 4 preservation",
+      "finding": "same-host Gate-4 versus candidate WebKit low-zoom control",
       "status": "VERIFY_REQUIRED",
-      "evidence": "canonical qualification QA/release/gate4.json when available"
+      "evidence": {
+        "status": "RECORDED",
+        "decision": "VERIFY_REQUIRED",
+        "base_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+        "candidate_revision": "f9edf2021451cc3040407636c226897a4505a8b7",
+        "base_source_binding": {
+          "schema_version": 1,
+          "binding": "exact_commit",
+          "status": "PASS",
+          "claimed_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "checked_out_revision": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+          "source_worktree_dirty": false,
+          "source_fingerprint": {
+            "sha256": "7948b2ca4e070c442fb316b6e10d660bdf03918b5e69555c32cb2022f14932fd",
+            "file_count": 331,
+            "tracked_head": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+            "worktree_dirty": false,
+            "excluded_from_hash": [
+              "QA/",
+              ".build/",
+              ".release/",
+              ".public-site/"
+            ]
+          },
+          "reason": "clean checkout is bound to the exact checked-out revision"
+        },
+        "candidate_source_binding": {
+          "schema_version": 1,
+          "binding": "exact_commit",
+          "status": "PASS",
+          "claimed_revision": "f9edf2021451cc3040407636c226897a4505a8b7",
+          "checked_out_revision": "f9edf2021451cc3040407636c226897a4505a8b7",
+          "source_worktree_dirty": false,
+          "source_fingerprint": {
+            "sha256": "3b76e5c630b718433d60e9e23c6846433964e2b23f5b15bb5a74a25860ccd831",
+            "file_count": 340,
+            "tracked_head": "f9edf2021451cc3040407636c226897a4505a8b7",
+            "worktree_dirty": false,
+            "excluded_from_hash": [
+              "QA/",
+              ".build/",
+              ".release/",
+              ".public-site/"
+            ]
+          },
+          "reason": "clean checkout is bound to the exact checked-out revision"
+        },
+        "runtime": {
+          "browser": "webkit",
+          "browser_version": "26.5",
+          "playwright_version": "1.62.0",
+          "same_browser_process": true,
+          "fresh_context_per_revision_state": true,
+          "theme": "light",
+          "language": "ko",
+          "provider": "vector",
+          "screenshot_timing": "wait_ready_then_capture; detail after route A2 click + 100ms + details tab + 100ms",
+          "detector": "scripts/qa_map_visual_integrity.py"
+        },
+        "cases": [
+          {
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "touch": false,
+            "base": {
+              "errors": [],
+              "console_errors": [],
+              "failed_requests": [],
+              "milestones": {
+                "dom_content_loaded": 172,
+                "smart_style_ready": 594,
+                "map_visual_ready": 1036,
+                "markers_timeline_ready": 1037,
+                "first_actionable_state": 1045
+              }
+            },
+            "candidate": {
+              "errors": [],
+              "console_errors": [],
+              "failed_requests": [],
+              "milestones": {
+                "dom_content_loaded": 156,
+                "smart_style_ready": 534,
+                "map_visual_ready": 1019,
+                "markers_timeline_ready": 1020,
+                "first_actionable_state": 1022
+              }
+            },
+            "states": {
+              "overall": {
+                "base": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_overall.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_overall_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      1042,
+                      806
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 1440,
+                      "height": 900
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "A2",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "timeline",
+                    "selected": null,
+                    "zoom": 7.512999108220854,
+                    "canvas": 1
+                  }
+                },
+                "candidate": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_overall.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_overall_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      1042,
+                      806
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 1440,
+                      "height": 900
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "A2",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "timeline",
+                    "selected": null,
+                    "zoom": 7.512999108220854,
+                    "canvas": 1
+                  }
+                },
+                "detector": {
+                  "status": "PASS",
+                  "metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      1042,
+                      806
+                    ]
+                  },
+                  "clean_reference_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      1042,
+                      806
+                    ]
+                  },
+                  "thresholds": {
+                    "max_components": 2,
+                    "max_total_area": 180,
+                    "max_component_area": 96
+                  },
+                  "failures": [],
+                  "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope"
+                },
+                "interpretation": "candidate_within_same_host_base_envelope"
+              },
+              "detail": {
+                "base": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_detail.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/base/1440/webkit_detail_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      1042,
+                      806
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 1440,
+                      "height": 900
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "details",
+                    "selected": null,
+                    "zoom": 7.512999108220854,
+                    "canvas": 1
+                  }
+                },
+                "candidate": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_detail.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/1440/webkit_detail_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      1042,
+                      806
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 1440,
+                      "height": 900
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "details",
+                    "selected": null,
+                    "zoom": 7.512999108220854,
+                    "canvas": 1
+                  }
+                },
+                "detector": {
+                  "status": "PASS",
+                  "metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      1042,
+                      806
+                    ]
+                  },
+                  "clean_reference_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      1042,
+                      806
+                    ]
+                  },
+                  "thresholds": {
+                    "max_components": 2,
+                    "max_total_area": 180,
+                    "max_component_area": 96
+                  },
+                  "failures": [],
+                  "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope"
+                },
+                "interpretation": "candidate_within_same_host_base_envelope"
+              }
+            }
+          },
+          {
+            "viewport": {
+              "width": 834,
+              "height": 1112
+            },
+            "touch": true,
+            "base": {
+              "errors": [],
+              "console_errors": [],
+              "failed_requests": [],
+              "milestones": {
+                "dom_content_loaded": 147,
+                "smart_style_ready": 462,
+                "map_visual_ready": 1035,
+                "markers_timeline_ready": 1038,
+                "first_actionable_state": 1046
+              }
+            },
+            "candidate": {
+              "errors": [],
+              "console_errors": [],
+              "failed_requests": [],
+              "milestones": {
+                "dom_content_loaded": 147,
+                "smart_style_ready": 473,
+                "map_visual_ready": 1017,
+                "markers_timeline_ready": 1018,
+                "first_actionable_state": 1022
+              }
+            },
+            "states": {
+              "overall": {
+                "base": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_overall.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_overall_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      436,
+                      974
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 834,
+                      "height": 1112
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "A2",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "timeline",
+                    "selected": null,
+                    "zoom": 6.430549215471548,
+                    "canvas": 1
+                  }
+                },
+                "candidate": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_overall.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_overall_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      436,
+                      953
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 834,
+                      "height": 1112
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "A2",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "timeline",
+                    "selected": null,
+                    "zoom": 6.430549215471548,
+                    "canvas": 1
+                  }
+                },
+                "detector": {
+                  "status": "PASS",
+                  "metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      436,
+                      953
+                    ]
+                  },
+                  "clean_reference_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      436,
+                      974
+                    ]
+                  },
+                  "thresholds": {
+                    "max_components": 2,
+                    "max_total_area": 180,
+                    "max_component_area": 96
+                  },
+                  "failures": [],
+                  "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope"
+                },
+                "interpretation": "candidate_within_same_host_base_envelope"
+              },
+              "detail": {
+                "base": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_detail.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/base/834/webkit_detail_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      436,
+                      974
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 834,
+                      "height": 1112
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "details",
+                    "selected": null,
+                    "zoom": 6.430549215471545,
+                    "canvas": 1
+                  }
+                },
+                "candidate": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_detail.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/834/webkit_detail_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      436,
+                      953
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 834,
+                      "height": 1112
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "details",
+                    "selected": null,
+                    "zoom": 6.430549215471545,
+                    "canvas": 1
+                  }
+                },
+                "detector": {
+                  "status": "PASS",
+                  "metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      436,
+                      953
+                    ]
+                  },
+                  "clean_reference_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      436,
+                      974
+                    ]
+                  },
+                  "thresholds": {
+                    "max_components": 2,
+                    "max_total_area": 180,
+                    "max_component_area": 96
+                  },
+                  "failures": [],
+                  "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope"
+                },
+                "interpretation": "candidate_within_same_host_base_envelope"
+              }
+            }
+          },
+          {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "touch": true,
+            "base": {
+              "errors": [],
+              "console_errors": [],
+              "failed_requests": [],
+              "milestones": {
+                "dom_content_loaded": 145,
+                "smart_style_ready": 450,
+                "map_visual_ready": 1023,
+                "markers_timeline_ready": 1027,
+                "first_actionable_state": 1034
+              }
+            },
+            "candidate": {
+              "errors": [],
+              "console_errors": [],
+              "failed_requests": [],
+              "milestones": {
+                "dom_content_loaded": 153,
+                "smart_style_ready": 456,
+                "map_visual_ready": 1023,
+                "markers_timeline_ready": 1024,
+                "first_actionable_state": 1027
+              }
+            },
+            "states": {
+              "overall": {
+                "base": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_overall.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_overall_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      390,
+                      369
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 390,
+                      "height": 844
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "A2",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "timeline",
+                    "selected": null,
+                    "zoom": 5.7157684034369565,
+                    "canvas": 1
+                  }
+                },
+                "candidate": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_overall.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_overall_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      390,
+                      358
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 390,
+                      "height": 844
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "A2",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "timeline",
+                    "selected": null,
+                    "zoom": 5.695448419057361,
+                    "canvas": 1
+                  }
+                },
+                "detector": {
+                  "status": "PASS",
+                  "metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      390,
+                      358
+                    ]
+                  },
+                  "clean_reference_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      390,
+                      369
+                    ]
+                  },
+                  "thresholds": {
+                    "max_components": 2,
+                    "max_total_area": 180,
+                    "max_component_area": 96
+                  },
+                  "failures": [],
+                  "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope"
+                },
+                "interpretation": "candidate_within_same_host_base_envelope"
+              },
+              "detail": {
+                "base": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_detail.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/base/390/webkit_detail_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      390,
+                      369
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 390,
+                      "height": 844
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "details",
+                    "selected": null,
+                    "zoom": 5.8038245801021535,
+                    "canvas": 1
+                  }
+                },
+                "candidate": {
+                  "screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_detail.png",
+                  "map_screenshot": "QA/gate5/screenshots/same_host_webkit/candidate/390/webkit_detail_map_visual.png",
+                  "detector_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      390,
+                      358
+                    ]
+                  },
+                  "runtime_state": {
+                    "viewport": {
+                      "width": 390,
+                      "height": 844
+                    },
+                    "theme": "light",
+                    "lang": "ko",
+                    "provider": "vector",
+                    "region": "overall",
+                    "date": "all",
+                    "routes": [
+                      "A1",
+                      "B1",
+                      "B2"
+                    ],
+                    "tab": "details",
+                    "selected": null,
+                    "zoom": 5.695448419057361,
+                    "canvas": 1
+                  }
+                },
+                "detector": {
+                  "status": "PASS",
+                  "metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      390,
+                      358
+                    ]
+                  },
+                  "clean_reference_metric": {
+                    "components": 0,
+                    "total_area": 0,
+                    "max_area": 0,
+                    "components_detail": [],
+                    "image_size": [
+                      390,
+                      369
+                    ]
+                  },
+                  "thresholds": {
+                    "max_components": 2,
+                    "max_total_area": 180,
+                    "max_component_area": 96
+                  },
+                  "failures": [],
+                  "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope"
+                },
+                "interpretation": "candidate_within_same_host_base_envelope"
+              }
+            }
+          }
+        ],
+        "interpretation_rule": "A base/candidate relative FAIL is candidate-specific only after manual confirmation that the fresh same-host base metric is clean; matching corruption is VERIFY_REQUIRED pending representative Safari/macOS WebKit adjudication."
+      }
     },
     {
       "finding": "browser chromium 1440x900",
       "status": "PASS",
       "evidence": {
         "screenshot": "QA/gate5/screenshots/candidate/chromium_1440_overall.png",
-        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_1440_detail.png"
+        "map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              1042,
+              805
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 9,
+            "total_area": 1384,
+            "max_area": 258,
+            "components_detail": [
+              {
+                "area": 258,
+                "width": 23,
+                "height": 16,
+                "fill": 0.701,
+                "x": 294,
+                "y": 672
+              },
+              {
+                "area": 232,
+                "width": 28,
+                "height": 17,
+                "fill": 0.487,
+                "x": 286,
+                "y": 607
+              },
+              {
+                "area": 221,
+                "width": 22,
+                "height": 20,
+                "fill": 0.502,
+                "x": 885,
+                "y": 305
+              },
+              {
+                "area": 147,
+                "width": 18,
+                "height": 14,
+                "fill": 0.583,
+                "x": 170,
+                "y": 221
+              },
+              {
+                "area": 136,
+                "width": 15,
+                "height": 14,
+                "fill": 0.648,
+                "x": 307,
+                "y": 622
+              },
+              {
+                "area": 134,
+                "width": 15,
+                "height": 14,
+                "fill": 0.638,
+                "x": 906,
+                "y": 245
+              },
+              {
+                "area": 89,
+                "width": 13,
+                "height": 12,
+                "fill": 0.571,
+                "x": 312,
+                "y": 688
+              },
+              {
+                "area": 88,
+                "width": 13,
+                "height": 12,
+                "fill": 0.564,
+                "x": 902,
+                "y": 320
+              },
+              {
+                "area": 79,
+                "width": 15,
+                "height": 9,
+                "fill": 0.585,
+                "x": 153,
+                "y": 221
+              }
+            ],
+            "image_size": [
+              1042,
+              805
+            ]
+          },
+          "thresholds": {
+            "max_components": 11,
+            "max_total_area": 4248,
+            "max_component_area": 499
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/chromium_1440_overall_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/chromium_1440_overall.png"
+        },
+        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_1440_detail.png",
+        "detail_map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              1042,
+              805
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 9,
+            "total_area": 1384,
+            "max_area": 261,
+            "components_detail": [
+              {
+                "area": 261,
+                "width": 23,
+                "height": 16,
+                "fill": 0.709,
+                "x": 294,
+                "y": 672
+              },
+              {
+                "area": 232,
+                "width": 28,
+                "height": 17,
+                "fill": 0.487,
+                "x": 286,
+                "y": 606
+              },
+              {
+                "area": 218,
+                "width": 22,
+                "height": 20,
+                "fill": 0.495,
+                "x": 884,
+                "y": 305
+              },
+              {
+                "area": 147,
+                "width": 18,
+                "height": 14,
+                "fill": 0.583,
+                "x": 170,
+                "y": 221
+              },
+              {
+                "area": 136,
+                "width": 15,
+                "height": 14,
+                "fill": 0.648,
+                "x": 307,
+                "y": 621
+              },
+              {
+                "area": 134,
+                "width": 15,
+                "height": 14,
+                "fill": 0.638,
+                "x": 905,
+                "y": 246
+              },
+              {
+                "area": 89,
+                "width": 13,
+                "height": 12,
+                "fill": 0.571,
+                "x": 312,
+                "y": 688
+              },
+              {
+                "area": 88,
+                "width": 13,
+                "height": 12,
+                "fill": 0.564,
+                "x": 901,
+                "y": 320
+              },
+              {
+                "area": 79,
+                "width": 15,
+                "height": 9,
+                "fill": 0.585,
+                "x": 153,
+                "y": 221
+              }
+            ],
+            "image_size": [
+              1042,
+              805
+            ]
+          },
+          "thresholds": {
+            "max_components": 11,
+            "max_total_area": 4248,
+            "max_component_area": 504
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/chromium_1440_detail_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/chromium_1440_detail.png"
+        }
       }
     },
     {
@@ -182,7 +1140,153 @@
       "status": "PASS",
       "evidence": {
         "screenshot": "QA/gate5/screenshots/candidate/chromium_834_overall.png",
-        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_834_detail.png"
+        "map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              436,
+              952
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 5,
+            "total_area": 736,
+            "max_area": 232,
+            "components_detail": [
+              {
+                "area": 232,
+                "width": 28,
+                "height": 17,
+                "fill": 0.487,
+                "x": 100,
+                "y": 544
+              },
+              {
+                "area": 147,
+                "width": 18,
+                "height": 14,
+                "fill": 0.583,
+                "x": 54,
+                "y": 364
+              },
+              {
+                "area": 144,
+                "width": 15,
+                "height": 14,
+                "fill": 0.686,
+                "x": 403,
+                "y": 381
+              },
+              {
+                "area": 134,
+                "width": 15,
+                "height": 14,
+                "fill": 0.638,
+                "x": 121,
+                "y": 559
+              },
+              {
+                "area": 79,
+                "width": 15,
+                "height": 9,
+                "fill": 0.585,
+                "x": 37,
+                "y": 364
+              }
+            ],
+            "image_size": [
+              436,
+              952
+            ]
+          },
+          "thresholds": {
+            "max_components": 7,
+            "max_total_area": 2304,
+            "max_component_area": 454
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/chromium_834_overall_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/chromium_834_overall.png"
+        },
+        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_834_detail.png",
+        "detail_map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              436,
+              952
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 5,
+            "total_area": 736,
+            "max_area": 232,
+            "components_detail": [
+              {
+                "area": 232,
+                "width": 28,
+                "height": 17,
+                "fill": 0.487,
+                "x": 100,
+                "y": 544
+              },
+              {
+                "area": 147,
+                "width": 18,
+                "height": 14,
+                "fill": 0.583,
+                "x": 54,
+                "y": 364
+              },
+              {
+                "area": 144,
+                "width": 15,
+                "height": 14,
+                "fill": 0.686,
+                "x": 403,
+                "y": 381
+              },
+              {
+                "area": 134,
+                "width": 15,
+                "height": 14,
+                "fill": 0.638,
+                "x": 121,
+                "y": 559
+              },
+              {
+                "area": 79,
+                "width": 15,
+                "height": 9,
+                "fill": 0.585,
+                "x": 37,
+                "y": 364
+              }
+            ],
+            "image_size": [
+              436,
+              952
+            ]
+          },
+          "thresholds": {
+            "max_components": 7,
+            "max_total_area": 2304,
+            "max_component_area": 454
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/chromium_834_detail_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/chromium_834_detail.png"
+        }
       }
     },
     {
@@ -190,7 +1294,153 @@
       "status": "PASS",
       "evidence": {
         "screenshot": "QA/gate5/screenshots/candidate/chromium_390_overall.png",
-        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_390_detail.png"
+        "map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              390,
+              358
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 5,
+            "total_area": 736,
+            "max_area": 232,
+            "components_detail": [
+              {
+                "area": 232,
+                "width": 28,
+                "height": 17,
+                "fill": 0.487,
+                "x": 118,
+                "y": 206
+              },
+              {
+                "area": 147,
+                "width": 18,
+                "height": 14,
+                "fill": 0.583,
+                "x": 97,
+                "y": 102
+              },
+              {
+                "area": 144,
+                "width": 15,
+                "height": 14,
+                "fill": 0.686,
+                "x": 311,
+                "y": 113
+              },
+              {
+                "area": 134,
+                "width": 15,
+                "height": 14,
+                "fill": 0.638,
+                "x": 139,
+                "y": 221
+              },
+              {
+                "area": 79,
+                "width": 15,
+                "height": 9,
+                "fill": 0.585,
+                "x": 80,
+                "y": 102
+              }
+            ],
+            "image_size": [
+              390,
+              358
+            ]
+          },
+          "thresholds": {
+            "max_components": 7,
+            "max_total_area": 2304,
+            "max_component_area": 454
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/chromium_390_overall_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/chromium_390_overall.png"
+        },
+        "detail_screenshot": "QA/gate5/screenshots/candidate/chromium_390_detail.png",
+        "detail_map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              390,
+              358
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 5,
+            "total_area": 736,
+            "max_area": 232,
+            "components_detail": [
+              {
+                "area": 232,
+                "width": 28,
+                "height": 17,
+                "fill": 0.487,
+                "x": 114,
+                "y": 209
+              },
+              {
+                "area": 147,
+                "width": 18,
+                "height": 14,
+                "fill": 0.583,
+                "x": 90,
+                "y": 99
+              },
+              {
+                "area": 144,
+                "width": 15,
+                "height": 14,
+                "fill": 0.686,
+                "x": 317,
+                "y": 109
+              },
+              {
+                "area": 134,
+                "width": 15,
+                "height": 14,
+                "fill": 0.638,
+                "x": 135,
+                "y": 224
+              },
+              {
+                "area": 79,
+                "width": 15,
+                "height": 9,
+                "fill": 0.585,
+                "x": 73,
+                "y": 99
+              }
+            ],
+            "image_size": [
+              390,
+              358
+            ]
+          },
+          "thresholds": {
+            "max_components": 7,
+            "max_total_area": 2304,
+            "max_component_area": 454
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/chromium_390_detail_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/chromium_390_detail.png"
+        }
       }
     },
     {
@@ -198,7 +1448,185 @@
       "status": "PASS",
       "evidence": {
         "screenshot": "QA/gate5/screenshots/candidate/firefox_1440_overall.png",
-        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_1440_detail.png"
+        "map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              1042,
+              802
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 7,
+            "total_area": 1042,
+            "max_area": 249,
+            "components_detail": [
+              {
+                "area": 249,
+                "width": 23,
+                "height": 16,
+                "fill": 0.677,
+                "x": 295,
+                "y": 669
+              },
+              {
+                "area": 206,
+                "width": 28,
+                "height": 17,
+                "fill": 0.433,
+                "x": 287,
+                "y": 604
+              },
+              {
+                "area": 148,
+                "width": 18,
+                "height": 14,
+                "fill": 0.587,
+                "x": 172,
+                "y": 221
+              },
+              {
+                "area": 137,
+                "width": 15,
+                "height": 14,
+                "fill": 0.652,
+                "x": 308,
+                "y": 619
+              },
+              {
+                "area": 135,
+                "width": 15,
+                "height": 14,
+                "fill": 0.643,
+                "x": 904,
+                "y": 245
+              },
+              {
+                "area": 88,
+                "width": 13,
+                "height": 12,
+                "fill": 0.564,
+                "x": 900,
+                "y": 319
+              },
+              {
+                "area": 79,
+                "width": 13,
+                "height": 12,
+                "fill": 0.506,
+                "x": 313,
+                "y": 685
+              }
+            ],
+            "image_size": [
+              1042,
+              802
+            ]
+          },
+          "thresholds": {
+            "max_components": 9,
+            "max_total_area": 3222,
+            "max_component_area": 483
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/firefox_1440_overall_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/firefox_1440_overall.png"
+        },
+        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_1440_detail.png",
+        "detail_map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              1042,
+              802
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 7,
+            "total_area": 1044,
+            "max_area": 251,
+            "components_detail": [
+              {
+                "area": 251,
+                "width": 23,
+                "height": 16,
+                "fill": 0.682,
+                "x": 295,
+                "y": 669
+              },
+              {
+                "area": 206,
+                "width": 28,
+                "height": 17,
+                "fill": 0.433,
+                "x": 288,
+                "y": 604
+              },
+              {
+                "area": 148,
+                "width": 18,
+                "height": 14,
+                "fill": 0.587,
+                "x": 172,
+                "y": 221
+              },
+              {
+                "area": 137,
+                "width": 15,
+                "height": 14,
+                "fill": 0.652,
+                "x": 309,
+                "y": 619
+              },
+              {
+                "area": 135,
+                "width": 15,
+                "height": 14,
+                "fill": 0.643,
+                "x": 903,
+                "y": 246
+              },
+              {
+                "area": 88,
+                "width": 13,
+                "height": 12,
+                "fill": 0.564,
+                "x": 899,
+                "y": 319
+              },
+              {
+                "area": 79,
+                "width": 13,
+                "height": 12,
+                "fill": 0.506,
+                "x": 313,
+                "y": 685
+              }
+            ],
+            "image_size": [
+              1042,
+              802
+            ]
+          },
+          "thresholds": {
+            "max_components": 9,
+            "max_total_area": 3228,
+            "max_component_area": 487
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/firefox_1440_detail_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/firefox_1440_detail.png"
+        }
       }
     },
     {
@@ -206,7 +1634,137 @@
       "status": "PASS",
       "evidence": {
         "screenshot": "QA/gate5/screenshots/candidate/firefox_834_overall.png",
-        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_834_detail.png"
+        "map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              436,
+              949
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 4,
+            "total_area": 634,
+            "max_area": 206,
+            "components_detail": [
+              {
+                "area": 206,
+                "width": 28,
+                "height": 17,
+                "fill": 0.433,
+                "x": 100,
+                "y": 542
+              },
+              {
+                "area": 148,
+                "width": 18,
+                "height": 14,
+                "fill": 0.587,
+                "x": 54,
+                "y": 363
+              },
+              {
+                "area": 145,
+                "width": 15,
+                "height": 14,
+                "fill": 0.69,
+                "x": 403,
+                "y": 379
+              },
+              {
+                "area": 135,
+                "width": 15,
+                "height": 14,
+                "fill": 0.643,
+                "x": 121,
+                "y": 557
+              }
+            ],
+            "image_size": [
+              436,
+              949
+            ]
+          },
+          "thresholds": {
+            "max_components": 6,
+            "max_total_area": 1998,
+            "max_component_area": 408
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/firefox_834_overall_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/firefox_834_overall.png"
+        },
+        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_834_detail.png",
+        "detail_map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              436,
+              949
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 4,
+            "total_area": 634,
+            "max_area": 206,
+            "components_detail": [
+              {
+                "area": 206,
+                "width": 28,
+                "height": 17,
+                "fill": 0.433,
+                "x": 100,
+                "y": 542
+              },
+              {
+                "area": 148,
+                "width": 18,
+                "height": 14,
+                "fill": 0.587,
+                "x": 54,
+                "y": 363
+              },
+              {
+                "area": 145,
+                "width": 15,
+                "height": 14,
+                "fill": 0.69,
+                "x": 403,
+                "y": 379
+              },
+              {
+                "area": 135,
+                "width": 15,
+                "height": 14,
+                "fill": 0.643,
+                "x": 121,
+                "y": 557
+              }
+            ],
+            "image_size": [
+              436,
+              949
+            ]
+          },
+          "thresholds": {
+            "max_components": 6,
+            "max_total_area": 1998,
+            "max_component_area": 408
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/firefox_834_detail_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/firefox_834_detail.png"
+        }
       }
     },
     {
@@ -214,7 +1772,137 @@
       "status": "PASS",
       "evidence": {
         "screenshot": "QA/gate5/screenshots/candidate/firefox_390_overall.png",
-        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_390_detail.png"
+        "map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              390,
+              357
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 4,
+            "total_area": 634,
+            "max_area": 206,
+            "components_detail": [
+              {
+                "area": 206,
+                "width": 28,
+                "height": 17,
+                "fill": 0.433,
+                "x": 118,
+                "y": 204
+              },
+              {
+                "area": 148,
+                "width": 18,
+                "height": 14,
+                "fill": 0.587,
+                "x": 97,
+                "y": 100
+              },
+              {
+                "area": 145,
+                "width": 15,
+                "height": 14,
+                "fill": 0.69,
+                "x": 311,
+                "y": 111
+              },
+              {
+                "area": 135,
+                "width": 15,
+                "height": 14,
+                "fill": 0.643,
+                "x": 139,
+                "y": 219
+              }
+            ],
+            "image_size": [
+              390,
+              357
+            ]
+          },
+          "thresholds": {
+            "max_components": 6,
+            "max_total_area": 1998,
+            "max_component_area": 408
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/firefox_390_overall_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/firefox_390_overall.png"
+        },
+        "detail_screenshot": "QA/gate5/screenshots/candidate/firefox_390_detail.png",
+        "detail_map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              390,
+              357
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 4,
+            "total_area": 632,
+            "max_area": 206,
+            "components_detail": [
+              {
+                "area": 206,
+                "width": 28,
+                "height": 17,
+                "fill": 0.433,
+                "x": 114,
+                "y": 207
+              },
+              {
+                "area": 146,
+                "width": 18,
+                "height": 14,
+                "fill": 0.579,
+                "x": 90,
+                "y": 97
+              },
+              {
+                "area": 145,
+                "width": 15,
+                "height": 14,
+                "fill": 0.69,
+                "x": 317,
+                "y": 107
+              },
+              {
+                "area": 135,
+                "width": 15,
+                "height": 14,
+                "fill": 0.643,
+                "x": 135,
+                "y": 222
+              }
+            ],
+            "image_size": [
+              390,
+              357
+            ]
+          },
+          "thresholds": {
+            "max_components": 6,
+            "max_total_area": 1992,
+            "max_component_area": 408
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/firefox_390_detail_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/firefox_390_detail.png"
+        }
       }
     },
     {
@@ -222,7 +1910,193 @@
       "status": "PASS",
       "evidence": {
         "screenshot": "QA/gate5/screenshots/candidate/webkit_1440_overall.png",
-        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_1440_detail.png"
+        "map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              1042,
+              806
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 7,
+            "total_area": 1047,
+            "max_area": 242,
+            "components_detail": [
+              {
+                "area": 242,
+                "width": 23,
+                "height": 16,
+                "fill": 0.658,
+                "x": 294,
+                "y": 673
+              },
+              {
+                "area": 224,
+                "width": 28,
+                "height": 17,
+                "fill": 0.471,
+                "x": 286,
+                "y": 607
+              },
+              {
+                "area": 145,
+                "width": 18,
+                "height": 14,
+                "fill": 0.575,
+                "x": 170,
+                "y": 221
+              },
+              {
+                "area": 137,
+                "width": 15,
+                "height": 14,
+                "fill": 0.652,
+                "x": 307,
+                "y": 622
+              },
+              {
+                "area": 133,
+                "width": 15,
+                "height": 14,
+                "fill": 0.633,
+                "x": 906,
+                "y": 246
+              },
+              {
+                "area": 90,
+                "width": 13,
+                "height": 12,
+                "fill": 0.577,
+                "x": 902,
+                "y": 320
+              },
+              {
+                "area": 76,
+                "width": 17,
+                "height": 9,
+                "fill": 0.497,
+                "x": 153,
+                "y": 221
+              }
+            ],
+            "image_size": [
+              1042,
+              806
+            ]
+          },
+          "thresholds": {
+            "max_components": 9,
+            "max_total_area": 3237,
+            "max_component_area": 471
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/webkit_1440_overall_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/webkit_1440_overall.png"
+        },
+        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_1440_detail.png",
+        "detail_map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              1042,
+              806
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 8,
+            "total_area": 1210,
+            "max_area": 245,
+            "components_detail": [
+              {
+                "area": 245,
+                "width": 23,
+                "height": 16,
+                "fill": 0.666,
+                "x": 294,
+                "y": 673
+              },
+              {
+                "area": 224,
+                "width": 28,
+                "height": 17,
+                "fill": 0.471,
+                "x": 286,
+                "y": 607
+              },
+              {
+                "area": 160,
+                "width": 19,
+                "height": 20,
+                "fill": 0.421,
+                "x": 886,
+                "y": 305
+              },
+              {
+                "area": 145,
+                "width": 18,
+                "height": 14,
+                "fill": 0.575,
+                "x": 170,
+                "y": 221
+              },
+              {
+                "area": 137,
+                "width": 15,
+                "height": 14,
+                "fill": 0.652,
+                "x": 307,
+                "y": 622
+              },
+              {
+                "area": 133,
+                "width": 15,
+                "height": 14,
+                "fill": 0.633,
+                "x": 906,
+                "y": 246
+              },
+              {
+                "area": 90,
+                "width": 13,
+                "height": 12,
+                "fill": 0.577,
+                "x": 902,
+                "y": 320
+              },
+              {
+                "area": 76,
+                "width": 17,
+                "height": 9,
+                "fill": 0.497,
+                "x": 153,
+                "y": 221
+              }
+            ],
+            "image_size": [
+              1042,
+              806
+            ]
+          },
+          "thresholds": {
+            "max_components": 10,
+            "max_total_area": 3726,
+            "max_component_area": 476
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/webkit_1440_detail_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/webkit_1440_detail.png"
+        }
       }
     },
     {
@@ -230,7 +2104,153 @@
       "status": "PASS",
       "evidence": {
         "screenshot": "QA/gate5/screenshots/candidate/webkit_834_overall.png",
-        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_834_detail.png"
+        "map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              436,
+              953
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 5,
+            "total_area": 722,
+            "max_area": 224,
+            "components_detail": [
+              {
+                "area": 224,
+                "width": 28,
+                "height": 17,
+                "fill": 0.471,
+                "x": 100,
+                "y": 544
+              },
+              {
+                "area": 145,
+                "width": 18,
+                "height": 14,
+                "fill": 0.575,
+                "x": 54,
+                "y": 365
+              },
+              {
+                "area": 144,
+                "width": 15,
+                "height": 14,
+                "fill": 0.686,
+                "x": 403,
+                "y": 381
+              },
+              {
+                "area": 133,
+                "width": 15,
+                "height": 14,
+                "fill": 0.633,
+                "x": 121,
+                "y": 559
+              },
+              {
+                "area": 76,
+                "width": 17,
+                "height": 9,
+                "fill": 0.497,
+                "x": 37,
+                "y": 365
+              }
+            ],
+            "image_size": [
+              436,
+              953
+            ]
+          },
+          "thresholds": {
+            "max_components": 7,
+            "max_total_area": 2262,
+            "max_component_area": 440
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/webkit_834_overall_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/webkit_834_overall.png"
+        },
+        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_834_detail.png",
+        "detail_map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              436,
+              953
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 5,
+            "total_area": 722,
+            "max_area": 224,
+            "components_detail": [
+              {
+                "area": 224,
+                "width": 28,
+                "height": 17,
+                "fill": 0.471,
+                "x": 100,
+                "y": 544
+              },
+              {
+                "area": 145,
+                "width": 18,
+                "height": 14,
+                "fill": 0.575,
+                "x": 54,
+                "y": 365
+              },
+              {
+                "area": 144,
+                "width": 15,
+                "height": 14,
+                "fill": 0.686,
+                "x": 403,
+                "y": 381
+              },
+              {
+                "area": 133,
+                "width": 15,
+                "height": 14,
+                "fill": 0.633,
+                "x": 121,
+                "y": 559
+              },
+              {
+                "area": 76,
+                "width": 17,
+                "height": 9,
+                "fill": 0.497,
+                "x": 37,
+                "y": 365
+              }
+            ],
+            "image_size": [
+              436,
+              953
+            ]
+          },
+          "thresholds": {
+            "max_components": 7,
+            "max_total_area": 2262,
+            "max_component_area": 440
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/webkit_834_detail_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/webkit_834_detail.png"
+        }
       }
     },
     {
@@ -238,7 +2258,153 @@
       "status": "PASS",
       "evidence": {
         "screenshot": "QA/gate5/screenshots/candidate/webkit_390_overall.png",
-        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_390_detail.png"
+        "map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              390,
+              358
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 5,
+            "total_area": 722,
+            "max_area": 224,
+            "components_detail": [
+              {
+                "area": 224,
+                "width": 28,
+                "height": 17,
+                "fill": 0.471,
+                "x": 118,
+                "y": 206
+              },
+              {
+                "area": 145,
+                "width": 18,
+                "height": 14,
+                "fill": 0.575,
+                "x": 97,
+                "y": 102
+              },
+              {
+                "area": 144,
+                "width": 15,
+                "height": 14,
+                "fill": 0.686,
+                "x": 311,
+                "y": 113
+              },
+              {
+                "area": 133,
+                "width": 15,
+                "height": 14,
+                "fill": 0.633,
+                "x": 139,
+                "y": 221
+              },
+              {
+                "area": 76,
+                "width": 17,
+                "height": 9,
+                "fill": 0.497,
+                "x": 80,
+                "y": 102
+              }
+            ],
+            "image_size": [
+              390,
+              358
+            ]
+          },
+          "thresholds": {
+            "max_components": 7,
+            "max_total_area": 2262,
+            "max_component_area": 440
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/webkit_390_overall_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/webkit_390_overall.png"
+        },
+        "detail_screenshot": "QA/gate5/screenshots/candidate/webkit_390_detail.png",
+        "detail_map_visual_integrity": {
+          "status": "PASS",
+          "metric": {
+            "components": 0,
+            "total_area": 0,
+            "max_area": 0,
+            "components_detail": [],
+            "image_size": [
+              390,
+              358
+            ]
+          },
+          "clean_reference_metric": {
+            "components": 5,
+            "total_area": 722,
+            "max_area": 224,
+            "components_detail": [
+              {
+                "area": 224,
+                "width": 28,
+                "height": 17,
+                "fill": 0.471,
+                "x": 114,
+                "y": 209
+              },
+              {
+                "area": 144,
+                "width": 18,
+                "height": 14,
+                "fill": 0.571,
+                "x": 90,
+                "y": 99
+              },
+              {
+                "area": 144,
+                "width": 15,
+                "height": 14,
+                "fill": 0.686,
+                "x": 317,
+                "y": 109
+              },
+              {
+                "area": 133,
+                "width": 15,
+                "height": 14,
+                "fill": 0.633,
+                "x": 135,
+                "y": 224
+              },
+              {
+                "area": 77,
+                "width": 17,
+                "height": 9,
+                "fill": 0.503,
+                "x": 73,
+                "y": 99
+              }
+            ],
+            "image_size": [
+              390,
+              358
+            ]
+          },
+          "thresholds": {
+            "max_components": 7,
+            "max_total_area": 2262,
+            "max_component_area": 440
+          },
+          "failures": [],
+          "rationale": "same-browser/viewport clean Gate-4 reference plus two-component and 3x-area noise envelope",
+          "screenshot": "QA/gate5/screenshots/candidate/webkit_390_detail_map_visual.png",
+          "clean_reference": "QA/gate5/screenshots/baseline/webkit_390_detail.png"
+        }
       }
     }
   ]
