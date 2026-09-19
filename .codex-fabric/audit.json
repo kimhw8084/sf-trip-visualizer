@@ -1,0 +1,445 @@
+{
+  "accepted_at": "2026-09-19T19:04:53Z",
+  "changed_files": [
+    {
+      "additions": 27,
+      "deletions": 6,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "M"
+    },
+    {
+      "additions": 18,
+      "deletions": 2,
+      "path": ".github/workflows/deploy-pages.yml",
+      "status": "M"
+    },
+    {
+      "additions": 203,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate2_r7/evidence.json",
+      "status": "A"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "manifests/security_privacy_contract.json",
+      "status": "M"
+    },
+    {
+      "additions": 72,
+      "deletions": 0,
+      "path": "scripts/hosted_linux_pipeline.py",
+      "status": "A"
+    },
+    {
+      "additions": 13,
+      "deletions": 2,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 3,
+      "path": "scripts/run_cross_browser.py",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 2,
+      "path": "scripts/security_privacy.py",
+      "status": "M"
+    },
+    {
+      "additions": 50,
+      "deletions": 5,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk git add tests/test_canonical_pipeline.py && rtk git commit -m \"test: isolate release contract evidence\" && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git push origin HEAD:codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7 && rtk gh run list --repo kimhw8084/sf-trip-visualizer --workflow 'Qualify Fabric candidate' --branch codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7 --limit 3 --json databaseId,headSha,status,conclusion,url\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run list --repo kimhw8084/sf-trip-visualizer --workflow 'Qualify Fabric candidate' --branch codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7 --limit 5 --json databaseId,headSha,status,conclusion,url\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run watch 35464340521 --repo kimhw8084/sf-trip-visualizer --interval 10 --exit-status'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mktemp -d -t sf-trip-r7-final.XXXXXX'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run download 35464340521 --repo kimhw8084/sf-trip-visualizer --name candidate-qualification-9f9bc41d006ff39d5ef27a09a750b7c77b0ca9f9 --dir /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-final.XXXXXX.8dZ6VWC1jW && ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-final.XXXXXX.8dZ6VWC1jW; printf '%s\\\\n' '--- qualification ---'; rtk jq '{status,candidate_head,working_tree_clean,tests:[.tests[]|{name,status,returncode}],errors}' \\\"\"'$ART/release/qualification.json\"; printf '\"'%s\\\\n' '--- cross browser ---'; rtk jq '{status,expected_rows,rows:[.rows[]|{browser,width,height,launch_mode,status,completed}],errors}' \\\"\"'$ART/map_first/cross_browser.json\"; printf '\"'%s\\\\n' '--- evidence statuses ---'; rtk jq '{status,candidate_head,reproducible,authored_inputs_unchanged}' \\\"\"'$ART/release/fast.json\"; rtk jq '\"'{status,candidate_head,exact_candidate_bound}' \\\"\"'$ART/release/security_privacy.json\"; rtk jq '\"'{status,candidate_head}' \\\"\"'$ART/release/public_asset_rights.json\"; rtk jq '\"'{status,candidate_head}' \\\"\"'$ART/release/gate4.json\"; printf '\"'%s\\\\n' '--- hashes ---'; rtk shasum -a 256 \\\"\"'$ART/release/qualification.json\" \"$ART/release/fast.json\" \"$ART/release/security_privacy.json\" \"$ART/release/public_asset_rights.json\" \"$ART/release/gate4.json\" \"$ART/map_first/cross_browser.json\" \"$ART/release/unit-tests.log\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-final.XXXXXX.8dZ6VWC1jW; rtk jq -r '[.tests[] | \\\"\\\\(.name)=\\\\(.status)\\\"] | join(\\\" \\\")' \\\"\"'$ART/release/qualification.json\"; rtk jq -r '\"'.rows[] | \\\"\\\\(.browser) \\\\(.width)x\\\\(.height): \\\\(.launch_mode)=\\\\(.status)\\\"' \\\"\"'$ART/map_first/cross_browser.json\"; rtk jq -r '\"'\\\"unit-log-bytes=\\\" + ((input_filename|length)|tostring)' \\\"\"'$ART/release/unit-tests.log\" 2>/dev/null || true; rtk wc -l \"$ART/release/unit-tests.log\"; rtk tail -n 5 \"$ART/release/unit-tests.log\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk command -v docker || true; rtk docker --version 2>/dev/null || true; rtk command -v podman || true; rtk command -v colima || true; rtk command -v brew || true; rtk command -v Xvfb || true; rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk docker info --format '{{.ServerVersion}} {{.OperatingSystem}}'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_canonical_pipeline tests.test_security_privacy tests.test_cross_browser_runner -q && rtk git diff --check && rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add .github/workflows/candidate-qualification.yml scripts/security_privacy.py tests/test_canonical_pipeline.py && rtk git commit -m \"ci: exercise nondeploying pages release path\" && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7 && rtk python3 scripts/pipeline.py fast --revision 8959ae7c859057da5f4d9cd1de74b6ea8e49e134'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run list --repo kimhw8084/sf-trip-visualizer --workflow 'Qualify Fabric candidate' --branch codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7 --limit 5 --json databaseId,headSha,status,conclusion,url\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run watch 35464841762 --repo kimhw8084/sf-trip-visualizer --interval 10 --exit-status'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mktemp -d -t sf-trip-r7-failed-release.XXXXXX'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run download 35464841762 --repo kimhw8084/sf-trip-visualizer --name candidate-qualification-8959ae7c859057da5f4d9cd1de74b6ea8e49e134 --dir /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-failed-release.XXXXXX.0qvnAVW4Z1 && ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-failed-release.XXXXXX.0qvnAVW4Z1; printf '%s\\\\n' '--- release log tail ---'; rtk tail -n 160 \\\"\"'$ART/release/pages-release.log\"; printf '\"'%s\\\\n' '--- release files ---'; rtk find \\\"\"'$ART/release\" -maxdepth 1 -type f | sort; printf '\"'%s\\\\n' '--- qualification report ---'; rtk jq '{status,candidate_head,working_tree_clean,tests:[.tests[]|{name,status,returncode}],errors}' \\\"\"'$ART/release/qualification.json\"; printf '\"'%s\\\\n' '--- fast report ---'; rtk jq '{status,candidate_head,errors}' \\\"\"'$ART/release/fast.json\"'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35464841762 --repo kimhw8084/sf-trip-visualizer --json status,conclusion,headSha,artifacts,jobs | sed -n '1,260p'; rtk find /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-failed-release.XXXXXX.0qvnAVW4Z1 -maxdepth 2 -type f | sed -n '1,120p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ls -la /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-failed-release.XXXXXX.0qvnAVW4Z1 && rtk ls -la /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-failed-release.XXXXXX.0qvnAVW4Z1/release 2>/dev/null || true && rtk gh api repos/kimhw8084/sf-trip-visualizer/actions/runs/35464841762/artifacts --jq '.artifacts[] | {name,id,size_in_bytes,expired}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-failed-release.XXXXXX.0qvnAVW4Z1/QA -maxdepth 3 -type f | sort | sed -n '1,160p'; ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-failed-release.XXXXXX.0qvnAVW4Z1/QA; printf '%s\\\\n' '--- release log tail ---'; rtk tail -n 180 \\\"\"'$ART/release/pages-release.log\" 2>&1; printf '\"'%s\\\\n' '--- qualification ---'; rtk jq '{status,candidate_head,working_tree_clean,tests:[.tests[]|{name,status,returncode}],errors}' \\\"\"'$ART/release/qualification.json\" 2>&1; printf '\"'%s\\\\n' '--- fast ---'; rtk jq '{status,candidate_head,errors}' \\\"\"'$ART/release/fast.json\" 2>&1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_canonical_pipeline tests.test_security_privacy tests.test_cross_browser_runner -q && rtk git diff --check && rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add .github/workflows/candidate-qualification.yml tests/test_canonical_pipeline.py && rtk git commit -m \"ci: use clean checkout for release exercise\" && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7 && rtk python3 scripts/pipeline.py fast --revision b7295e88e9990ce5ca81a21ebd7544a4986b84b0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run list --repo kimhw8084/sf-trip-visualizer --workflow 'Qualify Fabric candidate' --branch codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7 --limit 3 --json databaseId,headSha,status,conclusion,url\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35465369082 --repo kimhw8084/sf-trip-visualizer --json jobs | rtk jq '.jobs[0].steps[] | select(.name|test(\\\"release-path|full qualification|unit|checkout\\\";\\\"i\\\")) | {name,status,startedAt,completedAt,conclusion}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35465369082 --repo kimhw8084/sf-trip-visualizer --json jobs | rtk jq '.jobs[0].steps[] | {name,status,startedAt,completedAt,conclusion}' | sed -n '1,260p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run watch 35465369082 --repo kimhw8084/sf-trip-visualizer --interval 10 --exit-status'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35465369082 --repo kimhw8084/sf-trip-visualizer --json jobs | rtk jq -r '.jobs[0].steps[] | [.number,.name,.status,.startedAt,.completedAt,.conclusion] | @tsv' | tail -n 10\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run download 35465369082 --repo kimhw8084/sf-trip-visualizer --name candidate-qualification-b7295e88e9990ce5ca81a21ebd7544a4986b84b0 --dir /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-failed-release.XXXXXX.0qvnAVW4Z1 && ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-failed-release.XXXXXX.0qvnAVW4Z1/QA; printf '%s\\\\n' '--- release log tail ---'; rtk tail -n 240 \\\"\"'$ART/release/pages-release.log\"; printf '\"'%s\\\\n' '--- qualification report ---'; rtk jq '{status,candidate_head,working_tree_clean,tests:[.tests[]|{name,status,returncode}],errors}' \\\"\"'$ART/release/qualification.json\"; printf '\"'%s\\\\n' '--- fast report ---'; rtk jq '{status,candidate_head,working_tree_clean,errors}' \\\"\"'$ART/release/fast.json\"; printf '\"'%s\\\\n' '--- files ---'; rtk find \\\"\"'$ART/release\" -maxdepth 1 -type f | sort'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mktemp -d -t sf-trip-r7-final-failure.XXXXXX'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run download 35465369082 --repo kimhw8084/sf-trip-visualizer --name candidate-qualification-b7295e88e9990ce5ca81a21ebd7544a4986b84b0 --dir /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-final-failure.XXXXXX.kDDoUf8Rgd && ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-final-failure.XXXXXX.kDDoUf8Rgd/QA; printf '%s\\\\n' '--- release log tail ---'; rtk tail -n 240 \\\"\"'$ART/release/pages-release.log\"; printf '\"'%s\\\\n' '--- qualification report ---'; rtk jq '{status,candidate_head,working_tree_clean,tests:[.tests[]|{name,status,returncode}],errors}' \\\"\"'$ART/release/qualification.json\"; printf '\"'%s\\\\n' '--- fast report ---'; rtk jq '{status,candidate_head,working_tree_clean,errors}' \\\"\"'$ART/release/fast.json\"; printf '\"'%s\\\\n' '--- files ---'; rtk find \\\"\"'$ART/release\" -maxdepth 1 -type f | sort'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-final-failure.XXXXXX.kDDoUf8Rgd -maxdepth 4 -type f | sed -n '1,180p'; rtk ls -la /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-final-failure.XXXXXX.kDDoUf8Rgd; rtk gh api repos/kimhw8084/sf-trip-visualizer/actions/runs/35465369082/artifacts --jq '.artifacts[] | {name,id,size_in_bytes}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-final-failure.XXXXXX.kDDoUf8Rgd/release-path-checkout; printf '%s\\\\n' '--- release files ---'; rtk find \\\"\"'$ART/QA/release\" -maxdepth 1 -type f | sort; printf '\"'%s\\\\n' '--- release log tail ---'; rtk tail -n 220 \\\"\"'$ART/QA/release/pages-release.log\" 2>&1; printf '\"'%s\\\\n' '--- release qualification ---'; rtk jq '{status,candidate_head,working_tree_clean,tests:[.tests[]|{name,status,returncode}],errors}' \\\"\"'$ART/QA/release/qualification.json\"; printf '\"'%s\\\\n' '--- fresh fast ---'; rtk jq '{status,candidate_head,errors}' \\\"\"'$ART/QA/release/fast.json\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-final-failure.XXXXXX.kDDoUf8Rgd/release-path-checkout/QA; printf '%s\\\\n' '--- all release component statuses ---'; rtk jq -r '.tests[] | [.name,.status,.returncode,.status_reason] | @tsv' \\\"\"'$ART/release/qualification.json\"; printf '\"'%s\\\\n' '--- map full evidence ---'; rtk jq '.' \\\"\"'$ART/map_first/full_acceptance.json\"; printf '\"'%s\\\\n' '--- qualification errors/failed rows ---'; rtk jq '{errors,failed:[.tests[]|select(.status\"'!=\"PASS\")|{name,status,returncode,stdout_tail,stderr_tail}]}'\"' \\\"\"'$ART/release/qualification.json\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-final-failure.XXXXXX.kDDoUf8Rgd/release-path-checkout/QA; rtk jq '{status,errors,failures,checks,initial,summary}' \\\"\"'$ART/map_first/full_acceptance.json\" | sed -n '\"'1,260p'; printf '\\\\n--- qualification stdout tail ---\\\\n'; rtk jq -r '.tests[]|select(.name==\\\"map_first_full\\\")|.stdout_tail' \\\"\"'$ART/release/qualification.json\" | tail -n 120'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-final-failure.XXXXXX.kDDoUf8Rgd/release-path-checkout/QA; rtk jq -r '.checks | to_entries[] | select(.value|type\"'!=\"object\" and type!=\"array\") | \"'\"\\\\(.key)=\\\\(.value)\\\"' \\\"\"'$ART/map_first/full_acceptance.json\"; rtk jq -r '\"'.checks.loading_completed, .checks.loading, .errors, .console_errors' \\\"\"'$ART/map_first/full_acceptance.json\"; printf '\"'\\\\n--- script status logic ---\\\\n'; rtk rg -n 'loading_completed|console_errors|status|matrix_failures' scripts/qa_map_first_full.py | sed -n '1,160p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run rerun 35465369082 --repo kimhw8084/sf-trip-visualizer && rtk gh run list --repo kimhw8084/sf-trip-visualizer --workflow 'Qualify Fabric candidate' --branch codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7 --limit 5 --json databaseId,headSha,status,conclusion,url,attempt\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35465369082 --repo kimhw8084/sf-trip-visualizer --json jobs | rtk jq -r '.jobs[0].steps[] | select(.number==9 or .number==6 or .number==7) | [.number,.status,.startedAt,.completedAt,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run watch 35465369082 --repo kimhw8084/sf-trip-visualizer --interval 10 --exit-status'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk mktemp -d -t sf-trip-r7-success.XXXXXX'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run download 35465369082 --repo kimhw8084/sf-trip-visualizer --name candidate-qualification-b7295e88e9990ce5ca81a21ebd7544a4986b84b0 --dir /var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-success.XXXXXX.YZJaayTW8x && ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-success.XXXXXX.YZJaayTW8x; printf '%s\\\\n' '--- root qualification ---'; rtk jq '{status,candidate_head,working_tree_clean,tests:[.tests[]|{name,status,returncode}],errors}' \\\"\"'$ART/QA/release/qualification.json\"; printf '\"'%s\\\\n' '--- root cross browser ---'; rtk jq '{status,rows:[.rows[]|{browser,width,height,launch_mode,status,completed}],errors}' \\\"\"'$ART/QA/map_first/cross_browser.json\"; printf '\"'%s\\\\n' '--- fresh release qualification ---'; rtk jq '{status,candidate_head,working_tree_clean,tests:[.tests[]|{name,status,returncode}],errors}' \\\"\"'$ART/release-path-checkout/QA/release/qualification.json\"; printf '\"'%s\\\\n' '--- fresh release log tail ---'; rtk tail -n 8 \\\"\"'$ART/release-path-checkout/QA/release/pages-release.log\"; printf '\"'%s\\\\n' '--- fresh verify log tail ---'; rtk tail -n 8 \\\"\"'$ART/release-path-checkout/QA/release/pages-verify-public.log\"; printf '\"'%s\\\\n' '--- fresh cross browser ---'; rtk jq '{status,rows:[.rows[]|{browser,width,height,launch_mode,status,completed}],errors}' \\\"\"'$ART/release-path-checkout/QA/map_first/cross_browser.json\"; printf '\"'%s\\\\n' '--- unit tail ---'; rtk tail -n 5 \\\"\"'$ART/QA/release/unit-tests.log\"; printf '\"'%s\\\\n' '--- hashes ---'; rtk shasum -a 256 \\\"\"'$ART/QA/release/qualification.json\" \"$ART/QA/release/fast.json\" \"$ART/QA/release/security_privacy.json\" \"$ART/QA/release/public_asset_rights.json\" \"$ART/QA/release/gate4.json\" \"$ART/QA/map_first/cross_browser.json\" \"$ART/release-path-checkout/QA/release/qualification.json\" \"$ART/release-path-checkout/QA/release/fast.json\" \"$ART/release-path-checkout/QA/release/security_privacy.json\" \"$ART/release-path-checkout/QA/release/public_asset_rights.json\" \"$ART/release-path-checkout/QA/release/gate4.json\" \"$ART/release-path-checkout/QA/map_first/cross_browser.json\" \"$ART/release-path-checkout/QA/release/pages-release.log\" \"$ART/release-path-checkout/QA/release/pages-verify-public.log\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"ART=/var/folders/nz/6q2p_ldx3txdbw_gttbpnwjr0000gn/T/sf-trip-r7-success.XXXXXX.YZJaayTW8x/release-path-checkout/QA; printf '%s\\\\n' '--- final component names/status ---'; rtk jq -r '[.tests[]|select(.status\"'!=\"PASS\")|.name] | if length==0 then \"all 15 PASS\" else join(\",\") end'\"' \\\"\"'$ART/release/qualification.json\"; printf '\"'%s\\\\n' '--- release result ---'; rtk jq -c '{status,candidate_head,public:{status,revision,files,artifact_sha256,checks}}' \\\"\"'$ART/release/qualification.json\"; printf '\"'%s\\\\n' '--- verify-public result ---'; rtk tail -n 1 \\\"\"'$ART/release/pages-verify-public.log\"; rtk jq -c '\"'{status,revision,checks,artifact_sha256,files}' \\\"\"'$ART/release/public_asset_rights.json\" 2>/dev/null || true; printf '\"'%s\\\\n' '--- root/fresh sha parity ---'; rtk jq -r '[.candidate_head, .status] | @tsv' \\\"\"'$ART/release/qualification.json\"; rtk jq -r '\"'[.candidate_head, .status] | @tsv' \\\"\"'$ART/release/fast.json\"; printf '\"'%s\\\\n' '--- qualification report hashes ---'; rtk shasum -a 256 \\\"\"'$ART/release/qualification.json\" \"$ART/release/fast.json\" \"$ART/release/security_privacy.json\" \"$ART/release/public_asset_rights.json\" \"$ART/release/gate4.json\" \"$ART/map_first/cross_browser.json\" \"$ART/release/pages-release.log\" \"$ART/release/pages-verify-public.log\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py' -v\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m pip install --dry-run --require-hashes -r requirements-qa.txt'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m compileall -q scripts tests && rtk git diff --check && printf '%s\\\\n' '--- source tree invariants ---' && rtk shasum -a 256 vendor/trip-vector.js requirements-qa.txt && printf '%s\\\\n' '--- candidate/base/remote invariants ---' && rtk git rev-parse HEAD && rtk git rev-parse HEAD\"'^{tree} && rtk git merge-base --is-ancestor 6a111add1ebe6a6017d48a1050e497a720c83520 HEAD && printf '\"'base-ancestry=PASS\\\\n' && rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7 && printf '%s\\\\n' '--- status ---' && rtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35465369082 --repo kimhw8084/sf-trip-visualizer --json databaseId,attempt,headSha,headBranch,status,conclusion,url,jobs | rtk jq '{databaseId,attempt,headSha,headBranch,status,conclusion,url,jobs:[.jobs[]|{databaseId,name,status,conclusion,url,steps:[.steps[]|{name,conclusion}]}]}' | sed -n '1,220p'; printf '\\\\n--- main failure identity ---\\\\n'; rtk gh run view 35461550363 --repo kimhw8084/sf-trip-visualizer --json databaseId,attempt,headSha,status,conclusion,url,jobs | rtk jq '{databaseId,attempt,headSha,status,conclusion,url,jobs:[.jobs[]|{databaseId,name,status,conclusion,url}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh api repos/kimhw8084/sf-trip-visualizer/actions/runs/35461550363/artifacts --jq '.artifacts[] | {name,id,size_in_bytes,expired}' || true; rtk gh run view 35461550363 --repo kimhw8084/sf-trip-visualizer --job 105946207787 --log-failed 2>/dev/null | tail -n 100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk shasum -a 256 .github/workflows/candidate-qualification.yml .github/workflows/deploy-pages.yml manifests/security_privacy_contract.json scripts/hosted_linux_pipeline.py scripts/pipeline.py scripts/run_cross_browser.py scripts/security_privacy.py tests/test_canonical_pipeline.py && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m json.tool QA/project_os_verify/gate2_r7/evidence.json >/dev/null && rtk git diff --check && rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add QA/project_os_verify/gate2_r7/evidence.json && rtk git commit -m \"evidence: record Gate 2 R7 release authority repair\" && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk shasum -a 256 QA/project_os_verify/gate2_r7/evidence.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7 && rtk git status --short --branch && rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7 && rtk git merge-base --is-ancestor 6a111add1ebe6a6017d48a1050e497a720c83520 HEAD && rtk git diff --name-only b7295e88e9990ce5ca81a21ebd7544a4986b84b0..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 207,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 98.89,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 34522880,
+      "fresh_input_tokens": 388523,
+      "input_tokens": 34911403,
+      "non_reasoning_output_tokens": 37811,
+      "output_tokens": 60494,
+      "reasoning_output_tokens": 22683,
+      "total_processed_tokens": 34971897
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "08e393af80e8006cfdb955c030fa91a0364bfd6b",
+      "subject": "evidence: record Gate 2 R7 release authority repair"
+    },
+    {
+      "sha": "b7295e88e9990ce5ca81a21ebd7544a4986b84b0",
+      "subject": "ci: use clean checkout for release exercise"
+    },
+    {
+      "sha": "8959ae7c859057da5f4d9cd1de74b6ea8e49e134",
+      "subject": "ci: exercise nondeploying pages release path"
+    },
+    {
+      "sha": "9f9bc41d006ff39d5ef27a09a750b7c77b0ca9f9",
+      "subject": "test: isolate release contract evidence"
+    },
+    {
+      "sha": "946d0ccd7f8761979764945e7752ee1a3eb924c9",
+      "subject": "fix release qualification hosted Linux contract"
+    }
+  ],
+  "diff": {
+    "additions": 397,
+    "changed_files": 9,
+    "commit_count": 5,
+    "deletions": 21
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 2,
+    "items": [
+      {
+        "bytes": 11280,
+        "path": "QA/project_os_verify/gate2_r7/evidence.json",
+        "sha256": "b2340261bd5a63738584f8998762857728eaeab0b3b01c6d4790fd713c3d9c2f"
+      },
+      {
+        "bytes": 33298,
+        "path": "manifests/security_privacy_contract.json",
+        "sha256": "ff7dba595a05b4bb918c5391bd0564f8fee64515d09887b8bed80a57c59e8b95"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-19T20:25:46Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "6a111add1ebe6a6017d48a1050e497a720c83520",
+    "branch": "codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7",
+    "detached_verify": false,
+    "head_sha": "08e393af80e8006cfdb955c030fa91a0364bfd6b",
+    "remote_exact_head": true,
+    "remote_head_sha": "08e393af80e8006cfdb955c030fa91a0364bfd6b",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "6a111add1ebe6a6017d48a1050e497a720c83520",
+    "work_branch": "codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-c1b9934dbf187b68e6f40aa9",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/pages-release-hosted-linux-fix-r7",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/pages-release-hosted-linux-fix-r7"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "pages-release-hosted-linux-fix-r7",
+  "schema_version": 1,
+  "started_at": "2026-09-19T19:04:53Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 4853,
+    "queue_seconds": 0,
+    "total_seconds": 4853
+  },
+  "transport": {
+    "bytes": 8555,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8206,
+    "prompt_sha256": "0ada1d9c97dc360b5ae3ee164dca808200d1dbf77c0c7d457d69adb1d83a6f6f",
+    "sha256": "c1b9934dbf187b68e6f40aa95fedfa3d47cd06c3df16a0d506c5e0bf6f1714f7"
+  }
+}
