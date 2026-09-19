@@ -427,16 +427,21 @@ def check_workflows(root: Path = ROOT, contract: dict | None = None) -> dict:
             if not passed:
                 failures.append(f"{kind}: action {use} is not pinned to the reviewed commit")
         if kind == "candidate":
-            required = ["contents: read", "ref: ${{ github.sha }}", "pipeline.py qualify --revision \"$GITHUB_SHA\"", "branches:\n      - \"codex/**\""]
+            required = ["contents: read", "ref: ${{ github.sha }}", "hosted_linux_pipeline.py qualify --revision \"$GITHUB_SHA\"", "branches:\n      - \"codex/**\""]
             if any(fragment not in text for fragment in required):
                 failures.append("candidate: exact read-only qualification contract changed")
             if "pages:" in text or "id-token:" in text or "deploy-pages" in text:
                 failures.append("candidate: deployment permission or action introduced")
         else:
-            required = ["branches: [main]", "workflow_dispatch", "contents: read", "pages: write", "id-token: write", "pipeline.py release --revision \"$GITHUB_SHA\"", "pipeline.py verify-public --revision \"$GITHUB_SHA\""]
+            required = ["branches: [main]", "workflow_dispatch", "contents: read", "pages: write", "id-token: write", "hosted_linux_pipeline.py release --revision \"$GITHUB_SHA\"", "pipeline.py verify-public --revision \"$GITHUB_SHA\""]
             if any(fragment not in text for fragment in required):
                 failures.append("pages: exact Pages qualification contract changed")
         workflow_results[kind] = {"status": "PASS" if not failures else "FAIL", "actions": action_results, "permissions_reviewed": True}
+    runner = root / "scripts" / "hosted_linux_pipeline.py"
+    runner_text = runner.read_text(encoding="utf-8") if runner.is_file() else ""
+    for fragment in ("xvfb-run", "TRIP_CROSS_BROWSER_FIREFOX_MODE", "LIBGL_ALWAYS_SOFTWARE", "scripts/pipeline.py"):
+        if fragment not in runner_text:
+            failures.append(f"hosted Linux release runner missing contract: {fragment}")
     status = "PASS" if not failures else "FAIL"
     return {"status": status, "workflows": workflow_results, "failures": failures}
 
@@ -507,6 +512,7 @@ def check_candidate_binding(root: Path, requested_revision: str | None, contract
         "manifests/canonical_pipeline.json",
         "requirements-qa.txt",
         "scripts/pipeline.py",
+        "scripts/hosted_linux_pipeline.py",
         "scripts/build_map_first.py",
         "scripts/prepare_public_site.py",
         "scripts/package_map_first.py",

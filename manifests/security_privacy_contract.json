@@ -83,7 +83,7 @@
   },
   "workflow_trust": {
     "candidate": {"trigger": "push to codex/**", "checkout": "exact github.sha", "permissions": {"contents": "read"}, "deploying": false, "secret_access": false, "artifact_upload": "GitHub Actions artifact upload only"},
-    "pages": {"trigger": ["push to main", "workflow_dispatch"], "checkout": "exact github.sha", "permissions": {"contents": "read", "pages": "write", "id-token": "write"}, "qualification": "pipeline.py release --revision github.sha then verify-public --revision github.sha", "untrusted_candidate_path": "No candidate branch can invoke this workflow or receive Pages/OIDC authority."},
+    "pages": {"trigger": ["push to main", "workflow_dispatch"], "checkout": "exact github.sha", "permissions": {"contents": "read", "pages": "write", "id-token": "write"}, "qualification": "hosted_linux_pipeline.py release --revision github.sha delegates to pipeline.py release --revision github.sha, then verify-public --revision github.sha", "hosted_environment": ["ubuntu-latest", "xvfb-run", "TRIP_CROSS_BROWSER_FIREFOX_MODE=hosted-linux", "LIBGL_ALWAYS_SOFTWARE=1"], "untrusted_candidate_path": "No candidate branch can invoke this workflow or receive Pages/OIDC authority."},
     "forbidden_patterns": ["pull_request_target", "contents: write", "secrets in candidate job", "direct Pages mutation outside canonical pipeline", "workflow command injection from untrusted output"]
   },
   "dependency_update_policy": {

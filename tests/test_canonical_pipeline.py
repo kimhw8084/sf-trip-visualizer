@@ -5,6 +5,11 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import hosted_linux_pipeline  # noqa: E402
+import pipeline  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -57,12 +62,50 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertIn("branches: [main]", workflow)
         self.assertNotIn('"codex/**"', workflow)
         self.assertIn("ref: ${{ github.sha }}", workflow)
-        self.assertIn("python3 scripts/pipeline.py release", workflow)
+        self.assertIn("python3 scripts/hosted_linux_pipeline.py release --revision \"$GITHUB_SHA\"", workflow)
         self.assertIn("python3 scripts/pipeline.py verify-public", workflow)
         for forbidden in ("prepare_public_site.py", "build_final.py", "package_final.py", "run_acceptance.py", "run_live_providers.py"):
             self.assertNotIn(forbidden, workflow)
         for relative in ("scripts/build_final.py", "scripts/package_final.py", "scripts/run_acceptance.py", "scripts/run_live_providers.py", "scripts/expand_photo_manifest.py"):
             self.assertIn("DEPRECATED LEGACY ENTRY POINT", (ROOT / relative).read_text())
+
+    def test_candidate_and_pages_share_fail_closed_hosted_linux_contract(self):
+        candidate = (ROOT / ".github/workflows/candidate-qualification.yml").read_text()
+        pages = (ROOT / ".github/workflows/deploy-pages.yml").read_text()
+        runner = (ROOT / "scripts/hosted_linux_pipeline.py").read_text()
+        self.assertIn("python3 scripts/hosted_linux_pipeline.py qualify --revision \"$GITHUB_SHA\"", candidate)
+        self.assertIn("python3 scripts/hosted_linux_pipeline.py release --revision \"$GITHUB_SHA\"", pages)
+        self.assertIn('"xvfb-run"', runner)
+        self.assertIn("TRIP_CROSS_BROWSER_FIREFOX_MODE", runner)
+        self.assertIn("LIBGL_ALWAYS_SOFTWARE", runner)
+        self.assertIn("scripts/pipeline.py", runner)
+        self.assertEqual(
+            hosted_linux_pipeline.pipeline_command("qualify", "candidate")[0:2],
+            hosted_linux_pipeline.pipeline_command("release", "candidate")[0:2],
+        )
+        self.assertEqual(
+            hosted_linux_pipeline.contract_failures(
+                {
+                    "TRIP_CROSS_BROWSER_FIREFOX_MODE": "hosted-linux",
+                    "LIBGL_ALWAYS_SOFTWARE": "1",
+                    "DISPLAY": ":99",
+                },
+                platform="linux",
+            ),
+            [],
+        )
+        self.assertTrue(
+            hosted_linux_pipeline.contract_failures(
+                {"TRIP_CROSS_BROWSER_FIREFOX_MODE": "hosted-linux"},
+                platform="linux",
+            )
+        )
+
+    def test_release_qualification_fails_closed_without_hosted_linux_contract(self):
+        with patch.dict(hosted_linux_pipeline.os.environ, {}, clear=True), patch.object(hosted_linux_pipeline.sys, "platform", "linux"):
+            report = pipeline.run_qualification("candidate", require_clean=True)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(any("Hosted Linux release qualification contract" in error for error in report["errors"]))
 
     def test_candidate_workflow_is_exact_sha_non_deploying_and_evidence_backed(self):
         workflow = (ROOT / ".github/workflows/candidate-qualification.yml").read_text()
@@ -77,10 +120,7 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertIn('python-version: "3.11"', workflow)
         self.assertIn("pip install --require-hashes -r requirements-qa.txt", workflow)
         self.assertIn("playwright install --with-deps chromium firefox webkit", workflow)
-        self.assertIn("TRIP_CROSS_BROWSER_FIREFOX_MODE: hosted-linux", workflow)
-        self.assertIn('LIBGL_ALWAYS_SOFTWARE: "1"', workflow)
-        self.assertIn("xvfb-run --auto-servernum", workflow)
-        self.assertIn('python3 scripts/pipeline.py qualify --revision "$GITHUB_SHA"', workflow)
+        self.assertIn('python3 scripts/hosted_linux_pipeline.py qualify --revision "$GITHUB_SHA"', workflow)
         self.assertIn("python3 -m unittest discover -s tests -p 'test_*.py'", workflow)
         self.assertIn("if: always()", workflow)
         self.assertIn("actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02", workflow)
