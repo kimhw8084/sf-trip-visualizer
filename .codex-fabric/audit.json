@@ -1,0 +1,387 @@
+{
+  "accepted_at": "2026-09-19T18:46:22Z",
+  "changed_files": [
+    {
+      "additions": 165,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate1_r1/evidence.json",
+      "status": "A"
+    },
+    {
+      "additions": 11,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate1_r1/summary.md",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && sed -n '1,240p' /Users/haewonkim/.codex/RTK.md && sed -n '1,260p' /Users/haewonkim/.codex/law.md && printf '\\\\n--- workspace files ---\\\\n' && rg --files -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!vendor'\"' | head -50 && printf '\\\\n--- top-level ---\\\\n' && rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'command -v fabricctl || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'test -f \"$HOME/.codex-fabric/projects.yaml\" && rtk wc -l \"$HOME/.codex-fabric/projects.yaml\" || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git remote -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch --show-current && rtk git log -1 --oneline --decorate'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'test -d \"$HOME/.codex-fabric/repos/sf-trip-visualizer/.git\" && rtk git -C \"$HOME/.codex-fabric/repos/sf-trip-visualizer\" status --short --branch || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C \"$HOME/.codex-fabric/repos/sf-trip-visualizer\" branch --show-current'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sh -lc 'command -v fabricctl || true; command -v fabricctl.py || true; printf \\\"%s\\\\n\\\" \\\"\"'$PATH\"'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C \"$HOME/.codex-fabric/repos/sf-trip-visualizer\" remote get-url origin'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C \"$HOME/.codex-fabric/repos/sf-trip-visualizer\" rev-parse HEAD && rtk git -C \"$HOME/.codex-fabric/repos/sf-trip-visualizer\" rev-parse origin/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ruby -ryaml -e 'p=File.expand_path(\\\"~/.codex-fabric/projects.yaml\\\"); d=YAML.load_file(p); ps=d[\\\"projects\\\"]; puts \\\"top_projects_mapping=#{ps.is_a?(Hash)}\\\"; puts \\\"matching_names=#{ps.is_a?(Hash) ? ps.keys.count{|k| k.to_s==\\\"sf-trip-visualizer\\\"} : 0}\\\"; e=ps.is_a?(Hash) ? ps[\\\"sf-trip-visualizer\\\"] : nil; puts \\\"entry_present=#{\"'!e.nil?}\"; if e; puts \"repo=#{e[\"repo\"]}\"; puts \"local_repo=#{e[\"local_repo\"]}\"; puts \"target_branch=#{e[\"target_branch\"]}\"; puts \"workdir=#{e[\"workdir\"]}\"; end'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk find \"$HOME/.codex-fabric\" -type f -name '\"'fabricctl*' -print 2>/dev/null\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk \"$HOME/.codex-fabric/bin/fabricctl\" --help'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk \"$HOME/.codex-fabric/bin/fabricctl\" health'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk \"$HOME/.codex-fabric/bin/fabricctl\" doctor-quick'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C \"$HOME/.codex-fabric/repos/sf-trip-visualizer\" fetch origin main && rtk git -C \"$HOME/.codex-fabric/repos/sf-trip-visualizer\" rev-parse origin/main && rtk git -C \"$HOME/.codex-fabric/repos/sf-trip-visualizer\" status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git log --all --oneline --decorate --grep='public-asset-rights-g6-r1\\\\|security-privacy-dependency-g7-ci-hash-fix-r4' -20\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch -vv && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote --heads origin codex/sf-trip-visualizer-execution-route-g1-verify-r1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"if command -v gh >/dev/null 2>&1; then gh pr view 6 --repo kimhw8084/sf-trip-visualizer --json number,state,title,baseRefName,headRefName,headRefOid,mergeCommit,mergedAt,url; else echo 'gh_unavailable'; fi\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"if command -v gh >/dev/null 2>&1; then gh pr view 4 --repo kimhw8084/sf-trip-visualizer --json number,state,title,baseRefName,headRefName,headRefOid,mergeCommit,mergedAt,url; else echo 'gh_unavailable'; fi\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk \"$HOME/.codex-fabric/bin/fabricctl\" status'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --porcelain=v1 --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge-base --is-ancestor origin/main HEAD; echo \"base_ancestor_exit=$?\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg --files QA 2>/dev/null | head -80 || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-status origin/main...HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' QA/project_os_verify/gate7_r4/evidence.json && printf '\\\\n--- gate7 r2 ---\\\\n' && rtk sed -n '1,220p' QA/project_os_verify/gate7_r2/evidence.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n '/Users/|/home/|haewonkim|Bearer |token|secret|password' QA/project_os_verify/gate1_r1 || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-status'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ruby -rjson -e 'JSON.parse(File.read(\\\"QA/project_os_verify/gate1_r1/evidence.json\\\")); puts \\\"valid_json=true\\\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add QA/project_os_verify/gate1_r1/evidence.json QA/project_os_verify/gate1_r1/summary.md && rtk git diff --cached --name-status && rtk git diff --cached --stat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git commit -m \"Add Gate 1 execution-route verification evidence\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/codex/sf-trip-visualizer-execution-route-g1-verify-r1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch --show-current'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --porcelain=v1 --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge-base --is-ancestor origin/main HEAD; echo \"base_ancestry_exit=$?\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-status origin/main...HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check origin/main...HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C \"$HOME/.codex-fabric/repos/sf-trip-visualizer\" remote get-url origin'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk shasum -a 256 QA/project_os_verify/gate1_r1/evidence.json QA/project_os_verify/gate1_r1/summary.md'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C \"$HOME/.codex-fabric/repos/sf-trip-visualizer\" rev-parse origin/main && rtk git -C \"$HOME/.codex-fabric/repos/sf-trip-visualizer\" status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ruby -ryaml -e 'd=YAML.load_file(File.expand_path(%q{~/.codex-fabric/projects.yaml})); ps=d[%q{projects}]; e=ps[%q{sf-trip-visualizer}]; puts %Q{matching_project_entry_count=#{ps.keys.count{|k| k.to_s==%q{sf-trip-visualizer}}}}; puts %Q{repo=#{e[%q{repo}]}}; puts %Q{local_repo_is_canonical=#{File.expand_path(e[%q{local_repo}]) == File.expand_path(%q{~/.codex-fabric/repos/sf-trip-visualizer})}}; puts %Q{target_branch=#{e[%q{target_branch}]}}; puts %Q{workdir=#{e[%q{workdir}]}}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/codex/sf-trip-visualizer-execution-route-g1-verify-r1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk \"$HOME/.codex-fabric/bin/fabricctl\" health'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk \"$HOME/.codex-fabric/bin/fabricctl\" doctor-quick'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 113,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 91.43,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 634112,
+      "fresh_input_tokens": 59424,
+      "input_tokens": 693536,
+      "non_reasoning_output_tokens": 7693,
+      "output_tokens": 16820,
+      "reasoning_output_tokens": 9127,
+      "total_processed_tokens": 710356
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "a8805e71a2d555acce3c16ba46bb01c99960a156",
+      "subject": "Add Gate 1 execution-route verification evidence"
+    }
+  ],
+  "diff": {
+    "additions": 176,
+    "changed_files": 2,
+    "commit_count": 1,
+    "deletions": 0
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 2,
+    "items": [
+      {
+        "bytes": 6405,
+        "path": "QA/project_os_verify/gate1_r1/evidence.json",
+        "sha256": "8cc118d30bdc6e83a2874b56fd0b43e90d211a77d899bd4d7d0025500d2a20c3"
+      },
+      {
+        "bytes": 1272,
+        "path": "QA/project_os_verify/gate1_r1/summary.md",
+        "sha256": "396c07bca33c6507d088b44e43b6249a11b267bd3f8a6724cb96ba2e446c80ba"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-19T18:53:15Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "6a111add1ebe6a6017d48a1050e497a720c83520",
+    "branch": "codex/sf-trip-visualizer-execution-route-g1-verify-r1",
+    "detached_verify": false,
+    "head_sha": "a8805e71a2d555acce3c16ba46bb01c99960a156",
+    "remote_exact_head": true,
+    "remote_head_sha": "a8805e71a2d555acce3c16ba46bb01c99960a156",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "6a111add1ebe6a6017d48a1050e497a720c83520",
+    "work_branch": "codex/sf-trip-visualizer-execution-route-g1-verify-r1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-539184aabadbb6bad06b4175",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/execution-route-g1-verify-r1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/execution-route-g1-verify-r1"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "execution-route-g1-verify-r1",
+  "schema_version": 1,
+  "started_at": "2026-09-19T18:46:23Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 412,
+    "queue_seconds": 1,
+    "total_seconds": 413
+  },
+  "transport": {
+    "bytes": 6961,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6619,
+    "prompt_sha256": "b3e06f7850fff2d5d59eb9fd6feab1110e547d57ee37176393a4237bb99417b7",
+    "sha256": "539184aabadbb6bad06b4175f2b9a3e518f52beb9af84806fb0f88386afff6c8"
+  }
+}
