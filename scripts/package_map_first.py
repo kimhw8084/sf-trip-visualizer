@@ -11,6 +11,8 @@ import subprocess
 import zipfile
 from pathlib import Path
 
+from public_asset_rights import audit_tree, load_contract, load_json
+
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / ".build"
@@ -86,7 +88,7 @@ def main() -> None:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.mkdir(parents=True, exist_ok=True)
             for path in sorted(source.rglob("*")):
-                if path.is_file() and path.name != "gate4.json" and (path.suffix == ".json" or path.name == "VISUAL_REVIEW.md"):
+                if path.is_file() and path.name not in {"gate4.json", "public_asset_rights_package.json"} and (path.suffix == ".json" or path.name == "VISUAL_REVIEW.md"):
                     target_path = destination / path.relative_to(ROOT)
                     target_path.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(path, target_path)
@@ -94,6 +96,17 @@ def main() -> None:
             target = destination / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
+
+    contract = load_contract()
+    photo_manifest = load_json(ROOT / "manifests" / "asset_manifest.json")
+    public_audit = audit_tree(destination / "artifacts/public", contract=contract, manifest=photo_manifest, mode="pages")
+    package_audit = audit_tree(destination, contract=contract, manifest=photo_manifest, mode="public-package")
+    package_rights_report = ROOT / "QA" / "release" / "public_asset_rights_package.json"
+    package_rights_report.parent.mkdir(parents=True, exist_ok=True)
+    package_rights_report.write_text(json.dumps({"public_tree": public_audit, "package_tree": package_audit}, ensure_ascii=False, indent=2) + "\n")
+    if public_audit["status"] != "PASS" or package_audit["status"] != "PASS":
+        shutil.rmtree(destination)
+        raise SystemExit("Public package rights audit failed: " + json.dumps({"public_tree": public_audit["failures"], "package_tree": package_audit["failures"]}, ensure_ascii=False))
 
     files = tree_hashes(destination)
     package_manifest = {

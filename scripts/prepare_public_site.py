@@ -10,12 +10,15 @@ import shutil
 import subprocess
 from pathlib import Path
 
+from public_asset_rights import audit_tree, load_contract, load_json, write_notices
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SOURCE = ROOT / ".build" / "modular"
 DEFAULT_OUTPUT = ROOT / ".public-site"
 QUALIFICATION = ROOT / "QA" / "release" / "qualification.json"
 PROVENANCE = ".release-provenance.json"
+RIGHTS_REPORT = ROOT / "QA" / "release" / "public_asset_rights.json"
 
 
 def digest(path: Path) -> str:
@@ -86,6 +89,15 @@ def main() -> None:
     shutil.copytree(source, output)
     shutil.copy2(QUALIFICATION, output / ".release-qualification.json")
     (output / ".nojekyll").touch()
+    contract = load_contract()
+    manifest = load_json(ROOT / "manifests" / "asset_manifest.json")
+    write_notices(output, contract, manifest, "pages")
+    pre_audit = audit_tree(output, contract=contract, manifest=manifest, mode="pages", require_provenance=False)
+    RIGHTS_REPORT.parent.mkdir(parents=True, exist_ok=True)
+    RIGHTS_REPORT.write_text(json.dumps(pre_audit, ensure_ascii=False, indent=2) + "\n")
+    if pre_audit["status"] != "PASS":
+        shutil.rmtree(output)
+        raise SystemExit("Public asset rights audit failed before provenance: " + json.dumps(pre_audit["failures"], ensure_ascii=False))
     artifact_sha, file_count, byte_count = tree_digest(output, {PROVENANCE})
     provenance = {
         "schema_version": 1,
@@ -99,6 +111,11 @@ def main() -> None:
         "artifact_bytes_excluding_provenance": byte_count,
     }
     (output / PROVENANCE).write_text(json.dumps(provenance, ensure_ascii=False, indent=2) + "\n")
+    final_audit = audit_tree(output, contract=contract, manifest=manifest, mode="pages", require_provenance=True)
+    RIGHTS_REPORT.write_text(json.dumps(final_audit, ensure_ascii=False, indent=2) + "\n")
+    if final_audit["status"] != "PASS":
+        shutil.rmtree(output)
+        raise SystemExit("Public asset rights audit failed after provenance: " + json.dumps(final_audit["failures"], ensure_ascii=False))
     print(json.dumps({"output": str(output), "tested_sha": args.revision, "files": file_count + 1, "bytes": byte_count + (output / PROVENANCE).stat().st_size}, ensure_ascii=False))
 
 

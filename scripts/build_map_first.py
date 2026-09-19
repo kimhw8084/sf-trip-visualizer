@@ -230,6 +230,9 @@ def build(output_root: Path) -> dict:
     copy_runtime(modular_dir)
 
     standalone = BeautifulSoup(modular, "html.parser")
+    credits_link = standalone.select_one(".credits-link")
+    if credits_link:
+        credits_link["href"] = "../public/ATTRIBUTION.md"
     for link in standalone.find_all("link", rel="stylesheet"):
         style = standalone.new_tag("style")
         style.string = (ROOT / link["href"]).read_text()
