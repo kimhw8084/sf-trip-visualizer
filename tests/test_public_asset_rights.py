@@ -9,7 +9,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from public_asset_rights import audit_tree, load_contract, load_json, render_attribution, write_notices
+from public_asset_rights import audit_tree, evidence_tree_label, load_contract, load_json, render_attribution, write_notices
 
 
 def sha256(path: Path) -> str:
@@ -110,6 +110,9 @@ class PublicAssetRightsTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertIn("exploratorium/EXPERIENCE", first)
         self.assertIn("CC BY-SA 3.0", first)
+
+    def test_evidence_tree_label_redacts_external_operator_path(self):
+        self.assertEqual(evidence_tree_label(Path("/Users/operator/private-tree")), "<candidate-tree>")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_7",
+  "change": "CHG-67",
+  "evidence_scope": "Durable Gate-7 R4 integration-time CI portability repair evidence. This record does not claim Gate 7 GO, integration, Gate 5 completion, live release, or overall production readiness.",
+  "recorded_on": "2026-09-19",
+  "identities": {
+    "authoritative_transport_base": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+    "predecessor_r2_final_head": "7e3f7918033ccddc92eef9449a11096bfedfd408",
+    "predecessor_verified_source_candidate": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3",
+    "r3_evidence_only_head": "ab8fd36f61443ae47dfa12dc65434e14f68cd108",
+    "r3_product_source_incorporated": false,
+    "r4_stable_source_candidate": "1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9",
+    "r4_stable_source_tree": "9fa07f9f8d859898cd39bb72ac68d9a0ff5e9538",
+    "r4_source_candidate_parent": "7e3f7918033ccddc92eef9449a11096bfedfd408",
+    "base_ancestry_verified": true,
+    "stable_before_decisive_verification": true,
+    "worktree_clean_before_decisive_verification": true
+  },
+  "changed_source_files_from_predecessor": [
+    "manifests/security_privacy_contract.json",
+    "requirements-qa.txt",
+    "scripts/security_privacy.py",
+    "tests/test_security_privacy.py"
+  ],
+  "source_hashes_at_stable_candidate": {
+    "requirements-qa.txt": "e56176ea7b47040608aeae86322fd8d3d4c1ad7a31555cae699111f11f5904ea",
+    "manifests/security_privacy_contract.json": "1cc674a9639c675361eab23bface9e26143382609fda435862fb54c6f03a75a1",
+    "scripts/security_privacy.py": "1131dbb62299d1ca6014f3bf61bf0ed6a3db388446488124564ac4dbeb6fe315",
+    "tests/test_security_privacy.py": "9bccbb666be640dfb564983f1c5567fefe866b932479982b4cec536496b3e70e",
+    ".github/workflows/candidate-qualification.yml": "8d4faaed39c94ce8173b0164aea5c38183ca2c970a59ed16010eecf8371088dd",
+    ".github/workflows/deploy-pages.yml": "064d940fce758359365b42b654078839b928bd2e276d5962ebfe4ba6a5e27b72"
+  },
+  "dependency_artifact_repair": {
+    "requirements_path": "requirements-qa.txt",
+    "requirements_sha256": "e56176ea7b47040608aeae86322fd8d3d4c1ad7a31555cae699111f11f5904ea",
+    "repaired_package": "playwright==1.62.0",
+    "preserved_macos_arm_hash": "db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034",
+    "added_linux_x86_64_hash": "ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3",
+    "supported_platforms": [
+      {
+        "id": "macos-arm64-cp311",
+        "environment": "owner/developer macOS ARM CPython 3.11",
+        "python": "3.11",
+        "implementation": "cp",
+        "abi": "cp311",
+        "platform_tags": ["macosx_11_0_arm64"]
+      },
+      {
+        "id": "linux-x86_64-cp311",
+        "environment": "GitHub-hosted Ubuntu 24.04 x86_64 CPython 3.11.16",
+        "python": "3.11",
+        "implementation": "cp",
+        "abi": "cp311",
+        "platform_tags": ["manylinux1_x86_64", "manylinux_2_24_x86_64", "manylinux_2_28_x86_64"]
+      }
+    ],
+    "package_version_pins": [
+      "beautifulsoup4==4.12.2",
+      "Pillow==12.3.0",
+      "playwright==1.62.0",
+      "requests==2.33.0",
+      "soupsieve==2.9.2",
+      "greenlet==3.5.5",
+      "pyee==13.0.1",
+      "typing-extensions==4.16.0",
+      "certifi==2026.7.22",
+      "charset-normalizer==2.0.4",
+      "idna==3.19",
+      "urllib3==2.8.0"
+    ],
+    "approved_binary_wheels": [
+      {"package": "beautifulsoup4==4.12.2", "filename": "beautifulsoup4-4.12.2-py3-none-any.whl", "sha256": "bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+      {"package": "Pillow==12.3.0", "filename": "pillow-12.3.0-cp311-cp311-macosx_11_0_arm64.whl", "sha256": "37d6d0a00072fd2948eb22bce7e1475f34569d90c87c59f7a2ec59541b77f7a6", "platforms": ["macos-arm64-cp311"]},
+      {"package": "Pillow==12.3.0", "filename": "pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", "sha256": "23d27a3e0307ec2244cc51e7287b919aa68d097504ebe19df4e76a98a3eea5bd", "platforms": ["linux-x86_64-cp311"]},
+      {"package": "playwright==1.62.0", "filename": "playwright-1.62.0-py3-none-macosx_11_0_arm64.whl", "sha256": "db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034", "platforms": ["macos-arm64-cp311"]},
+      {"package": "playwright==1.62.0", "filename": "playwright-1.62.0-py3-none-manylinux1_x86_64.whl", "sha256": "ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3", "platforms": ["linux-x86_64-cp311"]},
+      {"package": "requests==2.33.0", "filename": "requests-2.33.0-py3-none-any.whl", "sha256": "3324635456fa185245e24865e810cecec7b4caf933d7eb133dcde67d48cee69b", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+      {"package": "soupsieve==2.9.2", "filename": "soupsieve-2.9.2-py3-none-any.whl", "sha256": "8089a26fd974ca7a1f30276d3d8492ab266ab15af581642dfe8aa162e0c1c823", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+      {"package": "greenlet==3.5.5", "filename": "greenlet-3.5.5-cp311-cp311-macosx_11_0_universal2.whl", "sha256": "be63afcbbccfad3dd95a1ba12ada84dab2ef32031973d80b5b92df67fa763a61", "platforms": ["macos-arm64-cp311"]},
+      {"package": "greenlet==3.5.5", "filename": "greenlet-3.5.5-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", "sha256": "74cc6df89ec5302337adc9cf096221cbed2510fd444b0e0f1586cf0470740864", "platforms": ["linux-x86_64-cp311"]},
+      {"package": "pyee==13.0.1", "filename": "pyee-13.0.1-py3-none-any.whl", "sha256": "af2f8fede4171ef667dfded53f96e2ed0d6e6bd7ee3bb46437f77e3b57689228", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+      {"package": "typing-extensions==4.16.0", "filename": "typing_extensions-4.16.0-py3-none-any.whl", "sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+      {"package": "certifi==2026.7.22", "filename": "certifi-2026.7.22-py3-none-any.whl", "sha256": "62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+      {"package": "charset-normalizer==2.0.4", "filename": "charset_normalizer-2.0.4-py3-none-any.whl", "sha256": "0c8911edd15d19223366a194a513099a302055a962bca2cec0f54b8b63175d8b", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+      {"package": "idna==3.19", "filename": "idna-3.19-py3-none-any.whl", "sha256": "815e7be7a7806d54abb586dc943addc79e8b2ee16915059658cbeff4b1b43bf4", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+      {"package": "urllib3==2.8.0", "filename": "urllib3-2.8.0-py3-none-any.whl", "sha256": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]}
+    ],
+    "authoritative_pypi_metadata": {
+      "method": "Version-specific PyPI JSON metadata filename/digest equality check",
+      "checked_at": "2026-09-19",
+      "result": "PASS",
+      "source_pattern": "https://pypi.org/pypi/<project>/<version>/json",
+      "playwright_source": "https://pypi.org/pypi/playwright/1.62.0/json",
+      "packages_checked": 12,
+      "artifact_rows_checked": 15
+    },
+    "coverage_result": {
+      "status": "PASS",
+      "macos_arm64": "all 12 exact pins covered",
+      "linux_x86_64": "all 12 exact pins covered",
+      "platform_specific_audit": ["Pillow", "playwright", "greenlet"]
+    },
+    "negative_hash_coverage_regressions": [
+      {"test": "test_platform_coverage_requires_linux_playwright_hash", "fixture": "macOS Playwright hash only", "expected_result": "FAIL", "observed": "FAIL"},
+      {"test": "test_repaired_artifact_matrix_covers_supported_platforms", "fixture": "repaired exact set", "expected_result": "PASS", "observed": "PASS"},
+      {"test": "test_wrong_linux_artifact_hash_fails_coverage", "fixture": "wrong Linux Playwright hash", "expected_result": "FAIL", "observed": "FAIL"},
+      {"test": "test_unapproved_platform_artifact_hash_fails_closed", "fixture": "unknown extra artifact hash", "expected_result": "FAIL", "observed": "FAIL"},
+      {"test": "test_unknown_platform_artifact_is_rejected", "fixture": "unknown platform identifier", "expected_result": "FAIL", "observed": "FAIL"}
+    ],
+    "native_dependency_check": {
+      "status": "PASS",
+      "platform": "Darwin arm64",
+      "python": "CPython 3.11.7",
+      "pip": "23.3.1",
+      "command": "python3 -m pip install --dry-run --require-hashes -r requirements-qa.txt"
+    },
+    "linux_selection_check": {
+      "status": "PASS",
+      "platform": "Linux x86_64 CPython 3.11",
+      "method": "pip download --no-deps --only-binary=:all: with manylinux_2_28_x86_64 for the closure and manylinux1_x86_64 for the Playwright artifact, then SHA-256 equality",
+      "selected_playwright": "playwright-1.62.0-py3-none-manylinux1_x86_64.whl",
+      "selected_playwright_sha256": "ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3",
+      "all_12_pins_verified": true
+    }
+  },
+  "verification_results": {
+    "focused_gate7_security_privacy": {"status": "PASS", "tests": 15, "command": "python3 -m unittest tests.test_security_privacy -v"},
+    "negative_regression_cases": {"status": "PASS", "cases": 5},
+    "public_rights_and_canonical_pipeline": {"status": "PASS", "tests": 16, "command": "python3 -m unittest tests.test_public_asset_rights tests.test_canonical_pipeline -v"},
+    "full_repository_unittest_discovery": {"status": "PASS", "tests": 40, "command": "python3 -m unittest discover -s tests -p 'test_*.py' -v"},
+    "syntax_and_diff_checks": {"status": "PASS", "checks": ["py_compile", "git diff --check"]},
+    "pipeline_fast": {"status": "PASS", "revision": "1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9", "evidence": "QA/release/fast.json", "sha256": "a1bc0d43a0a43a95e07b4feb9894cec6dc31a2751a1b763c0758ddf206bd48f4"},
+    "pipeline_qualify_local": {"status": "PASS", "revision": "1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9", "components": 15, "evidence": "QA/release/qualification.json", "sha256": "5c9494d8674157446f01d6dc42d89990e261a36b163049271f269491b69dc318"},
+    "gate7_security_report": {"status": "PASS", "candidate_head": "1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9", "evidence": "QA/release/security_privacy.json", "sha256": "b435a2fc3d0bf18096b42851cfbdb1a9b4bd81c5cdad2f3e6f765d068a611111", "exact_candidate_bound": true},
+    "gate6_public_rights": {"status": "PASS", "evidence": "QA/release/public_asset_rights.json", "sha256": "bb451ef97750f4c404bd2188347e68cc252c1497265148624a87aaac112bba77"},
+    "gate4_resilience": {"status": "PASS", "evidence": "QA/release/gate4.json", "sha256": "af6181110ecd61926d72fe6aaf09461fabf8479268b8c0d4dcf5da45e2fa548e"},
+    "public_assembly_and_verify": {"status": "PASS", "revision": "1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9", "files": 245, "artifact_sha256": "5e3e3f088e83e342ae1750ac76c629f277aeb855b517f65d62d45038ed45bffe", "provenance": ".public-site/.release-provenance.json", "provenance_sha256": "d2091a98f3df4dd7a0a5912360bb7976f2d0ce08b5a3a6c063db87d98d7bc72e"},
+    "package": {"status": "PASS", "revision": "1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9", "files": 830, "package": ".release/package.zip", "package_sha256": "bc4829dea3cbc41e5560986dc962c550d614a70961fadcbb1a6ca729e2ffb781", "manifest": ".release/package/PACKAGE_MANIFEST.json", "manifest_sha256": "d9541f17cc0921245f17dfac3e3da8ccf968adf06eaabca61ea388340c2386ad", "repeat_zip_sha256": true}
+  },
+  "r3_vendor_provenance_preservation": {
+    "status": "PASS_PRESERVED",
+    "path": "vendor/trip-vector.js",
+    "sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+    "reproduced_from": ["fflate 0.8.3", "pmtiles 4.5.0", "@protomaps/basemaps 5.7.2", "esbuild 0.28.2"],
+    "rebuild_or_replacement_in_r4": false,
+    "product_source_mutation_after_stable_candidate": false
+  },
+  "hosted_github_actions": {
+    "status": "PASS",
+    "repository": "kimhw8084/sf-trip-visualizer",
+    "workflow": "Qualify Fabric candidate",
+    "run_id": 35453857397,
+    "run_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35453857397",
+    "head_sha": "1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9",
+    "job_name": "Exact-revision qualification",
+    "job_id": 105925592106,
+    "check_run_id": 105925592106,
+    "job_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35453857397/job/105925592106",
+    "conclusion": "success",
+    "steps": {
+      "dependency_installation_and_browsers": "success",
+      "exact_revision_assertion": "success",
+      "hosted_linux_full_qualification": "success",
+      "repository_unit_and_contract_checks": "success",
+      "evidence_upload": "success"
+    },
+    "annotations": ["Node.js 20 deprecation warning for pinned setup-python/upload-artifact actions", "ubuntu-latest future image migration warning"],
+    "action_pins_or_permissions_changed": false
+  },
+  "post_verification_boundary": {
+    "tracked_changes_after_stable_candidate_before_evidence": [
+      "QA/map_first/canonical_truth.json",
+      "QA/map_first/cross_browser.json",
+      "QA/map_first/full_acceptance.json",
+      "QA/map_first/smoke.json",
+      "QA/route_panel/route_explanations_panel.json"
+    ],
+    "non_evidence_mutation_after_stable_candidate": false,
+    "final_branch_policy": "Evidence-only commits may follow the stable source candidate; no product/runtime/workflow/dependency/manifest/vendor mutation is permitted.",
+    "main_mutated": false,
+    "pr5_mutated": false
+  },
+  "durable_generated_evidence_hashes": {
+    "QA/map_first/canonical_truth.json": "1622eda732e09a71ac21ddf99bd4846d5144928a4ecff443fdfdd541eceb97a9",
+    "QA/map_first/cross_browser.json": "e5262ed88d61eac6444d77c6ed98060b072640ecfb4113abf0ee9a4c8348b49a",
+    "QA/map_first/full_acceptance.json": "ccd9ae36cacdaecc637faac95d1c5f41ba31e780767653dc8091d791ae74d2b3",
+    "QA/map_first/smoke.json": "c357ed8b352e22bf1fab4bfb8c684923ea19e83a3e7e7b9f9b6e1ee0c8259044",
+    "QA/route_panel/route_explanations_panel.json": "c49baf10f994032909eb381a081d8288b6e74615780f330515aba5e48864b9d7"
+  },
+  "remaining_verify_boundaries": [
+    {"classification": "VERIFY_REQUIRED", "boundary": "Project OS independent Gate-7 audit", "reason": "This record reports repair and evidence only; it does not claim Gate 7 GO or overall production readiness."},
+    {"classification": "VERIFY_REQUIRED", "boundary": "Gate 5", "reason": "Gate 5 remains external and is not incorporated by this R4 branch."},
+    {"classification": "VERIFY_REQUIRED", "boundary": "Playwright browser archives", "reason": "The exact Python package and wheel hashes are covered, but browser archives installed by Playwright are not redistributed or hash-bound by this repository."},
+    {"classification": "VERIFY_REQUIRED", "boundary": "GitHub Pages live release", "reason": "No merge to main, Pages deployment, live release, or Gate 5 completion was performed or claimed."}
+  ]
+}

@@ -1,0 +1,363 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_7",
+  "change": "CHG-67",
+  "purpose": "Proportionate, reproducible security, privacy, dependency, and release-trust evidence for the current static local-first public client. This gate does not claim Gate 5 completion, live release, or overall production readiness.",
+  "starting_base": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+  "gate5_boundary": "Gate 5 remains external VERIFY; no Gate-5 work branch is incorporated. If a later Gate-5 integration changes client, runtime, dependency, or workflow surfaces, rerun this gate before Gate 8 certification.",
+  "authority": {
+    "canonical_pipeline": "scripts/pipeline.py",
+    "canonical_build": "scripts/build_map_first.py",
+    "canonical_data": "data/phase7_app_data.json",
+    "canonical_template": "src/map_shell_template.html",
+    "canonical_renderer": "src/app_phase7.js",
+    "security_gate": "scripts/security_privacy.py",
+    "rights_contract": "manifests/public_asset_rights.json",
+    "resilience_contract": "manifests/runtime_resilience_contract.json"
+  },
+  "candidate_binding": {
+    "required": true,
+    "strategy": "The gate records git rev-parse HEAD, verifies an optional requested revision, records SHA-256 hashes of the contract, canonical pipeline, renderer, workflows, requirements, and material vendored files, and rejects stale public/package provenance.",
+    "evidence": "QA/release/security_privacy.json",
+    "release_rule": "A public or package artifact is eligible only when its embedded qualification/provenance tested_sha equals the exact candidate head and the security evidence is regenerated for that head."
+  },
+  "runtime_data_flows": {
+    "client_model": "Static generated browser application; local-first Smart map; no account, backend, server-side session, intentional telemetry, analytics, fingerprinting, background POST, or data-upload service.",
+    "local_inputs": [
+      "Generated canonical trip data, translations, cached route geometry, local photo derivatives, local PMTiles, local glyphs/sprites, and vendored JavaScript/CSS.",
+      "User-controlled browser UI events and bounded localStorage preferences."
+    ],
+    "external_origins": [
+      {
+        "origin": "https://server.arcgisonline.com",
+        "purpose": "Optional user-selected Esri World Imagery tile and health/viewport probes.",
+        "data_sent": "Only public map tile coordinates and a bounded probe marker; no credentials or user state.",
+        "activation": "User selects Satellite; Smart map does not contact this origin.",
+        "failure": "Probe/tile failure returns to local Smart map and preserves planning state.",
+        "referrer": "Document meta referrer policy is no-referrer; image probes also set referrerPolicy=no-referrer."
+      },
+      {
+        "origin": "https://www.google.com",
+        "purpose": "User-triggered Google Maps directions link for a canonical public place.",
+        "data_sent": "Only canonical public geographic place context in the query parameter.",
+        "activation": "Explicit user click on a rendered directions link.",
+        "referrer": "The link uses noopener noreferrer and the document no-referrer policy."
+      }
+    ],
+    "same_origin_only_core": true,
+    "remote_runtime_dependencies": false
+  },
+  "persisted_state": {
+    "storage_keys": {
+      "trip_visualizer_runtime_v1": {
+        "data_classes": ["route selection", "region/date filter", "selected canonical place key", "tab/language/theme", "panel dimensions/visibility"],
+        "sensitive": false,
+        "retention": "Until the user or browser clears localStorage; never transmitted by the application."
+      },
+      "trip_lang": {"data_classes": ["language preference"], "sensitive": false},
+      "trip_theme": {"data_classes": ["theme preference"], "sensitive": false},
+      "trip_panel_width": {"data_classes": ["panel width preference"], "sensitive": false},
+      "trip_mobile_panel_height": {"data_classes": ["mobile panel height preference"], "sensitive": false}
+    },
+    "allowed_data_classes": ["non-sensitive UI preference", "non-sensitive planning preference", "canonical public place key"],
+    "forbidden_data_classes": ["credentials", "account identifiers", "private photos", "precise user location", "free-form personal notes", "telemetry identifiers"]
+  },
+  "external_url_policy": {
+    "provider_origins": ["https://server.arcgisonline.com"],
+    "navigation_origins": ["https://www.google.com"],
+    "allowed_scheme": "https",
+    "google_navigation_path": "/maps/search/",
+    "google_navigation_query": "api=1 plus a canonical public query; no credentials, fragment, or arbitrary origin",
+    "new_context_controls": ["rel=noopener", "rel=noreferrer", "referrerpolicy=no-referrer"],
+    "canonical_data_may_not_supply_provider_origin": true
+  },
+  "static_controls": {
+    "document_referrer_policy": {"status": "ACTIVE", "mechanism": "meta[name=referrer] content=no-referrer", "scope": "Standalone, modular, and public HTML; response headers remain host-controlled."},
+    "https_only_external_endpoints": true,
+    "mixed_content": "No intentional HTTP runtime endpoint; external runtime provider and navigation are HTTPS-only.",
+    "csp": {"status": "NOT_DEPLOYED", "reason": "GitHub Pages cannot set a response CSP from this repository. A compatible meta CSP would need to permit generated inline data/scripts and standalone data/blob assets; adding a nominal policy that requires unsafe-inline or breaks file delivery would not be a security improvement.", "limitation": "A host-level CSP header remains an operator/deployment control and is not claimed by this gate."},
+    "iframe_object_embed": "No maintained runtime use; scanner fails on new iframe/object/embed tags.",
+    "workers_blob_data": "No runtime worker; data/blob are used only for standalone/local PMTiles and locally embedded assets as documented.",
+    "cdn_runtime_code": false
+  },
+  "workflow_trust": {
+    "candidate": {"trigger": "push to codex/**", "checkout": "exact github.sha", "permissions": {"contents": "read"}, "deploying": false, "secret_access": false, "artifact_upload": "GitHub Actions artifact upload only"},
+    "pages": {"trigger": ["push to main", "workflow_dispatch"], "checkout": "exact github.sha", "permissions": {"contents": "read", "pages": "write", "id-token": "write"}, "qualification": "pipeline.py release --revision github.sha then verify-public --revision github.sha", "untrusted_candidate_path": "No candidate branch can invoke this workflow or receive Pages/OIDC authority."},
+    "forbidden_patterns": ["pull_request_target", "contents: write", "secrets in candidate job", "direct Pages mutation outside canonical pipeline", "workflow command injection from untrusted output"]
+  },
+  "dependency_update_policy": {
+    "reviewed_update_procedure": "Update one dependency or action at a time; obtain upstream release/advisory/license evidence; update exact version/source/hash and this contract; regenerate vendor provenance; run focused tests, pipeline fast, exact candidate qualification, and public/package verification.",
+    "runtime_vendor_policy": "Runtime JavaScript and CSS remain local and hash-bound; no CDN replacement is permitted.",
+    "python_policy": "QA dependencies and their resolved transitive closure are exact-version and hash-pinned; pip is not upgraded during release.",
+    "action_policy": "Third-party Actions use full commit SHAs with human-readable upstream version comments."
+  },
+  "dependency_inventory": [
+    {
+      "id": "maplibre-gl-js",
+      "version": "4.7.1",
+      "source": "https://github.com/maplibre/maplibre-gl-js/tree/v4.7.1",
+      "origin": "vendored upstream release artifact",
+      "role": "local browser map renderer",
+      "paths": ["vendor/maplibre-gl.js", "vendor/maplibre-gl.css"],
+      "artifact_hashes": {"vendor/maplibre-gl.js": "be9633c4d870e26fb37f1cfe5c5a77181667114003ea16207ac7850d8da8add1", "vendor/maplibre-gl.css": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9"},
+      "license_linkage": "manifests/public_asset_rights.json#maplibre-gl",
+      "license": "BSD-3-Clause",
+      "runtime_shipped": true,
+      "review_status": "PASS"
+    },
+    {
+      "id": "plotly-js",
+      "version": "3.3.1",
+      "source": "https://github.com/plotly/plotly.js/tree/v3.3.1",
+      "origin": "vendored upstream release artifact",
+      "role": "local charting dependency retained by the generated client",
+      "paths": ["vendor/plotly.min.js"],
+      "artifact_hashes": {"vendor/plotly.min.js": "e2b0f77ee8156ff9d525852fe4acb7bfe7d85e8a2e1da0523f6d16209b848968"},
+      "license_linkage": "manifests/public_asset_rights.json#plotly",
+      "license": "MIT",
+      "runtime_shipped": true,
+      "review_status": "PASS"
+    },
+    {
+      "id": "trip-vector-bundle",
+      "version": "bundle semver not embedded",
+      "source": "src/vector_entry.js; source build identity 3455a3ec339f434d840551f425ee7b68a690377f",
+      "origin": "locally bundled fflate, PMTiles, and @protomaps/basemaps modules",
+      "role": "local PMTiles protocol, archive reader, and vector style layers",
+      "paths": ["vendor/trip-vector.js"],
+      "artifact_hashes": {"vendor/trip-vector.js": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d"},
+      "embedded_components": [
+        {"id": "fflate", "version": "VERIFY_REQUIRED: semver not embedded", "source": "https://github.com/101arrowz/fflate", "license": "MIT"},
+        {"id": "pmtiles", "version": "VERIFY_REQUIRED: semver not embedded", "source": "https://github.com/protomaps/PMTiles", "license": "BSD-3-Clause"},
+        {"id": "@protomaps/basemaps", "version": "VERIFY_REQUIRED: semver not embedded", "source": "https://github.com/protomaps/basemaps", "license": "BSD-3-Clause"}
+      ],
+      "license_linkage": "manifests/public_asset_rights.json#trip-vector-bundle",
+      "runtime_shipped": true,
+      "review_status": "PASS_WITH_VERIFY_REQUIRED_VERSION_BOUNDARY"
+    },
+    {
+      "id": "local-pmtiles",
+      "version": "source build 20260912",
+      "source": "https://build.protomaps.com/20260912.pmtiles",
+      "origin": "locally shipped PMTiles archive",
+      "role": "critical Smart map data; no runtime remote replacement",
+      "paths": ["assets/vector/sf_trip.pmtiles"],
+      "artifact_hashes": {"assets/vector/sf_trip.pmtiles": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6"},
+      "license_linkage": "manifests/public_asset_rights.json#protomaps-osm-pmtiles",
+      "runtime_shipped": true,
+      "review_status": "PASS"
+    },
+    {
+      "id": "python-qa-closure",
+      "version": "exact pins in requirements-qa.txt",
+      "source": "https://pypi.org/",
+      "origin": "PyPI artifacts selected for Python 3.11 QA runner; hashes are recorded in requirements-qa.txt",
+      "role": "build/test/release qualification only",
+      "paths": ["requirements-qa.txt"],
+      "packages": ["beautifulsoup4==4.12.2", "Pillow==12.3.0", "playwright==1.62.0", "requests==2.33.0", "soupsieve==2.9.2", "greenlet==3.5.5", "pyee==13.0.1", "typing-extensions==4.16.0", "certifi==2026.7.22", "charset-normalizer==2.0.4", "idna==3.19", "urllib3==2.8.0"],
+      "artifact_coverage": {
+        "selection_basis": "Each exact package pin is authorized only for the listed PyPI wheel artifact selected by pip for the supported CPython 3.11 platform. The package version pin set and platform artifact hash set are checked independently.",
+        "authoritative_metadata": {
+          "beautifulsoup4==4.12.2": "https://pypi.org/pypi/beautifulsoup4/4.12.2/json",
+          "Pillow==12.3.0": "https://pypi.org/pypi/Pillow/12.3.0/json",
+          "playwright==1.62.0": "https://pypi.org/pypi/playwright/1.62.0/json",
+          "requests==2.33.0": "https://pypi.org/pypi/requests/2.33.0/json",
+          "soupsieve==2.9.2": "https://pypi.org/pypi/soupsieve/2.9.2/json",
+          "greenlet==3.5.5": "https://pypi.org/pypi/greenlet/3.5.5/json",
+          "pyee==13.0.1": "https://pypi.org/pypi/pyee/13.0.1/json",
+          "typing-extensions==4.16.0": "https://pypi.org/pypi/typing-extensions/4.16.0/json",
+          "certifi==2026.7.22": "https://pypi.org/pypi/certifi/2026.7.22/json",
+          "charset-normalizer==2.0.4": "https://pypi.org/pypi/charset-normalizer/2.0.4/json",
+          "idna==3.19": "https://pypi.org/pypi/idna/3.19/json",
+          "urllib3==2.8.0": "https://pypi.org/pypi/urllib3/2.8.0/json"
+        },
+        "verified_at": "2026-09-19",
+        "supported_platforms": [
+          {
+            "id": "macos-arm64-cp311",
+            "python": "3.11",
+            "implementation": "cp",
+            "abi": "cp311",
+            "platform_tags": ["macosx_11_0_arm64"],
+            "environment": "owner/developer macOS ARM CPython 3.11"
+          },
+          {
+            "id": "linux-x86_64-cp311",
+            "python": "3.11",
+            "implementation": "cp",
+            "abi": "cp311",
+            "platform_tags": ["manylinux1_x86_64", "manylinux_2_24_x86_64", "manylinux_2_28_x86_64"],
+            "environment": "GitHub-hosted Ubuntu 24.04 x86_64 CPython 3.11.16"
+          }
+        ],
+        "package_version_pins": [
+          {"name": "beautifulsoup4", "version": "4.12.2"},
+          {"name": "Pillow", "version": "12.3.0"},
+          {"name": "playwright", "version": "1.62.0"},
+          {"name": "requests", "version": "2.33.0"},
+          {"name": "soupsieve", "version": "2.9.2"},
+          {"name": "greenlet", "version": "3.5.5"},
+          {"name": "pyee", "version": "13.0.1"},
+          {"name": "typing-extensions", "version": "4.16.0"},
+          {"name": "certifi", "version": "2026.7.22"},
+          {"name": "charset-normalizer", "version": "2.0.4"},
+          {"name": "idna", "version": "3.19"},
+          {"name": "urllib3", "version": "2.8.0"}
+        ],
+        "approved_artifacts": [
+          {"package": "beautifulsoup4", "version": "4.12.2", "filename": "beautifulsoup4-4.12.2-py3-none-any.whl", "sha256": "bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "Pillow", "version": "12.3.0", "filename": "pillow-12.3.0-cp311-cp311-macosx_11_0_arm64.whl", "sha256": "37d6d0a00072fd2948eb22bce7e1475f34569d90c87c59f7a2ec59541b77f7a6", "platforms": ["macos-arm64-cp311"]},
+          {"package": "Pillow", "version": "12.3.0", "filename": "pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", "sha256": "23d27a3e0307ec2244cc51e7287b919aa68d097504ebe19df4e76a98a3eea5bd", "platforms": ["linux-x86_64-cp311"]},
+          {"package": "playwright", "version": "1.62.0", "filename": "playwright-1.62.0-py3-none-macosx_11_0_arm64.whl", "sha256": "db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034", "platforms": ["macos-arm64-cp311"]},
+          {"package": "playwright", "version": "1.62.0", "filename": "playwright-1.62.0-py3-none-manylinux1_x86_64.whl", "sha256": "ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3", "platforms": ["linux-x86_64-cp311"]},
+          {"package": "requests", "version": "2.33.0", "filename": "requests-2.33.0-py3-none-any.whl", "sha256": "3324635456fa185245e24865e810cecec7b4caf933d7eb133dcde67d48cee69b", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "soupsieve", "version": "2.9.2", "filename": "soupsieve-2.9.2-py3-none-any.whl", "sha256": "8089a26fd974ca7a1f30276d3d8492ab266ab15af581642dfe8aa162e0c1c823", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "greenlet", "version": "3.5.5", "filename": "greenlet-3.5.5-cp311-cp311-macosx_11_0_universal2.whl", "sha256": "be63afcbbccfad3dd95a1ba12ada84dab2ef32031973d80b5b92df67fa763a61", "platforms": ["macos-arm64-cp311"]},
+          {"package": "greenlet", "version": "3.5.5", "filename": "greenlet-3.5.5-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", "sha256": "74cc6df89ec5302337adc9cf096221cbed2510fd444b0e0f1586cf0470740864", "platforms": ["linux-x86_64-cp311"]},
+          {"package": "pyee", "version": "13.0.1", "filename": "pyee-13.0.1-py3-none-any.whl", "sha256": "af2f8fede4171ef667dfded53f96e2ed0d6e6bd7ee3bb46437f77e3b57689228", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "typing-extensions", "version": "4.16.0", "filename": "typing_extensions-4.16.0-py3-none-any.whl", "sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "certifi", "version": "2026.7.22", "filename": "certifi-2026.7.22-py3-none-any.whl", "sha256": "62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "charset-normalizer", "version": "2.0.4", "filename": "charset_normalizer-2.0.4-py3-none-any.whl", "sha256": "0c8911edd15d19223366a194a513099a302055a962bca2cec0f54b8b63175d8b", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "idna", "version": "3.19", "filename": "idna-3.19-py3-none-any.whl", "sha256": "815e7be7a7806d54abb586dc943addc79e8b2ee16915059658cbeff4b1b43bf4", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]},
+          {"package": "urllib3", "version": "2.8.0", "filename": "urllib3-2.8.0-py3-none-any.whl", "sha256": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3", "platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"]}
+        ]
+      },
+      "compatibility_review": {
+        "requests": "2.33.0 requires urllib3>=1.26,<3; selected urllib3==2.8.0 satisfies the exact parent constraint.",
+        "beautifulsoup4": "4.12.2 requires soupsieve>1.2; selected soupsieve==2.9.2 satisfies the exact parent constraint.",
+        "python311_artifacts": {
+          "urllib3==2.8.0": {"wheel_sha256": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3", "sdist_sha256": "63bf2ead4c879426ebf22ef2a781eeb4aa3b4ae798a0435506f8687fd5bb9b63"},
+          "soupsieve==2.9.2": {"wheel_sha256": "8089a26fd974ca7a1f30276d3d8492ab266ab15af581642dfe8aa162e0c1c823", "sdist_sha256": "4a55d8cf158a9c2e587fa4922f1bbb91d68ac829e2d6f25403a85747c71daf74"}
+        }
+      },
+      "license_linkage": "N/A; build/test-only dependencies",
+      "runtime_shipped": false,
+      "review_status": "PASS_WITH_ADVISORY_EVIDENCE"
+    },
+    {
+      "id": "playwright-browser-coupling",
+      "version": "Playwright 1.62.0 browser bundle selected by the pinned package",
+      "source": "https://playwright.dev/python/docs/release-notes",
+      "origin": "playwright install --with-deps chromium firefox webkit",
+      "role": "hosted browser qualification only",
+      "paths": ["requirements-qa.txt", ".github/workflows/candidate-qualification.yml", ".github/workflows/deploy-pages.yml"],
+      "runtime_shipped": false,
+      "immutable_boundary": "Browser archives are platform-provided by Playwright's exact package release; this repository does not redistribute them or claim an artifact hash.",
+      "review_status": "PASS_WITH_PLATFORM_BOUNDARY"
+    },
+    {
+      "id": "actions-checkout",
+      "version": "v7.0.1",
+      "source": "https://github.com/actions/checkout/releases/tag/v7.0.1",
+      "origin": "GitHub Actions marketplace",
+      "role": "exact candidate checkout",
+      "pin": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+      "runtime_shipped": false,
+      "review_status": "PASS"
+    },
+    {
+      "id": "actions-setup-python",
+      "version": "v5.6.0",
+      "source": "https://github.com/actions/setup-python/releases/tag/v5.6.0",
+      "origin": "GitHub Actions marketplace",
+      "role": "Python 3.11 qualification runtime",
+      "pin": "a26af69be951a213d495a4c3e4e4022e16d87065",
+      "runtime_shipped": false,
+      "review_status": "PASS"
+    },
+    {
+      "id": "actions-upload-artifact",
+      "version": "v4.6.2",
+      "source": "https://github.com/actions/upload-artifact/releases/tag/v4.6.2",
+      "origin": "GitHub Actions marketplace",
+      "role": "candidate evidence artifact upload",
+      "pin": "ea165f8d65b6e75b540449e92b4886f43607fa02",
+      "runtime_shipped": false,
+      "review_status": "PASS"
+    },
+    {
+      "id": "actions-upload-pages-artifact",
+      "version": "v5.0.0",
+      "source": "https://github.com/actions/upload-pages-artifact/releases/tag/v5.0.0",
+      "origin": "GitHub Actions marketplace",
+      "role": "Pages artifact upload",
+      "pin": "fc324d3547104276b827a68afc52ff2a11cc49c9",
+      "runtime_shipped": false,
+      "review_status": "PASS"
+    },
+    {
+      "id": "actions-deploy-pages",
+      "version": "v5.0.1",
+      "source": "https://github.com/actions/deploy-pages/releases/tag/v5.0.1",
+      "origin": "GitHub Actions marketplace",
+      "role": "GitHub Pages deployment",
+      "pin": "368f82528645a54fb793d4d04e342629a3f51346",
+      "runtime_shipped": false,
+      "review_status": "PASS"
+    }
+  ],
+  "advisory_review": {
+    "reviewed_at": "2026-09-19",
+    "method": "Review every exact Python QA/release closure pin against authoritative PyPI package metadata and GitHub/PyPA advisory records available on 2026-09-19. The offline validator evaluates the recorded affected ranges; it never claims a universal clean bill from an incomplete lookup.",
+    "authoritative_sources": [
+      "https://pypi.org/pypi/urllib3/2.8.0/json",
+      "https://pypi.org/pypi/soupsieve/2.9.2/json",
+      "https://api.github.com/advisories?ecosystem=pip&affects=<package>",
+      "https://github.com/pypa/advisory-database",
+      "https://github.com/urllib3/urllib3/security/advisories",
+      "https://github.com/urllib3/urllib3/releases"
+    ],
+    "reviewed": [
+      {"id": "beautifulsoup4", "ecosystem": "pip", "version": "4.12.2", "source": "https://api.github.com/advisories?ecosystem=pip&affects=beautifulsoup4", "relevant_advisories": [], "affected_range": null, "patched_range": null, "exposure": "build/test/release-only", "result": "PASS"},
+      {"id": "Pillow", "ecosystem": "pip", "version": "12.3.0", "source": "https://api.github.com/advisories?ecosystem=pip&affects=Pillow", "relevant_advisories": ["GHSA-9hw9-ch79-4vh6", "GHSA-vjc4-5qp5-m44j", "GHSA-pg7v-jwj7-p798", "GHSA-jjj6-mw9f-p565", "GHSA-6r8x-57c9-28j4"], "affected_range": "<12.3.0", "patched_range": "12.3.0", "exposure": "build/test/release-only; local photo processing", "result": "PASS"},
+      {"id": "playwright", "ecosystem": "pip", "version": "1.62.0", "source": "https://api.github.com/advisories?ecosystem=pip&affects=playwright", "relevant_advisories": [], "affected_range": null, "patched_range": null, "exposure": "hosted browser qualification only", "result": "PASS_WITH_VERIFY_REQUIRED_BROWSER_ARCHIVE_BOUNDARY"},
+      {"id": "requests", "ecosystem": "pip", "version": "2.33.0", "source": "https://api.github.com/advisories?ecosystem=pip&affects=requests", "relevant_advisories": ["GHSA-gc5v-m9x4-r6x2", "GHSA-9hjg-9r4m-mvj7", "GHSA-9wx4-h78v-vm56"], "affected_range": "<2.33.0 (including <2.32.4 and <2.32.0 subranges)", "patched_range": "2.33.0", "exposure": "build/test/release-only acquisition helpers; no extract_zipped_paths() call", "result": "PASS"},
+      {"id": "soupsieve", "ecosystem": "pip", "version": "2.9.2", "source": "https://api.github.com/advisories?ecosystem=pip&affects=soupsieve", "relevant_advisories": ["GHSA-gjv8-xp57-g29c", "GHSA-j934-xhv5-fg8f", "GHSA-836r-79rf-4m37", "GHSA-2wc2-fm75-p42x"], "affected_range": "<2.9.0 and <=2.8.3", "patched_range": "2.9.0 and 2.8.4", "exposure": "build/test/release-only HTML fixture parsing", "result": "PASS"},
+      {"id": "greenlet", "ecosystem": "pip", "version": "3.5.5", "source": "https://api.github.com/advisories?ecosystem=pip&affects=greenlet", "relevant_advisories": [], "affected_range": null, "patched_range": null, "exposure": "build/test/release-only Playwright runtime", "result": "PASS"},
+      {"id": "pyee", "ecosystem": "pip", "version": "13.0.1", "source": "https://api.github.com/advisories?ecosystem=pip&affects=pyee", "relevant_advisories": [], "affected_range": null, "patched_range": null, "exposure": "build/test/release-only Playwright runtime", "result": "PASS"},
+      {"id": "typing-extensions", "ecosystem": "pip", "version": "4.16.0", "source": "https://api.github.com/advisories?ecosystem=pip&affects=typing-extensions", "relevant_advisories": [], "affected_range": null, "patched_range": null, "exposure": "build/test/release-only transitive support", "result": "PASS"},
+      {"id": "certifi", "ecosystem": "pip", "version": "2026.7.22", "source": "https://api.github.com/advisories?ecosystem=pip&affects=certifi", "relevant_advisories": ["GHSA-248v-346w-9cwc", "GHSA-xqr8-7jwr-rhp7", "GHSA-43fp-rhv2-5gv8"], "affected_range": "<2024.7.4 (older subranges also fixed earlier)", "patched_range": "2024.7.4", "exposure": "build/test/release-only TLS trust bundle", "result": "PASS"},
+      {"id": "charset-normalizer", "ecosystem": "pip", "version": "2.0.4", "source": "https://api.github.com/advisories?ecosystem=pip&affects=charset-normalizer", "relevant_advisories": [], "affected_range": null, "patched_range": null, "exposure": "build/test/release-only Requests transitive", "result": "PASS"},
+      {"id": "idna", "ecosystem": "pip", "version": "3.19", "source": "https://api.github.com/advisories?ecosystem=pip&affects=idna", "relevant_advisories": ["GHSA-65pc-fj4g-8rjx", "GHSA-jjg7-2v4v-x38h"], "affected_range": "<3.15 (older subrange <3.7)", "patched_range": "3.15", "exposure": "build/test/release-only Requests transitive URL handling", "result": "PASS"},
+      {"id": "urllib3", "ecosystem": "pip", "version": "2.8.0", "source": "https://api.github.com/advisories?ecosystem=pip&affects=urllib3; https://github.com/urllib3/urllib3/security/advisories", "relevant_advisories": ["GHSA-2xpw-w6gg-jr37", "GHSA-gm62-xv2j-4w53", "GHSA-38jv-5279-wg99", "GHSA-qccp-gfcp-xxvc", "GHSA-mf9v-mfxr-j63j", "GHSA-8988-9cw3-xx77", "GHSA-vxq7-64xx-v4gw", "GHSA-gh4c-6fx4-qh6g"], "affected_range": "<2.8.0 aggregate; specific high-severity ranges include <2.6.0, <2.6.3, and <2.7.0", "patched_range": "2.8.0", "exposure": "build/test/release-only Requests transitive HTTP client", "result": "PASS"},
+      {"id": "maplibre-gl-js", "ecosystem": "npm", "version": "4.7.1", "source": "https://github.com/maplibre/maplibre-gl-js/tree/v4.7.1", "relevant_advisories": [], "affected_range": null, "patched_range": null, "exposure": "runtime-shipped local vendored renderer", "result": "PASS"},
+      {"id": "plotly-js", "ecosystem": "npm", "version": "3.3.1", "source": "https://github.com/plotly/plotly.js/tree/v3.3.1", "relevant_advisories": [], "affected_range": null, "patched_range": null, "exposure": "runtime-shipped local vendored charting", "result": "PASS"}
+    ],
+    "constraints": [
+      {"id": "urllib3-GHSA-2xpw-w6gg-jr37", "package": "urllib3", "severity": "high", "min_inclusive": "1.0", "max_exclusive": "2.6.0", "affected_range": ">=1.0,<2.6.0", "patched_versions": [">=2.6.0"], "source": "https://github.com/urllib3/urllib3/security/advisories/GHSA-2xpw-w6gg-jr37"},
+      {"id": "urllib3-GHSA-gm62-xv2j-4w53", "package": "urllib3", "severity": "high", "min_inclusive": "1.24", "max_exclusive": "2.6.0", "affected_range": ">=1.24,<2.6.0", "patched_versions": [">=2.6.0"], "source": "https://github.com/urllib3/urllib3/security/advisories/GHSA-gm62-xv2j-4w53"},
+      {"id": "urllib3-GHSA-38jv-5279-wg99", "package": "urllib3", "severity": "high", "min_inclusive": "1.22", "max_exclusive": "2.6.3", "affected_range": ">=1.22,<2.6.3", "patched_versions": [">=2.6.3"], "source": "https://github.com/urllib3/urllib3/security/advisories/GHSA-38jv-5279-wg99"},
+      {"id": "urllib3-GHSA-qccp-gfcp-xxvc", "package": "urllib3", "severity": "high", "min_inclusive": "1.23", "max_exclusive": "2.7.0", "affected_range": ">=1.23,<2.7.0", "patched_versions": [">=2.7.0"], "source": "https://github.com/advisories/GHSA-qccp-gfcp-xxvc"},
+      {"id": "urllib3-GHSA-mf9v-mfxr-j63j", "package": "urllib3", "severity": "high", "min_inclusive": "2.6.0", "max_exclusive": "2.7.0", "affected_range": ">=2.6.0,<2.7.0", "patched_versions": [">=2.7.0"], "source": "https://github.com/advisories/GHSA-mf9v-mfxr-j63j"},
+      {"id": "urllib3-GHSA-8988-9cw3-xx77", "package": "urllib3", "severity": "high", "min_inclusive": "1.26.0", "max_exclusive": "2.8.0", "affected_range": ">=1.26.0,<2.8.0", "patched_versions": [">=2.8.0"], "source": "https://github.com/urllib3/urllib3/security/advisories/GHSA-8988-9cw3-xx77"},
+      {"id": "urllib3-GHSA-vxq7-64xx-v4gw", "package": "urllib3", "severity": "high", "min_inclusive": "1.10.3", "max_exclusive": "2.8.0", "affected_range": ">=1.10.3,<2.8.0", "patched_versions": [">=2.8.0"], "source": "https://github.com/urllib3/urllib3/security/advisories/GHSA-vxq7-64xx-v4gw"},
+      {"id": "urllib3-GHSA-gh4c-6fx4-qh6g", "package": "urllib3", "severity": "moderate", "min_inclusive": "2.6.2", "max_exclusive": "2.8.0", "affected_range": ">=2.6.2,<2.8.0", "patched_versions": [">=2.8.0"], "source": "https://github.com/urllib3/urllib3/security/advisories/GHSA-gh4c-6fx4-qh6g"},
+      {"id": "soupsieve-GHSA-gjv8-xp57-g29c", "package": "soupsieve", "severity": "medium", "max_exclusive": "2.9.0", "affected_range": "<2.9.0", "patched_versions": [">=2.9.0"], "source": "https://github.com/advisories/GHSA-gjv8-xp57-g29c"},
+      {"id": "soupsieve-GHSA-j934-xhv5-fg8f", "package": "soupsieve", "severity": "medium", "max_exclusive": "2.9.0", "affected_range": "<2.9.0", "patched_versions": [">=2.9.0"], "source": "https://github.com/advisories/GHSA-j934-xhv5-fg8f"},
+      {"id": "soupsieve-GHSA-836r-79rf-4m37", "package": "soupsieve", "severity": "high", "max_exclusive": "2.8.4", "affected_range": "<=2.8.3", "patched_versions": [">=2.8.4"], "source": "https://github.com/advisories/GHSA-836r-79rf-4m37"},
+      {"id": "soupsieve-GHSA-2wc2-fm75-p42x", "package": "soupsieve", "severity": "high", "max_exclusive": "2.8.4", "affected_range": "<=2.8.3", "patched_versions": [">=2.8.4"], "source": "https://github.com/advisories/GHSA-2wc2-fm75-p42x"},
+      {"id": "requests-GHSA-gc5v-m9x4-r6x2", "package": "requests", "severity": "medium", "max_exclusive": "2.33.0", "affected_range": "<2.33.0", "patched_versions": [">=2.33.0"], "source": "https://github.com/advisories/GHSA-gc5v-m9x4-r6x2"},
+      {"id": "Pillow-current-security-floor", "package": "Pillow", "severity": "high", "max_exclusive": "12.3.0", "affected_range": "<12.3.0 for the current release advisories reviewed", "patched_versions": [">=12.3.0"], "source": "https://api.github.com/advisories?ecosystem=pip&affects=Pillow"},
+      {"id": "certifi-current-security-floor", "package": "certifi", "severity": "high", "max_exclusive": "2024.7.4", "affected_range": "<2024.7.4 for the current advisory floor", "patched_versions": [">=2024.7.4"], "source": "https://api.github.com/advisories?ecosystem=pip&affects=certifi"},
+      {"id": "idna-GHSA-65pc-fj4g-8rjx", "package": "idna", "severity": "medium", "max_exclusive": "3.15", "affected_range": "<3.15", "patched_versions": [">=3.15"], "source": "https://github.com/advisories/GHSA-65pc-fj4g-8rjx"}
+    ],
+    "verify_required": [
+      "Authoritative advisory coverage for the exact embedded fflate/PMTiles/@protomaps/basemaps versions is VERIFY_REQUIRED because the bundle does not embed semver and no lockfile is present.",
+      "Playwright browser archives are platform-provided by the exact package release; browser archive provenance is VERIFY_REQUIRED beyond the package pin."
+    ]
+  },
+  "gate_checks": {
+    "secret_scan": "Tracked production inputs and exact generated build/public/package artifacts; findings are path/classification only and values are redacted.",
+    "injection": "Runtime shared escaping, local-photo path validation, provider URL validation, and Google Maps origin/path validation; adversarial browser fixture required.",
+    "vendor_drift": "Every shipped vendor file in the inventory is SHA-256 checked before evidence can pass.",
+    "public_exposure": "Generated public/package trees reject private paths, credential patterns, environment dumps, browser profiles, scratch data, and unapproved runtime origins.",
+    "rights_and_resilience": "Gate 6 public-asset rights and Gate 4 local-first/provider recovery remain canonical prerequisites."
+  },
+  "limitations": [
+    "GitHub Pages response headers are host-controlled; this repository can enforce a document referrer meta policy but cannot claim an HTTP CSP header.",
+    "Optional Esri Satellite remains externally dependent and may be VERIFY_REQUIRED when the provider cannot be reached; Smart-map qualification is network-independent.",
+    "Gate 5 remains external VERIFY and is not certified by this contract.",
+    "The contract records exact bundle hashes for the embedded trip-vector components, but their individual semvers require a later provenance refresh from the original JS dependency lock/source build."
+  ]
+}
