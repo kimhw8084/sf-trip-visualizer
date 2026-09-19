@@ -1,0 +1,566 @@
+{
+  "accepted_at": "2026-09-19T03:43:49Z",
+  "changed_files": [
+    {
+      "additions": 7,
+      "deletions": 5,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "M"
+    },
+    {
+      "additions": 9,
+      "deletions": 6,
+      "path": ".github/workflows/deploy-pages.yml",
+      "status": "M"
+    },
+    {
+      "additions": 30,
+      "deletions": 30,
+      "path": "QA/map_first/canonical_truth.json",
+      "status": "M"
+    },
+    {
+      "additions": 36,
+      "deletions": 14,
+      "path": "QA/map_first/cross_browser.json",
+      "status": "M"
+    },
+    {
+      "additions": 62,
+      "deletions": 46,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "QA/map_first/smoke.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "QA/photo_integrity.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "QA/route_panel/route_explanations_panel.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 2,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "manifests/public_asset_rights.json",
+      "status": "M"
+    },
+    {
+      "additions": 250,
+      "deletions": 0,
+      "path": "manifests/security_privacy_contract.json",
+      "status": "A"
+    },
+    {
+      "additions": 28,
+      "deletions": 4,
+      "path": "requirements-qa.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 22,
+      "deletions": 2,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 11,
+      "deletions": 3,
+      "path": "scripts/public_asset_rights.py",
+      "status": "M"
+    },
+    {
+      "additions": 471,
+      "deletions": 0,
+      "path": "scripts/security_privacy.py",
+      "status": "A"
+    },
+    {
+      "additions": 54,
+      "deletions": 28,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "src/map_shell_template.html",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 2,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 1,
+      "path": "tests/test_public_asset_rights.py",
+      "status": "M"
+    },
+    {
+      "additions": 155,
+      "deletions": 0,
+      "path": "tests/test_security_privacy.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_security_privacy -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -o pid=,etime=,stat=,command= | rtk rg 'pipeline.py qualify|qa_gate4_resilience|playwright|serve_map' | head -40\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -ef | head -30'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -ef | rtk rg 'pipeline.py package|package_map_first|security_privacy.py' | head -20\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk pgrep -af python3 | tail -20'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -p 46702,46703,99353,96737 -o pid=,etime=,stat=,command='",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -l .release | head -20 && rtk ls -l .release/package | head -20 && rtk du -sh .release .public-site .build'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -e -o pid=,etime=,stat=,command= | tail -35'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -e -o pid=,etime=,stat=,command= | rtk rg 'worktrees/CF-03|package_map_first|pipeline.py' || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py package --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk stat -f '%Sm %z %N' .release/package.zip .release/package/PACKAGE_MANIFEST.json QA/release/security_privacy.json && rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('QA/release/security_privacy.json')\nprint(json.loads(p.read_text()).get('artifact_binding'))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nx=json.load(open('QA/release/security_privacy.json'))\nprint(json.dumps(x['secret_scan']['generated_artifacts'],indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'public_asset_rights.*tree|\\\"tree\\\"|candidate-public-tree' tests scripts QA | head -100 && rtk rg -n 'tree' scripts/public_asset_rights.py | head -30\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,240p' scripts/package_map_first.py && rtk sed -n '240,340p' scripts/public_asset_rights.py && rtk sed -n '1,160p' scripts/prepare_public_site.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,240p' tests/test_public_asset_rights.py && rtk sed -n '160,215p' scripts/public_asset_rights.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nx=json.load(open('manifests/canonical_pipeline.json'))\nprint('public_asset_rights.py' in x['authored_inputs'])\nprint([p for p in x['authored_inputs'] if 'rights' in p or 'security' in p])\nPY\nrtk python3 -m unittest tests.test_public_asset_rights tests.test_security_privacy -q\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk pgrep -af 'unittest tests.test_public_asset_rights tests.test_security_privacy' || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ps -p 54267,54268 -o pid=,etime=,stat=,command='",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_public_asset_rights -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_public_asset_rights tests.test_security_privacy -q'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nx=json.load(open('QA/release/security_privacy.json'))\nprint(json.dumps(x['secret_scan']['generated_artifacts'],indent=2))\nPY\nrtk python3 - <<'PY'\nimport json\nprint(json.load(open('QA/release/public_asset_rights.json')).get('tree'))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rm -rf .release/package .release/package.zip && rtk python3 scripts/pipeline.py verify-public --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py package --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --stat && rtk git diff -- .github/workflows/candidate-qualification.yml .github/workflows/deploy-pages.yml manifests/canonical_pipeline.json requirements-qa.txt scripts/pipeline.py scripts/public_asset_rights.py src/map_shell_template.html scripts/build_map_first.py tests/test_canonical_pipeline.py | head -260'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nx=json.load(open('manifests/canonical_pipeline.json'))\nprint('\\\\n'.join(x['authored_inputs']))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files assets/photos | head -20 && rtk rg --files assets | rtk rg 'original|scratch|private|profile|token|secret|credential|\\\\.env' | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/security_privacy.py --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk shasum -a 256 src/app_phase7.js && rtk node --check src/app_phase7.js'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_security_privacy tests.test_public_asset_rights -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/security_privacy.py --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rm -rf .public-site .release/package .release/package.zip && rtk python3 scripts/pipeline.py fast --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py package --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short && rtk git diff --stat && rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor name in ['QA/release/fast.json','QA/release/qualification.json','QA/release/security_privacy.json']:\n    p=Path(name)\n    x=json.loads(p.read_text())\n    print(name, x.get('status'), x.get('candidate_head'), x.get('exact_candidate_bound'))\nprint('public', json.loads(Path('QA/release/public_asset_rights.json').read_text()).get('tree'))\nprint('package', Path('.release/package.zip').stat().st_size, json.loads(Path('QA/release/security_privacy.json').read_text())['artifact_binding']['status'])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"QA/release|\\\\.build|\\\\.public-site|\\\\.release\\\" .gitignore .git/info/exclude 2>/dev/null || true && rtk git check-ignore -v QA/release/security_privacy.json QA/release/fast.json QA/release/qualification.json .release/package.zip .public-site/index.html || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff -- src/app_phase7.js | sed -n '1,260p' && rtk git diff -- manifests/public_asset_rights.json | head -80 && rtk git diff -- scripts/security_privacy.py | head -20\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rm -rf .release/package .release/package.zip && rtk python3 scripts/pipeline.py fast --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py package --revision bb1b58619629448d99cd6a20b27e882492d1d0d7'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short && rtk ls -lh .release/package.zip QA/release/security_privacy.json QA/release/fast.json QA/release/qualification.json 2>&1 && rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor name in ['security_privacy.json','fast.json','qualification.json','public_asset_rights.json','public_asset_rights_package.json']:\n    p=Path('QA/release')/name\n    if p.exists():\n        d=json.loads(p.read_text())\n        print(name, d.get('status'), d.get('candidate',{}).get('revision') or d.get('revision'), d.get('artifact',{}).get('sha256') or d.get('artifact_sha256'))\nPY\nrtk git diff --check\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files QA/release | sort && rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor name in ['security_privacy.json','fast.json','qualification.json','public_asset_rights.json']:\n p=Path('QA/release')/name\n d=json.loads(p.read_text())\n print('\\\\n'+name)\n for k in ['revision','candidate_revision','status','artifact_sha256','package_sha256','source_hashes','artifact']:\n  if k in d: print(k, d[k] if k not in {'source_hashes'} else {**d[k]})\n print('top keys', list(d))\nPY\nrtk sha256sum .release/package.zip\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor name in ['security_privacy.json','public_asset_rights_package.json','qualification.json','fast.json']:\n d=json.loads((Path('QA/release')/name).read_text())\n print('\\\\n===',name,'===')\n if name=='security_privacy.json':\n  for k in ['candidate_head','requested_revision','exact_candidate_bound','verify_required']:\n   print(k, d.get(k))\n  print('secret_scan',d['secret_scan'])\n  print('artifact_binding',d['artifact_binding'])\n  print('requirements',d['requirements'])\n elif name=='public_asset_rights_package.json':\n  print(d)\n else:\n  print('candidate_head',d.get('candidate_head'),'status',d.get('status'))\n  print('build',d.get('build'))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m py_compile scripts/security_privacy.py scripts/pipeline.py scripts/public_asset_rights.py scripts/build_map_first.py && rtk node --check src/app_phase7.js && rtk git diff --check && rtk git diff --stat && rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 514,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 98.78,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 59403008,
+      "fresh_input_tokens": 732889,
+      "input_tokens": 60135897,
+      "non_reasoning_output_tokens": 67226,
+      "output_tokens": 105902,
+      "reasoning_output_tokens": 38676,
+      "total_processed_tokens": 60241799
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "250dd19e562da7cdc936921a214dba625061bdbb",
+      "subject": "fabric: capture completed model changes [CF-03dbb13801b2d416edca2798]"
+    }
+  ],
+  "diff": {
+    "additions": 1157,
+    "changed_files": 21,
+    "commit_count": 1,
+    "deletions": 153
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 10,
+    "items": [
+      {
+        "bytes": 201732,
+        "path": "QA/map_first/canonical_truth.json",
+        "sha256": "ff3dde552e6e6d108d0f3c5e503b29e6d65f2036f1373d143d5656285a9e66e0"
+      },
+      {
+        "bytes": 3763,
+        "path": "QA/map_first/cross_browser.json",
+        "sha256": "3c6df44f5f122e8d280f0d82690059c92f888967c911df4f797c0a678576dab0"
+      },
+      {
+        "bytes": 13465,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "6ac14a3fe2340b8376230fb35f234ddb923d563bac508168132c7f062724b28d"
+      },
+      {
+        "bytes": 1158,
+        "path": "QA/map_first/smoke.json",
+        "sha256": "3c87d9613aaf782fdf5de4ab8caed5e92f4f90776bb11d0b1ebb3fa9e78893be"
+      },
+      {
+        "bytes": 424,
+        "path": "QA/photo_integrity.json",
+        "sha256": "cfaf317b278606352c06b41084c5d8a51474c8b6b7abced4ab2b24a01d5d01f9"
+      },
+      {
+        "bytes": 7219,
+        "path": "QA/route_panel/route_explanations_panel.json",
+        "sha256": "d8fb9a959498574d3cc8f15028cdeab28d7a0cb338482186b21d9143bf2735de"
+      },
+      {
+        "bytes": 4905,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "c8b1bb8abefa80fb81ef21204dc877b5683c51fe4db4b4ffebead74923a6f517"
+      },
+      {
+        "bytes": 549501,
+        "path": "manifests/public_asset_rights.json",
+        "sha256": "35d2e1e7de45d6a3242bc56c2730b0dc63ca01810a92dab2d024785105494830"
+      },
+      {
+        "bytes": 16721,
+        "path": "manifests/security_privacy_contract.json",
+        "sha256": "a14658b5c9336bbb48d198d36a3913d37d854fff31a69f1f8b5e991dd616abea"
+      },
+      {
+        "bytes": 4039,
+        "path": "src/map_shell_template.html",
+        "sha256": "8d9a4a7ba41d3ce00dc05cb5b9a4b4a9751d6e4b899a0869a04f1e74bd088120"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": true,
+    "commit_message": "fabric: capture completed model changes [CF-03dbb13801b2d416edca2798]",
+    "commit_sha": "250dd19e562da7cdc936921a214dba625061bdbb",
+    "paths_before": 21,
+    "status_before": [
+      " M .github/workflows/candidate-qualification.yml",
+      " M .github/workflows/deploy-pages.yml",
+      " M QA/map_first/canonical_truth.json",
+      " M QA/map_first/cross_browser.json",
+      " M QA/map_first/full_acceptance.json",
+      " M QA/map_first/smoke.json",
+      " M QA/photo_integrity.json",
+      " M QA/route_panel/route_explanations_panel.json",
+      " M manifests/canonical_pipeline.json",
+      " M manifests/public_asset_rights.json",
+      " M requirements-qa.txt",
+      " M scripts/build_map_first.py",
+      " M scripts/pipeline.py",
+      " M scripts/public_asset_rights.py",
+      " M src/app_phase7.js",
+      " M src/map_shell_template.html",
+      " M tests/test_canonical_pipeline.py",
+      " M tests/test_public_asset_rights.py",
+      "?? manifests/security_privacy_contract.json",
+      "?? scripts/security_privacy.py",
+      "?? tests/test_security_privacy.py"
+    ],
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-19T04:56:54Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+    "branch": "codex/sf-trip-visualizer-security-privacy-dependency-g7-r1",
+    "detached_verify": false,
+    "head_sha": "250dd19e562da7cdc936921a214dba625061bdbb",
+    "remote_exact_head": true,
+    "remote_head_sha": "250dd19e562da7cdc936921a214dba625061bdbb",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+    "work_branch": "codex/sf-trip-visualizer-security-privacy-dependency-g7-r1",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-03dbb13801b2d416edca2798",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/security-privacy-dependency-g7-r1",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/security-privacy-dependency-g7-r1"
+  },
+  "operation": "BUILD",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "security-privacy-dependency-g7-r1",
+  "schema_version": 1,
+  "started_at": "2026-09-19T03:43:50Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 4384,
+    "queue_seconds": 1,
+    "total_seconds": 4385
+  },
+  "transport": {
+    "bytes": 14445,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 14093,
+    "prompt_sha256": "9d3a68bfc27fcb4bc4fc28b8749e59ebafe1a700903d99f208bf952cc4df3577",
+    "sha256": "03dbb13801b2d416edca2798d3871573efb7a9ecc064b0f0983ac75723b74d61"
+  }
+}
