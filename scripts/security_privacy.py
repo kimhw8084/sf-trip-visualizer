@@ -203,9 +203,64 @@ def check_vendor_inventory(root: Path = ROOT, contract: dict | None = None) -> d
     return {"status": "PASS" if not failures else "FAIL", "files": results, "failures": failures}
 
 
+def _requirement_match(line: str) -> re.Match[str] | None:
+    return re.match(r"\s*([A-Za-z0-9_.-]+)==([^\s\\]+)", line)
+
+
 def _requirement_name(line: str) -> str | None:
-    match = re.match(r"\s*([A-Za-z0-9_.-]+)==([^\s\\]+)", line)
+    match = _requirement_match(line)
     return match.group(1).lower().replace("-", "_") if match else None
+
+
+def _version_tuple(value: str) -> tuple[int, ...]:
+    """Parse the numeric release segment used by the contract constraints."""
+    if not re.fullmatch(r"\d+(?:\.\d+)*", value):
+        raise ValueError(f"unsupported advisory version: {value}")
+    parts = [int(part) for part in value.split(".")]
+    while len(parts) > 1 and parts[-1] == 0:
+        parts.pop()
+    return tuple(parts)
+
+
+def check_advisories(packages: dict[str, dict], contract: dict) -> dict:
+    """Evaluate offline, data-driven advisory ranges against exact pins."""
+    review = contract.get("advisory_review", {})
+    constraints = review.get("constraints", [])
+    results: list[dict] = []
+    failures: list[str] = []
+    for constraint in constraints:
+        package = constraint.get("package", "").lower().replace("-", "_")
+        record = packages.get(package)
+        if not package or record is None:
+            failures.append(f"advisory constraint package is not in the exact closure: {constraint.get('package', '<missing>')}")
+            continue
+        version = record["version"]
+        try:
+            candidate = _version_tuple(version)
+            minimum = _version_tuple(constraint["min_inclusive"]) if constraint.get("min_inclusive") else None
+            maximum = _version_tuple(constraint["max_exclusive"]) if constraint.get("max_exclusive") else None
+        except (KeyError, ValueError) as error:
+            failures.append(f"{constraint.get('id', '<unknown>')}: malformed advisory constraint ({error})")
+            continue
+        affected = (minimum is None or candidate >= minimum) and (maximum is None or candidate < maximum)
+        status = "FIX_REQUIRED" if affected else "PASS"
+        result = {
+            "id": constraint.get("id"),
+            "package": package,
+            "version": version,
+            "severity": constraint.get("severity"),
+            "affected_range": constraint.get("affected_range"),
+            "patched_versions": constraint.get("patched_versions", []),
+            "source": constraint.get("source"),
+            "status": status,
+        }
+        results.append(result)
+        if affected:
+            failures.append(
+                f"{package}=={version} is inside known affected range for {constraint.get('id', '<unknown>')}; "
+                f"upgrade to one of {constraint.get('patched_versions', ['a patched release'])}"
+            )
+    return {"status": "PASS" if not failures else "FAIL", "constraints": results, "failures": failures}
 
 
 def check_requirements(root: Path = ROOT, contract: dict | None = None) -> dict:
@@ -220,8 +275,13 @@ def check_requirements(root: Path = ROOT, contract: dict | None = None) -> dict:
             continue
         name = _requirement_name(line)
         if name:
+            match = _requirement_match(line)
+            assert match is not None
+            version = match.group(2)
             current = name
-            packages.setdefault(name, {"line": number, "hashes": []})
+            if name in packages and packages[name]["version"] != version:
+                failures.append(f"line {number}: duplicate package has conflicting exact versions")
+            packages.setdefault(name, {"line": number, "version": version, "hashes": []})
             if "\\" not in line:
                 failures.append(f"line {number}: exact requirement lacks hash continuation")
             continue
@@ -241,7 +301,14 @@ def check_requirements(root: Path = ROOT, contract: dict | None = None) -> dict:
     for name, record in packages.items():
         if not record["hashes"]:
             failures.append(f"{name}: no artifact hash")
-    return {"status": "PASS" if not failures else "FAIL", "packages": packages, "failures": failures}
+    advisory_review = check_advisories(packages, expected)
+    failures.extend(advisory_review["failures"])
+    return {
+        "status": "PASS" if not failures else "FAIL",
+        "packages": packages,
+        "advisory_review": advisory_review,
+        "failures": failures,
+    }
 
 
 def check_workflows(root: Path = ROOT, contract: dict | None = None) -> dict:

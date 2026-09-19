@@ -61,6 +61,21 @@ class SecurityPrivacyContractTests(unittest.TestCase):
         self.assertEqual(failed["status"], "FAIL")
         self.assertTrue(any("lacks hash" in failure or "no artifact hash" in failure for failure in failed["failures"]))
 
+    def test_advisory_validation_rejects_known_affected_transitive_pin(self):
+        requirements = (ROOT / "requirements-qa.txt").read_text()
+        old_state = requirements.replace("urllib3==2.8.0 \\", "urllib3==2.0.7 \\").replace(
+            "sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+            "sha256:fdb6d215c776278489906c2f8916e6e7d4f5a9b602ccbcfdf7f016fc8da0596e",
+        )
+        with tempfile.TemporaryDirectory(prefix="g7-advisory-fixture-") as directory:
+            root = Path(directory)
+            (root / "requirements-qa.txt").write_text(old_state)
+            failed = security_privacy.check_requirements(root, self.contract)
+        self.assertEqual(failed["status"], "FAIL")
+        self.assertEqual(failed["advisory_review"]["status"], "FAIL")
+        self.assertTrue(any("urllib3==2.0.7" in failure and "GHSA-2xpw-w6gg-jr37" in failure for failure in failed["failures"]))
+        self.assertTrue(any(row["status"] == "FIX_REQUIRED" for row in failed["advisory_review"]["constraints"]))
+
     def test_workflows_are_sha_pinned_and_least_privilege(self):
         report = security_privacy.check_workflows(ROOT, self.contract)
         self.assertEqual(report["status"], "PASS", report["failures"])
