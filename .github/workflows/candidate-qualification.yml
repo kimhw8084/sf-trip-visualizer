@@ -52,9 +52,21 @@ jobs:
           set -o pipefail
           python3 -m unittest discover -s tests -p 'test_*.py' 2>&1 | tee QA/release/unit-tests.log
 
+      - name: Check out a clean exact revision for the Pages release-path exercise
+        if: success()
+        # actions/checkout v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          path: release-path-checkout
+          fetch-depth: 0
+          lfs: true
+
       - name: Exercise the exact Pages release path without deployment
         if: success()
+        working-directory: release-path-checkout
         run: |
+          mkdir -p QA/release
           set -o pipefail
           python3 scripts/hosted_linux_pipeline.py release --revision "$GITHUB_SHA" 2>&1 | tee QA/release/pages-release.log
           python3 scripts/pipeline.py verify-public --revision "$GITHUB_SHA" 2>&1 | tee QA/release/pages-verify-public.log
@@ -74,3 +86,8 @@ jobs:
             QA/photo_integrity.json
             QA/route_panel/**/*.json
             .public-site/.release-provenance.json
+            release-path-checkout/QA/release/*.json
+            release-path-checkout/QA/release/*.log
+            release-path-checkout/QA/map_first/**/*.json
+            release-path-checkout/QA/map_first/screenshots/**
+            release-path-checkout/.public-site/.release-provenance.json
