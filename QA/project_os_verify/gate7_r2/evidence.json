@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_7",
+  "change": "CHG-67",
+  "evidence_scope": "Durable Gate-7 R2 verification evidence. This record does not claim Gate 7 GO, integration, Gate 5 completion, live release, or overall production readiness.",
+  "recorded_at": "2026-09-19T00:00:00-05:00",
+  "source_candidate": {
+    "sha": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3",
+    "tree_sha": "21cb22d44960eb14b326d8e671c6db5bc552ea25",
+    "parent_sha": "9f5964fbfc434cea7221d3bdb70061bb13affa7e",
+    "transport_base_sha": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+    "r1_candidate_sha": "250dd19e562da7cdc936921a214dba625061bdbb",
+    "r1_parent_sha": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+    "r1_fabric_job": "CF-03dbb13801b2d416edca2798",
+    "r1_request": "security-privacy-dependency-g7-r1",
+    "stable_before_decisive_verification": true,
+    "worktree_clean_before_decisive_verification": true
+  },
+  "changed_source_list_from_transport_base": [
+    ".github/workflows/candidate-qualification.yml",
+    ".github/workflows/deploy-pages.yml",
+    "QA/map_first/canonical_truth.json",
+    "QA/map_first/cross_browser.json",
+    "QA/map_first/full_acceptance.json",
+    "QA/map_first/smoke.json",
+    "QA/photo_integrity.json",
+    "QA/route_panel/route_explanations_panel.json",
+    "manifests/canonical_pipeline.json",
+    "manifests/public_asset_rights.json",
+    "manifests/security_privacy_contract.json",
+    "requirements-qa.txt",
+    "scripts/build_map_first.py",
+    "scripts/pipeline.py",
+    "scripts/public_asset_rights.py",
+    "scripts/security_privacy.py",
+    "src/app_phase7.js",
+    "src/map_shell_template.html",
+    "tests/test_canonical_pipeline.py",
+    "tests/test_public_asset_rights.py",
+    "tests/test_security_privacy.py"
+  ],
+  "candidate_source_hashes": {
+    ".github/workflows/candidate-qualification.yml": "8d4faaed39c94ce8173b0164aea5c38183ca2c970a59ed16010eecf8371088dd",
+    ".github/workflows/deploy-pages.yml": "064d940fce758359365b42b654078839b928bd2e276d5962ebfe4ba6a5e27b72",
+    "manifests/canonical_pipeline.json": "c8b1bb8abefa80fb81ef21204dc877b5683c51fe4db4b4ffebead74923a6f517",
+    "manifests/security_privacy_contract.json": "85602991e34814bdfc6ce20ca0d788b9a46566d59a533774e12f8992e7f58e09",
+    "requirements-qa.txt": "e5e53dc0f19433b3f715a16eb9f10b30c9fcb7147ad162884f6d1497aecfdc70",
+    "scripts/build_map_first.py": "22b9299cdbc040691528c9cad5f659ccac2e01be1f8dd3764b52fc09bfb4b8f0",
+    "scripts/package_map_first.py": "50049199e482df2c025eb3fef7f919189671590743f7e9262c18573e28dafb3b",
+    "scripts/pipeline.py": "15255f37fab56969be3018daf77acd7bd38deb6d8288764eeb551b31b27ae5a6",
+    "scripts/prepare_public_site.py": "b0fe664e6b34cac3776f9fbd1bcf242e0c1e0b4c3bdbdb0450465564426f5872",
+    "scripts/public_asset_rights.py": "96d1cbfee34c260f2a84223afc1f30e047ae59bad8fe4cf9462413a8e1f2af94",
+    "scripts/security_privacy.py": "80384047133f703133a2fe5fa5b2b30ebeee464d3bc7eace50bdee8edd4ec014",
+    "src/app_phase7.js": "e32806d924694574eb47f9ed30cbc51b69d1fe2b00273a790d9079ec011712c4",
+    "src/map_shell_template.html": "8d9a4a7ba41d3ce00dc05cb5b9a4b4a9751d6e4b899a0869a04f1e74bd088120",
+    "vendor/maplibre-gl.css": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9",
+    "vendor/maplibre-gl.js": "be9633c4d870e26fb37f1cfe5c5a77181667114003ea16207ac7850d8da8add1",
+    "vendor/plotly.min.js": "e2b0f77ee8156ff9d525852fe4acb7bfe7d85e8a2e1da0523f6d16209b848968",
+    "vendor/trip-vector.js": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d"
+  },
+  "dependency_inventory": {
+    "requirements_path": "requirements-qa.txt",
+    "requirements_sha256": "e5e53dc0f19433b3f715a16eb9f10b30c9fcb7147ad162884f6d1497aecfdc70",
+    "python311_hash_pinned_closure": [
+      {"name": "beautifulsoup4", "version": "4.12.2", "hashes": ["bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a"], "exposure": "build/test/release-only", "result": "PASS"},
+      {"name": "Pillow", "version": "12.3.0", "hashes": ["23d27a3e0307ec2244cc51e7287b919aa68d097504ebe19df4e76a98a3eea5bd", "37d6d0a00072fd2948eb22bce7e1475f34569d90c87c59f7a2ec59541b77f7a6"], "exposure": "build/test/release-only; local photo processing", "result": "PASS"},
+      {"name": "playwright", "version": "1.62.0", "hashes": ["db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034"], "exposure": "hosted browser qualification only", "result": "PASS_WITH_VERIFY_REQUIRED_BROWSER_ARCHIVE_BOUNDARY"},
+      {"name": "requests", "version": "2.33.0", "hashes": ["3324635456fa185245e24865e810cecec7b4caf933d7eb133dcde67d48cee69b"], "exposure": "build/test/release-only acquisition helpers", "result": "PASS"},
+      {"name": "soupsieve", "version": "2.9.2", "hashes": ["8089a26fd974ca7a1f30276d3d8492ab266ab15af581642dfe8aa162e0c1c823"], "exposure": "build/test/release-only HTML fixture parsing", "result": "PASS"},
+      {"name": "greenlet", "version": "3.5.5", "hashes": ["be63afcbbccfad3dd95a1ba12ada84dab2ef32031973d80b5b92df67fa763a61", "74cc6df89ec5302337adc9cf096221cbed2510fd444b0e0f1586cf0470740864"], "exposure": "build/test/release-only Playwright runtime", "result": "PASS"},
+      {"name": "pyee", "version": "13.0.1", "hashes": ["af2f8fede4171ef667dfded53f96e2ed0d6e6bd7ee3bb46437f77e3b57689228"], "exposure": "build/test/release-only Playwright runtime", "result": "PASS"},
+      {"name": "typing-extensions", "version": "4.16.0", "hashes": ["481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"], "exposure": "build/test/release-only transitive support", "result": "PASS"},
+      {"name": "certifi", "version": "2026.7.22", "hashes": ["62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775"], "exposure": "build/test/release-only TLS trust bundle", "result": "PASS"},
+      {"name": "charset-normalizer", "version": "2.0.4", "hashes": ["0c8911edd15d19223366a194a513099a302055a962bca2cec0f54b8b63175d8b"], "exposure": "build/test/release-only Requests transitive", "result": "PASS"},
+      {"name": "idna", "version": "3.19", "hashes": ["815e7be7a7806d54abb586dc943addc79e8b2ee16915059658cbeff4b1b43bf4"], "exposure": "build/test/release-only Requests transitive URL handling", "result": "PASS"},
+      {"name": "urllib3", "version": "2.8.0", "hashes": ["0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3"], "exposure": "build/test/release-only Requests transitive HTTP client", "result": "PASS"}
+    ],
+    "selected_artifact_hashes": {
+      "urllib3-2.8.0-py3-none-any.whl": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+      "urllib3-2.8.0.tar.gz": "63bf2ead4c879426ebf22ef2a781eeb4aa3b4ae798a0435506f8687fd5bb9b63",
+      "soupsieve-2.9.2-py3-none-any.whl": "8089a26fd974ca7a1f30276d3d8492ab266ab15af581642dfe8aa162e0c1c823",
+      "soupsieve-2.9.2.tar.gz": "4a55d8cf158a9c2e587fa4922f1bbb91d68ac829e2d6f25403a85747c71daf74"
+    },
+    "compatibility": {
+      "requests_2.33.0_requires": "urllib3>=1.26,<3",
+      "selected_urllib3": "2.8.0 satisfies requests 2.33.0",
+      "beautifulsoup4_4.12.2_requires": "soupsieve>1.2",
+      "selected_soupsieve": "2.9.2 satisfies beautifulsoup4 4.12.2",
+      "python_runtime": "CPython 3.11.7"
+    },
+    "vendored_runtime_hashes": {
+      "vendor/maplibre-gl.js": "be9633c4d870e26fb37f1cfe5c5a77181667114003ea16207ac7850d8da8add1",
+      "vendor/maplibre-gl.css": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9",
+      "vendor/plotly.min.js": "e2b0f77ee8156ff9d525852fe4acb7bfe7d85e8a2e1da0523f6d16209b848968",
+      "vendor/trip-vector.js": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+      "assets/vector/sf_trip.pmtiles": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6"
+    },
+    "vendor_drift": {"status": "PASS", "all_inventory_hashes_match": true, "unregistered_vendor_files": 0}
+  },
+  "advisory_review": {
+    "reviewed_at": "2026-09-19",
+    "authoritative_sources": [
+      "https://pypi.org/pypi/urllib3/2.8.0/json",
+      "https://pypi.org/pypi/soupsieve/2.9.2/json",
+      "https://api.github.com/advisories?ecosystem=pip&affects=<package>",
+      "https://github.com/pypa/advisory-database",
+      "https://github.com/urllib3/urllib3/security/advisories",
+      "https://github.com/urllib3/urllib3/releases"
+    ],
+    "reviewed_dependencies": [
+      {"package": "beautifulsoup4", "version": "4.12.2", "advisories": [], "affected_range": null, "patched_range": null, "exposure": "build/test/release-only", "result": "PASS"},
+      {"package": "Pillow", "version": "12.3.0", "advisories": ["GHSA-9hw9-ch79-4vh6", "GHSA-vjc4-5qp5-m44j", "GHSA-pg7v-jwj7-p798", "GHSA-jjj6-mw9f-p565", "GHSA-6r8x-57c9-28j4"], "affected_range": "<12.3.0", "patched_range": "12.3.0", "exposure": "build/test/release-only; local photo processing", "result": "PASS"},
+      {"package": "playwright", "version": "1.62.0", "advisories": [], "affected_range": null, "patched_range": null, "exposure": "hosted browser qualification only", "result": "PASS_WITH_VERIFY_REQUIRED_BROWSER_ARCHIVE_BOUNDARY"},
+      {"package": "requests", "version": "2.33.0", "advisories": ["GHSA-gc5v-m9x4-r6x2", "GHSA-9hjg-9r4m-mvj7", "GHSA-9wx4-h78v-vm56"], "affected_range": "<2.33.0 and older subranges", "patched_range": "2.33.0", "exposure": "build/test/release-only acquisition helpers; no extract_zipped_paths() call", "result": "PASS"},
+      {"package": "soupsieve", "version": "2.9.2", "advisories": ["GHSA-gjv8-xp57-g29c", "GHSA-j934-xhv5-fg8f", "GHSA-836r-79rf-4m37", "GHSA-2wc2-fm75-p42x"], "affected_range": "<2.9.0 and <=2.8.3", "patched_range": "2.9.0 and 2.8.4", "exposure": "build/test/release-only HTML fixture parsing", "result": "PASS"},
+      {"package": "greenlet", "version": "3.5.5", "advisories": [], "affected_range": null, "patched_range": null, "exposure": "build/test/release-only Playwright runtime", "result": "PASS"},
+      {"package": "pyee", "version": "13.0.1", "advisories": [], "affected_range": null, "patched_range": null, "exposure": "build/test/release-only Playwright runtime", "result": "PASS"},
+      {"package": "typing-extensions", "version": "4.16.0", "advisories": [], "affected_range": null, "patched_range": null, "exposure": "build/test/release-only transitive support", "result": "PASS"},
+      {"package": "certifi", "version": "2026.7.22", "advisories": ["GHSA-248v-346w-9cwc", "GHSA-xqr8-7jwr-rhp7", "GHSA-43fp-rhv2-5gv8"], "affected_range": "<2024.7.4 and older subranges", "patched_range": "2024.7.4", "exposure": "build/test/release-only TLS trust bundle", "result": "PASS"},
+      {"package": "charset-normalizer", "version": "2.0.4", "advisories": [], "affected_range": null, "patched_range": null, "exposure": "build/test/release-only Requests transitive", "result": "PASS"},
+      {"package": "idna", "version": "3.19", "advisories": ["GHSA-65pc-fj4g-8rjx", "GHSA-jjg7-2v4v-x38h"], "affected_range": "<3.15 and older <3.7 subrange", "patched_range": "3.15", "exposure": "build/test/release-only Requests transitive URL handling", "result": "PASS"},
+      {"package": "urllib3", "version": "2.8.0", "advisories": ["GHSA-2xpw-w6gg-jr37", "GHSA-gm62-xv2j-4w53", "GHSA-38jv-5279-wg99", "GHSA-qccp-gfcp-xxvc", "GHSA-mf9v-mfxr-j63j", "GHSA-8988-9cw3-xx77", "GHSA-vxq7-64xx-v4gw", "GHSA-gh4c-6fx4-qh6g"], "affected_range": "<2.8.0 aggregate; high-severity ranges include <2.6.0, <2.6.3, and <2.7.0", "patched_range": "2.8.0", "exposure": "build/test/release-only Requests transitive HTTP client", "result": "PASS"}
+    ],
+    "offline_constraints": [
+      {"id": "GHSA-2xpw-w6gg-jr37", "package": "urllib3", "affected_range": ">=1.0,<2.6.0", "patched": ">=2.6.0", "result": "PASS"},
+      {"id": "GHSA-gm62-xv2j-4w53", "package": "urllib3", "affected_range": ">=1.24,<2.6.0", "patched": ">=2.6.0", "result": "PASS"},
+      {"id": "GHSA-38jv-5279-wg99", "package": "urllib3", "affected_range": ">=1.22,<2.6.3", "patched": ">=2.6.3", "result": "PASS"},
+      {"id": "GHSA-qccp-gfcp-xxvc", "package": "urllib3", "affected_range": ">=1.23,<2.7.0", "patched": ">=2.7.0", "result": "PASS"},
+      {"id": "GHSA-mf9v-mfxr-j63j", "package": "urllib3", "affected_range": ">=2.6.0,<2.7.0", "patched": ">=2.7.0", "result": "PASS"},
+      {"id": "GHSA-8988-9cw3-xx77", "package": "urllib3", "affected_range": ">=1.26.0,<2.8.0", "patched": ">=2.8.0", "result": "PASS"},
+      {"id": "GHSA-vxq7-64xx-v4gw", "package": "urllib3", "affected_range": ">=1.10.3,<2.8.0", "patched": ">=2.8.0", "result": "PASS"},
+      {"id": "GHSA-gh4c-6fx4-qh6g", "package": "urllib3", "affected_range": ">=2.6.2,<2.8.0", "patched": ">=2.8.0", "result": "PASS"},
+      {"id": "GHSA-gjv8-xp57-g29c", "package": "soupsieve", "affected_range": "<2.9.0", "patched": ">=2.9.0", "result": "PASS"},
+      {"id": "GHSA-j934-xhv5-fg8f", "package": "soupsieve", "affected_range": "<2.9.0", "patched": ">=2.9.0", "result": "PASS"},
+      {"id": "GHSA-836r-79rf-4m37", "package": "soupsieve", "affected_range": "<=2.8.3", "patched": ">=2.8.4", "result": "PASS"},
+      {"id": "GHSA-2wc2-fm75-p42x", "package": "soupsieve", "affected_range": "<=2.8.3", "patched": ">=2.8.4", "result": "PASS"},
+      {"id": "GHSA-gc5v-m9x4-r6x2", "package": "requests", "affected_range": "<2.33.0", "patched": ">=2.33.0", "result": "PASS"},
+      {"id": "Pillow-current-security-floor", "package": "Pillow", "affected_range": "<12.3.0", "patched": ">=12.3.0", "result": "PASS"},
+      {"id": "certifi-current-security-floor", "package": "certifi", "affected_range": "<2024.7.4", "patched": ">=2024.7.4", "result": "PASS"},
+      {"id": "GHSA-65pc-fj4g-8rjx", "package": "idna", "affected_range": "<3.15", "patched": ">=3.15", "result": "PASS"}
+    ],
+    "known_affected_fixture": {
+      "old_pin": "urllib3==2.0.7",
+      "advisories_hit": ["GHSA-2xpw-w6gg-jr37", "GHSA-gm62-xv2j-4w53", "GHSA-38jv-5279-wg99"],
+      "validator_result": "FAIL / FIX_REQUIRED",
+      "test": "tests.test_security_privacy.SecurityPrivacyContractTests.test_advisory_validation_rejects_known_affected_transitive_pin"
+    }
+  },
+  "security_privacy_report": {
+    "status": "PASS",
+    "report_path": "QA/release/security_privacy.json",
+    "report_sha256": "24e47a9d1d89f3acfa898b417c87c4807614e4d26840b371ab9105289d805bb0",
+    "candidate_head": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3",
+    "exact_candidate_bound": true,
+    "checks": {
+      "candidate_binding": true,
+      "production_secret_scan": true,
+      "artifact_secret_scan": true,
+      "vendor_inventory": true,
+      "requirements_reproducible": true,
+      "workflow_trust": true,
+      "external_origins": true,
+      "local_storage": true,
+      "static_controls": true,
+      "artifact_binding": true
+    },
+    "secret_scan": {"production_inputs": {"status": "PASS", "scanned_files": 260, "findings": []}, "generated_artifacts": {"status": "PASS", "inspected_files": 2150, "findings": []}, "values_disclosed": false},
+    "injection_unsafe_url_browser_fixture": {"status": "PASS", "test": "test_browser_rendering_escapes_adversarial_data_and_bounds_navigation", "unsafe_nodes": 0, "javascript_url_rejected": true, "unapproved_google_origin_rejected": true, "local_storage_keys_bounded": true},
+    "local_storage_data_flow": {"status": "PASS", "allowed_keys": ["trip_visualizer_runtime_v1", "trip_lang", "trip_theme", "trip_panel_width", "trip_mobile_panel_height"], "sensitive_values": false, "background_upload": false, "analytics_or_telemetry": false},
+    "external_origins": {"status": "PASS", "normal_external_provider": "https://server.arcgisonline.com", "explicit_navigation": "https://www.google.com", "smart_map_external_provider": false, "referrer_policy": "no-referrer"},
+    "workflow_trust": {
+      "status": "PASS",
+      "candidate": {"workflow_sha256": "8d4faaed39c94ce8173b0164aea5c38183ca2c970a59ed16010eecf8371088dd", "actions_sha_pinned": true, "permissions": {"contents": "read"}, "deploying": false, "secret_access": false, "qualifies_exact_sha": true},
+      "pages": {"workflow_sha256": "064d940fce758359365b42b654078839b928bd2e276d5962ebfe4ba6a5e27b72", "actions_sha_pinned": true, "permissions": {"contents": "read", "pages": "write", "id-token": "write"}, "qualifies_exact_sha_before_deploy": true}
+    },
+    "vendor_drift": {"status": "PASS", "inventory_hashes_match": true}
+  },
+  "rights_and_resilience": {
+    "gate6_public_rights": {"status": "PASS", "candidate_tree_files": 246, "package_tree_files": 830, "report_sha256": "bb451ef97750f4c404bd2188347e68cc252c1497265148624a87aaac112bba77", "package_report_sha256": "0160c269bb3f01331250d3a5966a0603968fb504688ec19725e29f3a654c6dc0"},
+    "gate4_local_first_provider_recovery": {"status": "PASS", "static_report_sha256": "994cec8ee514ec571f723949817097033c9bcc2c1f5b583e5327b403e79776a2", "runtime_report_sha256": "26edc1f7736d9f608dfae3b2fd28e94a165da0fb8f8d8ddedfe40f021090e458", "satellite_recovery_observed": true, "smart_map_network_independent": true}
+  },
+  "verification_results": {
+    "focused_security_privacy": {"status": "PASS", "command": "python3 -m unittest tests.test_security_privacy -v", "tests": 10},
+    "public_rights_and_canonical_pipeline": {"status": "PASS", "command": "python3 -m unittest tests.test_public_asset_rights tests.test_canonical_pipeline -v", "tests": 16},
+    "full_repository_tests": {"status": "PASS", "command": "python3 -m unittest discover -s tests -v", "tests": 35},
+    "dependency_hash_compatibility_dry_run": {"status": "PASS", "command": "python3 -m pip install --dry-run --require-hashes -r requirements-qa.txt", "python": "3.11.7"},
+    "pipeline_fast": {"status": "PASS", "candidate_head": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3", "evidence_path": "QA/release/fast.json", "evidence_sha256": "47a5fb0a98c2210f214a556ebc397dabaf0f021b874e7720c8e01c904bca833b", "reproducible": true, "authored_inputs_unchanged": true},
+    "pipeline_qualify": {"status": "PASS", "candidate_head": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3", "evidence_path": "QA/release/qualification.json", "evidence_sha256": "1fd43dd97c04ea61265e5ba68808736b4077c407ac78d7a4bb2f7d7afdf537a6", "all_components_pass": true, "component_count": 15},
+    "public_assembly": {"status": "PASS", "revision": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3", "artifact_sha256": "0336e64a8ad614fea4a09a5d32166bd8520be04e083baab02f88a782a7844d5b", "files": 245, "provenance_sha256": "a48dfbd8271f1acee3140bb08ef96ab90386cd58b86194144f726bfeda8ea569"},
+    "verify_public": {"status": "PASS", "revision": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3", "tested_sha": true, "rights": true, "security_privacy": true},
+    "package": {"status": "PASS", "revision": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3", "package_sha256": "7152c680b399643e8b820ba6d48f7273e9b9fd9b9b88a67b247d3a9fed9eb398", "manifest_sha256": "cabfb8a4107e292cc1a281df18a0e9289759278254d3d2e9b32ca3c07463a439", "files": 830, "repeat_zip_sha256": true, "zip_timestamps_deterministic": true, "security_privacy": true}
+  },
+  "durable_source_and_generated_evidence_hashes": {
+    "QA/release/security_privacy.json": "24e47a9d1d89f3acfa898b417c87c4807614e4d26840b371ab9105289d805bb0",
+    "QA/release/fast.json": "47a5fb0a98c2210f214a556ebc397dabaf0f021b874e7720c8e01c904bca833b",
+    "QA/release/qualification.json": "1fd43dd97c04ea61265e5ba68808736b4077c407ac78d7a4bb2f7d7afdf537a6",
+    "QA/release/public_asset_rights.json": "bb451ef97750f4c404bd2188347e68cc252c1497265148624a87aaac112bba77",
+    "QA/release/public_asset_rights_package.json": "0160c269bb3f01331250d3a5966a0603968fb504688ec19725e29f3a654c6dc0",
+    "QA/release/gate4.json": "e95611c3759a3e734fd443b4a01b3c1b814666b5609d74204c93a342ab0d454e",
+    ".public-site/.release-provenance.json": "a48dfbd8271f1acee3140bb08ef96ab90386cd58b86194144f726bfeda8ea569",
+    ".release/package/PACKAGE_MANIFEST.json": "cabfb8a4107e292cc1a281df18a0e9289759278254d3d2e9b32ca3c07463a439",
+    ".release/package.zip": "7152c680b399643e8b820ba6d48f7273e9b9fd9b9b88a67b247d3a9fed9eb398"
+  },
+  "remaining_verify_required": [
+    {"boundary": "embedded fflate / PMTiles / @protomaps/basemaps semvers", "classification": "VERIFY_REQUIRED", "reason": "vendor/trip-vector.js has a verified bundle hash but no tracked lockfile/source-build dependency record and no embedded semvers; no semver was inferred.", "artifact_hash": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d"},
+    {"boundary": "Playwright browser archives", "classification": "VERIFY_REQUIRED", "reason": "Playwright package 1.62.0 is exact and hash-pinned, but platform-provided browser archives are not redistributed or hash-bound by this repository.", "package": "playwright==1.62.0"}
+  ],
+  "post_verification_policy": {
+    "verified_source_sha": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3",
+    "evidence_tail_may_change_only": ["QA/project_os_verify/gate7_r2/*"],
+    "source_runtime_workflow_dependency_mutation_after_qualification": false,
+    "ignored_QA_release_not_required_for_this_record": true
+  }
+}
