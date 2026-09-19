@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_1",
+  "change": "CHG-62",
+  "verification_round": "R1",
+  "evidence_scope": "Proof-only execution-route evidence. This record does not claim overall production readiness, Gate 5 completion, live release, or Gate 8 completion.",
+  "recorded_on": "2026-09-19",
+  "classification": "GO_READY_EVIDENCE",
+  "identities": {
+    "repository": "kimhw8084/sf-trip-visualizer",
+    "target_branch": "main",
+    "dispatch_expected_target_sha": "6a111add1ebe6a6017d48a1050e497a720c83520",
+    "managed_verification_branch": "codex/sf-trip-visualizer-execution-route-g1-verify-r1",
+    "fabric_job_id": "CF-539184aabadbb6bad06b4175",
+    "fabric_request": "execution-route-g1-verify-r1",
+    "fabric_operation": "VERIFY"
+  },
+  "saved_route": {
+    "registry_source": "$HOME/.codex-fabric/projects.yaml",
+    "top_level_projects_mapping": true,
+    "project_entry_name": "sf-trip-visualizer",
+    "matching_project_entry_count": 1,
+    "registered_repository_count_for_project": 1,
+    "field_checks": {
+      "repo": {
+        "expected": "kimhw8084/sf-trip-visualizer",
+        "observed": "kimhw8084/sf-trip-visualizer",
+        "match": true
+      },
+      "local_repo": {
+        "expected": "$HOME/.codex-fabric/repos/sf-trip-visualizer",
+        "observed_redacted": "$HOME/.codex-fabric/repos/sf-trip-visualizer",
+        "resolves_to_canonical_clone": true,
+        "match": true
+      },
+      "target_branch": {
+        "expected": "main",
+        "observed": "main",
+        "match": true
+      },
+      "workdir": {
+        "expected": ".",
+        "observed": ".",
+        "match": true
+      }
+    },
+    "all_required_fields_match": true,
+    "registry_mutated_by_verification": false
+  },
+  "canonical_clone": {
+    "path_redacted": "$HOME/.codex-fabric/repos/sf-trip-visualizer",
+    "exists": true,
+    "git_clone_present": true,
+    "origin_normalization": {
+      "normalized_repository": "kimhw8084/sf-trip-visualizer",
+      "accepted_github_url_forms_checked": true,
+      "origin_matches_registered_repository": true,
+      "remote_changed_by_verification": false,
+      "raw_origin_retained": false
+    },
+    "checked_out_branch": "main",
+    "working_tree_clean": true,
+    "working_copy_head_sha": "a4d6e208805dcfb326b0cbf116146b0b27f2dd63"
+  },
+  "target_readback": {
+    "fetch_command": "git fetch origin main",
+    "fetch_exit_code": 0,
+    "fetched_origin_main_sha": "6a111add1ebe6a6017d48a1050e497a720c83520",
+    "dispatch_sha_matches_fetched_sha": true,
+    "target_drift_detected": false,
+    "target_branch_resolves_successfully": true,
+    "fetch_changed_product_source": false
+  },
+  "operator_checks": {
+    "doctor_quick": {
+      "command": "fabricctl doctor-quick",
+      "exit_code": 0,
+      "ok": true,
+      "healthy": true,
+      "blocking_issues": [],
+      "warnings": [],
+      "fabric_release": "1.2.3-resume-candidate",
+      "codex_version": "codex-cli 0.154.0",
+      "quota_gate": "AVAILABLE",
+      "resume_supported": true,
+      "raw_output_retained": false
+    },
+    "health": {
+      "command": "fabricctl health",
+      "exit_code": 0,
+      "healthy": true,
+      "blocking_issues": [],
+      "warnings": [],
+      "fabric_release": "1.2.3-resume-candidate",
+      "codex_version": "codex-cli 0.154.0",
+      "quota_gate": "AVAILABLE",
+      "resume_supported": true,
+      "raw_output_retained": false
+    }
+  },
+  "execution_context_cross_check": {
+    "fabric_status_resolved_exact_project": true,
+    "fabric_status_project": "sf-trip-visualizer",
+    "fabric_status_request": "execution-route-g1-verify-r1",
+    "fabric_status_operation": "VERIFY",
+    "managed_work_branch_matches_context": true,
+    "repository_target_matches_saved_route": true,
+    "target_branch_matches_saved_route": true,
+    "fetched_target_matches_dispatch_context": true,
+    "seven_key_fabric_route_resolved_this_job": true,
+    "user_supplied_local_filesystem_path_required": false,
+    "path_questions_required": false,
+    "contradictory_routing_evidence": []
+  },
+  "five_key_integration_corroboration": [
+    {
+      "request": "public-asset-rights-g6-r1",
+      "pull_request": 4,
+      "repository": "kimhw8084/sf-trip-visualizer",
+      "base_branch": "main",
+      "state": "MERGED",
+      "head_branch": "codex/sf-trip-visualizer-public-asset-rights-g6-r1",
+      "head_sha": "62d5d88b96e761011cb315755f3e47ea052bfb44",
+      "merge_commit": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+      "routing_result": "repository-native PR into canonical main target"
+    },
+    {
+      "request": "security-privacy-dependency-g7-ci-hash-fix-r4",
+      "pull_request": 6,
+      "repository": "kimhw8084/sf-trip-visualizer",
+      "base_branch": "main",
+      "state": "MERGED",
+      "head_branch": "codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4",
+      "head_sha": "1bd76c084b803fb58aa395c2f92824c19f75428c",
+      "merge_commit": "6a111add1ebe6a6017d48a1050e497a720c83520",
+      "routing_result": "repository-native PR into canonical main target"
+    }
+  ],
+  "repository_change_boundary": {
+    "base_sha": "6a111add1ebe6a6017d48a1050e497a720c83520",
+    "base_ancestry_verified_before_evidence_commit": true,
+    "pre_evidence_worktree_clean": true,
+    "allowed_changed_path_prefix": "QA/project_os_verify/gate1_r1/",
+    "product_source_changed": false,
+    "runtime_source_changed": false,
+    "workflow_changed": false,
+    "dependency_changed": false,
+    "repository_configuration_changed": false,
+    "fabric_registry_configuration_changed": false,
+    "clone_configuration_changed": false,
+    "target_branch_mutated": false,
+    "operator_installation_state_changed": false
+  },
+  "redaction_policy": {
+    "absolute_home_path_committed": false,
+    "username_derived_filesystem_path_committed": false,
+    "raw_projects_yaml_committed": false,
+    "unrelated_project_routes_committed": false,
+    "credentials_tokens_or_environment_secrets_committed": false,
+    "raw_doctor_or_health_output_committed": false,
+    "canonical_path_representation": "$HOME/.codex-fabric/repos/sf-trip-visualizer"
+  },
+  "final_note": "GO_READY_EVIDENCE is limited to the Gate-1 execution-route proof requested here. Project OS must independently audit this record; no overall production-readiness, Gate-5, live-release, or Gate-8 claim is made."
+}
