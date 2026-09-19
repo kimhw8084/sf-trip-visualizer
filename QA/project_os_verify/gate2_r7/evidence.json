@@ -1,0 +1,203 @@
+{
+  "schema": "project-os-gate2-r7-release-authority-repair-v1",
+  "project": "sf-trip-visualizer",
+  "gate": "Gate 2 / Production Readiness Gate 2",
+  "change": "CHG-61 reopened release authority repair",
+  "scope": "Pages release qualification environment equivalence and failed-release diagnostics only",
+  "recorded_date": "2026-09-19",
+  "authoritative_base": {
+    "main_sha": "6a111add1ebe6a6017d48a1050e497a720c83520",
+    "main_tree": "df73c85a9274526eeeb787c90be4e3bd40c20d71",
+    "source": "origin/main at start and final verification",
+    "main_drift_at_final_verification": false
+  },
+  "stable_source_candidate": {
+    "sha": "b7295e88e9990ce5ca81a21ebd7544a4986b84b0",
+    "tree": "fe077e1d27c7e671e935d1cc4d297fc4b6b53e95",
+    "base_ancestry": true,
+    "source_mutation_after_candidate": "none; subsequent commit is evidence-only",
+    "source_candidate_is_exact_revision_used_by_hosted_run": true
+  },
+  "original_failure": {
+    "run_id": "35461550363",
+    "run_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35461550363",
+    "job_id": "105946207787",
+    "job_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35461550363/job/105946207787",
+    "revision": "6a111add1ebe6a6017d48a1050e497a720c83520",
+    "observed_failure": "pipeline.py release returned FAIL after reaching the maintained qualification sequence; verify-public, artifact upload, and deploy were skipped",
+    "qualification_report_recovered": false,
+    "exact_failed_component": "NOT RECOVERED; the prior Pages workflow did not durably publish QA/release/qualification.json, so no component is fabricated",
+    "independent_defect_basis": "Pages invoked pipeline.py release directly without the proven hosted-Linux Xvfb/Firefox hosted-linux/software-GL contract used by candidate qualification and CHG-61 R6"
+  },
+  "workflow_contract": {
+    "before": {
+      "candidate_qualification": "xvfb-run full qualification with TRIP_CROSS_BROWSER_FIREFOX_MODE=hosted-linux and LIBGL_ALWAYS_SOFTWARE=1",
+      "pages_release": "direct python3 scripts/pipeline.py release --revision $GITHUB_SHA without the hosted-Linux browser contract",
+      "drift": true,
+      "failed_release_diagnostics": "not durably uploaded"
+    },
+    "after": {
+      "shared_repository_owned_runner": "scripts/hosted_linux_pipeline.py",
+      "candidate_qualification_command": "python3 scripts/hosted_linux_pipeline.py qualify --revision $GITHUB_SHA",
+      "pages_release_command": "python3 scripts/hosted_linux_pipeline.py release --revision $GITHUB_SHA",
+      "canonical_authority": "scripts/pipeline.py remains the canonical release authority; the shared runner only enforces the hosted-Linux execution contract and delegates to it",
+      "hosted_linux_contract": {
+        "runner": "ubuntu-latest",
+        "xvfb": "xvfb-run --auto-servernum --server-args=-screen 0 1280x1024x24",
+        "firefox_mode": "TRIP_CROSS_BROWSER_FIREFOX_MODE=hosted-linux",
+        "software_gl": "LIBGL_ALWAYS_SOFTWARE=1",
+        "fail_closed": true
+      },
+      "candidate_and_pages_use_same_runner": true,
+      "pages_diagnostics": "QA/release/*.json, QA/release/*.log, QA/map_first/**/*.json, and screenshots are uploaded with if: always(); this step has no deployment permission and is before verify/deploy",
+      "pages_deployment_authority_preserved": true
+    }
+  },
+  "changed_files": [
+    {
+      "path": ".github/workflows/candidate-qualification.yml",
+      "sha256": "7ce813a7118d81191a569e5f720587edd33683d684b9cb2099114791e30c1855"
+    },
+    {
+      "path": ".github/workflows/deploy-pages.yml",
+      "sha256": "e081442eeadb90953b61ab4df65f7838dceb384cf9d0656290136eeadf081710"
+    },
+    {
+      "path": "manifests/security_privacy_contract.json",
+      "sha256": "ff7dba595a05b4bb918c5391bd0564f8fee64515d09887b8bed80a57c59e8b95"
+    },
+    {
+      "path": "scripts/hosted_linux_pipeline.py",
+      "sha256": "9e6e3fa04e11d68e09944044a362c442d251e9b9f4d9450f1730754115861a34"
+    },
+    {
+      "path": "scripts/pipeline.py",
+      "sha256": "fb795073552a6ed2e8e29fe053801a52e0e7026011bc63a34ea5ed406fd45334"
+    },
+    {
+      "path": "scripts/run_cross_browser.py",
+      "sha256": "7699be8d757fdba3860ba33a9cd30b5876f5cbc1f6171e8d9199354647a34220"
+    },
+    {
+      "path": "scripts/security_privacy.py",
+      "sha256": "6acdb4a692a44c363b6eeb285ba569269d67265617d5ad577a10c09232c50ee2"
+    },
+    {
+      "path": "tests/test_canonical_pipeline.py",
+      "sha256": "a3c501ee4b2f6a64750dfe02ccaf934916490bc7be79c3ba42f8861eff41fef0"
+    }
+  ],
+  "focused_regressions": {
+    "canonical_pipeline_security_workflow_tests": "PASS; 33 tests",
+    "release_equivalence_regressions": "PASS; shared runner, required environment, exact canonical command, fail-closed validation, candidate/Pages workflow binding",
+    "full_repository_unit_discovery": "PASS; 42 tests",
+    "syntax": "PASS; python3 -m compileall -q scripts tests",
+    "diff_check": "PASS; git diff --check",
+    "hash_pinned_dependency_dry_run": "PASS; python3 -m pip install --dry-run --require-hashes -r requirements-qa.txt",
+    "fast_revision_check": "PASS; scripts/pipeline.py fast --revision b7295e88e9990ce5ca81a21ebd7544a4986b84b0"
+  },
+  "hosted_candidate_verification": {
+    "run_id": "35465369082",
+    "attempt": 2,
+    "run_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35465369082",
+    "job_id": "105958747638",
+    "job_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35465369082/job/105958747638",
+    "branch": "codex/sf-trip-visualizer-pages-release-hosted-linux-fix-r7",
+    "head_sha": "b7295e88e9990ce5ca81a21ebd7544a4986b84b0",
+    "conclusion": "success",
+    "duration": "15m43s",
+    "successful_steps": [
+      "exact SHA checkout/assertion",
+      "hash-pinned Python QA closure installation",
+      "Chromium/Firefox/WebKit installation",
+      "hosted full qualification under Xvfb/software GL/hosted-linux Firefox",
+      "repository unit and contract tests",
+      "clean exact-revision Pages release-path exercise",
+      "non-deploying verify-public",
+      "evidence artifact upload"
+    ],
+    "qualification": {
+      "status": "PASS",
+      "component_count": 15,
+      "all_components": "PASS",
+      "report": "QA/release/qualification.json",
+      "sha256": "af16988c217e69a7bf00eb5ea17cc83dd675fd52f93ab836c067b713e9f95876",
+      "fast_report_sha256": "0ea487148ed249d858405e45e05c81e8989d2f09bcf4f75ad2b2ff469d298af8",
+      "security_report_sha256": "1e4cddc85c2fbb34ada4568afc456cd0e44255b2c0025bb4068e85e79dcab0ae",
+      "public_rights_report_sha256": "6076a4742b771f233ad4d963059175a369b6bc2e543fdf53df6a396174f7986b",
+      "gate4_report_sha256": "a294c666afc39763b994a8302c5bfeeaf467f787397ef78d98a277f8cc1c1445",
+      "cross_browser_report_sha256": "c8c8e73b18220ffb561e9bbe52fa6d0773e5f5d1823b38358b48a33d24fedd52"
+    },
+    "cross_browser": {
+      "status": "PASS",
+      "rows": [
+        "Firefox 1280x800: PASS, hosted-linux-xvfb",
+        "Firefox 390x844: PASS, hosted-linux-xvfb",
+        "WebKit 1280x800: PASS, headless",
+        "WebKit 390x844: PASS, headless"
+      ],
+      "errors": []
+    },
+    "release_path": {
+      "checkout": "release-path-checkout at exact GITHUB_SHA with clean working tree",
+      "release_command": "python3 scripts/hosted_linux_pipeline.py release --revision $GITHUB_SHA",
+      "release_status": "PASS",
+      "release_report": "release-path-checkout/QA/release/qualification.json",
+      "release_report_sha256": "e1c75cc2ed7bb2a197cc0de9756d9927e1ab7faf822d4f48f10ba88d8e16b5a5",
+      "release_fast_report_sha256": "0ea487148ed249d858405e45e05c81e8989d2f09bcf4f75ad2b2ff469d298af8",
+      "release_security_report_sha256": "89541063049740f7cd8df4c3a6bef7542793f3266c5b6b0af8b6f418df8c1b84",
+      "release_rights_report_sha256": "bb451ef97750f4c404bd2188347e68cc252c1497265148624a87aaac112bba77",
+      "release_gate4_report_sha256": "6802f5cee5d7a1cc221906c422636470938f872045f3bf077b0ab4e4084d3d1f",
+      "release_cross_browser_report_sha256": "4deb98b1754005c016b2a84f25ba5e0fca8b613d8b43bd29c11045f5d8550db7",
+      "release_log_sha256": "75b4c7f98a0b3e86c861a559bc482fd2b59a5255bb8f014768dbf87c846a0748"
+    },
+    "verify_public": {
+      "command": "python3 scripts/pipeline.py verify-public --revision $GITHUB_SHA",
+      "status": "PASS",
+      "log_sha256": "cc16d83b82c8b03dc5e599e5e701cf3ec250cda1cf96633118c548d0ee058ac1",
+      "artifact_sha256": "78b752b5ab2eef6d38c5a5bb2eb34c384ed3b1a4daac5aa2371c75dd0022145c",
+      "artifact_files": 245,
+      "delivery_parity": "PASS",
+      "all_checks": true
+    }
+  },
+  "transient_attempt_and_diagnostics": {
+    "same_immutable_run_failed_attempt": {
+      "run_id": "35465369082",
+      "attempt": 1,
+      "failure": "release-path map_first_full transiently returned loading_completed=false with two net::ERR_FAILED console entries",
+      "other_components": "14 PASS; cross_browser PASS",
+      "interpretation": "fail-closed behavior; not treated as a source defect because attempt 2 on the identical candidate passed"
+    },
+    "diagnostic_artifact_behavior": "candidate artifact upload and Pages diagnostic upload are configured; final hosted candidate artifact contains root QA/release and clean release-path QA/release evidence",
+    "production_pages_deploy_invoked": false
+  },
+  "preservation": {
+    "vendor_trip_vector_sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+    "requirements_qa_sha256": "e56176ea7b47040608aeae86322fd8d3d4c1ad7a31555cae699111f11f5904ea",
+    "playwright_macos_arm_sha256": "db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034",
+    "playwright_linux_x86_64_sha256": "ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3",
+    "public_asset_rights": "PASS; Gate-6 enforcement and generated attribution/notices preserved",
+    "smart_map": "PASS; Gate-4 local-first behavior and optional Satellite recovery preserved",
+    "security_privacy_injection_vendor": "PASS",
+    "resilience_gate4": "PASS",
+    "product_runtime_vendor_dependency_manifest_mutation_after_candidate": false,
+    "action_pins_changed": false,
+    "require_hashes_weakened": false,
+    "least_privilege_and_pages_only_authority_preserved": true
+  },
+  "remaining_verify_boundaries": [
+    "Project OS independent audit remains required.",
+    "Gate 5 remains external and is not closed; REC-179 and REC-180 remain unresolved.",
+    "No Gate 8 or production-readiness claim is made.",
+    "No production Pages deployment was invoked from the R7 candidate branch.",
+    "Existing browser-archive provenance and bundled fflate/PMTiles/basemaps advisory boundaries remain as previously recorded.",
+    "The exact component of original Pages run 35461550363 remains unrecovered because its workflow did not preserve qualification.json."
+  ],
+  "conclusion": {
+    "canonical_pages_release_path_defect_closed": true,
+    "basis": "candidate and Pages release now share one repository-owned hosted-Linux contract; exact candidate release and verify-public passed under that contract; Pages workflow remains fail-closed and deployment-gated",
+    "deployment_performed": false,
+    "production_readiness_status": "not claimed"
+  }
+}
