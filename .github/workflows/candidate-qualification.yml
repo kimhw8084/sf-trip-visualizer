@@ -52,6 +52,13 @@ jobs:
           set -o pipefail
           python3 -m unittest discover -s tests -p 'test_*.py' 2>&1 | tee QA/release/unit-tests.log
 
+      - name: Exercise the exact Pages release path without deployment
+        if: success()
+        run: |
+          set -o pipefail
+          python3 scripts/hosted_linux_pipeline.py release --revision "$GITHUB_SHA" 2>&1 | tee QA/release/pages-release.log
+          python3 scripts/pipeline.py verify-public --revision "$GITHUB_SHA" 2>&1 | tee QA/release/pages-verify-public.log
+
       - name: Upload candidate qualification evidence
         if: always()
         # actions/upload-artifact v4.6.2
@@ -66,3 +73,4 @@ jobs:
             QA/map_first/screenshots/**
             QA/photo_integrity.json
             QA/route_panel/**/*.json
+            .public-site/.release-provenance.json

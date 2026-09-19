@@ -427,7 +427,7 @@ def check_workflows(root: Path = ROOT, contract: dict | None = None) -> dict:
             if not passed:
                 failures.append(f"{kind}: action {use} is not pinned to the reviewed commit")
         if kind == "candidate":
-            required = ["contents: read", "ref: ${{ github.sha }}", "hosted_linux_pipeline.py qualify --revision \"$GITHUB_SHA\"", "branches:\n      - \"codex/**\""]
+            required = ["contents: read", "ref: ${{ github.sha }}", "hosted_linux_pipeline.py qualify --revision \"$GITHUB_SHA\"", "hosted_linux_pipeline.py release --revision \"$GITHUB_SHA\"", "pipeline.py verify-public --revision \"$GITHUB_SHA\"", "branches:\n      - \"codex/**\""]
             if any(fragment not in text for fragment in required):
                 failures.append("candidate: exact read-only qualification contract changed")
             if "pages:" in text or "id-token:" in text or "deploy-pages" in text:

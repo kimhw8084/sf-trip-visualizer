@@ -122,6 +122,8 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertIn("pip install --require-hashes -r requirements-qa.txt", workflow)
         self.assertIn("playwright install --with-deps chromium firefox webkit", workflow)
         self.assertIn('python3 scripts/hosted_linux_pipeline.py qualify --revision "$GITHUB_SHA"', workflow)
+        self.assertIn('python3 scripts/hosted_linux_pipeline.py release --revision "$GITHUB_SHA"', workflow)
+        self.assertIn('python3 scripts/pipeline.py verify-public --revision "$GITHUB_SHA"', workflow)
         self.assertIn("python3 -m unittest discover -s tests -p 'test_*.py'", workflow)
         self.assertIn("if: always()", workflow)
         self.assertIn("actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02", workflow)
