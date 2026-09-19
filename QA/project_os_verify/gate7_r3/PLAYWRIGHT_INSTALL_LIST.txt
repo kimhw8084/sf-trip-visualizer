@@ -1,0 +1,28 @@
+Command: python3 -m playwright install --list
+Relevant exact package block: playwright 1.62.0
+
+Playwright version: 1.62.0
+  Browsers:
+    /Users/haewonkim/Library/Caches/ms-playwright/chromium-1234
+    /Users/haewonkim/Library/Caches/ms-playwright/chromium_headless_shell-1234
+    /Users/haewonkim/Library/Caches/ms-playwright/ffmpeg-1011
+    /Users/haewonkim/Library/Caches/ms-playwright/firefox-1538
+    /Users/haewonkim/Library/Caches/ms-playwright/webkit-2336
+
+Package-defined browsers.json values from the exact installed Playwright 1.62.0 package:
+
+chromium: revision 1234; browserVersion 151.0.7922.34; installByDefault true
+chromium-headless-shell: revision 1234; browserVersion 151.0.7922.34
+firefox: revision 1538; browserVersion 153.0
+webkit: revision 2336; browserVersion 26.5
+webkit revisionOverrides: mac14 2251; mac14-arm64 2251; ubuntu20.04-x64 2092; ubuntu20.04-arm64 2092
+ffmpeg: revision 1011
+
+Package-defined host archive paths (macOS 14 ARM):
+
+builds/cft/151.0.7922.34/mac-arm64/chrome-mac-arm64.zip
+builds/cft/151.0.7922.34/mac-arm64/chrome-headless-shell-mac-arm64.zip
+builds/firefox/1538/firefox-mac-arm64.zip
+builds/webkit/2251/webkit-mac-14-arm64.zip
+
+The command output also listed other installed Playwright package references/versions in the host environment. The block above is the exact 1.62.0 package block used for this verification. The package metadata inspected does not expose SHA-256/integrity values for browser archives; archive integrity is therefore not claimed.

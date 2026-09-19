@@ -1,0 +1,235 @@
+{
+  "schema": "project-os-gate7-r3-provenance-recovery-v1",
+  "project": "sf-trip-visualizer",
+  "change": "CHG-67",
+  "gate": "Production Readiness Gate 7",
+  "verification_mode": "evidence-only provenance recovery",
+  "classification": "GO_READY_EVIDENCE",
+  "classification_scope": "This is an R3 evidence classification for Project OS audit. It is not a Gate 7 GO, integration result, Gate 5 completion, live-release approval, or overall production-readiness claim.",
+  "scope_controls": {
+    "product_source_modified": false,
+    "runtime_source_modified": false,
+    "workflow_modified": false,
+    "dependency_pin_modified": false,
+    "manifest_modified": false,
+    "vendored_runtime_modified": false,
+    "durable_changes_path": "QA/project_os_verify/gate7_r3/"
+  },
+  "identities": {
+    "transport_base": {
+      "sha": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+      "tree": "f6a8c4333fd37c49d1a0ca09e604a87005c9f7eb",
+      "role": "fresh authoritative transport base/main"
+    },
+    "source_candidate": {
+      "sha": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3",
+      "tree": "21cb22d44960eb14b326d8e671c6db5bc552ea25",
+      "parent": "9f5964fbfc434cea7221d3bdb70061bb13affa7e",
+      "commit_time": "2026-09-19T09:31:49-05:00",
+      "subject": "fix Gate 7 dependency advisory validation",
+      "role": "immutable Gate-7 product/source candidate"
+    },
+    "historical_build": {
+      "sha": "3455a3ec339f434d840551f425ee7b68a690377f",
+      "tree": "0f68fae6835340083dbe9f0cb4af7383c12f750b",
+      "parent": "c761dc93641b5b6d754583cca4df5d23cfd05119",
+      "commit_time": "2026-09-15T09:31:02-05:00",
+      "subject": "Publish universal trip visualizer and Pages workflow",
+      "role": "historical JS bundle source/build evidence"
+    },
+    "r2_final": {
+      "sha": "7e3f7918033ccddc92eef9449a11096bfedfd408",
+      "tree": "ffcedeea6541080637ccc5b6d71a4c018e8edc7b",
+      "role": "QA/evidence tail only; not product-source authority"
+    },
+    "r2_evidence": {
+      "path": "QA/project_os_verify/gate7_r2/evidence.json",
+      "git_blob_sha1": "8bf52b92a3c2ae819c6996ff6ad46746a27b962b"
+    }
+  },
+  "identity_proof": {
+    "inspection": [
+      "git show -s --format='%H%n%T%n%P%n%cI%n%s' fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3",
+      "git show -s --format='%H%n%T%n%P%n%cI%n%s' 3455a3ec339f434d840551f425ee7b68a690377f",
+      "git rev-parse bb1b58619629448d99cd6a20b27e882492d1d0d7^{tree}",
+      "git rev-parse fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3^{tree}",
+      "git rev-parse 3455a3ec339f434d840551f425ee7b68a690377f^{tree}"
+    ],
+    "checkout_controls": "Source candidate and historical build commit were inspected in clean isolated detached worktrees outside the repository."
+  },
+  "r2_tail_proof": {
+    "ancestry": {
+      "source_candidate_is_ancestor_of_r2_final": true,
+      "transport_base_is_ancestor_of_source_candidate": true
+    },
+    "diff_source_candidate_to_r2_final": [
+      "M QA/map_first/canonical_truth.json",
+      "M QA/map_first/cross_browser.json",
+      "M QA/map_first/full_acceptance.json",
+      "A QA/project_os_verify/gate7_r2/evidence.json",
+      "M QA/route_panel/route_explanations_panel.json"
+    ],
+    "interpretation": "The R2 tail is QA/evidence only. No product source, runtime source, workflow, dependency pin, manifest, or vendored-runtime path changed between the immutable source candidate and R2 final."
+  },
+  "bundle": {
+    "path": "vendor/trip-vector.js",
+    "sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+    "bytes": 73896,
+    "lines": 920,
+    "historical_and_candidate_bytes_match": true,
+    "historical_entrypoint": "src/vector_entry.js",
+    "entrypoint_contents": "import { Protocol, PMTiles, FileSource } from 'pmtiles';\nimport { layers, namedFlavor } from '@protomaps/basemaps';\n\nwindow.TRIP_VECTOR = { Protocol, PMTiles, FileSource, layers, namedFlavor };",
+    "module_boundaries_in_tracked_bundle": [
+      ".tools/jsdeps/node_modules/fflate/esm/browser.js",
+      ".tools/jsdeps/node_modules/pmtiles/dist/esm/index.js",
+      ".tools/jsdeps/node_modules/@protomaps/basemaps/dist/esm/index.js",
+      "src/vector_entry.js"
+    ],
+    "tracked_build_metadata_boundary": "The historical tree contains no package.json, package-lock.json, yarn/pnpm lock, .tools/jsdeps tree, node_modules tree, or bundler configuration. Tracked build scripts consume the already-tracked vendor bundle and do not reconstruct this JS workspace."
+  },
+  "provenance_recovery": {
+    "historical_commit_cutoff_utc": "2026-09-15T14:31:02Z",
+    "registry_search_method": "npm registry release metadata was queried for all stable semver releases of each named package at or before the historical commit cutoff; prereleases and post-cutoff releases were excluded. The latest eligible release for each package was tested first because the source uses plain package imports and the bundle fingerprints identify the package module boundaries.",
+    "searched_version_space": {
+      "fflate": { "eligible_stable_release_count": 58, "latest_eligible": "0.8.3", "published": "2026-05-16T00:14:03.449Z" },
+      "pmtiles": { "eligible_stable_release_count": 65, "latest_eligible": "4.5.0", "published": "2026-08-10T20:12:24.430Z" },
+      "@protomaps/basemaps": { "eligible_stable_release_count": 15, "latest_eligible": "5.7.2", "published": "2026-03-10T13:55:33.454Z" },
+      "esbuild": { "eligible_stable_release_count": 482, "latest_eligible": "0.28.2", "published": "2026-08-08T20:00:55.454Z" }
+    },
+    "candidate_exclusion_logic": [
+      "Post-cutoff releases and prereleases were excluded as historically impossible.",
+      "The source has no semver selectors or tracked lock to justify arbitrary older versions.",
+      "The exact byte match is decisive; API resemblance, exports, file size, and partial source similarity were not accepted as proof.",
+      "Minified output was tested and rejected because its bytes/hash did not match the tracked bundle."
+    ],
+    "workspace": "Temporary workspace outside the repository; historical src/vector_entry.js was copied in, exact package tarballs were installed under .tools/jsdeps, and node_modules resolution was linked to that isolated workspace.",
+    "exact_packages": [
+      {
+        "package": "fflate",
+        "version": "0.8.3",
+        "tarball": "https://registry.npmjs.org/fflate/-/fflate-0.8.3.tgz",
+        "npm_integrity": "sha512-tbZNuJrLwGUp3zshBtdy4W+ORxZuIh8a5ilyIEQDC5rY1f3U20JMry0Ll3WBzU58EZKsEuJFXhb5gwv8CsPvgA==",
+        "npm_shasum": "bc27d8eb30343d4d512abb03480202ce65d825fc",
+        "tarball_sha256": "38c2cd824402407b43153c782274aec2ea83ea688e4aa0b743c5f2c305857d92",
+        "upstream": "https://github.com/101arrowz/fflate.git",
+        "upstream_tag": "v0.8.3",
+        "upstream_commit": "a661bab4c135c368b6e68af3be1904f89ed070cf"
+      },
+      {
+        "package": "pmtiles",
+        "version": "4.5.0",
+        "tarball": "https://registry.npmjs.org/pmtiles/-/pmtiles-4.5.0.tgz",
+        "npm_integrity": "sha512-CBeD4SoUluFziGdy/8k7FOjQxQy486n+929W/tWophauvMICpkZ26vGBWhDt/6b1FZQWNaf4jFdT/5+q0Wii5w==",
+        "npm_shasum": "09172312c8691e4ce66677f77aeb6c125d33cf32",
+        "tarball_sha256": "23ae7c575578ad24cd579377d69c46550631da219e6f179997ec2cf3b8c937e5",
+        "upstream": "https://github.com/protomaps/PMTiles.git",
+        "upstream_tag": null,
+        "upstream_commit": "3b10e67edb65c6b04549f74c0279cef8328d859c",
+        "dependency_resolution": { "fflate": "0.8.3", "declared_range": "^0.8.2" }
+      },
+      {
+        "package": "@protomaps/basemaps",
+        "version": "5.7.2",
+        "tarball": "https://registry.npmjs.org/@protomaps/basemaps/-/basemaps-5.7.2.tgz",
+        "npm_integrity": "sha512-K1Yk6bWdULulYg+R2QRVXx4NzJZan5YQhpejEG0c1/sXruJrfPIPZuakpf3jwAgVmjIRVQwAv+yRafDeN0aaUQ==",
+        "npm_shasum": "06c0ba62e4317c84d31e54e7e5f4ee20947d22b0",
+        "tarball_sha256": "2d5d41b29cdd2364f7092ad439bd9d170b4f38cbec8858cefbe84d0f98125ce6",
+        "upstream": "https://github.com/protomaps/basemaps.git",
+        "upstream_tag": null,
+        "upstream_commit": "3ea8293a28131c3dc63f1bb20827bdb8a76df06f"
+      },
+      {
+        "package": "esbuild",
+        "version": "0.28.2",
+        "role": "bundler",
+        "tarball": "https://registry.npmjs.org/esbuild/-/esbuild-0.28.2.tgz",
+        "npm_integrity": "sha512-HKVLS8dvII+xoKW9kmqxbRKrnWEXfJJr/FZhhJmiqIB0e053QNYFqOBouTMO/k5sID4MvCiUCvv8b9M4h32wIA==",
+        "npm_shasum": "0f43bd1bad955b72d24e2261e3abe5957ccf0816",
+        "tarball_sha256": "e045f94c235c7adc50e77ba2a579c7bec41b496b6b47c3a7845f7c1e19959a88",
+        "upstream": "https://github.com/evanw/esbuild.git",
+        "upstream_tag": "v0.28.2",
+        "upstream_commit": "609683d892977362a0f99026cb74b96263d728a9"
+      }
+    ],
+    "reproduction": {
+      "command": ".tools/jsdeps/node_modules/.bin/esbuild src/vector_entry.js --bundle --format=iife --outfile=vendor/trip-vector-cli.js",
+      "options": { "bundle": true, "format": "iife", "minify": false, "entrypoint": "src/vector_entry.js" },
+      "bundler_version": "0.28.2",
+      "result": "vendor/trip-vector-cli.js 72.2kb; Done in 28ms",
+      "generated_sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+      "generated_bytes": 73896,
+      "byte_compare_to_historical_bundle_exit": 0,
+      "byte_compare_to_candidate_bundle_exit": 0,
+      "minified_control": { "sha256": "de33478707ee64eae78522a222264c7c5f52fcf799d0ba5efca75bad1b0882b7", "bytes": 57217, "lines": 15, "matched": false },
+      "decisive_result": "Exact byte and SHA-256 reproduction succeeded."
+    }
+  },
+  "playwright": {
+    "python_package": "playwright==1.62.0",
+    "requirements_line": "playwright==1.62.0 --hash=sha256:db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034",
+    "pypi_wheel": {
+      "filename": "playwright-1.62.0-py3-none-macosx_11_0_arm64.whl",
+      "sha256": "db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034",
+      "url": "https://files.pythonhosted.org/packages/af/1a/0bfbe9904350961f4dbb713f04342e40d548c5fc26c8157bd13617c81492/playwright-1.62.0-py3-none-macosx_11_0_arm64.whl"
+    },
+    "npm_cross_reference": {
+      "package": "playwright@1.62.0",
+      "tarball": "https://registry.npmjs.org/playwright/-/playwright-1.62.0.tgz",
+      "npm_integrity": "sha512-Z14dG305dgaLu6foB1TXQagFiW8JfSUIUaUuPaKQ6NtBPKF1P/qXcqfh6c6K/icPqdy37JmjbiBXf6JNg6Sylw==",
+      "tarball_sha256": "6c727ffdfdfda1b46843f00ccbd04e1b798818a4e44386eb5b003b1c47cc008a",
+      "upstream": "https://github.com/microsoft/playwright.git",
+      "upstream_tag": "v1.62.0",
+      "upstream_commit": "e3950d9c140d007bd52853b45813c6274b24e36f"
+    },
+    "package_defined_browsers": {
+      "chromium": { "revision": "1234", "browser_version": "151.0.7922.34", "install_by_default": true, "host_archive": "builds/cft/151.0.7922.34/mac-arm64/chrome-mac-arm64.zip" },
+      "chromium_headless_shell": { "revision": "1234", "browser_version": "151.0.7922.34", "host_archive": "builds/cft/151.0.7922.34/mac-arm64/chrome-headless-shell-mac-arm64.zip" },
+      "firefox": { "revision": "1538", "browser_version": "153.0", "host_archive": "builds/firefox/1538/firefox-mac-arm64.zip" },
+      "webkit": { "revision": "2336", "browser_version": "26.5", "host_revision_override": { "mac14": "2251", "mac14-arm64": "2251" }, "host_archive": "builds/webkit/2251/webkit-mac-14-arm64.zip", "generic_archive": "builds/webkit/2336/webkit-mac-14-arm64.zip" },
+      "ffmpeg": { "revision": "1011" }
+    },
+    "install_list_exact_1_62_0": [
+      "Playwright version: 1.62.0",
+      "chromium-1234",
+      "chromium_headless_shell-1234",
+      "ffmpeg-1011",
+      "firefox-1538",
+      "webkit-2336"
+    ],
+    "archive_integrity_limitation": "The inspected Playwright package browsers.json/coreBundle.js define revisions, browser versions, archive paths, and mirrors, but do not expose SHA-256/integrity values for downloaded browser archives. install --list reports cache identities only. No archive hash is claimed or fabricated.",
+    "provenance_disposition": "Pinned Python package plus package-defined browser revisions/build identifiers are exact and reproducible; archive-hash absence is recorded as a limitation, not an unresolved version boundary."
+  },
+  "advisory_review": {
+    "review_date": "2026-09-19",
+    "npm_audit": { "command": "npm audit --json", "dependencies": 64, "vulnerabilities": { "info": 0, "low": 0, "moderate": 0, "high": 0, "critical": 0, "total": 0 } },
+    "components": [
+      { "package": "fflate", "version": "0.8.3", "source": "https://github.com/advisories/GHSA-px8p-9vwx-vf98", "advisory": "CVE-2026-45820 / GHSA-px8p-9vwx-vf98", "affected": "0.8.0 through <0.8.3", "patched": "0.8.3", "result": "PASS; exact version is patched", "runtime_exposure": "Embedded in shipped trip-vector bundle; advisory is relevant and exact version is at patched boundary." },
+      { "package": "pmtiles", "version": "4.5.0", "source": "https://github.com/protomaps/PMTiles/security/advisories", "advisory": "No maintainer-published advisory found; npm audit zero", "affected": null, "patched": null, "result": "No hit in reviewed authoritative sources; not a universal clean-bill claim", "runtime_exposure": "Embedded in shipped trip-vector bundle." },
+      { "package": "@protomaps/basemaps", "version": "5.7.2", "source": "https://github.com/protomaps/basemaps/security", "advisory": "No maintainer-published advisory found; npm audit zero", "affected": null, "patched": null, "result": "No hit in reviewed authoritative sources; not a universal clean-bill claim", "runtime_exposure": "Embedded in shipped trip-vector bundle." },
+      { "package": "esbuild", "version": "0.28.2", "source": "https://github.com/evanw/esbuild/security/advisories", "advisory": "GHSA-gv7w-rqvm-qjhr; GHSA-g7r4-m6w7-qqqr; GHSA-67mh-4wv8-2f99", "affected": "older ranges; exact affected ranges are below 0.28.2", "patched": "0.28.1 or 0.25.0 as applicable", "result": "PASS for exact 0.28.2; no shipped-runtime exposure because esbuild is build-time only", "runtime_exposure": "Build-time bundler, not embedded in vendor/trip-vector.js." },
+      { "package": "playwright", "version": "1.62.0", "source": "https://github.com/advisories/GHSA-7mvr-c777-76hp", "advisory": "CVE-2025-59288 / GHSA-7mvr-c777-76hp", "affected": "<1.55.1", "patched": ">=1.55.1", "result": "PASS; exact 1.62.0 is outside affected range; npm audit zero", "runtime_exposure": "QA/browser automation dependency, not shipped product runtime." },
+      { "package": "Firefox browser revision", "version": "153.0 / revision 1538", "source": "https://www.mozilla.org/en-US/security/advisories/mfsa2026-74/", "advisory": "CVE-2026-74990", "affected": "Firefox 153.0", "patched": "153.1 / 154", "result": "QA-only advisory note; exact browser is not shipped in the product bundle, so this does not trigger shipped-runtime FIX_REQUIRED", "runtime_exposure": "Only the Playwright QA browser cache; disposition should be revisited if organizational policy treats the QA browser as a shipped/deployed runtime." }
+    ],
+    "browser_review_limits": [
+      "No exact Chromium 151.0.7922.34 CVE was identified in the authoritative sources reviewed; this is not a universal clean bill.",
+      "The Apple Safari 26.5 advisory surface was not treated as an exact Playwright WebKit-build match; no unsupported equivalence was claimed.",
+      "Playwright and Playwright-Python maintainer advisory pages had no published advisories at review time."
+    ],
+    "material_shipped_bundle_vulnerability": false
+  },
+  "residual_items": {
+    "verify_required": [],
+    "recorded_limitations": [
+      "Playwright browser archive SHA/integrity values are not exposed by the inspected authoritative package metadata.",
+      "The historical repository did not track the JS dependency workspace or lock; exact provenance is established by registry identities plus independent byte/hash reproduction, not by a historical lockfile.",
+      "Current advisory review is bounded to the authoritative sources and exact versions listed above; absence from one advisory API is not treated as universal cleanliness."
+    ],
+    "disposition": "No material Gate-7 exact-dependency-provenance requirement remains unresolved for the shipped trip-vector runtime or the package-defined Playwright browser revisions."
+  },
+  "final_policy": {
+    "classification": "GO_READY_EVIDENCE",
+    "not_fix_required": "No known material vulnerability was found in the shipped runtime bundle at the exactly reproduced component versions. The Firefox 153.0 advisory is explicitly QA-only and is not a shipped product runtime finding.",
+    "no_product_mutation": true,
+    "project_os_audit_required": true
+  }
+}
