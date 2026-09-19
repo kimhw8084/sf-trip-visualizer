@@ -1,0 +1,587 @@
+{
+  "accepted_at": "2026-09-19T15:46:48Z",
+  "changed_files": [
+    {
+      "additions": 7,
+      "deletions": 5,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "M"
+    },
+    {
+      "additions": 9,
+      "deletions": 6,
+      "path": ".github/workflows/deploy-pages.yml",
+      "status": "M"
+    },
+    {
+      "additions": 61,
+      "deletions": 61,
+      "path": "QA/map_first/canonical_truth.json",
+      "status": "M"
+    },
+    {
+      "additions": 23,
+      "deletions": 6,
+      "path": "QA/map_first/cross_browser.json",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 8,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "QA/map_first/smoke.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "QA/photo_integrity.json",
+      "status": "M"
+    },
+    {
+      "additions": 226,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r2/evidence.json",
+      "status": "A"
+    },
+    {
+      "additions": 198,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r4/evidence.json",
+      "status": "A"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "QA/route_panel/route_explanations_panel.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 2,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "manifests/public_asset_rights.json",
+      "status": "M"
+    },
+    {
+      "additions": 363,
+      "deletions": 0,
+      "path": "manifests/security_privacy_contract.json",
+      "status": "A"
+    },
+    {
+      "additions": 29,
+      "deletions": 4,
+      "path": "requirements-qa.txt",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 22,
+      "deletions": 2,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 11,
+      "deletions": 3,
+      "path": "scripts/public_asset_rights.py",
+      "status": "M"
+    },
+    {
+      "additions": 628,
+      "deletions": 0,
+      "path": "scripts/security_privacy.py",
+      "status": "A"
+    },
+    {
+      "additions": 54,
+      "deletions": 28,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "src/map_shell_template.html",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 2,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 1,
+      "path": "tests/test_public_asset_rights.py",
+      "status": "M"
+    },
+    {
+      "additions": 234,
+      "deletions": 0,
+      "path": "tests/test_security_privacy.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk which rtk && rtk python3 -m pip --version && rtk curl -fsSL https://pypi.org/pypi/Pillow/12.3.0/json | rtk jq -r '.urls[] | [.filename,.packagetype,.python_version,.digests.sha256] | @tsv' && printf '%s\\\\n' '--- greenlet ---' && rtk curl -fsSL https://pypi.org/pypi/greenlet/3.5.5/json | rtk jq -r '.urls[] | [.filename,.packagetype,.python_version,.digests.sha256] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk uname -sm && rtk python3 -c 'import platform,sys; print(platform.platform()); print(platform.machine()); print(sys.version)' && rtk python3 -m pip debug --verbose | sed -n '1,90p' && printf '%s\\\\n' '--- targeted metadata ---' && rtk curl -fsSL https://pypi.org/pypi/Pillow/12.3.0/json | rtk jq -r '.urls[] | select(.filename|test(\\\"cp311.*(macosx_11_0_arm64|manylinux_2_27_x86_64)\\\")) | [.filename,.digests.sha256] | @tsv' && rtk curl -fsSL https://pypi.org/pypi/greenlet/3.5.5/json | rtk jq -r '.urls[] | select(.filename|test(\\\"cp311.*(macosx_11_0_universal2|manylinux_2_24_x86_64)\\\")) | [.filename,.digests.sha256] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -fsSL https://pypi.org/pypi/Pillow/12.3.0/json | rtk proxy jq -r '.urls[] | select(.filename|test(\\\"cp311.*(macosx_11_0_arm64|manylinux_2_27_x86_64)\\\")) | [.filename,.digests.sha256] | @tsv' && rtk curl -fsSL https://pypi.org/pypi/greenlet/3.5.5/json | rtk proxy jq -r '.urls[] | select(.filename|test(\\\"cp311.*(macosx_11_0_universal2|manylinux_2_24_x86_64)\\\")) | [.filename,.digests.sha256] | @tsv' && rtk curl -fsSL https://pypi.org/pypi/playwright/1.62.0/json | rtk proxy jq -r '.urls[] | select(.filename|test(\\\"(macosx_11_0_arm64|manylinux1_x86_64)\\\")) | [.filename,.digests.sha256] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'artifact_tmp=$(mktemp -d /tmp/g7-artifacts.XXXXXX) && mkdir -p \"$artifact_tmp/macos\" \"$artifact_tmp/linux\" && rtk python3 -m pip download --no-deps --only-binary=:all: --dest \"$artifact_tmp/macos\" --python-version 3.11 --implementation cp --abi cp311 --platform macosx_11_0_arm64 -r requirements-qa.txt && rtk python3 -m pip download --no-deps --only-binary=:all: --dest \"$artifact_tmp/linux\" --python-version 3.11 --implementation cp --abi cp311 --platform manylinux_2_28_x86_64 -r requirements-qa.txt && printf '\"'%s\\\\n' '--- selected macOS ARM ---' && rtk find \\\"\"'$artifact_tmp/macos\" -maxdepth 1 -type f -print | sort && printf '\"'%s\\\\n' '--- selected Linux x86_64 ---' && rtk find \\\"\"'$artifact_tmp/linux\" -maxdepth 1 -type f -print | sort && printf '\"'%s\\\\n' '--- selected hashes ---' && rtk shasum -a 256 \\\"\"'$artifact_tmp\"/macos/* \"$artifact_tmp\"/linux/*'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'artifact_tmp2=$(mktemp -d /tmp/g7-linux.XXXXXX) && for package_spec in '\"'beautifulsoup4==4.12.2' 'Pillow==12.3.0' 'playwright==1.62.0' 'requests==2.33.0' 'soupsieve==2.9.2' 'greenlet==3.5.5' 'pyee==13.0.1' 'typing-extensions==4.16.0' 'certifi==2026.7.22' 'charset-normalizer==2.0.4' 'idna==3.19' 'urllib3==2.8.0'; do rtk python3 -m pip download --no-deps --only-binary=:all: --dest \\\"\"'$artifact_tmp2\" --python-version 3.11 --implementation cp --abi cp311 --platform manylinux_2_39_x86_64 \"$package_spec\" || exit 1; done && printf '\"'%s\\\\n' '--- selected Linux x86_64 manylinux_2_39 ---' && rtk find \\\"\"'$artifact_tmp2\" -maxdepth 1 -type f -print | sort && printf '\"'%s\\\\n' '--- selected hashes ---' && rtk shasum -a 256 \\\"\"'$artifact_tmp2\"/*'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"printf '%s\\\\n' '--- R2 evidence keys ---' && rtk jq 'keys' QA/project_os_verify/gate7_r2/evidence.json && rtk sed -n '1,260p' QA/project_os_verify/gate7_r2/evidence.json && printf '%s\\\\n' '--- prior gate evidence layouts ---' && rtk find QA/project_os_verify -maxdepth 3 -type f -print | sort | sed -n '1,180p' && printf '%s\\\\n' '--- pipeline commands ---' && rtk rg -n \\\"subparsers|add_parser|def (fast|qualify|release|verify)|fast|qualify|verify-public|package|public\\\" scripts/pipeline.py | sed -n '1,240p' && printf '%s\\\\n' '--- branch remote ---' && rtk git remote -v && rtk git config --get remote.origin.url\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,120p' scripts/security_privacy.py && rtk sed -n '1,130p' tests/test_canonical_pipeline.py && rtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq empty manifests/security_privacy_contract.json && rtk python3 -m py_compile scripts/security_privacy.py && rtk git diff --check && rtk git diff --stat && rtk git diff -- requirements-qa.txt | sed -n '1,80p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_security_privacy.SecurityPrivacyContractTests.test_required_dependency_is_hash_pinned -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_security_privacy.SecurityPrivacyContractTests.test_platform_coverage_requires_linux_playwright_hash tests.test_security_privacy.SecurityPrivacyContractTests.test_repaired_artifact_matrix_covers_supported_platforms tests.test_security_privacy.SecurityPrivacyContractTests.test_wrong_linux_artifact_hash_fails_coverage tests.test_security_privacy.SecurityPrivacyContractTests.test_unapproved_platform_artifact_hash_fails_closed -v && rtk python3 -m unittest tests.test_security_privacy -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom urllib.request import urlopen\n\nchecks = {\n    \\\"beautifulsoup4==4.12.2\\\": (\\\"beautifulsoup4\\\", \\\"beautifulsoup4-4.12.2-py3-none-any.whl\\\", \\\"bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a\\\"),\n    \\\"Pillow==12.3.0 macOS\\\": (\\\"Pillow\\\", \\\"pillow-12.3.0-cp311-cp311-macosx_11_0_arm64.whl\\\", \\\"37d6d0a00072fd2948eb22bce7e1475f34569d90c87c59f7a2ec59541b77f7a6\\\"),\n    \\\"Pillow==12.3.0 Linux\\\": (\\\"Pillow\\\", \\\"pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl\\\", \\\"23d27a3e0307ec2244cc51e7287b919aa68d097504ebe19df4e76a98a3eea5bd\\\"),\n    \\\"playwright==1.62.0 macOS\\\": (\\\"playwright\\\", \\\"playwright-1.62.0-py3-none-macosx_11_0_arm64.whl\\\", \\\"db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034\\\"),\n    \\\"playwright==1.62.0 Linux\\\": (\\\"playwright\\\", \\\"playwright-1.62.0-py3-none-manylinux1_x86_64.whl\\\", \\\"ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3\\\"),\n    \\\"requests==2.33.0\\\": (\\\"requests\\\", \\\"requests-2.33.0-py3-none-any.whl\\\", \\\"3324635456fa185245e24865e810cecec7b4caf933d7eb133dcde67d48cee69b\\\"),\n    \\\"soupsieve==2.9.2\\\": (\\\"soupsieve\\\", \\\"soupsieve-2.9.2-py3-none-any.whl\\\", \\\"8089a26fd974ca7a1f30276d3d8492ab266ab15af581642dfe8aa162e0c1c823\\\"),\n    \\\"greenlet==3.5.5 macOS\\\": (\\\"greenlet\\\", \\\"greenlet-3.5.5-cp311-cp311-macosx_11_0_universal2.whl\\\", \\\"be63afcbbccfad3dd95a1ba12ada84dab2ef32031973d80b5b92df67fa763a61\\\"),\n    \\\"greenlet==3.5.5 Linux\\\": (\\\"greenlet\\\", \\\"greenlet-3.5.5-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl\\\", \\\"74cc6df89ec5302337adc9cf096221cbed2510fd444b0e0f1586cf0470740864\\\"),\n    \\\"pyee==13.0.1\\\": (\\\"pyee\\\", \\\"pyee-13.0.1-py3-none-any.whl\\\", \\\"af2f8fede4171ef667dfded53f96e2ed0d6e6bd7ee3bb46437f77e3b57689228\\\"),\n    \\\"typing-extensions==4.16.0\\\": (\\\"typing-extensions\\\", \\\"typing_extensions-4.16.0-py3-none-any.whl\\\", \\\"481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8\\\"),\n    \\\"certifi==2026.7.22\\\": (\\\"certifi\\\", \\\"certifi-2026.7.22-py3-none-any.whl\\\", \\\"62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775\\\"),\n    \\\"charset-normalizer==2.0.4\\\": (\\\"charset-normalizer\\\", \\\"charset_normalizer-2.0.4-py3-none-any.whl\\\", \\\"0c8911edd15d19223366a194a513099a302055a962bca2cec0f54b8b63175d8b\\\"),\n    \\\"idna==3.19\\\": (\\\"idna\\\", \\\"idna-3.19-py3-none-any.whl\\\", \\\"815e7be7a7806d54abb586dc943addc79e8b2ee16915059658cbeff4b1b43bf4\\\"),\n    \\\"urllib3==2.8.0\\\": (\\\"urllib3\\\", \\\"urllib3-2.8.0-py3-none-any.whl\\\", \\\"0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3\\\"),\n}\nfailed = []\nfor label, (project, filename, expected) in checks.items():\n    url = f\\\"https://pypi.org/pypi/{project}/json\\\"\n    with urlopen(url, timeout=30) as response:\n        data = json.load(response)\n    matches = [item for item in data[\\\"urls\\\"] if item[\\\"filename\\\"] == filename]\n    actual = matches[0][\\\"digests\\\"][\\\"sha256\\\"] if matches else None\n    result = \\\"PASS\\\" if actual == expected else \\\"FAIL\\\"\n    print(f\\\"{result}\\\\t{label}\\\\t{filename}\\\\t{actual}\\\")\n    if result == \\\"FAIL\\\":\n        failed.append(label)\nif failed:\n    raise SystemExit(\\\"metadata mismatch: \\\" + \\\", \\\".join(failed))\nPY\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom urllib.request import urlopen\n\nchecks = {\n    \\\"beautifulsoup4==4.12.2\\\": (\\\"beautifulsoup4\\\", \\\"4.12.2\\\", \\\"beautifulsoup4-4.12.2-py3-none-any.whl\\\", \\\"bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a\\\"),\n    \\\"Pillow==12.3.0 macOS\\\": (\\\"Pillow\\\", \\\"12.3.0\\\", \\\"pillow-12.3.0-cp311-cp311-macosx_11_0_arm64.whl\\\", \\\"37d6d0a00072fd2948eb22bce7e1475f34569d90c87c59f7a2ec59541b77f7a6\\\"),\n    \\\"Pillow==12.3.0 Linux\\\": (\\\"Pillow\\\", \\\"12.3.0\\\", \\\"pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl\\\", \\\"23d27a3e0307ec2244cc51e7287b919aa68d097504ebe19df4e76a98a3eea5bd\\\"),\n    \\\"playwright==1.62.0 macOS\\\": (\\\"playwright\\\", \\\"1.62.0\\\", \\\"playwright-1.62.0-py3-none-macosx_11_0_arm64.whl\\\", \\\"db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034\\\"),\n    \\\"playwright==1.62.0 Linux\\\": (\\\"playwright\\\", \\\"1.62.0\\\", \\\"playwright-1.62.0-py3-none-manylinux1_x86_64.whl\\\", \\\"ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3\\\"),\n    \\\"requests==2.33.0\\\": (\\\"requests\\\", \\\"2.33.0\\\", \\\"requests-2.33.0-py3-none-any.whl\\\", \\\"3324635456fa185245e24865e810cecec7b4caf933d7eb133dcde67d48cee69b\\\"),\n    \\\"soupsieve==2.9.2\\\": (\\\"soupsieve\\\", \\\"2.9.2\\\", \\\"soupsieve-2.9.2-py3-none-any.whl\\\", \\\"8089a26fd974ca7a1f30276d3d8492ab266ab15af581642dfe8aa162e0c1c823\\\"),\n    \\\"greenlet==3.5.5 macOS\\\": (\\\"greenlet\\\", \\\"3.5.5\\\", \\\"greenlet-3.5.5-cp311-cp311-macosx_11_0_universal2.whl\\\", \\\"be63afcbbccfad3dd95a1ba12ada84dab2ef32031973d80b5b92df67fa763a61\\\"),\n    \\\"greenlet==3.5.5 Linux\\\": (\\\"greenlet\\\", \\\"3.5.5\\\", \\\"greenlet-3.5.5-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl\\\", \\\"74cc6df89ec5302337adc9cf096221cbed2510fd444b0e0f1586cf0470740864\\\"),\n    \\\"pyee==13.0.1\\\": (\\\"pyee\\\", \\\"13.0.1\\\", \\\"pyee-13.0.1-py3-none-any.whl\\\", \\\"af2f8fede4171ef667dfded53f96e2ed0d6e6bd7ee3bb46437f77e3b57689228\\\"),\n    \\\"typing-extensions==4.16.0\\\": (\\\"typing-extensions\\\", \\\"4.16.0\\\", \\\"typing_extensions-4.16.0-py3-none-any.whl\\\", \\\"481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8\\\"),\n    \\\"certifi==2026.7.22\\\": (\\\"certifi\\\", \\\"2026.7.22\\\", \\\"certifi-2026.7.22-py3-none-any.whl\\\", \\\"62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775\\\"),\n    \\\"charset-normalizer==2.0.4\\\": (\\\"charset-normalizer\\\", \\\"2.0.4\\\", \\\"charset_normalizer-2.0.4-py3-none-any.whl\\\", \\\"0c8911edd15d19223366a194a513099a302055a962bca2cec0f54b8b63175d8b\\\"),\n    \\\"idna==3.19\\\": (\\\"idna\\\", \\\"3.19\\\", \\\"idna-3.19-py3-none-any.whl\\\", \\\"815e7be7a7806d54abb586dc943addc79e8b2ee16915059658cbeff4b1b43bf4\\\"),\n    \\\"urllib3==2.8.0\\\": (\\\"urllib3\\\", \\\"2.8.0\\\", \\\"urllib3-2.8.0-py3-none-any.whl\\\", \\\"0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3\\\"),\n}\nfailed = []\nfor label, (project, version, filename, expected) in checks.items():\n    url = f\\\"https://pypi.org/pypi/{project}/{version}/json\\\"\n    with urlopen(url, timeout=30) as response:\n        data = json.load(response)\n    matches = [item for item in data[\\\"urls\\\"] if item[\\\"filename\\\"] == filename]\n    actual = matches[0][\\\"digests\\\"][\\\"sha256\\\"] if matches else None\n    result = \\\"PASS\\\" if actual == expected else \\\"FAIL\\\"\n    print(f\\\"{result}\\\\t{label}\\\\t{filename}\\\\t{actual}\\\")\n    if result == \\\"FAIL\\\":\n        failed.append(label)\nif failed:\n    raise SystemExit(\\\"metadata mismatch: \\\" + \\\", \\\".join(failed))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_security_privacy -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check && rtk git status --short && rtk git diff --name-status 7e3f7918033ccddc92eef9449a11096bfedfd408 && rtk git add requirements-qa.txt manifests/security_privacy_contract.json scripts/security_privacy.py tests/test_security_privacy.py && rtk git commit -m \"fix: cover Linux QA wheel hashes\" && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest tests.test_security_privacy -v && rtk python3 -m unittest tests.test_public_asset_rights tests.test_canonical_pipeline -v && rtk python3 -m unittest discover -s tests -p 'test_*.py' -v && rtk python3 -m py_compile scripts/security_privacy.py tests/test_security_privacy.py && rtk git diff --check 7e3f7918033ccddc92eef9449a11096bfedfd408 HEAD && rtk python3 -m pip install --dry-run --require-hashes -r requirements-qa.txt\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'linux_artifact_tmp=$(mktemp -d /tmp/g7-linux-selection.XXXXXX) && for package_spec in '\"'beautifulsoup4==4.12.2' 'Pillow==12.3.0' 'requests==2.33.0' 'soupsieve==2.9.2' 'greenlet==3.5.5' 'pyee==13.0.1' 'typing-extensions==4.16.0' 'certifi==2026.7.22' 'charset-normalizer==2.0.4' 'idna==3.19' 'urllib3==2.8.0'; do rtk python3 -m pip download --no-deps --only-binary=:all: --dest \\\"\"'$linux_artifact_tmp\" --python-version 3.11 --implementation cp --abi cp311 --platform manylinux_2_28_x86_64 \"$package_spec\" >/dev/null || exit 1; done && rtk python3 -m pip download --no-deps --only-binary=:all: --dest \"$linux_artifact_tmp\" --python-version 3.11 --implementation cp --abi cp311 --platform manylinux1_x86_64 '\"'playwright==1.62.0' >/dev/null && rtk python3 - <<PY\nimport hashlib\nfrom pathlib import Path\n\nroot = Path(\\\"\"'$linux_artifact_tmp\")\nexpected = {\n    \"beautifulsoup4-4.12.2-py3-none-any.whl\": \"bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a\",\n    \"pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl\": \"23d27a3e0307ec2244cc51e7287b919aa68d097504ebe19df4e76a98a3eea5bd\",\n    \"playwright-1.62.0-py3-none-manylinux1_x86_64.whl\": \"ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3\",\n    \"requests-2.33.0-py3-none-any.whl\": \"3324635456fa185245e24865e810cecec7b4caf933d7eb133dcde67d48cee69b\",\n    \"soupsieve-2.9.2-py3-none-any.whl\": \"8089a26fd974ca7a1f30276d3d8492ab266ab15af581642dfe8aa162e0c1c823\",\n    \"greenlet-3.5.5-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl\": \"74cc6df89ec5302337adc9cf096221cbed2510fd444b0e0f1586cf0470740864\",\n    \"pyee-13.0.1-py3-none-any.whl\": \"af2f8fede4171ef667dfded53f96e2ed0d6e6bd7ee3bb46437f77e3b57689228\",\n    \"typing_extensions-4.16.0-py3-none-any.whl\": \"481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8\",\n    \"certifi-2026.7.22-py3-none-any.whl\": \"62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775\",\n    \"charset_normalizer-2.0.4-py3-none-any.whl\": \"0c8911edd15d19223366a194a513099a302055a962bca2cec0f54b8b63175d8b\",\n    \"idna-3.19-py3-none-any.whl\": \"815e7be7a7806d54abb586dc943addc79e8b2ee16915059658cbeff4b1b43bf4\",\n    \"urllib3-2.8.0-py3-none-any.whl\": \"0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3\",\n}\nfailed = []\nfor filename, digest in expected.items():\n    path = root / filename\n    actual = hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None\n    status = \"PASS\" if actual == digest else \"FAIL\"\n    print(f\"{status}'\"\\\\t{filename}\\\\t{actual}\\\")\n    if status == \\\"FAIL\\\":\n        failed.append(filename)\nif failed:\n    raise SystemExit(\\\"linux artifact mismatch: \\\" + \\\", \\\".join(failed))\nPY\nprintf '%s\\\\n' 'Linux x86_64 CPython 3.11 pip selection/hash check: PASS'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py fast --revision 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk ps -axo pid,command | rtk rg 'pipeline.py qualify|cross_browser|playwright|python3' | sed -n '1,160p'; printf '%s\\\\n' '--- qualification evidence ---'; if rtk test -f QA/release/qualification.json; then rtk jq '{status,candidate_head,tests,failures}' QA/release/qualification.json; fi; printf '%s\\\\n' '--- qualification log ---'; if rtk test -f QA/release/qualification.log; then rtk tail -n 80 QA/release/qualification.log; fi\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'ps -axo pid,command | grep -E \\\"pipeline.py qualify|cross_browser|playwright|python3\\\" | grep -v grep | head -160; echo ---qualification---; if [ -f QA/release/qualification.json ]; then jq \\\"{status,candidate_head,tests,failures}\\\" QA/release/qualification.json; else echo missing; fi; echo ---log---; if [ -f QA/release/qualification.log ]; then tail -n 80 QA/release/qualification.log; else echo missing; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 20; ps -axo pid,command | grep -E \\\"pipeline.py qualify|qa_map_first|playwright/driver\\\" | grep -v grep | head -60; if [ -f QA/release/qualification.json ]; then jq \\\"{status,candidate_head,tests,failures}\\\" QA/release/qualification.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 30; ps -axo pid,command | grep -E \\\"pipeline.py qualify|qa_map_first|playwright/driver\\\" | grep -v grep | head -80; if [ -f QA/release/qualification.json ]; then jq \\\"{status,candidate_head,tests,failures}\\\" QA/release/qualification.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 30; ps -axo pid,command | grep -E \\\"pipeline.py qualify|qa_map_first|playwright/driver\\\" | grep -v grep | head -80; if [ -f QA/release/qualification.json ]; then jq \\\"{status,candidate_head,tests,failures}\\\" QA/release/qualification.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 30; ps -axo pid,command | grep -E \\\"pipeline.py qualify|qa_map_first|playwright/driver\\\" | grep -v grep | head -100; if [ -f QA/release/qualification.json ]; then jq \\\"{status,candidate_head,tests,failures}\\\" QA/release/qualification.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 30; ps -axo pid,command | grep -E \\\"pipeline.py qualify|qa_map_first|playwright/driver\\\" | grep -v grep | head -100; if [ -f QA/release/qualification.json ]; then jq \\\"{status,candidate_head,tests,failures}\\\" QA/release/qualification.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 30; ps -axo pid,etime,command | grep -E \\\"pipeline.py qualify|qa_map_first|playwright/driver\\\" | grep -v grep | head -100; if [ -f QA/release/qualification.json ]; then jq \\\"{status,candidate_head,tests,failures}\\\" QA/release/qualification.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'ps -axo pid,etime,command | grep -E \\\"pipeline.py (assemble-public|verify-public|package)|package_map_first|zip\\\" | grep -v grep | head -80; echo ---package-evidence---; if [ -f QA/release/gate4.json ]; then jq \\\"{status,candidate_head,package}\\\" QA/release/gate4.json; fi; if [ -f QA/release/package.json ]; then jq \\\"{status,revision,package_sha256,manifest_sha256,files,checks}\\\" QA/release/package.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 25; ps -axo pid,etime,command | grep -E \\\"pipeline.py (assemble-public|verify-public|package)|package_map_first\\\" | grep -v grep | head -80; if [ -f QA/release/gate4.json ]; then jq \\\"{status,candidate_head,package}\\\" QA/release/gate4.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 30; ps -axo pid,etime,command | grep -E \\\"pipeline.py package|package_map_first\\\" | grep -v grep | head -80; if [ -f QA/release/gate4.json ]; then jq \\\"{status,candidate_head,package}\\\" QA/release/gate4.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 30; ps -axo pid,etime,command | grep -E \\\"pipeline.py package|package_map_first\\\" | grep -v grep | head -80; if [ -f QA/release/gate4.json ]; then jq \\\"{status,candidate_head,package}\\\" QA/release/gate4.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 25; ps -axo pid,etime,command | grep -E \\\"pipeline.py package|package_map_first|security_privacy\\\" | grep -v grep | head -100; if [ -f QA/release/gate4.json ]; then jq \\\"{status,candidate_head,package}\\\" QA/release/gate4.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9 && rtk python3 scripts/pipeline.py verify-public --revision 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9 && rtk python3 scripts/pipeline.py package --revision 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 30; ps -axo pid,etime,command | grep -E \\\"pipeline.py package|security_privacy\\\" | grep -v grep | head -80; if [ -f QA/release/gate4.json ]; then jq \\\"{status,candidate_head,package}\\\" QA/release/gate4.json; fi'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && printf '%s\\\\n' '--- tracked changes after verification ---' && rtk git diff --name-status && printf '%s\\\\n' '--- changed paths relative stable candidate ---' && rtk git diff --name-status 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9 && printf '%s\\\\n' '--- source/runtime/workflow/dependency/manifest post-candidate changes ---' && rtk git diff --name-only 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9 -- .github requirements-qa.txt manifests src vendor scripts tests | sed -n '1,160p' && printf '%s\\\\n' '--- vendor hash ---' && rtk shasum -a 256 vendor/trip-vector.js && printf '%s\\\\n' '--- remote managed R4 ref ---' && rtk git ls-remote origin refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4 && rtk git ls-remote origin refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh --version && rtk gh auth status && rtk gh run list --repo kimhw8084/sf-trip-visualizer --workflow 'Qualify Fabric candidate' --branch codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4 --limit 5 --json databaseId,headSha,status,conclusion,displayTitle,event,createdAt,updatedAt,url\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35453857397 --repo kimhw8084/sf-trip-visualizer --json databaseId,status,conclusion,headSha,createdAt,updatedAt,jobs,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35453857397 --repo kimhw8084/sf-trip-visualizer --job 105925592106 --log 2>&1 | tail -n 120'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run watch 35453857397 --repo kimhw8084/sf-trip-visualizer --exit-status'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run watch 35453857397 --repo kimhw8084/sf-trip-visualizer --exit-status'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35453857397 --repo kimhw8084/sf-trip-visualizer --json databaseId,headSha,status,conclusion,createdAt,updatedAt,jobs,url && printf '%s\\\\n' '--- check runs for exact head ---' && rtk gh api repos/kimhw8084/sf-trip-visualizer/commits/1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9/check-runs --jq '.check_runs[] | {id,name,status,conclusion,details_url,started_at,completed_at}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'set -e; echo ---hashes---; shasum -a 256 requirements-qa.txt manifests/security_privacy_contract.json scripts/security_privacy.py tests/test_security_privacy.py vendor/trip-vector.js QA/release/security_privacy.json QA/release/fast.json QA/release/qualification.json QA/release/public_asset_rights.json QA/release/public_asset_rights_package.json QA/release/gate4.json .public-site/.release-provenance.json .release/package/PACKAGE_MANIFEST.json .release/package.zip QA/map_first/canonical_truth.json QA/map_first/cross_browser.json QA/map_first/full_acceptance.json QA/map_first/smoke.json QA/route_panel/route_explanations_panel.json; echo ---fast---; jq \\\"{status,candidate_head,errors,steps: [.tests[]? | {name,status,returncode}]}\\\" QA/release/fast.json; echo ---qualification---; jq \\\"{status,candidate_head,failures,tests: [.tests[] | {name,status,returncode}]}\\\" QA/release/qualification.json; echo ---gate4---; jq \\\"{status,candidate_head,static,runtime,package}\\\" QA/release/gate4.json; echo ---public rights---; jq \\\"{status,mode,file_count,package_file_count}\\\" QA/release/public_asset_rights.json QA/release/public_asset_rights_package.json; echo ---provenance---; jq \\\"{tested_sha,artifact_sha256,files}\\\" .public-site/.release-provenance.json; echo ---package manifest---; jq \\\"{tested_sha,files,archive_sha256}\\\" .release/package/PACKAGE_MANIFEST.json'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git rev-parse ab8fd36 && rtk git show -s --format='%H%n%P%n%T' 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9 && printf '%s\\\\n' '--- ancestry/target refs ---' && rtk git merge-base --is-ancestor bb1b58619629448d99cd6a20b27e882492d1d0d7 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9; printf 'base_ancestor=%s\\\\n' \\\"\"'$?\" && rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4 && printf '\"'%s\\\\n' '--- changed files from predecessor ---' && rtk git diff --name-status 7e3f7918033ccddc92eef9449a11096bfedfd408 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq empty QA/project_os_verify/gate7_r4/evidence.json && rtk git diff --check && rtk git status --short --branch && printf '%s\\\\n' '--- post-candidate tracked diff ---' && rtk git diff --name-status 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9 && printf '%s\\\\n' '--- non-evidence post-candidate diff ---' && rtk git diff --name-only 1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9 -- .github requirements-qa.txt manifests src vendor scripts tests\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add QA/map_first/canonical_truth.json QA/map_first/cross_browser.json QA/map_first/full_acceptance.json QA/map_first/smoke.json QA/route_panel/route_explanations_panel.json QA/project_os_verify/gate7_r4/evidence.json && rtk git commit -m \"qa: record Gate 7 R4 CI portability evidence\" && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk shasum -a 256 QA/project_os_verify/gate7_r4/evidence.json && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git push origin HEAD:refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4 && rtk git ls-remote origin refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4 refs/heads/main && rtk gh run list --repo kimhw8084/sf-trip-visualizer --workflow 'Qualify Fabric candidate' --branch codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4 --limit 3 --json databaseId,headSha,status,conclusion,createdAt,url\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'sleep 12'; rtk gh run list --repo kimhw8084/sf-trip-visualizer --workflow 'Qualify Fabric candidate' --branch codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4 --limit 5 --json databaseId,headSha,status,conclusion,createdAt,updatedAt,url\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run watch 35454464587 --repo kimhw8084/sf-trip-visualizer --exit-status'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy sh -c 'set -e; final=\"'$(git rev-parse HEAD); source=1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9; base=bb1b58619629448d99cd6a20b27e882492d1d0d7; r3=ab8fd36f61443ae47dfa12dc65434e14f68cd108; echo final_head=$final; echo final_tree=$(git rev-parse HEAD''^{tree}); echo evidence_sha256=$(shasum -a 256 QA/project_os_verify/gate7_r4/evidence.json | awk \"{print '\"\\\\\\\\\"'$1}\"); echo ---status---; git status --short --branch; echo ---remote-refs---; git ls-remote origin refs/heads/codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4 refs/heads/main; echo ---ancestry---; git merge-base --is-ancestor \"$base\" \"$final\"; echo base_ancestor=$?; if git merge-base --is-ancestor \"$r3\" \"$final\"; then echo r3_ancestor=true; else echo r3_ancestor=false; fi; echo ---post-candidate-files---; git diff --name-status \"$source\" \"$final\"; echo ---post-candidate-non-evidence---; git diff --name-only \"$source\" \"$final\" -- .github requirements-qa.txt manifests src vendor scripts tests; echo ---pr5---; gh pr view 5 --repo kimhw8084/sf-trip-visualizer --json number,headRefName,headRefOid,baseRefName,state,url; echo ---final-hosted---; gh run view 35454464587 --repo kimhw8084/sf-trip-visualizer --json databaseId,headSha,status,conclusion,jobs,url'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk shasum -a 256 QA/project_os_verify/gate7_r4/evidence.json && rtk jq '{source_candidate:.identities.r4_stable_source_candidate, final_head:(.identities.r4_stable_source_candidate), coverage:.dependency_artifact_repair.coverage_result, hosted:.hosted_github_actions, remaining_verify_boundaries}' QA/project_os_verify/gate7_r4/evidence.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.154.0",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 151,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.14,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 12081408,
+      "fresh_input_tokens": 484761,
+      "input_tokens": 12566169,
+      "non_reasoning_output_tokens": 32086,
+      "output_tokens": 52789,
+      "reasoning_output_tokens": 20703,
+      "total_processed_tokens": 12618958
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "1bd76c084b803fb58aa395c2f92824c19f75428c",
+      "subject": "qa: record Gate 7 R4 CI portability evidence"
+    },
+    {
+      "sha": "1c1e2d79a43550b5ef5dae7365d280b0f4d3a4d9",
+      "subject": "fix: cover Linux QA wheel hashes"
+    },
+    {
+      "sha": "7e3f7918033ccddc92eef9449a11096bfedfd408",
+      "subject": "normalize Gate 7 evidence date"
+    },
+    {
+      "sha": "52317ba03a2c539bc0f5642b0bfe1bd0d4127ed4",
+      "subject": "preserve deterministic Gate 7 QA evidence"
+    },
+    {
+      "sha": "2ab5da8e8770a10e73e2c6c668f0d1c4ef0d4764",
+      "subject": "record Gate 7 R2 verification evidence"
+    },
+    {
+      "sha": "fed7f8394b2d8edfe7a6ff933dbf8b49bdb28aa3",
+      "subject": "fix Gate 7 dependency advisory validation"
+    },
+    {
+      "sha": "9f5964fbfc434cea7221d3bdb70061bb13affa7e",
+      "subject": "fabric: capture completed model changes [CF-03dbb13801b2d416edca2798]"
+    }
+  ],
+  "diff": {
+    "additions": 1895,
+    "changed_files": 23,
+    "commit_count": 7,
+    "deletions": 138
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 12,
+    "items": [
+      {
+        "bytes": 201732,
+        "path": "QA/map_first/canonical_truth.json",
+        "sha256": "1622eda732e09a71ac21ddf99bd4846d5144928a4ecff443fdfdd541eceb97a9"
+      },
+      {
+        "bytes": 3609,
+        "path": "QA/map_first/cross_browser.json",
+        "sha256": "e5262ed88d61eac6444d77c6ed98060b072640ecfb4113abf0ee9a4c8348b49a"
+      },
+      {
+        "bytes": 10267,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "ccd9ae36cacdaecc637faac95d1c5f41ba31e780767653dc8091d791ae74d2b3"
+      },
+      {
+        "bytes": 1158,
+        "path": "QA/map_first/smoke.json",
+        "sha256": "c357ed8b352e22bf1fab4bfb8c684923ea19e83a3e7e7b9f9b6e1ee0c8259044"
+      },
+      {
+        "bytes": 424,
+        "path": "QA/photo_integrity.json",
+        "sha256": "cfaf317b278606352c06b41084c5d8a51474c8b6b7abced4ab2b24a01d5d01f9"
+      },
+      {
+        "bytes": 21951,
+        "path": "QA/project_os_verify/gate7_r2/evidence.json",
+        "sha256": "74035777c80c7f374b513136da0d919938b11e97e5236b2767bc519ee9a0676f"
+      },
+      {
+        "bytes": 14978,
+        "path": "QA/project_os_verify/gate7_r4/evidence.json",
+        "sha256": "c7678573dc6b560583a187020c3ea39df611ea8ac7b0fd77f534554c2136ce58"
+      },
+      {
+        "bytes": 7219,
+        "path": "QA/route_panel/route_explanations_panel.json",
+        "sha256": "c49baf10f994032909eb381a081d8288b6e74615780f330515aba5e48864b9d7"
+      },
+      {
+        "bytes": 4905,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "c8b1bb8abefa80fb81ef21204dc877b5683c51fe4db4b4ffebead74923a6f517"
+      },
+      {
+        "bytes": 549501,
+        "path": "manifests/public_asset_rights.json",
+        "sha256": "35d2e1e7de45d6a3242bc56c2730b0dc63ca01810a92dab2d024785105494830"
+      },
+      {
+        "bytes": 33101,
+        "path": "manifests/security_privacy_contract.json",
+        "sha256": "1cc674a9639c675361eab23bface9e26143382609fda435862fb54c6f03a75a1"
+      },
+      {
+        "bytes": 4039,
+        "path": "src/map_shell_template.html",
+        "sha256": "8d9a4a7ba41d3ce00dc05cb5b9a4b4a9751d6e4b899a0869a04f1e74bd088120"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-19T16:26:14Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+    "branch": "codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4",
+    "detached_verify": false,
+    "head_sha": "1bd76c084b803fb58aa395c2f92824c19f75428c",
+    "remote_exact_head": true,
+    "remote_head_sha": "1bd76c084b803fb58aa395c2f92824c19f75428c",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "bb1b58619629448d99cd6a20b27e882492d1d0d7",
+    "work_branch": "codex/sf-trip-visualizer-security-privacy-dependency-g7-ci-hash-fix-r4",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-6f41e081d6be234a934d506e",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/security-privacy-dependency-g7-ci-hash-fix-r4",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/security-privacy-dependency-g7-ci-hash-fix-r4"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "44756118cd7fda0c45cd23ba1d31a48a3f4f2422d687df15264ba4406f40e1f2",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "security-privacy-dependency-g7-ci-hash-fix-r4",
+  "schema_version": 1,
+  "started_at": "2026-09-19T15:46:48Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 2366,
+    "queue_seconds": 0,
+    "total_seconds": 2366
+  },
+  "transport": {
+    "bytes": 8399,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 8026,
+    "prompt_sha256": "5d3ba1e738fcd0786f85b353e62e2666cedfbae40756d4bae5363bcf59bb6ce7",
+    "sha256": "6f41e081d6be234a934d506e37651f2557ac1f07020d48bf69c64727207c597a"
+  }
+}
