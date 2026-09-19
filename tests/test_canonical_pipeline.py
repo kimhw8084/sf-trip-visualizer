@@ -102,8 +102,9 @@ class CanonicalPipelineTests(unittest.TestCase):
         )
 
     def test_release_qualification_fails_closed_without_hosted_linux_contract(self):
-        with patch.dict(hosted_linux_pipeline.os.environ, {}, clear=True), patch.object(hosted_linux_pipeline.sys, "platform", "linux"):
-            report = pipeline.run_qualification("candidate", require_clean=True)
+        with tempfile.TemporaryDirectory(prefix="release-contract-evidence-") as directory:
+            with patch.object(pipeline, "QUALIFICATION", Path(directory) / "qualification.json"), patch.dict(hosted_linux_pipeline.os.environ, {}, clear=True), patch.object(hosted_linux_pipeline.sys, "platform", "linux"):
+                report = pipeline.run_qualification("candidate", require_clean=True)
         self.assertEqual(report["status"], "FAIL")
         self.assertTrue(any("Hosted Linux release qualification contract" in error for error in report["errors"]))
 
