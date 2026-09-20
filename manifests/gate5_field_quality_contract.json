@@ -68,13 +68,13 @@
   },
     "evidence": {
       "runner": "scripts/qa_gate5_field_quality.py",
-      "baseline": "QA/gate5/baseline.json",
-      "candidate": "QA/gate5/candidate.json",
-      "paired_comparison": "QA/gate5/paired_comparison.json",
-      "performance_summary": "QA/gate5/performance_summary.log",
+      "baseline": "QA/project_os_verify/gate5_r12/baseline.json",
+      "candidate": "QA/project_os_verify/gate5_r12/candidate.json",
+      "paired_comparison": "QA/project_os_verify/gate5_r12/paired_comparison.json",
+      "performance_summary": "QA/project_os_verify/gate5_r12/performance_summary.log",
       "same_environment_baseline": "generated temporary detached worktree at the authoritative comparison base, uploaded from the exact hosted run",
-      "screenshots": "QA/gate5/screenshots/",
-      "finding_matrix": "QA/gate5/finding_matrix.json"
+      "screenshots": "QA/project_os_verify/gate5_r12/screenshots/",
+      "finding_matrix": "QA/project_os_verify/gate5_r12/finding_matrix.json"
     },
   "acceptance_boundaries": {
     "implementation_status": "PASS means objective Gate 5 checks passed for the exact candidate; it is not a production-readiness claim.",

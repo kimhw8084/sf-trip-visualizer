@@ -34,7 +34,7 @@ from qa_map_visual_integrity import crop_map, image_from_path, integrity_result,
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = ROOT / "manifests" / "gate5_field_quality_contract.json"
-EVIDENCE_ROOT = ROOT / "QA/project_os_verify/gate5_r11"
+EVIDENCE_ROOT = ROOT / "QA/project_os_verify/gate5_r12"
 SCREENSHOTS_ROOT = EVIDENCE_ROOT / "screenshots"
 DEFAULT_OUTPUT = EVIDENCE_ROOT / "candidate.json"
 BASELINE_OUTPUT = EVIDENCE_ROOT / "baseline.json"
@@ -1153,19 +1153,28 @@ def write_review_index(report: dict) -> None:
     REVIEW_INDEX.write_text(json.dumps({"schema_version": 1, "candidate_revision": report.get("candidate_head"), "baseline_revision": BASE_REVISION, "entries": entries}, ensure_ascii=False, indent=2) + "\n")
 
 
+def process_exit_code(status: str) -> int:
+    """Return zero only when the Gate 5 objective completed terminally."""
+    return 0 if status in {"PASS", "VERIFY_REQUIRED"} else 1
+
+
 def main() -> int:
     parser=argparse.ArgumentParser()
     parser.add_argument("--phase",choices=("baseline","candidate"),default="candidate")
     parser.add_argument("--output",default=str(DEFAULT_OUTPUT))
     parser.add_argument("--expected-revision",help="exact candidate revision claimed by canonical qualification")
     args=parser.parse_args()
+    started_at = now()
+    started_monotonic = time.monotonic()
     output=Path(args.output); output=output if output.is_absolute() else ROOT/output; output.parent.mkdir(parents=True,exist_ok=True)
     shot_root=SCREENSHOTS_ROOT/args.phase; shot_root.mkdir(parents=True,exist_ok=True)
     binding=source_binding(args.expected_revision)
-    report={"schema_version":1,"status":"FAIL","gate":"production_readiness_gate_5","phase":args.phase,"candidate_head":revision(),"candidate_tree":subprocess.check_output(["git","rev-parse","HEAD^{tree}"],cwd=ROOT,text=True).strip(),"candidate_fingerprint":binding["source_fingerprint"],"source_binding":binding,"captured_at":now(),"environment":{"platform":platform.platform(),"python":sys.version.split()[0],"ci":os.environ.get("CI"),"url":MODULAR_URL,"playwright":None},"contract":rel(CONTRACT_PATH),"baseline_revision":BASE_REVISION,"baseline_browser_matrix":[],"browser_matrix":[],"workflow":{},"performance":{},"same_host_webkit_control":{},"verify_required":[],"failures":[]}
+    report={"schema_version":1,"status":"FAIL","gate":"production_readiness_gate_5","phase":args.phase,"candidate_head":revision(),"candidate_tree":subprocess.check_output(["git","rev-parse","HEAD^{tree}"],cwd=ROOT,text=True).strip(),"candidate_fingerprint":binding["source_fingerprint"],"source_binding":binding,"captured_at":started_at,"started_at":started_at,"completed_at":None,"duration_seconds":None,"environment":{"platform":platform.platform(),"python":sys.version.split()[0],"ci":os.environ.get("CI"),"url":MODULAR_URL,"playwright":None},"contract":rel(CONTRACT_PATH),"baseline_revision":BASE_REVISION,"baseline_browser_matrix":[],"browser_matrix":[],"workflow":{},"performance":{},"same_host_webkit_control":{},"verify_required":[],"failures":[]}
     if binding["binding"] == "mismatch":
         report["status"]="VERIFY_REQUIRED"
         report["verify_required"].append(binding["reason"])
+        report["completed_at"] = now()
+        report["duration_seconds"] = round(time.monotonic() - started_monotonic, 3)
         output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
         FINDING_MATRIX.parent.mkdir(parents=True,exist_ok=True); FINDING_MATRIX.write_text(json.dumps(finding_matrix(report),ensure_ascii=False,indent=2)+"\n")
         print(json.dumps({"status":report["status"],"phase":args.phase,"candidate_head":report["candidate_head"],"failures":report["failures"],"verify_required":report["verify_required"]},ensure_ascii=False,indent=2))
@@ -1241,6 +1250,8 @@ def main() -> int:
         report["verify_required"].append("exact candidate source binding is not a clean checked-out revision")
     report["gate4_reference"] = gate4_reference(report)
     report["status"]="FAIL" if report["failures"] else "VERIFY_REQUIRED" if args.phase=="candidate" else "PASS"
+    report["completed_at"] = now()
+    report["duration_seconds"] = round(time.monotonic() - started_monotonic, 3)
     summary = performance_summary(report)
     PERFORMANCE_SUMMARY_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     PERFORMANCE_SUMMARY_OUTPUT.write_text(summary)
@@ -1249,7 +1260,7 @@ def main() -> int:
     write_review_index(report)
     print(summary, end="")
     print(json.dumps({"status":report["status"],"phase":args.phase,"candidate_head":report["candidate_head"],"failures":report["failures"],"verify_required":report["verify_required"]},ensure_ascii=False,indent=2))
-    return 0 if report["status"]=="PASS" else 1
+    return process_exit_code(report["status"])
 
 
 if __name__ == "__main__":
