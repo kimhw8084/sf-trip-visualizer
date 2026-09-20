@@ -578,7 +578,7 @@
     const toggle = document.getElementById('mapOptionsToggle'), panel = document.getElementById('mapOptionsPanel');
     if (!toggle || !panel) return;
     state.presentation.mapOptionsOpen = open;
-    if (open) mapOptionsInvoker = document.activeElement;
+    if (open) mapOptionsInvoker = toggle;
     panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open));
     if (open) {
       requestAnimationFrame(() => { positionMapOptions(); fitVisibleMap(); if (focus) panel.querySelector('[data-provider], [data-region], #mapOptionsClose')?.focus({ preventScroll: true }); });
@@ -599,7 +599,7 @@
     const toggle = document.getElementById('routeLegendToggle'), panel = document.getElementById('routeLegendPanel');
     if (!toggle || !panel) return;
     state.presentation.routeLegendOpen = open;
-    if (open) routeLegendInvoker = document.activeElement;
+    if (open) routeLegendInvoker = toggle;
     panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open));
     if (open) requestAnimationFrame(() => { positionRouteLegend(); fitVisibleMap(); });
     else { panel.classList.remove('open-down'); const restore = returnFocus && routeLegendInvoker?.focus && document.contains(routeLegendInvoker) ? routeLegendInvoker : null; requestAnimationFrame(() => { fitVisibleMap(); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); }); routeLegendInvoker = null; }
