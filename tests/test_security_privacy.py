@@ -51,6 +51,23 @@ class SecurityPrivacyContractTests(unittest.TestCase):
         self.assertEqual(drift["status"], "FAIL")
         self.assertTrue(any("maplibre-gl.js" in failure for failure in drift["failures"]))
 
+    def test_stock_vulnerable_maplibre_state_fails_closed(self):
+        contract = json.loads(json.dumps(self.contract))
+        entry = next(item for item in contract["dependency_inventory"] if item["id"] == "maplibre-gl-js")
+        entry["version"] = "4.7.1"
+        entry.pop("local_backport", None)
+        failed = security_privacy.check_maplibre_dependency(ROOT, contract)
+        self.assertEqual(failed["status"], "FAIL")
+        self.assertTrue(any("neither exact upstream 6.4.1+ nor an explicit provenance-bound local backport" in item for item in failed["failures"]))
+
+    def test_maplibre_backport_hash_and_fix_markers_are_mechanical(self):
+        contract = json.loads(json.dumps(self.contract))
+        entry = next(item for item in contract["dependency_inventory"] if item["id"] == "maplibre-gl-js")
+        entry["artifact_hashes"]["vendor/maplibre-gl.js"] = "0" * 64
+        failed = security_privacy.check_maplibre_dependency(ROOT, contract)
+        self.assertEqual(failed["status"], "FAIL")
+        self.assertTrue(any("JavaScript hash" in item for item in failed["failures"]))
+
     def test_required_dependency_is_hash_pinned(self):
         report = security_privacy.check_requirements(ROOT, self.contract)
         self.assertEqual(report["status"], "PASS", report["failures"])

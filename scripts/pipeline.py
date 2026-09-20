@@ -45,6 +45,7 @@ COMPONENT_TIMEOUT_SECONDS = int(os.environ.get("TRIP_QUALIFICATION_TIMEOUT_SECON
 COMPONENTS = (
     ("canonical_truth", "scripts/qa_canonical_truth.py", "QA/map_first/canonical_truth.json"),
     ("photo_integrity", "scripts/check_photo_integrity.py", "QA/photo_integrity.json"),
+    ("maplibre_security", "scripts/qa_maplibre_security.py", "QA/release/maplibre_security.json"),
     ("map_first_smoke", "scripts/qa_map_first.py", "QA/map_first/smoke.json"),
     ("map_first_full", "scripts/qa_map_first_full.py", "QA/map_first/full_acceptance.json"),
     ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
@@ -420,11 +421,15 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
             command = [sys.executable, str(ROOT / script)]
             if name == "photo_integrity":
                 command.append("--runtime-only")
+            if name == "maplibre_security":
+                command.extend(["--revision", report["candidate_head"], "--output", str(output_path)])
             if name == "gate4_runtime":
                 command.extend(["--mode", "browser", "--output", str(output_path)])
             code, stdout, stderr = run_process(command, env)
             status = evidence_status(output_path, code)
             command_text = f"python3 {script}" + (" --runtime-only" if name == "photo_integrity" else "") + (f" --mode browser --output {output}" if name == "gate4_runtime" else "")
+            if name == "maplibre_security":
+                command_text += f' --revision {report["candidate_head"]} --output {output}'
             test_report = {"name": name, "command": command_text, "evidence": output, "status": status, "returncode": code, "timeout_seconds": COMPONENT_TIMEOUT_SECONDS, "stdout_tail": stdout, "stderr_tail": stderr}
             if code == 124:
                 test_report["status_reason"] = f"Component exceeded the {COMPONENT_TIMEOUT_SECONDS}s bound; gate remains unverified and release is fail-closed."
