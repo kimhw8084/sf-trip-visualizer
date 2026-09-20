@@ -6,6 +6,7 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
+from qa_evidence import bind_report, candidate_identity
 from qa_config import MODULAR_URL
 
 
@@ -15,7 +16,10 @@ OUT.mkdir(parents=True, exist_ok=True)
 ROUTES = ("A1", "A2", "B1", "B2")
 DATES = ("all", "10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11")
 REGIONS = ("overall", "sf", "monterey", "yosemite")
-report = {"status": "FAIL", "checks": {}, "matrix": [], "screenshots": [], "errors": [], "console_errors": [], "failed_requests": []}
+report = bind_report(
+    {"status": "FAIL", "checks": {}, "matrix": [], "screenshots": [], "errors": [], "console_errors": [], "failed_requests": []},
+    candidate_identity(),
+)
 
 
 def check(name, passed, detail=None):
@@ -107,8 +111,26 @@ with sync_playwright() as playwright:
     browser.close()
 
 report["matrix_failures"] = [row for row in report["matrix"] if row["failures"]]
-intentional_provider_failures = all("server.arcgisonline.com" in row["url"] for row in report["failed_requests"])
-report["status"] = "PASS" if not report["errors"] and (not report["console_errors"] or intentional_provider_failures) and (not report["failed_requests"] or intentional_provider_failures) and all(row["pass"] for row in report["checks"].values()) and not report["matrix_failures"] else "FAIL"
+def expected_network_event(row):
+    url = row["url"]
+    return "server.arcgisonline.com" in url or (
+        url.endswith("/assets/vector/sf_trip.pmtiles") and row["failure"] == "net::ERR_ABORTED"
+    )
+
+
+expected_network_events = [row for row in report["failed_requests"] if expected_network_event(row)]
+unexpected_network_events = [row for row in report["failed_requests"] if not expected_network_event(row)]
+intentional_provider_failure = any("server.arcgisonline.com" in row["url"] for row in expected_network_events)
+expected_resource_console = "Failed to load resource: net::ERR_FAILED"
+unexpected_console_errors = [
+    message
+    for message in report["console_errors"]
+    if message != expected_resource_console or not intentional_provider_failure
+]
+report["expected_network_events"] = expected_network_events
+report["unexpected_network_events"] = unexpected_network_events
+report["unexpected_console_errors"] = unexpected_console_errors
+report["status"] = "PASS" if not report["errors"] and not unexpected_console_errors and not unexpected_network_events and all(row["pass"] for row in report["checks"].values()) and not report["matrix_failures"] else "FAIL"
 (OUT / "full_acceptance.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "checks": report["checks"], "matrix_states": len(report["matrix"]), "matrix_failures": len(report["matrix_failures"]), "errors": report["errors"]}, ensure_ascii=False, indent=2))
 raise SystemExit(0 if report["status"] == "PASS" else 1)

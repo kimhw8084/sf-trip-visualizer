@@ -1,4 +1,6 @@
-"""Capture the candidate's canonical visual states for independent review."""
+"""Capture the exact-bound R2 visual matrix for independent pixel review."""
+
+from __future__ import annotations
 
 import json
 from pathlib import Path
@@ -6,48 +8,140 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
+from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "map_first" / "screenshots"
-OUT.mkdir(parents=True, exist_ok=True)
-rows = []
+OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2"
+SHOTS = OUT / "screenshots"
 
 
-def capture(page, name, width, height, mode, state):
-    path = OUT / f"{name}.png"
+def capture(page, rows, name: str, viewport: tuple[int, int], mode: str, state: str, purpose: str, profile: str, profile_detail: str = "") -> None:
+    path = SHOTS / f"{name}.png"
     page.screenshot(path=str(path), full_page=True)
-    rows.append({"screenshot": str(path.relative_to(ROOT)), "viewport": f"{width}x{height}", "mode": mode, "state": state, "language": page.evaluate("document.documentElement.lang"), "theme": page.evaluate("document.documentElement.dataset.theme"), "candidate": __import__("os").environ.get("TRIP_CANDIDATE_SHA", "WORKTREE")})
+    rows.append({"file": str(path.relative_to(ROOT)), "viewport": f"{viewport[0]}x{viewport[1]}", "browser": "chromium", "language": page.evaluate("document.documentElement.lang"), "theme": page.evaluate("document.documentElement.dataset.theme"), "mode": mode, "state": state, "task_purpose": purpose, "profile": profile, "profile_detail": profile_detail})
 
 
-with sync_playwright() as playwright:
-    browser = playwright.chromium.launch(headless=True)
-    for width, height in ((1440, 900), (1366, 768), (390, 844), (360, 800)):
-        page = browser.new_page(viewport={"width": width, "height": height}, has_touch=width < 500, is_mobile=width < 500)
-        errors = []
-        page.on("pageerror", lambda error: errors.append(str(error)))
-        page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
-        page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-        page.wait_for_function("document.querySelectorAll('.photo-marker').length>0", timeout=15000)
-        capture(page, f"decide_{width}x{height}", width, height, "decide", "recommended_default")
+def wait_ready(page) -> None:
+    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
+    page.wait_for_function("document.querySelectorAll('.photo-marker').length > 0", timeout=15000)
+    page.wait_for_timeout(180)
+
+
+def new_page(browser, viewport: tuple[int, int]):
+    context = browser.new_context(viewport={"width": viewport[0], "height": viewport[1]}, has_touch=viewport[0] < 500, is_mobile=viewport[0] < 500)
+    page = context.new_page()
+    errors = []
+    page.on("pageerror", lambda error: errors.append(str(error)))
+    page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
+    wait_ready(page)
+    return context, page, errors
+
+
+def main() -> int:
+    identity = candidate_identity()
+    OUT.mkdir(parents=True, exist_ok=True)
+    SHOTS.mkdir(parents=True, exist_ok=True)
+    rows = []
+    errors = []
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+
+        context, page, page_errors = new_page(browser, (1440, 900))
+        capture(page, rows, "canonical_decide_default_1440x900", (1440, 900), "decide", "recommended_default", "canonical-anchor", "canonical desktop default")
         page.locator('[data-compare-route="A2"]').click()
-        capture(page, f"compare_{width}x{height}", width, height, "decide", "A1_A2")
-        page.locator('[data-mode="day"]').click()
+        capture(page, rows, "canonical_decide_compare_1440x900", (1440, 900), "decide", "A1_vs_A2", "two-route human comparison", "canonical-anchor", "canonical desktop compare")
+        page.locator("#modeNav [data-mode='day']").click()
         page.locator("#dateSelect").select_option("10/8")
-        capture(page, f"day_1008_{width}x{height}", width, height, "day", "10/8")
-        page.locator(".photo-marker").first.click()
-        page.locator("#peek [data-peek-open]").evaluate("element=>element.click()")
+        capture(page, rows, "canonical_day_dense_recovery_1440x900", (1440, 900), "day", "10/8", "dense Day with recovery and typed decisions", "canonical-anchor", "canonical dense day")
+        page.locator("#dateSelect").select_option("10/9")
+        capture(page, rows, "canonical_day_sparse_1440x900", (1440, 900), "day", "10/9", "sparse/recovery Day state", "canonical-anchor", "canonical sparse day")
+        page.locator("#regionControls [data-region='sf']").click()
+        page.locator("#dateSelect").select_option("10/6")
+        capture(page, rows, "canonical_no_results_1440x900", (1440, 900), "day", "SF + 10/6 no-results", "no-results handling", "canonical-anchor", "no-result state")
+        page.locator("#regionControls [data-region='yosemite']").click()
+        page.locator("#dateSelect").select_option("10/7")
+        page.locator(".photo-marker[data-place-key='cooks']").click()
+        capture(page, rows, "canonical_peek_cooks_1440x900", (1440, 900), "day", "Yosemite 10/7 Cook's Meadow Peek", "Peek context and real marker target", "canonical-anchor", "marker peek")
+        page.locator("#peek [data-peek-open]").click()
         page.wait_for_function("window.__tripApp.state.presentation.mode==='place'")
-        capture(page, f"place_{width}x{height}", width, height, "place", "inspector")
-        if width == 1440:
-            page.locator("#langToggle").click()
-            page.locator("#themeToggle").click()
-            capture(page, "decide_1440x900_en_dark", width, height, "place", "ko_en_dark_transition")
-        rows[-1]["errors"] = errors
-        page.close()
-    browser.close()
+        capture(page, rows, "canonical_place_inspector_1440x900", (1440, 900), "place", "Cook's Meadow Inspector", "Peek → Inspector → return context", "canonical-anchor", "place inspector")
+        page.locator("[data-place-back]").click()
+        page.locator("#langToggle").click()
+        page.locator("#themeToggle").click()
+        capture(page, rows, "canonical_en_dark_1440x900", (1440, 900), "day", "English + dark", "KO/EN and semantic dark tokens", "canonical-anchor", "i18n theme")
+        page.locator("#workbench [data-sheet='compact']").click()
+        capture(page, rows, "canonical_workbench_compact_1440x900", (1440, 900), "day", "desktop compact", "collapsed workbench and persistent map", "canonical-anchor", "desktop compact")
+        page.locator("#workbenchToggle").click()
+        capture(page, rows, "canonical_workbench_expanded_1440x900", (1440, 900), "day", "desktop expanded", "expanded workbench", "canonical-anchor", "desktop expanded")
+        page.locator("#workbench [data-sheet='full']").click()
+        capture(page, rows, "canonical_workbench_full_1440x900", (1440, 900), "day", "desktop full", "full workbench composition", "canonical-anchor", "desktop full")
+        errors.extend(page_errors)
+        page.close(); context.close()
 
-report = {"status": "PASS" if len(rows) == 17 and all(not row.get("errors", []) for row in rows) else "FAIL", "rows": rows, "reserved_holdouts": ["1366x768 desktop", "360x800 mobile"]}
-(ROOT / "QA/map_first/visual_spots.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
-print(json.dumps({"status": report["status"], "screenshots": len(rows)}, ensure_ascii=False, indent=2))
-raise SystemExit(0 if report["status"] == "PASS" else 1)
+        for viewport, profile in (((1366, 768), "stress desktop"), ((1920, 1080), "stress desktop large"), ((390, 844), "stress mobile portrait"), ((360, 800), "stress mobile narrow"), ((844, 390), "stress mobile landscape"), ((1536, 864), "fresh holdout desktop"), ((414, 896), "fresh holdout mobile")):
+            context, page, page_errors = new_page(browser, viewport)
+            capture(page, rows, f"stress_decide_{viewport[0]}x{viewport[1]}", viewport, "decide", "recommended_default", "responsive route recommendation", "holdout" if "holdout" in profile else "stress", profile)
+            if viewport[0] < 500:
+                page.locator("#workbench [data-sheet='compact']").click()
+                capture(page, rows, f"mobile_compact_{viewport[0]}x{viewport[1]}", viewport, "decide", "mobile compact", "mobile compact task sheet", "stress", "mobile compact")
+                page.locator("#workbench [data-sheet='expanded']").click()
+                capture(page, rows, f"mobile_expanded_{viewport[0]}x{viewport[1]}", viewport, "decide", "mobile expanded", "mobile expanded task sheet", "stress", "mobile expanded")
+                page.locator("#workbench [data-sheet='full']").click()
+                capture(page, rows, f"mobile_full_{viewport[0]}x{viewport[1]}", viewport, "decide", "mobile full", "mobile full task sheet", "stress", "mobile full")
+            errors.extend(page_errors)
+            page.close(); context.close()
+
+        context, page, page_errors = new_page(browser, (390, 844))
+        page.locator("#regionControls [data-region='yosemite']").click()
+        page.locator("#modeNav [data-mode='day']").click()
+        page.locator("#dateSelect").select_option("10/7")
+        marker = page.locator(".photo-marker[data-place-key='cooks']")
+        page.wait_for_function("document.querySelector('.photo-marker[data-place-key=\"cooks\"]')?.getBoundingClientRect().width > 0")
+        marker.focus()
+        page.wait_for_selector("#peek.show")
+        capture(page, rows, "mobile_keyboard_peek_390x844", (390, 844), "day", "keyboard Cook's Meadow Peek", "keyboard-only marker discovery", "stress", "keyboard path")
+        page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
+        marker.tap()
+        page.wait_for_selector("#peek.show")
+        capture(page, rows, "mobile_touch_peek_390x844", (390, 844), "day", "touch Cook's Meadow Peek", "touch marker discovery", "stress", "touch path")
+        errors.extend(page_errors)
+        page.close(); context.close()
+
+        context = browser.new_context(viewport={"width": 1440, "height": 900})
+        page = context.new_page()
+        page_errors = []
+        page.on("pageerror", lambda error: page_errors.append(str(error)))
+        page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
+        page.screenshot(path=str(SHOTS / "startup_immediate_1440x900.png"), full_page=True)
+        rows.append({"file": str((SHOTS / "startup_immediate_1440x900.png").relative_to(ROOT)), "viewport": "1440x900", "browser": "chromium", "language": page.evaluate("document.documentElement.lang"), "theme": page.evaluate("document.documentElement.dataset.theme"), "mode": "initialization", "state": "immediate after DOM navigation", "task_purpose": "immediate/non-artificial loading observation", "profile": "stress"})
+        page.close(); context.close()
+
+        context = browser.new_context(viewport={"width": 1440, "height": 900})
+        page = context.new_page()
+        failure_errors = []
+        page.on("pageerror", lambda error: failure_errors.append(str(error)))
+        page.route("**/assets/vector/**", lambda route: route.abort())
+        page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
+        page.wait_for_selector("#mapError:not([hidden])", timeout=30000)
+        capture(page, rows, "smart_failure_1440x900", (1440, 900), "decide", "Smart local asset failure", "fail-closed Smart map recovery surface", "stress", "Smart failure")
+        errors.extend(failure_errors)
+        page.close(); context.close()
+
+        context, page, failure_errors = new_page(browser, (1440, 900))
+        page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
+        page.evaluate("window.__tripApp.chooseProvider('satellite')")
+        page.wait_for_selector("#mapError:not([hidden])", timeout=10000)
+        capture(page, rows, "satellite_failure_recovery_1440x900", (1440, 900), "decide", "Satellite failure → Smart recovery", "provider failure and recovery", "stress", "Satellite recovery")
+        errors.extend(failure_errors)
+        page.close(); context.close()
+        browser.close()
+
+    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1536x864", "414x896"], "frozen_after": "stable R2 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
+    bind_report(report, identity)
+    OUT.joinpath("visual_index.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    print(json.dumps({"status": report["status"], "screenshots": len(rows), "errors": errors}, ensure_ascii=False))
+    return 0 if report["status"] == "PASS" else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -30,6 +30,9 @@
   let vectorUrl = 'assets/vector/sf_trip.pmtiles';
   let renderedProvider = null;
   let renderedTheme = null;
+  const MAP_SAFE_MARGIN = 16;
+  let peekHideTimer = null;
+  let suppressPeekFocusKey = null;
 
   const m = key => messages.messages[state.presentation.lang]?.[key] || messages.messages.en[key] || key;
   const tr = value => {
@@ -268,7 +271,7 @@
           if (!properties || state.presentation.peek?.key) return;
           map.getCanvas().style.cursor = 'pointer'; showRoutePeek(properties, event.originalEvent);
         });
-        map.on('mouseleave', hitId, () => { map.getCanvas().style.cursor = ''; if (state.presentation.peek?.route) hidePeek({ returnFocus: false }); });
+        map.on('mouseleave', hitId, () => { map.getCanvas().style.cursor = ''; if (state.presentation.peek?.route) scheduleHidePeek(); });
       }
     };
     if (map.isStyleLoaded()) add(); else map.once('load', add);
@@ -279,13 +282,68 @@
     card.innerHTML = `<div class="peek-body"><div class="eyebrow">${esc(properties.route)} · ${esc(dateLabel(properties.date))}</div><h3 id="peekTitle" class="peek-title">${esc(tr(properties.label || ''))}</h3><p id="peekDescription" class="peek-why"><strong>${esc(tierLabel(properties.branch === 'main' ? 'main' : properties.branch))}</strong> · ${esc(modeLabel(properties.mode))}${properties.time ? ` · ${esc(properties.time)}` : ''}<br>${esc(tr(properties.note || ''))}</p><p class="peek-sub">${properties.status === 'routed_osm' ? m('recheck') : m('mapLegend')}</p><button class="peek-action" type="button" data-route-use>${m('chooseRoute')} ${esc(properties.route)} ↗</button></div>`;
     card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card); card.querySelector('[data-route-use]').onclick = () => choosePrimaryRoute(properties.route);
   }
+  function mapObstacleRects() {
+    const shell = document.querySelector('.map-shell');
+    if (!shell) return [];
+    const shellRect = shell.getBoundingClientRect();
+    return [...document.querySelectorAll('.map-chrome, .maplibregl-ctrl, .workbench')].filter(element => {
+      const style = getComputedStyle(element), rect = element.getBoundingClientRect();
+      return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0 && rect.right > shellRect.left && rect.left < shellRect.right && rect.bottom > shellRect.top && rect.top < shellRect.bottom;
+    }).map(element => {
+      const rect = element.getBoundingClientRect();
+      return { selector: element.className || element.tagName.toLowerCase(), left: rect.left - shellRect.left, top: rect.top - shellRect.top, right: rect.right - shellRect.left, bottom: rect.bottom - shellRect.top, width: rect.width, height: rect.height };
+    });
+  }
+  function mapSafePadding(map = photoMap) {
+    const shell = document.querySelector('.map-shell');
+    if (!map || !shell) return isMobile() ? { top: 118, right: 30, bottom: 112, left: 30 } : { top: 170, right: 60, bottom: 100, left: 60 };
+    const shellRect = shell.getBoundingClientRect(), padding = { top: MAP_SAFE_MARGIN, right: MAP_SAFE_MARGIN, bottom: MAP_SAFE_MARGIN, left: MAP_SAFE_MARGIN };
+    for (const obstacle of mapObstacleRects()) {
+      const touchesLeft = obstacle.left <= MAP_SAFE_MARGIN && obstacle.right > 0;
+      const touchesRight = obstacle.right >= shellRect.width - MAP_SAFE_MARGIN && obstacle.left < shellRect.width;
+      const touchesTop = obstacle.top <= MAP_SAFE_MARGIN && obstacle.bottom > 0;
+      const touchesBottom = obstacle.bottom >= shellRect.height - MAP_SAFE_MARGIN && obstacle.top < shellRect.height;
+      const mobileSideOverlay = isMobile() && (obstacle.selector.includes('map-top-left') || obstacle.selector.includes('map-bottom-left'));
+      if (touchesLeft && !mobileSideOverlay) padding.left = Math.max(padding.left, obstacle.right + MAP_SAFE_MARGIN);
+      if (touchesRight) padding.right = Math.max(padding.right, shellRect.width - obstacle.left + MAP_SAFE_MARGIN);
+      if (touchesTop) padding.top = Math.max(padding.top, obstacle.bottom + MAP_SAFE_MARGIN);
+      if (touchesBottom) padding.bottom = Math.max(padding.bottom, shellRect.height - obstacle.top + MAP_SAFE_MARGIN);
+    }
+    const horizontalBudget = Math.max(MAP_SAFE_MARGIN * 2, shellRect.width - MAP_SAFE_MARGIN * 2);
+    const verticalBudget = Math.max(MAP_SAFE_MARGIN * 2, shellRect.height - MAP_SAFE_MARGIN * 2);
+    if (padding.left + padding.right > horizontalBudget) {
+      if (padding.left >= padding.right) padding.right = Math.max(MAP_SAFE_MARGIN, horizontalBudget - padding.left);
+      else padding.left = Math.max(MAP_SAFE_MARGIN, horizontalBudget - padding.right);
+    }
+    if (padding.top + padding.bottom > verticalBudget) {
+      if (padding.top >= padding.bottom) padding.bottom = Math.max(MAP_SAFE_MARGIN, verticalBudget - padding.top);
+      else padding.top = Math.max(MAP_SAFE_MARGIN, verticalBudget - padding.bottom);
+    }
+    return padding;
+  }
+  function mapGeometrySnapshot() {
+    const shell = document.querySelector('.map-shell'), shellRect = shell?.getBoundingClientRect();
+    if (!shell || !shellRect) return { obstacles: [], markers: [], safe_padding: null };
+    const obstacles = mapObstacleRects();
+    const intersects = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+    const markers = [...document.querySelectorAll('.photo-marker, .photo-cluster, .route-leg-label')].filter(element => {
+      const style = getComputedStyle(element), rect = element.getBoundingClientRect();
+      return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0;
+    }).map(element => {
+      const rect = element.getBoundingClientRect(), effective = { left: rect.left - shellRect.left, top: rect.top - shellRect.top, right: rect.right - shellRect.left, bottom: rect.bottom - shellRect.top, width: rect.width, height: rect.height };
+      const center = { x: (effective.left + effective.right) / 2, y: (effective.top + effective.bottom) / 2 };
+      const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      return { key: element.dataset.placeKey || element.getAttribute('aria-label') || element.className, rect: effective, intersects_obstacle: obstacles.filter(obstacle => intersects(effective, obstacle)).map(obstacle => obstacle.selector), center_hit: hit?.closest?.('.photo-marker, .photo-cluster, .route-leg-label')?.className || hit?.className || null, center: center };
+    });
+    return { shell: { width: shellRect.width, height: shellRect.height }, safe_padding: mapSafePadding(), obstacles, markers };
+  }
   function fitVisibleMap(map = photoMap) {
     if (!map) return;
     const visible = DATA.markers.filter(item => markerVisible(item, { map: true })), routePoints = visibleRouteFeatures().filter(feature => feature.properties.kind !== 'transfer').flatMap(feature => feature.geometry.coordinates), points = [...visible.map(item => [item.lon, item.lat]), ...routePoints];
     if (!points.length) return;
     if (points.length === 1) return map.jumpTo({ center: points[0], zoom: 13.1 });
     const bounds = [[Math.min(...points.map(point => point[0])), Math.min(...points.map(point => point[1]))], [Math.max(...points.map(point => point[0])), Math.max(...points.map(point => point[1]))]];
-    map.fitBounds(bounds, { padding: isMobile() ? { top: 118, right: 30, bottom: 112, left: 30 } : { top: 170, right: 60, bottom: 100, left: 60 }, maxZoom: state.task.date !== 'all' ? 12.8 : 7.8, duration: 0 });
+    map.fitBounds(bounds, { padding: mapSafePadding(map), maxZoom: state.task.date !== 'all' ? 12.8 : 7.8, duration: 0 });
   }
   function ringFor(marker) {
     const colors = marker.routes.filter(route => activeRoutes({ map: true }).has(route)).map(route => safeColor(routeMeta[route].color));
@@ -318,7 +376,7 @@
       const members = indexes.map(index => visible[index]), center = [members.reduce((sum, item) => sum + item.lon, 0) / members.length, members.reduce((sum, item) => sum + item.lat, 0) / members.length], hero = members[0];
       const element = document.createElement('button'); element.type = 'button'; element.className = 'photo-cluster'; element.setAttribute('aria-label', `${members.length} ${m('stop')} · ${m('choosePlace')}`); element.innerHTML = `<img src="${photoSrc(photoPath(hero.place_key, 'hero', 'thumb'))}" alt=""><span class="cluster-count">${members.length}</span>`;
       const show = event => showClusterPeek(members, event, center);
-      element.addEventListener('mouseenter', event => { if (!state.touch) show(event); }); element.addEventListener('focus', show); element.addEventListener('mouseleave', () => { if (!state.touch) hidePeek({ returnFocus: false }); }); element.addEventListener('click', event => { event.stopPropagation(); show(event); photoMap.easeTo({ center, zoom: Math.max(photoMap.getZoom() + 2.2, 11), duration: 300 }); });
+      element.addEventListener('mouseenter', event => { if (!state.touch) show(event); }); element.addEventListener('focus', show); element.addEventListener('mouseleave', () => { if (!state.touch) scheduleHidePeek(); }); element.addEventListener('click', event => { event.stopPropagation(); show(event); photoMap.easeTo({ center, zoom: Math.max(photoMap.getZoom() + 2.2, 11), duration: 300 }); });
       clusterMarkers.push(new maplibregl.Marker({ element, anchor: 'center' }).setLngLat(center).addTo(photoMap));
     });
   }
@@ -331,8 +389,8 @@
       element.innerHTML = `<img src="${photoSrc(photoPath(marker.place_key, 'hero', 'thumb'))}" alt="" draggable="false"><span class="photo-seq">${sequence}</span>${marker.source_class === 'official_gap_audit' ? '<span class="audit-star" aria-hidden="true">★</span>' : ''}`;
       bindLocalImageFailures(element);
       element.addEventListener('mouseenter', event => { if (!state.touch) showPeek(marker.place_key, { event, focusAction: false }); });
-      element.addEventListener('mouseleave', () => { if (!state.touch) hidePeek({ returnFocus: false }); });
-      element.addEventListener('focus', event => showPeek(marker.place_key, { event, focusAction: true }));
+      element.addEventListener('mouseleave', () => { if (!state.touch) scheduleHidePeek(); });
+      element.addEventListener('focus', event => { if (suppressPeekFocusKey === marker.place_key) { suppressPeekFocusKey = null; return; } showPeek(marker.place_key, { event, focusAction: true }); });
       element.addEventListener('click', event => { event.stopPropagation(); selectPlace(marker.place_key, { focus: false, open: false, invoker: element }); showPeek(marker.place_key, { event, focusAction: false, invoker: element }); });
       photoMarkers.push(new maplibregl.Marker({ element, anchor: 'center' }).setLngLat([marker.lon, marker.lat]).addTo(map));
     });
@@ -353,7 +411,7 @@
       const previous = photoMap, same = previous && renderedProvider === state.runtime.provider && renderedTheme === state.presentation.theme;
       clusterMarkers.forEach(marker => marker.remove()); clusterMarkers = []; photoMarkers.forEach(marker => marker.remove()); photoMarkers = []; legMarkers.forEach(marker => marker.remove()); legMarkers = [];
       if (same && state.runtime.localAssets.status === 'ready') {
-        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); renderMapLegend(); if (!preserve) fitVisibleMap(previous); return true;
+        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); renderMapLegend(); if (!preserve || mapGeometrySnapshot().markers.some(marker => marker.intersects_obstacle.length)) fitVisibleMap(previous); return true;
       }
       const view = preserve && previous ? { center: previous.getCenter(), zoom: previous.getZoom() } : null;
       if (previous) { previous.__tripCleanup?.(); previous.remove(); state.runtime.mapRemovals += 1; }
@@ -379,19 +437,21 @@
   }
   function showClusterPeek(members, event, center) {
     const card = document.getElementById('peek'), active = [...new Set(members.flatMap(item => item.routes.filter(route => activeRoutes({ map: true }).has(route))))];
-    state.presentation.peek = { cluster: members.map(item => item.place_key), invoker: document.activeElement }; card.innerHTML = `<div class="peek-body"><div class="eyebrow">${esc(active.join(' · '))}</div><h3 id="peekTitle" class="peek-title">${members.length} ${m('stop')}</h3><p id="peekDescription" class="peek-why">${esc(members.slice(0, 4).map(item => placeName(item.place_key)).join(' · '))}</p><button class="peek-action" type="button" data-cluster-zoom>${m('choosePlace')} ↗</button></div>`; card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card); card.querySelector('[data-cluster-zoom]').onclick = () => { photoMap?.easeTo({ center, zoom: Math.max(photoMap.getZoom() + 2.2, 11), duration: 300 }); hidePeek(); };
+    state.presentation.peek = { cluster: members.map(item => item.place_key), invoker: document.activeElement }; card.innerHTML = `<div class="peek-body"><div class="eyebrow">${esc(active.join(' · '))}</div><h3 id="peekTitle" class="peek-title">${members.length} ${m('stop')}</h3><p id="peekDescription" class="peek-why">${esc(members.slice(0, 4).map(item => placeName(item.place_key)).join(' · '))}</p><button class="peek-action" type="button" data-cluster-zoom>${m('choosePlace')} ↗</button></div>`; wirePeekHover(card); card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card); card.querySelector('[data-cluster-zoom]').onclick = () => { photoMap?.easeTo({ center, zoom: Math.max(photoMap.getZoom() + 2.2, 11), duration: 300 }); hidePeek(); };
   }
+  function scheduleHidePeek() { clearTimeout(peekHideTimer); peekHideTimer = setTimeout(() => { const card = document.getElementById('peek'); if (!card?.matches(':hover')) hidePeek({ returnFocus: false }); }, 120); }
+  function wirePeekHover(card) { card.onmouseenter = () => clearTimeout(peekHideTimer); card.onmouseleave = () => scheduleHidePeek(); }
   function showPeek(key, { event, focusAction = false, invoker } = {}) {
     const marker = markerByKey[key]; if (!marker) return;
     const card = document.getElementById('peek'), occurrence = preferredOccurrence(marker), groups = groupOccurrences(marker).slice(0, 3), tier = tierFor(marker); state.presentation.peek = { key, invoker: invoker || document.activeElement }; state.presentation.focusReturn = invoker || document.activeElement;
     card.innerHTML = `<img class="peek-media" src="${photoSrc(photoPath(key, 'hero', 'medium'))}" alt="${esc(placeName(key))}"><div class="peek-body"><h3 id="peekTitle" class="peek-title">${esc(placeName(key))}</h3>${state.presentation.lang === 'ko' ? `<p class="peek-sub">${esc(placeKo(key))}</p>` : ''}<div class="peek-meta"><span class="tier-chip">${esc(tierLabel(tier))}</span>${groups.map(group => `<span>${esc(group.routes.join('/'))} · ${esc(dateLabel(group.date))} · ${esc(tr(group.time || '—'))}</span>`).join('')}</div><p id="peekDescription" class="peek-why"><strong>${m('whyNow')}</strong> ${esc(tr(occurrence?.reason || marker.why))}</p>${occurrence?.advantage ? `<p class="peek-sub">${m('advantage')}: ${esc(tr(occurrence.advantage))}</p>` : ''}<button class="peek-action" type="button" data-peek-open>${m('openPlace')} ↗</button></div>`;
-    bindLocalImageFailures(card); card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card);
+    bindLocalImageFailures(card); wirePeekHover(card); card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card);
     card.querySelector('[data-peek-open]').onclick = () => openPlace(key);
     if (focusAction) card.querySelector('[data-peek-open]').focus({ preventScroll: true });
   }
   function hidePeek({ returnFocus = true } = {}) {
-    const card = document.getElementById('peek'); if (!card) return; card.classList.remove('show'); card.setAttribute('aria-hidden', 'true'); card.innerHTML = '';
-    const target = state.presentation.focusReturn; state.presentation.peek = null; state.presentation.focusReturn = null; if (returnFocus && target?.focus && document.contains(target)) target.focus({ preventScroll: true });
+    clearTimeout(peekHideTimer); const card = document.getElementById('peek'); if (!card) return; card.onmouseenter = null; card.onmouseleave = null; card.classList.remove('show'); card.setAttribute('aria-hidden', 'true'); card.innerHTML = '';
+    const target = state.presentation.focusReturn, key = state.presentation.peek?.key; state.presentation.peek = null; state.presentation.focusReturn = null; if (returnFocus && target?.focus && document.contains(target)) { suppressPeekFocusKey = key || null; target.focus({ preventScroll: true }); }
   }
   function focusPlace(key) { const marker = markerByKey[key]; if (marker && photoMap) photoMap.easeTo({ center: [marker.lon, marker.lat], zoom: 13.3, duration: 300 }); }
   function updateMarkerEmphasis() { document.querySelectorAll('.photo-marker').forEach(element => element.classList.toggle('selected', element.dataset.placeKey === state.task.selected)); updatePhotoClusters(); }
@@ -515,7 +575,7 @@
     finally { Object.assign(marker, saved); renderPlace(); }
   }
   function expose() {
-    window.__tripApp = { state, DATA, drawMap, whenIdle: () => drawQueue, map: () => photoMap, whenMapVisualReady: () => Promise.resolve(runtimeSnapshot().map), selectPlace, chooseProvider, testProvider, setMode, setTab: tab => setMode(tab === 'timeline' ? 'day' : tab === 'details' ? 'place' : 'decide'), markerVisible, timelineVisible, legVisible, visibleRouteFeatures, renderTimeline: renderDay, renderDetail: key => { if (key) state.task.selected = key; renderPlace(); }, showPreview: showPeek, showRoutePeek: properties => showRoutePeek(properties), hidePreview: hidePeek, fitVisibleMap, runtimeSnapshot };
+    window.__tripApp = { state, DATA, drawMap, whenIdle: () => drawQueue, map: () => photoMap, whenMapVisualReady: () => Promise.resolve(runtimeSnapshot().map), selectPlace, chooseProvider, testProvider, setMode, setTab: tab => setMode(tab === 'timeline' ? 'day' : tab === 'details' ? 'place' : 'decide'), markerVisible, timelineVisible, legVisible, visibleRouteFeatures, renderTimeline: renderDay, renderDetail: key => { if (key) state.task.selected = key; renderPlace(); }, showPreview: showPeek, showRoutePeek: properties => showRoutePeek(properties), hidePreview: hidePeek, fitVisibleMap, mapGeometrySnapshot, runtimeSnapshot };
     window.__tripSecurity = { escapeHtml: esc, safeExternalUrl, safePhotoPath: photoPath, renderFixture, allowedStorageKeys: ['trip_visualizer_runtime_v2', 'trip_visualizer_runtime_v1', 'trip_lang', 'trip_theme'] };
   }
   async function init() {

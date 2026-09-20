@@ -7,11 +7,13 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
+from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r1" / "accessibility.json"
-report = {"schema_version": 1, "candidate": os.environ.get("TRIP_CANDIDATE_SHA", "WORKTREE"), "checks": {}, "errors": []}
+OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2" / "accessibility.json"
+IDENTITY = candidate_identity()
+report = {"schema_version": 1, "checks": {}, "errors": []}
 
 
 def put(name, passed, detail=None):
@@ -26,12 +28,15 @@ with sync_playwright() as playwright:
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
     page.wait_for_function("document.querySelectorAll('.photo-marker').length===36", timeout=15000)
     put("focusable_controls_have_visible_focus", page.evaluate("""()=>{const controls=[...document.querySelectorAll('button,a,select')].filter(element=>element.getClientRects().length&&getComputedStyle(element).visibility!=='hidden');for(const element of controls.slice(0,18)){element.focus();const r=element.getBoundingClientRect(),s=getComputedStyle(element);if(r.width<1||r.height<1||s.visibility==='hidden')return false}return true}"""))
-    page.locator(".photo-marker:visible").first.click()
+    page.locator("#regionControls [data-region='yosemite']").click()
+    page.locator("#modeNav [data-mode='day']").click()
+    page.locator("#dateSelect").select_option("10/7")
+    page.locator(".photo-marker[data-place-key='cooks']").click()
     page.wait_for_selector("#peek.show")
     page.mouse.move(0, 0)
     page.keyboard.press("Escape")
     put("escape_closes_peek", page.locator("#peek.show").count() == 0)
-    page.locator('[data-mode="day"]').click()
+    page.locator('#modeNav [data-mode="day"]').click()
     page.locator("#dateSelect").select_option("10/8")
     page.locator("#dayPlan .day-item").first.click()
     page.wait_for_selector("#peek.show")
@@ -57,6 +62,7 @@ with sync_playwright() as playwright:
     forced.close()
     browser.close()
 
+bind_report(report, IDENTITY)
 report["status"] = "PASS" if not report["errors"] and all(row["status"] == "PASS" for row in report["checks"].values()) else "FAIL"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")

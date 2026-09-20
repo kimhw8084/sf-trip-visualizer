@@ -1,0 +1,105 @@
+"""Rendered marker hit-region and map-chrome safe-area oracle."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from playwright.sync_api import sync_playwright
+
+from qa_config import MODULAR_URL
+from qa_evidence import ROOT, bind_report, candidate_identity
+
+
+OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2" / "map_geometry.json"
+
+
+def wait_ready(page) -> None:
+    page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
+    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
+    page.wait_for_function("document.querySelectorAll('.photo-marker').length > 0", timeout=15000)
+    page.wait_for_timeout(200)
+
+
+def geometry(page, viewport: tuple[int, int], state: str) -> dict:
+    return {
+        "viewport": f"{viewport[0]}x{viewport[1]}",
+        "state": state,
+        "snapshot": page.evaluate("window.__tripApp.mapGeometrySnapshot()"),
+    }
+
+
+def check_row(row: dict) -> list[str]:
+    snapshot = row["snapshot"]
+    failures = []
+    for marker in snapshot.get("markers", []):
+        if marker.get("key", "").startswith("Cook") or marker.get("key") == "cooks":
+            row["cooks"] = marker
+        if marker.get("intersects_obstacle"):
+            failures.append(f"{row['state']}:{marker['key']} intersects {marker['intersects_obstacle']}")
+        if marker.get("center_hit") and not any(token in marker["center_hit"] for token in ("photo-marker", "photo-cluster", "route-leg-label")):
+            failures.append(f"{row['state']}:{marker['key']} center hit {marker['center_hit']}")
+    return failures
+
+
+def main() -> int:
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    report = {"schema_version": 1, "status": "FAIL", "states": [], "failures": [], "notes": ["Rendered Chromium hit testing; native Safari, physical-device and human field evidence remain separate."]}
+    try:
+        identity = candidate_identity()
+        bind_report(report, identity)
+    except Exception as error:
+        report["errors"] = [f"candidate binding: {type(error).__name__}: {error}"]
+        OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+        print(json.dumps({"status": report["status"], "errors": report["errors"]}, ensure_ascii=False))
+        return 1
+
+    errors = []
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        for viewport in ((1440, 900), (390, 844)):
+            context = browser.new_context(viewport={"width": viewport[0], "height": viewport[1]}, has_touch=viewport[0] < 500, is_mobile=viewport[0] < 500)
+            page = context.new_page()
+            page_errors = []
+            page.on("pageerror", lambda error: page_errors.append(str(error)))
+            wait_ready(page)
+            report["states"].append(geometry(page, viewport, "overall-default-unselected"))
+            page.locator("#regionControls [data-region='yosemite']").click()
+            page.locator("#modeNav [data-mode='day']").click()
+            page.locator("#dateSelect").select_option("10/8")
+            page.wait_for_timeout(250)
+            report["states"].append(geometry(page, viewport, "yosemite-10/8-clustered-unselected"))
+            page.locator("#dateSelect").select_option("10/7")
+            page.wait_for_timeout(250)
+            report["states"].append(geometry(page, viewport, "yosemite-10/7-unclustered-unselected"))
+            cooks = page.locator(".photo-marker[data-place-key='cooks']")
+            try:
+                cooks.click(timeout=5000)
+                report["states"][-1]["real_pointer_activation"] = "PASS"
+                page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
+                page.wait_for_function("!document.querySelector('#peek.show')")
+                report["states"].append(geometry(page, viewport, "yosemite-10/7-selected-cooks"))
+            except Exception as error:
+                report["states"][-1]["real_pointer_activation"] = "FAIL"
+                errors.append(f"{viewport[0]}x{viewport[1]} cooks pointer activation: {type(error).__name__}: {error}")
+            if viewport[0] < 500:
+                page.locator("#workbench [data-sheet='compact']").click()
+                report["states"].append(geometry(page, viewport, "mobile-compact-sheet"))
+                page.locator("#workbench [data-sheet='expanded']").click()
+                report["states"].append(geometry(page, viewport, "mobile-expanded-sheet"))
+            errors.extend(page_errors)
+            page.close()
+            context.close()
+        browser.close()
+
+    for row in report["states"]:
+        report["failures"].extend(check_row(row))
+    report["failures"].extend(errors)
+    report["status"] = "PASS" if not report["failures"] and report["states"] else "FAIL"
+    OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    print(json.dumps({"status": report["status"], "states": len(report["states"]), "failures": report["failures"]}, ensure_ascii=False))
+    return 0 if report["status"] == "PASS" else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

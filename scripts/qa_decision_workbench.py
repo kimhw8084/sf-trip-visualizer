@@ -9,11 +9,13 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
+from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r1"
+OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2"
 OUT.mkdir(parents=True, exist_ok=True)
+IDENTITY = candidate_identity()
 
 
 def oracle(name: str, passed: bool, detail: object = None) -> dict:
@@ -38,7 +40,7 @@ with sync_playwright() as playwright:
     def shot(name: str, viewport: tuple[int, int], mode: str, state: str) -> None:
         path = OUT / f"{name}.png"
         page.screenshot(path=str(path), full_page=True)
-        screenshots.append({"path": str(path.relative_to(ROOT)), "candidate": os.environ.get("TRIP_CANDIDATE_SHA", "WORKTREE"), "browser": "chromium", "viewport": f"{viewport[0]}x{viewport[1]}", "language": page.evaluate("document.documentElement.lang"), "theme": page.evaluate("document.documentElement.dataset.theme"), "mode": mode, "state": state, "purpose": name})
+        screenshots.append({"path": str(path.relative_to(ROOT)), "candidate": IDENTITY["sha"], "candidate_tree": IDENTITY["tree"], "browser": "chromium", "viewport": f"{viewport[0]}x{viewport[1]}", "language": page.evaluate("document.documentElement.lang"), "theme": page.evaluate("document.documentElement.dataset.theme"), "mode": mode, "state": state, "purpose": name})
 
     results.append(oracle("decide_recommendation", page.locator("#recommendation").is_visible() and "A1" in page.locator("#recommendation").inner_text() and all(text in page.locator("#recommendation").inner_text() for text in ("감수할 것", "선택·전환 규칙", "후회 방지"))))
     results.append(oracle("single_authority_controls", page.locator("#dateSelect").count() == 1 and page.locator("#providerControls [data-provider]").count() == 2 and page.locator("#regionControls [data-region]").count() == 4 and page.locator("#peek").count() == 1))
@@ -72,6 +74,14 @@ with sync_playwright() as playwright:
     results.append(oracle("place_return_context", page.evaluate("window.__tripApp.state.presentation.mode") == "day" and page.input_value("#dateSelect") == "10/8"))
     shot("place_inspector_desktop", (1440, 900), "place", "inspector_after_peek")
 
+    page.locator("#regionControls [data-region='yosemite']").click()
+    page.locator("#dateSelect").select_option("10/7")
+    page.locator(".photo-marker[data-place-key='cooks']").click()
+    results.append(oracle("cooks_real_pointer_activation", page.locator("#peek.show").count() == 1 and page.evaluate("window.__tripApp.state.task.selected==='cooks'")))
+    page.keyboard.press("Escape")
+    page.locator("#dateSelect").select_option("10/8")
+    page.locator("#regionControls [data-region='overall']").click()
+
     page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
     page.evaluate("window.__tripApp.chooseProvider('satellite')")
     page.wait_for_timeout(3500)
@@ -92,7 +102,8 @@ with sync_playwright() as playwright:
     results.append(oracle("mobile_200_percent_reflow", page.evaluate("document.documentElement.scrollWidth <= innerWidth") and page.locator("#workbench").is_visible() and page.locator("[data-place-back]").is_visible()))
     browser.close()
 
-report = {"schema_version": 1, "change": "CHG-157", "status": "PASS" if not errors and all(row["status"] == "PASS" for row in results) else "FAIL", "candidate": os.environ.get("TRIP_CANDIDATE_SHA", "WORKTREE"), "base": "f9631a57d3b9e51216e082b62d80519599b84711", "results": results, "errors": errors, "screenshots": screenshots, "reserved_holdouts": ["1366x768 desktop", "360x800 mobile"], "notes": ["Chromium browser evidence only; native Safari, physical-device and independent-human evidence remain external."]}
+report = {"schema_version": 1, "change": "CHG-157", "status": "PASS" if not errors and all(row["status"] == "PASS" for row in results) else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "results": results, "errors": errors, "screenshots": screenshots, "reserved_holdouts": ["1536x864 desktop", "414x896 mobile"], "notes": ["Chromium browser evidence only; native Safari, physical-device and independent-human evidence remain external."]}
+bind_report(report, IDENTITY)
 (OUT / "task_oracles.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "passed": sum(row["status"] == "PASS" for row in results), "total": len(results), "errors": errors}, ensure_ascii=False, indent=2))
 raise SystemExit(0 if report["status"] == "PASS" else 1)
