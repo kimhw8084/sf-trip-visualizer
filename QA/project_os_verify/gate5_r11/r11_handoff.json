@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "classification": "VERIFY_REQUIRED",
+  "scope": "R11 Gate-5 source reconciliation and candidate evidence; no deployment, merge, main mutation, Gate-5 GO, REC-179 resolution, Gate-8 completion, or overall production-readiness claim",
+  "authoritative_baseline": {
+    "main_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+    "main_tree": "11f886df2d0d9eb18f4550a399d533b10f7a4752"
+  },
+  "historical_gate5_reference": {
+    "r9_source_revision": "f9edf2021451cc3040407636c226897a4505a8b7",
+    "r9_final_capture_revision": "9545401f2dad58d932b5de7f19c8f121ac024d9d",
+    "old_gate4_main": "75d1f127dd5ce332df54e205e9a3d152de7af176",
+    "use": "R9 source semantics only; no R9/R10 generated evidence is current proof"
+  },
+  "stable_source_candidate": {
+    "revision": "02f86c647395d61e7bd6ccdccb8e7883af981232",
+    "tree": "1668eb1ee325bdf80ad888c474254b117f6dbe16",
+    "branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-reconcile-r11",
+    "source_worktree_clean_at_capture": true,
+    "ancestry_from_authoritative_main": true,
+    "source_fingerprint_sha256": "e75532b785f00dc23ec4ea1254ee02a03aa7ca49a083bc5936b1323e3628dacf"
+  },
+  "source_changes_relative_to_main": [
+    ".github/workflows/candidate-qualification.yml",
+    "manifests/canonical_pipeline.json",
+    "manifests/gate5_field_quality_contract.json",
+    "manifests/public_asset_rights.json",
+    "scripts/build_map_first.py",
+    "scripts/pipeline.py",
+    "scripts/qa_gate4_resilience.py",
+    "scripts/qa_gate5_field_quality.py",
+    "scripts/qa_interaction_dynamics.py",
+    "scripts/qa_loading.py",
+    "scripts/qa_location_gap_race.py",
+    "scripts/qa_location_gap_visuals.py",
+    "scripts/qa_map_first_full.py",
+    "scripts/qa_map_visual_integrity.py",
+    "scripts/qa_route_explanations_panel.py",
+    "scripts/qa_standalone_map_first.py",
+    "scripts/run_cross_browser.py",
+    "scripts/run_visual_spots.py",
+    "src/app_phase7.js",
+    "src/map_first.css",
+    "src/map_shell_template.html",
+    "tests/test_canonical_pipeline.py",
+    "tests/test_gate5_performance_evidence.py",
+    "tests/test_loading_completion.py",
+    "tests/test_location_gap_race.py",
+    "tests/test_map_visual_integrity.py"
+  ],
+  "reconciliation_map": {
+    "carried_from_r9": [
+      "Gate-5 field-quality contract and canonical integration",
+      "loading-completion and actionable/map-visual readiness evidence",
+      "location-gap race coverage and map visual-integrity detector",
+      "keyboard/touch/focus/accessibility hardening and recovery flows",
+      "responsive Chromium/Firefox/WebKit matrix and visual evidence generation",
+      "same-host WebKit control and paired performance evidence tests"
+    ],
+    "adapted_for_current_main": [
+      "three-way reconciliation onto current Gate-6 public-rights and Gate-7 security/dependency lineage",
+      "current pipeline component ordering and VERIFY_REQUIRED handling",
+      "current MapLibre R6 sanitizer/runtime security identity",
+      "current hosted-Linux release authority, Pages qualification and exact-SHA binding",
+      "current local-first Smart-map provider/fallback/security semantics",
+      "current map-first full acceptance expected local-PMTiles cancellation diagnostic scope"
+    ],
+    "historical_evidence_excluded": [
+      "QA/gate5/**",
+      "historical QA/map_first/** captures",
+      "historical QA/route_panel/** captures",
+      "old screenshots, timing JSON, and R9/R10 measurements"
+    ]
+  },
+  "preservation": {
+    "maplibre_identity": "4.7.1+sf-trip-visualizer-r6",
+    "maplibre_vendor_sha256": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675",
+    "maplibre_security": "PASS",
+    "public_asset_rights": "PASS; source hash bindings updated only for reconciled app_phase7.js/map_first.css",
+    "security_privacy": "PASS",
+    "gate4_runtime_and_delivery_parity": "PASS",
+    "hosted_linux_release_authority": "preserved in source; local contract unavailable without xvfb-run",
+    "trip_truth_and_assets": "canonical truth/photo integrity PASS; 36 places, 108 real photos, 79 cards, 41 legs, four strategies, nine dates, three regions preserved"
+  },
+  "qualification": {
+    "pipeline_fast": "PASS",
+    "focused_gate5_tests": "PASS",
+    "maplibre_security_tests": "PASS",
+    "security_privacy_tests": "PASS",
+    "public_rights_tests": "PASS",
+    "gate4_resilience_tests": "PASS",
+    "canonical_pipeline_tests": "PASS",
+    "repository_unittest_discovery": "PASS; 71 tests",
+    "security_privacy_validator": "PASS",
+    "hash_pinned_dependency_dry_run": "PASS; --require-hashes dry-run completed",
+    "canonical_qualification": {
+      "status": "PASS",
+      "evidence": "QA/release/qualification.json",
+      "decisive_components": "PASS",
+      "external_verify_required": ["gate5_field_quality"]
+    }
+  },
+  "gate5_evidence": {
+    "candidate": "QA/project_os_verify/gate5_r11/candidate.json",
+    "baseline": "QA/project_os_verify/gate5_r11/baseline.json",
+    "paired_comparison": "QA/project_os_verify/gate5_r11/paired_comparison.json",
+    "performance_summary": "QA/project_os_verify/gate5_r11/performance_summary.log",
+    "finding_matrix": "QA/project_os_verify/gate5_r11/finding_matrix.json",
+    "same_host_webkit_control": "QA/project_os_verify/gate5_r11/same_host_webkit_control.json",
+    "review_pack_index": "QA/project_os_verify/gate5_r11/review_pack_index.json",
+    "review_pack_screenshot_root": "QA/project_os_verify/gate5_r11/screenshots/",
+    "candidate_binding": "exact clean commit",
+    "browser_matrix": "Chromium, Firefox, WebKit × 1440x900, 834x1112, 390x844: all 9 PASS; zero page errors, console errors, failed requests; overall/detail map visual controls PASS",
+    "accessibility_keyboard_touch": "PASS for mechanically tested overflow/reflow, 200% capture, contrast, reduced motion, focus return, Escape close, marker/preview/detail, panel recovery, provider recovery, KO/EN and light/dark flows",
+    "performance": "8 paired samples per side, two order-balanced blocks of four; no decisive regression, but milestone/interaction variance leaves comparison VERIFY_REQUIRED",
+    "same_host_webkit": "fresh baseline/candidate control recorded; decision VERIFY_REQUIRED pending independent adjudication",
+    "independent_visual_review": "VERIFY_REQUIRED; pack is objective evidence only and is not self-certified E2 acceptance"
+  },
+  "hosted_and_release": {
+    "github_workflow": {
+      "name": "Qualify Fabric candidate",
+      "run_id": 35491079589,
+      "job_id": 106026000329,
+      "head_sha": "02f86c647395d61e7bd6ccdccb8e7883af981232",
+      "url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35491079589",
+      "status_at_handoff": "PASS",
+      "conclusion": "success",
+      "completed_at": "2026-09-20T05:37:15Z",
+      "hosted_qualification": "PASS",
+      "repository_tests": "PASS",
+      "pages_release_path_without_deployment": "PASS",
+      "verify_public": "PASS",
+      "evidence_upload": "PASS"
+    },
+    "local_hosted_linux_qualify": "BLOCKED_INTERACTIVE_SESSION/VERIFY_REQUIRED: hosted Linux release contract requires xvfb-run",
+    "local_hosted_linux_release": "BLOCKED_INTERACTIVE_SESSION/VERIFY_REQUIRED: hosted Linux release contract requires xvfb-run",
+    "local_verify_public": "VERIFY_REQUIRED: public artifact provenance is missing because the non-deploying hosted release path could not run",
+    "deployment": "not run"
+  },
+  "native_safari_and_device": {
+    "native_safari_preflight": "BLOCKED_INTERACTIVE_SESSION/VERIFY_REQUIRED: passive CUA inventory exposed no Safari/remote browser surface; no settings enabled and no foreground desktop seized",
+    "playwright_webkit": "kept separate from native Safari and reported only as WebKit",
+    "physical_device": "VERIFY_REQUIRED: passive inventory exposed no verifiable attached physical iPhone/iPad; no simulator or desktop result substituted"
+  },
+  "remaining_verify_boundaries": [
+    "independent E2 multimodal visual/usability inspection of the candidate-bound review pack",
+    "native Safari on macOS in an eligible unattended interactive session",
+    "real physical iPhone/iPad field evidence if required",
+    "decisive performance adjudication where paired variance remains unresolved"
+  ],
+  "final_instruction": "Project OS must independently audit the visual pack and external boundaries; this handoff does not claim Gate-5 GO, REC-179 resolution, Gate-8 completion, or overall production readiness."
+}
