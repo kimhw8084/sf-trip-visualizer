@@ -250,6 +250,8 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             core_failures.append("remote Smart first-use request")
         page.locator('[data-mode="day"]').click()
         page.locator('#dateSelect').select_option("10/3")
+        page.locator('#mapOptionsToggle').click()
+        page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
         page.locator('[data-region="sf"]').click()
         page.wait_for_timeout(400)
         if page.locator(".photo-marker").count():
