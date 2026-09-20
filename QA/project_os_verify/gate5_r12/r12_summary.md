@@ -4,7 +4,7 @@ Project: `sf-trip-visualizer`
 Authoritative main: `f9631a57d3b9e51216e082b62d80519599b84711`  
 R11 stable source: `02f86c647395d61e7bd6ccdccb8e7883af981232` / tree `1668eb1ee325bdf80ad888c474254b117f6dbe16`  
 R12 stable source candidate: `dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1` / tree `36ec8d460b8445a9a32b26e7aee8a275dc3f8230`  
-R12 final head: recorded after the QA/evidence-only commit containing this directory.
+R12 final head: `9e69efc970a49e6f8b4bcd26d2f6a68e6150b362` / tree `064397b9d574e81907a63f0e3302d94655fad930` (QA/evidence-only commit after the stable source candidate).
 
 ## Defect and repaired semantics
 
