@@ -47,6 +47,8 @@ COMPONENTS = (
     ("photo_integrity", "scripts/check_photo_integrity.py", "QA/photo_integrity.json"),
     ("maplibre_security", "scripts/qa_maplibre_security.py", "QA/release/maplibre_security.json"),
     ("map_first_smoke", "scripts/qa_map_first.py", "QA/map_first/smoke.json"),
+    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r1/task_oracles.json"),
+    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r1/accessibility.json"),
     ("map_first_full", "scripts/qa_map_first_full.py", "QA/map_first/full_acceptance.json"),
     ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
     ("standalone", "scripts/qa_standalone_map_first.py", "QA/map_first/standalone.json"),

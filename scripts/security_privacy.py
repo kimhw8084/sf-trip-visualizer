@@ -28,6 +28,7 @@ WORKFLOWS = {
 }
 TEXT_SUFFIXES = {".css", ".html", ".js", ".json", ".md", ".py", ".txt", ".yml", ".yaml", ".toml", ".xml"}
 ALLOWED_STORAGE_KEYS = {
+    "trip_visualizer_runtime_v2",
     "trip_visualizer_runtime_v1",
     "trip_lang",
     "trip_theme",

@@ -1,285 +1,527 @@
+/*
+ * Calm field atlas runtime.
+ * Ownership map: state/persistence -> atlas_state.js; messages -> atlas_messages.js;
+ * map/provider/layers -> Map adapter below; Decide/Day/Place -> renderers below;
+ * focus/Escape/sheet -> overlay and shell controller below.
+ */
+(() => {
+  const DATA = window.TRIP_DATA || {};
+  const ROUTES = Object.keys(DATA.routes || {});
+  const GEOMETRY = window.TRIP_ROUTE_GEOMETRY || {};
+  const I18N = window.TRIP_I18N || { ko_to_en: {}, en_to_ko: {}, places: {} };
+  const FRESHNESS = window.TRIP_FRESHNESS || { default_status: 'RECHECK_REQUIRED' };
+  const RUNTIME_CONTRACT = window.TRIP_RUNTIME_CONTRACT || {};
+  const messages = window.TRIP_ATLAS_MESSAGES;
+  const model = window.TRIP_ATLAS_STATE.create(DATA);
+  const state = model.state;
+  const routeMeta = DATA.routes;
+  const markerByKey = Object.fromEntries((DATA.markers || []).map(item => [item.place_key, item]));
+  const SAFE_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+  const SATELLITE_TILE_TEMPLATE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+  const SATELLITE_HEALTH_PROBE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655';
+  const SATELLITE_ATTRIBUTION = 'Tiles © Esri and contributors';
+  const SAFE_PHOTO_ROLES = new Set(['hero', 'experience', 'scale_context']);
+  const SAFE_PHOTO_VARIANTS = new Set(['thumb', 'medium']);
+  let photoMap = null;
+  let photoMarkers = [];
+  let clusterMarkers = [];
+  let legMarkers = [];
+  let drawQueue = Promise.resolve();
+  let vectorUrl = 'assets/vector/sf_trip.pmtiles';
+  let renderedProvider = null;
+  let renderedTheme = null;
 
-(()=>{
-const DATA=window.TRIP_DATA; const ROUTES=Object.keys(DATA.routes);
-const GEOMETRY=window.TRIP_ROUTE_GEOMETRY||{};
-const I18N=window.TRIP_I18N||{ko_to_en:{},en_to_ko:{},places:{}};
-const FRESHNESS=window.TRIP_FRESHNESS||{default_status:'RECHECK_REQUIRED',records:[]};
-const RUNTIME_CONTRACT=window.TRIP_RUNTIME_CONTRACT||{};
-const STORAGE_KEY='trip_visualizer_runtime_v1';
-const SAFE_PIXEL='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-const SATELLITE_TILE_TEMPLATE='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-const SATELLITE_HEALTH_PROBE='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655';
-const SATELLITE_ATTRIBUTION='Tiles © Esri and contributors';
-const SAFE_PHOTO_ROLES=new Set(['hero','experience','scale_context']);
-const SAFE_PHOTO_VARIANTS=new Set(['thumb','medium']);
-const stored=(key,fallback)=>{try{return localStorage.getItem(key)||fallback}catch{return fallback}};
-const restored=(()=>{try{const value=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');return value?.version===1?value:{}}catch{return {}}})();
-const restoredRoutes=Array.isArray(restored.routes)?restored.routes.filter(r=>ROUTES.includes(r)):[...ROUTES];
-const restoredDates=new Set(['all',...DATA.dates.map(x=>x.key)]),restoredRegions=new Set(Object.keys(DATA.region_cfg));
-const state={routes:new Set(restoredRoutes.length?restoredRoutes:ROUTES),provider:'vector',region:restoredRegions.has(restored.region)?restored.region:'overall',date:restoredDates.has(restored.date)?restored.date:'all',selected:typeof restored.selected==='string'?restored.selected:null,tab:['timeline','details'].includes(restored.tab)?restored.tab:'timeline',lang:['ko','en'].includes(restored.lang)?restored.lang:stored('trip_lang','ko'),theme:['light','dark'].includes(restored.theme)?restored.theme:stored('trip_theme','light'),providerIdentity:RUNTIME_CONTRACT.providers?.vector?.identity||'smart-local-vector',providerHealth:{vector:'loading',satellite:'untested'},providerEvents:[],localAssets:{status:'checking',failures:[]},touch:false,panelWidth:Number(restored.panelWidth||stored('trip_panel_width','390')),mobilePanelHeight:Number(restored.mobilePanelHeight||stored('trip_mobile_panel_height','48')),panelHidden:!!restored.panelHidden,runtime:{sequence:0,probeSequence:0,mapCreations:0,mapRemovals:0,drawRequests:0,providerSwitches:0,events:[]},providerStats:{vector:{healthProbes:0,viewportProbes:0,tileErrors:0,fallbacks:0},satellite:{healthProbes:0,viewportProbes:0,tileErrors:0,fallbacks:0}}};
-const routeMeta=DATA.routes; const markerByKey=Object.fromEntries(DATA.markers.map(x=>[x.place_key,x]));
-let photoMarkers=[],clusterMarkers=[],legMarkers=[],photoMap=null,drawQueue=Promise.resolve(),vectorUrl='assets/vector/sf_trip.pmtiles',renderedProvider=null,renderedTheme=null;
-const UI={ko:{subtitle:'여행 시각화',routes:'경로',date:'날짜',region:'지역',map:'지도',allDates:'전체 날짜',overall:'전체',sf:'SF + 마린',monterey:'몬터레이',yosemite:'요세미티',vector:'스마트 지도',satellite:'위성 + 라벨',timeline:'일정',details:'상세',compare:'경로 전략 비교',whyNow:'왜 지금?',advantage:'장점',decision:'판단·변경 규칙',summary:'장소 요약',experience:'현장 경험',exactTiming:'경로별 정확한 시간',directions:'Google 지도에서 보기',shared:'공통',specific:'경로 전용',plan:'계획·회복',photoStop:'사진 장소',routeMode:'이동 방식',noMapped:'지도 좌표가 없는 일정',stops:'장소',days:'일정일',next:'지도에서 일정 선택',explore:'장소 보기',conceptual:'경로 의미',providerReady:'로컬 스마트 지도 준비 완료',providerFallback:'위성 타일 실패 → 스마트 지도로 전환',liveReady:'실시간 지도 준비 완료',selectStop:'장소를 선택하세요',browseHint:'현재 필터의 사진 장소를 보거나 지도 마커를 누르세요.',close:'닫기',dark:'다크',lightTheme:'라이트',language:'언어',allRoutes:'전체 경로',noSlots:'현재 필터에 맞는 일정이 없습니다.',replan:'변경 규칙',time:'시간',whyPlace:'이 장소를 선택한 이유',freshness:'변경 가능 정보: 출발 전 공식 소스 재확인 필요'},en:{subtitle:'Trip visualizer',routes:'Routes',date:'Date',region:'Region',map:'Map',allDates:'All dates',overall:'Overall',sf:'SF + Marin',monterey:'Monterey',yosemite:'Yosemite',vector:'Smart map',satellite:'Satellite + labels',timeline:'Timeline',details:'Details',compare:'Compare route strategies',whyNow:'Why now?',advantage:'Advantage',decision:'Decision / replan rules',summary:'Place summary',experience:'What you will experience',exactTiming:'Exact timing by route',directions:'Open Google Maps',shared:'Shared',specific:'Route-specific',plan:'Plan / recovery',photoStop:'Photo stop',routeMode:'Travel mode',noMapped:'Schedule item without a map coordinate',stops:'stops',days:'days',next:'Choose a day on the map',explore:'Explore stops',conceptual:'Route meaning',providerReady:'Local Smart map ready',providerFallback:'Satellite tiles failed → Smart map',liveReady:'Live map ready',selectStop:'Choose a place',browseHint:'Browse the photo stops in this filter, or tap a marker on the map.',close:'Close',dark:'Dark',lightTheme:'Light',language:'Language',allRoutes:'All routes',noSlots:'No itinerary slots match these filters.',replan:'Decision rule',time:'Time',whyPlace:'Why this place',freshness:'Changeable facts: recheck official sources before departure'}};
-Object.assign(UI.ko,{subtitle:`${ROUTES.length}개 경로 · ${DATA.dates.length}일 일정 · 실제 사진 ${DATA.markers.length*3}장 · 검증된 ${DATA.markers.length}개 장소`,conceptual:'색 선 = 실제 경로 · 긴 점선 = 회복 간격 · 짧은 점선 = 택1/조건부',providerReady:'로컬 스마트 지도 고정 · 외부 지도 요청 없음',providerFallback:'위성 타일 실패 → 스마트 지도로 자동 전환',must:'필수',strong:'강력',swap:'택1 대체',bonus:'보너스',conditional:'조건부',recovery:'회복 간격',choice:'택1 연결',main:'기본',auditAdded:'공식 소스 교차검증 추가',choiceWarning:'같은 선택 그룹은 하나만 실행'});
-Object.assign(UI.en,{subtitle:`${ROUTES.length} routes · ${DATA.dates.length} days · ${DATA.markers.length*3} real photos · ${DATA.markers.length} verified places`,conceptual:'Colored lines = routes · long dash = recovery gap · short dash = choice/conditional',providerReady:'Local Smart map locked · no external map requests',providerFallback:'Satellite tiles failed → Smart map automatically',must:'Must',strong:'Strong',swap:'Choose-one swap',bonus:'Bonus',conditional:'Conditional',recovery:'Recovery gap',choice:'Choose-one link',main:'Main',auditAdded:'Added by official-source audit',choiceWarning:'Run only one stop in the same choice group'});
-Object.assign(UI.ko,{bestFor:'이 경로가 맞는 경우',tradeoff:'감수할 것',routeRule:'선택·전환 규칙',regretGuard:'후회 방지',routeScore:'경로 점수',explainRoute:'경로 설명',showPanel:'패널 열기',hidePanel:'패널 닫기',smallerPanel:'패널 작게',largerPanel:'패널 크게',resizePanel:'일정 패널 크기 조절'});
-Object.assign(UI.en,{bestFor:'Best for',tradeoff:'Trade-off',routeRule:'Choose / switch rule',regretGuard:'Regret guard',routeScore:'Route score',explainRoute:'Explain route',showPanel:'Show panel',hidePanel:'Hide panel',smallerPanel:'Smaller panel',largerPanel:'Larger panel',resizePanel:'Resize itinerary panel'});
-const u=key=>UI[state.lang]?.[key]||UI.en[key]||DATA.region_cfg?.[key]?.[state.lang==='ko'?'label_ko':'label']||DATA.providers?.[key]?.label||key;
-const tr=value=>{const s=String(value??'');return state.lang==='en'?(I18N.ko_to_en[s]||s):(I18N.en_to_ko[s]||s)};
-const modeLabel=mode=>({ko:{drive:'차량',walk:'도보',ferry:'페리'},en:{drive:'Drive',walk:'Walk',ferry:'Ferry'}})[state.lang]?.[mode]||mode;
-const tierLabel=tier=>u(tier||'strong');
-const tierFor=x=>x?.schedule_tier||(String(x?.role||'').includes('필수')?'must':String(x?.role||'').includes('근처')?'bonus':'strong');
-const scoreLabel=key=>state.lang==='ko'?key:({'군중차익':'Crowd edge','아기편안':'Infant comfort','기상옵션':'Weather options','동선효율':'Route efficiency','후회방지':'Regret protection','사진/빛':'Photo / light','후반체력':'Late-trip energy'}[key]||key);
-const decisionLabel=key=>({ko:{baby_nap_delay_45min:'낮잠이 45분 이상 밀리면',family_energy_below_6:'가족 에너지가 6/10 미만이면',glacier_bad:'Glacier Point 날씨가 나쁘면',battery_parking:'Battery Spencer 주차가 어렵다면',twin_peaks_visibility:'Twin Peaks 시야가 나쁘면'},en:{baby_nap_delay_45min:'Baby nap delayed 45+ minutes',family_energy_below_6:'Family energy below 6/10',glacier_bad:'Poor Glacier Point weather',battery_parking:'Battery Spencer parking trouble',twin_peaks_visibility:'Poor Twin Peaks visibility'}})[state.lang]?.[key]||key.replaceAll('_',' ');
-const placeName=k=>I18N.places[k]?.[0]||markerByKey[k]?.name||k;
-const placeKo=k=>I18N.places[k]?.[1]||'';
-const timelineTitle=t=>t.spatial_keys?.length===1?placeName(t.spatial_keys[0]):tr(t.title);
-const dateLabel=s=>{const key=String(s||'').match(/^\d+\/\d+/)?.[0];if(!key)return tr(s);const meta=DATA.dates.find(d=>d.key===key);return state.lang==='en'?(meta?.label_en||key):(meta?.label||key)};
-const routeNarrative=r=>routeMeta[r]?.explanation?.[state.lang]||{best_for:tr(routeMeta[r]?.subtitle||''),tradeoff:tr(routeMeta[r]?.core_reason||''),decision_rule:tr(routeMeta[r]?.core_reason||''),regret_guard:tr(routeMeta[r]?.core_reason||'')};
-function persistState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({version:1,routes:[...state.routes].sort(),region:state.region,date:state.date,selected:state.selected,tab:state.tab,lang:state.lang,theme:state.theme,panelWidth:Math.round(state.panelWidth),mobilePanelHeight:Math.round(state.mobilePanelHeight),panelHidden:state.panelHidden}))}catch{}}
-function recordRuntimeEvent(type,provider,detail={}){const event={seq:++state.runtime.sequence,type,provider,...detail};state.providerEvents.push(event);state.runtime.events.push(event);if(state.providerEvents.length>80)state.providerEvents.shift();if(state.runtime.events.length>80)state.runtime.events.shift();}
-function mapFailureText(error,phase='runtime'){const detail=String(error?.message||error||'local asset failure');return state.lang==='ko'?`로컬 스마트 지도 오류 (${phase}): ${detail}. 원격 지도로 대체하지 않았습니다.`:`Local Smart map failure (${phase}): ${detail}. No remote provider was substituted.`}
-function showMapFailure(error,phase='runtime'){const message=mapFailureText(error,phase),el=document.getElementById('mapError');if(el){el.textContent=message;el.hidden=false}const screen=document.getElementById('loadingScreen');if(screen){screen.classList.add('failed');screen.setAttribute('aria-hidden','false')}setLoading(message);state.provider='vector';state.providerHealth.vector='failed';state.localAssets.status='failed';if(!state.localAssets.failures.includes(message))state.localAssets.failures.push(message);recordRuntimeEvent('smart_failure','vector',{phase,message});renderProviderState?.();persistState();}
-function localMapError(event){const source=String(event?.sourceId||'');const message=String(event?.error?.message||event?.message||event?.error||'');return source==='basemap'||source==='hillshade'||/pmtiles|tripasset|glyph|sprite|font|local asset|range|byte serving/i.test(message);}
-async function setupVector(){if(!window.TRIP_VECTOR)throw new Error('Local vector renderer missing');const {Protocol,PMTiles,FileSource}=window.TRIP_VECTOR,protocol=new Protocol();let archive;if(window.EMBEDDED_VECTOR){if(typeof window.EMBEDDED_VECTOR!=='string'||window.EMBEDDED_VECTOR.length<100000)throw new Error('Embedded PMTiles payload is missing or truncated');const response=await fetch('data:application/octet-stream;base64,'+window.EMBEDDED_VECTOR);if(!response.ok)throw new Error('Embedded PMTiles payload could not be decoded');const blob=await response.blob();if(blob.size<127)throw new Error('Embedded PMTiles payload is too small');const file=new File([blob],'sf_trip.pmtiles');vectorUrl='sf_trip.pmtiles';archive=new PMTiles(new FileSource(file));}else archive=new PMTiles(vectorUrl);const header=await archive.getHeader();if(!header||![1,6].includes(header.tileType)||header.maxZoom<1||header.minLon>=header.maxLon||header.minLat>=header.maxLat)throw new Error('Smart map PMTiles header is invalid');protocol.add(archive);maplibregl.addProtocol('pmtiles',protocol.tile);maplibregl.addProtocol('tripasset',async params=>{const path=decodeURIComponent(params.url.replace('tripasset://',''));if(!/^assets\/vector\/(?:fonts|sprites)\/[^?#]+$/.test(path)||path.includes('..'))throw new Error('Unsafe local map asset path');const embedded=window.EMBEDDED_MAP_ASSETS?.[path];const response=await fetch(embedded?'data:application/octet-stream;base64,'+embedded:path);if(!response.ok)throw new Error('Missing map asset '+path);return {data:path.endsWith('.json')?await response.json():await response.arrayBuffer()};});state.localAssets.status='ready';state.providerHealth.vector='ready';recordRuntimeEvent('smart_ready','vector',{identity:state.providerIdentity});}
-function safePhotoPath(key,role,variant){const safeKey=String(key??'');return /^[a-z0-9]+(?:_[a-z0-9]+)*$/i.test(safeKey)&&SAFE_PHOTO_ROLES.has(role)&&SAFE_PHOTO_VARIANTS.has(variant)?`assets/photos/${variant}/${safeKey}__${role}.webp`:SAFE_PIXEL;}
-function safeExternalUrl(value){try{const parsed=new URL(String(value??''),document.baseURI);if(parsed.protocol!=='https:'||parsed.username||parsed.password||parsed.port||parsed.hash)return '';if(parsed.hostname==='server.arcgisonline.com'&&parsed.pathname.startsWith('/ArcGIS/rest/services/World_Imagery/MapServer/tile/'))return parsed.href;if(parsed.hostname==='www.google.com'&&parsed.pathname==='/maps/search/'&&parsed.searchParams.get('api')==='1'&&parsed.searchParams.get('query')&&[...parsed.searchParams.keys()].every(key=>key==='api'||key==='query'))return parsed.href;return '';}catch{return '';}}
-function safeProviderConfig(){const cfg=DATA.providers?.satellite;if(!cfg||cfg.tile_template!==SATELLITE_TILE_TEMPLATE||cfg.health_probe!==SATELLITE_HEALTH_PROBE)return null;return {tile_template:SATELLITE_TILE_TEMPLATE,health_probe:SATELLITE_HEALTH_PROBE};}
-function safeProviderUrl(value){const url=safeExternalUrl(value);return url&&url.startsWith('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/')?url:'';}
-function safeColor(value){return /^#[0-9a-f]{6}$/i.test(String(value??''))?String(value):'#6b7f91';}
-const photoPath=safePhotoPath;
-const photoSrc=path=>window.EMBEDDED_PHOTOS?.[path]||path;
-function bindLocalImageFailures(root){root?.querySelectorAll('img').forEach(img=>{if(!img.src.startsWith('data:'))img.addEventListener('error',()=>showMapFailure(new Error(`Missing local photo ${img.getAttribute('src')||''}`),'photo_asset'));});}
-const isMobile=()=>window.matchMedia('(max-width:800px)').matches;
-function routeIntersects(arr){return (arr||[]).some(r=>state.routes.has(r));}
-function dateMatchesOccurrence(o){return state.date==='all'||(o.date||'').startsWith(state.date+' ' )||(o.date||'')===state.date;}
-function markerVisible(m){if(!routeIntersects(m.routes))return false;if(state.region!=='overall'&&DATA.place_region[m.place_key]!==state.region)return false;if(state.date==='all')return true;return m.occurrences.some(o=>state.routes.has(o.route)&&dateMatchesOccurrence(o));}
-function timelineVisible(t){if(!routeIntersects(t.routes))return false;if(state.date!=='all'&&t.date_key!==state.date)return false;if(state.region==='overall')return true;return t.regions.includes(state.region);}
-function legVisible(l){if(!routeIntersects(l.routes))return false;if(state.date!=='all'&&l.date!==state.date)return false;const from=markerByKey[l.from],to=markerByKey[l.to];if(from&&to&&!l.routes.some(r=>state.routes.has(r)&&from.occurrences.some(o=>o.route===r&&o.date.startsWith(l.date))&&to.occurrences.some(o=>o.route===r&&o.date.startsWith(l.date))))return false;if(state.region!=='overall'){
-  const fr=DATA.place_region[l.from], tr=DATA.place_region[l.to]; if(fr!==state.region&&tr!==state.region)return false;
-  if(l.render_style==='transfer_dots')return false;
-}return true;}
-function vectorStyle({labelsOnly=false}={}){
-  const v=window.TRIP_VECTOR,dark=state.theme==='dark',layers=v.layers('basemap',v.namedFlavor(dark?'dark':'light'),{lang:'en',labelsOnly});
-  for(const layer of layers){
-    if(layer.type==='background')layer.paint['background-color']=dark?'#334553':'#f3f0e9';
-    if(dark&&!labelsOnly){
-      if(layer.id==='earth')layer.paint['fill-color']='#334553';
-      if(layer.id==='landcover')layer.paint['fill-color']=['match',['get','kind'],'grassland','#365a49','urban_area','#344553','barren','#4b4a45','farmland','#415847','glacier','#637584','scrub','#3a5146','#2b473e'];
-      if(layer.id==='landuse_park'||layer.id==='landuse_urban_green')layer.paint['fill-color']='#315847';
-      if(layer.id==='water')layer.paint['fill-color']='#28566e';
-      if(layer.id.startsWith('water_')&&layer.type==='line')layer.paint['line-color']='#3b7892';
-      if(layer.id==='buildings')layer.paint['fill-color']='#263745';
-      if(layer.id.startsWith('roads_')&&layer.type==='line'){const casing=layer.id.includes('casing'),major=/highway|major|link/.test(layer.id);layer.paint['line-color']=casing?'#223645':major?'#91aabd':'#607b8e';}
-      if(layer.type==='symbol'&&layer.paint?.['text-color']){layer.paint['text-color']=layer.id.startsWith('places_')?'#edf5fb':'#d3e2ec';layer.paint['text-halo-color']='#253949';layer.paint['text-halo-width']=1.25;}
-    }
-    if(labelsOnly){if(layer.paint?.['text-color'])layer.paint['text-color']='#fff';if(layer.paint?.['text-halo-color'])layer.paint['text-halo-color']='#202a36';if(layer.paint?.['text-halo-width'])layer.paint['text-halo-width']=2.2;}
+  const m = key => messages.messages[state.presentation.lang]?.[key] || messages.messages.en[key] || key;
+  const tr = value => {
+    const text = String(value ?? '');
+    return state.presentation.lang === 'en' ? (I18N.ko_to_en[text] || text) : (I18N.en_to_ko[text] || text);
+  };
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+  const isMobile = () => window.matchMedia('(max-width:800px)').matches;
+  const safeColor = value => /^#[0-9a-f]{6}$/i.test(String(value ?? '')) ? String(value) : '#72857b';
+  const photoPath = (key, role, variant) => /^[a-z0-9]+(?:_[a-z0-9]+)*$/i.test(String(key ?? '')) && SAFE_PHOTO_ROLES.has(role) && SAFE_PHOTO_VARIANTS.has(variant) ? `assets/photos/${variant}/${key}__${role}.webp` : SAFE_PIXEL;
+  const photoSrc = path => window.EMBEDDED_PHOTOS?.[path] || path;
+  const placeName = key => I18N.places[key]?.[0] || markerByKey[key]?.name || key;
+  const placeKo = key => I18N.places[key]?.[1] || '';
+  const dateLabel = value => {
+    const key = String(value || '').match(/^\d+\/\d+/)?.[0];
+    if (!key) return tr(value);
+    const date = DATA.dates.find(item => item.key === key);
+    return state.presentation.lang === 'en' ? (date?.label_en || key) : (date?.label || key);
+  };
+  const modeLabel = mode => messages.modeLabels[state.presentation.lang]?.[mode] || mode;
+  const tierFor = item => item?.schedule_tier || (String(item?.role || '').includes('필수') ? 'must' : String(item?.role || '').includes('근처') ? 'bonus' : 'strong');
+  const tierLabel = tier => m(tier || 'strong');
+  const decisionLabel = key => messages.decisions[key]?.[state.presentation.lang] || key.replaceAll('_', ' ');
+  const routeNarrative = route => routeMeta[route]?.explanation?.[state.presentation.lang] || { best_for: tr(routeMeta[route]?.subtitle), tradeoff: tr(routeMeta[route]?.core_reason), decision_rule: tr(routeMeta[route]?.core_reason), regret_guard: tr(routeMeta[route]?.core_reason) };
+  const recommendedRoute = ROUTES.find(route => routeMeta[route]?.recommended) || ROUTES[0];
+
+  /* ----- Task state projection and persistence ----- */
+  function activeRoutes({ map = false } = {}) {
+    if (state.task.routes.size === 1) return new Set(state.task.routes);
+    if (map && state.presentation.mode === 'decide' && !state.task.compareRoutes.size) return new Set(ROUTES);
+    if (state.task.compareRoutes.size && state.presentation.mode === 'decide') return new Set([state.task.primaryRoute, ...state.task.compareRoutes]);
+    return new Set([state.task.primaryRoute]);
   }
-  const sources={basemap:{type:'vector',url:'pmtiles://'+vectorUrl,attribution:'© OpenStreetMap contributors · Protomaps'}};
-  if(!labelsOnly){sources.hillshade={type:'image',url:window.EMBEDDED_HILLSHADE||'assets/vector/yosemite_hillshade_shadow.webp',coordinates:[[-119.99,37.95],[-119.35,37.95],[-119.35,37.38],[-119.99,37.38]]};const index=layers.findIndex(layer=>layer.id==='roads_tunnels_other_casing');layers.splice(index<0?layers.length:index,0,{id:'yosemite-relief',type:'raster',source:'hillshade',minzoom:8,maxzoom:18,paint:{'raster-opacity':dark?.58:.72,'raster-fade-duration':0}});}
-  return {version:8,glyphs:'tripasset://assets/vector/fonts/{fontstack}/{range}.pbf',sprite:`tripasset://assets/vector/sprites/${dark?'dark':'light'}`,sources,layers};
-}
-function providerStyle(p){if(p==='vector')return vectorStyle();const cfg=safeProviderConfig();if(p!=='satellite'||!cfg)throw new Error('Satellite provider configuration is not approved');const t=cfg.tile_template;const style={version:8,sources:{base:{type:'raster',tiles:[t],tileSize:256,attribution:SATELLITE_ATTRIBUTION}},layers:[{id:'base',type:'raster',source:'base'}]};if(p==='satellite'){const labels=vectorStyle({labelsOnly:true});style.sources.basemap=labels.sources.basemap;style.glyphs=labels.glyphs;style.sprite=labels.sprite;style.layers.push(...labels.layers);}return style;}
-function probeImage(url,timeout=2600,tag='health'){return new Promise(resolve=>{const safeUrl=safeProviderUrl(url);if(!safeUrl){resolve(false);return;}const img=new Image();let done=false;const end=v=>{if(done)return;done=true;clearTimeout(timer);img.onload=img.onerror=null;resolve(v)};const timer=setTimeout(()=>end(false),timeout);img.onload=()=>end(img.naturalWidth>0);img.onerror=()=>end(false);img.referrerPolicy='no-referrer';img.src=safeUrl+(safeUrl.includes('?')?'&':'?')+tag+'='+(++state.runtime.probeSequence);});}
-async function testProvider(p){if(p==='vector'){const ok=state.providerHealth.vector==='ready'&&state.localAssets.status==='ready';if(!ok)recordRuntimeEvent('health_failure','vector',{reason:'local_assets_not_ready'});return ok;}const cfg=safeProviderConfig();if(p!=='satellite'||!cfg){state.providerHealth[p]='failed';recordRuntimeEvent('health_failure',p,{reason:'unapproved_provider_configuration'});renderProviderState();return false;}if(DATA.providers[p].requires_api_key){state.providerHealth[p]='failed';recordRuntimeEvent('health_failure',p,{reason:'api_key_required'});renderProviderState();return false;}state.providerHealth[p]='loading';state.providerStats[p].healthProbes++;recordRuntimeEvent('health_probe_started',p);renderProviderState();const ok=await probeImage(cfg.health_probe);state.providerHealth[p]=ok?'ready':'failed';recordRuntimeEvent(ok?'health_probe_passed':'health_probe_failed',p);renderProviderState();return ok;}
-function tileUrlAt(p,lat,lon,z){const cfg=p==='satellite'?safeProviderConfig():null;if(!cfg)return '';const n=2**z,rad=lat*Math.PI/180,x=Math.floor((lon+180)/360*n),y=Math.floor((1-Math.log(Math.tan(rad)+1/Math.cos(rad))/Math.PI)/2*n);return safeProviderUrl(cfg.tile_template.replace('{z}',z).replace('{x}',x).replace('{y}',y));}
-async function testViewportProvider(p){const first=DATA.markers.find(markerVisible),center=first||DATA.region_cfg[state.region].center,z=state.region==='overall'&&state.date==='all'?6:11;state.providerStats[p].viewportProbes++;recordRuntimeEvent('viewport_probe_started',p,{zoom:z});const ok=await probeImage(tileUrlAt(p,center.lat,center.lon,z),2800,'viewport');if(!ok){state.providerHealth[p]='failed';recordRuntimeEvent('viewport_probe_failed',p,{zoom:z});renderProviderState();}else recordRuntimeEvent('viewport_probe_passed',p,{zoom:z});return ok;}
-function returnToSmart(provider,reason){state.providerStats[provider].fallbacks++;state.providerHealth[provider]='failed';if(state.provider===provider)state.provider='vector';recordRuntimeEvent('fallback_to_smart',provider,{reason,active:state.provider});document.getElementById('fallbackNote').textContent=u('providerFallback');renderControls();persistState();return state.provider==='vector'?drawMap(true):Promise.resolve(false);}
-async function chooseProvider(p){if(!['vector','satellite'].includes(p))return false;if(p==='vector'){state.provider='vector';document.getElementById('fallbackNote').textContent=u('providerReady');renderControls();persistState();return (await drawMap(true))!==false&&state.provider==='vector'&&state.localAssets.status==='ready';}const ok=await testProvider(p)&&await testViewportProvider(p);if(!ok){await returnToSmart(p,'probe_failure');return false;}state.provider=p;state.runtime.providerSwitches++;recordRuntimeEvent('provider_switch',p,{from:'vector'});document.getElementById('fallbackNote').textContent=`${u(p)} · ${u('liveReady')}`;renderControls();persistState();const rendered=await drawMap(true);if(rendered===false||state.provider!==p){if(state.provider===p)await returnToSmart(p,'render_failure');return false;}return true;}
-function renderProviderState(){const el=document.getElementById('providerState'),health=state.providerHealth[state.provider]||'untested';el.textContent=state.provider==='vector'&&health==='ready'?u('providerReady'):state.provider==='vector'?`${u('vector')} · ${health==='failed'?(state.lang==='ko'?'사용 불가':'Unavailable'):(state.lang==='ko'?'확인 중':'Checking')}`:`${u(state.provider)} · ${health==='ready'?(state.lang==='ko'?'준비 완료':'Ready'):health==='failed'?(state.lang==='ko'?'사용 불가':'Unavailable'):(state.lang==='ko'?'확인 중':'Checking')}`;el.className='provider-state '+(health==='failed'?'failed':health==='ready'?'ready':'');document.querySelectorAll('[data-provider]').forEach(b=>{const p=b.dataset.provider;b.dataset.health=state.providerHealth[p]||'untested';b.title=(DATA.providers[p]?.label||p)+' · '+(state.providerHealth[p]||'untested');b.setAttribute('aria-pressed',state.provider===p);});}
-function baseTraces(){const c=DATA.region_cfg[state.region].center;return [{type:'scattermap',lat:[c.lat],lon:[c.lon],mode:'markers',marker:{size:1,opacity:0},hoverinfo:'skip',showlegend:false}];}
-function visibleRouteFeatures(){const features=[];for(const l of DATA.legs){if(!legVisible(l))continue;const active=l.routes.filter(r=>state.routes.has(r)),geometry=GEOMETRY[l.leg_id],transfer=l.render_style==='transfer_dots',branch=l.branch_kind||'main',kind=transfer?'transfer':branch==='swap'?'option':['bonus','conditional','recovery','choice'].includes(branch)?branch:'local',coords=geometry?.coordinates||[[l.from_latlon[1],l.from_latlon[0]],[l.to_latlon[1],l.to_latlon[0]]];active.forEach((route,i)=>{const fromOcc=markerByKey[l.from]?.occurrences.find(o=>o.route===route&&o.date.startsWith(l.date));const toOcc=markerByKey[l.to]?.occurrences.find(o=>o.route===route&&o.date.startsWith(l.date));features.push({type:'Feature',geometry:{type:'LineString',coordinates:coords},properties:{leg_id:l.leg_id,label:l.label,mode:l.mode,note:l.note,date:l.date,route,color:safeColor(routeMeta[route].color),offset:(i-(active.length-1)/2)*(transfer?3.2:3),kind,branch,status:geometry?.status||'conceptual_fallback',distance_km:geometry?.distance_km||0,time:[fromOcc?.time,toOcc?.time].filter(Boolean).map(tr).join(' → ')}})});}return features;}
-function installRouteLayers(map){
-  const add=()=>{
-    if(map.getSource('trip-routes'))return;
-    map.addSource('trip-routes',{type:'geojson',data:{type:'FeatureCollection',features:visibleRouteFeatures()}});
-    const tip=document.getElementById('routeTip'),patterns={transfer:[3,2],conditional:[5,2],option:[4,2],bonus:[1,2.4],recovery:[8,3],choice:[2,2]},routePatterns={solid:null,dash:[5,2],dot:[1.2,2.2],dashdot:[5,1.4,1.2,1.4]};
-    for(const kind of ['transfer','local','conditional','option','bonus','recovery','choice']){
-      const kindFilter=['==',['get','kind'],kind],transfer=kind==='transfer',faint=kind==='bonus',colorWidth=transfer?4:kind==='local'?3.8:3.5,casingWidth=colorWidth+2;
-      for(const route of ROUTES){
-        const routeFilter=['all',kindFilter,['==',['get','route'],route]],routePattern=kind==='local'?(routePatterns[routeMeta[route].pattern]||null):patterns[kind],casingPaint={'line-color':state.theme==='dark'?'#101a25':'#fff','line-width':casingWidth,'line-opacity':faint?.78:.97,'line-offset':['get','offset']};
-        if(routePattern)casingPaint['line-dasharray']=routePattern;
-        map.addLayer({id:`trip-${kind}-${route}-casing`,type:'line',source:'trip-routes',filter:routeFilter,minzoom:0,maxzoom:24,layout:{'line-cap':'round','line-join':'round'},paint:casingPaint});
+  function routeIntersects(routes, options) { return (routes || []).some(route => activeRoutes(options).has(route)); }
+  function dateMatchesOccurrence(item) { return state.task.date === 'all' || (item.date || '').startsWith(state.task.date + ' ') || item.date === state.task.date; }
+  function markerVisible(marker, options = {}) {
+    if (!routeIntersects(marker.routes, options)) return false;
+    if (state.task.region !== 'overall' && DATA.place_region[marker.place_key] !== state.task.region) return false;
+    if (state.task.date === 'all') return true;
+    return marker.occurrences.some(item => activeRoutes(options).has(item.route) && dateMatchesOccurrence(item));
+  }
+  function timelineVisible(item) {
+    if (!routeIntersects(item.routes)) return false;
+    if (state.task.date !== 'all' && item.date_key !== state.task.date) return false;
+    return state.task.region === 'overall' || item.regions.includes(state.task.region);
+  }
+  function legVisible(leg, options = {}) {
+    if (!routeIntersects(leg.routes, options)) return false;
+    if (state.task.date !== 'all' && leg.date !== state.task.date) return false;
+    const from = markerByKey[leg.from], to = markerByKey[leg.to], routes = activeRoutes(options);
+    if (from && to && !leg.routes.some(route => routes.has(route) && from.occurrences.some(item => item.route === route && item.date.startsWith(leg.date)) && to.occurrences.some(item => item.route === route && item.date.startsWith(leg.date)))) return false;
+    if (state.task.region !== 'overall') {
+      const fromRegion = DATA.place_region[leg.from], toRegion = DATA.place_region[leg.to];
+      if (fromRegion !== state.task.region && toRegion !== state.task.region) return false;
+      if (leg.render_style === 'transfer_dots') return false;
+    }
+    return true;
+  }
+  function persist() { model.persist(); }
+  function recordRuntimeEvent(type, provider, detail = {}) {
+    const event = { seq: ++state.runtime.sequence, type, provider, ...detail };
+    state.runtime.providerEvents.push(event); state.runtime.events.push(event);
+    if (state.runtime.providerEvents.length > 80) state.runtime.providerEvents.shift();
+    if (state.runtime.events.length > 80) state.runtime.events.shift();
+  }
+
+  /* ----- Local asset and provider boundary ----- */
+  function safeExternalUrl(value) {
+    try {
+      const url = new URL(String(value ?? ''), document.baseURI);
+      if (url.protocol !== 'https:' || url.username || url.password || url.port || url.hash) return '';
+      if (url.hostname === 'server.arcgisonline.com' && url.pathname.startsWith('/ArcGIS/rest/services/World_Imagery/MapServer/tile/')) return url.href;
+      if (url.hostname === 'www.google.com' && url.pathname === '/maps/search/' && url.searchParams.get('api') === '1' && url.searchParams.get('query') && [...url.searchParams.keys()].every(key => key === 'api' || key === 'query')) return url.href;
+      return '';
+    } catch { return ''; }
+  }
+  function safeProviderConfig() {
+    const config = DATA.providers?.satellite;
+    return config?.tile_template === SATELLITE_TILE_TEMPLATE && config?.health_probe === SATELLITE_HEALTH_PROBE ? { tile_template: SATELLITE_TILE_TEMPLATE, health_probe: SATELLITE_HEALTH_PROBE } : null;
+  }
+  function safeProviderUrl(value) {
+    const url = safeExternalUrl(value);
+    return url && url.startsWith('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/') ? url : '';
+  }
+  function mapFailureText(error, phase = 'runtime') {
+    const detail = String(error?.message || error || 'local asset failure');
+    return state.presentation.lang === 'ko' ? `로컬 Smart 지도 오류 (${phase}): ${detail}` : `Local Smart map error (${phase}): ${detail}`;
+  }
+  function setStatus(text) {
+    const startup = document.getElementById('startupStatus'); if (startup) startup.textContent = text;
+  }
+  function showMapFailure(error, phase = 'runtime') {
+    const message = `${m('smartFailure')} ${mapFailureText(error, phase)}`;
+    const errorBox = document.getElementById('mapError');
+    if (errorBox) { errorBox.querySelector('.map-error-message').textContent = message; errorBox.hidden = false; }
+    state.runtime.providerHealth.vector = 'failed'; state.runtime.localAssets.status = 'failed'; state.runtime.localAssets.failures.push(message);
+    recordRuntimeEvent('smart_failure', 'vector', { phase, message });
+    renderProviderState(); renderShellStatus(); setStatus(message); persist();
+  }
+  function localMapError(event) {
+    const source = String(event?.sourceId || ''), message = String(event?.error?.message || event?.message || event?.error || '');
+    return source === 'basemap' || source === 'hillshade' || /pmtiles|tripasset|glyph|sprite|font|local asset|range|byte serving/i.test(message);
+  }
+  async function setupVector() {
+    if (!window.TRIP_VECTOR) throw new Error('Local vector renderer missing');
+    const { Protocol, PMTiles, FileSource } = window.TRIP_VECTOR;
+    const protocol = new Protocol();
+    let archive;
+    if (window.EMBEDDED_VECTOR) {
+      if (typeof window.EMBEDDED_VECTOR !== 'string' || window.EMBEDDED_VECTOR.length < 100000) throw new Error('Embedded PMTiles payload is missing or truncated');
+      const response = await fetch(`data:application/octet-stream;base64,${window.EMBEDDED_VECTOR}`);
+      const blob = await response.blob();
+      if (blob.size < 127) throw new Error('Embedded PMTiles payload is too small');
+      vectorUrl = 'sf_trip.pmtiles'; archive = new PMTiles(new FileSource(new File([blob], 'sf_trip.pmtiles')));
+    } else archive = new PMTiles(vectorUrl);
+    const header = await archive.getHeader();
+    if (!header || ![1, 6].includes(header.tileType) || header.maxZoom < 1 || header.minLon >= header.maxLon || header.minLat >= header.maxLat) throw new Error('Smart map PMTiles header is invalid');
+    protocol.add(archive); maplibregl.addProtocol('pmtiles', protocol.tile);
+    maplibregl.addProtocol('tripasset', async params => {
+      const path = decodeURIComponent(params.url.replace('tripasset://', ''));
+      if (!/^assets\/vector\/(?:fonts|sprites)\/[^?#]+$/.test(path) || path.includes('..')) throw new Error('Unsafe local map asset path');
+      const response = await fetch(window.EMBEDDED_MAP_ASSETS?.[path] ? `data:application/octet-stream;base64,${window.EMBEDDED_MAP_ASSETS[path]}` : path);
+      if (!response.ok) throw new Error(`Missing map asset ${path}`);
+      return { data: path.endsWith('.json') ? await response.json() : await response.arrayBuffer() };
+    });
+    state.runtime.localAssets.status = 'ready'; state.runtime.providerHealth.vector = 'ready'; recordRuntimeEvent('smart_ready', 'vector', { identity: state.runtime.providerIdentity });
+  }
+  function vectorStyle({ labelsOnly = false } = {}) {
+    const vector = window.TRIP_VECTOR, dark = state.presentation.theme === 'dark';
+    const layers = vector.layers('basemap', vector.namedFlavor(dark ? 'dark' : 'light'), { lang: 'en', labelsOnly });
+    for (const layer of layers) {
+      if (layer.type === 'background') layer.paint['background-color'] = dark ? '#334553' : '#e9eee8';
+      if (dark && !labelsOnly) {
+        if (layer.id === 'earth') layer.paint['fill-color'] = '#334553';
+        if (layer.id === 'water') layer.paint['fill-color'] = '#28566e';
+        if (layer.id.startsWith('water_') && layer.type === 'line') layer.paint['line-color'] = '#3b7892';
+        if (layer.id === 'buildings') layer.paint['fill-color'] = '#263745';
+        if (layer.type === 'symbol' && layer.paint?.['text-color']) { layer.paint['text-color'] = layer.id.startsWith('places_') ? '#edf5fb' : '#d3e2ec'; layer.paint['text-halo-color'] = '#253949'; layer.paint['text-halo-width'] = 1.25; }
       }
-      for(const route of ROUTES){
-        const routeFilter=['all',kindFilter,['==',['get','route'],route]],routePattern=kind==='local'?(routePatterns[routeMeta[route].pattern]||null):patterns[kind],paint={'line-color':safeColor(routeMeta[route].color),'line-width':colorWidth,'line-opacity':faint?.86:1,'line-offset':['get','offset']};
-        if(routePattern)paint['line-dasharray']=routePattern;
-        map.addLayer({id:`trip-${kind}-${route}`,type:'line',source:'trip-routes',filter:routeFilter,minzoom:0,maxzoom:24,layout:{'line-cap':'round','line-join':'round'},paint});
-      }
-      map.addLayer({id:`trip-${kind}-hit`,type:'line',source:'trip-routes',filter:kindFilter,minzoom:0,maxzoom:24,paint:{'line-color':'#fff','line-width':22,'line-opacity':.001}});
-      const id=`trip-${kind}-hit`;
-      map.on('mousemove',id,e=>{
-        const p=e.features?.[0]?.properties;if(!p||e.originalEvent?.target?.closest?.('.photo-cluster,.photo-marker')||document.getElementById('previewCard').classList.contains('show'))return;
-        map.getCanvas().style.cursor='pointer';
-        const branch=['swap','bonus','conditional','recovery','choice'].includes(p.branch)?tierLabel(p.branch):u('shared');
-        tip.innerHTML=`<b style="color:${safeColor(p.color)}">${esc(p.route)} · ${esc(dateLabel(p.date))} · ${esc(tr(p.label))}</b><span>${esc(branch)} · ${esc(p.time||'')} · ${esc(modeLabel(p.mode))}${p.distance_km?` · ${Number(p.distance_km).toFixed(1)} km`:''}</span><span>${esc(tr(p.note||''))}</span><small>${p.status==='routed_osm'?(state.lang==='ko'?'로컬 캐시 OSM 참조 경로 · 도로 폐쇄 별도 확인':'Locally cached OSM reference · verify closures'):u('conceptual')}</small>`;
-        tip.classList.add('show');tip.style.left=Math.min(e.point.x+14,map.getCanvas().clientWidth-275)+'px';
-        const schedule=document.getElementById('mapSchedule'),maxTop=schedule.offsetTop-tip.offsetHeight-8;tip.style.top=Math.max(54,Math.min(e.point.y+14,maxTop))+'px';
+      if (labelsOnly && layer.paint?.['text-color']) { layer.paint['text-color'] = '#fff'; layer.paint['text-halo-color'] = '#202a36'; layer.paint['text-halo-width'] = 2.2; }
+    }
+    const sources = { basemap: { type: 'vector', url: `pmtiles://${vectorUrl}`, attribution: '© OpenStreetMap contributors · Protomaps' } };
+    if (!labelsOnly) {
+      sources.hillshade = { type: 'image', url: window.EMBEDDED_HILLSHADE || 'assets/vector/yosemite_hillshade_shadow.webp', coordinates: [[-119.99, 37.95], [-119.35, 37.95], [-119.35, 37.38], [-119.99, 37.38]] };
+      const index = layers.findIndex(layer => layer.id === 'roads_tunnels_other_casing');
+      layers.splice(index < 0 ? layers.length : index, 0, { id: 'yosemite-relief', type: 'raster', source: 'hillshade', minzoom: 8, maxzoom: 18, paint: { 'raster-opacity': dark ? .58 : .72, 'raster-fade-duration': 0 } });
+    }
+    return { version: 8, glyphs: 'tripasset://assets/vector/fonts/{fontstack}/{range}.pbf', sprite: `tripasset://assets/vector/sprites/${dark ? 'dark' : 'light'}`, sources, layers };
+  }
+  function providerStyle(provider) {
+    if (provider === 'vector') return vectorStyle();
+    const config = safeProviderConfig();
+    if (provider !== 'satellite' || !config) throw new Error('Satellite provider configuration is not approved');
+    const style = { version: 8, sources: { base: { type: 'raster', tiles: [config.tile_template], tileSize: 256, attribution: SATELLITE_ATTRIBUTION } }, layers: [{ id: 'base', type: 'raster', source: 'base' }] };
+    const labels = vectorStyle({ labelsOnly: true }); style.sources.basemap = labels.sources.basemap; style.glyphs = labels.glyphs; style.sprite = labels.sprite; style.layers.push(...labels.layers); return style;
+  }
+  function probeImage(value, timeout = 2600, tag = 'health') {
+    return new Promise(resolve => {
+      const url = safeProviderUrl(value); if (!url) return resolve(false);
+      const image = new Image(); let done = false;
+      const end = result => { if (done) return; done = true; clearTimeout(timer); image.onload = image.onerror = null; resolve(result); };
+      const timer = setTimeout(() => end(false), timeout); image.onload = () => end(image.naturalWidth > 0); image.onerror = () => end(false); image.referrerPolicy = 'no-referrer'; image.src = `${url}${url.includes('?') ? '&' : '?'}${tag}=${++state.runtime.probeSequence}`;
+    });
+  }
+  async function testProvider(provider) {
+    if (provider === 'vector') return state.runtime.providerHealth.vector === 'ready' && state.runtime.localAssets.status === 'ready';
+    const config = safeProviderConfig();
+    if (provider !== 'satellite' || !config || DATA.providers?.satellite?.requires_api_key) { state.runtime.providerHealth[provider] = 'failed'; renderProviderState(); return false; }
+    state.runtime.providerHealth[provider] = 'loading'; state.runtime.providerStats[provider].healthProbes++; renderProviderState();
+    const ok = await probeImage(config.health_probe); state.runtime.providerHealth[provider] = ok ? 'ready' : 'failed'; recordRuntimeEvent(ok ? 'health_probe_passed' : 'health_probe_failed', provider); renderProviderState(); return ok;
+  }
+  function tileUrlAt(provider, lat, lon, zoom) {
+    const config = provider === 'satellite' ? safeProviderConfig() : null; if (!config) return '';
+    const n = 2 ** zoom, rad = lat * Math.PI / 180, x = Math.floor((lon + 180) / 360 * n), y = Math.floor((1 - Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) / 2 * n);
+    return safeProviderUrl(config.tile_template.replace('{z}', zoom).replace('{x}', x).replace('{y}', y));
+  }
+  async function testViewportProvider(provider) {
+    const first = DATA.markers.find(item => markerVisible(item, { map: true })), center = first || DATA.region_cfg[state.task.region].center, zoom = state.task.region === 'overall' && state.task.date === 'all' ? 6 : 11;
+    state.runtime.providerStats[provider].viewportProbes++; const ok = await probeImage(tileUrlAt(provider, center.lat, center.lon, zoom), 2800, 'viewport');
+    if (!ok) state.runtime.providerHealth[provider] = 'failed'; renderProviderState(); return ok;
+  }
+  async function returnToSmart(provider, reason) {
+    state.runtime.providerStats[provider].fallbacks++; state.runtime.providerHealth[provider] = 'failed'; state.runtime.provider = 'vector'; recordRuntimeEvent('fallback_to_smart', provider, { reason });
+    const errorBox = document.getElementById('mapError'); if (errorBox && provider === 'satellite') { errorBox.querySelector('.map-error-message').textContent = m('satelliteFallback'); errorBox.hidden = false; }
+    renderProviderState(); persist(); await drawMap(true); return false;
+  }
+  async function chooseProvider(provider) {
+    if (!['vector', 'satellite'].includes(provider)) return false;
+    if (provider === 'vector') { state.runtime.provider = 'vector'; document.getElementById('mapError').hidden = true; renderProviderState(); persist(); return drawMap(true); }
+    const ok = await testProvider(provider) && await testViewportProvider(provider);
+    if (!ok) { await returnToSmart(provider, 'probe_failure'); return false; }
+    state.runtime.provider = provider; state.runtime.providerSwitches++; recordRuntimeEvent('provider_switch', provider, { from: 'vector' }); renderProviderState(); persist(); return drawMap(true);
+  }
+  function renderProviderState() {
+    const provider = state.runtime.provider, health = state.runtime.providerHealth[provider] || 'untested', status = document.getElementById('providerStatus');
+    const label = provider === 'vector' ? (health === 'ready' ? m('mapReady') : health === 'failed' ? m('mapUnavailable') : m('mapChecking')) : (health === 'ready' ? m('satelliteReady') : health === 'failed' ? m('satelliteUnavailable') : m('satelliteChecking'));
+    if (status) { status.textContent = label; status.className = `map-status ${health === 'ready' ? 'ready' : health === 'failed' ? 'failed' : ''}`; }
+    document.querySelectorAll('[data-provider]').forEach(button => { button.dataset.health = state.runtime.providerHealth[button.dataset.provider] || 'untested'; button.setAttribute('aria-pressed', String(button.dataset.provider === provider)); });
+  }
+
+  /* ----- Map adapter, route semantics, camera, and marker ownership ----- */
+  function visibleRouteFeatures() {
+    const routes = activeRoutes({ map: true }), features = [];
+    for (const leg of DATA.legs || []) {
+      if (!legVisible(leg, { map: true })) continue;
+      const geometry = GEOMETRY[leg.leg_id], transfer = leg.render_style === 'transfer_dots', branch = leg.branch_kind || 'main';
+      const kind = transfer ? 'transfer' : branch === 'swap' ? 'option' : ['bonus', 'conditional', 'recovery', 'choice'].includes(branch) ? branch : 'local';
+      const coordinates = geometry?.coordinates || [[leg.from_latlon[1], leg.from_latlon[0]], [leg.to_latlon[1], leg.to_latlon[0]]];
+      leg.routes.filter(route => routes.has(route)).forEach((route, index, active) => {
+        const fromOccurrence = markerByKey[leg.from]?.occurrences.find(item => item.route === route && item.date.startsWith(leg.date));
+        const toOccurrence = markerByKey[leg.to]?.occurrences.find(item => item.route === route && item.date.startsWith(leg.date));
+        features.push({ type: 'Feature', geometry: { type: 'LineString', coordinates }, properties: { leg_id: leg.leg_id, label: leg.label, mode: leg.mode, note: leg.note, date: leg.date, route, color: safeColor(routeMeta[route].color), offset: (index - (active.length - 1) / 2) * (transfer ? 3.2 : 3), kind, branch, emphasis: route === state.task.primaryRoute ? 1 : .22, status: geometry?.status || 'conceptual_fallback', distance_km: geometry?.distance_km || 0, time: [fromOccurrence?.time, toOccurrence?.time].filter(Boolean).map(tr).join(' → ') } });
       });
-      map.on('mouseleave',id,()=>{map.getCanvas().style.cursor='';tip.classList.remove('show')});
-      map.on('click',id,e=>{e.originalEvent.stopPropagation();setTimeout(()=>tip.classList.remove('show'),4500)});
     }
-  };
-  if(map.isStyleLoaded())add();else map.once('load',add);
-}
-function fitVisibleMap(map){const visible=DATA.markers.filter(markerVisible);if(!visible.length)return;const routePoints=visibleRouteFeatures().filter(f=>f.properties.kind!=='transfer').flatMap(f=>f.geometry.coordinates),points=[...visible.map(m=>[m.lon,m.lat]),...routePoints];if(points.length===1){map.jumpTo({center:points[0],zoom:13.1});return;}const pad=map.getCanvas().clientWidth<=800?{top:105,right:34,bottom:112,left:34}:{top:185,right:78,bottom:124,left:78},focused=state.date!=='all'||state.region!=='overall';map.fitBounds([[Math.min(...points.map(p=>p[0])),Math.min(...points.map(p=>p[1]))],[Math.max(...points.map(p=>p[0])),Math.max(...points.map(p=>p[1]))]],{padding:pad,maxZoom:focused?12.8:7.8,duration:0});}
-function watchLiveTiles(map,provider){
-  if(provider==='vector')return;
-  let failures=0,timer=null,lastTile='',finished=false;
-  const fallback=reason=>{if(finished||state.provider!==provider)return;finished=true;clearTimeout(timer);returnToSmart(provider,reason);};
-  const checkViewport=async()=>{
-    if(state.provider!==provider)return;
-    const center=map.getCenter(),z=Math.max(0,Math.min(18,Math.floor(map.getZoom())));
-    const url=tileUrlAt(provider,center.lat,center.lng,z);if(url===lastTile)return;lastTile=url;
-    if(!await probeImage(url,2800,'viewport')){state.providerStats[provider].tileErrors++;recordRuntimeEvent('viewport_tile_failed',provider,{zoom:z});fallback('viewport_tile_failure');}
-  };
-  const schedule=()=>{clearTimeout(timer);timer=setTimeout(checkViewport,350)};
-  map.on('moveend',schedule);schedule();
-  const onError=event=>{if(state.provider!==provider)return;const message=String(event.error?.message||event.message||'');if(event.sourceId!=='base'&&!/tile|fetch|image|network/i.test(message))return;state.providerStats[provider].tileErrors++;recordRuntimeEvent('provider_tile_error',provider,{source:event.sourceId||null,message:message.slice(0,180)});if(++failures>=2)fallback('map_tile_errors');};
-  map.on('error',onError);
-  map.__tripCleanup=()=>{finished=true;clearTimeout(timer);map.off('moveend',schedule);map.off('error',onError);};
-}
-function visibleMarkerBounds(){const m=DATA.markers.filter(markerVisible);if(!m.length)return null;return {lat:[Math.min(...m.map(x=>x.lat)),Math.max(...m.map(x=>x.lat))],lon:[Math.min(...m.map(x=>x.lon)),Math.max(...m.map(x=>x.lon))]};}
-function ringFor(m){const active=m.routes.filter(r=>state.routes.has(r));const colors=active.map(r=>safeColor(routeMeta[r].color));if(colors.length===1)return colors[0];return `conic-gradient(${colors.map((c,i)=>`${c} ${i/colors.length*100}% ${(i+1)/colors.length*100}%`).join(',')})`;}
-function updateMarkerLabels(){if(!photoMap)return;const visible=DATA.markers.filter(markerVisible),zoom=photoMap.getZoom(),placed=[];photoMarkers.forEach((marker,i)=>{const el=marker.getElement(),label=el.querySelector('.marker-callout');if(!label)return;label.style.display='none';if(zoom<9.3||el.style.display==='none')return;const m=visible[i],p=photoMap.project([m.lon,m.lat]),w=Math.min(175,Math.max(105,placeName(m.place_key).length*6.2)),box={left:p.x-w/2,top:p.y+18,right:p.x+w/2,bottom:p.y+100};if(box.left<8||box.right>photoMap.getCanvas().clientWidth-8||box.bottom>photoMap.getCanvas().clientHeight-12)return;if(placed.some(b=>box.left<b.right+8&&box.right>b.left-8&&box.top<b.bottom+5&&box.bottom>b.top-5))return;placed.push(box);label.style.display='block';});}
-function showClusterPreview(members,event,center){const hero=members[0],regions=[...new Set(members.map(m=>DATA.place_region[m.place_key]))],region=regions.length===1?u(regions[0]):u('overall'),card=document.getElementById('previewCard'),active=[...new Set(members.flatMap(m=>m.routes.filter(r=>state.routes.has(r))))];document.getElementById('routeTip').classList.remove('show');card.innerHTML=`<img class="preview-media" src="${photoSrc(photoPath(hero.place_key,'hero','medium'))}" alt=""><div class="preview-body"><div class="preview-title">${esc(region)} · ${members.length} ${u('stops')}</div><div class="preview-meta">${esc(active.join(' / '))} · ${state.date==='all'?u('allDates'):esc(dateLabel(state.date))}</div><div class="preview-why">${esc(members.slice(0,3).map(m=>placeName(m.place_key)).join(' · '))}${members.length>3?' …':''}</div><button type="button" class="preview-action">${u('explore')} ↗</button></div>`;card.querySelector('.preview-action').onclick=e=>{e.stopPropagation();photoMap.easeTo({center,zoom:Math.max(photoMap.getZoom()+2.2,11),duration:400});hidePreview()};card.classList.add('show');positionPreview(event,card);}
-function updatePhotoClusters(){if(!photoMap)return;clusterMarkers.forEach(x=>x.remove());clusterMarkers=[];const visible=DATA.markers.filter(markerVisible),n=visible.length,parent=Array.from({length:n},(_,i)=>i);const root=i=>{while(parent[i]!==i)i=parent[i];return i};const pts=visible.map(m=>photoMap.project([m.lon,m.lat]));const threshold=photoMap.getZoom()<7?52:36;for(let i=0;i<n;i++)for(let j=i+1;j<n;j++)if(visible[i].place_key!==state.selected&&visible[j].place_key!==state.selected&&Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y)<threshold)parent[root(j)]=root(i);const groups={};for(let i=0;i<n;i++)(groups[root(i)]??=[]).push(i);photoMarkers.forEach(x=>x.getElement().style.display='');for(const indexes of Object.values(groups)){if(indexes.length<2)continue;indexes.forEach(i=>photoMarkers[i].getElement().style.display='none');const members=indexes.map(i=>visible[i]),lat=members.reduce((s,m)=>s+m.lat,0)/members.length,lon=members.reduce((s,m)=>s+m.lon,0)/members.length,hero=members[0],center=[lon,lat];const el=document.createElement('button');el.type='button';el.className='photo-cluster';el.title=`${members.length} ${u('stops')} · ${u('explore')}`;el.setAttribute('aria-label',el.title);const regions=[...new Set(members.map(m=>DATA.place_region[m.place_key]))];if(photoMap.getZoom()<7&&regions.length===1)el.dataset.label=u(regions[0]);el.innerHTML=`<img src="${photoSrc(photoPath(hero.place_key,'hero','thumb'))}" alt="" draggable="false"><span class="cluster-count">${members.length}</span>`;el.addEventListener('mouseenter',e=>{if(!state.touch)showClusterPreview(members,e,center)});el.addEventListener('mouseleave',()=>{if(!state.touch)hidePreview()});el.addEventListener('focus',e=>showClusterPreview(members,e,center));el.addEventListener('click',e=>{e.stopPropagation();showClusterPreview(members,e,center);photoMap.easeTo({center,zoom:Math.max(photoMap.getZoom()+2.2,11),duration:400});});clusterMarkers.push(new maplibregl.Marker({element:el,anchor:'center'}).setLngLat(center).addTo(photoMap));}updateMarkerLabels();}
-function installPhotoMarkers(map){photoMap=map;photoMarkers=[];DATA.markers.filter(markerVisible).forEach(m=>{const el=document.createElement('button');el.type='button';el.className='photo-marker'+(state.selected===m.place_key?' selected':'')+(m.source_class==='official_gap_audit'?' audited':'');el.dataset.placeKey=m.place_key;el.setAttribute('aria-label',`${u('selectStop')}: ${placeName(m.place_key)}`);el.title=placeName(m.place_key);el.style.background=ringFor(m);const occ=preferredOccurrence(m),seq=state.date==='all'&&state.routes.size>1?DATA.markers.indexOf(m)+1:occ?.seq||DATA.markers.indexOf(m)+1,tier=tierFor(m);el.innerHTML=`<img src="${photoSrc(photoPath(m.place_key,'hero','thumb'))}" alt="" draggable="false"><span class="photo-seq">${seq}</span>${m.source_class==='official_gap_audit'?'<span class="audit-star" aria-hidden="true">★</span>':''}<span class="marker-callout"><b>${esc(placeName(m.place_key))}</b>${state.lang==='ko'?`<em>${esc(placeKo(m.place_key))}</em>`:''}<small>${esc(tierLabel(tier))}${state.date!=='all'&&occ?.time?` · ${esc(tr(occ.time))}`:''}</small></span>`;bindLocalImageFailures(el);el.addEventListener('mouseenter',e=>{if(!state.touch)showPreview(m.place_key,{event:e})});el.addEventListener('mouseleave',()=>{if(!state.touch)hidePreview()});el.addEventListener('focus',e=>{if(!state.touch)showPreview(m.place_key,{event:e})});el.addEventListener('click',e=>{e.stopPropagation();showPreview(m.place_key,{event:e});if(!state.touch)selectPlace(m.place_key,{focus:false,openDetails:true})});photoMarkers.push(new maplibregl.Marker({element:el,anchor:'center'}).setLngLat([m.lon,m.lat]).addTo(map));});map.on('zoomend',updatePhotoClusters);map.on('moveend',updatePhotoClusters);updatePhotoClusters();}
-function installLegLabels(map){legMarkers.forEach(m=>m.remove());legMarkers=[];for(const leg of DATA.legs.filter(l=>l.render_style==='transfer_dots'&&legVisible(l))){const points=GEOMETRY[leg.leg_id]?.coordinates;if(!points?.length)continue;const midpoint=points[Math.floor(points.length/2)],routes=leg.routes.filter(r=>state.routes.has(r)),el=document.createElement('button');el.type='button';el.className='route-leg-label';el.innerHTML=`<b>${esc(dateLabel(leg.date))} · ${esc(tr(leg.label))}</b><span>${routes.map(r=>`<i style="background:${safeColor(routeMeta[r].color)}">${esc(r)}</i>`).join('')}</span>`;el.title=`${dateLabel(leg.date)} · ${tr(leg.label)}`;el.onclick=async e=>{e.stopPropagation();state.date=leg.date;await filtersChanged()};const offset=leg.date==='10/9'?[0,-22]:leg.date==='10/10'?[0,22]:[0,0];legMarkers.push(new maplibregl.Marker({element:el,anchor:'center',offset}).setLngLat(midpoint).addTo(map));}if(map._tripLegUpdate)map.off('zoomend',map._tripLegUpdate);const update=()=>legMarkers.forEach(m=>m.getElement().style.display=map.getZoom()<9.3?'block':'none');map._tripLegUpdate=update;map.on('zoomend',update);update();}
-function drawMap(preserve=true){state.runtime.drawRequests++;const perform=async()=>{
-  const previous=photoMap,activeProvider=state.provider,same=previous&&renderedProvider===activeProvider&&renderedTheme===state.theme;
-  clusterMarkers.forEach(m=>m.remove());clusterMarkers=[];photoMarkers.forEach(m=>m.remove());photoMarkers=[];legMarkers.forEach(m=>m.remove());legMarkers=[];
-  if(same&&state.localAssets.status==='ready'){previous.off('zoomend',updatePhotoClusters);previous.off('moveend',updatePhotoClusters);previous.getSource('trip-routes')?.setData({type:'FeatureCollection',features:visibleRouteFeatures()});if(!preserve)fitVisibleMap(previous);installPhotoMarkers(previous);installLegLabels(previous);renderControls();return true;}
-  const view=preserve&&previous?{center:previous.getCenter(),zoom:previous.getZoom()}:null;if(previous){previous.__tripCleanup?.();previous.remove();state.runtime.mapRemovals++;}photoMap=null;
-  let map;
-  try{
-    const r=DATA.region_cfg[state.region];map=new maplibregl.Map({container:'map',style:providerStyle(activeProvider),center:[r.center.lon,r.center.lat],zoom:r.zoom,attributionControl:false,dragRotate:false,pitchWithRotate:false,maxZoom:18});photoMap=map;renderedProvider=activeProvider;renderedTheme=state.theme;state.runtime.mapCreations++;
-    map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');map.addControl(new maplibregl.AttributionControl({compact:true}),'bottom-right');
-    map.on('error',event=>{console.error('Map layer error:',event.error);recordRuntimeEvent('map_error',activeProvider,{source:event.sourceId||null,message:String(event.error?.message||event.message||event.error||'').slice(0,180)});if(activeProvider==='vector'&&localMapError(event))showMapFailure(event.error||event,'local_map_asset');});
-    const loaded=await Promise.race([new Promise(resolve=>map.once('load',()=>resolve(true))),new Promise(resolve=>setTimeout(()=>resolve(false),7000))]);if(photoMap!==map)return false;
-    if(!loaded){if(activeProvider==='vector')showMapFailure(new Error('Smart map style did not load'),'style_timeout');else returnToSmart(activeProvider,'style_timeout');map.__tripCleanup?.();map.remove();photoMap=null;state.runtime.mapRemovals++;return false;}
-    if(activeProvider==='vector'&&state.localAssets.status!=='ready'){map.__tripCleanup?.();map.remove();photoMap=null;state.runtime.mapRemovals++;return false;}
-    if(view)map.jumpTo(view);else fitVisibleMap(map);watchLiveTiles(map,activeProvider);installRouteLayers(map);installPhotoMarkers(map);installLegLabels(map);renderControls();return true;
-  }catch(error){if(activeProvider==='vector')showMapFailure(error,'map_render');else returnToSmart(activeProvider,'map_render');if(map){map.__tripCleanup?.();map.remove();state.runtime.mapRemovals++;}photoMap=null;return false;}
-};drawQueue=drawQueue.catch(()=>false).then(perform);return drawQueue;}
-function preferredOccurrence(x){const occ=x.occurrences.filter(o=>state.routes.has(o.route)&&(state.date==='all'||dateMatchesOccurrence(o)));return occ[0]||x.occurrences.find(o=>state.routes.has(o.route))||x.occurrences[0];}
-function positionPreview(event,card){clearTimeout(window.__previewTimer);const wrap=document.querySelector('.mapwrap').getBoundingClientRect();let left=(event?.clientX||wrap.left+wrap.width*.52)-wrap.left+14,top=(event?.clientY||wrap.top+wrap.height*.46)-wrap.top+14;const w=Math.min(320,wrap.width-16),h=Math.min(310,wrap.height-16);if(left+w>wrap.width)left=Math.max(8,left-w-28);if(top+h>wrap.height)top=Math.max(8,top-h-28);card.style.left=left+'px';card.style.top=top+'px';}
-function showPreview(k,p){const x=markerByKey[k];if(!x)return;const o=preferredOccurrence(x),card=document.getElementById('previewCard'),groups=groupOccurrences(x).slice(0,3),tier=tierFor(x);document.getElementById('routeTip').classList.remove('show');card.innerHTML=`<img class="preview-media" src="${photoSrc(photoPath(k,'hero','medium'))}" alt="${esc(placeName(k))}"><div class="preview-body"><div class="preview-title">${esc(placeName(k))}</div>${state.lang==='ko'?`<div class="preview-sub">${esc(placeKo(k))}</div>`:''}<div class="preview-tier ${esc(tier)}">${esc(tierLabel(tier))}${x.source_class==='official_gap_audit'?` · ${u('auditAdded')}`:''}</div><div class="preview-meta">${groups.map(g=>`<span>${esc(g.routes.join('/'))} · ${esc(dateLabel(g.date))} · ${esc(tr(g.time||'—'))} · ${esc(tr(g.status||''))}</span>`).join('')}</div><div class="preview-why"><b>${u('whyNow')}</b> ${esc(tr(o?.reason||x.why))}</div>${o?.advantage?`<div class="preview-adv">${u('advantage')}: ${esc(tr(o.advantage))}</div>`:''}<button type="button" class="preview-action">${u('details')} ↗</button></div>`;bindLocalImageFailures(card);card.querySelector('.preview-action').onclick=e=>{e.stopPropagation();selectPlace(k,{focus:false,openDetails:true});hidePreview()};card.classList.add('show');positionPreview(p?.event,card);}
-function hidePreview(){clearTimeout(window.__previewTimer);document.getElementById('previewCard').classList.remove('show');}
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function groupOccurrences(x){const groups={};for(const o of x.occurrences.filter(o=>state.routes.has(o.route)&&(state.date==='all'||dateMatchesOccurrence(o)))){const sig=[o.date,o.time,o.title,o.reason,o.advantage,o.status].join('|');if(!groups[sig])groups[sig]={...o,routes:[]};groups[sig].routes.push(o.route);}return Object.values(groups);}
-function renderDetail(k){
-  const x=markerByKey[k],panel=document.getElementById('detailsPane');
-  if(!x){const visible=DATA.markers.filter(markerVisible);panel.innerHTML=`<div class="stop-browser"><h2>${u('selectStop')}</h2><p>${u('browseHint')}</p>${visible.length?visible.map(m=>{const o=preferredOccurrence(m);return `<button type="button" class="stop-browser-card" data-browse-place="${esc(m.place_key)}"><img src="${photoSrc(photoPath(m.place_key,'hero','thumb'))}" alt=""><span><b>${esc(placeName(m.place_key))}</b>${state.lang==='ko'?`<small>${esc(placeKo(m.place_key))}</small>`:''}<small>${esc(dateLabel(o?.date||''))} · ${esc(tr(o?.time||'—'))} · ${esc(m.routes.filter(r=>state.routes.has(r)).join('/'))}</small><em>${esc(tr(o?.reason||m.why))}</em></span></button>`}).join(''):`<div class="empty">${u('noSlots')}</div>`}</div>`;panel.querySelectorAll('[data-browse-place]').forEach(b=>b.onclick=()=>selectPlace(b.dataset.browsePlace,{focus:true,openDetails:true}));renderMapFocus(null);return;}
-  const chips=x.routes.filter(r=>state.routes.has(r)).map(r=>`<span class="chip" style="background:${safeColor(routeMeta[r].color)}">${esc(r)}</span>`).join('');
-  const occ=groupOccurrences(x),now=preferredOccurrence(x);
-  const photoRoles=state.lang==='ko'?[['대표 장면','hero'],['현장 경험','experience'],['규모·맥락','scale_context']]:[['HERO','hero'],['EXPERIENCE','experience'],['SCALE / CONTEXT','scale_context']];
-  const tier=tierFor(x),mapsHref=safeExternalUrl(x.maps_url);
-  panel.innerHTML=`<h2>${esc(placeName(k))}</h2>${state.lang==='ko'?`<div class="place-korean">${esc(placeKo(k))}</div>`:''}<div class="detail-sub"><span>${esc(tr(x.cluster))}</span><span>${esc(tr(x.role))}</span><span>${esc(x.score)}/100</span><span class="tier-chip ${esc(tier)}">${esc(tierLabel(tier))}</span></div><div class="routechips">${chips}</div>
-  <div class="detail-glance"><div class="glance-label">${esc(tr(now?.status||''))} · ${esc(dateLabel(now?.date||''))} · ${esc(tr(now?.time||'—'))}</div><div class="glance-title">${u('whyNow')}</div><div>${esc(tr(now?.reason||x.why))}</div>${now?.advantage?`<div class="glance-adv">${u('advantage')}: ${esc(tr(now.advantage))}</div>`:''}</div>
-  <div class="photo-grid">${photoRoles.map(([label,role])=>`<figure class="photo-slot" data-photo-role="${esc(role.toUpperCase())}" data-photo-path="${esc(photoPath(k,role,'medium'))}"><img src="${photoSrc(photoPath(k,role,'medium'))}" alt="${esc(placeName(k))} — ${esc(label)}" loading="lazy"><figcaption>${esc(label)}</figcaption></figure>`).join('')}</div>
-  <div class="fact"><b>${u('whyPlace')}</b>${esc(tr(x.why))}</div><div class="fact"><b>${u('experience')}</b>${esc(tr(x.summary))}</div>
-  <div class="fact"><b>${u('exactTiming')} · ${u('shared')}</b>${occ.length?occ.map(o=>`<div class="timeline-card no-map"><div class="tl-top"><div><div class="tl-title">${esc(tr(o.title))}</div><div class="tl-time">${esc(dateLabel(o.date))} · ${esc(tr(o.time||'—'))}</div></div><span class="status-chip">${esc(tr(o.status||''))}</span></div><div class="mini-routes">${o.routes.map(r=>`<span class="mini-route" style="background:${safeColor(routeMeta[r].color)}">${esc(r)}</span>`).join('')}</div><div class="tl-reason"><b>${u('whyNow')}:</b> ${esc(tr(o.reason))}</div><div class="adv">${u('advantage')}: ${esc(tr(o.advantage||'—'))}</div></div>`).join(''):`<div class="muted">${u('noSlots')}</div>`}</div>
-  ${x.decision_rules?.length?`<div class="fact"><b>${u('decision')}</b>${x.decision_rules.map(d=>`<div class="decision"><b>${esc(decisionLabel(d.key))}</b><br>${esc(tr(d.text))}</div>`).join('')}</div>`:''}
-  ${x.source_class==='official_gap_audit'?`<div class="fact audit-note"><b>★ ${u('auditAdded')}</b>${esc(tr(x.workbook_status||''))}</div>`:''}<div class="fact"><b>${u('directions')}</b><div class="muted">${x.lat.toFixed(5)}, ${x.lon.toFixed(5)}</div>${mapsHref?`<a class="maps-link" href="${esc(mapsHref)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${u('directions')} ↗</a>`:`<span class="maps-link unavailable">${u('directions')}</span>`}</div>`;
-  bindLocalImageFailures(panel);renderMapFocus(k);
-}
-function focusPlace(k){const x=markerByKey[k];if(!x||!photoMap)return;photoMap.easeTo({center:[x.lon,x.lat],zoom:13.3,duration:380});}
-function selectPlace(k,{focus=true,openDetails=true}={}){state.selected=k;if(!state.touch)hidePreview();renderDetail(k);renderTimeline();updateMarkerEmphasis();if(focus)focusPlace(k);if(openDetails){const app=document.getElementById('app');if(app.classList.contains('panel-hidden'))setPanelHidden(false);setTab('details');}persistState();}
-function updateMarkerEmphasis(){document.querySelectorAll('.photo-marker').forEach(el=>el.classList.toggle('selected',el.dataset.placeKey===state.selected));updatePhotoClusters();}
-function routeMini(routes){return routes.filter(r=>state.routes.has(r)).map(r=>`<span class="mini-route" style="background:${safeColor(routeMeta[r].color)}">${esc(r)}</span>`).join('');}
-function renderTimeline(){
-  const pane=document.getElementById('timelinePane'),list=DATA.timeline.filter(timelineVisible),grouped={};
-  for(const t of list)(grouped[t.date]??=[]).push(t);
-  let html=`<div class="timeline-tools"><div><b>${u('timeline')}</b><div class="timeline-count">${list.length} ${u('stops')} · ${state.routes.size} ${u('routes').toLowerCase()}</div></div></div>`;
-  for(const [date,arr] of Object.entries(grouped)){
-    html+=`<section class="day"><div class="day-title">${esc(dateLabel(date))}</div>${arr.map(t=>{
-      const mapped=t.spatial_keys.length>0,selected=state.selected&&t.spatial_keys.includes(state.selected),placeNames=t.spatial_keys.map(placeName).filter(Boolean);
-      return `<button class="timeline-card ${selected?'selected':''} ${mapped?'':'no-map'} tier-${esc(t.schedule_tier||'main')}" data-timeline="${esc(t.id)}"><div class="tl-top"><div class="tl-title">${esc(timelineTitle(t))}</div><div class="tl-time">${esc(tr(t.time||'—'))}</div></div>${state.lang==='ko'&&t.spatial_keys.length===1?`<div class="place-korean">${esc(placeKo(t.spatial_keys[0]))}</div>`:''}<div class="tl-flags"><span>${t.route_specific?u('specific'):u('shared')}</span><span>${mapped?u('photoStop'):u('plan')}</span>${t.schedule_tier?`<span class="tier-chip ${esc(t.schedule_tier)}">${esc(tierLabel(t.schedule_tier))}</span>`:''}</div><div class="mini-routes">${routeMini(t.routes)}</div>${placeNames.length>1?`<div class="tl-place">${esc(placeNames.join(' · '))}</div>`:''}${t.mutually_exclusive_group?`<div class="choice-warning">↔ ${u('choiceWarning')}</div>`:''}<div class="tl-reason"><b>${u('whyNow')}:</b> ${esc(tr(t.reason))}</div><div class="adv"><b>${u('advantage')}:</b> ${esc(tr(t.advantage||'—'))}</div></button>`
-    }).join('')}</section>`;
+    return features;
   }
-  if(!list.length)html+=`<div class="empty">${u('noSlots')}</div>`;
-  pane.innerHTML=html;
-  pane.querySelectorAll('[data-timeline]').forEach(b=>b.onclick=()=>{const t=DATA.timeline.find(x=>x.id===b.dataset.timeline);if(t?.spatial_keys?.length)selectPlace(t.spatial_keys[0],{focus:true,openDetails:false});else renderPlanFocus(t);});
-  renderMapSchedule();
-}
-function renderPlanFocus(t){const card=document.getElementById('mapFocus');if(!t)return;card.innerHTML=`<div class="map-focus-head"><b>${esc(tr(t.title))}</b><button type="button" aria-label="${u('close')}">×</button></div><div class="map-focus-meta">${esc(dateLabel(t.date))} · ${esc(tr(t.time||'—'))} · ${esc(t.routes.filter(r=>state.routes.has(r)).join('/'))}</div><p>${esc(tr(t.reason))}</p><strong>${u('advantage')}: ${esc(tr(t.advantage||'—'))}</strong><small>${u('noMapped')}</small>`;card.classList.add('show');card.querySelector('button').onclick=()=>card.classList.remove('show');}
-function renderMapFocus(k){const card=document.getElementById('mapFocus');if(!card)return;const x=markerByKey[k];if(!x||(isMobile()&&state.tab==='details'&&!document.getElementById('app').classList.contains('panel-hidden'))){card.classList.remove('show');card.innerHTML='';return;}const occ=groupOccurrences(x),now=preferredOccurrence(x),tier=tierFor(x);card.innerHTML=`<div class="map-focus-head"><b>${esc(placeName(k))}</b><button type="button" aria-label="${u('close')}">×</button></div>${state.lang==='ko'?`<div class="place-korean">${esc(placeKo(k))}</div>`:''}<div class="preview-tier ${esc(tier)}">${esc(tierLabel(tier))}${x.source_class==='official_gap_audit'?` · ${u('auditAdded')}`:''}</div><div class="map-focus-meta">${occ.map(o=>`${esc(o.routes.join('/'))} · ${esc(dateLabel(o.date))} · ${esc(tr(o.time||'—'))} · ${esc(tr(o.status||''))}`).join('<br>')}</div><div class="map-focus-photo"><img src="${photoSrc(photoPath(k,'hero','medium'))}" alt="${esc(placeName(k))}"></div><p><b>${u('whyNow')}</b> ${esc(tr(now?.reason||x.why))}</p><strong>${u('advantage')}: ${esc(tr(now?.advantage||'—'))}</strong><button type="button" class="map-focus-details">${u('details')} ↗</button>`;bindLocalImageFailures(card);card.classList.add('show');card.querySelector('.map-focus-head button').onclick=()=>card.classList.remove('show');card.querySelector('.map-focus-details').onclick=()=>selectPlace(k,{focus:false,openDetails:true});}
-function renderMapSchedule(){
-  const ribbon=document.getElementById('dateRibbon'),strip=document.getElementById('mapSchedule');if(!ribbon||!strip)return;
-  ribbon.innerHTML=`<button type="button" class="day-chip ${state.date==='all'?'active':''}" data-day="all">${u('allDates')}</button>`+DATA.dates.map(d=>`<button type="button" class="day-chip ${state.date===d.key?'active':''}" data-day="${esc(d.key)}">${esc(dateLabel(d.key))}</button>`).join('');
-  ribbon.querySelectorAll('[data-day]').forEach(b=>b.onclick=async()=>{state.date=b.dataset.day;await filtersChanged()});
-  if(state.date==='all'){
-    strip.innerHTML=DATA.dates.map(d=>{const rows=DATA.timeline.filter(t=>t.date_key===d.key&&routeIntersects(t.routes)&&(state.region==='overall'||t.regions.includes(state.region))),mapped=rows.find(t=>t.spatial_keys.length),title=mapped?placeName(mapped.spatial_keys[0]):tr(rows[0]?.title||'—');return `<button class="map-slot day-overview" data-day="${esc(d.key)}"><b>${esc(dateLabel(d.key))}</b><span>${esc(title)}</span><small>${rows.length} ${u('stops')} · ${esc([...new Set(rows.flatMap(x=>x.routes))].filter(r=>state.routes.has(r)).join('/'))}</small></button>`}).join('');
-    strip.querySelectorAll('[data-day]').forEach(b=>b.onclick=async()=>{state.date=b.dataset.day;await filtersChanged()});return;
+  function installRouteLayers(map) {
+    const add = () => {
+      if (map.getSource('trip-routes')) return;
+      map.addSource('trip-routes', { type: 'geojson', data: { type: 'FeatureCollection', features: visibleRouteFeatures() } });
+      const patterns = { transfer: [3, 2], conditional: [5, 2], option: [4, 2], bonus: [1, 2.4], recovery: [8, 3], choice: [2, 2] }, routePatterns = { solid: null, dash: [5, 2], dot: [1.2, 2.2], dashdot: [5, 1.4, 1.2, 1.4] };
+      for (const kind of ['transfer', 'local', 'conditional', 'option', 'bonus', 'recovery', 'choice']) {
+        const kindFilter = ['==', ['get', 'kind'], kind], transfer = kind === 'transfer', faint = kind === 'bonus';
+        for (const route of ROUTES) {
+          const filter = ['all', kindFilter, ['==', ['get', 'route'], route]], pattern = kind === 'local' ? routePatterns[routeMeta[route].pattern] : patterns[kind], color = safeColor(routeMeta[route].color);
+          const casing = { 'line-color': state.presentation.theme === 'dark' ? '#14201b' : '#fffefa', 'line-width': transfer ? 6 : 5, 'line-opacity': ['case', ['==', ['get', 'emphasis'], 1], .9, .12], 'line-offset': ['get', 'offset'] };
+          const paint = { 'line-color': color, 'line-width': transfer ? 4 : kind === 'local' ? 3.8 : 3.2, 'line-opacity': ['case', ['==', ['get', 'emphasis'], 1], faint ? .75 : 1, faint ? .12 : .2], 'line-offset': ['get', 'offset'] };
+          if (pattern) { casing['line-dasharray'] = pattern; paint['line-dasharray'] = pattern; }
+          map.addLayer({ id: `trip-${kind}-${route}-casing`, type: 'line', source: 'trip-routes', filter, layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: casing });
+          map.addLayer({ id: `trip-${kind}-${route}`, type: 'line', source: 'trip-routes', filter, layout: { 'line-cap': 'round', 'line-join': 'round' }, paint });
+        }
+        const hitId = `trip-${kind}-hit`;
+        map.addLayer({ id: hitId, type: 'line', source: 'trip-routes', filter: kindFilter, paint: { 'line-color': '#fff', 'line-width': 18, 'line-opacity': .001 } });
+        map.on('mousemove', hitId, event => {
+          const properties = event.features?.[0]?.properties;
+          if (!properties || state.presentation.peek?.key) return;
+          map.getCanvas().style.cursor = 'pointer'; showRoutePeek(properties, event.originalEvent);
+        });
+        map.on('mouseleave', hitId, () => { map.getCanvas().style.cursor = ''; if (state.presentation.peek?.route) hidePeek({ returnFocus: false }); });
+      }
+    };
+    if (map.isStyleLoaded()) add(); else map.once('load', add);
   }
-  const rows=DATA.timeline.filter(timelineVisible),groups=new Map();
-  for(const t of rows){const sig=[t.time,t.title,t.reason,t.advantage,t.spatial_keys.join(',')].join('|');if(!groups.has(sig))groups.set(sig,{...t,routes:[]});groups.get(sig).routes.push(...t.routes.filter(r=>state.routes.has(r)));}
-  strip.innerHTML=[...groups.values()].map(t=>`<button class="map-slot ${t.spatial_keys.length?'mapped':'plan-slot'} tier-${esc(t.schedule_tier||'main')} ${state.selected&&t.spatial_keys.includes(state.selected)?'selected':''}" data-slot="${esc(t.id)}" style="border-left-color:${t.route_specific?safeColor(routeMeta[t.routes[0]].color):''}"><b>${esc(tr(t.time||'—'))}</b><span>${esc(timelineTitle(t))}</span><small>${state.lang==='ko'&&t.spatial_keys.length===1?esc(placeKo(t.spatial_keys[0]))+' · ':''}${esc([...new Set(t.routes)].join('/'))} · ${t.schedule_tier?esc(tierLabel(t.schedule_tier)):t.spatial_keys.length?u('photoStop'):u('plan')}</small></button>`).join('')||`<div class="map-slot">${u('noSlots')}</div>`;
-  strip.querySelectorAll('[data-slot]').forEach(b=>b.onclick=()=>{const t=rows.find(x=>x.id===b.dataset.slot);if(t?.spatial_keys.length)selectPlace(t.spatial_keys[0],{focus:true,openDetails:false});else renderPlanFocus(t)});
-}
-function routeExplanationHTML(r,{compact=false}={}){const x=routeMeta[r],n=routeNarrative(r),scores=Object.entries(x.score||{});return `<div class="route-explain-head"><div><b style="color:${safeColor(x.color)}">${esc(r)} · ${esc(tr(x.title))}</b><small>${esc(tr(x.subtitle||''))}</small></div>${compact?'':`<button type="button" class="route-explain-close" aria-label="${u('close')}">×</button>`}</div><div class="route-explain-grid"><div class="route-explain-item"><b>${u('bestFor')}</b>${esc(n.best_for)}</div><div class="route-explain-item"><b>${u('tradeoff')}</b>${esc(n.tradeoff)}</div><div class="route-explain-item"><b>${u('routeRule')}</b>${esc(n.decision_rule)}</div><div class="route-explain-item"><b>${u('regretGuard')}</b>${esc(n.regret_guard)}</div></div>${scores.length?`<div class="route-explain-score" aria-label="${u('routeScore')}">${scores.map(([k,v])=>`<span>${esc(scoreLabel(k))} ${esc(v)}/10</span>`).join('')}</div>`:''}`;}
-let routeExplainPinned=null,routeExplainTimer=0;
-function hideRouteExplanation(force=false){if(routeExplainPinned&&!force)return;clearTimeout(routeExplainTimer);routeExplainPinned=null;const tip=document.getElementById('routeExplain');tip?.classList.remove('show');tip?.setAttribute('aria-hidden','true');document.querySelectorAll('[data-route-info]').forEach(b=>b.setAttribute('aria-expanded','false'));}
-function showRouteExplanation(r,anchor,{pinned=false}={}){const tip=document.getElementById('routeExplain'),x=routeMeta[r];if(!tip||!anchor||!x)return;clearTimeout(routeExplainTimer);routeExplainPinned=pinned?r:null;tip.style.setProperty('--route-color',safeColor(x.color));tip.innerHTML=routeExplanationHTML(r);tip.classList.add('show');tip.setAttribute('aria-hidden','false');document.querySelectorAll('[data-route-info]').forEach(b=>b.setAttribute('aria-expanded',String(b.dataset.routeInfo===r&&pinned)));const rect=anchor.getBoundingClientRect(),width=tip.offsetWidth,height=tip.offsetHeight,left=Math.max(10,Math.min(rect.left,window.innerWidth-width-10));let top=rect.bottom+7;if(top+height>window.innerHeight-10)top=Math.max(10,rect.top-height-7);tip.style.left=left+'px';tip.style.top=top+'px';tip.querySelector('.route-explain-close').onclick=e=>{e.stopPropagation();hideRouteExplanation(true)};}
-function renderRouteOverview(){const el=document.getElementById('routeOverview');el.innerHTML=ROUTES.map(r=>{const x=routeMeta[r],n=routeNarrative(r);return `<article class="route-summary"><div style="color:${safeColor(x.color)}"><span class="route-pattern ${esc(x.pattern)}"></span><b>${esc(r)} · ${esc(tr(x.title))}</b></div><div class="muted">${esc(tr(x.core_reason))}</div><dl class="route-summary-detail"><div><dt>${u('bestFor')}</dt><dd>${esc(n.best_for)}</dd></div><div><dt>${u('tradeoff')}</dt><dd>${esc(n.tradeoff)}</dd></div><div><dt>${u('routeRule')}</dt><dd>${esc(n.decision_rule)}</dd></div></dl></article>`}).join('');}
-function applyPanelSize({persist=false}={}){state.panelWidth=Math.max(300,Math.min(620,Number(state.panelWidth)||390));state.mobilePanelHeight=Math.max(30,Math.min(70,Number(state.mobilePanelHeight)||48));const app=document.getElementById('app');app.style.setProperty('--sidebar-width',state.panelWidth+'px');app.style.setProperty('--mobile-panel-height',state.mobilePanelHeight+'%');const splitter=document.getElementById('panelResizer');if(splitter)splitter.setAttribute('aria-valuenow',String(Math.round(state.panelWidth)));if(persist){try{localStorage.setItem('trip_panel_width',String(Math.round(state.panelWidth)));localStorage.setItem('trip_mobile_panel_height',String(Math.round(state.mobilePanelHeight)))}catch{}persistState()}requestAnimationFrame(()=>photoMap?.resize());}
-function setPanelHidden(hidden){const app=document.getElementById('app');state.panelHidden=hidden;app.classList.toggle('panel-hidden',hidden);renderControls();persistState();setTimeout(()=>photoMap?.resize(),110);}
-function adjustPanel(direction){if(isMobile())state.mobilePanelHeight+=direction*10;else state.panelWidth+=direction*60;applyPanelSize({persist:true});}
-function renderControls(){
-  document.documentElement.dataset.theme=state.theme;document.documentElement.lang=state.lang;
-  document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=u(el.dataset.i18n)});
-  document.querySelectorAll('[data-route]').forEach(b=>{const x=routeMeta[b.dataset.route];b.classList.toggle('active',state.routes.has(b.dataset.route));b.setAttribute('aria-pressed',state.routes.has(b.dataset.route));b.style.setProperty('--route-color',safeColor(x.color));b.title=`${b.dataset.route} · ${tr(x.title)} — ${tr(x.core_reason)}`});
-  document.querySelectorAll('[data-route-info]').forEach(b=>{const r=b.dataset.routeInfo;b.style.setProperty('--route-color',safeColor(routeMeta[r].color));b.setAttribute('aria-label',`${u('explainRoute')} ${r}`)});
-  document.querySelectorAll('[data-region]').forEach(b=>{b.classList.toggle('active',state.region===b.dataset.region);b.setAttribute('aria-pressed',state.region===b.dataset.region)});
-  document.querySelectorAll('[data-provider]').forEach(b=>b.classList.toggle('active',state.provider===b.dataset.provider));
-  ['dateSelect','mobileDate'].forEach(id=>{const el=document.getElementById(id);if(el){el.value=state.date;for(const option of el.options)option.textContent=option.value==='all'?u('allDates'):dateLabel(option.value)}});
-  const region=document.getElementById('mobileRegion');if(region){region.value=state.region;for(const option of region.options)option.textContent=u(option.value)}
-  const provider=document.getElementById('mobileProvider');if(provider){provider.value=state.provider;for(const option of provider.options)option.textContent=u(option.value)}
-  document.getElementById('themeToggle').textContent=state.theme==='dark'?'☀ '+u('lightTheme'):'☾ '+u('dark');
-  document.getElementById('langToggle').textContent=state.lang==='ko'?'EN':'한국어';
-  const panelHidden=document.getElementById('app').classList.contains('panel-hidden');document.getElementById('panelToggle').textContent=panelHidden?u('showPanel'):u('hidePanel');document.getElementById('panelReopen').textContent=u('showPanel');document.getElementById('panelSmaller').setAttribute('aria-label',u('smallerPanel'));document.getElementById('panelSmaller').title=u('smallerPanel');document.getElementById('panelLarger').setAttribute('aria-label',u('largerPanel'));document.getElementById('panelLarger').title=u('largerPanel');document.getElementById('panelClose').setAttribute('aria-label',u('hidePanel'));document.getElementById('panelClose').title=u('hidePanel');document.getElementById('panelResizer').setAttribute('aria-label',u('resizePanel'));
-  document.getElementById('mapRouteLegend').innerHTML=ROUTES.map(r=>`<div class="map-route-row ${state.routes.has(r)?'active':'inactive'}" title="${esc(tr(routeMeta[r].title))}"><i style="background:${safeColor(routeMeta[r].color)}"></i><b>${esc(r)}</b><span>${esc(tr(routeMeta[r].title))}</span></div>`).join('');
-  renderProviderState();document.getElementById('activeFilterSummary').textContent=`${state.routes.size} ${u('routes').toLowerCase()} · ${state.date==='all'?u('allDates'):dateLabel(state.date)} · ${u(state.region)}`;const freshness=document.getElementById('freshnessNote');if(freshness)freshness.textContent=`${u('freshness')} · ${FRESHNESS.default_status||'RECHECK_REQUIRED'}`;
-}
-async function filtersChanged(){hidePreview();document.getElementById('routeTip').classList.remove('show');if(state.selected&&!markerVisible(markerByKey[state.selected]))state.selected=null;renderDetail(state.selected);renderTimeline();persistState();await drawMap(false);}
-function setTab(t){state.tab=t;document.querySelectorAll('.tab').forEach(b=>{const a=b.dataset.tab===t;b.classList.toggle('active',a);b.setAttribute('aria-selected',a)});document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active',p.id===(t==='timeline'?'timelinePane':'detailsPane')));if(isMobile())renderMapFocus(state.selected);persistState();}
-function bind(){
-  document.querySelectorAll('[data-route]').forEach(b=>b.onclick=async()=>{const r=b.dataset.route;if(state.routes.has(r)&&state.routes.size>1)state.routes.delete(r);else state.routes.add(r);await filtersChanged()});
-  document.querySelectorAll('[data-route-info]').forEach(b=>{const r=b.dataset.routeInfo;b.onmouseenter=()=>showRouteExplanation(r,b);b.onmouseleave=()=>{routeExplainTimer=setTimeout(()=>hideRouteExplanation(),140)};b.onfocus=()=>showRouteExplanation(r,b);b.onblur=()=>{routeExplainTimer=setTimeout(()=>hideRouteExplanation(),140)};b.onclick=e=>{e.stopPropagation();if(routeExplainPinned===r)hideRouteExplanation(true);else showRouteExplanation(r,b,{pinned:true})}});
-  const routeExplain=document.getElementById('routeExplain');routeExplain.onmouseenter=()=>clearTimeout(routeExplainTimer);routeExplain.onmouseleave=()=>{routeExplainTimer=setTimeout(()=>hideRouteExplanation(),180)};
-  document.querySelectorAll('[data-region]').forEach(b=>b.onclick=async()=>{state.region=b.dataset.region;await filtersChanged()});
-  document.querySelectorAll('[data-provider]').forEach(b=>b.onclick=()=>chooseProvider(b.dataset.provider));
-  for(const id of ['dateSelect','mobileDate']){const e=document.getElementById(id);if(e)e.onchange=async()=>{state.date=e.value;await filtersChanged()}}
-  const mr=document.getElementById('mobileRegion');if(mr)mr.onchange=async()=>{state.region=mr.value;await filtersChanged()};const mp=document.getElementById('mobileProvider');if(mp)mp.onchange=()=>chooseProvider(mp.value);
-  document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
-  document.getElementById('themeToggle').onclick=async()=>{state.theme=state.theme==='dark'?'light':'dark';try{localStorage.setItem('trip_theme',state.theme)}catch{}persistState();hideRouteExplanation(true);await drawMap(true);renderTimeline();renderDetail(state.selected)};
-  document.getElementById('langToggle').onclick=async()=>{state.lang=state.lang==='ko'?'en':'ko';try{localStorage.setItem('trip_lang',state.lang)}catch{}persistState();hideRouteExplanation(true);renderRouteOverview();renderTimeline();renderDetail(state.selected);await drawMap(true)};
-  document.getElementById('panelToggle').onclick=()=>setPanelHidden(!document.getElementById('app').classList.contains('panel-hidden'));
-  document.getElementById('panelClose').onclick=()=>setPanelHidden(true);document.getElementById('panelReopen').onclick=()=>setPanelHidden(false);document.getElementById('panelSmaller').onclick=()=>adjustPanel(-1);document.getElementById('panelLarger').onclick=()=>adjustPanel(1);
-  const splitter=document.getElementById('panelResizer');let resizeStart=null;splitter.onpointerdown=e=>{if(isMobile())return;resizeStart={x:e.clientX,width:state.panelWidth};splitter.setPointerCapture(e.pointerId);splitter.classList.add('dragging');e.preventDefault()};splitter.onpointermove=e=>{if(!resizeStart)return;state.panelWidth=resizeStart.width+(resizeStart.x-e.clientX);applyPanelSize()};splitter.onpointerup=e=>{if(!resizeStart)return;resizeStart=null;splitter.releasePointerCapture(e.pointerId);splitter.classList.remove('dragging');applyPanelSize({persist:true})};splitter.onkeydown=e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();adjustPanel(e.key==='ArrowLeft'?1:-1)}};
-  const preview=document.getElementById('previewCard');preview.onmouseenter=()=>clearTimeout(window.__previewTimer);preview.onmouseleave=()=>{if(!state.touch)hidePreview()};
-  document.addEventListener('click',e=>{if(routeExplainPinned&&!e.target.closest('#routeExplain,[data-route-info]'))hideRouteExplanation(true)});document.addEventListener('keydown',e=>{if(e.key==='Escape'){hideRouteExplanation(true);if(document.activeElement===splitter)splitter.blur()}});
-  window.addEventListener('resize',()=>{applyPanelSize();photoMap?.resize()});applyPanelSize();
-}
-function setLoading(stage){const el=document.getElementById('loadingStatus');if(el)el.textContent=stage;}
-async function hideLoading(){const screen=document.getElementById('loadingScreen');if(!screen)return;const elapsed=performance.now()-(window.__tripLoadStarted||0);if(elapsed<900)await new Promise(resolve=>setTimeout(resolve,900-elapsed));screen.classList.add('ready');screen.setAttribute('aria-hidden','true');setTimeout(()=>screen.remove(),100);}
-function runtimeSnapshot(){return {provider:state.provider,provider_identity:state.providerIdentity,provider_health:{...state.providerHealth},provider_events:state.providerEvents.slice(),local_assets:{status:state.localAssets.status,failures:state.localAssets.failures.slice()},planning_state:{routes:[...state.routes].sort(),date:state.date,region:state.region,selected:state.selected,tab:state.tab,lang:state.lang,theme:state.theme,panel_hidden:state.panelHidden},runtime:{...state.runtime,events:state.runtime.events.slice()},provider_stats:JSON.parse(JSON.stringify(state.providerStats)),map:{canvas_count:document.querySelectorAll('.maplibregl-canvas').length,photo_markers:document.querySelectorAll('.photo-marker').length,photo_marker_keys:[...document.querySelectorAll('.photo-marker')].map(x=>x.dataset.placeKey),clusters:document.querySelectorAll('.photo-cluster').length,leg_markers:document.querySelectorAll('.route-leg-label').length,layers:photoMap?.getStyle?.()?.layers?.length||0}};}
-function securityRenderFixture(value){
-  const marker=DATA.markers[0],occurrence=marker?.occurrences?.[0],saved={cluster:marker?.cluster,role:marker?.role,why:marker?.why,summary:marker?.summary,maps_url:marker?.maps_url,occurrence:occurrence&&{title:occurrence.title,reason:occurrence.reason,advantage:occurrence.advantage,status:occurrence.status}};
-  try{
-    if(!marker)return {html:'',href:null,unsafe_nodes:0};
-    marker.cluster=value;marker.role=value;marker.why=value;marker.summary=value;marker.maps_url=value;
-    if(occurrence){occurrence.title=value;occurrence.reason=value;occurrence.advantage=value;occurrence.status=value;}
-    renderDetail(marker.place_key);
-    const panel=document.getElementById('detailsPane');
-    return {html:panel?.innerHTML||'',href:panel?.querySelector('.maps-link')?.getAttribute('href')||null,unsafe_nodes:panel?.querySelectorAll('script,[onerror],[onclick],[onload],[javascript]').length||0};
-  }finally{
-    if(marker){Object.assign(marker,{cluster:saved.cluster,role:saved.role,why:saved.why,summary:saved.summary,maps_url:saved.maps_url});}
-    if(occurrence&&saved.occurrence)Object.assign(occurrence,saved.occurrence);
-    if(marker)renderDetail(marker.place_key);
+  function showRoutePeek(properties, event) {
+    const card = document.getElementById('peek');
+    state.presentation.peek = { route: properties.route, invoker: document.activeElement };
+    card.innerHTML = `<div class="peek-body"><div class="eyebrow">${esc(properties.route)} · ${esc(dateLabel(properties.date))}</div><h3 id="peekTitle" class="peek-title">${esc(tr(properties.label || ''))}</h3><p id="peekDescription" class="peek-why"><strong>${esc(tierLabel(properties.branch === 'main' ? 'main' : properties.branch))}</strong> · ${esc(modeLabel(properties.mode))}${properties.time ? ` · ${esc(properties.time)}` : ''}<br>${esc(tr(properties.note || ''))}</p><p class="peek-sub">${properties.status === 'routed_osm' ? m('recheck') : m('mapLegend')}</p><button class="peek-action" type="button" data-route-use>${m('chooseRoute')} ${esc(properties.route)} ↗</button></div>`;
+    card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card); card.querySelector('[data-route-use]').onclick = () => choosePrimaryRoute(properties.route);
   }
-}
-async function init(){window.__tripLoadStarted=window.__tripLoadStarted||performance.now();state.touch=('ontouchstart'in window)||navigator.maxTouchPoints>0;document.documentElement.dataset.theme=state.theme;window.__tripApp={state,DATA,drawMap,whenIdle:()=>drawQueue,map:()=>photoMap,selectPlace,chooseProvider,testProvider,setTab,markerVisible,timelineVisible,legVisible,visibleRouteFeatures,renderTimeline,renderDetail,showPreview,hidePreview,fitVisibleMap,runtimeSnapshot};window.__tripSecurity={escapeHtml:esc,safeExternalUrl,safePhotoPath,renderFixture:securityRenderFixture,allowedStorageKeys:['trip_visualizer_runtime_v1','trip_lang','trip_theme','trip_panel_width','trip_mobile_panel_height']};setLoading(state.lang==='ko'?'로컬 스마트 지도를 여는 중…':'Opening the local Smart map…');await setupVector();if(state.selected&&!markerByKey[state.selected])state.selected=null;setLoading(state.lang==='ko'?`${DATA.markers.length}개 장소와 ${ROUTES.length}개 경로를 연결하는 중…`:`Connecting ${DATA.markers.length} places across ${ROUTES.length} routes…`);renderRouteOverview();renderTimeline();renderDetail(state.selected);bind();if(state.panelHidden)setPanelHidden(true);setTab(state.tab);const drawn=await drawMap(false);if(!drawn)throw new Error('Smart map failed to render');setLoading(state.lang==='ko'?`${DATA.markers.length*3}장의 실제 사진 준비 완료`:`${DATA.markers.length*3} real photographs ready`);await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));await hideLoading();}
-window.addEventListener('DOMContentLoaded',()=>init().catch(error=>{console.error('Application initialization failed:',error);if(state.providerHealth.vector!=='failed')showMapFailure(error,'initialization');else setLoading(mapFailureText(error,'initialization'));document.getElementById('loadingScreen')?.classList.add('failed')}));
+  function fitVisibleMap(map = photoMap) {
+    if (!map) return;
+    const visible = DATA.markers.filter(item => markerVisible(item, { map: true })), routePoints = visibleRouteFeatures().filter(feature => feature.properties.kind !== 'transfer').flatMap(feature => feature.geometry.coordinates), points = [...visible.map(item => [item.lon, item.lat]), ...routePoints];
+    if (!points.length) return;
+    if (points.length === 1) return map.jumpTo({ center: points[0], zoom: 13.1 });
+    const bounds = [[Math.min(...points.map(point => point[0])), Math.min(...points.map(point => point[1]))], [Math.max(...points.map(point => point[0])), Math.max(...points.map(point => point[1]))]];
+    map.fitBounds(bounds, { padding: isMobile() ? { top: 118, right: 30, bottom: 112, left: 30 } : { top: 170, right: 60, bottom: 100, left: 60 }, maxZoom: state.task.date !== 'all' ? 12.8 : 7.8, duration: 0 });
+  }
+  function ringFor(marker) {
+    const colors = marker.routes.filter(route => activeRoutes({ map: true }).has(route)).map(route => safeColor(routeMeta[route].color));
+    if (colors.length === 1) return colors[0];
+    return `conic-gradient(${colors.map((color, index) => `${color} ${index / colors.length * 100}% ${(index + 1) / colors.length * 100}%`).join(',')})`;
+  }
+  function preferredOccurrence(marker) {
+    const routes = activeRoutes();
+    return marker.occurrences.find(item => routes.has(item.route) && dateMatchesOccurrence(item)) || marker.occurrences.find(item => routes.has(item.route)) || marker.occurrences[0];
+  }
+  function groupOccurrences(marker) {
+    const groups = {};
+    marker.occurrences.filter(item => activeRoutes().has(item.route) && (state.task.date === 'all' || dateMatchesOccurrence(item))).forEach(item => {
+      const signature = [item.date, item.time, item.title, item.reason, item.advantage, item.status].join('|');
+      if (!groups[signature]) groups[signature] = { ...item, routes: [] };
+      groups[signature].routes.push(item.route);
+    });
+    return Object.values(groups);
+  }
+  function updatePhotoClusters() {
+    if (!photoMap) return;
+    clusterMarkers.forEach(marker => marker.remove()); clusterMarkers = [];
+    const visible = DATA.markers.filter(item => markerVisible(item, { map: true })), parent = Array.from({ length: visible.length }, (_, index) => index), root = index => { while (parent[index] !== index) index = parent[index]; return index; }, points = visible.map(item => photoMap.project([item.lon, item.lat])), threshold = photoMap.getZoom() < 7 ? 52 : 36;
+    for (let i = 0; i < visible.length; i += 1) for (let j = i + 1; j < visible.length; j += 1) if (visible[i].place_key !== state.task.selected && visible[j].place_key !== state.task.selected && Math.hypot(points[i].x - points[j].x, points[i].y - points[j].y) < threshold) parent[root(j)] = root(i);
+    const groups = {}; for (let i = 0; i < visible.length; i += 1) (groups[root(i)] ||= []).push(i);
+    photoMarkers.forEach(marker => { marker.getElement().style.display = ''; });
+    Object.values(groups).forEach(indexes => {
+      if (indexes.length < 2) return;
+      indexes.forEach(index => { photoMarkers[index].getElement().style.display = 'none'; });
+      const members = indexes.map(index => visible[index]), center = [members.reduce((sum, item) => sum + item.lon, 0) / members.length, members.reduce((sum, item) => sum + item.lat, 0) / members.length], hero = members[0];
+      const element = document.createElement('button'); element.type = 'button'; element.className = 'photo-cluster'; element.setAttribute('aria-label', `${members.length} ${m('stop')} · ${m('choosePlace')}`); element.innerHTML = `<img src="${photoSrc(photoPath(hero.place_key, 'hero', 'thumb'))}" alt=""><span class="cluster-count">${members.length}</span>`;
+      const show = event => showClusterPeek(members, event, center);
+      element.addEventListener('mouseenter', event => { if (!state.touch) show(event); }); element.addEventListener('focus', show); element.addEventListener('mouseleave', () => { if (!state.touch) hidePeek({ returnFocus: false }); }); element.addEventListener('click', event => { event.stopPropagation(); show(event); photoMap.easeTo({ center, zoom: Math.max(photoMap.getZoom() + 2.2, 11), duration: 300 }); });
+      clusterMarkers.push(new maplibregl.Marker({ element, anchor: 'center' }).setLngLat(center).addTo(photoMap));
+    });
+  }
+  function bindLocalImageFailures(root) { root?.querySelectorAll('img').forEach(image => { if (!image.src.startsWith('data:')) image.addEventListener('error', () => showMapFailure(new Error(`Missing local photo ${image.getAttribute('src') || ''}`), 'photo_asset')); }); }
+  function installPhotoMarkers(map) {
+    photoMap = map; photoMarkers = [];
+    DATA.markers.filter(item => markerVisible(item, { map: true })).forEach(marker => {
+      const element = document.createElement('button'); element.type = 'button'; element.className = `photo-marker${state.task.selected === marker.place_key ? ' selected' : ''}${marker.source_class === 'official_gap_audit' ? ' audited' : ''}`; element.dataset.placeKey = marker.place_key; element.setAttribute('aria-label', `${m('choosePlace')}: ${placeName(marker.place_key)}`); element.title = placeName(marker.place_key); element.style.background = ringFor(marker);
+      const occurrence = preferredOccurrence(marker), sequence = state.task.date === 'all' ? DATA.markers.indexOf(marker) + 1 : occurrence?.seq || DATA.markers.indexOf(marker) + 1;
+      element.innerHTML = `<img src="${photoSrc(photoPath(marker.place_key, 'hero', 'thumb'))}" alt="" draggable="false"><span class="photo-seq">${sequence}</span>${marker.source_class === 'official_gap_audit' ? '<span class="audit-star" aria-hidden="true">★</span>' : ''}`;
+      bindLocalImageFailures(element);
+      element.addEventListener('mouseenter', event => { if (!state.touch) showPeek(marker.place_key, { event, focusAction: false }); });
+      element.addEventListener('mouseleave', () => { if (!state.touch) hidePeek({ returnFocus: false }); });
+      element.addEventListener('focus', event => showPeek(marker.place_key, { event, focusAction: true }));
+      element.addEventListener('click', event => { event.stopPropagation(); selectPlace(marker.place_key, { focus: false, open: false, invoker: element }); showPeek(marker.place_key, { event, focusAction: false, invoker: element }); });
+      photoMarkers.push(new maplibregl.Marker({ element, anchor: 'center' }).setLngLat([marker.lon, marker.lat]).addTo(map));
+    });
+    map.on('zoomend', updatePhotoClusters); map.on('moveend', updatePhotoClusters); updatePhotoClusters();
+  }
+  function installLegLabels(map) {
+    legMarkers.forEach(marker => marker.remove()); legMarkers = [];
+    DATA.legs.filter(leg => leg.render_style === 'transfer_dots' && legVisible(leg, { map: true })).forEach(leg => {
+      const points = GEOMETRY[leg.leg_id]?.coordinates; if (!points?.length) return;
+      const element = document.createElement('button'); element.type = 'button'; element.className = 'route-leg-label'; element.innerHTML = `<b>${esc(dateLabel(leg.date))} · ${esc(tr(leg.label))}</b><span>${leg.routes.filter(route => activeRoutes({ map: true }).has(route)).map(route => `<i style="background:${safeColor(routeMeta[route].color)}">${route}</i>`).join('')}</span>`; element.title = `${dateLabel(leg.date)} · ${tr(leg.label)}`;
+      element.onclick = async event => { event.stopPropagation(); state.task.date = leg.date; state.presentation.mode = 'day'; renderAll(); persist(); await drawMap(false); };
+      legMarkers.push(new maplibregl.Marker({ element, anchor: 'center' }).setLngLat(points[Math.floor(points.length / 2)]).addTo(map));
+    });
+  }
+  function drawMap(preserve = true) {
+    state.runtime.drawRequests += 1;
+    const perform = async () => {
+      const previous = photoMap, same = previous && renderedProvider === state.runtime.provider && renderedTheme === state.presentation.theme;
+      clusterMarkers.forEach(marker => marker.remove()); clusterMarkers = []; photoMarkers.forEach(marker => marker.remove()); photoMarkers = []; legMarkers.forEach(marker => marker.remove()); legMarkers = [];
+      if (same && state.runtime.localAssets.status === 'ready') {
+        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); renderMapLegend(); if (!preserve) fitVisibleMap(previous); return true;
+      }
+      const view = preserve && previous ? { center: previous.getCenter(), zoom: previous.getZoom() } : null;
+      if (previous) { previous.__tripCleanup?.(); previous.remove(); state.runtime.mapRemovals += 1; }
+      const region = DATA.region_cfg[state.task.region];
+      let map;
+      try {
+        map = new maplibregl.Map({ container: 'map', style: providerStyle(state.runtime.provider), center: [region.center.lon, region.center.lat], zoom: region.zoom, attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 18 });
+        photoMap = map; renderedProvider = state.runtime.provider; renderedTheme = state.presentation.theme; state.runtime.mapCreations += 1; state.runtime.mapStatus = 'loading'; renderProviderState();
+        map.on('load', () => { installRouteLayers(map); installPhotoMarkers(map); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; renderProviderState(); renderMapLegend(); renderShellStatus(); });
+        map.on('click', () => hidePeek({ returnFocus: false }));
+        map.on('error', event => { if (localMapError(event)) showMapFailure(event.error || event.message, 'map_runtime'); });
+        return true;
+      } catch (error) { showMapFailure(error, 'map_create'); return false; }
+    };
+    drawQueue = drawQueue.then(perform, perform); return drawQueue;
+  }
+
+  /* ----- Peek and focus lifecycle ----- */
+  function positionPeek(event, card) {
+    if (isMobile()) return;
+    const wrap = document.querySelector('.map-shell').getBoundingClientRect(); let left = (event?.clientX || wrap.left + wrap.width * .55) - wrap.left + 14, top = (event?.clientY || wrap.top + wrap.height * .44) - wrap.top + 14; const width = Math.min(318, wrap.width - 28), height = Math.min(420, wrap.height - 28);
+    if (left + width > wrap.width) left = Math.max(8, left - width - 28); if (top + height > wrap.height) top = Math.max(8, top - height - 28); card.style.left = `${left}px`; card.style.top = `${top}px`; card.style.right = 'auto'; card.style.bottom = 'auto';
+  }
+  function showClusterPeek(members, event, center) {
+    const card = document.getElementById('peek'), active = [...new Set(members.flatMap(item => item.routes.filter(route => activeRoutes({ map: true }).has(route))))];
+    state.presentation.peek = { cluster: members.map(item => item.place_key), invoker: document.activeElement }; card.innerHTML = `<div class="peek-body"><div class="eyebrow">${esc(active.join(' · '))}</div><h3 id="peekTitle" class="peek-title">${members.length} ${m('stop')}</h3><p id="peekDescription" class="peek-why">${esc(members.slice(0, 4).map(item => placeName(item.place_key)).join(' · '))}</p><button class="peek-action" type="button" data-cluster-zoom>${m('choosePlace')} ↗</button></div>`; card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card); card.querySelector('[data-cluster-zoom]').onclick = () => { photoMap?.easeTo({ center, zoom: Math.max(photoMap.getZoom() + 2.2, 11), duration: 300 }); hidePeek(); };
+  }
+  function showPeek(key, { event, focusAction = false, invoker } = {}) {
+    const marker = markerByKey[key]; if (!marker) return;
+    const card = document.getElementById('peek'), occurrence = preferredOccurrence(marker), groups = groupOccurrences(marker).slice(0, 3), tier = tierFor(marker); state.presentation.peek = { key, invoker: invoker || document.activeElement }; state.presentation.focusReturn = invoker || document.activeElement;
+    card.innerHTML = `<img class="peek-media" src="${photoSrc(photoPath(key, 'hero', 'medium'))}" alt="${esc(placeName(key))}"><div class="peek-body"><h3 id="peekTitle" class="peek-title">${esc(placeName(key))}</h3>${state.presentation.lang === 'ko' ? `<p class="peek-sub">${esc(placeKo(key))}</p>` : ''}<div class="peek-meta"><span class="tier-chip">${esc(tierLabel(tier))}</span>${groups.map(group => `<span>${esc(group.routes.join('/'))} · ${esc(dateLabel(group.date))} · ${esc(tr(group.time || '—'))}</span>`).join('')}</div><p id="peekDescription" class="peek-why"><strong>${m('whyNow')}</strong> ${esc(tr(occurrence?.reason || marker.why))}</p>${occurrence?.advantage ? `<p class="peek-sub">${m('advantage')}: ${esc(tr(occurrence.advantage))}</p>` : ''}<button class="peek-action" type="button" data-peek-open>${m('openPlace')} ↗</button></div>`;
+    bindLocalImageFailures(card); card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card);
+    card.querySelector('[data-peek-open]').onclick = () => openPlace(key);
+    if (focusAction) card.querySelector('[data-peek-open]').focus({ preventScroll: true });
+  }
+  function hidePeek({ returnFocus = true } = {}) {
+    const card = document.getElementById('peek'); if (!card) return; card.classList.remove('show'); card.setAttribute('aria-hidden', 'true'); card.innerHTML = '';
+    const target = state.presentation.focusReturn; state.presentation.peek = null; state.presentation.focusReturn = null; if (returnFocus && target?.focus && document.contains(target)) target.focus({ preventScroll: true });
+  }
+  function focusPlace(key) { const marker = markerByKey[key]; if (marker && photoMap) photoMap.easeTo({ center: [marker.lon, marker.lat], zoom: 13.3, duration: 300 }); }
+  function updateMarkerEmphasis() { document.querySelectorAll('.photo-marker').forEach(element => element.classList.toggle('selected', element.dataset.placeKey === state.task.selected)); updatePhotoClusters(); }
+  function selectPlace(key, { focus = true, open = false, invoker } = {}) {
+    if (!markerByKey[key]) return;
+    state.task.selected = key; state.task.selectedOccurrence = preferredOccurrence(markerByKey[key])?.date || null; if (focus) focusPlace(key); updateMarkerEmphasis(); renderDay(); renderPlace(); if (open) openPlace(key, invoker); persist();
+  }
+  function openPlace(key = state.task.selected, invoker) {
+    if (!markerByKey[key]) return;
+    state.presentation.previousMode = state.presentation.mode === 'place' ? 'day' : state.presentation.mode; state.presentation.previousContext = { date: state.task.date, selected: state.task.selected, scrollTop: document.querySelector('.workbench-scroll')?.scrollTop || 0 }; state.task.selected = key; state.presentation.mode = 'place'; hidePeek({ returnFocus: false }); renderAll(); document.querySelector('.workbench-scroll')?.scrollTo({ top: 0, behavior: 'smooth' }); persist();
+  }
+  function closePlace() {
+    const previous = state.presentation.previousMode || 'day'; const context = state.presentation.previousContext; state.presentation.mode = previous; state.presentation.previousMode = null; state.presentation.previousContext = null; if (context?.date) state.task.date = context.date; renderAll(); requestAnimationFrame(() => { const scroll = document.querySelector('.workbench-scroll'); if (scroll && Number.isFinite(context?.scrollTop)) scroll.scrollTop = context.scrollTop; }); persist();
+  }
+
+  /* ----- Decide mode ----- */
+  function routeProfile(route) {
+    const meta = routeMeta[route], narrative = routeNarrative(route), scores = Object.entries(meta.score || {});
+    return `<article class="route-card ${route === state.task.primaryRoute ? 'primary' : ''}" style="--route-color:${safeColor(meta.color)}"><div class="route-card-head"><div class="route-card-title"><strong>${esc(tr(meta.title))}</strong><small>${esc(tr(meta.subtitle || ''))}</small></div><span class="route-code-pill" aria-label="${m('routeCode')}">${esc(route)}</span></div><div class="score-line" aria-label="${m('routeScore')}">${scores.slice(0, 4).map(([key, value]) => `<span>${esc(state.presentation.lang === 'en' ? messages.scoreLabels[key] || key : key)} ${esc(value)}/10</span>`).join('')}</div><div class="route-card-actions"><button type="button" class="route-use" data-route="${esc(route)}" aria-pressed="${route === state.task.primaryRoute}">${route === state.task.primaryRoute ? m('currentRoute') : m('chooseRoute')}</button><button type="button" class="route-compare" data-compare-route="${esc(route)}" aria-pressed="${state.task.compareRoutes.has(route)}">${state.task.compareRoutes.has(route) ? m('compareRemove') : m('compareSelect')}</button></div></article>`;
+  }
+  function renderDecide() {
+    const meta = routeMeta[recommendedRoute], narrative = routeNarrative(recommendedRoute), recommendation = document.getElementById('recommendation');
+    recommendation.innerHTML = `<div class="route-code">${m('recommended')} · ${esc(recommendedRoute)}</div><h3>${esc(tr(meta.title))}</h3><p class="promise">${esc(tr(meta.subtitle || ''))}</p><div class="recommendation-grid"><div class="decision-cell"><strong>${m('bestFor')}</strong><span>${esc(narrative.best_for)}</span></div><div class="decision-cell"><strong>${m('tradeoff')}</strong><span>${esc(narrative.tradeoff)}</span></div><div class="decision-cell"><strong>${m('switchRule')}</strong><span>${esc(narrative.decision_rule)}</span></div><div class="decision-cell"><strong>${m('regretGuard')}</strong><span>${esc(narrative.regret_guard)}</span></div></div><div class="recommendation-footer"><span class="route-code">${m('routeCode')}: ${esc(recommendedRoute)} · ${esc(tr(meta.lodging || ''))}</span><button class="primary-action" type="button" data-route="${esc(recommendedRoute)}" data-recommendation-use>${state.task.primaryRoute === recommendedRoute ? m('currentRoute') : m('chooseRoute')}</button></div>`;
+    document.getElementById('routeCards').innerHTML = ROUTES.map(routeProfile).join(''); document.getElementById('routeCount').textContent = `${ROUTES.length} ${m('route')}`; document.getElementById('compareCount').textContent = `${state.task.compareRoutes.size}/2`;
+    recommendation.querySelector('[data-recommendation-use]').onclick = () => choosePrimaryRoute(recommendedRoute);
+    document.querySelectorAll('[data-route]').forEach(button => { button.onclick = () => choosePrimaryRoute(button.dataset.route); });
+    document.querySelectorAll('[data-compare-route]').forEach(button => { button.onclick = () => toggleCompare(button.dataset.compareRoute); });
+    renderCompare();
+  }
+  function choosePrimaryRoute(route) { if (!ROUTES.includes(route)) return; state.task.primaryRoute = route; if (state.task.compareRoutes.has(route)) state.task.compareRoutes.delete(route); renderAll(); persist(); drawMap(true); }
+  function toggleCompare(route) { if (state.task.compareRoutes.has(route)) state.task.compareRoutes.delete(route); else if (route !== state.task.primaryRoute && state.task.compareRoutes.size < 2) state.task.compareRoutes.add(route); renderDecide(); renderMapLegend(); persist(); drawMap(true); }
+  function renderCompare() {
+    const routes = [state.task.primaryRoute, ...state.task.compareRoutes].filter((route, index, all) => route && all.indexOf(route) === index).slice(0, 2), panel = document.getElementById('comparePanel');
+    if (routes.length < 2) { panel.innerHTML = `<div class="compare-empty">${m('compareNeed')}<br>${m('compareHint')}</div>`; return; }
+    const [first, second] = routes, a = routeMeta[first], b = routeMeta[second], an = routeNarrative(first), bn = routeNarrative(second), shared = DATA.legs.filter(leg => leg.routes.includes(first) && leg.routes.includes(second)).length, divergent = DATA.legs.filter(leg => leg.routes.includes(first) !== leg.routes.includes(second)).slice(0, 3).map(leg => tr(leg.label)).join(' · ');
+    panel.innerHTML = `<div class="compare-head"><strong>${esc(first)} × ${esc(second)}</strong><span>${shared} ${m('sharedStructure').toLowerCase()} legs</span></div><div class="compare-grid"><article><strong>${esc(first)} · ${esc(tr(a.title))}</strong><p>${esc(an.best_for)}</p></article><article><strong>${esc(second)} · ${esc(tr(b.title))}</strong><p>${esc(bn.best_for)}</p></article></div><div class="compare-rows"><div class="compare-row"><b>${m('tradeoff')}</b><span>${esc(an.tradeoff)}<br><strong>${esc(second)}:</strong> ${esc(bn.tradeoff)}</span></div><div class="compare-row"><b>${m('switchRule')}</b><span>${esc(an.decision_rule)}<br><strong>${esc(second)}:</strong> ${esc(bn.decision_rule)}</span></div><div class="compare-row"><b>${m('divergentStructure')}</b><span>${esc(divergent || m('noSlots'))}</span></div></div>`;
+  }
+
+  /* ----- Day mode ----- */
+  function routeMini(routes) { return routes.filter(route => activeRoutes().has(route)).map(route => `<span class="semantic-tag" style="border-color:${safeColor(routeMeta[route].color)};color:${safeColor(routeMeta[route].color)}">${esc(route)}</span>`).join(''); }
+  function dayIntensity(items) { const tiers = items.map(item => item.schedule_tier || 'main'); if (tiers.filter(tier => tier === 'recovery').length >= 2) return m('calm'); if (tiers.includes('must') && items.length >= 8) return m('full'); return m('steady'); }
+  function renderDatePicker() {
+    const select = document.getElementById('dateSelect'); select.innerHTML = `<option value="all">${m('allDates')}</option>${DATA.dates.map(date => `<option value="${esc(date.key)}">${esc(dateLabel(date.key))}</option>`).join('')}`; select.value = state.task.date;
+  }
+  function renderDay() {
+    renderDatePicker(); const items = DATA.timeline.filter(timelineVisible), header = document.getElementById('dayHeader'), plan = document.getElementById('dayPlan');
+    if (state.task.date === 'all') { header.innerHTML = `<h3>${m('chooseDay')}</h3><p>${DATA.dates.length} ${m('day').toLowerCase()} · ${state.task.primaryRoute} · ${esc(m('recheck'))}</p>`; plan.innerHTML = DATA.dates.map(date => { const rows = DATA.timeline.filter(item => item.date_key === date.key && routeIntersects(item.routes)); const mapped = rows.find(item => item.spatial_keys?.length); return `<button type="button" class="day-item" data-day-choice="${esc(date.key)}" style="--tier-color:var(--accent)"><span class="day-time">${esc(dateLabel(date.key))}</span><span class="day-item-main"><span class="day-item-title">${esc(mapped ? placeName(mapped.spatial_keys[0]) : tr(rows[0]?.title || '—'))}</span><span class="day-item-reason">${rows.length} ${m('stop')} · ${esc(dayIntensity(rows))}</span><span class="day-item-tags"><span class="semantic-tag">${rows.length} items</span><span class="semantic-tag">${esc(DATA.region_cfg[rows[0]?.regions?.[0] || 'overall']?.label || m('overall'))}</span></span></span></button>`; }).join(''); plan.querySelectorAll('[data-day-choice]').forEach(button => { button.onclick = () => { state.task.date = button.dataset.dayChoice; renderAll(); persist(); drawMap(false); }; }); return; }
+    const dayMeta = DATA.dates.find(date => date.key === state.task.date), regions = [...new Set(items.flatMap(item => item.regions || []))].map(region => DATA.region_cfg[region]?.[state.presentation.lang === 'ko' ? 'label' : 'label_en'] || m(region)).join(' · '), recovery = items.filter(item => ['recovery', 'bonus'].includes(item.schedule_tier)).length, decisions = items.filter(item => ['swap', 'conditional', 'choice'].includes(item.schedule_tier)).length;
+    header.innerHTML = `<h3>${esc(dateLabel(dayMeta?.key || state.task.date))}</h3><p>${esc(regions || m('overall'))} · ${esc(state.task.primaryRoute)} · ${esc(m('recheck'))}</p><div class="day-metrics"><span class="day-metric">${m('intensity')}: ${esc(dayIntensity(items))}</span><span class="day-metric">${m('decisions')}: ${decisions}</span><span class="day-metric">${m('calm')}: ${recovery}</span></div>`;
+    if (!items.length) { plan.innerHTML = `<div class="empty-state">${m('noSlots')}</div>`; return; }
+    plan.innerHTML = `<p class="day-story">${esc(tr(items[0]?.reason || ''))}</p>${items.map(item => { const mapped = item.spatial_keys?.length, tier = item.schedule_tier || 'main', color = tier === 'must' ? '#a94335' : tier === 'swap' ? '#a76a42' : tier === 'recovery' ? '#72857b' : 'var(--accent)'; return mapped ? `<button type="button" class="day-item ${item.spatial_keys.includes(state.task.selected) ? 'selected' : ''}" data-day-place="${esc(item.spatial_keys[0])}" style="--tier-color:${color}"><span class="day-time">${esc(tr(item.time || '—'))}</span><span class="day-item-main"><span class="day-item-title">${esc(item.spatial_keys.length === 1 ? placeName(item.spatial_keys[0]) : tr(item.title))}</span><span class="day-item-reason"><strong>${esc(m('whyNow'))}:</strong> ${esc(tr(item.reason || ''))}</span><span class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${item.route_specific ? `<span class="semantic-tag">${m('specific')}</span>` : `<span class="semantic-tag">${m('shared')}</span>`}${routeMini(item.routes)}</span></span></button>` : `<article class="plan-card" style="--tier-color:${color}"><strong>${esc(tr(item.time || '—'))} · ${esc(tr(item.title))}</strong><p>${esc(tr(item.reason || item.advantage || ''))} · ${m('noMapped')}</p><div class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${routeMini(item.routes)}</div></article>`; }).join('')}`;
+    plan.querySelectorAll('[data-day-place]').forEach(button => { button.onclick = () => { selectPlace(button.dataset.dayPlace, { focus: true, open: false, invoker: button }); showPeek(button.dataset.dayPlace, { invoker: button }); }; });
+  }
+
+  /* ----- Place mode: browser, Peek -> Inspector, and return ----- */
+  function renderPlaceBrowser() {
+    const visible = DATA.markers.filter(item => markerVisible(item)), html = `<div class="place-browser"><p class="place-browser-intro">${m('browseHint')} ${visible.length} ${m('stop')} · ${esc(state.task.primaryRoute)}</p>${visible.map(marker => { const occurrence = preferredOccurrence(marker); return `<button type="button" class="place-list-item" data-place-choice="${esc(marker.place_key)}"><img src="${photoSrc(photoPath(marker.place_key, 'hero', 'thumb'))}" alt=""><span><strong>${esc(placeName(marker.place_key))}</strong>${state.presentation.lang === 'ko' ? `<small>${esc(placeKo(marker.place_key))}</small>` : ''}<small>${esc(dateLabel(occurrence?.date || ''))} · ${esc(tr(occurrence?.time || '—'))}</small><em>${esc(tr(occurrence?.reason || marker.why))}</em></span></button>`; }).join('')}</div>`; const panel = document.getElementById('placeInspector'); panel.innerHTML = html; panel.querySelectorAll('[data-place-choice]').forEach(button => { button.onclick = () => openPlace(button.dataset.placeChoice, button); });
+  }
+  function renderPlaceInspector(marker) {
+    const panel = document.getElementById('placeInspector'), occurrences = groupOccurrences(marker), now = preferredOccurrence(marker), tier = tierFor(marker), photos = [[m('hero'), 'hero'], [m('experiencePhoto'), 'experience'], [m('scale'), 'scale_context']], mapsHref = safeExternalUrl(marker.maps_url);
+    panel.innerHTML = `<button type="button" class="secondary-action place-back" data-place-back>← ${m('closePlace')}</button><div class="place-title-row"><div><h3>${esc(placeName(marker.place_key))}</h3>${state.presentation.lang === 'ko' ? `<p>${esc(placeKo(marker.place_key))}</p>` : ''}</div><span class="place-score">${esc(marker.score)}/100</span></div><div class="place-meta"><span>${esc(tr(marker.cluster))}</span><span>${esc(tierLabel(tier))}</span><span>${marker.routes.filter(route => activeRoutes().has(route)).join(' · ')}</span></div><div class="place-glance"><strong>${esc(tr(now?.status || m('status')))} · ${esc(dateLabel(now?.date || ''))} · ${esc(tr(now?.time || '—'))}</strong><div><b>${m('whyNow')}</b> ${esc(tr(now?.reason || marker.why))}</div>${now?.advantage ? `<em>${m('advantage')}: ${esc(tr(now.advantage))}</em>` : ''}</div><div class="photo-grid">${photos.map(([label, role]) => `<figure class="photo-slot"><img src="${photoSrc(photoPath(marker.place_key, role, 'medium'))}" alt="${esc(placeName(marker.place_key))} — ${esc(label)}" loading="lazy"><figcaption>${esc(label)}</figcaption></figure>`).join('')}</div><div class="place-fact"><strong>${m('placeWhy')}</strong>${esc(tr(marker.why))}</div><div class="place-fact"><strong>${m('experience')}</strong>${esc(tr(marker.summary))}</div><div class="place-fact"><strong>${m('exactTiming')}</strong>${occurrences.length ? occurrences.map(item => `<div class="occurrence"><b>${esc(tr(item.title))}</b><small>${esc(item.routes.join(' · '))} · ${esc(dateLabel(item.date))} · ${esc(tr(item.time || '—'))} · ${esc(tr(item.status || ''))}</small><small>${m('whyNow')}: ${esc(tr(item.reason || ''))}</small></div>`).join('') : `<span class="muted">${m('noSlots')}</span>`}</div>${marker.decision_rules?.length ? `<div class="place-fact"><strong>${m('switchRule')}</strong>${marker.decision_rules.map(rule => `<div class="decision-rule"><b>${esc(decisionLabel(rule.key))}</b>${esc(tr(rule.text))}</div>`).join('')}</div>` : ''}<div class="place-fact"><strong>${m('freshness')}</strong><span>${esc(m('recheck'))}</span></div><div class="place-fact directions"><span>${marker.lat.toFixed(5)}, ${marker.lon.toFixed(5)}</span>${mapsHref ? `<a href="${esc(mapsHref)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${m('directions')} ↗</a>` : `<span>${m('unavailableDirections')}</span>`}</div>`;
+    bindLocalImageFailures(panel); panel.querySelector('[data-place-back]').onclick = closePlace;
+  }
+  function renderPlace() { const marker = markerByKey[state.task.selected]; if (state.presentation.mode === 'place' && marker) renderPlaceInspector(marker); else if (state.presentation.mode === 'place') renderPlaceBrowser(); }
+
+  /* ----- Shell, i18n, transitions, focus, and responsive sheet ----- */
+  function renderMapControls() {
+    const provider = document.getElementById('providerControls'), region = document.getElementById('regionControls');
+    provider.innerHTML = ['vector', 'satellite'].map(key => `<button type="button" class="segment" data-provider="${key}" aria-pressed="${state.runtime.provider === key}">${key === 'vector' ? m('smartMap') : m('satellite')}</button>`).join('');
+    region.innerHTML = Object.keys(DATA.region_cfg).map(key => `<button type="button" class="segment" data-region="${esc(key)}" aria-pressed="${state.task.region === key}">${esc(key === 'overall' ? m('overall') : DATA.region_cfg[key][state.presentation.lang === 'ko' ? 'label' : 'label_en'] || key)}</button>`).join('');
+    provider.querySelectorAll('[data-provider]').forEach(button => { button.onclick = () => chooseProvider(button.dataset.provider); });
+    region.querySelectorAll('[data-region]').forEach(button => { button.onclick = () => { state.task.region = button.dataset.region; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; renderAll(); persist(); drawMap(false); }; });
+  }
+  function renderMapLegend() {
+    const legend = document.getElementById('mapLegend'); if (!legend) return; const current = state.task.primaryRoute, meta = routeMeta[current]; legend.innerHTML = `<div class="map-legend"><span class="legend-title">${m('current')}: <b style="color:${safeColor(meta.color)}">${esc(current)} · ${esc(tr(meta.title))}</b></span><span class="legend-primary"><i class="legend-line" style="color:${safeColor(meta.color)}"></i>${esc(m('mapLegend'))}</span></div>`;
+  }
+  function renderShellStatus() {
+    const status = document.getElementById('workbenchStatus'); if (!status) return; const mode = state.presentation.mode === 'decide' ? m('decide') : state.presentation.mode === 'day' ? m('day') : m('place'); const context = state.presentation.mode === 'day' && state.task.date !== 'all' ? dateLabel(state.task.date) : state.task.primaryRoute; status.textContent = `${mode} · ${context}`;
+  }
+  function applyTranslations() {
+    document.documentElement.lang = state.presentation.lang; document.documentElement.dataset.theme = state.presentation.theme;
+    document.querySelectorAll('[data-i18n]').forEach(element => { const key = element.dataset.i18n; element.textContent = m(key); });
+    document.querySelector('.brand').textContent = m('brand'); document.querySelector('.sub').textContent = m('subtitle');
+    const fieldSet = document.querySelector('.route-section .eyebrow'); if (fieldSet) fieldSet.textContent = m('fieldSet');
+    const routeHeading = document.getElementById('routeSectionHeading'); if (routeHeading) routeHeading.textContent = m('routeStrategies');
+    const compareKicker = document.querySelector('.compare-section .eyebrow'); if (compareKicker) compareKicker.textContent = m('compareKicker');
+    document.getElementById('langToggle').textContent = state.presentation.lang === 'ko' ? 'EN' : '한국어'; document.getElementById('themeToggle').textContent = state.presentation.theme === 'dark' ? `☀ ${m('light')}` : `☾ ${m('dark')}`;
+    document.getElementById('workbenchToggle').textContent = state.presentation.sheet === 'compact' ? m('expand') : m('collapse');
+    renderProviderState();
+    document.querySelectorAll('[data-sheet]').forEach(button => { if (button.classList.contains('icon-button')) { button.setAttribute('aria-pressed', String(button.dataset.sheet === state.presentation.sheet)); button.title = m(button.dataset.sheet); button.setAttribute('aria-label', m(button.dataset.sheet)); } });
+  }
+  function setMode(mode) { if (!['decide', 'day', 'place'].includes(mode)) return; if (mode === 'place' && !state.task.selected) state.presentation.mode = 'place'; else state.presentation.mode = mode; renderAll(); persist(); }
+  function setSheet(sheet) { if (!['compact', 'expanded', 'full'].includes(sheet)) return; state.presentation.sheet = sheet; const app = document.getElementById('app'), workbench = document.getElementById('workbench'); app.dataset.sheet = sheet; workbench.dataset.sheet = sheet; app.classList.toggle('app-collapsed', sheet === 'compact' && !isMobile()); document.getElementById('workbenchToggle').setAttribute('aria-expanded', String(sheet !== 'compact')); applyTranslations(); requestAnimationFrame(() => photoMap?.resize()); persist(); }
+  function renderModes() {
+    const mode = state.presentation.mode, workbench = document.getElementById('workbench'); workbench.dataset.mode = mode; document.querySelectorAll('[data-mode]').forEach(button => { const active = button.dataset.mode === mode; button.classList.toggle('active', active); if (active) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current'); }); document.querySelectorAll('.mode-view').forEach(view => { const active = view.dataset.view === mode; view.hidden = !active; view.classList.toggle('active', active); });
+  }
+  function renderAll() { applyTranslations(); renderMapControls(); renderModes(); renderShellStatus(); renderDecide(); renderDay(); renderPlace(); renderMapLegend(); }
+  function bindShell() {
+    document.querySelectorAll('[data-mode]').forEach(button => { button.onclick = () => setMode(button.dataset.mode); });
+    document.querySelectorAll('[data-sheet]').forEach(button => { if (button.classList.contains('icon-button')) button.onclick = () => setSheet(button.dataset.sheet); });
+    document.getElementById('workbenchToggle').onclick = () => setSheet(state.presentation.sheet === 'compact' ? 'expanded' : 'compact');
+    document.getElementById('langToggle').onclick = () => { state.presentation.lang = state.presentation.lang === 'ko' ? 'en' : 'ko'; hidePeek({ returnFocus: false }); renderAll(); persist(); drawMap(true); };
+    document.getElementById('themeToggle').onclick = () => { state.presentation.theme = state.presentation.theme === 'dark' ? 'light' : 'dark'; renderAll(); persist(); drawMap(true); };
+    document.getElementById('fitMap').onclick = () => fitVisibleMap();
+    document.getElementById('smartRetry').onclick = async () => { document.getElementById('mapError').hidden = true; state.runtime.provider = 'vector'; state.runtime.providerHealth.vector = 'loading'; state.runtime.localAssets.status = 'checking'; renderProviderState(); try { await setupVector(); await drawMap(true); } catch (error) { showMapFailure(error, 'retry'); } };
+    document.getElementById('dateSelect').onchange = event => { state.task.date = event.target.value; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; state.presentation.mode = 'day'; renderAll(); persist(); drawMap(false); };
+    const handleEscape = event => { if (event.key !== 'Escape') return; if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };
+    document.onkeydown = handleEscape;
+    document.body?.addEventListener('keydown', handleEscape);
+    window.addEventListener('resize', () => { renderModes(); photoMap?.resize(); });
+  }
+
+  /* ----- QA instrumentation and compatibility surface ----- */
+  function runtimeSnapshot() {
+    return { provider: state.runtime.provider, provider_identity: state.runtime.providerIdentity, provider_health: { ...state.runtime.providerHealth }, app_ready: state.runtime.mapStatus === 'ready', map_visual_ready: state.runtime.mapVisualReady, planning_state: { routes: [...activeRoutes()], primary_route: state.task.primaryRoute, compare_routes: [...state.task.compareRoutes], date: state.task.date, region: state.task.region, selected: state.task.selected, mode: state.presentation.mode, sheet: state.presentation.sheet, lang: state.presentation.lang, theme: state.presentation.theme }, provider_events: state.runtime.providerEvents.slice(), local_assets: { status: state.runtime.localAssets.status, failures: state.runtime.localAssets.failures.slice() }, runtime: { ...state.runtime, events: state.runtime.events.slice() }, map: { canvas_count: document.querySelectorAll('.maplibregl-canvas').length, photo_markers: document.querySelectorAll('.photo-marker').length, photo_marker_keys: [...document.querySelectorAll('.photo-marker')].map(element => element.dataset.placeKey), clusters: document.querySelectorAll('.photo-cluster').length, leg_markers: document.querySelectorAll('.route-leg-label').length, layers: photoMap?.getStyle?.()?.layers?.length || 0 } };
+  }
+  function renderFixture(value) {
+    const marker = DATA.markers[0], saved = marker ? JSON.parse(JSON.stringify(marker)) : null;
+    if (!marker) return { html: '', href: null, unsafe_nodes: 0 };
+    try { marker.why = value; marker.summary = value; marker.maps_url = value; marker.name = value; state.task.selected = marker.place_key; renderPlaceInspector(marker); const panel = document.getElementById('placeInspector'); return { html: panel.innerHTML, href: panel.querySelector('a')?.getAttribute('href') || null, unsafe_nodes: panel.querySelectorAll('script,[onerror],[onclick],[onload],[javascript]').length }; }
+    finally { Object.assign(marker, saved); renderPlace(); }
+  }
+  function expose() {
+    window.__tripApp = { state, DATA, drawMap, whenIdle: () => drawQueue, map: () => photoMap, whenMapVisualReady: () => Promise.resolve(runtimeSnapshot().map), selectPlace, chooseProvider, testProvider, setMode, setTab: tab => setMode(tab === 'timeline' ? 'day' : tab === 'details' ? 'place' : 'decide'), markerVisible, timelineVisible, legVisible, visibleRouteFeatures, renderTimeline: renderDay, renderDetail: key => { if (key) state.task.selected = key; renderPlace(); }, showPreview: showPeek, showRoutePeek: properties => showRoutePeek(properties), hidePreview: hidePeek, fitVisibleMap, runtimeSnapshot };
+    window.__tripSecurity = { escapeHtml: esc, safeExternalUrl, safePhotoPath: photoPath, renderFixture, allowedStorageKeys: ['trip_visualizer_runtime_v2', 'trip_visualizer_runtime_v1', 'trip_lang', 'trip_theme'] };
+  }
+  async function init() {
+    state.touch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0; expose(); renderAll(); bindShell();
+    setStatus(state.presentation.lang === 'ko' ? '로컬 Smart 지도와 결정 화면을 준비하는 중입니다.' : 'Preparing the local Smart map and decision views.');
+    try { await setupVector(); await drawMap(false); setStatus(m('mapReady')); } catch (error) { showMapFailure(error, 'initialization'); }
+  }
+  window.addEventListener('DOMContentLoaded', () => init().catch(error => showMapFailure(error, 'initialization')));
 })();
