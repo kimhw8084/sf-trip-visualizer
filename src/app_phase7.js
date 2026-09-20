@@ -584,8 +584,8 @@
       requestAnimationFrame(() => { positionMapOptions(); fitVisibleMap(); if (focus) panel.querySelector('[data-provider], [data-region], #mapOptionsClose')?.focus({ preventScroll: true }); });
     } else {
       panel.classList.remove('open-up', 'align-right');
-      requestAnimationFrame(() => fitVisibleMap());
-      if (returnFocus && mapOptionsInvoker?.focus && document.contains(mapOptionsInvoker)) mapOptionsInvoker.focus({ preventScroll: true });
+      const restore = returnFocus && mapOptionsInvoker?.focus && document.contains(mapOptionsInvoker) ? mapOptionsInvoker : null;
+      requestAnimationFrame(() => { fitVisibleMap(); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); });
       mapOptionsInvoker = null;
     }
   }
@@ -602,7 +602,7 @@
     if (open) routeLegendInvoker = document.activeElement;
     panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open));
     if (open) requestAnimationFrame(() => { positionRouteLegend(); fitVisibleMap(); });
-    else { panel.classList.remove('open-down'); requestAnimationFrame(() => fitVisibleMap()); if (returnFocus && routeLegendInvoker?.focus && document.contains(routeLegendInvoker)) routeLegendInvoker.focus({ preventScroll: true }); routeLegendInvoker = null; }
+    else { panel.classList.remove('open-down'); const restore = returnFocus && routeLegendInvoker?.focus && document.contains(routeLegendInvoker) ? routeLegendInvoker : null; requestAnimationFrame(() => { fitVisibleMap(); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); }); routeLegendInvoker = null; }
   }
   function renderMapControls() {
     const provider = document.getElementById('providerControls'), region = document.getElementById('regionControls');
