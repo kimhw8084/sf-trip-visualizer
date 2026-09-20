@@ -256,7 +256,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             page.wait_for_function("document.querySelectorAll('#placeInspector .photo-grid img').length===3", timeout=15000)
             page.locator("[data-place-back]").click()
         page.locator('[data-sheet="compact"]').click()
-        page.locator('[data-sheet="expanded"]').click()
+        page.locator("#workbenchToggle").click()
         page.locator("#langToggle").click()
         page.locator("#themeToggle").click()
         page.evaluate("()=>{const m=window.__tripApp.map();for(let i=0;i<6;i++){m.panBy([13,-9],{duration:0});m.jumpTo({zoom:10+(i%3)})}m.resize()}")
