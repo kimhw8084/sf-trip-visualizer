@@ -1,0 +1,276 @@
+{
+  "schema_version": 2,
+  "base_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+  "environment": {
+    "browser": "Chromium headless",
+    "viewport": "1440x900",
+    "samples_per_variant": 8,
+    "blocks": 2,
+    "ordering": "two order-balanced baseline/candidate blocks",
+    "platform": "Darwin",
+    "python": "3"
+  },
+  "baseline": {
+    "url": "http://127.0.0.1:8772/index.html",
+    "samples": [
+      {
+        "pair_id": 1,
+        "label": "baseline",
+        "url": "http://127.0.0.1:8772/index.html",
+        "dom_content_ms": 196.4,
+        "map_visual_ready_ms": 775.87,
+        "workbench_ready_ms": 2383.13,
+        "interaction_response_ms": 2383.13,
+        "interaction_kind": "legacy-route-selection-baseline",
+        "workbench_ready_selector": ".sidebar",
+        "dom_nodes": 1757,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "pair_id": 2,
+        "label": "baseline",
+        "url": "http://127.0.0.1:8772/index.html",
+        "dom_content_ms": 161.79,
+        "map_visual_ready_ms": 596.61,
+        "workbench_ready_ms": 2239.92,
+        "interaction_response_ms": 2239.92,
+        "interaction_kind": "legacy-route-selection-baseline",
+        "workbench_ready_selector": ".sidebar",
+        "dom_nodes": 1757,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "pair_id": 3,
+        "label": "baseline",
+        "url": "http://127.0.0.1:8772/index.html",
+        "dom_content_ms": 84.88,
+        "map_visual_ready_ms": 1095.66,
+        "workbench_ready_ms": 1360.4,
+        "interaction_response_ms": 1360.4,
+        "interaction_kind": "legacy-route-selection-baseline",
+        "workbench_ready_selector": ".sidebar",
+        "dom_nodes": 1757,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "pair_id": 4,
+        "label": "baseline",
+        "url": "http://127.0.0.1:8772/index.html",
+        "dom_content_ms": 96.92,
+        "map_visual_ready_ms": 1182.8,
+        "workbench_ready_ms": 1409.23,
+        "interaction_response_ms": 1409.23,
+        "interaction_kind": "legacy-route-selection-baseline",
+        "workbench_ready_selector": ".sidebar",
+        "dom_nodes": 1757,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "pair_id": 5,
+        "label": "baseline",
+        "url": "http://127.0.0.1:8772/index.html",
+        "dom_content_ms": 99.03,
+        "map_visual_ready_ms": 1122.15,
+        "workbench_ready_ms": 1327.17,
+        "interaction_response_ms": 1327.17,
+        "interaction_kind": "legacy-route-selection-baseline",
+        "workbench_ready_selector": ".sidebar",
+        "dom_nodes": 1757,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "pair_id": 6,
+        "label": "baseline",
+        "url": "http://127.0.0.1:8772/index.html",
+        "dom_content_ms": 98.24,
+        "map_visual_ready_ms": 1249.94,
+        "workbench_ready_ms": 1485.62,
+        "interaction_response_ms": 1485.62,
+        "interaction_kind": "legacy-route-selection-baseline",
+        "workbench_ready_selector": ".sidebar",
+        "dom_nodes": 1757,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "pair_id": 7,
+        "label": "baseline",
+        "url": "http://127.0.0.1:8772/index.html",
+        "dom_content_ms": 97.89,
+        "map_visual_ready_ms": 1226.94,
+        "workbench_ready_ms": 1467.41,
+        "interaction_response_ms": 1467.41,
+        "interaction_kind": "legacy-route-selection-baseline",
+        "workbench_ready_selector": ".sidebar",
+        "dom_nodes": 1757,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "pair_id": 8,
+        "label": "baseline",
+        "url": "http://127.0.0.1:8772/index.html",
+        "dom_content_ms": 83.37,
+        "map_visual_ready_ms": 1316.14,
+        "workbench_ready_ms": 1640.21,
+        "interaction_response_ms": 1640.21,
+        "interaction_kind": "legacy-route-selection-baseline",
+        "workbench_ready_selector": ".sidebar",
+        "dom_nodes": 1757,
+        "markers": 36,
+        "map_layers": 135
+      }
+    ],
+    "metrics": {
+      "dom_content_ms": {
+        "mean": 114.81,
+        "median": 98.06,
+        "stdev": 41.19
+      },
+      "map_visual_ready_ms": {
+        "mean": 1070.76,
+        "median": 1152.47,
+        "stdev": 251.94
+      },
+      "workbench_ready_ms": {
+        "mean": 1664.14,
+        "median": 1476.51,
+        "stdev": 412.38
+      },
+      "interaction_response_ms": {
+        "mean": 1664.14,
+        "median": 1476.51,
+        "stdev": 412.38
+      },
+      "dom_nodes": {
+        "mean": 1757,
+        "median": 1757.0,
+        "stdev": 0.0
+      },
+      "markers": {
+        "mean": 36,
+        "median": 36.0,
+        "stdev": 0.0
+      },
+      "map_layers": {
+        "mean": 135,
+        "median": 135.0,
+        "stdev": 0.0
+      }
+    }
+  },
+  "candidate": "4a2520a8fb40ec789784fccf513de78f26318507",
+  "paired_deltas": [
+    {
+      "pair": 1,
+      "baseline_interaction": "legacy-route-selection-baseline",
+      "candidate_interaction": "two-route-compare",
+      "deltas": {
+        "dom_content_ms": 278.8,
+        "map_visual_ready_ms": 919.25,
+        "workbench_ready_ms": -381.92,
+        "interaction_response_ms": -381.92,
+        "dom_nodes": -1318
+      }
+    },
+    {
+      "pair": 2,
+      "baseline_interaction": "legacy-route-selection-baseline",
+      "candidate_interaction": "two-route-compare",
+      "deltas": {
+        "dom_content_ms": 296.43,
+        "map_visual_ready_ms": 1035.42,
+        "workbench_ready_ms": -435.56,
+        "interaction_response_ms": -435.56,
+        "dom_nodes": -1318
+      }
+    },
+    {
+      "pair": 3,
+      "baseline_interaction": "legacy-route-selection-baseline",
+      "candidate_interaction": "two-route-compare",
+      "deltas": {
+        "dom_content_ms": 426.76,
+        "map_visual_ready_ms": 558.83,
+        "workbench_ready_ms": 476.7,
+        "interaction_response_ms": 476.7,
+        "dom_nodes": -1318
+      }
+    },
+    {
+      "pair": 4,
+      "baseline_interaction": "legacy-route-selection-baseline",
+      "candidate_interaction": "two-route-compare",
+      "deltas": {
+        "dom_content_ms": 330.16,
+        "map_visual_ready_ms": 289.86,
+        "workbench_ready_ms": 203.16,
+        "interaction_response_ms": 203.16,
+        "dom_nodes": -1318
+      }
+    },
+    {
+      "pair": 5,
+      "baseline_interaction": "legacy-route-selection-baseline",
+      "candidate_interaction": "two-route-compare",
+      "deltas": {
+        "dom_content_ms": 332.93,
+        "map_visual_ready_ms": 453.53,
+        "workbench_ready_ms": 407.06,
+        "interaction_response_ms": 407.06,
+        "dom_nodes": -1318
+      }
+    },
+    {
+      "pair": 6,
+      "baseline_interaction": "legacy-route-selection-baseline",
+      "candidate_interaction": "two-route-compare",
+      "deltas": {
+        "dom_content_ms": 331.05,
+        "map_visual_ready_ms": 304.21,
+        "workbench_ready_ms": 201.51,
+        "interaction_response_ms": 201.51,
+        "dom_nodes": -1318
+      }
+    },
+    {
+      "pair": 7,
+      "baseline_interaction": "legacy-route-selection-baseline",
+      "candidate_interaction": "two-route-compare",
+      "deltas": {
+        "dom_content_ms": 334.42,
+        "map_visual_ready_ms": 236.57,
+        "workbench_ready_ms": 161.46,
+        "interaction_response_ms": 161.46,
+        "dom_nodes": -1318
+      }
+    },
+    {
+      "pair": 8,
+      "baseline_interaction": "legacy-route-selection-baseline",
+      "candidate_interaction": "two-route-compare",
+      "deltas": {
+        "dom_content_ms": 360.8,
+        "map_visual_ready_ms": 188.81,
+        "workbench_ready_ms": 37.05,
+        "interaction_response_ms": 37.05,
+        "dom_nodes": -1318
+      }
+    }
+  ],
+  "classification": {
+    "status": "VERIFY_REQUIRED",
+    "reason": "Order-balanced matched samples characterize variance, but the legacy route-toggle and R2 two-route compare are not semantically identical tasks; no performance PASS or FIX is asserted from this evidence."
+  },
+  "notes": [
+    "DOM simplification is retained; no material regression threshold was declared.",
+    "Native Safari, physical-device and human field performance remain separate evidence boundaries."
+  ],
+  "candidate_tree": "1d42515d23cc6f1995e3ccc8f41da6802321dcf5",
+  "candidate_binding": "exact-clean-checkout"
+}
