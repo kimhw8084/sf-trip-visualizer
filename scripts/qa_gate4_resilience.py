@@ -286,7 +286,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         repeated = snapshot(page)
         if blocked["planning_state"] != stable_state or repeated["map"]["canvas_count"] != 1 or len(set(repeated["map"]["photo_marker_keys"])) != repeated["map"]["photo_markers"]:
             core_failures.append("blocked Satellite recovery/state")
-        if repeated["provider_stats"]["satellite"]["healthProbes"] > 4 or repeated["runtime"]["drawRequests"] > 18:
+        if repeated["runtime"]["providerStats"]["satellite"]["healthProbes"] > 4 or repeated["runtime"]["drawRequests"] > 18:
             core_failures.append("provider retry/request bound")
         page.unroute("https://**/*")
         report["modular"] = {"initial": initial, "before_reload": before_reload, "after_reload": after_reload, "blocked_provider": blocked, "repeated_switches": repeated, "smart_first_use_remote_requests": initial_remote_requests, "optional_provider_requests": [url for url in remote_requests(requests) if "arcgisonline.com" in url], "remote_requests": remote_requests(requests), "page_errors": errors, "critical_pass": not core_failures, "failures": core_failures}
