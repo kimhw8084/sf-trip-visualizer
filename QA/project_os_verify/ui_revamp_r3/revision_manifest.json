@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "change": "CHG-157 R3",
+  "base_main": "f9631a57d3b9e51216e082b62d80519599b84711",
+  "r2": {
+    "source": "4a2520a8fb40ec789784fccf513de78f26318507",
+    "tree": "1d42515d23cc6f1995e3ccc8f41da6802321dcf5",
+    "final_evidence_head": "a620d94b75b982073aa71ac4a1a49161b403a290"
+  },
+  "stable_r3_source": {
+    "sha": "2fa5dd1acc63f49230f772bd5ce39cd733331c0b",
+    "tree": "3f08ed4c850f989a7481d33aeceb09bd76c51f35",
+    "binding": "exact-clean-checkout",
+    "note": "Stable source was frozen after product, runtime, workflow, QA harness, and evidence-contract changes."
+  },
+  "final_evidence_head": {
+    "sha": null,
+    "tree": null,
+    "evidence_parent_sha": "2fa5dd1acc63f49230f772bd5ce39cd733331c0b",
+    "authority": "Authoritative final identity is the pushed managed R3 branch plus Fabric audit/Project OS postflight; this manifest intentionally resolves final SHA/tree from that authority instead of making a self-referential final-commit claim."
+  },
+  "source_to_final": {
+    "commits_after_stable_source": "Evidence-only commits may follow; the remote branch and hosted audit are authoritative for the exact final head.",
+    "mutation_contract": "Any commit after the stable source must be QA/evidence-only and hosted-qualified on its exact SHA."
+  },
+  "r2_to_r3_diff": {
+    "complete_diff_file": "QA/project_os_verify/ui_revamp_r3/r2_to_r3.diff",
+    "command": "git diff --binary 4a2520a8fb40ec789784fccf513de78f26318507..2fa5dd1acc63f49230f772bd5ce39cd733331c0b -- .github/workflows/candidate-qualification.yml scripts src",
+    "files_changed": 15,
+    "insertions": 456,
+    "deletions": 120
+  },
+  "evidence": {
+    "performance": "QA/project_os_verify/ui_revamp_r3/performance.json",
+    "profiling": "QA/project_os_verify/ui_revamp_r3/profiling_breakdown.json",
+    "geometry": "QA/project_os_verify/ui_revamp_r3/map_geometry.json",
+    "tasks": "QA/project_os_verify/ui_revamp_r3/task_oracles.json",
+    "accessibility": "QA/project_os_verify/ui_revamp_r3/accessibility.json",
+    "browsers": "QA/project_os_verify/ui_revamp_r3/browser_summary.json",
+    "visual_index": "QA/project_os_verify/ui_revamp_r3/visual_index.json"
+  },
+  "preservation": {
+    "maplibre_sha256": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675",
+    "trip_vector_sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+    "canonical_counts": {"places": 36, "photos": 108, "timeline_cards": 79, "route_legs": 41, "strategies": 4, "dates": 9, "regions": 3},
+    "legacy_surface_removal": ["date ribbon", "bottom map schedule strip", "mapFocus", "duplicate date/provider controls", "second Details authority", "marker callout/preview/mini-detail/full-detail stack"]
+  },
+  "classification": "VERIFY_REQUIRED",
+  "remaining_boundaries": [
+    "Native Safari and physical-device behavior remain outside local Playwright evidence.",
+    "Independent human/Project OS pixel and field review remains required for Golden UI perfection.",
+    "Performance residual is within observed matched noise but remains VERIFY_REQUIRED rather than a fabricated universal budget.",
+    "Hosted-Linux Firefox/Xvfb qualification, exact managed-branch identity, and postflight release-path evidence are pending this local handoff."
+  ]
+}

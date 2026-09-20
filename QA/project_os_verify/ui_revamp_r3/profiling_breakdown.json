@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "candidate": "2fa5dd1acc63f49230f772bd5ce39cd733331c0b",
+  "candidate_tree": "3f08ed4c850f989a7481d33aeceb09bd76c51f35",
+  "method": "Eight order-balanced R3 samples across two blocks at 1440x900; startup marks are low-overhead performance marks captured in the candidate runtime.",
+  "r2_recorded_regression": {
+    "dom_content_mean_ms": 451.2,
+    "map_visual_ready_mean_ms": 1569.07,
+    "baseline_dom_content_mean_ms": 114.8,
+    "baseline_map_visual_ready_mean_ms": 1070.76,
+    "map_visual_ready_slower_pairs": 8,
+    "diagnosis": "R2 put the full authored runtime and map dependency graph on the parser-critical path and retained redundant startup work around map setup/measurement."
+  },
+  "r3_candidate_startup_mark_medians_ms": {
+    "canonical_data_parsed": 18.9,
+    "dom_content_loaded": 29.65,
+    "authored_js_evaluated": 37.4,
+    "decision_shell_ready": 38.65,
+    "map_runtime_scripts_ready": 56.85,
+    "local_pmtiles_header_ready": 59.65,
+    "local_vector_setup_ready": 59.7,
+    "local_map_asset_style_ready": 60.75,
+    "map_created": 69.05,
+    "map_style_ready": 604.35,
+    "route_layer_install_ready": 632.8,
+    "photo_preparation_ready": 634.8,
+    "marker_install_ready": 634.85,
+    "map_safe_padding_computed": 645.5,
+    "initial_fit_complete": 647.55,
+    "map_visual_ready": 648.1
+  },
+  "implemented_repairs": [
+    "Dynamic runtime loader lets canonical data and the decision shell become usable without parser-blocking MapLibre, vector, Plotly, and app evaluation.",
+    "Initial map work is kept local-first: PMTiles header validation, local glyph/sprite/hillshade style construction, route/layer installation, markers, obstacle-safe padding, and final semantic readiness remain required.",
+    "Initial clustering is deferred until after the first fit, cluster handlers are installed once, and first-render map work avoids duplicate listener/refit work.",
+    "Decision content renders independently before map completion; map_visual_ready remains a semantic post-install state rather than an early declaration."
+  ],
+  "acceptance": {
+    "baseline_vs_r3_map_mean_delta_ms": -3.83,
+    "baseline_vs_r3_map_median_delta_ms": 15.75,
+    "baseline_vs_r3_map_pair_stdev_ms": 93.25,
+    "baseline_vs_r3_map_slower_pairs": 6,
+    "baseline_vs_r3_map_material_over_200ms_pairs": 0,
+    "classification": "VERIFY_REQUIRED"
+  }
+}

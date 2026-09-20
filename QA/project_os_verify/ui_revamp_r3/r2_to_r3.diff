@@ -1,0 +1,1639 @@
+.github/workflows/candidate-qualification.yml |   2 +
+ scripts/build_map_first.py                    |  26 +++--
+ scripts/pipeline.py                           |  10 +-
+ scripts/qa_accessibility_reflow.py            |   3 +-
+ scripts/qa_decision_workbench.py              |  23 +++-
+ scripts/qa_map_geometry.py                    |  53 ++++++++-
+ scripts/qa_ui_performance.py                  | 159 +++++++++++++++++---------
+ scripts/run_cross_browser.py                  |  27 ++++-
+ scripts/run_visual_spots.py                   |  22 +++-
+ src/app_phase7.css                            |  49 ++++++--
+ src/app_phase7.js                             | 131 ++++++++++++++++++---
+ src/atlas_messages.js                         |   4 +-
+ src/atlas_state.js                            |   2 +
+ src/map_shell_template.html                   |  49 +++++---
+ src/runtime_loader.js                         |  16 +++
+ 15 files changed, 456 insertions(+), 120 deletions(-)
+
+diff --git a/.github/workflows/candidate-qualification.yml b/.github/workflows/candidate-qualification.yml
+index 6409a82..1badc24 100644
+--- a/.github/workflows/candidate-qualification.yml
++++ b/.github/workflows/candidate-qualification.yml
+@@ -85,9 +85,11 @@ jobs:
+             QA/map_first/screenshots/**
+             QA/photo_integrity.json
+             QA/route_panel/**/*.json
++            QA/project_os_verify/ui_revamp_r3/**
+             .public-site/.release-provenance.json
+             release-path-checkout/QA/release/*.json
+             release-path-checkout/QA/release/*.log
+             release-path-checkout/QA/map_first/**/*.json
+             release-path-checkout/QA/map_first/screenshots/**
++            release-path-checkout/QA/project_os_verify/ui_revamp_r3/**
+             release-path-checkout/.public-site/.release-provenance.json
+diff --git a/scripts/build_map_first.py b/scripts/build_map_first.py
+index bbb4147..5996167 100644
+--- a/scripts/build_map_first.py
++++ b/scripts/build_map_first.py
+@@ -20,7 +20,7 @@ FRESHNESS_MANIFEST_PATH = ROOT / "manifests" / "trip_freshness.json"
+ RUNTIME_CONTRACT_PATH = ROOT / "manifests" / "runtime_resilience_contract.json"
+ COORDINATE_AUDIT_PATH = ROOT / "data" / "coordinate_audit.json"
+ MODULAR_FILES = (
+-    "src/app_phase7.css", "src/app_phase7.js", "src/atlas_messages.js", "src/atlas_state.js", "src/map_first.css",
++    "src/app_phase7.css", "src/app_phase7.js", "src/atlas_messages.js", "src/atlas_state.js", "src/runtime_loader.js", "src/map_first.css",
+     "vendor/maplibre-gl.css", "vendor/maplibre-gl.js", "vendor/trip-vector.js", "vendor/plotly.min.js",
+     "assets/vector/sf_trip.pmtiles", "assets/vector/yosemite_hillshade_shadow.webp",
+ )
+@@ -101,13 +101,13 @@ def build(output_root: Path) -> dict:
+     head.append(template.new_tag("link", rel="stylesheet", href="vendor/maplibre-gl.css"))
+     head.append(template.new_tag("link", rel="stylesheet", href="src/map_first.css"))
+     template.select_one("#tripData").string = "window.TRIP_DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";"
+-    app_script = template.select_one('script[src="src/app_phase7.js"]')
++    runtime_loader = template.select_one('script[src="src/runtime_loader.js"]')
+     for name, payload in (("TRIP_ROUTE_GEOMETRY", geometry), ("TRIP_I18N", translations), ("TRIP_FRESHNESS", freshness), ("TRIP_RUNTIME_CONTRACT", runtime_contract)):
+         script = template.new_tag("script")
+         script.string = f"window.{name}=" + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";"
+-        app_script.insert_before(script)
++        runtime_loader.insert_before(script)
+     early = template.new_tag("script")
+-    early.string = "window.__tripLoadStarted=performance.now();try{const t=localStorage.getItem('trip_theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch{document.documentElement.dataset.theme='light'}"
++    early.string = "window.__tripStartupMarks=[];window.__tripLoadStarted=performance.now();window.__tripStartupMark=(name,detail={})=>window.__tripStartupMarks.push({name,at_ms:Math.round((performance.now()-window.__tripLoadStarted)*100)/100,...detail});window.__tripStartupMark('html_parse_start');document.addEventListener('DOMContentLoaded',()=>window.__tripStartupMark('dom_content_loaded'),{once:true});try{const t=localStorage.getItem('trip_theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch{document.documentElement.dataset.theme='light'}"
+     head.insert(0, early)
+     (modular_dir / "index.html").write_text(str(template))
+     copy_runtime(modular_dir)
+@@ -121,9 +121,21 @@ def build(output_root: Path) -> dict:
+         style.string = (ROOT / link["href"]).read_text()
+         link.replace_with(style)
+     for script in standalone.find_all("script", src=True):
+-        inline = standalone.new_tag("script")
+-        inline.string = (ROOT / script["src"]).read_text()
+-        script.replace_with(inline)
++        if script["src"] != "src/runtime_loader.js":
++            inline = standalone.new_tag("script")
++            inline.string = (ROOT / script["src"]).read_text()
++            script.replace_with(inline)
++            continue
++        inline_scripts = []
++        for relative in ("src/atlas_messages.js", "src/atlas_state.js", "vendor/maplibre-gl.js", "vendor/trip-vector.js", "vendor/plotly.min.js", "src/app_phase7.js"):
++            inline = standalone.new_tag("script")
++            inline.string = (ROOT / relative).read_text()
++            inline_scripts.append(inline)
++        script.replace_with(inline_scripts[0])
++        cursor = inline_scripts[0]
++        for inline in inline_scripts[1:]:
++            cursor.insert_after(inline)
++            cursor = inline
+     app_inline = standalone.find_all("script")[-1]
+     hillshade_path = ROOT / "assets/vector/yosemite_hillshade_shadow.webp"
+     hillshade = standalone.new_tag("script")
+diff --git a/scripts/pipeline.py b/scripts/pipeline.py
+index 69c5e3e..310ceed 100644
+--- a/scripts/pipeline.py
++++ b/scripts/pipeline.py
+@@ -47,9 +47,9 @@ COMPONENTS = (
+     ("photo_integrity", "scripts/check_photo_integrity.py", "QA/photo_integrity.json"),
+     ("maplibre_security", "scripts/qa_maplibre_security.py", "QA/release/maplibre_security.json"),
+     ("map_first_smoke", "scripts/qa_map_first.py", "QA/map_first/smoke.json"),
+-    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r2/task_oracles.json"),
+-    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r2/accessibility.json"),
+-    ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r2/map_geometry.json"),
++    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r3/task_oracles.json"),
++    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r3/accessibility.json"),
++    ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r3/map_geometry.json"),
+     ("map_first_full", "scripts/qa_map_first_full.py", "QA/map_first/full_acceptance.json"),
+     ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
+     ("standalone", "scripts/qa_standalone_map_first.py", "QA/map_first/standalone.json"),
+@@ -58,8 +58,8 @@ COMPONENTS = (
+     ("route_continuity", "scripts/audit_route_continuity.py", "QA/map_first/route_continuity.json"),
+     ("route_panel", "scripts/qa_route_explanations_panel.py", "QA/route_panel/route_explanations_panel.json"),
+     ("exhaustive_states", "scripts/run_exhaustive_states.py", "QA/map_first/exhaustive_states.json"),
+-    ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r2/browser_summary.json"),
+-    ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r2/visual_index.json"),
++    ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r3/browser_summary.json"),
++    ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r3/visual_index.json"),
+     ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
+ )
+ 
+diff --git a/scripts/qa_accessibility_reflow.py b/scripts/qa_accessibility_reflow.py
+index b08fe42..2a54274 100644
+--- a/scripts/qa_accessibility_reflow.py
++++ b/scripts/qa_accessibility_reflow.py
+@@ -11,7 +11,7 @@ from qa_evidence import bind_report, candidate_identity
+ 
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2" / "accessibility.json"
++OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "accessibility.json"
+ IDENTITY = candidate_identity()
+ report = {"schema_version": 1, "checks": {}, "errors": []}
+ 
+@@ -28,6 +28,7 @@ with sync_playwright() as playwright:
+     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
+     page.wait_for_function("document.querySelectorAll('.photo-marker').length===36", timeout=15000)
+     put("focusable_controls_have_visible_focus", page.evaluate("""()=>{const controls=[...document.querySelectorAll('button,a,select')].filter(element=>element.getClientRects().length&&getComputedStyle(element).visibility!=='hidden');for(const element of controls.slice(0,18)){element.focus();const r=element.getBoundingClientRect(),s=getComputedStyle(element);if(r.width<1||r.height<1||s.visibility==='hidden')return false}return true}"""))
++    page.locator("#mapOptionsToggle").click()
+     page.locator("#regionControls [data-region='yosemite']").click()
+     page.locator("#modeNav [data-mode='day']").click()
+     page.locator("#dateSelect").select_option("10/7")
+diff --git a/scripts/qa_decision_workbench.py b/scripts/qa_decision_workbench.py
+index b07ff09..77c86b8 100644
+--- a/scripts/qa_decision_workbench.py
++++ b/scripts/qa_decision_workbench.py
+@@ -13,7 +13,7 @@ from qa_evidence import bind_report, candidate_identity
+ 
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2"
++OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3"
+ OUT.mkdir(parents=True, exist_ok=True)
+ IDENTITY = candidate_identity()
+ 
+@@ -44,6 +44,25 @@ with sync_playwright() as playwright:
+ 
+     results.append(oracle("decide_recommendation", page.locator("#recommendation").is_visible() and "A1" in page.locator("#recommendation").inner_text() and all(text in page.locator("#recommendation").inner_text() for text in ("감수할 것", "선택·전환 규칙", "후회 방지"))))
+     results.append(oracle("single_authority_controls", page.locator("#dateSelect").count() == 1 and page.locator("#providerControls [data-provider]").count() == 2 and page.locator("#regionControls [data-region]").count() == 4 and page.locator("#peek").count() == 1))
++    page.locator("#mapOptionsToggle").click()
++    options_open = page.locator("#mapOptionsPanel").is_visible() and page.evaluate("document.activeElement?.id === 'mapOptionsClose'")
++    page.keyboard.press("Escape")
++    options_closed = page.locator("#mapOptionsPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'mapOptionsToggle'") and page.locator("#mapOptionsPanel button:visible").count() == 0
++    results.append(oracle("compact_map_options_focus_contract", options_open and options_closed))
++    page.locator("#mapOptionsToggle").click()
++    page.locator("#providerControls [data-provider='vector']").click()
++    page.wait_for_function("window.__tripApp.state.runtime.provider === 'vector'")
++    page.locator("#mapOptionsToggle").click()
++    page.locator("#regionControls [data-region='yosemite']").click()
++    page.wait_for_function("window.__tripApp.state.task.region === 'yosemite'")
++    page.locator("#mapOptionsToggle").click()
++    page.locator("#regionControls [data-region='overall']").click()
++    page.wait_for_function("window.__tripApp.state.task.region === 'overall'")
++    results.append(oracle("compact_map_options_provider_region_selection", page.evaluate("window.__tripApp.state.runtime.provider === 'vector' && window.__tripApp.state.task.region === 'overall'")))
++    page.locator("#routeLegendToggle").click()
++    legend_open = page.locator("#routeLegendPanel").is_visible()
++    page.keyboard.press("Escape")
++    results.append(oracle("route_key_disclosure_focus_contract", legend_open and page.locator("#routeLegendPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'routeLegendToggle'")))
+     results.append(oracle("legacy_surface_removed", page.locator("#dateRibbon,#mapSchedule,#mapFocus,#routeTip,#mobileDate,#mobileProvider").count() == 0))
+     shot("decide_default_desktop", (1440, 900), "decide", "recommended_default")
+ 
+@@ -74,12 +93,14 @@ with sync_playwright() as playwright:
+     results.append(oracle("place_return_context", page.evaluate("window.__tripApp.state.presentation.mode") == "day" and page.input_value("#dateSelect") == "10/8"))
+     shot("place_inspector_desktop", (1440, 900), "place", "inspector_after_peek")
+ 
++    page.locator("#mapOptionsToggle").click()
+     page.locator("#regionControls [data-region='yosemite']").click()
+     page.locator("#dateSelect").select_option("10/7")
+     page.locator(".photo-marker[data-place-key='cooks']").click()
+     results.append(oracle("cooks_real_pointer_activation", page.locator("#peek.show").count() == 1 and page.evaluate("window.__tripApp.state.task.selected==='cooks'")))
+     page.keyboard.press("Escape")
+     page.locator("#dateSelect").select_option("10/8")
++    page.locator("#mapOptionsToggle").click()
+     page.locator("#regionControls [data-region='overall']").click()
+ 
+     page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
+diff --git a/scripts/qa_map_geometry.py b/scripts/qa_map_geometry.py
+index 734affe..ec7b5a2 100644
+--- a/scripts/qa_map_geometry.py
++++ b/scripts/qa_map_geometry.py
+@@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
+ from qa_evidence import ROOT, bind_report, candidate_identity
+ 
+ 
+-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2" / "map_geometry.json"
++OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "map_geometry.json"
+ 
+ 
+ def wait_ready(page) -> None:
+@@ -44,7 +44,7 @@ def check_row(row: dict) -> list[str]:
+ 
+ def main() -> int:
+     OUT.parent.mkdir(parents=True, exist_ok=True)
+-    report = {"schema_version": 1, "status": "FAIL", "states": [], "failures": [], "notes": ["Rendered Chromium hit testing; native Safari, physical-device and human field evidence remain separate."]}
++    report = {"schema_version": 2, "status": "FAIL", "states": [], "failures": [], "notes": ["Rendered Chromium hit testing; native Safari, physical-device and human field evidence remain separate."]}
+     try:
+         identity = candidate_identity()
+         bind_report(report, identity)
+@@ -64,6 +64,19 @@ def main() -> int:
+             page.on("pageerror", lambda error: page_errors.append(str(error)))
+             wait_ready(page)
+             report["states"].append(geometry(page, viewport, "overall-default-unselected"))
++            page.locator("#mapOptionsToggle").click()
++            page.wait_for_timeout(120)
++            report["states"].append(geometry(page, viewport, "map-options-open"))
++            page.keyboard.press("Escape")
++            page.wait_for_timeout(120)
++            report["states"].append(geometry(page, viewport, "map-options-closed-after-escape"))
++            page.locator("#routeLegendToggle").click()
++            page.wait_for_timeout(120)
++            report["states"].append(geometry(page, viewport, "route-key-open"))
++            page.keyboard.press("Escape")
++            page.wait_for_timeout(120)
++            report["states"].append(geometry(page, viewport, "route-key-closed-after-escape"))
++            page.locator("#mapOptionsToggle").click()
+             page.locator("#regionControls [data-region='yosemite']").click()
+             page.locator("#modeNav [data-mode='day']").click()
+             page.locator("#dateSelect").select_option("10/8")
+@@ -95,6 +108,42 @@ def main() -> int:
+     for row in report["states"]:
+         report["failures"].extend(check_row(row))
+     report["failures"].extend(errors)
++    r2_reference = {
++        "desktop_1440x900": {
++            "safe_padding": {"top": 162.0, "right": 157.64, "bottom": 77.0, "left": 314.94},
++            "persistent_opaque_area_px": 69085.0,
++            "shell_area_px": 678886.0,
++            "unobstructed_ratio": 0.8982,
++        },
++        "mobile_390x844": {
++            "safe_padding": {"top": 146.0, "right": 113.0, "bottom": 71.0, "left": 16.0},
++            "persistent_opaque_area_px": 42116.0,
++            "shell_area_px": 173192.0,
++            "unobstructed_ratio": 0.7569,
++        },
++    }
++    report["r2_reference"] = r2_reference
++    report["useful_map_area_comparison"] = {}
++    for viewport_key, label in (("1440x900", "desktop_1440x900"), ("390x844", "mobile_390x844")):
++        default = next((row["snapshot"] for row in report["states"] if row["viewport"] == viewport_key and row["state"] == "overall-default-unselected"), None)
++        if default:
++            shell = default.get("shell", {})
++            persistent = default.get("persistent_opaque_chrome", {})
++            interior = default.get("unobstructed_interior", {})
++            r2 = r2_reference[label]
++            r3_area = persistent.get("area_px", 0)
++            r3_shell = shell.get("area_px", 0)
++            report["useful_map_area_comparison"][label] = {
++                "r2": r2,
++                "r3": {
++                    "safe_padding": default.get("safe_padding", {}),
++                    "persistent_opaque_area_px": r3_area,
++                    "shell_area_px": r3_shell,
++                    "unobstructed_ratio": interior.get("ratio"),
++                },
++                "persistent_area_reduction_ratio": round(1 - (r3_area / r2["persistent_opaque_area_px"]), 4) if r2["persistent_opaque_area_px"] else None,
++                "unobstructed_ratio_gain": round((interior.get("ratio", 0) or 0) - r2["unobstructed_ratio"], 4),
++            }
+     report["status"] = "PASS" if not report["failures"] and report["states"] else "FAIL"
+     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+     print(json.dumps({"status": report["status"], "states": len(report["states"]), "failures": report["failures"]}, ensure_ascii=False))
+diff --git a/scripts/qa_ui_performance.py b/scripts/qa_ui_performance.py
+index db535a1..37aba7d 100644
+--- a/scripts/qa_ui_performance.py
++++ b/scripts/qa_ui_performance.py
+@@ -1,105 +1,158 @@
+-"""Order-balanced headless comparison for the current-main and R2 workbench."""
++"""Order-balanced startup comparison for current main, R2, and R3."""
+ 
+ from __future__ import annotations
+ 
+ import json
+ import os
++import platform
+ import statistics
+ import time
+-from pathlib import Path
+ 
+ from playwright.sync_api import sync_playwright
+ 
+ from qa_evidence import ROOT, bind_report, candidate_identity
+ 
+ 
+-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2" / "performance.json"
++OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "performance.json"
+ BASELINE_URL = os.environ.get("TRIP_BASELINE_URL", "http://127.0.0.1:8765/index.html")
+-CANDIDATE_URL = os.environ.get("TRIP_QA_URL", "http://127.0.0.1:8767/index.html")
+-SAMPLES = int(os.environ.get("TRIP_PERF_SAMPLES", "8"))
++R2_URL = os.environ.get("TRIP_R2_URL", "http://127.0.0.1:8767/index.html")
++CANDIDATE_URL = os.environ.get("TRIP_QA_URL", "http://127.0.0.1:8768/index.html")
++SAMPLES = max(8, int(os.environ.get("TRIP_PERF_SAMPLES", "8")))
+ BLOCKS = 2
++VIEWPORT = {"width": 1440, "height": 900}
++VARIANTS = (("baseline", BASELINE_URL), ("r2_reference", R2_URL), ("r3_candidate", CANDIDATE_URL))
+ 
+ 
+-def measure(browser, label: str, url: str, pair_id: int) -> dict:
+-    page = browser.new_page(viewport={"width": 1440, "height": 900})
++def wait_workbench(page) -> tuple[str, str]:
++    if page.locator("#recommendation").count():
++        page.wait_for_function("document.querySelector('#recommendation')?.innerText.includes('A1')", timeout=30000)
++        return "decision-workbench", "#recommendation"
++    page.wait_for_function("document.querySelector('.sidebar') || document.body.innerText.length > 100", timeout=30000)
++    return "legacy-itinerary", ".sidebar"
++
++
++def wait_map(page) -> str:
++    if page.locator("#recommendation").count():
++        page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
++        return "runtime.mapVisualReady"
++    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
++    return "map.isStyleLoaded"
++
++
++def measure(browser, label: str, url: str, sample: int, block: int, order: int) -> dict:
++    page = browser.new_page(viewport=VIEWPORT)
+     started = time.perf_counter()
+     page.goto(url, wait_until="domcontentloaded", timeout=90000)
+     dom_content_ms = (time.perf_counter() - started) * 1000
+-    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
+-    map_ready_ms = (time.perf_counter() - started) * 1000
+-    if page.locator("#recommendation").count():
+-        workbench_ready = "#recommendation"
+-        interaction_kind = "two-route-compare"
+-        page.wait_for_function("document.querySelector('#recommendation')?.innerText.includes('A1')", timeout=15000)
+-        page.locator('[data-compare-route="A2"]').click()
+-        page.wait_for_function("document.querySelector('#comparePanel')?.innerText.includes('A2')", timeout=10000)
+-    else:
+-        workbench_ready = ".sidebar"
+-        interaction_kind = "legacy-route-selection-baseline"
+-        page.wait_for_function("document.querySelector('.sidebar') || document.body.innerText.length > 100", timeout=15000)
+-        if page.locator("[data-route]").count():
+-            page.locator("[data-route]").first.click()
+-    workbench_ready_ms = (time.perf_counter() - started) * 1000
+-    interaction_response_ms = (time.perf_counter() - started) * 1000
++    interaction_kind, selector = wait_workbench(page)
++    decision_ready_ms = (time.perf_counter() - started) * 1000
++    readiness_method = wait_map(page)
++    map_visual_ready_ms = (time.perf_counter() - started) * 1000
++    snapshot = page.evaluate("window.__tripApp?.runtimeSnapshot?.() || null")
+     row = {
+-        "pair_id": pair_id,
++        "sample": sample,
++        "block": block,
++        "order": order,
+         "label": label,
+         "url": url,
+         "dom_content_ms": round(dom_content_ms, 2),
+-        "map_visual_ready_ms": round(map_ready_ms, 2),
+-        "workbench_ready_ms": round(workbench_ready_ms, 2),
+-        "interaction_response_ms": round(interaction_response_ms, 2),
++        "decision_workbench_ready_ms": round(decision_ready_ms, 2),
++        "map_visual_ready_ms": round(map_visual_ready_ms, 2),
++        "readiness_method": readiness_method,
+         "interaction_kind": interaction_kind,
+-        "workbench_ready_selector": workbench_ready,
++        "workbench_ready_selector": selector,
+         "dom_nodes": page.locator("body *").count(),
+         "markers": page.locator(".photo-marker").count(),
+-        "map_layers": page.evaluate("window.__tripApp.map().getStyle().layers.length"),
++        "map_layers": page.evaluate("window.__tripApp?.map()?.getStyle?.()?.layers?.length || 0"),
++        "startup_marks": (snapshot or {}).get("startup", {}).get("marks", []),
+     }
+     page.close()
+     return row
+ 
+ 
+ def summarize(rows: list[dict]) -> dict:
+-    keys = ("dom_content_ms", "map_visual_ready_ms", "workbench_ready_ms", "interaction_response_ms", "dom_nodes", "markers", "map_layers")
++    keys = ("dom_content_ms", "decision_workbench_ready_ms", "map_visual_ready_ms", "dom_nodes", "markers", "map_layers")
+     return {key: {"mean": round(statistics.mean(row[key] for row in rows), 2), "median": round(statistics.median(row[key] for row in rows), 2), "stdev": round(statistics.stdev(row[key] for row in rows), 2) if len(rows) > 1 else 0} for key in keys}
+ 
+ 
++def paired(rows: dict[str, list[dict]], left: str, right: str) -> dict:
++    keys = ("dom_content_ms", "decision_workbench_ready_ms", "map_visual_ready_ms", "dom_nodes")
++    deltas = []
++    for index, (left_row, right_row) in enumerate(zip(rows[left], rows[right]), start=1):
++        deltas.append({"pair": index, "deltas": {key: round(right_row[key] - left_row[key], 2) for key in keys}, "right_slower": {key: right_row[key] > left_row[key] for key in keys}})
++    summary = {}
++    for key in keys:
++        values = [row["deltas"][key] for row in deltas]
++        summary[key] = {"mean": round(statistics.mean(values), 2), "median": round(statistics.median(values), 2), "stdev": round(statistics.stdev(values), 2) if len(values) > 1 else 0, "slower_count": sum(value > 0 for value in values), "material_slower_200ms_count": sum(value > 200 for value in values)}
++    block_direction = []
++    for block in range(BLOCKS):
++        block_rows = [row for row in deltas if rows[left][row["pair"] - 1]["block"] == block]
++        block_direction.append({"block": block, "mean_deltas": {key: round(statistics.mean(row["deltas"][key] for row in block_rows), 2) for key in keys}, "right_slower": {key: all(row["deltas"][key] > 0 for row in block_rows) for key in keys}})
++    return {"left": left, "right": right, "samples": deltas, "summary": summary, "block_direction": block_direction}
++
++
++def classify(comparison: dict) -> dict:
++    map_delta = comparison["summary"]["map_visual_ready_ms"]
++    dom_delta = comparison["summary"]["dom_content_ms"]
++    decision_delta = comparison["summary"]["decision_workbench_ready_ms"]
++    material = map_delta["mean"] > 250 or dom_delta["mean"] > 250 or decision_delta["mean"] > 250
++    consistent_material = map_delta["material_slower_200ms_count"] >= 6 or dom_delta["material_slower_200ms_count"] >= 6 or decision_delta["material_slower_200ms_count"] >= 6
++    if material or consistent_material:
++        return {"status": "FIX_REQUIRED", "reason": "R3 still shows a material, consistent first-use regression against current main."}
++    if map_delta["slower_count"] >= 5 or dom_delta["slower_count"] >= 5 or decision_delta["slower_count"] >= 5:
++        return {"status": "VERIFY_REQUIRED", "reason": "R3 removes the hundreds-of-ms failure pattern, but residual direction remains noisy or mildly slower."}
++    return {"status": "PASS", "reason": "R3 does not reproduce the R2 material first-use/map-readiness regression against current main."}
++
++
+ def main() -> int:
+     OUT.parent.mkdir(parents=True, exist_ok=True)
+     identity = candidate_identity()
+-    baseline_rows: list[dict] = []
+-    candidate_rows: list[dict] = []
++    rows = {label: [] for label, _url in VARIANTS}
++    order = []
+     with sync_playwright() as playwright:
+         browser = playwright.chromium.launch(headless=True)
+-        pair = 0
++        browser_version = browser.version
++        sample_per_block = max(1, SAMPLES // BLOCKS)
+         for block in range(BLOCKS):
+-            first, second = (("baseline", BASELINE_URL), ("candidate", CANDIDATE_URL)) if block % 2 == 0 else (("candidate", CANDIDATE_URL), ("baseline", BASELINE_URL))
+-            for _ in range(max(1, SAMPLES // BLOCKS)):
+-                pair += 1
+-                for label, url in (first, second):
+-                    row = measure(browser, label, url, pair)
+-                    (baseline_rows if label == "baseline" else candidate_rows).append(row)
++            variant_order = VARIANTS if block % 2 == 0 else tuple(reversed(VARIANTS))
++            for _sample in range(sample_per_block):
++                for order_index, (label, url) in enumerate(variant_order):
++                    sample_index = len(rows[label]) + 1
++                    order.append({"block": block, "sample": sample_index, "order": order_index, "label": label})
++                    rows[label].append(measure(browser, label, url, sample_index, block, order_index))
+         browser.close()
+ 
+-    paired = []
+-    for index in range(min(len(baseline_rows), len(candidate_rows))):
+-        baseline = baseline_rows[index]
+-        candidate = candidate_rows[index]
+-        paired.append({"pair": index + 1, "baseline_interaction": baseline["interaction_kind"], "candidate_interaction": candidate["interaction_kind"], "deltas": {key: round(candidate[key] - baseline[key], 2) for key in ("dom_content_ms", "map_visual_ready_ms", "workbench_ready_ms", "interaction_response_ms", "dom_nodes")}})
++    comparisons = {"baseline_vs_r2": paired(rows, "baseline", "r2_reference"), "baseline_vs_r3": paired(rows, "baseline", "r3_candidate"), "r2_vs_r3": paired(rows, "r2_reference", "r3_candidate")}
+     report = {
+-        "schema_version": 2,
++        "schema_version": 3,
++        "change": "CHG-157 R3",
+         "base_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+-        "environment": {"browser": "Chromium headless", "viewport": "1440x900", "samples_per_variant": len(baseline_rows), "blocks": BLOCKS, "ordering": "two order-balanced baseline/candidate blocks", "platform": os.uname().sysname, "python": os.sys.version.split(".")[0]},
+-        "baseline": {"url": BASELINE_URL, "samples": baseline_rows, "metrics": summarize(baseline_rows)},
+-        "candidate": {"url": CANDIDATE_URL, "samples": candidate_rows, "metrics": summarize(candidate_rows)},
+-        "paired_deltas": paired,
+-        "classification": {"status": "VERIFY_REQUIRED", "reason": "Order-balanced matched samples characterize variance, but the legacy route-toggle and R2 two-route compare are not semantically identical tasks; no performance PASS or FIX is asserted from this evidence."},
+-        "notes": ["DOM simplification is retained; no material regression threshold was declared.", "Native Safari, physical-device and human field performance remain separate evidence boundaries."],
++        "r2_reference": {"sha": "4a2520a8fb40ec789784fccf513de78f26318507", "tree": "1d42515d23cc6f1995e3ccc8f41da6802321dcf5"},
++        "r2_authoritative_recorded_reference": {
++            "evidence_head": "a620d94b75b982073aa71ac4a1a49161b403a290",
++            "source_replay_contract": "Exact R2 source/build replay is retained in r2_reference_samples; these recorded qualification values remain the authoritative R2 defect record.",
++            "samples_per_variant": 8,
++            "baseline_map_visual_ready_mean_ms": 1070.76,
++            "r2_map_visual_ready_mean_ms": 1569.07,
++            "map_visual_ready_pair_slower_count": 8,
++            "map_visual_ready_mean_delta_ms": 498.31,
++            "baseline_dom_content_mean_ms": 114.8,
++            "r2_dom_content_mean_ms": 451.2,
++            "dom_content_pair_slower_count": 8,
++        },
++        "environment": {"browser": "Chromium headless", "browser_version": browser_version, "viewport": "1440x900", "samples_per_variant": len(rows["baseline"]), "blocks": BLOCKS, "ordering": order, "platform": platform.system(), "python": os.sys.version.split(".")[0]},
++        "baseline": {"url": BASELINE_URL, "samples": rows["baseline"], "metrics": summarize(rows["baseline"])},
++        "r2_reference_samples": {"url": R2_URL, "samples": rows["r2_reference"], "metrics": summarize(rows["r2_reference"])},
++        "r3_candidate_samples": {"url": CANDIDATE_URL, "samples": rows["r3_candidate"], "metrics": summarize(rows["r3_candidate"])},
++        "comparisons": comparisons,
++        "classification": classify(comparisons["baseline_vs_r3"]),
++        "interaction_qualification": "The route-toggle and two-route compare tasks remain semantically non-equivalent; no interaction-response PASS is asserted here.",
++        "notes": ["R3 uses runtime.mapVisualReady for the candidate and map.isStyleLoaded for the legacy baseline; both methods are recorded per sample.", "Decision shell readiness is recorded separately from map readiness.", "The authoritative R2 qualification distribution is preserved explicitly; the fresh replay is labeled separately because local replay timing differs from the recorded R2 environment.", "Native Safari, physical-device and independent-human field performance remain separate evidence boundaries."],
+     }
+     bind_report(report, identity)
+     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+-    print(json.dumps({"status": report["classification"]["status"], "samples_per_variant": len(baseline_rows), "candidate": identity["sha"]}, ensure_ascii=False))
+-    return 0
++    print(json.dumps({"status": report["classification"]["status"], "samples_per_variant": len(rows["baseline"]), "candidate": identity["sha"], "map_delta_ms": comparisons["baseline_vs_r3"]["summary"]["map_visual_ready_ms"]["mean"]}, ensure_ascii=False))
++    return 0 if report["classification"]["status"] in {"PASS", "VERIFY_REQUIRED"} else 1
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/scripts/run_cross_browser.py b/scripts/run_cross_browser.py
+index 43ed1ac..45cb3aa 100644
+--- a/scripts/run_cross_browser.py
++++ b/scripts/run_cross_browser.py
+@@ -28,8 +28,8 @@ from qa_evidence import candidate_identity
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+ URL = MODULAR_URL
+-OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r2/browser_summary.json"
+-SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r2/screenshots"
++OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r3/browser_summary.json"
++SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r3/screenshots"
+ CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "60"))
+ TERM_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_TERM_GRACE_SECONDS", "2"))
+ KILL_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_KILL_GRACE_SECONDS", "2"))
+@@ -419,6 +419,25 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path:
+         page.locator("#dateSelect").select_option("10/8")
+         page.wait_for_function("document.querySelectorAll('#dayPlan .day-item, #dayPlan .plan-card').length > 0", timeout=8000)
+         row["day_items"] = page.locator("#dayPlan .day-item, #dayPlan .plan-card").count()
++        page.locator("#mapOptionsToggle").click()
++        page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
++        page.wait_for_function("document.activeElement?.id === 'mapOptionsClose'", timeout=5000)
++        page.wait_for_timeout(250)
++        row["map_options_open"] = page.evaluate("!document.querySelector('#mapOptionsPanel')?.hidden && document.activeElement?.id === 'mapOptionsClose'")
++        row["map_options_open_geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
++        page.keyboard.press("Escape")
++        page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden")
++        page.wait_for_function("document.activeElement?.id === 'mapOptionsToggle'", timeout=5000)
++        row["map_options_close_focus_return"] = page.evaluate("document.querySelector('#mapOptionsPanel')?.hidden && document.activeElement?.id === 'mapOptionsToggle' && !document.activeElement?.closest('#mapOptionsPanel')")
++        page.locator("#routeLegendToggle").click()
++        page.wait_for_function("!document.querySelector('#routeLegendPanel')?.hidden")
++        row["route_key_open"] = page.evaluate("!document.querySelector('#routeLegendPanel')?.hidden")
++        row["route_key_open_geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
++        page.keyboard.press("Escape")
++        page.wait_for_function("document.querySelector('#routeLegendPanel')?.hidden")
++        page.wait_for_function("document.activeElement?.id === 'routeLegendToggle'", timeout=5000)
++        row["route_key_close_focus_return"] = page.evaluate("document.querySelector('#routeLegendPanel')?.hidden && document.activeElement?.id === 'routeLegendToggle'")
++        page.locator("#mapOptionsToggle").click()
+         page.locator("#regionControls [data-region='yosemite']").click()
+         page.locator("#dateSelect").select_option("10/7")
+         page.wait_for_function("document.querySelector('.photo-marker[data-place-key=\"cooks\"]')?.getBoundingClientRect().width > 0", timeout=8000)
+@@ -443,6 +462,10 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path:
+             and not row["horizontal_overflow"]
+             and row["broken_marker_images"] == 0
+             and row["inspector_photos"] == 3
++            and row["map_options_open"]
++            and row["map_options_close_focus_return"]
++            and row["route_key_open"]
++            and row["route_key_close_focus_return"]
+             and row["marker_activation"] == "cooks"
+             and not any(marker.get("intersects_obstacle") for marker in row["geometry"].get("markers", []))
+             and not row["page_errors"]
+diff --git a/scripts/run_visual_spots.py b/scripts/run_visual_spots.py
+index 387c075..c971442 100644
+--- a/scripts/run_visual_spots.py
++++ b/scripts/run_visual_spots.py
+@@ -1,4 +1,4 @@
+-"""Capture the exact-bound R2 visual matrix for independent pixel review."""
++"""Capture the exact-bound R3 visual matrix for independent pixel review."""
+ 
+ from __future__ import annotations
+ 
+@@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
+ from qa_evidence import ROOT, bind_report, candidate_identity
+ 
+ 
+-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2"
++OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3"
+ SHOTS = OUT / "screenshots"
+ 
+ 
+@@ -48,6 +48,16 @@ def main() -> int:
+ 
+         context, page, page_errors = new_page(browser, (1440, 900))
+         capture(page, rows, "canonical_decide_default_1440x900", (1440, 900), "decide", "recommended_default", "canonical-anchor", "canonical desktop default")
++        page.locator("#mapOptionsToggle").click()
++        capture(page, rows, "compact_map_options_open_1440x900", (1440, 900), "decide", "Map options open", "compact provider/region disclosure and focus return target", "canonical-anchor", "compact map options")
++        page.locator("#providerControls [data-provider='vector']").click()
++        page.locator("#mapOptionsToggle").click()
++        page.locator("#regionControls [data-region='yosemite']").click()
++        page.wait_for_timeout(300)
++        capture(page, rows, "compact_map_region_yosemite_1440x900", (1440, 900), "decide", "Yosemite selected", "semantic region change through compact map options", "canonical-anchor", "region change")
++        page.locator("#routeLegendToggle").click()
++        capture(page, rows, "compact_route_key_open_1440x900", (1440, 900), "decide", "route key open", "on-demand route semantics disclosure", "canonical-anchor", "route key disclosure")
++        page.keyboard.press("Escape")
+         page.locator('[data-compare-route="A2"]').click()
+         capture(page, rows, "canonical_decide_compare_1440x900", (1440, 900), "decide", "A1_vs_A2", "two-route human comparison", "canonical-anchor", "canonical desktop compare")
+         page.locator("#modeNav [data-mode='day']").click()
+@@ -55,9 +65,11 @@ def main() -> int:
+         capture(page, rows, "canonical_day_dense_recovery_1440x900", (1440, 900), "day", "10/8", "dense Day with recovery and typed decisions", "canonical-anchor", "canonical dense day")
+         page.locator("#dateSelect").select_option("10/9")
+         capture(page, rows, "canonical_day_sparse_1440x900", (1440, 900), "day", "10/9", "sparse/recovery Day state", "canonical-anchor", "canonical sparse day")
++        page.locator("#mapOptionsToggle").click()
+         page.locator("#regionControls [data-region='sf']").click()
+         page.locator("#dateSelect").select_option("10/6")
+         capture(page, rows, "canonical_no_results_1440x900", (1440, 900), "day", "SF + 10/6 no-results", "no-results handling", "canonical-anchor", "no-result state")
++        page.locator("#mapOptionsToggle").click()
+         page.locator("#regionControls [data-region='yosemite']").click()
+         page.locator("#dateSelect").select_option("10/7")
+         page.locator(".photo-marker[data-place-key='cooks']").click()
+@@ -92,6 +104,7 @@ def main() -> int:
+             page.close(); context.close()
+ 
+         context, page, page_errors = new_page(browser, (390, 844))
++        page.locator("#mapOptionsToggle").click()
+         page.locator("#regionControls [data-region='yosemite']").click()
+         page.locator("#modeNav [data-mode='day']").click()
+         page.locator("#dateSelect").select_option("10/7")
+@@ -136,7 +149,10 @@ def main() -> int:
+         page.close(); context.close()
+         browser.close()
+ 
+-    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1536x864", "414x896"], "frozen_after": "stable R2 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
++    for row in rows:
++        row["candidate"] = identity["sha"]
++        row["candidate_tree"] = identity["tree"]
++    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1536x864", "414x896"], "frozen_after": "stable R3 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
+     bind_report(report, identity)
+     OUT.joinpath("visual_index.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+     print(json.dumps({"status": report["status"], "screenshots": len(rows), "errors": errors}, ensure_ascii=False))
+diff --git a/src/app_phase7.css b/src/app_phase7.css
+index a11e92c..7b16de8 100644
+--- a/src/app_phase7.css
++++ b/src/app_phase7.css
+@@ -71,16 +71,40 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+ .map-shell { position: relative; min-width: 0; min-height: 0; isolation: isolate; background: #d7dedb; }
+ .map { width: 100%; height: 100%; min-height: 320px; }
+ .map-chrome { position: absolute; z-index: 9; border: 1px solid color-mix(in srgb, var(--border-strong) 72%, transparent); border-radius: var(--radius-md); background: color-mix(in srgb, var(--surface-raised) 92%, transparent); box-shadow: var(--shadow-soft); backdrop-filter: blur(10px); }
+-.map-top-left { top: 14px; left: 14px; display: grid; gap: 10px; padding: 11px; max-width: min(390px, calc(100% - 28px)); }
+-.map-top-right { top: 14px; right: 14px; display: grid; gap: 8px; justify-items: end; padding: 8px; }
+-.map-bottom-left { left: 14px; bottom: 14px; max-width: min(390px, calc(100% - 28px)); padding: 8px 10px; }
++.map-top-left { top: 14px; left: 14px; display: grid; gap: 7px; padding: 7px; max-width: min(360px, calc(100% - 28px)); }
++.map-toolbar { display: flex; align-items: center; gap: 6px; }
++.map-summary-button { display: grid; min-width: 0; min-height: 38px; flex: 1 1 auto; border: 1px solid var(--border); border-radius: 9px; background: var(--surface-raised); color: var(--text); padding: 5px 9px; text-align: left; cursor: pointer; }
++.map-summary-button:hover, .map-summary-button:focus-visible, .map-summary-button[aria-expanded="true"] { border-color: var(--accent); background: var(--accent-soft); }
++.map-summary-kicker { color: var(--text-subtle); font-size: 8px; font-weight: 850; letter-spacing: .1em; line-height: 1.1; text-transform: uppercase; }
++.map-summary-value { overflow: hidden; color: var(--text); font-size: 10px; font-weight: 850; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
++.map-options-panel { top: calc(100% + 7px); left: -1px; display: grid; gap: 10px; width: min(320px, calc(100vw - 28px)); max-height: min(370px, calc(100dvh - 170px)); overflow: auto; padding: 12px; }
++.map-options-panel[hidden], .route-legend-panel[hidden] { display: none; }
++.map-options-panel.open-up { top: auto; bottom: calc(100% + 7px); }
++.map-options-panel.align-right { right: -1px; left: auto; }
++.map-options-head { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
++.map-options-head strong { display: block; margin-top: 3px; font-size: 13px; line-height: 1.2; }
++.map-options-close { min-width: 32px; min-height: 32px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text-muted); font-size: 18px; line-height: 1; cursor: pointer; }
++.map-bottom-left { left: 14px; bottom: 14px; max-width: min(360px, calc(100% - 28px)); padding: 7px; }
++.route-key-bar { display: flex; align-items: center; gap: 9px; }
++.route-legend-current { min-width: 0; color: var(--text); font-size: 10px; font-weight: 800; line-height: 1.25; }
++.route-key-toggle { flex: 0 0 auto; min-height: 30px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text-muted); padding: 5px 8px; font-size: 9px; font-weight: 800; cursor: pointer; }
++.route-key-toggle:hover, .route-key-toggle:focus-visible, .route-key-toggle[aria-expanded="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-strong); }
++.route-legend-panel { right: -1px; bottom: calc(100% + 7px); left: -1px; display: grid; gap: 7px; max-height: min(300px, calc(100dvh - 170px)); overflow: auto; padding: 11px; }
++.route-legend-panel.open-down { top: calc(100% + 7px); bottom: auto; }
++.route-legend-item { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 7px; align-items: start; color: var(--text-muted); font-size: 10px; line-height: 1.35; }
++.route-legend-item strong { display: block; color: var(--text); }
++.route-legend-item small { display: block; margin-top: 2px; color: var(--text-muted); font-size: 9px; }
++.route-legend-swatch { width: 18px; margin-top: 6px; border-top: 3px solid var(--route-color); }
++.route-legend-swatch.dash { border-top-style: dashed; }
++.route-legend-swatch.dot { border-top-style: dotted; }
++.route-legend-swatch.dashdot { border-top-style: dashed; opacity: .75; }
+ .map-control-group { display: grid; gap: 5px; }
+ .map-control-label { color: var(--text-subtle); font-size: 9px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+ .segmented-control { display: flex; flex-wrap: wrap; gap: 4px; }
+ .segment { min-height: 32px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text-muted); padding: 6px 9px; font-size: 10px; font-weight: 750; cursor: pointer; }
+ .segment[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
+ .segment[data-provider="satellite"][data-health="failed"]::after { content: " · !"; color: var(--warning); }
+-.map-status { max-width: 260px; color: var(--text-muted); font-size: 10px; line-height: 1.3; text-align: right; }
++.map-status { max-width: 320px; padding-inline: 3px; color: var(--text-muted); font-size: 9px; line-height: 1.3; }
+ .map-status.ready { color: var(--accent-strong); }
+ .map-status.failed { color: var(--danger); }
+ .map-legend { display: grid; gap: 4px; color: var(--text-muted); font-size: 10px; line-height: 1.25; }
+@@ -239,13 +263,15 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+   .utility-button { min-height: 32px; padding: 6px 8px; font-size: 10px; }
+   .workbench-toggle { display: none; }
+   .workspace { grid-template-columns: 1fr; grid-template-rows: minmax(0, 56%) minmax(0, 44%); }
+-  .map-top-left { top: 8px; left: 8px; max-width: calc(100% - 16px); padding: 7px; gap: 6px; }
+-  .map-top-right { top: 8px; right: 8px; padding: 5px; }
++  .map-top-left { top: 8px; left: 8px; max-width: calc(100% - 16px); padding: 5px; gap: 5px; }
+   .map-bottom-left { left: 8px; bottom: 8px; max-width: calc(100% - 16px); }
+   .map-control-label { font-size: 8px; }
+   .segment { min-height: 34px; padding: 6px 8px; font-size: 9px; }
+-  .map-status { display: none; }
++  .map-status { max-width: 100%; font-size: 8px; }
+   .map-action { min-height: 34px; padding: 6px 8px; font-size: 9px; }
++  .map-summary-button { min-height: 36px; padding-inline: 8px; }
++  .map-options-panel { width: min(320px, calc(100vw - 16px)); max-height: min(330px, calc(100dvh - 150px)); }
++  .route-legend-panel { max-height: min(250px, calc(100dvh - 150px)); }
+   .peek { right: 8px; bottom: 8px; left: 8px; top: auto; width: auto; max-height: min(310px, calc(100% - 16px)); }
+   .peek-media { height: 82px; }
+   .workbench { position: relative; z-index: 15; border-top: 1px solid var(--border); border-left: 0; border-radius: 18px 18px 0 0; box-shadow: 0 -12px 30px rgba(35, 47, 42, .15); }
+@@ -266,9 +292,10 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+ @media (max-width: 390px) {
+   .brand { font-size: 14px; }
+   .global-actions .utility-button { padding-inline: 6px; }
+-  .map-top-left { max-width: 72%; }
+-  .map-top-right { max-width: 28%; }
+-  .map-action { max-width: 100%; white-space: normal; }
++  .map-top-left { max-width: calc(100% - 16px); }
++  .map-toolbar { gap: 4px; }
++  .map-summary-button { padding-inline: 6px; }
++  .map-action { max-width: 82px; white-space: normal; }
+   .day-item { grid-template-columns: 48px minmax(0, 1fr); }
+   .recommendation-footer { align-items: stretch; flex-direction: column; }
+ }
+@@ -278,6 +305,6 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+ }
+ @media (forced-colors: active) {
+   *, *::before, *::after { forced-color-adjust: auto; }
+-  .segment[aria-pressed="true"], .mode-button[aria-current="page"], .primary-action, .peek-action { border: 2px solid ButtonText; background: Highlight; color: HighlightText; }
++  .segment[aria-pressed="true"], .map-summary-button[aria-expanded="true"], .route-key-toggle[aria-expanded="true"], .mode-button[aria-current="page"], .primary-action, .peek-action { border: 2px solid ButtonText; background: Highlight; color: HighlightText; }
+   .route-card, .day-item, .place-list-item, .recommendation-card { border: 2px solid ButtonText; }
+ }
+diff --git a/src/app_phase7.js b/src/app_phase7.js
+index 21d5291..2bca83a 100644
+--- a/src/app_phase7.js
++++ b/src/app_phase7.js
+@@ -33,6 +33,15 @@
+   const MAP_SAFE_MARGIN = 16;
+   let peekHideTimer = null;
+   let suppressPeekFocusKey = null;
++  let mapOptionsInvoker = null;
++  let routeLegendInvoker = null;
++
++  const markStartup = (name, detail = {}) => {
++    if (typeof window.__tripStartupMark === 'function') return window.__tripStartupMark(name, detail);
++    const started = window.__tripLoadStarted || performance.now();
++    (window.__tripStartupMarks ||= []).push({ name, at_ms: Math.round((performance.now() - started) * 100) / 100, ...detail });
++  };
++  markStartup('authored_js_evaluated');
+ 
+   const m = key => messages.messages[state.presentation.lang]?.[key] || messages.messages.en[key] || key;
+   const tr = value => {
+@@ -137,6 +146,7 @@
+     return source === 'basemap' || source === 'hillshade' || /pmtiles|tripasset|glyph|sprite|font|local asset|range|byte serving/i.test(message);
+   }
+   async function setupVector() {
++    markStartup('local_vector_setup_start');
+     if (!window.TRIP_VECTOR) throw new Error('Local vector renderer missing');
+     const { Protocol, PMTiles, FileSource } = window.TRIP_VECTOR;
+     const protocol = new Protocol();
+@@ -149,6 +159,7 @@
+       vectorUrl = 'sf_trip.pmtiles'; archive = new PMTiles(new FileSource(new File([blob], 'sf_trip.pmtiles')));
+     } else archive = new PMTiles(vectorUrl);
+     const header = await archive.getHeader();
++    markStartup('local_pmtiles_header_ready', { tile_type: header?.tileType, max_zoom: header?.maxZoom });
+     if (!header || ![1, 6].includes(header.tileType) || header.maxZoom < 1 || header.minLon >= header.maxLon || header.minLat >= header.maxLat) throw new Error('Smart map PMTiles header is invalid');
+     protocol.add(archive); maplibregl.addProtocol('pmtiles', protocol.tile);
+     maplibregl.addProtocol('tripasset', async params => {
+@@ -159,8 +170,10 @@
+       return { data: path.endsWith('.json') ? await response.json() : await response.arrayBuffer() };
+     });
+     state.runtime.localAssets.status = 'ready'; state.runtime.providerHealth.vector = 'ready'; recordRuntimeEvent('smart_ready', 'vector', { identity: state.runtime.providerIdentity });
++    markStartup('local_vector_setup_ready');
+   }
+   function vectorStyle({ labelsOnly = false } = {}) {
++    markStartup('local_map_asset_style_start', { labels_only: labelsOnly });
+     const vector = window.TRIP_VECTOR, dark = state.presentation.theme === 'dark';
+     const layers = vector.layers('basemap', vector.namedFlavor(dark ? 'dark' : 'light'), { lang: 'en', labelsOnly });
+     for (const layer of layers) {
+@@ -180,7 +193,9 @@
+       const index = layers.findIndex(layer => layer.id === 'roads_tunnels_other_casing');
+       layers.splice(index < 0 ? layers.length : index, 0, { id: 'yosemite-relief', type: 'raster', source: 'hillshade', minzoom: 8, maxzoom: 18, paint: { 'raster-opacity': dark ? .58 : .72, 'raster-fade-duration': 0 } });
+     }
+-    return { version: 8, glyphs: 'tripasset://assets/vector/fonts/{fontstack}/{range}.pbf', sprite: `tripasset://assets/vector/sprites/${dark ? 'dark' : 'light'}`, sources, layers };
++    const style = { version: 8, glyphs: 'tripasset://assets/vector/fonts/{fontstack}/{range}.pbf', sprite: `tripasset://assets/vector/sprites/${dark ? 'dark' : 'light'}`, sources, layers };
++    markStartup('local_map_asset_style_ready', { labels_only: labelsOnly, layers: layers.length, hillshade: !labelsOnly });
++    return style;
+   }
+   function providerStyle(provider) {
+     if (provider === 'vector') return vectorStyle();
+@@ -229,6 +244,12 @@
+   function renderProviderState() {
+     const provider = state.runtime.provider, health = state.runtime.providerHealth[provider] || 'untested', status = document.getElementById('providerStatus');
+     const label = provider === 'vector' ? (health === 'ready' ? m('mapReady') : health === 'failed' ? m('mapUnavailable') : m('mapChecking')) : (health === 'ready' ? m('satelliteReady') : health === 'failed' ? m('satelliteUnavailable') : m('satelliteChecking'));
++    const region = state.task.region === 'overall' ? m('overall') : DATA.region_cfg[state.task.region]?.[state.presentation.lang === 'ko' ? 'label' : 'label_en'] || state.task.region;
++    const providerLabel = provider === 'vector' ? m('smartMap') : m('satellite');
++    const summary = document.getElementById('mapCurrentSummary');
++    if (summary) summary.textContent = `${providerLabel} · ${region}`;
++    const optionsToggle = document.getElementById('mapOptionsToggle');
++    if (optionsToggle) optionsToggle.setAttribute('aria-label', `${m('mapOptions')}: ${providerLabel} · ${region}`);
+     if (status) { status.textContent = label; status.className = `map-status ${health === 'ready' ? 'ready' : health === 'failed' ? 'failed' : ''}`; }
+     document.querySelectorAll('[data-provider]').forEach(button => { button.dataset.health = state.runtime.providerHealth[button.dataset.provider] || 'untested'; button.setAttribute('aria-pressed', String(button.dataset.provider === provider)); });
+   }
+@@ -250,6 +271,7 @@
+     return features;
+   }
+   function installRouteLayers(map) {
++    markStartup('route_layer_install_start');
+     const add = () => {
+       if (map.getSource('trip-routes')) return;
+       map.addSource('trip-routes', { type: 'geojson', data: { type: 'FeatureCollection', features: visibleRouteFeatures() } });
+@@ -273,6 +295,7 @@
+         });
+         map.on('mouseleave', hitId, () => { map.getCanvas().style.cursor = ''; if (state.presentation.peek?.route) scheduleHidePeek(); });
+       }
++      markStartup('route_layer_install_ready', { layers: map.getStyle()?.layers?.length || 0 });
+     };
+     if (map.isStyleLoaded()) add(); else map.once('load', add);
+   }
+@@ -294,6 +317,19 @@
+       return { selector: element.className || element.tagName.toLowerCase(), left: rect.left - shellRect.left, top: rect.top - shellRect.top, right: rect.right - shellRect.left, bottom: rect.bottom - shellRect.top, width: rect.width, height: rect.height };
+     });
+   }
++  function unionArea(rects) {
++    const xs = [...new Set(rects.flatMap(rect => [Math.max(0, rect.left), Math.min(rect.right, rect.shellWidth || Infinity)]))].sort((a, b) => a - b);
++    let area = 0;
++    for (let index = 0; index < xs.length - 1; index += 1) {
++      const left = xs[index], right = xs[index + 1];
++      if (right <= left) continue;
++      const intervals = rects.filter(rect => rect.left < right && rect.right > left).map(rect => [rect.top, rect.bottom]).sort((a, b) => a[0] - b[0]);
++      let covered = 0, end = -Infinity;
++      intervals.forEach(([top, bottom]) => { if (bottom > end) { covered += bottom - Math.max(top, end); end = bottom; } });
++      area += (right - left) * covered;
++    }
++    return area;
++  }
+   function mapSafePadding(map = photoMap) {
+     const shell = document.querySelector('.map-shell');
+     if (!map || !shell) return isMobile() ? { top: 118, right: 30, bottom: 112, left: 30 } : { top: 170, right: 60, bottom: 100, left: 60 };
+@@ -319,6 +355,7 @@
+       if (padding.top >= padding.bottom) padding.bottom = Math.max(MAP_SAFE_MARGIN, verticalBudget - padding.top);
+       else padding.top = Math.max(MAP_SAFE_MARGIN, verticalBudget - padding.bottom);
+     }
++    markStartup('map_safe_padding_computed', { padding: { ...padding } });
+     return padding;
+   }
+   function mapGeometrySnapshot() {
+@@ -335,15 +372,19 @@
+       const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+       return { key: element.dataset.placeKey || element.getAttribute('aria-label') || element.className, rect: effective, intersects_obstacle: obstacles.filter(obstacle => intersects(effective, obstacle)).map(obstacle => obstacle.selector), center_hit: hit?.closest?.('.photo-marker, .photo-cluster, .route-leg-label')?.className || hit?.className || null, center: center };
+     });
+-    return { shell: { width: shellRect.width, height: shellRect.height }, safe_padding: mapSafePadding(), obstacles, markers };
++    const persistent = obstacles.filter(obstacle => !/(map-options-panel|route-legend-panel)/.test(obstacle.selector)).map(obstacle => ({ ...obstacle, shellWidth: shellRect.width }));
++    const shellArea = shellRect.width * shellRect.height, persistentArea = unionArea(persistent);
++    return { shell: { width: shellRect.width, height: shellRect.height, area_px: shellArea }, safe_padding: mapSafePadding(), obstacles, persistent_opaque_chrome: { area_px: persistentArea, ratio: shellArea ? persistentArea / shellArea : 0, rectangles: persistent }, unobstructed_interior: { area_px: Math.max(0, shellArea - persistentArea), ratio: shellArea ? Math.max(0, shellArea - persistentArea) / shellArea : 0 }, markers };
+   }
+   function fitVisibleMap(map = photoMap) {
+     if (!map) return;
++    markStartup('initial_fit_start');
+     const visible = DATA.markers.filter(item => markerVisible(item, { map: true })), routePoints = visibleRouteFeatures().filter(feature => feature.properties.kind !== 'transfer').flatMap(feature => feature.geometry.coordinates), points = [...visible.map(item => [item.lon, item.lat]), ...routePoints];
+     if (!points.length) return;
+     if (points.length === 1) return map.jumpTo({ center: points[0], zoom: 13.1 });
+     const bounds = [[Math.min(...points.map(point => point[0])), Math.min(...points.map(point => point[1]))], [Math.max(...points.map(point => point[0])), Math.max(...points.map(point => point[1]))]];
+     map.fitBounds(bounds, { padding: mapSafePadding(map), maxZoom: state.task.date !== 'all' ? 12.8 : 7.8, duration: 0 });
++    markStartup('initial_fit_complete');
+   }
+   function ringFor(marker) {
+     const colors = marker.routes.filter(route => activeRoutes({ map: true }).has(route)).map(route => safeColor(routeMeta[route].color));
+@@ -381,8 +422,10 @@
+     });
+   }
+   function bindLocalImageFailures(root) { root?.querySelectorAll('img').forEach(image => { if (!image.src.startsWith('data:')) image.addEventListener('error', () => showMapFailure(new Error(`Missing local photo ${image.getAttribute('src') || ''}`), 'photo_asset')); }); }
+-  function installPhotoMarkers(map) {
++  function installPhotoMarkers(map, { deferClusters = false } = {}) {
+     photoMap = map; photoMarkers = [];
++    markStartup('photo_preparation_start');
++    markStartup('marker_install_start', { count: DATA.markers.filter(item => markerVisible(item, { map: true })).length });
+     DATA.markers.filter(item => markerVisible(item, { map: true })).forEach(marker => {
+       const element = document.createElement('button'); element.type = 'button'; element.className = `photo-marker${state.task.selected === marker.place_key ? ' selected' : ''}${marker.source_class === 'official_gap_audit' ? ' audited' : ''}`; element.dataset.placeKey = marker.place_key; element.setAttribute('aria-label', `${m('choosePlace')}: ${placeName(marker.place_key)}`); element.title = placeName(marker.place_key); element.style.background = ringFor(marker);
+       const occurrence = preferredOccurrence(marker), sequence = state.task.date === 'all' ? DATA.markers.indexOf(marker) + 1 : occurrence?.seq || DATA.markers.indexOf(marker) + 1;
+@@ -394,7 +437,10 @@
+       element.addEventListener('click', event => { event.stopPropagation(); selectPlace(marker.place_key, { focus: false, open: false, invoker: element }); showPeek(marker.place_key, { event, focusAction: false, invoker: element }); });
+       photoMarkers.push(new maplibregl.Marker({ element, anchor: 'center' }).setLngLat([marker.lon, marker.lat]).addTo(map));
+     });
+-    map.on('zoomend', updatePhotoClusters); map.on('moveend', updatePhotoClusters); updatePhotoClusters();
++    if (!map.__tripClusterHandlersInstalled) { map.on('zoomend', updatePhotoClusters); map.on('moveend', updatePhotoClusters); map.__tripClusterHandlersInstalled = true; }
++    if (!deferClusters) updatePhotoClusters();
++    markStartup('photo_preparation_ready', { markers: photoMarkers.length });
++    markStartup('marker_install_ready', { markers: photoMarkers.length });
+   }
+   function installLegLabels(map) {
+     legMarkers.forEach(marker => marker.remove()); legMarkers = [];
+@@ -407,6 +453,7 @@
+   }
+   function drawMap(preserve = true) {
+     state.runtime.drawRequests += 1;
++    markStartup('map_draw_requested', { request: state.runtime.drawRequests });
+     const perform = async () => {
+       const previous = photoMap, same = previous && renderedProvider === state.runtime.provider && renderedTheme === state.presentation.theme;
+       clusterMarkers.forEach(marker => marker.remove()); clusterMarkers = []; photoMarkers.forEach(marker => marker.remove()); photoMarkers = []; legMarkers.forEach(marker => marker.remove()); legMarkers = [];
+@@ -419,8 +466,8 @@
+       let map;
+       try {
+         map = new maplibregl.Map({ container: 'map', style: providerStyle(state.runtime.provider), center: [region.center.lon, region.center.lat], zoom: region.zoom, attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 18 });
+-        photoMap = map; renderedProvider = state.runtime.provider; renderedTheme = state.presentation.theme; state.runtime.mapCreations += 1; state.runtime.mapStatus = 'loading'; renderProviderState();
+-        map.on('load', () => { installRouteLayers(map); installPhotoMarkers(map); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; renderProviderState(); renderMapLegend(); renderShellStatus(); });
++        photoMap = map; renderedProvider = state.runtime.provider; renderedTheme = state.presentation.theme; state.runtime.mapCreations += 1; state.runtime.mapStatus = 'loading'; renderProviderState(); markStartup('map_created');
++        map.on('load', () => { markStartup('map_style_ready'); installRouteLayers(map); installPhotoMarkers(map, { deferClusters: true }); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); updatePhotoClusters(); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; renderProviderState(); renderMapLegend(); renderShellStatus(); markStartup('map_visual_ready', { markers: photoMarkers.length, layers: map.getStyle()?.layers?.length || 0 }); });
+         map.on('click', () => hidePeek({ returnFocus: false }));
+         map.on('error', event => { if (localMapError(event)) showMapFailure(event.error || event.message, 'map_runtime'); });
+         return true;
+@@ -518,15 +565,61 @@
+   function renderPlace() { const marker = markerByKey[state.task.selected]; if (state.presentation.mode === 'place' && marker) renderPlaceInspector(marker); else if (state.presentation.mode === 'place') renderPlaceBrowser(); }
+ 
+   /* ----- Shell, i18n, transitions, focus, and responsive sheet ----- */
++  function positionMapOptions() {
++    const shell = document.querySelector('.map-shell'), surface = document.getElementById('mapControlSurface'), panel = document.getElementById('mapOptionsPanel');
++    if (!shell || !surface || !panel || panel.hidden) return;
++    const shellRect = shell.getBoundingClientRect();
++    panel.classList.remove('open-up', 'align-right');
++    const panelRect = panel.getBoundingClientRect(), surfaceRect = surface.getBoundingClientRect();
++    if (panelRect.bottom > shellRect.bottom - 8) panel.classList.add('open-up');
++    if (surfaceRect.left + panelRect.width > shellRect.right - 8) panel.classList.add('align-right');
++  }
++  function setMapOptionsOpen(open, { returnFocus = true, focus = true } = {}) {
++    const toggle = document.getElementById('mapOptionsToggle'), panel = document.getElementById('mapOptionsPanel');
++    if (!toggle || !panel) return;
++    state.presentation.mapOptionsOpen = open;
++    if (open) mapOptionsInvoker = toggle;
++    panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open));
++    if (open) {
++      requestAnimationFrame(() => { positionMapOptions(); fitVisibleMap(); if (focus) panel.querySelector('[data-provider], [data-region], #mapOptionsClose')?.focus({ preventScroll: true }); });
++    } else {
++      panel.classList.remove('open-up', 'align-right');
++      const restore = returnFocus && mapOptionsInvoker?.focus && document.contains(mapOptionsInvoker) ? mapOptionsInvoker : null;
++      requestAnimationFrame(() => { fitVisibleMap(); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); });
++      mapOptionsInvoker = null;
++    }
++  }
++  function positionRouteLegend() {
++    const shell = document.querySelector('.map-shell'), surface = document.getElementById('mapLegend'), panel = document.getElementById('routeLegendPanel');
++    if (!shell || !surface || !panel || panel.hidden) return;
++    const shellRect = shell.getBoundingClientRect(); panel.classList.remove('open-down');
++    if (panel.getBoundingClientRect().top < shellRect.top + 8) panel.classList.add('open-down');
++  }
++  function setRouteLegendOpen(open, { returnFocus = true } = {}) {
++    const toggle = document.getElementById('routeLegendToggle'), panel = document.getElementById('routeLegendPanel');
++    if (!toggle || !panel) return;
++    state.presentation.routeLegendOpen = open;
++    if (open) routeLegendInvoker = toggle;
++    panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open));
++    if (open) requestAnimationFrame(() => { positionRouteLegend(); fitVisibleMap(); });
++    else { panel.classList.remove('open-down'); const restore = returnFocus && routeLegendInvoker?.focus && document.contains(routeLegendInvoker) ? routeLegendInvoker : null; requestAnimationFrame(() => { fitVisibleMap(); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); }); routeLegendInvoker = null; }
++  }
+   function renderMapControls() {
+     const provider = document.getElementById('providerControls'), region = document.getElementById('regionControls');
+     provider.innerHTML = ['vector', 'satellite'].map(key => `<button type="button" class="segment" data-provider="${key}" aria-pressed="${state.runtime.provider === key}">${key === 'vector' ? m('smartMap') : m('satellite')}</button>`).join('');
+     region.innerHTML = Object.keys(DATA.region_cfg).map(key => `<button type="button" class="segment" data-region="${esc(key)}" aria-pressed="${state.task.region === key}">${esc(key === 'overall' ? m('overall') : DATA.region_cfg[key][state.presentation.lang === 'ko' ? 'label' : 'label_en'] || key)}</button>`).join('');
+-    provider.querySelectorAll('[data-provider]').forEach(button => { button.onclick = () => chooseProvider(button.dataset.provider); });
+-    region.querySelectorAll('[data-region]').forEach(button => { button.onclick = () => { state.task.region = button.dataset.region; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; renderAll(); persist(); drawMap(false); }; });
++    const panel = document.getElementById('mapOptionsPanel'), toggle = document.getElementById('mapOptionsToggle');
++    if (panel && toggle) { panel.hidden = !state.presentation.mapOptionsOpen; toggle.setAttribute('aria-expanded', String(state.presentation.mapOptionsOpen)); }
++    provider.querySelectorAll('[data-provider]').forEach(button => { button.onclick = async () => { setMapOptionsOpen(false); await chooseProvider(button.dataset.provider); }; });
++    region.querySelectorAll('[data-region]').forEach(button => { button.onclick = () => { setMapOptionsOpen(false); state.task.region = button.dataset.region; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; renderAll(); persist(); drawMap(false); }; });
++    renderProviderState();
+   }
+   function renderMapLegend() {
+-    const legend = document.getElementById('mapLegend'); if (!legend) return; const current = state.task.primaryRoute, meta = routeMeta[current]; legend.innerHTML = `<div class="map-legend"><span class="legend-title">${m('current')}: <b style="color:${safeColor(meta.color)}">${esc(current)} · ${esc(tr(meta.title))}</b></span><span class="legend-primary"><i class="legend-line" style="color:${safeColor(meta.color)}"></i>${esc(m('mapLegend'))}</span></div>`;
++    const current = state.task.primaryRoute, meta = routeMeta[current], currentLabel = document.getElementById('routeLegendCurrent'), panel = document.getElementById('routeLegendPanel'), toggle = document.getElementById('routeLegendToggle');
++    if (!currentLabel || !panel || !toggle) return;
++    currentLabel.textContent = `${m('current')}: ${current} · ${tr(meta.title)}`;
++    panel.innerHTML = ROUTES.map(route => { const item = routeMeta[route], pattern = ['solid', 'dash', 'dot', 'dashdot'].includes(item.pattern) ? item.pattern : 'solid', narrative = routeNarrative(route); return `<div class="route-legend-item"><i class="route-legend-swatch ${pattern}" style="--route-color:${safeColor(item.color)}" aria-hidden="true"></i><span><strong>${esc(route)} · ${esc(tr(item.title))}</strong><small>${esc(tr(narrative.best_for || item.core_reason || ''))}</small></span></div>`; }).join('');
++    panel.hidden = !state.presentation.routeLegendOpen; toggle.setAttribute('aria-expanded', String(state.presentation.routeLegendOpen));
+   }
+   function renderShellStatus() {
+     const status = document.getElementById('workbenchStatus'); if (!status) return; const mode = state.presentation.mode === 'decide' ? m('decide') : state.presentation.mode === 'day' ? m('day') : m('place'); const context = state.presentation.mode === 'day' && state.task.date !== 'all' ? dateLabel(state.task.date) : state.task.primaryRoute; status.textContent = `${mode} · ${context}`;
+@@ -548,25 +641,29 @@
+   function renderModes() {
+     const mode = state.presentation.mode, workbench = document.getElementById('workbench'); workbench.dataset.mode = mode; document.querySelectorAll('[data-mode]').forEach(button => { const active = button.dataset.mode === mode; button.classList.toggle('active', active); if (active) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current'); }); document.querySelectorAll('.mode-view').forEach(view => { const active = view.dataset.view === mode; view.hidden = !active; view.classList.toggle('active', active); });
+   }
+-  function renderAll() { applyTranslations(); renderMapControls(); renderModes(); renderShellStatus(); renderDecide(); renderDay(); renderPlace(); renderMapLegend(); }
++  function renderAll() { applyTranslations(); renderMapControls(); renderModes(); renderShellStatus(); renderDecide(); if (state.presentation.mode === 'day') renderDay(); if (state.presentation.mode === 'place') renderPlace(); renderMapLegend(); }
+   function bindShell() {
+     document.querySelectorAll('[data-mode]').forEach(button => { button.onclick = () => setMode(button.dataset.mode); });
+     document.querySelectorAll('[data-sheet]').forEach(button => { if (button.classList.contains('icon-button')) button.onclick = () => setSheet(button.dataset.sheet); });
+     document.getElementById('workbenchToggle').onclick = () => setSheet(state.presentation.sheet === 'compact' ? 'expanded' : 'compact');
++    document.getElementById('mapOptionsToggle').onclick = () => setMapOptionsOpen(!state.presentation.mapOptionsOpen);
++    document.getElementById('mapOptionsClose').onclick = () => setMapOptionsOpen(false);
++    document.getElementById('routeLegendToggle').onclick = () => setRouteLegendOpen(!state.presentation.routeLegendOpen);
+     document.getElementById('langToggle').onclick = () => { state.presentation.lang = state.presentation.lang === 'ko' ? 'en' : 'ko'; hidePeek({ returnFocus: false }); renderAll(); persist(); drawMap(true); };
+     document.getElementById('themeToggle').onclick = () => { state.presentation.theme = state.presentation.theme === 'dark' ? 'light' : 'dark'; renderAll(); persist(); drawMap(true); };
+     document.getElementById('fitMap').onclick = () => fitVisibleMap();
+     document.getElementById('smartRetry').onclick = async () => { document.getElementById('mapError').hidden = true; state.runtime.provider = 'vector'; state.runtime.providerHealth.vector = 'loading'; state.runtime.localAssets.status = 'checking'; renderProviderState(); try { await setupVector(); await drawMap(true); } catch (error) { showMapFailure(error, 'retry'); } };
+     document.getElementById('dateSelect').onchange = event => { state.task.date = event.target.value; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; state.presentation.mode = 'day'; renderAll(); persist(); drawMap(false); };
+-    const handleEscape = event => { if (event.key !== 'Escape') return; if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };
++    const handleEscape = event => { if (event.key !== 'Escape') return; if (state.presentation.mapOptionsOpen) { setMapOptionsOpen(false); event.preventDefault(); return; } if (state.presentation.routeLegendOpen) { setRouteLegendOpen(false); event.preventDefault(); return; } if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };
+     document.onkeydown = handleEscape;
+     document.body?.addEventListener('keydown', handleEscape);
+-    window.addEventListener('resize', () => { renderModes(); photoMap?.resize(); });
++    document.addEventListener('pointerdown', event => { if (state.presentation.mapOptionsOpen && !event.target.closest('#mapControlSurface')) setMapOptionsOpen(false); if (state.presentation.routeLegendOpen && !event.target.closest('#mapLegend')) setRouteLegendOpen(false); });
++    window.addEventListener('resize', () => { renderModes(); photoMap?.resize(); if (state.presentation.mapOptionsOpen) positionMapOptions(); if (state.presentation.routeLegendOpen) positionRouteLegend(); });
+   }
+ 
+   /* ----- QA instrumentation and compatibility surface ----- */
+   function runtimeSnapshot() {
+-    return { provider: state.runtime.provider, provider_identity: state.runtime.providerIdentity, provider_health: { ...state.runtime.providerHealth }, app_ready: state.runtime.mapStatus === 'ready', map_visual_ready: state.runtime.mapVisualReady, planning_state: { routes: [...activeRoutes()], primary_route: state.task.primaryRoute, compare_routes: [...state.task.compareRoutes], date: state.task.date, region: state.task.region, selected: state.task.selected, mode: state.presentation.mode, sheet: state.presentation.sheet, lang: state.presentation.lang, theme: state.presentation.theme }, provider_events: state.runtime.providerEvents.slice(), local_assets: { status: state.runtime.localAssets.status, failures: state.runtime.localAssets.failures.slice() }, runtime: { ...state.runtime, events: state.runtime.events.slice() }, map: { canvas_count: document.querySelectorAll('.maplibregl-canvas').length, photo_markers: document.querySelectorAll('.photo-marker').length, photo_marker_keys: [...document.querySelectorAll('.photo-marker')].map(element => element.dataset.placeKey), clusters: document.querySelectorAll('.photo-cluster').length, leg_markers: document.querySelectorAll('.route-leg-label').length, layers: photoMap?.getStyle?.()?.layers?.length || 0 } };
++    return { provider: state.runtime.provider, provider_identity: state.runtime.providerIdentity, provider_health: { ...state.runtime.providerHealth }, app_ready: state.runtime.mapStatus === 'ready', map_visual_ready: state.runtime.mapVisualReady, planning_state: { routes: [...activeRoutes()], primary_route: state.task.primaryRoute, compare_routes: [...state.task.compareRoutes], date: state.task.date, region: state.task.region, selected: state.task.selected, mode: state.presentation.mode, sheet: state.presentation.sheet, lang: state.presentation.lang, theme: state.presentation.theme }, provider_events: state.runtime.providerEvents.slice(), local_assets: { status: state.runtime.localAssets.status, failures: state.runtime.localAssets.failures.slice() }, startup: { marks: [...(window.__tripStartupMarks || [])] }, runtime: { ...state.runtime, events: state.runtime.events.slice() }, map: { canvas_count: document.querySelectorAll('.maplibregl-canvas').length, photo_markers: document.querySelectorAll('.photo-marker').length, photo_marker_keys: [...document.querySelectorAll('.photo-marker')].map(element => element.dataset.placeKey), clusters: document.querySelectorAll('.photo-cluster').length, leg_markers: document.querySelectorAll('.route-leg-label').length, layers: photoMap?.getStyle?.()?.layers?.length || 0 } };
+   }
+   function renderFixture(value) {
+     const marker = DATA.markers[0], saved = marker ? JSON.parse(JSON.stringify(marker)) : null;
+@@ -579,9 +676,11 @@
+     window.__tripSecurity = { escapeHtml: esc, safeExternalUrl, safePhotoPath: photoPath, renderFixture, allowedStorageKeys: ['trip_visualizer_runtime_v2', 'trip_visualizer_runtime_v1', 'trip_lang', 'trip_theme'] };
+   }
+   async function init() {
+-    state.touch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0; expose(); renderAll(); bindShell();
++    markStartup('init_start'); state.touch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0; expose(); renderAll(); bindShell(); markStartup('decision_shell_ready', { dom_nodes: document.body.querySelectorAll('*').length });
+     setStatus(state.presentation.lang === 'ko' ? '로컬 Smart 지도와 결정 화면을 준비하는 중입니다.' : 'Preparing the local Smart map and decision views.');
+-    try { await setupVector(); await drawMap(false); setStatus(m('mapReady')); } catch (error) { showMapFailure(error, 'initialization'); }
++    try { if (window.__tripRuntimeReady) await window.__tripRuntimeReady; await setupVector(); await drawMap(false); setStatus(m('mapReady')); markStartup('init_complete'); } catch (error) { showMapFailure(error, 'initialization'); }
+   }
+-  window.addEventListener('DOMContentLoaded', () => init().catch(error => showMapFailure(error, 'initialization')));
++  const boot = () => init().catch(error => showMapFailure(error, 'initialization'));
++  if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', boot, { once: true });
++  else queueMicrotask(boot);
+ })();
+diff --git a/src/atlas_messages.js b/src/atlas_messages.js
+index af8f8f3..4c24596 100644
+--- a/src/atlas_messages.js
++++ b/src/atlas_messages.js
+@@ -33,7 +33,7 @@
+       placeWhy: '왜 이 장소인가', experience: '현장 경험', exactTiming: '경로·날짜별 시간',
+       directions: 'Google 지도에서 보기', freshness: '운영 사실은 출발 전 공식 소스를 재확인하세요.',
+       hero: '대표 장면', experiencePhoto: '현장 경험', scale: '규모·맥락',
+-      mapControls: '지도 표현', smartMap: 'Smart · 로컬', satellite: 'Satellite', fit: '현재 계획 맞추기',
++      mapControls: '지도 표현', mapOptions: '지도 옵션', provider: '제공자', routeKey: '경로 키', smartMap: 'Smart · 로컬', satellite: 'Satellite', fit: '현재 계획 맞추기',
+       mapReady: '로컬 Smart 지도 준비 완료', mapChecking: '로컬 지도를 여는 중', mapUnavailable: '로컬 지도 사용 불가',
+       satelliteReady: 'Satellite 준비 완료', satelliteChecking: 'Satellite 확인 중', satelliteUnavailable: 'Satellite 사용 불가',
+       satelliteFallback: 'Satellite가 응답하지 않아 로컬 Smart 지도를 유지합니다.',
+@@ -85,7 +85,7 @@
+       placeWhy: 'Why this place', experience: 'What you will experience', exactTiming: 'Timing by route and day',
+       directions: 'Open in Google Maps', freshness: 'Recheck operating facts with official sources before departure.',
+       hero: 'HERO', experiencePhoto: 'EXPERIENCE', scale: 'SCALE / CONTEXT',
+-      mapControls: 'Map presentation', smartMap: 'Smart · local', satellite: 'Satellite', fit: 'Fit current plan',
++      mapControls: 'Map presentation', mapOptions: 'Map options', provider: 'Provider', routeKey: 'Route key', smartMap: 'Smart · local', satellite: 'Satellite', fit: 'Fit current plan',
+       mapReady: 'Local Smart map ready', mapChecking: 'Opening local map', mapUnavailable: 'Local map unavailable',
+       satelliteReady: 'Satellite ready', satelliteChecking: 'Checking Satellite', satelliteUnavailable: 'Satellite unavailable',
+       satelliteFallback: 'Satellite did not respond; the local Smart map remains in place.',
+diff --git a/src/atlas_state.js b/src/atlas_state.js
+index 79323a6..9eb3a61 100644
+--- a/src/atlas_state.js
++++ b/src/atlas_state.js
+@@ -34,6 +34,8 @@
+         previousMode: null,
+         previousContext: null,
+         focusReturn: null,
++        mapOptionsOpen: false,
++        routeLegendOpen: false,
+       },
+       runtime: {
+         provider: 'vector', providerIdentity: data.providers?.vector?.identity || 'smart-local-vector',
+diff --git a/src/map_shell_template.html b/src/map_shell_template.html
+index d0bd302..e9f574a 100644
+--- a/src/map_shell_template.html
++++ b/src/map_shell_template.html
+@@ -26,21 +26,40 @@
+     <main class="workspace">
+       <section class="map-shell" aria-label="Trip map" data-i18n-aria="mapControls">
+         <div id="map" class="map" aria-label="Interactive trip map"></div>
+-        <div class="map-chrome map-top-left">
+-          <div class="map-control-group" aria-label="Map presentation">
+-            <span class="map-control-label" data-i18n="mapControls">지도 표현</span>
+-            <div id="providerControls" class="segmented-control"></div>
++        <div class="map-chrome map-top-left" id="mapControlSurface">
++          <div class="map-toolbar" role="group" aria-label="Map controls">
++            <button id="mapOptionsToggle" class="map-summary-button" type="button" aria-controls="mapOptionsPanel" aria-expanded="false">
++              <span class="map-summary-kicker" data-i18n="mapControls">지도</span>
++              <span id="mapCurrentSummary" class="map-summary-value"></span>
++            </button>
++            <button id="fitMap" class="map-action" type="button" data-i18n="fit">현재 계획 맞추기</button>
+           </div>
+-          <div class="map-control-group" aria-label="Trip region">
+-            <span class="map-control-label" data-i18n="region">지역</span>
+-            <div id="regionControls" class="segmented-control"></div>
++          <div id="providerStatus" class="map-status" role="status" aria-live="polite"></div>
++          <div id="mapOptionsPanel" class="map-options-panel map-chrome" role="dialog" aria-label="Map options" aria-labelledby="mapOptionsHeading" hidden>
++            <div class="map-options-head">
++              <div>
++                <span class="map-control-label" data-i18n="mapControls">지도 표현</span>
++                <strong id="mapOptionsHeading" data-i18n="mapOptions">Map options</strong>
++              </div>
++              <button id="mapOptionsClose" class="map-options-close" type="button" aria-label="Close map options">×</button>
++            </div>
++            <div class="map-control-group" aria-label="Map provider">
++              <span class="map-control-label" data-i18n="provider">Provider</span>
++              <div id="providerControls" class="segmented-control"></div>
++            </div>
++            <div class="map-control-group" aria-label="Trip region">
++              <span class="map-control-label" data-i18n="region">지역</span>
++              <div id="regionControls" class="segmented-control"></div>
++            </div>
+           </div>
+         </div>
+-        <div class="map-chrome map-top-right">
+-          <button id="fitMap" class="map-action" type="button" data-i18n="fit">현재 계획 맞추기</button>
+-          <div id="providerStatus" class="map-status" role="status" aria-live="polite"></div>
++        <div id="mapLegend" class="map-chrome map-bottom-left" aria-label="Map legend">
++          <div class="route-key-bar">
++            <span id="routeLegendCurrent" class="route-legend-current"></span>
++            <button id="routeLegendToggle" class="route-key-toggle" type="button" aria-controls="routeLegendPanel" aria-expanded="false" data-i18n="routeKey">경로 키</button>
++          </div>
++          <div id="routeLegendPanel" class="route-legend-panel map-chrome" role="region" aria-label="Route key" hidden></div>
+         </div>
+-        <div id="mapLegend" class="map-chrome map-bottom-left" aria-label="Map legend"></div>
+         <div id="mapError" class="map-error" role="alert" aria-live="assertive" hidden>
+           <div class="map-error-message"></div>
+           <button id="smartRetry" type="button" data-i18n="retrySmart">Smart 지도 다시 시도</button>
+@@ -113,11 +132,7 @@
+     <div id="startupStatus" class="sr-only" role="status" aria-live="polite"></div>
+   </div>
+   <script id="tripData">window.TRIP_DATA={};</script>
+-  <script src="vendor/maplibre-gl.js"></script>
+-  <script src="vendor/trip-vector.js"></script>
+-  <script src="vendor/plotly.min.js"></script>
+-  <script src="src/atlas_messages.js"></script>
+-  <script src="src/atlas_state.js"></script>
+-  <script src="src/app_phase7.js"></script>
++  <script>window.__tripStartupMark?.('canonical_data_parsed');</script>
++  <script src="src/runtime_loader.js"></script>
+ </body>
+ </html>
+diff --git a/src/runtime_loader.js b/src/runtime_loader.js
+new file mode 100644
+index 0000000..af62a44
+--- /dev/null
++++ b/src/runtime_loader.js
+@@ -0,0 +1,16 @@
++/* Load the task shell before map libraries; dynamic scripts do not block HTML parsing. */
++(() => {
++  const load = src => new Promise((resolve, reject) => {
++    const script = document.createElement('script');
++    script.src = src;
++    script.onload = resolve;
++    script.onerror = () => reject(new Error(`Runtime script failed: ${src}`));
++    document.head.appendChild(script);
++  });
++  const ui = ['src/atlas_messages.js', 'src/atlas_state.js', 'src/app_phase7.js'];
++  const map = ['vendor/maplibre-gl.js', 'vendor/trip-vector.js'];
++  window.__tripRuntimeReady = load(ui[0]).then(() => load(ui[1])).then(() => load(ui[2])).then(() => Promise.all(map.map(load))).then(() => {
++    window.__tripStartupMark?.('map_runtime_scripts_ready');
++  });
++  window.__tripRuntimeReady.then(() => load('vendor/plotly.min.js')).catch(() => {});
++})();
+
+Changes:
+
+.github/workflows/candidate-qualification.yml
+  @@ -85,9 +85,11 @@ jobs:
+  +            QA/project_os_verify/ui_revamp_r3/**
+               .public-site/.release-provenance.json
+               release-path-checkout/QA/release/*.json
+               release-path-checkout/QA/release/*.log
+               release-path-checkout/QA/map_first/**/*.json
+               release-path-checkout/QA/map_first/screenshots/**
+  +            release-path-checkout/QA/project_os_verify/ui_revamp_r3/**
+               release-path-checkout/.public-site/.release-provenance.json
+  +2 -0
+
+scripts/build_map_first.py
+  @@ -20,7 +20,7 @@ FRESHNESS_MANIFEST_PATH = ROOT / "manifests" / "trip_freshness.json"
+  -    "src/app_phase7.css", "src/app_phase7.js", "src/atlas_messages.js", "src/atlas_state.js", "src/map_first.css",
+  +    "src/app_phase7.css", "src/app_phase7.js", "src/atlas_messages.js", "src/atlas_state.js", "src/runtime_loader.js", "src/map_first.css",
+       "vendor/maplibre-gl.css", "vendor/maplibre-gl.js", "vendor/trip-vector.js", "vendor/plotly.min.js",
+       "assets/vector/sf_trip.pmtiles", "assets/vector/yosemite_hillshade_shadow.webp",
+   )
+  @@ -101,13 +101,13 @@ def build(output_root: Path) -> dict:
+  -    app_script = template.select_one('script[src="src/app_phase7.js"]')
+  +    runtime_loader = template.select_one('script[src="src/runtime_loader.js"]')
+       for name, payload in (("TRIP_ROUTE_GEOMETRY", geometry), ("TRIP_I18N", translations), ("TRIP_FRESHNESS", freshness), ("TRIP_RUNTIME_CONTRACT", runtime_contract)):
+           script = template.new_tag("script")
+           script.string = f"window.{name}=" + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";"
+  -        app_script.insert_before(script)
+  +        runtime_loader.insert_before(script)
+       early = template.new_tag("script")
+  -    early.string = "window.__tripLoadStarted=performance.now();try{const t=localStorage.getItem('trip_theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch{document.documentElement.dataset.theme='light'}"
+  +    early.string = "window.__tripStartupMarks=[];window.__tripLoadStarted=performance.now();window.__tripStartupMark=(name,detail={})=>window.__tripStartupMarks.push({name,at_ms:Math.round((performance.now()-window.__tripLoadStarted)*100)/100,...detail});window.__tripStartupMark('html_parse_start');document.addEventListener('DOMContentLoaded',()=>window.__tripStartupMark('dom_content_loaded'),{once:true});try{const t=localStorage.getItem('trip_theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch{document.documentElement.dataset.theme='light'}"
+       head.insert(0, early)
+       (modular_dir / "index.html").write_text(str(template))
+       copy_runtime(modular_dir)
+  @@ -121,9 +121,21 @@ def build(output_root: Path) -> dict:
+  -        inline = standalone.new_tag("script")
+  -        inline.string = (ROOT / script["src"]).read_text()
+  -        script.replace_with(inline)
+  +        if script["src"] != "src/runtime_loader.js":
+  +            inline = standalone.new_tag("script")
+  +            inline.string = (ROOT / script["src"]).read_text()
+  +            script.replace_with(inline)
+  +            continue
+  +        inline_scripts = []
+  +        for relative in ("src/atlas_messages.js", "src/atlas_state.js", "vendor/maplibre-gl.js", "vendor/trip-vector.js", "vendor/plotly.min.js", "src/app_phase7.js"):
+  +            inline = standalone.new_tag("script")
+  +            inline.string = (ROOT / relative).read_text()
+  +            inline_scripts.append(inline)
+  +        script.replace_with(inline_scripts[0])
+  +        cursor = inline_scripts[0]
+  +        for inline in inline_scripts[1:]:
+  +            cursor.insert_after(inline)
+  +            cursor = inline
+       app_inline = standalone.find_all("script")[-1]
+       hillshade_path = ROOT / "assets/vector/yosemite_hillshade_shadow.webp"
+       hillshade = standalone.new_tag("script")
+  +19 -7
+
+scripts/pipeline.py
+  @@ -47,9 +47,9 @@ COMPONENTS = (
+  -    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r2/task_oracles.json"),
+  -    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r2/accessibility.json"),
+  -    ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r2/map_geometry.json"),
+  +    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r3/task_oracles.json"),
+  +    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r3/accessibility.json"),
+  +    ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r3/map_geometry.json"),
+       ("map_first_full", "scripts/qa_map_first_full.py", "QA/map_first/full_acceptance.json"),
+       ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
+       ("standalone", "scripts/qa_standalone_map_first.py", "QA/map_first/standalone.json"),
+  @@ -58,8 +58,8 @@ COMPONENTS = (
+  -    ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r2/browser_summary.json"),
+  -    ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r2/visual_index.json"),
+  +    ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r3/browser_summary.json"),
+  +    ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r3/visual_index.json"),
+       ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
+   )
+   
+  +5 -5
+
+scripts/qa_accessibility_reflow.py
+  @@ -11,7 +11,7 @@ from qa_evidence import bind_report, candidate_identity
+  -OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2" / "accessibility.json"
+  +OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "accessibility.json"
+   IDENTITY = candidate_identity()
+   report = {"schema_version": 1, "checks": {}, "errors": []}
+   
+  @@ -28,6 +28,7 @@ with sync_playwright() as playwright:
+  +    page.locator("#mapOptionsToggle").click()
+       page.locator("#regionControls [data-region='yosemite']").click()
+       page.locator("#modeNav [data-mode='day']").click()
+       page.locator("#dateSelect").select_option("10/7")
+  +2 -1
+
+scripts/qa_decision_workbench.py
+  @@ -13,7 +13,7 @@ from qa_evidence import bind_report, candidate_identity
+  -OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2"
+  +OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3"
+   OUT.mkdir(parents=True, exist_ok=True)
+   IDENTITY = candidate_identity()
+   
+  @@ -44,6 +44,25 @@ with sync_playwright() as playwright:
+  +    page.locator("#mapOptionsToggle").click()
+  +    options_open = page.locator("#mapOptionsPanel").is_visible() and page.evaluate("document.activeElement?.id === 'mapOptionsClose'")
+  +    page.keyboard.press("Escape")
+  +    options_closed = page.locator("#mapOptionsPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'mapOptionsToggle'") and page.locator("#mapOptionsPanel button:visible").count() == 0
+  +    results.append(oracle("compact_map_options_focus_contract", options_open and options_closed))
+  +    page.locator("#mapOptionsToggle").click()
+  +    page.locator("#providerControls [data-provider='vector']").click()
+  +    page.wait_for_function("window.__tripApp.state.runtime.provider === 'vector'")
+  +    page.locator("#mapOptionsToggle").click()
+  +    page.locator("#regionControls [data-region='yosemite']").click()
+  +    page.wait_for_function("window.__tripApp.state.task.region === 'yosemite'")
+  +    page.locator("#mapOptionsToggle").click()
+  +    page.locator("#regionControls [data-region='overall']").click()
+  +    page.wait_for_function("window.__tripApp.state.task.region === 'overall'")
+  +    results.append(oracle("compact_map_options_provider_region_selection", page.evaluate("window.__tripApp.state.runtime.provider === 'vector' && window.__tripApp.state.task.region === 'overall'")))
+  +    page.locator("#routeLegendToggle").click()
+  +    legend_open = page.locator("#routeLegendPanel").is_visible()
+  +    page.keyboard.press("Escape")
+  +    results.append(oracle("route_key_disclosure_focus_contract", legend_open and page.locator("#routeLegendPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'routeLegendToggle'")))
+       results.append(oracle("legacy_surface_removed", page.locator("#dateRibbon,#mapSchedule,#mapFocus,#routeTip,#mobileDate,#mobileProvider").count() == 0))
+       shot("decide_default_desktop", (1440, 900), "decide", "recommended_default")
+   
+  @@ -74,12 +93,14 @@ with sync_playwright() as playwright:
+  +    page.locator("#mapOptionsToggle").click()
+       page.locator("#regionControls [data-region='yosemite']").click()
+       page.locator("#dateSelect").select_option("10/7")
+       page.locator(".photo-marker[data-place-key='cooks']").click()
+       results.append(oracle("cooks_real_pointer_activation", page.locator("#peek.show").count() == 1 and page.evaluate("window.__tripApp.state.task.selected==='cooks'")))
+       page.keyboard.press("Escape")
+       page.locator("#dateSelect").select_option("10/8")
+  +    page.locator("#mapOptionsToggle").click()
+       page.locator("#regionControls [data-region='overall']").click()
+   
+       page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
+  +22 -1
+
+scripts/qa_map_geometry.py
+  @@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
+  -OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2" / "map_geometry.json"
+  +OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "map_geometry.json"
+   
+   
+   def wait_ready(page) -> None:
+  @@ -44,7 +44,7 @@ def check_row(row: dict) -> list[str]:
+  -    report = {"schema_version": 1, "status": "FAIL", "states": [], "failures": [], "notes": ["Rendered Chromium hit testing; native Safari, physical-device and human field evidence remain separate."]}
+  +    report = {"schema_version": 2, "status": "FAIL", "states": [], "failures": [], "notes": ["Rendered Chromium hit testing; native Safari, physical-device and human field evidence remain separate."]}
+       try:
+           identity = candidate_identity()
+           bind_report(report, identity)
+  @@ -64,6 +64,19 @@ def main() -> int:
+  +            page.locator("#mapOptionsToggle").click()
+  +            page.wait_for_timeout(120)
+  +            report["states"].append(geometry(page, viewport, "map-options-open"))
+  +            page.keyboard.press("Escape")
+  +            page.wait_for_timeout(120)
+  +            report["states"].append(geometry(page, viewport, "map-options-closed-after-escape"))
+  +            page.locator("#routeLegendToggle").click()
+  +            page.wait_for_timeout(120)
+  +            report["states"].append(geometry(page, viewport, "route-key-open"))
+  +            page.keyboard.press("Escape")
+  +            page.wait_for_timeout(120)
+  +            report["states"].append(geometry(page, viewport, "route-key-closed-after-escape"))
+  +            page.locator("#mapOptionsToggle").click()
+               page.locator("#regionControls [data-region='yosemite']").click()
+               page.locator("#modeNav [data-mode='day']").click()
+               page.locator("#dateSelect").select_option("10/8")
+  @@ -95,6 +108,42 @@ def main() -> int:
+  +    r2_reference = {
+  +        "desktop_1440x900": {
+  +            "safe_padding": {"top": 162.0, "right": 157.64, "bottom": 77.0, "left": 314.94},
+  +            "persistent_opaque_area_px": 69085.0,
+  +            "shell_area_px": 678886.0,
+  +            "unobstructed_ratio": 0.8982,
+  +        },
+  +        "mobile_390x844": {
+  +            "safe_padding": {"top": 146.0, "right": 113.0, "bottom": 71.0, "left": 16.0},
+  +            "persistent_opaque_area_px": 42116.0,
+  +            "shell_area_px": 173192.0,
+  +            "unobstructed_ratio": 0.7569,
+  +        },
+  +    }
+  +    report["r2_reference"] = r2_reference
+  +    report["useful_map_area_comparison"] = {}
+  +    for viewport_key, label in (("1440x900", "desktop_1440x900"), ("390x844", "mobile_390x844")):
+  +        default = next((row["snapshot"] for row in report["states"] if row["viewport"] == viewport_key and row["state"] == "overall-default-unselected"), None)
+  +        if default:
+  +            shell = default.get("shell", {})
+  +            persistent = default.get("persistent_opaque_chrome", {})
+  +            interior = default.get("unobstructed_interior", {})
+  +            r2 = r2_reference[label]
+  +            r3_area = persistent.get("area_px", 0)
+  +            r3_shell = shell.get("area_px", 0)
+  +            report["useful_map_area_comparison"][label] = {
+  +                "r2": r2,
+  +                "r3": {
+  +                    "safe_padding": default.get("safe_padding", {}),
+  +                    "persistent_opaque_area_px": r3_area,
+  +                    "shell_area_px": r3_shell,
+  +                    "unobstructed_ratio": interior.get("ratio"),
+  +                },
+  +                "persistent_area_reduction_ratio": round(1 - (r3_area / r2["persistent_opaque_area_px"]), 4) if r2["persistent_opaque_area_px"] else None,
+  +                "unobstructed_ratio_gain": round((interior.get("ratio", 0) or 0) - r2["unobstructed_ratio"], 4),
+  +            }
+       report["status"] = "PASS" if not report["failures"] and report["states"] else "FAIL"
+       OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+       print(json.dumps({"status": report["status"], "states": len(report["states"]), "failures": report["failures"]}, ensure_ascii=False))
+  +51 -2
+
+scripts/qa_ui_performance.py
+  @@ -1,105 +1,158 @@
+  -"""Order-balanced headless comparison for the current-main and R2 workbench."""
+  +"""Order-balanced startup comparison for current main, R2, and R3."""
+   
+   from __future__ import annotations
+   
+   import json
+   import os
+  +import platform
+   import statistics
+   import time
+  -from pathlib import Path
+   
+   from playwright.sync_api import sync_playwright
+   
+   from qa_evidence import ROOT, bind_report, candidate_identity
+   
+   
+  -OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2" / "performance.json"
+  +OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "performance.json"
+   BASELINE_URL = os.environ.get("TRIP_BASELINE_URL", "http://127.0.0.1:8765/index.html")
+  -CANDIDATE_URL = os.environ.get("TRIP_QA_URL", "http://127.0.0.1:8767/index.html")
+  -SAMPLES = int(os.environ.get("TRIP_PERF_SAMPLES", "8"))
+  +R2_URL = os.environ.get("TRIP_R2_URL", "http://127.0.0.1:8767/index.html")
+  +CANDIDATE_URL = os.environ.get("TRIP_QA_URL", "http://127.0.0.1:8768/index.html")
+  +SAMPLES = max(8, int(os.environ.get("TRIP_PERF_SAMPLES", "8")))
+   BLOCKS = 2
+  +VIEWPORT = {"width": 1440, "height": 900}
+  +VARIANTS = (("baseline", BASELINE_URL), ("r2_reference", R2_URL), ("r3_candidate", CANDIDATE_URL))
+   
+   
+  -def measure(browser, label: str, url: str, pair_id: int) -> dict:
+  -    page = browser.new_page(viewport={"width": 1440, "height": 900})
+  +def wait_workbench(page) -> tuple[str, str]:
+  +    if page.locator("#recommendation").count():
+  +        page.wait_for_function("document.querySelector('#recommendation')?.innerText.includes('A1')", timeout=30000)
+  +        return "decision-workbench", "#recommendation"
+  +    page.wait_for_function("document.querySelector('.sidebar') || document.body.innerText.length > 100", timeout=30000)
+  +    return "legacy-itinerary", ".sidebar"
+  +
+  +
+  +def wait_map(page) -> str:
+  +    if page.locator("#recommendation").count():
+  +        page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
+  +        return "runtime.mapVisualReady"
+  +    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
+  +    return "map.isStyleLoaded"
+  +
+  +
+  +def measure(browser, label: str, url: str, sample: int, block: int, order: int) -> dict:
+  +    page = browser.new_page(viewport=VIEWPORT)
+       started = time.perf_counter()
+       page.goto(url, wait_until="domcontentloaded", timeout=90000)
+       dom_content_ms = (time.perf_counter() - started) * 1000
+  -    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
+  -    map_ready_ms = (time.perf_counter() - started) * 1000
+  -    if page.locator("#recommendation").count():
+  -        workbench_ready = "#recommendation"
+  -        interaction_kind = "two-route-compare"
+  -        page.wait_for_function("document.querySelector('#recommendation')?.innerText.includes('A1')", timeout=15000)
+  -        page.locator('[data-compare-route="A2"]').click()
+  -        page.wait_for_function("document.querySelector('#comparePanel')?.innerText.includes('A2')", timeout=10000)
+  -    else:
+  -        workbench_ready = ".sidebar"
+  -        interaction_kind = "legacy-route-selection-baseline"
+  -        page.wait_for_function("document.querySelector('.sidebar') || document.body.innerText.length > 100", timeout=15000)
+  -        if page.locator("[data-route]").count():
+  -            page.locator("[data-route]").first.click()
+  -    workbench_ready_ms = (time.perf_counter() - started) * 1000
+  -    interaction_response_ms = (time.perf_counter() - started) * 1000
+  +    interaction_kind, selector = wait_workbench(page)
+  +    decision_ready_ms = (time.perf_counter() - started) * 1000
+  +    readiness_method = wait_map(page)
+  +    map_visual_ready_ms = (time.perf_counter() - started) * 1000
+  +    snapshot = page.evaluate("window.__tripApp?.runtimeSnapshot?.() || null")
+       row = {
+  -        "pair_id": pair_id,
+  +        "sample": sample,
+  +        "block": block,
+  +        "order": order,
+           "label": label,
+           "url": url,
+           "dom_content_ms": round(dom_content_ms, 2),
+  -        "map_visual_ready_ms": round(map_ready_ms, 2),
+  -        "workbench_ready_ms": round(workbench_ready_ms, 2),
+  -        "interaction_response_ms": round(interaction_response_ms, 2),
+  +        "decision_workbench_ready_ms": round(decision_ready_ms, 2),
+  +        "map_visual_ready_ms": round(map_visual_ready_ms, 2),
+  +        "readiness_method": readiness_method,
+           "interaction_kind": interaction_kind,
+  -        "workbench_ready_selector": workbench_ready,
+  +        "workbench_ready_selector": selector,
+           "dom_nodes": page.locator("body *").count(),
+           "markers": page.locator(".photo-marker").count(),
+  -        "map_layers": page.evaluate("window.__tripApp.map().getStyle().layers.length"),
+  +        "map_layers": page.evaluate("window.__tripApp?.map()?.getStyle?.()?.layers?.length || 0"),
+  +        "startup_marks": (snapshot or {}).get("startup", {}).get("marks", []),
+       }
+       page.close()
+       return row
+   
+  ... (90 lines truncated)
+  +106 -53
+
+scripts/run_cross_browser.py
+  @@ -28,8 +28,8 @@ from qa_evidence import candidate_identity
+  -OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r2/browser_summary.json"
+  -SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r2/screenshots"
+  +OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r3/browser_summary.json"
+  +SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r3/screenshots"
+   CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "60"))
+   TERM_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_TERM_GRACE_SECONDS", "2"))
+   KILL_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_KILL_GRACE_SECONDS", "2"))
+  @@ -419,6 +419,25 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path:
+  +        page.locator("#mapOptionsToggle").click()
+  +        page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
+  +        page.wait_for_function("document.activeElement?.id === 'mapOptionsClose'", timeout=5000)
+  +        page.wait_for_timeout(250)
+  +        row["map_options_open"] = page.evaluate("!document.querySelector('#mapOptionsPanel')?.hidden && document.activeElement?.id === 'mapOptionsClose'")
+  +        row["map_options_open_geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
+  +        page.keyboard.press("Escape")
+  +        page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden")
+  +        page.wait_for_function("document.activeElement?.id === 'mapOptionsToggle'", timeout=5000)
+  +        row["map_options_close_focus_return"] = page.evaluate("document.querySelector('#mapOptionsPanel')?.hidden && document.activeElement?.id === 'mapOptionsToggle' && !document.activeElement?.closest('#mapOptionsPanel')")
+  +        page.locator("#routeLegendToggle").click()
+  +        page.wait_for_function("!document.querySelector('#routeLegendPanel')?.hidden")
+  +        row["route_key_open"] = page.evaluate("!document.querySelector('#routeLegendPanel')?.hidden")
+  +        row["route_key_open_geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
+  +        page.keyboard.press("Escape")
+  +        page.wait_for_function("document.querySelector('#routeLegendPanel')?.hidden")
+  +        page.wait_for_function("document.activeElement?.id === 'routeLegendToggle'", timeout=5000)
+  +        row["route_key_close_focus_return"] = page.evaluate("document.querySelector('#routeLegendPanel')?.hidden && document.activeElement?.id === 'routeLegendToggle'")
+  +        page.locator("#mapOptionsToggle").click()
+           page.locator("#regionControls [data-region='yosemite']").click()
+           page.locator("#dateSelect").select_option("10/7")
+           page.wait_for_function("document.querySelector('.photo-marker[data-place-key=\"cooks\"]')?.getBoundingClientRect().width > 0", timeout=8000)
+  @@ -443,6 +462,10 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path:
+  +            and row["map_options_open"]
+  +            and row["map_options_close_focus_return"]
+  +            and row["route_key_open"]
+  +            and row["route_key_close_focus_return"]
+               and row["marker_activation"] == "cooks"
+               and not any(marker.get("intersects_obstacle") for marker in row["geometry"].get("markers", []))
+               and not row["page_errors"]
+  +25 -2
+
+scripts/run_visual_spots.py
+  @@ -1,4 +1,4 @@
+  -"""Capture the exact-bound R2 visual matrix for independent pixel review."""
+  +"""Capture the exact-bound R3 visual matrix for independent pixel review."""
+   
+   from __future__ import annotations
+   
+  @@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
+  -OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2"
+  +OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3"
+   SHOTS = OUT / "screenshots"
+   
+   
+  @@ -48,6 +48,16 @@ def main() -> int:
+  +        page.locator("#mapOptionsToggle").click()
+  +        capture(page, rows, "compact_map_options_open_1440x900", (1440, 900), "decide", "Map options open", "compact provider/region disclosure and focus return target", "canonical-anchor", "compact map options")
+  +        page.locator("#providerControls [data-provider='vector']").click()
+  +        page.locator("#mapOptionsToggle").click()
+  +        page.locator("#regionControls [data-region='yosemite']").click()
+  +        page.wait_for_timeout(300)
+  +        capture(page, rows, "compact_map_region_yosemite_1440x900", (1440, 900), "decide", "Yosemite selected", "semantic region change through compact map options", "canonical-anchor", "region change")
+  +        page.locator("#routeLegendToggle").click()
+  +        capture(page, rows, "compact_route_key_open_1440x900", (1440, 900), "decide", "route key open", "on-demand route semantics disclosure", "canonical-anchor", "route key disclosure")
+  +        page.keyboard.press("Escape")
+           page.locator('[data-compare-route="A2"]').click()
+           capture(page, rows, "canonical_decide_compare_1440x900", (1440, 900), "decide", "A1_vs_A2", "two-route human comparison", "canonical-anchor", "canonical desktop compare")
+           page.locator("#modeNav [data-mode='day']").click()
+  @@ -55,9 +65,11 @@ def main() -> int:
+  +        page.locator("#mapOptionsToggle").click()
+           page.locator("#regionControls [data-region='sf']").click()
+           page.locator("#dateSelect").select_option("10/6")
+           capture(page, rows, "canonical_no_results_1440x900", (1440, 900), "day", "SF + 10/6 no-results", "no-results handling", "canonical-anchor", "no-result state")
+  +        page.locator("#mapOptionsToggle").click()
+           page.locator("#regionControls [data-region='yosemite']").click()
+           page.locator("#dateSelect").select_option("10/7")
+           page.locator(".photo-marker[data-place-key='cooks']").click()
+  @@ -92,6 +104,7 @@ def main() -> int:
+  +        page.locator("#mapOptionsToggle").click()
+           page.locator("#regionControls [data-region='yosemite']").click()
+           page.locator("#modeNav [data-mode='day']").click()
+           page.locator("#dateSelect").select_option("10/7")
+  @@ -136,7 +149,10 @@ def main() -> int:
+  -    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1536x864", "414x896"], "frozen_after": "stable R2 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
+  +    for row in rows:
+  +        row["candidate"] = identity["sha"]
+  +        row["candidate_tree"] = identity["tree"]
+  +    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1536x864", "414x896"], "frozen_after": "stable R3 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
+       bind_report(report, identity)
+       OUT.joinpath("visual_index.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+       print(json.dumps({"status": report["status"], "screenshots": len(rows), "errors": errors}, ensure_ascii=False))
+  +19 -3
+
+src/app_phase7.css
+  @@ -71,16 +71,40 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+  -.map-top-left { top: 14px; left: 14px; display: grid; gap: 10px; padding: 11px; max-width: min(390px, calc(100% - 28px)); }
+  -.map-top-right { top: 14px; right: 14px; display: grid; gap: 8px; justify-items: end; padding: 8px; }
+  -.map-bottom-left { left: 14px; bottom: 14px; max-width: min(390px, calc(100% - 28px)); padding: 8px 10px; }
+  +.map-top-left { top: 14px; left: 14px; display: grid; gap: 7px; padding: 7px; max-width: min(360px, calc(100% - 28px)); }
+  +.map-toolbar { display: flex; align-items: center; gap: 6px; }
+  +.map-summary-button { display: grid; min-width: 0; min-height: 38px; flex: 1 1 auto; border: 1px solid var(--border); border-radius: 9px; background: var(--surface-raised); color: var(--text); padding: 5px 9px; text-align: left; cursor: pointer; }
+  +.map-summary-button:hover, .map-summary-button:focus-visible, .map-summary-button[aria-expanded="true"] { border-color: var(--accent); background: var(--accent-soft); }
+  +.map-summary-kicker { color: var(--text-subtle); font-size: 8px; font-weight: 850; letter-spacing: .1em; line-height: 1.1; text-transform: uppercase; }
+  +.map-summary-value { overflow: hidden; color: var(--text); font-size: 10px; font-weight: 850; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
+  +.map-options-panel { top: calc(100% + 7px); left: -1px; display: grid; gap: 10px; width: min(320px, calc(100vw - 28px)); max-height: min(370px, calc(100dvh - 170px)); overflow: auto; padding: 12px; }
+  +.map-options-panel[hidden], .route-legend-panel[hidden] { display: none; }
+  +.map-options-panel.open-up { top: auto; bottom: calc(100% + 7px); }
+  +.map-options-panel.align-right { right: -1px; left: auto; }
+  +.map-options-head { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
+  +.map-options-head strong { display: block; margin-top: 3px; font-size: 13px; line-height: 1.2; }
+  +.map-options-close { min-width: 32px; min-height: 32px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text-muted); font-size: 18px; line-height: 1; cursor: pointer; }
+  +.map-bottom-left { left: 14px; bottom: 14px; max-width: min(360px, calc(100% - 28px)); padding: 7px; }
+  +.route-key-bar { display: flex; align-items: center; gap: 9px; }
+  +.route-legend-current { min-width: 0; color: var(--text); font-size: 10px; font-weight: 800; line-height: 1.25; }
+  +.route-key-toggle { flex: 0 0 auto; min-height: 30px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text-muted); padding: 5px 8px; font-size: 9px; font-weight: 800; cursor: pointer; }
+  +.route-key-toggle:hover, .route-key-toggle:focus-visible, .route-key-toggle[aria-expanded="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-strong); }
+  +.route-legend-panel { right: -1px; bottom: calc(100% + 7px); left: -1px; display: grid; gap: 7px; max-height: min(300px, calc(100dvh - 170px)); overflow: auto; padding: 11px; }
+  +.route-legend-panel.open-down { top: calc(100% + 7px); bottom: auto; }
+  +.route-legend-item { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 7px; align-items: start; color: var(--text-muted); font-size: 10px; line-height: 1.35; }
+  +.route-legend-item strong { display: block; color: var(--text); }
+  +.route-legend-item small { display: block; margin-top: 2px; color: var(--text-muted); font-size: 9px; }
+  +.route-legend-swatch { width: 18px; margin-top: 6px; border-top: 3px solid var(--route-color); }
+  +.route-legend-swatch.dash { border-top-style: dashed; }
+  +.route-legend-swatch.dot { border-top-style: dotted; }
+  +.route-legend-swatch.dashdot { border-top-style: dashed; opacity: .75; }
+   .map-control-group { display: grid; gap: 5px; }
+   .map-control-label { color: var(--text-subtle); font-size: 9px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+   .segmented-control { display: flex; flex-wrap: wrap; gap: 4px; }
+   .segment { min-height: 32px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text-muted); padding: 6px 9px; font-size: 10px; font-weight: 750; cursor: pointer; }
+   .segment[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
+   .segment[data-provider="satellite"][data-health="failed"]::after { content: " · !"; color: var(--warning); }
+  -.map-status { max-width: 260px; color: var(--text-muted); font-size: 10px; line-height: 1.3; text-align: right; }
+  +.map-status { max-width: 320px; padding-inline: 3px; color: var(--text-muted); font-size: 9px; line-height: 1.3; }
+   .map-status.ready { color: var(--accent-strong); }
+   .map-status.failed { color: var(--danger); }
+   .map-legend { display: grid; gap: 4px; color: var(--text-muted); font-size: 10px; line-height: 1.25; }
+  @@ -239,13 +263,15 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+  -  .map-top-left { top: 8px; left: 8px; max-width: calc(100% - 16px); padding: 7px; gap: 6px; }
+  -  .map-top-right { top: 8px; right: 8px; padding: 5px; }
+  +  .map-top-left { top: 8px; left: 8px; max-width: calc(100% - 16px); padding: 5px; gap: 5px; }
+     .map-bottom-left { left: 8px; bottom: 8px; max-width: calc(100% - 16px); }
+     .map-control-label { font-size: 8px; }
+     .segment { min-height: 34px; padding: 6px 8px; font-size: 9px; }
+  -  .map-status { display: none; }
+  +  .map-status { max-width: 100%; font-size: 8px; }
+     .map-action { min-height: 34px; padding: 6px 8px; font-size: 9px; }
+  +  .map-summary-button { min-height: 36px; padding-inline: 8px; }
+  +  .map-options-panel { width: min(320px, calc(100vw - 16px)); max-height: min(330px, calc(100dvh - 150px)); }
+  +  .route-legend-panel { max-height: min(250px, calc(100dvh - 150px)); }
+     .peek { right: 8px; bottom: 8px; left: 8px; top: auto; width: auto; max-height: min(310px, calc(100% - 16px)); }
+     .peek-media { height: 82px; }
+     .workbench { position: relative; z-index: 15; border-top: 1px solid var(--border); border-left: 0; border-radius: 18px 18px 0 0; box-shadow: 0 -12px 30px rgba(35, 47, 42, .15); }
+  @@ -266,9 +292,10 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+  -  .map-top-left { max-width: 72%; }
+  -  .map-top-right { max-width: 28%; }
+  -  .map-action { max-width: 100%; white-space: normal; }
+  +  .map-top-left { max-width: calc(100% - 16px); }
+  +  .map-toolbar { gap: 4px; }
+  +  .map-summary-button { padding-inline: 6px; }
+  +  .map-action { max-width: 82px; white-space: normal; }
+     .day-item { grid-template-columns: 48px minmax(0, 1fr); }
+     .recommendation-footer { align-items: stretch; flex-direction: column; }
+   }
+  @@ -278,6 +305,6 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+  -  .segment[aria-pressed="true"], .mode-button[aria-current="page"], .primary-action, .peek-action { border: 2px solid ButtonText; background: Highlight; color: HighlightText; }
+  +  .segment[aria-pressed="true"], .map-summary-button[aria-expanded="true"], .route-key-toggle[aria-expanded="true"], .mode-button[aria-current="page"], .primary-action, .peek-action { border: 2px solid ButtonText; background: Highlight; color: HighlightText; }
+     .route-card, .day-item, .place-list-item, .recommendation-card { border: 2px solid ButtonText; }
+   }
+  +38 -11
+
+src/app_phase7.js
+  @@ -33,6 +33,15 @@
+  +  let mapOptionsInvoker = null;
+  +  let routeLegendInvoker = null;
+  +
+  +  const markStartup = (name, detail = {}) => {
+  +    if (typeof window.__tripStartupMark === 'function') return window.__tripStartupMark(name, detail);
+  +    const started = window.__tripLoadStarted || performance.now();
+  +    (window.__tripStartupMarks ||= []).push({ name, at_ms: Math.round((performance.now() - started) * 100) / 100, ...detail });
+  +  };
+  +  markStartup('authored_js_evaluated');
+   
+     const m = key => messages.messages[state.presentation.lang]?.[key] || messages.messages.en[key] || key;
+     const tr = value => {
+  @@ -137,6 +146,7 @@
+  +    markStartup('local_vector_setup_start');
+       if (!window.TRIP_VECTOR) throw new Error('Local vector renderer missing');
+       const { Protocol, PMTiles, FileSource } = window.TRIP_VECTOR;
+       const protocol = new Protocol();
+  @@ -149,6 +159,7 @@
+  +    markStartup('local_pmtiles_header_ready', { tile_type: header?.tileType, max_zoom: header?.maxZoom });
+       if (!header || ![1, 6].includes(header.tileType) || header.maxZoom < 1 || header.minLon >= header.maxLon || header.minLat >= header.maxLat) throw new Error('Smart map PMTiles header is invalid');
+       protocol.add(archive); maplibregl.addProtocol('pmtiles', protocol.tile);
+       maplibregl.addProtocol('tripasset', async params => {
+  @@ -159,8 +170,10 @@
+  +    markStartup('local_vector_setup_ready');
+
+... (more changes truncated)
+  +12 -0
+[full diff: rtk git diff --no-compact]
