@@ -4,6 +4,7 @@
  scripts/pipeline.py                           |  10 +-
  scripts/qa_accessibility_reflow.py            |   3 +-
  scripts/qa_decision_workbench.py              |  23 +++-
+ scripts/qa_gate4_resilience.py                |   2 +
  scripts/qa_map_geometry.py                    |  53 ++++++++-
  scripts/qa_ui_performance.py                  | 159 +++++++++++++++++---------
  scripts/run_cross_browser.py                  |  27 ++++-
@@ -14,7 +15,7 @@
  src/atlas_state.js                            |   2 +
  src/map_shell_template.html                   |  49 +++++---
  src/runtime_loader.js                         |  16 +++
- 16 files changed, 491 insertions(+), 124 deletions(-)
+ 17 files changed, 493 insertions(+), 124 deletions(-)
 
 diff --git a/.github/workflows/candidate-qualification.yml b/.github/workflows/candidate-qualification.yml
 index 6409a82..1badc24 100644
@@ -275,6 +276,19 @@ index b07ff09..77c86b8 100644
      page.locator("#regionControls [data-region='overall']").click()
  
      page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
+diff --git a/scripts/qa_gate4_resilience.py b/scripts/qa_gate4_resilience.py
+index ae5354d..77c5e7a 100644
+--- a/scripts/qa_gate4_resilience.py
++++ b/scripts/qa_gate4_resilience.py
+@@ -250,6 +250,8 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
+             core_failures.append("remote Smart first-use request")
+         page.locator('[data-mode="day"]').click()
+         page.locator('#dateSelect').select_option("10/3")
++        page.locator('#mapOptionsToggle').click()
++        page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
+         page.locator('[data-region="sf"]').click()
+         page.wait_for_timeout(400)
+         if page.locator(".photo-marker").count():
 diff --git a/scripts/qa_map_geometry.py b/scripts/qa_map_geometry.py
 index 734affe..ec7b5a2 100644
 --- a/scripts/qa_map_geometry.py
@@ -1411,6 +1425,15 @@ scripts/qa_decision_workbench.py
        page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
   +22 -1
 
+scripts/qa_gate4_resilience.py
+  @@ -250,6 +250,8 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
+  +        page.locator('#mapOptionsToggle').click()
+  +        page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
+           page.locator('[data-region="sf"]').click()
+           page.wait_for_timeout(400)
+           if page.locator(".photo-marker").count():
+  +2 -0
+
 scripts/qa_map_geometry.py
   @@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
   -OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2" / "map_geometry.json"
@@ -1711,15 +1734,7 @@ src/app_phase7.css
   +.route-legend-item strong { display: block; color: var(--text); }
   +.route-legend-item small { display: block; margin-top: 2px; color: var(--text-muted); font-size: 9px; }
   +.route-legend-swatch { width: 18px; margin-top: 6px; border-top: 3px solid var(--route-color); }
-  +.route-legend-swatch.dash { border-top-style: dashed; }
-  +.route-legend-swatch.dot { border-top-style: dotted; }
-  +.route-legend-swatch.dashdot { border-top-style: dashed; opacity: .75; }
-   .map-control-group { display: grid; gap: 5px; }
-   .map-control-label { color: var(--text-subtle); font-size: 9px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
-   .segmented-control { display: flex; flex-wrap: wrap; gap: 4px; }
-   .segment { min-height: 32px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text-muted); padding: 6px 9px; font-size: 10px; font-weight: 750; cursor: pointer; }
-   .segment[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
 
 ... (more changes truncated)
-  +27 -3
+  +24 -3
 [full diff: rtk git diff --no-compact]

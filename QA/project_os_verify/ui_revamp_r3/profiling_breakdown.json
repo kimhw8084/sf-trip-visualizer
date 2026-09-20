@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "candidate": "5b6dc6422f3ee96e05f9ea9a9cd0b5fa1331d6ed",
-  "candidate_tree": "0799b9978ed5306d448b46f6cdc381d22e96784e",
+  "candidate": "bf200f781e7ebb080ddbece5df13950eb8e8e6a2",
+  "candidate_tree": "0e0173c939c693f2e05dee52cfc40092e1e78fc6",
   "method": "Eight order-balanced R3 samples across two blocks at 1440x900; startup marks are low-overhead performance marks captured in the candidate runtime.",
   "r2_recorded_regression": {
     "dom_content_mean_ms": 451.2,
@@ -12,22 +12,22 @@
     "diagnosis": "R2 put the full authored runtime and map dependency graph on the parser-critical path and retained redundant startup work around map setup/measurement."
   },
   "r3_candidate_startup_mark_medians_ms": {
-    "canonical_data_parsed": 19.1,
-    "dom_content_loaded": 30.0,
-    "authored_js_evaluated": 37.75,
-    "decision_shell_ready": 39.0,
-    "map_runtime_scripts_ready": 55.75,
-    "local_pmtiles_header_ready": 60.75,
-    "local_vector_setup_ready": 60.75,
-    "local_map_asset_style_ready": 61.9,
-    "map_created": 70.3,
-    "map_style_ready": 606.8,
-    "route_layer_install_ready": 634.55,
-    "photo_preparation_ready": 636.6,
-    "marker_install_ready": 636.6,
-    "map_safe_padding_computed": 646.65,
-    "initial_fit_complete": 648.5,
-    "map_visual_ready": 648.95
+    "canonical_data_parsed": 18.85,
+    "dom_content_loaded": 29.55,
+    "authored_js_evaluated": 37.15,
+    "decision_shell_ready": 38.3,
+    "map_runtime_scripts_ready": 56.9,
+    "local_pmtiles_header_ready": 59.8,
+    "local_vector_setup_ready": 59.8,
+    "local_map_asset_style_ready": 60.7,
+    "map_created": 69.25,
+    "map_style_ready": 612.2,
+    "route_layer_install_ready": 639.8,
+    "photo_preparation_ready": 641.8,
+    "marker_install_ready": 641.8,
+    "map_safe_padding_computed": 651.9,
+    "initial_fit_complete": 654.15,
+    "map_visual_ready": 654.6
   },
   "implemented_repairs": [
     "Dynamic runtime loader lets canonical data and the decision shell become usable without parser-blocking MapLibre, vector, Plotly, and app evaluation.",
@@ -36,10 +36,10 @@
     "Decision content renders independently before map completion; map_visual_ready remains a semantic post-install state rather than an early declaration."
   ],
   "acceptance": {
-    "baseline_vs_r3_map_mean_delta_ms": -12.94,
-    "baseline_vs_r3_map_median_delta_ms": 5.05,
-    "baseline_vs_r3_map_pair_stdev_ms": 81.01,
-    "baseline_vs_r3_map_slower_pairs": 4,
+    "baseline_vs_r3_map_mean_delta_ms": -6.33,
+    "baseline_vs_r3_map_median_delta_ms": 14.46,
+    "baseline_vs_r3_map_pair_stdev_ms": 78.02,
+    "baseline_vs_r3_map_slower_pairs": 5,
     "baseline_vs_r3_map_material_over_200ms_pairs": 0,
     "classification": "VERIFY_REQUIRED"
   }
