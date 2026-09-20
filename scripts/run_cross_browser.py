@@ -423,7 +423,7 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
         row["map_options_open"] = page.locator("#mapOptionsPanel").is_visible() and page.evaluate("document.activeElement?.id === 'mapOptionsClose'")
         row["map_options_open_geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
         page.keyboard.press("Escape")
-        row["map_options_close_focus_return"] = page.locator("#mapOptionsPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'mapOptionsToggle' and document.querySelectorAll('#mapOptionsPanel button:visible').length === 0")
+        row["map_options_close_focus_return"] = page.locator("#mapOptionsPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'mapOptionsToggle' && document.querySelectorAll('#mapOptionsPanel button:visible').length === 0")
         page.locator("#routeLegendToggle").click()
         row["route_key_open"] = page.locator("#routeLegendPanel").is_visible()
         row["route_key_open_geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
