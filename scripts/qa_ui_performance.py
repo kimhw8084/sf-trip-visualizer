@@ -128,6 +128,18 @@ def main() -> int:
         "change": "CHG-157 R3",
         "base_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
         "r2_reference": {"sha": "4a2520a8fb40ec789784fccf513de78f26318507", "tree": "1d42515d23cc6f1995e3ccc8f41da6802321dcf5"},
+        "r2_authoritative_recorded_reference": {
+            "evidence_head": "a620d94b75b982073aa71ac4a1a49161b403a290",
+            "source_replay_contract": "Exact R2 source/build replay is retained in r2_reference_samples; these recorded qualification values remain the authoritative R2 defect record.",
+            "samples_per_variant": 8,
+            "baseline_map_visual_ready_mean_ms": 1070.76,
+            "r2_map_visual_ready_mean_ms": 1569.07,
+            "map_visual_ready_pair_slower_count": 8,
+            "map_visual_ready_mean_delta_ms": 498.31,
+            "baseline_dom_content_mean_ms": 114.8,
+            "r2_dom_content_mean_ms": 451.2,
+            "dom_content_pair_slower_count": 8,
+        },
         "environment": {"browser": "Chromium headless", "browser_version": browser_version, "viewport": "1440x900", "samples_per_variant": len(rows["baseline"]), "blocks": BLOCKS, "ordering": order, "platform": platform.system(), "python": os.sys.version.split(".")[0]},
         "baseline": {"url": BASELINE_URL, "samples": rows["baseline"], "metrics": summarize(rows["baseline"])},
         "r2_reference_samples": {"url": R2_URL, "samples": rows["r2_reference"], "metrics": summarize(rows["r2_reference"])},
@@ -135,7 +147,7 @@ def main() -> int:
         "comparisons": comparisons,
         "classification": classify(comparisons["baseline_vs_r3"]),
         "interaction_qualification": "The route-toggle and two-route compare tasks remain semantically non-equivalent; no interaction-response PASS is asserted here.",
-        "notes": ["R3 uses runtime.mapVisualReady for the candidate and map.isStyleLoaded for the legacy baseline; both methods are recorded per sample.", "Decision shell readiness is recorded separately from map readiness.", "Native Safari, physical-device and independent-human field performance remain separate evidence boundaries."],
+        "notes": ["R3 uses runtime.mapVisualReady for the candidate and map.isStyleLoaded for the legacy baseline; both methods are recorded per sample.", "Decision shell readiness is recorded separately from map readiness.", "The authoritative R2 qualification distribution is preserved explicitly; the fresh replay is labeled separately because local replay timing differs from the recorded R2 environment.", "Native Safari, physical-device and independent-human field performance remain separate evidence boundaries."],
     }
     bind_report(report, identity)
     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
