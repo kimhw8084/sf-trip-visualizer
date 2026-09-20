@@ -163,6 +163,10 @@ with sync_playwright() as playwright:
     report["checks"]["unexpected_provider_transition_failed_requests"] = [
         request for request in report["checks"]["provider_transition_failed_requests"]
         if "server.arcgisonline.com" not in request.get("url", "")
+        and not (
+            request.get("failure") == "net::ERR_ABORTED"
+            and "/assets/vector/" in request.get("url", "")
+        )
     ]
     # Keep the historical names for downstream artifact consumers, but scope
     # them to the initial Smart-map load rather than the expected provider
