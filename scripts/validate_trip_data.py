@@ -102,6 +102,8 @@ def validate_trip_data() -> dict[str, Any]:
     check("timeline_count", len(data.get("timeline", [])) == expected.get("timeline_cards"))
     check("leg_count", len(data.get("legs", [])) == expected.get("route_legs"))
     check("route_count", sorted(route_ids) == ["A1", "A2", "B1", "B2"])
+    recommended_routes = [route for route, meta in routes.items() if meta.get("recommended") is True]
+    check("recommended_route_is_explicit", recommended_routes == ["A1"])
     check("date_count", len(dates) == expected.get("dates") and len(date_set) == len(dates))
     check("region_count", set(place_region.values()) == REGIONS and set(data.get("region_cfg", {})) == REGIONS | {"overall"})
     check("provider_keys", sorted(data.get("providers", {})) == ["satellite", "vector"])

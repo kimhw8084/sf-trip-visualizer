@@ -1,77 +1,123 @@
 <!doctype html>
-<html>
+<html lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="referrer" content="no-referrer">
-  <title>Trip visualizer</title>
+  <title>Smart Minority · Field atlas</title>
   <link rel="stylesheet" href="src/app_phase7.css">
 </head>
 <body>
-  <div id="app">
-    <header class="top">
-      <div class="headline">
-        <div>
-          <div class="brand">Smart Minority · SF → Monterey → Yosemite</div>
-          <div class="sub">Trip visualizer</div>
-        </div>
-        <div id="providerState" class="provider-state">Smart map <a class="credits-link" href="ATTRIBUTION.md">Credits &amp; licenses</a></div>
+  <div id="app" data-sheet="expanded">
+    <header class="appbar">
+      <div class="identity">
+        <p class="eyebrow">SMART MINORITY · FAMILY FIELD ATLAS</p>
+        <h1 class="brand">Smart Minority · 현장 의사결정 지도</h1>
+        <p class="sub" data-i18n="subtitle">샌프란시스코 · 몬터레이–카멜–빅서 · 요세미티</p>
       </div>
-      <div class="control-row" aria-label="Map filters">
-        <div class="group">
-          <span class="group-label">Routes</span>
-          <button class="ctl routeCtl active" data-route="A1" aria-pressed="true">A1</button>
-        </div>
-        <div class="group desktop-filter">
-          <span class="group-label">Date</span>
-          <select id="dateSelect" class="selectctl" aria-label="Date filter"><option value="all">All dates</option></select>
-        </div>
-        <div class="group desktop-filter">
-          <span class="group-label">Region</span>
-          <button class="ctl active" data-region="overall" aria-pressed="true">Overall</button>
-        </div>
-        <div class="group desktop-filter">
-          <span class="group-label">Map</span>
-          <button class="ctl active" data-provider="vector">Smart map</button>
-          <button class="ctl" data-provider="satellite">Satellite + labels</button>
-        </div>
-      </div>
-      <div class="mobile-selects" aria-label="Mobile filters">
-        <select id="mobileDate" class="selectctl" aria-label="Date filter"><option value="all">All dates</option></select>
-        <select id="mobileRegion" class="selectctl" aria-label="Region filter"><option value="overall">Overall</option></select>
-        <select id="mobileProvider" class="selectctl" aria-label="Map provider"><option value="vector">Smart map</option><option value="satellite">Satellite + labels</option></select>
+      <div class="global-actions" aria-label="Global actions">
+        <a class="credits-link" href="ATTRIBUTION.md">Credits</a>
+        <button id="langToggle" class="utility-button" type="button">EN</button>
+        <button id="themeToggle" class="utility-button" type="button">☾ 다크</button>
+        <button id="workbenchToggle" class="utility-button workbench-toggle" type="button" aria-controls="workbench" aria-expanded="true">워크벤치 접기</button>
       </div>
     </header>
+
     <main class="workspace">
-      <section class="mapwrap">
+      <section class="map-shell" aria-label="Trip map" data-i18n-aria="mapControls">
         <div id="map" class="map" aria-label="Interactive trip map"></div>
-        <div id="mapError" class="map-error" role="alert" hidden></div>
-        <div id="previewCard" class="preview-card" role="status"></div>
-        <div class="map-badge"><b id="activeFilterSummary"></b><span id="fallbackNote"></span><span id="freshnessNote"></span></div>
-        <button id="panelReopen" class="panel-reopen" type="button">Open panel</button>
-      </section>
-      <div id="panelResizer" class="panel-resizer" role="separator" aria-orientation="vertical" aria-label="Resize itinerary panel" aria-valuemin="300" aria-valuemax="620" tabindex="0"></div>
-      <aside class="sidebar" aria-label="Itinerary and place details">
-        <div class="tabs" role="tablist">
-          <button class="tab active" data-tab="timeline" role="tab" aria-selected="true">Timeline</button>
-          <button class="tab" data-tab="details" role="tab" aria-selected="false">Details</button>
-          <div class="panel-adjustments" aria-label="Panel controls">
-            <button id="panelSmaller" class="panel-adjust" type="button">−</button>
-            <button id="panelLarger" class="panel-adjust" type="button">+</button>
-            <button id="panelClose" class="panel-adjust panel-close" type="button">×</button>
+        <div class="map-chrome map-top-left">
+          <div class="map-control-group" aria-label="Map presentation">
+            <span class="map-control-label" data-i18n="mapControls">지도 표현</span>
+            <div id="providerControls" class="segmented-control"></div>
+          </div>
+          <div class="map-control-group" aria-label="Trip region">
+            <span class="map-control-label" data-i18n="region">지역</span>
+            <div id="regionControls" class="segmented-control"></div>
           </div>
         </div>
-        <div class="pane-wrap">
-          <div id="timelinePane" class="pane active"></div>
-          <div id="detailsPane" class="pane"></div>
+        <div class="map-chrome map-top-right">
+          <button id="fitMap" class="map-action" type="button" data-i18n="fit">현재 계획 맞추기</button>
+          <div id="providerStatus" class="map-status" role="status" aria-live="polite"></div>
+        </div>
+        <div id="mapLegend" class="map-chrome map-bottom-left" aria-label="Map legend"></div>
+        <div id="mapError" class="map-error" role="alert" aria-live="assertive" hidden>
+          <div class="map-error-message"></div>
+          <button id="smartRetry" type="button" data-i18n="retrySmart">Smart 지도 다시 시도</button>
+        </div>
+        <div id="peek" class="peek" role="dialog" aria-modal="false" aria-hidden="true" aria-labelledby="peekTitle" aria-describedby="peekDescription"></div>
+      </section>
+
+      <aside id="workbench" class="workbench" aria-label="Decision workbench" data-mode="decide" data-sheet="expanded">
+        <div class="workbench-head">
+          <div>
+            <p class="eyebrow" data-i18n="brand">Smart Minority · 현장 의사결정 지도</p>
+            <p id="workbenchStatus" class="workbench-status" role="status" aria-live="polite"></p>
+          </div>
+          <div class="sheet-actions" aria-label="Workbench size">
+            <button type="button" class="icon-button" data-sheet="compact" aria-label="Compact" title="Compact">−</button>
+            <button type="button" class="icon-button" data-sheet="expanded" aria-label="Expanded" title="Expanded">↕</button>
+            <button type="button" class="icon-button" data-sheet="full" aria-label="Full" title="Full">＋</button>
+          </div>
+        </div>
+        <nav id="modeNav" class="mode-nav" aria-label="Primary tasks">
+          <button type="button" class="mode-button active" data-mode="decide" aria-current="page"><span data-i18n="decide">Decide</span><small data-i18n="decideKo">결정</small></button>
+          <button type="button" class="mode-button" data-mode="day"><span data-i18n="day">Day</span><small data-i18n="dayKo">하루</small></button>
+          <button type="button" class="mode-button" data-mode="place"><span data-i18n="place">Place</span><small data-i18n="placeKo">장소</small></button>
+        </nav>
+        <div class="workbench-scroll">
+          <section id="decideView" class="mode-view active" data-view="decide" aria-labelledby="decideHeading">
+            <div class="mode-intro">
+              <p class="eyebrow">01 · DECIDE</p>
+              <h2 id="decideHeading" data-i18n="decideLead">우리 가족에게 맞는 기본안을 먼저 고릅니다</h2>
+              <p data-i18n="decideIntro">경로 코드를 외우기 전에, 무엇을 얻고 무엇을 감수하는지 한눈에 봅니다.</p>
+            </div>
+            <div id="recommendation" class="recommendation-card"></div>
+            <section class="route-section" aria-labelledby="routeSectionHeading">
+              <div class="section-heading"><div><p class="eyebrow">THE FIELD SET</p><h3 id="routeSectionHeading">Route strategies</h3></div><span id="routeCount" class="count-badge"></span></div>
+              <div id="routeCards" class="route-cards"></div>
+            </section>
+            <section class="compare-section" aria-labelledby="compareHeading">
+              <div class="section-heading"><div><p class="eyebrow">COMPARE</p><h3 id="compareHeading" data-i18n="compare">두 안 비교</h3></div><span id="compareCount" class="count-badge"></span></div>
+              <p class="section-hint" data-i18n="compareHint">두 경로를 고르면 공통 뼈대와 갈라지는 선택이 보입니다.</p>
+              <div id="comparePanel" class="compare-panel"></div>
+            </section>
+            <div id="decideComplete" class="completion-card"><strong data-i18n="completeDecide">결정을 설명할 수 있나요?</strong><span data-i18n="completeDecideText">추천 이유, 다른 안이 주는 것과 치르는 것, 전환 조건을 확인했습니다.</span></div>
+          </section>
+
+          <section id="dayView" class="mode-view" data-view="day" aria-labelledby="dayHeading" hidden>
+            <div class="mode-intro">
+              <p class="eyebrow">02 · DAY</p>
+              <h2 id="dayHeading" data-i18n="dayLead">오늘의 리듬을 실행합니다</h2>
+              <p data-i18n="dayIntro">필수 순간과 회복 여백을 한 줄의 이야기로 봅니다.</p>
+            </div>
+            <div class="day-controls">
+              <label for="dateSelect" data-i18n="date">날짜</label>
+              <select id="dateSelect" class="day-picker" aria-label="Date"></select>
+            </div>
+            <div id="dayHeader" class="day-header"></div>
+            <div id="dayPlan" class="day-plan"></div>
+          </section>
+
+          <section id="placeView" class="mode-view" data-view="place" aria-labelledby="placeHeading" hidden>
+            <div class="mode-intro">
+              <p class="eyebrow">03 · PLACE</p>
+              <h2 id="placeHeading" data-i18n="placeLead">한 장소를 깊게 보고 다시 계획으로 돌아옵니다</h2>
+              <p data-i18n="placeHint">지도 마커나 오늘의 장소에서 선택하세요.</p>
+            </div>
+            <div id="placeInspector" class="place-inspector"></div>
+          </section>
         </div>
       </aside>
     </main>
+    <div id="startupStatus" class="sr-only" role="status" aria-live="polite"></div>
   </div>
-  <div id="routeOverview" class="sr-only"></div>
-  <div id="routeExplain" class="route-explain" role="tooltip" aria-hidden="true"></div>
+  <script id="tripData">window.TRIP_DATA={};</script>
+  <script src="vendor/maplibre-gl.js"></script>
+  <script src="vendor/trip-vector.js"></script>
   <script src="vendor/plotly.min.js"></script>
-  <script>window.TRIP_DATA={};</script>
+  <script src="src/atlas_messages.js"></script>
+  <script src="src/atlas_state.js"></script>
   <script src="src/app_phase7.js"></script>
 </body>
 </html>
