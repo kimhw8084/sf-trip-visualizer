@@ -1,4 +1,5 @@
 .github/workflows/candidate-qualification.yml |   2 +
+ manifests/public_asset_rights.json            |  39 ++++++-
  scripts/build_map_first.py                    |  26 +++--
  scripts/pipeline.py                           |  10 +-
  scripts/qa_accessibility_reflow.py            |   3 +-
@@ -13,7 +14,7 @@
  src/atlas_state.js                            |   2 +
  src/map_shell_template.html                   |  49 +++++---
  src/runtime_loader.js                         |  16 +++
- 15 files changed, 456 insertions(+), 120 deletions(-)
+ 16 files changed, 491 insertions(+), 124 deletions(-)
 
 diff --git a/.github/workflows/candidate-qualification.yml b/.github/workflows/candidate-qualification.yml
 index 6409a82..1badc24 100644
@@ -31,6 +32,91 @@ index 6409a82..1badc24 100644
              release-path-checkout/QA/map_first/screenshots/**
 +            release-path-checkout/QA/project_os_verify/ui_revamp_r3/**
              release-path-checkout/.public-site/.release-provenance.json
+diff --git a/manifests/public_asset_rights.json b/manifests/public_asset_rights.json
+index d139f5c..53f9098 100644
+--- a/manifests/public_asset_rights.json
++++ b/manifests/public_asset_rights.json
+@@ -571,6 +571,7 @@
+         "src/app_phase7.js",
+         "src/atlas_messages.js",
+         "src/atlas_state.js",
++        "src/runtime_loader.js",
+         "src/map_first.css"
+       ],
+       "provenance": "Project source at the candidate commit",
+@@ -9288,6 +9289,28 @@
+       "asset_class": "first-party-runtime",
+       "decision": "approved"
+     },
++    {
++      "id": "pages/src/runtime_loader.js",
++      "modes": [
++        "pages"
++      ],
++      "paths": [
++        "src/runtime_loader.js"
++      ],
++      "asset_class": "first-party-runtime",
++      "decision": "approved"
++    },
++    {
++      "id": "package-public/src/runtime_loader.js",
++      "modes": [
++        "public-package"
++      ],
++      "paths": [
++        "artifacts/public/src/runtime_loader.js"
++      ],
++      "asset_class": "public-artifact-copy",
++      "decision": "approved"
++    },
+     {
+       "id": "package-public/src/atlas_state.js",
+       "modes": [
+@@ -13240,7 +13263,7 @@
+     },
+     {
+       "path": "src/app_phase7.css",
+-      "sha256": "21e79b3acc96ed9f2cdf9ee58cb09ccb414dc048909ab09707cccced083b58e6",
++      "sha256": "255bde5158c7d69c878b00894f8cb365e2b432c940e3b62c1fba7a920c256d98",
+       "modes": [
+         "pages",
+         "public-package"
+@@ -13248,7 +13271,7 @@
+     },
+     {
+       "path": "src/app_phase7.js",
+-      "sha256": "56f409996fc202bf6f05a3905156d2409711ef8f60b1a75459e8e9e3e65a13b1",
++      "sha256": "02728612daa49ca8ab639e9aaa65e3d6d1ddef14d29875cda35a2ea37390715f",
+       "modes": [
+         "pages",
+         "public-package"
+@@ -13264,7 +13287,7 @@
+     },
+     {
+       "path": "src/atlas_messages.js",
+-      "sha256": "12442e1de680459fd915281bb755c6e6d3f8a887aa8bb54aef2931caf9ce765e",
++      "sha256": "0b76060d3bb17a9d28ef2835b7f23286640139b15b33a3cafcba5baee855d3d4",
+       "modes": [
+         "pages",
+         "public-package"
+@@ -13272,7 +13295,15 @@
+     },
+     {
+       "path": "src/atlas_state.js",
+-      "sha256": "7a74b91c405cb6b1fa17977f72f9fad8dac7d8655b7d643a7ca62b9fd926c8b1",
++      "sha256": "3476019afbbe194ac5fa0d451536f2a6bc5dcb938bdf3530d825f4180884ec77",
++      "modes": [
++        "pages",
++        "public-package"
++      ]
++    },
++    {
++      "path": "src/runtime_loader.js",
++      "sha256": "ad6b98492ba04a81f0d5577578cf72c06e5936da937b4f92d421938f720a513c",
+       "modes": [
+         "pages",
+         "public-package"
 diff --git a/scripts/build_map_first.py b/scripts/build_map_first.py
 index bbb4147..5996167 100644
 --- a/scripts/build_map_first.py
@@ -1135,6 +1221,72 @@ Changes:
                release-path-checkout/.public-site/.release-provenance.json
   +2 -0
 
+manifests/public_asset_rights.json
+  @@ -571,6 +571,7 @@
+  +        "src/runtime_loader.js",
+           "src/map_first.css"
+         ],
+         "provenance": "Project source at the candidate commit",
+  @@ -9288,6 +9289,28 @@
+  +    {
+  +      "id": "pages/src/runtime_loader.js",
+  +      "modes": [
+  +        "pages"
+  +      ],
+  +      "paths": [
+  +        "src/runtime_loader.js"
+  +      ],
+  +      "asset_class": "first-party-runtime",
+  +      "decision": "approved"
+  +    },
+  +    {
+  +      "id": "package-public/src/runtime_loader.js",
+  +      "modes": [
+  +        "public-package"
+  +      ],
+  +      "paths": [
+  +        "artifacts/public/src/runtime_loader.js"
+  +      ],
+  +      "asset_class": "public-artifact-copy",
+  +      "decision": "approved"
+  +    },
+       {
+         "id": "package-public/src/atlas_state.js",
+         "modes": [
+  @@ -13240,7 +13263,7 @@
+  -      "sha256": "21e79b3acc96ed9f2cdf9ee58cb09ccb414dc048909ab09707cccced083b58e6",
+  +      "sha256": "255bde5158c7d69c878b00894f8cb365e2b432c940e3b62c1fba7a920c256d98",
+         "modes": [
+           "pages",
+           "public-package"
+  @@ -13248,7 +13271,7 @@
+  -      "sha256": "56f409996fc202bf6f05a3905156d2409711ef8f60b1a75459e8e9e3e65a13b1",
+  +      "sha256": "02728612daa49ca8ab639e9aaa65e3d6d1ddef14d29875cda35a2ea37390715f",
+         "modes": [
+           "pages",
+           "public-package"
+  @@ -13264,7 +13287,7 @@
+  -      "sha256": "12442e1de680459fd915281bb755c6e6d3f8a887aa8bb54aef2931caf9ce765e",
+  +      "sha256": "0b76060d3bb17a9d28ef2835b7f23286640139b15b33a3cafcba5baee855d3d4",
+         "modes": [
+           "pages",
+           "public-package"
+  @@ -13272,7 +13295,15 @@
+  -      "sha256": "7a74b91c405cb6b1fa17977f72f9fad8dac7d8655b7d643a7ca62b9fd926c8b1",
+  +      "sha256": "3476019afbbe194ac5fa0d451536f2a6bc5dcb938bdf3530d825f4180884ec77",
+  +      "modes": [
+  +        "pages",
+  +        "public-package"
+  +      ]
+  +    },
+  +    {
+  +      "path": "src/runtime_loader.js",
+  +      "sha256": "ad6b98492ba04a81f0d5577578cf72c06e5936da937b4f92d421938f720a513c",
+         "modes": [
+           "pages",
+           "public-package"
+  +35 -4
+
 scripts/build_map_first.py
   @@ -20,7 +20,7 @@ FRESHNESS_MANIFEST_PATH = ROOT / "manifests" / "trip_freshness.json"
   -    "src/app_phase7.css", "src/app_phase7.js", "src/atlas_messages.js", "src/atlas_state.js", "src/map_first.css",
@@ -1567,73 +1719,7 @@ src/app_phase7.css
    .segmented-control { display: flex; flex-wrap: wrap; gap: 4px; }
    .segment { min-height: 32px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text-muted); padding: 6px 9px; font-size: 10px; font-weight: 750; cursor: pointer; }
    .segment[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
-   .segment[data-provider="satellite"][data-health="failed"]::after { content: " · !"; color: var(--warning); }
-  -.map-status { max-width: 260px; color: var(--text-muted); font-size: 10px; line-height: 1.3; text-align: right; }
-  +.map-status { max-width: 320px; padding-inline: 3px; color: var(--text-muted); font-size: 9px; line-height: 1.3; }
-   .map-status.ready { color: var(--accent-strong); }
-   .map-status.failed { color: var(--danger); }
-   .map-legend { display: grid; gap: 4px; color: var(--text-muted); font-size: 10px; line-height: 1.25; }
-  @@ -239,13 +263,15 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
-  -  .map-top-left { top: 8px; left: 8px; max-width: calc(100% - 16px); padding: 7px; gap: 6px; }
-  -  .map-top-right { top: 8px; right: 8px; padding: 5px; }
-  +  .map-top-left { top: 8px; left: 8px; max-width: calc(100% - 16px); padding: 5px; gap: 5px; }
-     .map-bottom-left { left: 8px; bottom: 8px; max-width: calc(100% - 16px); }
-     .map-control-label { font-size: 8px; }
-     .segment { min-height: 34px; padding: 6px 8px; font-size: 9px; }
-  -  .map-status { display: none; }
-  +  .map-status { max-width: 100%; font-size: 8px; }
-     .map-action { min-height: 34px; padding: 6px 8px; font-size: 9px; }
-  +  .map-summary-button { min-height: 36px; padding-inline: 8px; }
-  +  .map-options-panel { width: min(320px, calc(100vw - 16px)); max-height: min(330px, calc(100dvh - 150px)); }
-  +  .route-legend-panel { max-height: min(250px, calc(100dvh - 150px)); }
-     .peek { right: 8px; bottom: 8px; left: 8px; top: auto; width: auto; max-height: min(310px, calc(100% - 16px)); }
-     .peek-media { height: 82px; }
-     .workbench { position: relative; z-index: 15; border-top: 1px solid var(--border); border-left: 0; border-radius: 18px 18px 0 0; box-shadow: 0 -12px 30px rgba(35, 47, 42, .15); }
-  @@ -266,9 +292,10 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
-  -  .map-top-left { max-width: 72%; }
-  -  .map-top-right { max-width: 28%; }
-  -  .map-action { max-width: 100%; white-space: normal; }
-  +  .map-top-left { max-width: calc(100% - 16px); }
-  +  .map-toolbar { gap: 4px; }
-  +  .map-summary-button { padding-inline: 6px; }
-  +  .map-action { max-width: 82px; white-space: normal; }
-     .day-item { grid-template-columns: 48px minmax(0, 1fr); }
-     .recommendation-footer { align-items: stretch; flex-direction: column; }
-   }
-  @@ -278,6 +305,6 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
-  -  .segment[aria-pressed="true"], .mode-button[aria-current="page"], .primary-action, .peek-action { border: 2px solid ButtonText; background: Highlight; color: HighlightText; }
-  +  .segment[aria-pressed="true"], .map-summary-button[aria-expanded="true"], .route-key-toggle[aria-expanded="true"], .mode-button[aria-current="page"], .primary-action, .peek-action { border: 2px solid ButtonText; background: Highlight; color: HighlightText; }
-     .route-card, .day-item, .place-list-item, .recommendation-card { border: 2px solid ButtonText; }
-   }
-  +38 -11
-
-src/app_phase7.js
-  @@ -33,6 +33,15 @@
-  +  let mapOptionsInvoker = null;
-  +  let routeLegendInvoker = null;
-  +
-  +  const markStartup = (name, detail = {}) => {
-  +    if (typeof window.__tripStartupMark === 'function') return window.__tripStartupMark(name, detail);
-  +    const started = window.__tripLoadStarted || performance.now();
-  +    (window.__tripStartupMarks ||= []).push({ name, at_ms: Math.round((performance.now() - started) * 100) / 100, ...detail });
-  +  };
-  +  markStartup('authored_js_evaluated');
-   
-     const m = key => messages.messages[state.presentation.lang]?.[key] || messages.messages.en[key] || key;
-     const tr = value => {
-  @@ -137,6 +146,7 @@
-  +    markStartup('local_vector_setup_start');
-       if (!window.TRIP_VECTOR) throw new Error('Local vector renderer missing');
-       const { Protocol, PMTiles, FileSource } = window.TRIP_VECTOR;
-       const protocol = new Protocol();
-  @@ -149,6 +159,7 @@
-  +    markStartup('local_pmtiles_header_ready', { tile_type: header?.tileType, max_zoom: header?.maxZoom });
-       if (!header || ![1, 6].includes(header.tileType) || header.maxZoom < 1 || header.minLon >= header.maxLon || header.minLat >= header.maxLat) throw new Error('Smart map PMTiles header is invalid');
-       protocol.add(archive); maplibregl.addProtocol('pmtiles', protocol.tile);
-       maplibregl.addProtocol('tripasset', async params => {
-  @@ -159,8 +170,10 @@
-  +    markStartup('local_vector_setup_ready');
 
 ... (more changes truncated)
-  +12 -0
+  +27 -3
 [full diff: rtk git diff --no-compact]

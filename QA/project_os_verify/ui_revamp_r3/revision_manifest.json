@@ -8,15 +8,15 @@
     "final_evidence_head": "a620d94b75b982073aa71ac4a1a49161b403a290"
   },
   "stable_r3_source": {
-    "sha": "2fa5dd1acc63f49230f772bd5ce39cd733331c0b",
-    "tree": "3f08ed4c850f989a7481d33aeceb09bd76c51f35",
+    "sha": "5b6dc6422f3ee96e05f9ea9a9cd0b5fa1331d6ed",
+    "tree": "0799b9978ed5306d448b46f6cdc381d22e96784e",
     "binding": "exact-clean-checkout",
     "note": "Stable source was frozen after product, runtime, workflow, QA harness, and evidence-contract changes."
   },
   "final_evidence_head": {
     "sha": null,
     "tree": null,
-    "evidence_parent_sha": "2fa5dd1acc63f49230f772bd5ce39cd733331c0b",
+    "evidence_parent_sha": "5b6dc6422f3ee96e05f9ea9a9cd0b5fa1331d6ed",
     "authority": "Authoritative final identity is the pushed managed R3 branch plus Fabric audit/Project OS postflight; this manifest intentionally resolves final SHA/tree from that authority instead of making a self-referential final-commit claim."
   },
   "source_to_final": {
@@ -25,10 +25,10 @@
   },
   "r2_to_r3_diff": {
     "complete_diff_file": "QA/project_os_verify/ui_revamp_r3/r2_to_r3.diff",
-    "command": "git diff --binary 4a2520a8fb40ec789784fccf513de78f26318507..2fa5dd1acc63f49230f772bd5ce39cd733331c0b -- .github/workflows/candidate-qualification.yml scripts src",
-    "files_changed": 15,
-    "insertions": 456,
-    "deletions": 120
+    "command": "git diff --binary 4a2520a8fb40ec789784fccf513de78f26318507..5b6dc6422f3ee96e05f9ea9a9cd0b5fa1331d6ed -- .github/workflows/candidate-qualification.yml manifests/public_asset_rights.json scripts src",
+    "files_changed": 16,
+    "insertions": 491,
+    "deletions": 124
   },
   "evidence": {
     "performance": "QA/project_os_verify/ui_revamp_r3/performance.json",

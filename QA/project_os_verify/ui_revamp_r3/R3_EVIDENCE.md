@@ -1,7 +1,7 @@
 # CHG-157 R3 evidence handoff
 
-Stable source: `2fa5dd1acc63f49230f772bd5ce39cd733331c0b`  
-Stable tree: `3f08ed4c850f989a7481d33aeceb09bd76c51f35`  
+Stable source: `5b6dc6422f3ee96e05f9ea9a9cd0b5fa1331d6ed`  
+Stable tree: `0799b9978ed5306d448b46f6cdc381d22e96784e`  
 Base main: `f9631a57d3b9e51216e082b62d80519599b84711`  
 R2 source: `4a2520a8fb40ec789784fccf513de78f26318507` / tree `1d42515d23cc6f1995e3ccc8f41da6802321dcf5`
 
@@ -15,7 +15,7 @@ The geometry oracle records 18 states across desktop/mobile, options and route-k
 
 The exact R2 record is preserved in `performance.json` and `profiling_breakdown.json`: its matched record was 8/8 slower for `map_visual_ready` with approximately +498ms mean delta and DCL approximately +336ms. R3 marks canonical parse, authored evaluation, decision shell readiness, map runtime scripts, PMTiles, local style assets, MapLibre creation/style, route layers, photo preparation, markers, safe padding, fit, and final visual readiness.
 
-Fresh order-balanced evidence has 8 samples per variant across two blocks. Current main vs R3: DCL mean `94.94ms` vs `38.66ms`; decision shell `287.90ms` vs `74.71ms`; map visual readiness `1065.68ms` vs `1061.86ms`. Map pair delta is mean `-3.83ms`, median `+15.75ms`, stdev `93.25ms`, 6/8 mildly slower and 0/8 over 200ms. Classification remains `VERIFY_REQUIRED` because this is residual direction within observed noise, not a fabricated hard budget.
+Fresh order-balanced evidence has 8 samples per variant across two blocks. Current main vs R3: DCL mean `98.30ms` vs `39.61ms`; decision shell `294.73ms` vs `79.51ms`; map visual readiness `1083.73ms` vs `1070.79ms`. Map pair delta is mean `-12.94ms`, median `+5.05ms`, stdev `81.01ms`, 4/8 slower and 0/8 over 200ms. The performance component classifies PASS; overall handoff remains `VERIFY_REQUIRED` pending hosted and independent external evidence.
 
 ## Automated evidence
 
@@ -25,7 +25,7 @@ Fresh order-balanced evidence has 8 samples per variant across two blocks. Curre
 - Visual pack: 35 indexed real files covering canonical, compact options, region change, route key, provider failure, Decide/Day/Place, workbench sizes, stress profiles, and fresh 1536×864 / 414×896 holdouts.
 - Repository checks: 46 unittest cases PASS; compileall, JavaScript syntax, and `git diff --check` PASS.
 
-R2→R3 complete diff: `r2_to_r3.diff`. Preservation hashes and canonical counts are in `revision_manifest.json`. Fabric evidence is objective and does not self-certify aesthetic perfection.
+R2→R3 complete diff: `r2_to_r3.diff` (including the Gate-6 rights-contract registration and changed first-party hashes). Preservation hashes and canonical counts are in `revision_manifest.json`. Fabric evidence is objective and does not self-certify aesthetic perfection.
 
 ## Qualification boundary
 
