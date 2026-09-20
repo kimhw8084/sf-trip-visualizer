@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "change": "CHG-157",
+  "project": "sf-trip-visualizer",
+  "branch": "codex/sf-trip-visualizer-golden-ui-decision-workbench-revamp-r1",
+  "base": {
+    "revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+    "tree": "11f886df2d0d9eb18f4550a399d533b10f7a4752"
+  },
+  "source_candidate": {
+    "revision": "819bb75f823f8a7bcdf6ef9902a958deba77b802",
+    "tree": "e750d5551b4e047a3f165eb19c4a1cea193d456c",
+    "commit_message": "CHG-157 make matched performance probe baseline-safe",
+    "source_evidence_boundary": "All commits through this revision change source, runtime, manifests or QA qualification behavior. Later commits are evidence-only."
+  },
+  "final_evidence_head": null,
+  "final_evidence_tree": null,
+  "changed_files": [
+    "data/phase7_app_data.json",
+    "manifests/canonical_pipeline.json",
+    "manifests/public_asset_rights.json",
+    "manifests/security_privacy_contract.json",
+    "manifests/ui_decision_workbench_contract.json",
+    "scripts/build_map_first.py",
+    "scripts/pipeline.py",
+    "scripts/qa_accessibility_reflow.py",
+    "scripts/qa_decision_workbench.py",
+    "scripts/qa_gate4_resilience.py",
+    "scripts/qa_interaction_dynamics.py",
+    "scripts/qa_location_gap_visuals.py",
+    "scripts/qa_map_first.py",
+    "scripts/qa_map_first_full.py",
+    "scripts/qa_map_first_p0.py",
+    "scripts/qa_route_explanations_panel.py",
+    "scripts/qa_ui_performance.py",
+    "scripts/run_cross_browser.py",
+    "scripts/run_exhaustive_states.py",
+    "scripts/run_visual_spots.py",
+    "scripts/security_privacy.py",
+    "scripts/validate_trip_data.py",
+    "src/app_phase7.css",
+    "src/app_phase7.js",
+    "src/atlas_messages.js",
+    "src/atlas_state.js",
+    "src/map_first.css",
+    "src/map_shell_template.html"
+  ]
+}

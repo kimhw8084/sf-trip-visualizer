@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "change": "CHG-157",
+  "status": "PASS",
+  "candidate": "WORKTREE",
+  "base": "f9631a57d3b9e51216e082b62d80519599b84711",
+  "results": [
+    {
+      "id": "decide_recommendation",
+      "status": "PASS"
+    },
+    {
+      "id": "single_authority_controls",
+      "status": "PASS"
+    },
+    {
+      "id": "legacy_surface_removed",
+      "status": "PASS"
+    },
+    {
+      "id": "decide_compare_two_routes",
+      "status": "PASS"
+    },
+    {
+      "id": "day_semantic_items",
+      "status": "PASS",
+      "detail": {
+        "non_spatial_10_9": 1
+      }
+    },
+    {
+      "id": "day_single_date_authority",
+      "status": "PASS"
+    },
+    {
+      "id": "place_peek",
+      "status": "PASS"
+    },
+    {
+      "id": "place_inspector",
+      "status": "PASS"
+    },
+    {
+      "id": "place_return_context",
+      "status": "PASS"
+    },
+    {
+      "id": "satellite_failure_recovery",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile_sheet_reflow",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile_compact_non_drag",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile_expanded_non_drag",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile_mode_identity",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile_200_percent_reflow",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    {
+      "path": "QA/project_os_verify/ui_revamp_r1/decide_default_desktop.png",
+      "candidate": "WORKTREE",
+      "browser": "chromium",
+      "viewport": "1440x900",
+      "language": "ko",
+      "theme": "light",
+      "mode": "decide",
+      "state": "recommended_default",
+      "purpose": "decide_default_desktop"
+    },
+    {
+      "path": "QA/project_os_verify/ui_revamp_r1/decide_compare_desktop.png",
+      "candidate": "WORKTREE",
+      "browser": "chromium",
+      "viewport": "1440x900",
+      "language": "ko",
+      "theme": "light",
+      "mode": "decide",
+      "state": "A1_vs_A2_compare",
+      "purpose": "decide_compare_desktop"
+    },
+    {
+      "path": "QA/project_os_verify/ui_revamp_r1/day_1008_desktop.png",
+      "candidate": "WORKTREE",
+      "browser": "chromium",
+      "viewport": "1440x900",
+      "language": "ko",
+      "theme": "light",
+      "mode": "day",
+      "state": "10/8_dense_recovery",
+      "purpose": "day_1008_desktop"
+    },
+    {
+      "path": "QA/project_os_verify/ui_revamp_r1/place_inspector_desktop.png",
+      "candidate": "WORKTREE",
+      "browser": "chromium",
+      "viewport": "1440x900",
+      "language": "ko",
+      "theme": "light",
+      "mode": "place",
+      "state": "inspector_after_peek",
+      "purpose": "place_inspector_desktop"
+    },
+    {
+      "path": "QA/project_os_verify/ui_revamp_r1/place_mobile_expanded.png",
+      "candidate": "WORKTREE",
+      "browser": "chromium",
+      "viewport": "390x844",
+      "language": "ko",
+      "theme": "light",
+      "mode": "place",
+      "state": "expanded_sheet",
+      "purpose": "place_mobile_expanded"
+    }
+  ],
+  "reserved_holdouts": [
+    "1366x768 desktop",
+    "360x800 mobile"
+  ],
+  "notes": [
+    "Chromium browser evidence only; native Safari, physical-device and independent-human evidence remain external."
+  ]
+}

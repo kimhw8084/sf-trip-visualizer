@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "system": "semantic field-atlas tokens",
+  "roles": {
+    "surfaces": ["--bg", "--surface", "--surface-raised", "--surface-muted"],
+    "text": ["--text", "--text-muted", "--text-subtle"],
+    "borders": ["--border", "--border-strong"],
+    "actions": ["--accent", "--accent-strong", "--accent-soft"],
+    "status": ["--warm", "--warning", "--danger", "--focus"],
+    "route_identity": ["--route-primary", "data-driven --route-color"],
+    "spacing": ["--space-1", "--space-2", "--space-3", "--space-4", "--space-5", "--space-6", "--space-7"],
+    "type": ["responsive clamp headings", "11–12px supporting copy", "9–10px labels only"],
+    "radii": ["--radius-sm", "--radius-md", "--radius-lg"],
+    "elevation": ["--shadow-soft", "--shadow-float"],
+    "motion": ["--ease", "prefers-reduced-motion override"]
+  },
+  "theme_sets": ["light :root", "dark :root[data-theme=dark]", "forced-colors media override"],
+  "measured_reduction": {"base_app_css_hex_literals": 108, "candidate_app_css_hex_literals": 35, "method": "rg -o '#[0-9A-Fa-f]{6}'"},
+  "route_semantics": "route color is paired with route code, labels, patterns, and explicit branch/tier text; color is not the sole carrier of meaning."
+}

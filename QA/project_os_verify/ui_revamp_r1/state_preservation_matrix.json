@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "task_state": ["primaryRoute", "compareRoutes", "routes", "date", "region", "selected", "selectedOccurrence"],
+  "presentation_state": ["mode", "sheet", "lang", "theme", "peek", "previousMode", "previousContext", "focusReturn"],
+  "runtime_state": ["provider", "providerHealth", "localAssets", "mapStatus", "providerEvents", "providerStats"],
+  "events": [
+    {"event": "responsive recomposition / orientation", "preserve": ["primaryRoute", "compareRoutes", "routes", "date", "region", "selected", "mode", "lang", "theme"], "reset": ["peek"], "discard": ["focusReturn if invoker is gone"]},
+    {"event": "route choice", "preserve": ["date", "region", "selected if still eligible", "mode", "sheet", "lang", "theme"], "reset": ["compare route equal to new primary"], "discard": ["selectedOccurrence if filtered out"]},
+    {"event": "date choice", "preserve": ["primaryRoute", "compareRoutes", "region", "mode=day", "sheet", "lang", "theme"], "reset": ["selected if no occurrence matches"], "discard": ["peek when selected object is invalid"]},
+    {"event": "provider change / Satellite failure", "preserve": ["all task state", "mode", "sheet", "lang", "theme"], "reset": ["provider to vector on failure", "provider health to failed"], "discard": []},
+    {"event": "Peek open / close", "preserve": ["all task state", "mode", "date", "sheet"], "reset": ["peek"], "discard": ["focusReturn after invalid invoker"]},
+    {"event": "Place Inspector open / Back", "preserve": ["date", "region", "selected", "selectedOccurrence", "sheet", "lang", "theme"], "reset": ["mode returns to previous meaningful mode", "workbench scroll restored"], "discard": ["previousContext after close"]},
+    {"event": "workbench collapse / recovery", "preserve": ["all task state", "mode", "date", "primaryRoute", "selected", "lang", "theme"], "reset": ["sheet compact ↔ expanded/full"], "discard": []}
+  ]
+}

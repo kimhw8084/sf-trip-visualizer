@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "candidate": "819bb75f823f8a7bcdf6ef9902a958deba77b802",
+  "base": "f9631a57d3b9e51216e082b62d80519599b84711",
+  "unchanged_critical_artifacts": {
+    "vendor/maplibre-gl.js": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675",
+    "vendor/trip-vector.js": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+    "requirements-qa.txt": "e56176ea7b47040608aeae86322fd8d3d4c1ad7a31555cae699111f11f5904ea",
+    ".github/workflows/candidate-qualification.yml": "7ce813a7118d81191a569e5f720587edd33683d684b9cb2099114791e30c1855",
+    ".github/workflows/deploy-pages.yml": "e081442eeadb90953b61ab4df65f7838dceb384cf9d0656290136eeadf081710"
+  },
+  "changed_control_files_current_hash": {
+    "scripts/pipeline.py": "7a2c2bfbd1e97cab8c0c1d708ffab8de617f848fe2a019a214791bb95c923763",
+    "scripts/security_privacy.py": "6aceede8203051f354a5ddfdae070c0f4c03d1d341bc3ef01026c5b5dc556ed0",
+    "scripts/hosted_linux_pipeline.py": "9e6e3fa04e11d68e09944044a362c442d251e9b9f4d9450f1730754115861a34"
+  },
+  "canonical_counts": {
+    "places": 36,
+    "authentic_photos": 108,
+    "timeline_cards": 79,
+    "typed_route_legs": 41,
+    "route_strategies": 4,
+    "dates": 9,
+    "regions": 3
+  },
+  "validation": [
+    "scripts/validate_trip_data.py PASS",
+    "public asset rights PASS",
+    "MapLibre security/identity PASS",
+    "Gate-4 resilience PASS"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "candidate": "819bb75f823f8a7bcdf6ef9902a958deba77b802",
+  "deploy_performed": false,
+  "commands": [
+    {
+      "command": "rtk python3 scripts/hosted_linux_pipeline.py release --revision 819bb75f823f8a7bcdf6ef9902a958deba77b802",
+      "exit_code": 1,
+      "status": "VERIFY_REQUIRED",
+      "stdout_stderr": "hosted Linux release contract requires xvfb-run",
+      "interpretation": "This macOS workstation cannot supply the shared hosted-Linux Xvfb/software-GL release evidence."
+    },
+    {
+      "command": "rtk python3 scripts/pipeline.py verify-public --revision 819bb75f823f8a7bcdf6ef9902a958deba77b802",
+      "exit_code": 1,
+      "status": "VERIFY_REQUIRED",
+      "stdout_stderr": "RuntimeError: Public artifact provenance is missing.",
+      "interpretation": "No public artifact was created because the required hosted release contract was unavailable; no deploy or public mutation was attempted."
+    }
+  ],
+  "required_external_followup": "Run the exact clean non-deploying release and verify-public path on the shared hosted-Linux runner, then attach run/job/artifact identities."
+}

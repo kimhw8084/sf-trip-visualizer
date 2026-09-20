@@ -1,131 +1,109 @@
 {
-  "schema_version": 1,
-  "status": "PASS",
-  "expected_rows": 4,
-  "rows": [
+  "schema_version": 2,
+  "candidate": "WORKTREE",
+  "browser_families": [
+    "Chromium",
+    "Firefox",
+    "WebKit"
+  ],
+  "cases": [
     {
-      "browser": "firefox",
-      "width": 1280,
-      "height": 800,
-      "launch_mode": "headless",
+      "browser": "chromium",
+      "viewport": "1280x800",
       "status": "PASS",
-      "completed": true,
-      "cleanup_warnings": [],
-      "page_errors": [],
-      "console_errors": [],
-      "failed_requests": [
-        {
-          "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-          "method": "GET",
-          "failure": "NS_BINDING_ABORTED"
-        },
-        {
-          "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-          "method": "GET",
-          "failure": "NS_BINDING_ABORTED"
-        }
-      ],
-      "map_error_events": [],
-      "marker_objects": 36,
-      "canvas": 1,
-      "horizontal_overflow": false,
-      "broken_marker_images": 0,
-      "expected_places": 36,
-      "detail_photos": 3,
-      "map_error_listener_attached": true,
-      "screenshot": "QA/map_first/screenshots/firefox_1280_detail.png"
+      "errors": [],
+      "checks": {
+        "markers": true,
+        "canvas": true,
+        "overflow": true,
+        "decide": true,
+        "legacy_absent": true,
+        "day": true,
+        "place": true
+      },
+      "screenshot": "QA/map_first/screenshots/chromium_1280x800_place.png"
+    },
+    {
+      "browser": "chromium",
+      "viewport": "390x844",
+      "status": "PASS",
+      "errors": [],
+      "checks": {
+        "markers": true,
+        "canvas": true,
+        "overflow": true,
+        "decide": true,
+        "legacy_absent": true,
+        "day": true,
+        "place": true
+      },
+      "screenshot": "QA/map_first/screenshots/chromium_390x844_place.png"
     },
     {
       "browser": "firefox",
-      "width": 390,
-      "height": 844,
-      "launch_mode": "headless",
+      "viewport": "1280x800",
       "status": "PASS",
-      "completed": true,
-      "cleanup_warnings": [],
-      "page_errors": [],
-      "console_errors": [],
-      "failed_requests": [
-        {
-          "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-          "method": "GET",
-          "failure": "NS_BINDING_ABORTED"
-        }
-      ],
-      "map_error_events": [],
-      "marker_objects": 36,
-      "canvas": 1,
-      "horizontal_overflow": false,
-      "broken_marker_images": 0,
-      "expected_places": 36,
-      "detail_photos": 3,
-      "map_error_listener_attached": true,
-      "screenshot": "QA/map_first/screenshots/firefox_390_detail.png"
+      "errors": [],
+      "checks": {
+        "markers": true,
+        "canvas": true,
+        "overflow": true,
+        "decide": true,
+        "legacy_absent": true,
+        "day": true,
+        "place": true
+      },
+      "screenshot": "QA/map_first/screenshots/firefox_1280x800_place.png"
+    },
+    {
+      "browser": "firefox",
+      "viewport": "390x844",
+      "status": "PASS",
+      "errors": [],
+      "checks": {
+        "markers": true,
+        "canvas": true,
+        "overflow": true,
+        "decide": true,
+        "legacy_absent": true,
+        "day": true,
+        "place": true
+      },
+      "screenshot": "QA/map_first/screenshots/firefox_390x844_place.png"
     },
     {
       "browser": "webkit",
-      "width": 1280,
-      "height": 800,
-      "launch_mode": "headless",
+      "viewport": "1280x800",
       "status": "PASS",
-      "completed": true,
-      "cleanup_warnings": [],
-      "page_errors": [],
-      "console_errors": [],
-      "failed_requests": [
-        {
-          "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-          "method": "GET",
-          "failure": "cancelled"
-        },
-        {
-          "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-          "method": "GET",
-          "failure": "cancelled"
-        },
-        {
-          "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-          "method": "GET",
-          "failure": "cancelled"
-        },
-        {
-          "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-          "method": "GET",
-          "failure": "cancelled"
-        }
-      ],
-      "map_error_events": [],
-      "marker_objects": 36,
-      "canvas": 1,
-      "horizontal_overflow": false,
-      "broken_marker_images": 0,
-      "expected_places": 36,
-      "detail_photos": 3,
-      "map_error_listener_attached": true,
-      "screenshot": "QA/map_first/screenshots/webkit_1280_detail.png"
+      "errors": [],
+      "checks": {
+        "markers": true,
+        "canvas": true,
+        "overflow": true,
+        "decide": true,
+        "legacy_absent": true,
+        "day": true,
+        "place": true
+      },
+      "screenshot": "QA/map_first/screenshots/webkit_1280x800_place.png"
     },
     {
       "browser": "webkit",
-      "width": 390,
-      "height": 844,
-      "launch_mode": "headless",
+      "viewport": "390x844",
       "status": "PASS",
-      "completed": true,
-      "cleanup_warnings": [],
-      "page_errors": [],
-      "console_errors": [],
-      "failed_requests": [],
-      "map_error_events": [],
-      "marker_objects": 36,
-      "canvas": 1,
-      "horizontal_overflow": false,
-      "broken_marker_images": 0,
-      "expected_places": 36,
-      "detail_photos": 3,
-      "map_error_listener_attached": true,
-      "screenshot": "QA/map_first/screenshots/webkit_390_detail.png"
+      "errors": [],
+      "checks": {
+        "markers": true,
+        "canvas": true,
+        "overflow": true,
+        "decide": true,
+        "legacy_absent": true,
+        "day": true,
+        "place": true
+      },
+      "screenshot": "QA/map_first/screenshots/webkit_390x844_place.png"
     }
   ],
-  "cleanup_warnings": [],
-  "errors": []
+  "status": "PASS",
+  "native_safari_boundary": "Playwright WebKit is not native Safari; native Safari and physical-device evidence remain external."
 }

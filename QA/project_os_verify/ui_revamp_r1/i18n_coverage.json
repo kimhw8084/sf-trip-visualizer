@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "candidate": "819bb75f823f8a7bcdf6ef9902a958deba77b802",
+  "authoritative_languages": ["ko", "en"],
+  "central_message_module": "src/atlas_messages.js",
+  "covered_critical_surfaces": ["global app bar", "Decide", "two-route Compare", "Day", "Place Peek", "Place Inspector", "map provider state", "loading", "no-results", "Smart failure", "Satellite failure/recovery", "help/about"],
+  "automated_checks": {
+    "korean_and_english_task_oracles": "PASS",
+    "critical_mixed_language_or_missing_suffix_check": "PASS",
+    "english_render_hangul_leak_check": "PASS",
+    "long_label_wrap_reflow": "PASS"
+  },
+  "notes": "Proper nouns remain intentional; canonical decision truth remains data-driven and route codes are secondary labels."
+}

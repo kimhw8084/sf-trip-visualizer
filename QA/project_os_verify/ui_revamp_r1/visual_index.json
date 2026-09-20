@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "candidate": "819bb75f823f8a7bcdf6ef9902a958deba77b802",
+  "tree": "e750d5551b4e047a3f165eb19c4a1cea193d456c",
+  "pack_root": "QA/project_os_verify/ui_revamp_r1",
+  "reserved_holdouts": [
+    {"viewport": "1366x768", "class": "desktop", "reason": "short-height desktop holdout"},
+    {"viewport": "360x800", "class": "mobile", "reason": "narrow mobile holdout"}
+  ],
+  "screenshots": [
+    {"path": "decide_default_desktop.png", "browser": "Chromium", "viewport": "1440x900", "language": "ko", "theme": "light", "mode": "Decide", "state": "recommended_default", "task": "identify recommendation and rationale"},
+    {"path": "decide_compare_desktop.png", "browser": "Chromium", "viewport": "1440x900", "language": "ko", "theme": "light", "mode": "Decide", "state": "A1_vs_A2_compare", "task": "compare two strategies and tradeoff"},
+    {"path": "day_1008_desktop.png", "browser": "Chromium", "viewport": "1440x900", "language": "ko", "theme": "light", "mode": "Day", "state": "10/8_dense_recovery", "task": "identify must, optional, swap and recovery"},
+    {"path": "place_inspector_desktop.png", "browser": "Chromium", "viewport": "1440x900", "language": "ko", "theme": "light", "mode": "Place", "state": "inspector_after_peek", "task": "inspect why-now and return context"},
+    {"path": "place_mobile_expanded.png", "browser": "Chromium", "viewport": "390x844", "language": "ko", "theme": "light", "mode": "Place", "state": "expanded_sheet", "task": "mobile sheet task completion"}
+  ],
+  "stress_and_family_evidence": {
+    "chromium": ["1280x800", "1440x900", "1920x1080", "390x844", "360x800", "mobile landscape"],
+    "firefox": ["1280x800", "390x844"],
+    "webkit_automation": ["1280x800", "390x844"],
+    "language_theme": ["ko/light", "en/dark"],
+    "state_families": ["Decide", "two-route Compare", "Day", "Place Peek/Inspector", "dense/sparse day", "Smart failure", "Satellite failure/recovery", "collapsed workbench", "mobile compact/expanded/full", "keyboard/touch"]
+  },
+  "qualification_note": "Screenshots are evidence for Project OS review, not self-certification of E2 aesthetic or human-usability perfection. Playwright WebKit is not native Safari evidence."
+}

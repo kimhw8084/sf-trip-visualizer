@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "base_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+  "candidate_revision": "819bb75f823f8a7bcdf6ef9902a958deba77b802",
+  "environment": {
+    "browser": "Chromium headless",
+    "viewport": "1440x900",
+    "samples_per_variant": 3,
+    "ordering": "baseline then candidate",
+    "platform": "Darwin",
+    "python": "3.11.7"
+  },
+  "baseline": {
+    "label": "current-main baseline",
+    "url": "http://127.0.0.1:8875/index.html",
+    "samples": [
+      {
+        "sample": 1,
+        "dom_content_ms": 86.51,
+        "map_visual_ready_ms": 1196.3,
+        "workbench_ready_ms": 1230.03,
+        "compare_response_ms": 1513.93,
+        "interaction_kind": "legacy-route-selection-baseline",
+        "dom_nodes": 1757,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "sample": 2,
+        "dom_content_ms": 92.62,
+        "map_visual_ready_ms": 1030.09,
+        "workbench_ready_ms": 1064.07,
+        "compare_response_ms": 1362.62,
+        "interaction_kind": "legacy-route-selection-baseline",
+        "dom_nodes": 1757,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "sample": 3,
+        "dom_content_ms": 98.68,
+        "map_visual_ready_ms": 1084.97,
+        "workbench_ready_ms": 1168.86,
+        "compare_response_ms": 1440.57,
+        "interaction_kind": "legacy-route-selection-baseline",
+        "dom_nodes": 1757,
+        "markers": 36,
+        "map_layers": 135
+      }
+    ],
+    "metrics": {
+      "dom_content_ms": {
+        "mean": 92.6,
+        "stdev": 6.09
+      },
+      "map_visual_ready_ms": {
+        "mean": 1103.79,
+        "stdev": 84.69
+      },
+      "workbench_ready_ms": {
+        "mean": 1154.32,
+        "stdev": 83.93
+      },
+      "compare_response_ms": {
+        "mean": 1439.04,
+        "stdev": 75.67
+      },
+      "dom_nodes": {
+        "mean": 1757,
+        "stdev": 0.0
+      },
+      "markers": {
+        "mean": 36,
+        "stdev": 0.0
+      },
+      "map_layers": {
+        "mean": 135,
+        "stdev": 0.0
+      }
+    }
+  },
+  "candidate": {
+    "label": "CHG-157 candidate",
+    "url": "http://127.0.0.1:8767/index.html",
+    "samples": [
+      {
+        "sample": 1,
+        "dom_content_ms": 446.5,
+        "map_visual_ready_ms": 1500.68,
+        "workbench_ready_ms": 1568.31,
+        "compare_response_ms": 1668.75,
+        "interaction_kind": "two-route-compare",
+        "dom_nodes": 439,
+        "markers": 35,
+        "map_layers": 135
+      },
+      {
+        "sample": 2,
+        "dom_content_ms": 438.52,
+        "map_visual_ready_ms": 1448.78,
+        "workbench_ready_ms": 1510.85,
+        "compare_response_ms": 1596.24,
+        "interaction_kind": "two-route-compare",
+        "dom_nodes": 439,
+        "markers": 35,
+        "map_layers": 135
+      },
+      {
+        "sample": 3,
+        "dom_content_ms": 441.51,
+        "map_visual_ready_ms": 1468.12,
+        "workbench_ready_ms": 1530.62,
+        "compare_response_ms": 1694.21,
+        "interaction_kind": "two-route-compare",
+        "dom_nodes": 439,
+        "markers": 35,
+        "map_layers": 135
+      }
+    ],
+    "metrics": {
+      "dom_content_ms": {
+        "mean": 442.18,
+        "stdev": 4.03
+      },
+      "map_visual_ready_ms": {
+        "mean": 1472.53,
+        "stdev": 26.23
+      },
+      "workbench_ready_ms": {
+        "mean": 1536.59,
+        "stdev": 29.19
+      },
+      "compare_response_ms": {
+        "mean": 1653.07,
+        "stdev": 50.83
+      },
+      "dom_nodes": {
+        "mean": 439,
+        "stdev": 0.0
+      },
+      "markers": {
+        "mean": 35,
+        "stdev": 0.0
+      },
+      "map_layers": {
+        "mean": 135,
+        "stdev": 0.0
+      }
+    }
+  },
+  "interpretation": {
+    "status": "VERIFY_REQUIRED",
+    "reason": "Matched local samples record milestones and variance, but no universal threshold is asserted; hosted-Linux release performance and human/device evidence remain external.",
+    "task_effort_proxy": "One compare-control interaction after load; this is not a human usability score."
+  }
+}

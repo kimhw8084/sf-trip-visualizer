@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "candidate": "819bb75f823f8a7bcdf6ef9902a958deba77b802",
+  "full_qualification": {
+    "report": "QA/release/qualification.json",
+    "status": "PASS",
+    "component_count": 18,
+    "all_components_passed": true
+  },
+  "browser_families": {
+    "chromium": "PASS",
+    "firefox": "PASS",
+    "playwright_webkit": "PASS; not native Safari evidence"
+  },
+  "accessibility_reflow": {
+    "report": "QA/project_os_verify/ui_revamp_r1/accessibility.json",
+    "focus_visibility": "PASS",
+    "escape_and_context_return": "PASS",
+    "200_percent_reflow": "PASS",
+    "reduced_motion": "PASS",
+    "forced_colors": "PASS",
+    "hidden_duplicate_controls": "PASS"
+  },
+  "remaining_evidence_boundaries": ["native Safari", "physical-device touch/keyboard", "independent human usability and aesthetic review", "shared hosted-Linux software-GL release run"]
+}
