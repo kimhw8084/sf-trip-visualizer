@@ -203,6 +203,70 @@ def check_vendor_inventory(root: Path = ROOT, contract: dict | None = None) -> d
     return {"status": "PASS" if not failures else "FAIL", "files": results, "failures": failures}
 
 
+def check_maplibre_dependency(root: Path = ROOT, contract: dict | None = None) -> dict:
+    """Fail closed unless MapLibre is an exact fixed release or bound local backport."""
+    contract = contract or load_json(root / "manifests/security_privacy_contract.json")
+    entry = next((item for item in contract.get("dependency_inventory", []) if item.get("id") == "maplibre-gl-js"), None)
+    failures: list[str] = []
+    if entry is None:
+        return {"status": "FAIL", "identity": None, "failures": ["MapLibre dependency inventory entry is missing"]}
+    version = str(entry.get("version", ""))
+    review_status = entry.get("review_status")
+    local = entry.get("local_backport")
+    if local:
+        required = {
+            "identity": version,
+            "base_tag": "v4.7.1",
+            "base_commit": "87486a5ef2085e600e8fa4e31252629dd8488dcd",
+            "upstream_sanitizer_introduction_commit": "506090de1202f58c35175802bc0342494c5f5893",
+            "upstream_security_patch_commit": "1da69f3cd913a39fa948708e01478663bf48bc27",
+            "upstream_patched_release": "6.4.1",
+            "security_regression": "scripts/qa_maplibre_security.py",
+        }
+        for key, expected in required.items():
+            if local.get(key) != expected:
+                failures.append(f"MapLibre local backport {key} is not bound to the reviewed value")
+        if review_status != "PASS_WITH_EXPLICIT_LOCAL_SECURITY_BACKPORT":
+            failures.append("MapLibre local backport must use the explicit security disposition")
+        javascript = root / "vendor/maplibre-gl.js"
+        expected_hash = entry.get("artifact_hashes", {}).get("vendor/maplibre-gl.js")
+        actual_hash = sha256(javascript) if javascript.is_file() else None
+        if actual_hash != expected_hash:
+            failures.append("MapLibre local backport JavaScript hash does not match its contract")
+        text = javascript.read_text(encoding="utf-8", errors="replace") if javascript.is_file() else ""
+        for marker in ("DOMParser", "isPossiblyDangerous", "Array.from(t.attributes"):
+            if marker not in text:
+                failures.append(f"MapLibre local backport artifact lacks the upstream sanitizer fix marker: {marker}")
+        regression = root / local["security_regression"]
+        if not regression.is_file():
+            failures.append("MapLibre local backport security regression is missing")
+        else:
+            regression_text = regression.read_text(encoding="utf-8", errors="replace")
+            for marker in ("GHSA-jrc7-96c5-q579", "AttributionControl", "ontoggle", "__maplibreSecuritySentinel"):
+                if marker not in regression_text:
+                    failures.append(f"MapLibre local backport regression lacks required marker: {marker}")
+    elif version == "6.4.1" and entry.get("source", "").endswith("/tree/v6.4.1"):
+        if review_status != "PASS":
+            failures.append("exact upstream MapLibre 6.4.1 must be marked PASS")
+    else:
+        failures.append("MapLibre version is neither exact upstream 6.4.1+ nor an explicit provenance-bound local backport")
+
+    advisory = next(
+        (item for item in contract.get("advisory_review", {}).get("reviewed", []) if item.get("id") == "maplibre-gl-js"),
+        None,
+    )
+    if not advisory:
+        failures.append("MapLibre GHSA-jrc7-96c5-q579 advisory review is missing")
+    else:
+        if "GHSA-jrc7-96c5-q579" not in advisory.get("relevant_advisories", []) or "CVE-2026-85061" not in advisory.get("relevant_advisories", []):
+            failures.append("MapLibre advisory review does not name GHSA-jrc7-96c5-q579 and CVE-2026-85061")
+        if advisory.get("affected_range") != "<=6.4.0" or "6.4.1" not in str(advisory.get("patched_range")):
+            failures.append("MapLibre advisory review does not record the exact affected/patched range")
+        if advisory.get("result") not in {"PASS", "PASS_WITH_EXPLICIT_LOCAL_SECURITY_BACKPORT"}:
+            failures.append("MapLibre advisory review has no passing final disposition")
+    return {"status": "PASS" if not failures else "FAIL", "identity": version, "review": advisory, "failures": failures}
+
+
 def _requirement_match(line: str) -> re.Match[str] | None:
     return re.match(r"\s*([A-Za-z0-9_.-]+)==([^\s\\]+)", line)
 
@@ -518,6 +582,8 @@ def check_candidate_binding(root: Path, requested_revision: str | None, contract
         "scripts/package_map_first.py",
         "scripts/public_asset_rights.py",
         "scripts/security_privacy.py",
+        "scripts/qa_maplibre_security.py",
+        "tests/test_maplibre_security.py",
         "src/map_shell_template.html",
         "src/app_phase7.js",
         ".github/workflows/candidate-qualification.yml",
@@ -570,6 +636,7 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
     artifacts = artifact_paths(root, extra_roots or [])
     artifact_scan = check_artifact_paths(artifacts, root)
     vendor = check_vendor_inventory(root, contract)
+    maplibre = check_maplibre_dependency(root, contract)
     requirements = check_requirements(root, contract)
     workflows = check_workflows(root, contract)
     origins = check_origins(root)
@@ -581,6 +648,7 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
         "production_secret_scan": production["status"] == "PASS",
         "artifact_secret_scan": artifact_scan["status"] == "PASS",
         "vendor_inventory": vendor["status"] == "PASS",
+        "maplibre_advisory": maplibre["status"] == "PASS",
         "requirements_reproducible": requirements["status"] == "PASS",
         "workflow_trust": workflows["status"] == "PASS",
         "external_origins": origins["status"] == "PASS",
@@ -592,7 +660,7 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
     for name, passed in checks.items():
         if not passed:
             failures.append(name)
-    for report in (production, artifact_scan, vendor, requirements, workflows, origins, storage, controls, binding):
+    for report in (production, artifact_scan, vendor, maplibre, requirements, workflows, origins, storage, controls, binding):
         failures.extend(report.get("failures", []))
     verify_required = contract.get("advisory_review", {}).get("verify_required", [])
     return {
@@ -608,6 +676,7 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
         "candidate_binding": source,
         "secret_scan": {"production_inputs": production, "generated_artifacts": artifact_scan},
         "dependency_inventory": vendor,
+        "maplibre": maplibre,
         "requirements": requirements,
         "workflows": workflows,
         "runtime": {"external_origins": origins, "local_storage": storage, "static_controls": controls},

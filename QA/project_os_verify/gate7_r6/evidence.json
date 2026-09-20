@@ -1,0 +1,233 @@
+{
+  "schema_version": "project-os-gate7-r6-maplibre-remediation-v1",
+  "project": "sf-trip-visualizer",
+  "change": "CHG-67",
+  "gate": "Production Readiness Gate 7",
+  "verification_mode": "R6 FIX of released exact main; evidence-only commits after stable source candidate",
+  "classification": "GO_READY_EVIDENCE",
+  "classification_scope": "The MapLibre Gate-7 defect is remediated and the repaired candidate is qualified. This record does not close Gate 5, resolve REC-179, complete Gate 8, authorize deployment, mutate main, or claim overall production readiness.",
+  "authoritative_base": {
+    "revision": "61511ac0485aa145522a6567b484d2cc9aa97e20",
+    "tree": "02a1698d0c508a775642bc7c20f1af103c22d26e",
+    "remote_main_observed": "61511ac0485aa145522a6567b484d2cc9aa97e20",
+    "r5_evidence_revision": "1ab9c6ae65fbf22061e7b43404c9ad36e31fde6f",
+    "r5_evidence_sha256": "fb1bd6d6243b41495cf4be71f04641da2d4902e3be56a69aef560c8e5ace6ec9",
+    "r5_classification": "FIX_REQUIRED: shipped MapLibre 4.7.1 was affected by GHSA-jrc7-96c5-q579 / CVE-2026-85061",
+    "r5_fabric_receipt": "No .codex-fabric/audit.json or Fabric job identity was present; no job identity is inferred or invented."
+  },
+  "source_candidate": {
+    "revision": "fa75e57bf25c7d6387d6fbe7219c40c9868f84d0",
+    "tree": "56169ec51c519b7c43092e6f665f843934ca0446",
+    "branch": "codex/sf-trip-visualizer-security-privacy-maplibre-fix-r6",
+    "base_ancestry_verified": true,
+    "stable_before_qa_evidence": true,
+    "changed_files_from_authoritative_base": [
+      "MANIFEST_SHA256.json",
+      "manifests/public_asset_rights.json",
+      "manifests/security_privacy_contract.json",
+      "scripts/pipeline.py",
+      "scripts/qa_maplibre_security.py",
+      "scripts/security_privacy.py",
+      "tests/test_maplibre_security.py",
+      "tests/test_security_privacy.py",
+      "vendor/maplibre-gl.js"
+    ],
+    "source_candidate_commit_scope": "The nine files above are the complete source/vendor/contract/test diff from exact main. All later commits are QA/evidence-only."
+  },
+  "remediation": {
+    "chosen": "Explicit provenance-bound local security backport",
+    "rationale": "The exact upstream 6.4.1 release is ESM-only and would require a materially broader module/global/worker-loader migration. The backport applies the upstream sanitizer implementation and exact attribute-snapshot security fix to the v4.7.1 source, builds a new local browser artifact, and preserves the maintained classic script/global maplibregl loading contract.",
+    "upstream": {
+      "advisory": "GHSA-jrc7-96c5-q579",
+      "cve": "CVE-2026-85061",
+      "advisory_url": "https://github.com/maplibre/maplibre-gl-js/security/advisories/GHSA-jrc7-96c5-q579",
+      "affected_range": "maplibre-gl <=6.4.0",
+      "patched_release": "6.4.1",
+      "patched_release_url": "https://github.com/maplibre/maplibre-gl-js/releases/tag/v6.4.1",
+      "sanitizer_introduction_commit": "506090de1202f58c35175802bc0342494c5f5893",
+      "security_patch_commit": "1da69f3cd913a39fa948708e01478663bf48bc27",
+      "security_patch_url": "https://github.com/maplibre/maplibre-gl-js/commit/1da69f3cd913a39fa948708e01478663bf48bc27",
+      "security_patch_behavior": "Snapshot elem.attributes with Array.from before removing dangerous attributes, preventing live NamedNodeMap mutation from skipping an adjacent dangerous attribute."
+    },
+    "local_identity": {
+      "version": "4.7.1+sf-trip-visualizer-r6",
+      "base_tag": "v4.7.1",
+      "base_commit": "87486a5ef2085e600e8fa4e31252629dd8488dcd",
+      "origin": "locally patched derivative from exact upstream v4.7.1 source",
+      "source_patch_evidence": "QA/project_os_verify/gate7_r6/maplibre-backport.patch",
+      "upstream_security_patch_evidence": "QA/project_os_verify/gate7_r6/upstream-security-fix.patch",
+      "upstream_sanitizer_evidence": "QA/project_os_verify/gate7_r6/upstream-sanitizer-introduction.patch"
+    },
+    "build": {
+      "node": "22.23.2",
+      "npm": "10.9.8",
+      "commands": [
+        "npm ci --ignore-scripts",
+        "npm run codegen",
+        "npm run build-css",
+        "npm run build-prod"
+      ],
+      "javascript_output": "dist/maplibre-gl.js",
+      "css_output": "dist/maplibre-gl.css",
+      "opaque_vendor_byte_edit": false
+    },
+    "artifact_hashes": {
+      "vendor/maplibre-gl.js": {
+        "before_stock_4.7.1": "be9633c4d870e26fb37f1cfe5c5a77181667114003ea16207ac7850d8da8add1",
+        "after_local_backport": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675"
+      },
+      "vendor/maplibre-gl.css": {
+        "before": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9",
+        "after": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9"
+      }
+    }
+  },
+  "exposure_and_contract": {
+    "loading": "Local classic script vendor/maplibre-gl.js; maintained browser global maplibregl; local vendor/maplibre-gl.css; no CDN replacement.",
+    "attribution_control": "AttributionControl now sanitizes custom attribution HTML before assigning innerHTML; the maintained app does not expose a user/custom attribution input.",
+    "fixed_app_attributions": [
+      "© OpenStreetMap contributors · Protomaps",
+      "Tiles © Esri and contributors"
+    ],
+    "canonical_user_data_guard": "Canonical data/provider validation and the added regression require the fixed Smart-map and Satellite attribution contract and reject arbitrary customAttribution/user HTML paths absent a future security review.",
+    "bounded_exposure_result": "PASS: no user-controlled/custom remote attribution path was identified; this bounded exposure does not waive the known-affected stock dependency and is retained only as risk context."
+  },
+  "sanitizer_regression": {
+    "script": "scripts/qa_maplibre_security.py",
+    "report": "QA/project_os_verify/gate7_r6/maplibre_security.json",
+    "report_sha256": "95407232240a935480bbec52de536bbf4ab523ea8c12cd7975ced9569319eeaf",
+    "status": "PASS",
+    "payload": "Adjacent inert open/onload/ontoggle attributes plus javascript href/onclick, with an inert browser sentinel.",
+    "patched_fixture": {
+      "reported_version": "4.7.1",
+      "dangerous_attributes_after_sanitize": [],
+      "sentinel": 0
+    },
+    "stock_fixture": {
+      "revision": "61511ac0485aa145522a6567b484d2cc9aa97e20",
+      "sha256": "be9633c4d870e26fb37f1cfe5c5a77181667114003ea16207ac7850d8da8add1",
+      "reported_version": "4.7.1",
+      "dangerous_attributes_remaining": ["onload", "ontoggle", "href", "onclick"],
+      "sentinel": 2,
+      "interpretation": "The stock fixture is rejected by the security assertion and the inert test sentinel only records attempted event execution; no harmful behavior is used."
+    },
+    "mechanical_validator": "scripts/security_privacy.py rejects stock 4.7.1 and accepts only exact upstream non-affected or exact artifact/hash/regression-bound local-backport identities; no generic version waiver exists."
+  },
+  "preservation_matrix": {
+    "unchanged_files_relative_to_base": [
+      {"path": "vendor/trip-vector.js", "sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d"},
+      {"path": "vendor/plotly.min.js", "sha256": "e2b0f77ee8156ff9d525852fe4acb7bfe7d85e8a2e1da0523f6d16209b848968"},
+      {"path": "vendor/maplibre-gl.css", "sha256": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9"},
+      {"path": "data/phase7_app_data.json", "sha256": "3b5660f0f60d03f5790a620e42880122fe34ff9fbdb66811e91f5f6b10721f70"},
+      {"path": "data/route_geometry_cache.json", "sha256": "03ebb160fb0fc79ca429033e1e95edea477673ffb95c05bad294ff3ed13c45fc"},
+      {"path": "manifests/asset_manifest.json", "sha256": "377a20af5574cb5d84848b187c246b607ea00275042c0f12e07418a0ce865e8b"},
+      {"path": "requirements-qa.txt", "sha256": "e56176ea7b47040608aeae86322fd8d3d4c1ad7a31555cae699111f11f5904ea"},
+      {"path": "src/app_phase7.js", "sha256": "e32806d924694574eb47f9ed30cbc51b69d1fe2b00273a790d9079ec011712c4"},
+      {"path": "src/map_shell_template.html", "sha256": "8d9a4a7ba41d3ce00dc05cb5b9a4b4a9751d6e4b899a0869a04f1e74bd088120"}
+    ],
+    "materialized_lfs_assets_unchanged": {
+      "assets/vector/sf_trip.pmtiles": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6",
+      "assets/vector/yosemite_hillshade_shadow.webp": "801f29d1c305a44f191acf3070a194ad7ff10f6846bef75b21a920a1ceee4903"
+    },
+    "dependency_facts": "trip-vector.js remains the authoritative exact R3 provenance and hash; Plotly, PMTiles, basemaps, photo/public-rights assets, runtime trip data, route geometry, local fonts/sprites/hillshade, and requirements-qa.txt were not changed."
+  },
+  "advisory_review": {
+    "method": "Fresh exact-identity review of shipped runtime dependencies and the exact hash-pinned Python QA/release closure, distinguishing runtime-shipped dependencies from build/test-only browser/Python tooling.",
+    "runtime_results": {
+      "maplibre-gl-js": "PASS_WITH_EXPLICIT_LOCAL_SECURITY_BACKPORT: exact derivative is mechanically bound to upstream sanitizer and security patch; stock affected identity cannot pass.",
+      "fflate_0.8.3": "PASS: exact embedded version is outside GHSA-px8p-9vwx-vf98 affected >=0.4.5,<0.4.9.",
+      "pmtiles_4.5.0": "VERIFY_REQUIRED boundary only: no exact advisory result returned; byte-bound trip-vector provenance unchanged; no material exact-version vulnerability established.",
+      "@protomaps/basemaps_5.7.2": "VERIFY_REQUIRED boundary only: no exact advisory result returned; byte-bound trip-vector provenance unchanged; no material exact-version vulnerability established.",
+      "plotly.js_3.3.1": "PASS: outside reviewed affected ranges."
+    },
+    "build_test_results": "Exact requirements-qa.txt closure remains unchanged; no separate current material dependency fix was established. esbuild is build-only and exact 0.28.2 is outside reviewed affected ranges.",
+    "contract_report": "QA/project_os_verify/gate7_r6/security_privacy.json",
+    "contract_report_sha256": "a9887181de03e5dcf42d33b66c5922e4b16ed3736c3767e0f5e32a116e0f8a08"
+  },
+  "verification": {
+    "focused_maplibre": "PASS: scripts/qa_maplibre_security.py --revision fa75e57bf25c7d6387d6fbe7219c40c9868f84d0",
+    "security_privacy": {
+      "status": "PASS",
+      "command": "python3 scripts/security_privacy.py --revision fa75e57bf25c7d6387d6fbe7219c40c9868f84d0",
+      "candidate_exact_bound": true,
+      "checks": ["candidate_binding", "production_secret_scan", "artifact_secret_scan", "vendor_inventory", "maplibre_advisory", "requirements_reproducible", "workflow_trust", "external_origins", "local_storage", "static_controls", "artifact_binding"]
+    },
+    "unit_and_contract": "PASS: python3 -m unittest discover -s tests -p 'test_*.py' -v; 46 tests OK.",
+    "syntax": "PASS: python3 -m compileall -q scripts tests.",
+    "canonical_fast": {
+      "status": "PASS",
+      "command": "python3 scripts/pipeline.py fast --revision fa75e57bf25c7d6387d6fbe7219c40c9868f84d0",
+      "report": "QA/project_os_verify/gate7_r6/fast.json",
+      "report_sha256": "8e3078672b9ab14bce0cc74b90d3665bf2a0d7f77171c3a0da60f3082c9d56e6",
+      "build_manifest_sha256": "e22ae48ba9ae50a433c69be1f21d0dfb5cfa9cf536d1ee04d53bfcd03668577a",
+      "modular_index_sha256": "cc4b407ab2e567243ea38e7e2a94cc01fbc189a89880279aed0a291ebff48984",
+      "standalone_sha256": "d99217477424424f200bb10ba708ca831071d8129f2cca8c8924d1e18c0706cc",
+      "public_rights": "PASS; 245 candidate files",
+      "gate4_static": "PASS"
+    },
+    "hash_pinned_python_dry_run": "PASS: python3 -m pip install --dry-run --require-hashes -r requirements-qa.txt.",
+    "hosted_linux": {
+      "workflow": "Qualify Fabric candidate",
+      "run_id": 35486393633,
+      "run_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35486393633",
+      "job_id": 106013453483,
+      "job_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/job/106013453483",
+      "head_sha": "fa75e57bf25c7d6387d6fbe7219c40c9868f84d0",
+      "job_conclusion": "success",
+      "steps": {
+        "exact_checkout": "success",
+        "dependency_and_browser_install": "success",
+        "exact_sha_assertion": "success",
+        "shared_hosted_linux_full_qualification": "success",
+        "repository_unit_and_contract_checks": "success",
+        "clean_exact_sha_pages_release_path": "success",
+        "evidence_upload": "success"
+      },
+      "qualification_scope": ["canonical truth", "photo integrity", "smoke/full/P0", "standalone", "location-gap", "interaction dynamics", "route continuity/panel", "exhaustive states", "Firefox/WebKit cross-browser rows", "visual spots", "Gate-4 runtime"],
+      "deployment": "none"
+    },
+    "non_deploying_release_verify_public": {
+      "checkout": "clean exact fa75e57bf25c7d6387d6fbe7219c40c9868f84d0",
+      "release_command": "python3 scripts/hosted_linux_pipeline.py release --revision fa75e57bf25c7d6387d6fbe7219c40c9868f84d0",
+      "verify_command": "python3 scripts/pipeline.py verify-public --revision fa75e57bf25c7d6387d6fbe7219c40c9868f84d0",
+      "status": "PASS",
+      "checks": ["public rights", "security", "Gate-4 delivery parity", "provenance binding", "artifact verification"],
+      "deployment": "not invoked"
+    }
+  },
+  "runtime_comparison": {
+    "before": {
+      "identity": "Exact released main 61511ac; stock MapLibre GL JS 4.7.1; JS be9633c4d870e26fb37f1cfe5c5a77181667114003ea16207ac7850d8da8add1; CSS unchanged hash above.",
+      "baseline": "R5 exact-main hosted qualification passed the maintained product matrix and Gate-4 behavior before the separate MapLibre advisory made the target FIX_REQUIRED."
+    },
+    "after": {
+      "identity": "Same classic local maplibregl loader and maintained app source; only the local MapLibre JS derivative changed; CSS, app data, route geometry, PMTiles, fonts/sprites, hillshade, photos, and Plotly remain byte-bound.",
+      "qualification": "Hosted full qualification and Gate-4 runtime passed on the repaired candidate."
+    },
+    "explicit_checks": ["Smart-map identity", "local PMTiles loading", "local glyphs/sprites", "hillshade", "markers", "route lines", "controls", "fixed attribution", "theme switching", "responsive/mobile cases", "Satellite fallback", "planning-state persistence"],
+    "result": "PASS: no material renderer/API or maintained runtime behavior regression was observed; the security regression is independently PASS."
+  },
+  "gate5_boundary": {
+    "status": "Preserved, not completed",
+    "separate_evidence": ["native Safari/macOS remote automation", "physical-device/human field evidence", "final performance adjudication"],
+    "recheck_implication": "Because the MapLibre browser renderer artifact changed, Gate 5 should re-evaluate renderer-specific rendering/performance before Gate 8; this R6 record does not claim that work complete."
+  },
+  "remaining_limitations": [
+    "PMTiles/@protomaps/basemaps exact-advisory queries remain a bounded VERIFY_REQUIRED inventory boundary, not a newly established material vulnerability.",
+    "Playwright browser archive integrity remains the previously recorded package-metadata limitation.",
+    "No Fabric R5 job identity or audit receipt exists and none is asserted here.",
+    "Gate 5, REC-179, Gate 8, deployment, and overall production readiness remain outside this R6 classification."
+  ],
+  "durable_evidence_files": {
+    "QA/project_os_verify/gate7_r6/maplibre-backport.patch": "0f42565fc7d73ee96b9034af5766a27ca48b97d7723fbaef06b97eff99747a9f",
+    "QA/project_os_verify/gate7_r6/upstream-security-fix.patch": "988e75f353f922e965d5ea472d0399bbe5265c63ee9635e950ec7a186d89dc71",
+    "QA/project_os_verify/gate7_r6/upstream-sanitizer-introduction.patch": "92986455fb55f81ff7ac930c23d47bcddadc6e4b46fc38ac96edd6bf1596e795",
+    "QA/project_os_verify/gate7_r6/fast.json": "8e3078672b9ab14bce0cc74b90d3665bf2a0d7f77171c3a0da60f3082c9d56e6",
+    "QA/project_os_verify/gate7_r6/maplibre_security.json": "95407232240a935480bbec52de536bbf4ab523ea8c12cd7975ced9569319eeaf",
+    "QA/project_os_verify/gate7_r6/security_privacy.json": "a9887181de03e5dcf42d33b66c5922e4b16ed3736c3767e0f5e32a116e0f8a08"
+  },
+  "final_policy": {
+    "classification": "GO_READY_EVIDENCE",
+    "reason": "The known-affected stock MapLibre runtime is no longer shipped as an unmodified PASS identity. The repaired exact candidate has a mechanically verified local security backport, focused sanitizer regression, full local and hosted qualification, and non-deploying release/verify-public PASS. Project OS must independently audit this evidence."
+  }
+}

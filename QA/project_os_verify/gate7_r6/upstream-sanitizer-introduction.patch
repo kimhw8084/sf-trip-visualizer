@@ -1,0 +1,229 @@
+From 506090de1202f58c35175802bc0342494c5f5893 Mon Sep 17 00:00:00 2001
+From: Harel M <harel.mazor@gmail.com>
+Date: Mon, 18 Nov 2024 11:40:44 +0200
+Subject: [PATCH] Improve innerHTML handling in code (#5057)
+
+* Improve innerHTML handling in code
+
+* Fix lint and build test, add changelog.
+
+* Remove console.log
+---
+ CHANGELOG.md                          |  1 +
+ src/ui/control/attribution_control.ts | 10 ++---
+ src/ui/control/scale_control.ts       |  4 +-
+ src/ui/popup.ts                       |  2 +-
+ src/util/dom.test.ts                  | 42 +++++++++++++++++++++
+ src/util/dom.ts                       | 53 +++++++++++++++++++++++++++
+ test/build/min.test.ts                |  2 +-
+ 7 files changed, 105 insertions(+), 9 deletions(-)
+ create mode 100644 src/util/dom.test.ts
+
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 26dd93cef54..4a6e990a90b 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -9,6 +9,7 @@
+ - Fixes scale control for globe on zoom out ([#4897](https://github.com/maplibre/maplibre-gl-js/pull/4897))
+ - Fixes cooperative gestures displaying the mobile help text when screen width is smaller than 480px on non-touch devices ([#5053](https://github.com/maplibre/maplibre-gl-js/pull/5053))
+ - Fixes incorrect cluster radius scaling in `GeoJSONSource.setClusterOptions()` ([#5055](https://github.com/maplibre/maplibre-gl-js/pull/5055))
++- Improve innerHTML handling in code ([#5057](https://github.com/maplibre/maplibre-gl-js/pull/5057)))
+ - _...Add new stuff here..._
+ 
+ ## 5.0.0-pre.6
+diff --git a/src/ui/control/attribution_control.ts b/src/ui/control/attribution_control.ts
+index 2a1f99d5fc4..4b056d011cf 100644
+--- a/src/ui/control/attribution_control.ts
++++ b/src/ui/control/attribution_control.ts
+@@ -44,7 +44,7 @@ export class AttributionControl implements IControl {
+     _innerContainer: HTMLElement;
+     _compactButton: HTMLElement;
+     _editLink: HTMLAnchorElement;
+-    _attribHTML: string;
++    _sanitizedAttributionHTML: string;
+     styleId: string;
+     styleOwner: string;
+ 
+@@ -93,7 +93,7 @@ export class AttributionControl implements IControl {
+ 
+         this._map = undefined;
+         this._compact = undefined;
+-        this._attribHTML = undefined;
++        this._sanitizedAttributionHTML = undefined;
+     }
+ 
+     _setElementTitle(element: HTMLElement, title: 'ToggleAttribution' | 'MapFeedback') {
+@@ -168,12 +168,12 @@ export class AttributionControl implements IControl {
+ 
+         // check if attribution string is different to minimize DOM changes
+         const attribHTML = attributions.join(' | ');
+-        if (attribHTML === this._attribHTML) return;
++        if (attribHTML === this._sanitizedAttributionHTML) return;
+ 
+-        this._attribHTML = attribHTML;
++        this._sanitizedAttributionHTML = DOM.sanitize(attribHTML);
+ 
+         if (attributions.length) {
+-            this._innerContainer.innerHTML = attribHTML;
++            this._innerContainer.innerHTML = this._sanitizedAttributionHTML;
+             this._container.classList.remove('maplibregl-attrib-empty');
+         } else {
+             this._container.classList.add('maplibregl-attrib-empty');
+diff --git a/src/ui/control/scale_control.ts b/src/ui/control/scale_control.ts
+index 8e055159105..06dd985725b 100644
+--- a/src/ui/control/scale_control.ts
++++ b/src/ui/control/scale_control.ts
+@@ -94,7 +94,7 @@ export class ScaleControl implements IControl {
+     };
+ }
+ 
+-function updateScale(map, container, options) {
++function updateScale(map: Map, container: HTMLElement, options: ScaleControlOptions) {
+     // A horizontal scale is imagined to be present at center of the map
+     // container with maximum length (Default) as 100px.
+     // Using spherical law of cosines approximation, the real distance is
+@@ -131,7 +131,7 @@ function updateScale(map, container, options) {
+     }
+ }
+ 
+-function setScale(container, maxWidth, maxDistance, unit) {
++function setScale(container: HTMLElement, maxWidth: number, maxDistance: number, unit: string) {
+     const distance = getRoundNum(maxDistance);
+     const ratio = distance / maxDistance;
+     container.style.width = `${maxWidth * ratio}px`;
+diff --git a/src/ui/popup.ts b/src/ui/popup.ts
+index e6e09387171..26d3b00f760 100644
+--- a/src/ui/popup.ts
++++ b/src/ui/popup.ts
+@@ -398,7 +398,7 @@ export class Popup extends Evented {
+     setHTML(html: string): this {
+         const frag = document.createDocumentFragment();
+         const temp = document.createElement('body');
+-        let child;
++        let child: ChildNode;
+         temp.innerHTML = html;
+         while (true) {
+             child = temp.firstChild;
+diff --git a/src/util/dom.test.ts b/src/util/dom.test.ts
+new file mode 100644
+index 00000000000..089c00deba2
+--- /dev/null
++++ b/src/util/dom.test.ts
+@@ -0,0 +1,42 @@
++import {DOM} from './dom';
++
++describe('DOM', () => {
++
++    describe('sanitize', () => {
++        test('should not fail on empty string', () => {
++            const input = '';
++            const output = DOM.sanitize(input);
++            expect(output).toBe('');
++        });
++
++        test('should remove script tags', () => {
++            const input = '<script>alert(\'hi\')</script>';
++            const output = DOM.sanitize(input);
++            expect(output).toBe('');
++        });
++
++        test('should remove script tags from nested elements', () => {
++            const input = '<div><script>alert(\'hi\')</script></div>';
++            const output = DOM.sanitize(input);
++            expect(output).toBe('<div></div>');
++        });
++
++        test('should remove potentially dangerous attributes', () => {
++            const input = '<a href=\'javascript:alert(1)\'>click me</a>';
++            const output = DOM.sanitize(input);
++            expect(output).toBe('<a>click me</a>');
++        });
++
++        test('should remove potentially dangerous attributes from img', () => {
++            const input = '<img onerror=\'javascript:alert(1)\'>';
++            const output = DOM.sanitize(input);
++            expect(output).toBe('<img>');
++        });
++
++        test('should remove potentially dangerous attributes from nested elements', () => {
++            const input = '<div><a href=\'javascript:alert(1)\'>click me</a></div>';
++            const output = DOM.sanitize(input);
++            expect(output).toBe('<div><a>click me</a></div>');
++        });
++    });
++});
+diff --git a/src/util/dom.ts b/src/util/dom.ts
+index 7d9d777bc02..bb2fd86fb18 100644
+--- a/src/util/dom.ts
++++ b/src/util/dom.ts
+@@ -132,4 +132,57 @@ export class DOM {
+             node.parentNode.removeChild(node);
+         }
+     }
++
++    /**
++     * Sanitize an HTML string - this might not be enough to prevent all XSS attacks
++     * Base on https://javascriptsource.com/sanitize-an-html-string-to-reduce-the-risk-of-xss-attacks/
++     * (c) 2021 Chris Ferdinandi, MIT License, https://gomakethings.com
++     */
++    public static sanitize(str: string): string {
++        const parser = new DOMParser();
++        const doc = parser.parseFromString(str, 'text/html');
++        const html = doc.body || document.createElement('body');
++        const scripts = html.querySelectorAll('script');
++        for (const script of scripts) {
++            script.remove();
++        }
++
++        DOM.clean(html);
++
++        return html.innerHTML;
++    }
++
++    /**
++     * Check if the attribute is potentially dangerous
++     */
++    private static isPossiblyDangerous(name: string, value: string): boolean {
++        const val = value.replace(/\s+/g, '').toLowerCase();
++        if (['src', 'href', 'xlink:href'].includes(name)) {
++            if (val.includes('javascript:') || val.includes('data:')) return true;
++        }
++        if (name.startsWith('on')) return true;
++    }
++
++    /**
++	 * Remove dangerous stuff from the HTML document's nodes
++	 * @param html - The HTML document
++	 */
++    private static clean(html: Element) {
++        const nodes = html.children;
++        for (const node of nodes) {
++            DOM.removeAttributes(node);
++            DOM.clean(node);
++        }
++    }
++
++    /**
++	 * Remove potentially dangerous attributes from an element
++	 * @param elem - The element
++	 */
++    private static removeAttributes(elem: Element) {
++        for (const {name, value} of elem.attributes) {
++            if (!DOM.isPossiblyDangerous(name, value)) continue;
++            elem.removeAttribute(name);
++        }
++    }
+ }
+diff --git a/test/build/min.test.ts b/test/build/min.test.ts
+index 6cffa498c34..41a84876aa0 100644
+--- a/test/build/min.test.ts
++++ b/test/build/min.test.ts
+@@ -37,7 +37,7 @@ describe('test min build', () => {
+         const decreaseQuota = 4096;
+ 
+         // feel free to update this value after you've checked that it has changed on purpose :-)
+-        const expectedBytes = 894730;
++        const expectedBytes = 895555;
+ 
+         expect(actualBytes).toBeLessThan(expectedBytes + increaseQuota);
+         expect(actualBytes).toBeGreaterThan(expectedBytes - decreaseQuota);
