@@ -227,6 +227,9 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
     def remote_requests(requests):
         return [url for url in requests if url.startswith(("http://", "https://")) and not re.match(r"https?://(127\.0\.0\.1|localhost)(:|/)", url)]
 
+    def smart_identity(value):
+        return str(value or "").startswith("MapLibre 4.7.1+sf-trip-visualizer-r6")
+
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True, timeout=90000)
         context = browser.new_context(viewport={"width": 1440, "height": 900})
@@ -241,7 +244,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         initial = snapshot(page)
         initial_remote_requests = remote_requests(requests)
         core_failures = []
-        if initial["provider"] != "vector" or initial["provider_identity"] != "smart-local-vector" or initial["local_assets"]["status"] != "ready":
+        if initial["provider"] != "vector" or not smart_identity(initial["provider_identity"]) or initial["local_assets"]["status"] != "ready":
             core_failures.append("smart identity/readiness")
         if remote_requests(requests):
             core_failures.append("remote Smart first-use request")
@@ -312,7 +315,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             failure_snapshot = failure_page.evaluate("window.__tripApp?.runtimeSnapshot?.()")
             visible_failure = bool(failure_page.locator("#mapError:not([hidden])").count()) or bool(failure_page.locator("#loadingScreen.failed").count())
             row = {"case": label, "visible_failure": visible_failure, "provider": failure_snapshot.get("provider") if failure_snapshot else None, "provider_identity": failure_snapshot.get("provider_identity") if failure_snapshot else None, "remote_requests": remote_requests(failure_requests)}
-            row["pass"] = visible_failure and row["provider"] == "vector" and row["provider_identity"] == "smart-local-vector" and not row["remote_requests"]
+            row["pass"] = visible_failure and row["provider"] == "vector" and smart_identity(row["provider_identity"]) and not row["remote_requests"]
             report["negative_checks"].append(row)
             failure_page.close()
 
@@ -337,7 +340,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         standalone_page.evaluate("()=>window.__tripApp.map().resize()")
         standalone_snapshot = snapshot(standalone_page)
         standalone_row = {"snapshot": standalone_snapshot, "remote_requests": remote_requests(standalone_requests), "page_errors": standalone_errors}
-        standalone_row["critical_pass"] = standalone_snapshot["provider"] == "vector" and standalone_snapshot["provider_identity"] == "smart-local-vector" and standalone_snapshot["local_assets"]["status"] == "ready" and not standalone_row["remote_requests"] and standalone_snapshot["map"]["canvas_count"] == 1
+        standalone_row["critical_pass"] = standalone_snapshot["provider"] == "vector" and smart_identity(standalone_snapshot["provider_identity"]) and standalone_snapshot["local_assets"]["status"] == "ready" and not standalone_row["remote_requests"] and standalone_snapshot["map"]["canvas_count"] == 1
         report["standalone"] = standalone_row
 
         # Best-effort real-provider success probe. A network failure is explicit VERIFY_REQUIRED.
