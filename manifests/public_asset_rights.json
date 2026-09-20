@@ -571,6 +571,7 @@
         "src/app_phase7.js",
         "src/atlas_messages.js",
         "src/atlas_state.js",
+        "src/runtime_loader.js",
         "src/map_first.css"
       ],
       "provenance": "Project source at the candidate commit",
@@ -9289,6 +9290,28 @@
       "decision": "approved"
     },
     {
+      "id": "pages/src/runtime_loader.js",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "src/runtime_loader.js"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "package-public/src/runtime_loader.js",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/src/runtime_loader.js"
+      ],
+      "asset_class": "public-artifact-copy",
+      "decision": "approved"
+    },
+    {
       "id": "package-public/src/atlas_state.js",
       "modes": [
         "public-package"
@@ -13240,7 +13263,7 @@
     },
     {
       "path": "src/app_phase7.css",
-      "sha256": "21e79b3acc96ed9f2cdf9ee58cb09ccb414dc048909ab09707cccced083b58e6",
+      "sha256": "255bde5158c7d69c878b00894f8cb365e2b432c940e3b62c1fba7a920c256d98",
       "modes": [
         "pages",
         "public-package"
@@ -13248,7 +13271,7 @@
     },
     {
       "path": "src/app_phase7.js",
-      "sha256": "56f409996fc202bf6f05a3905156d2409711ef8f60b1a75459e8e9e3e65a13b1",
+      "sha256": "02728612daa49ca8ab639e9aaa65e3d6d1ddef14d29875cda35a2ea37390715f",
       "modes": [
         "pages",
         "public-package"
@@ -13264,7 +13287,7 @@
     },
     {
       "path": "src/atlas_messages.js",
-      "sha256": "12442e1de680459fd915281bb755c6e6d3f8a887aa8bb54aef2931caf9ce765e",
+      "sha256": "0b76060d3bb17a9d28ef2835b7f23286640139b15b33a3cafcba5baee855d3d4",
       "modes": [
         "pages",
         "public-package"
@@ -13272,7 +13295,15 @@
     },
     {
       "path": "src/atlas_state.js",
-      "sha256": "7a74b91c405cb6b1fa17977f72f9fad8dac7d8655b7d643a7ca62b9fd926c8b1",
+      "sha256": "3476019afbbe194ac5fa0d451536f2a6bc5dcb938bdf3530d825f4180884ec77",
+      "modes": [
+        "pages",
+        "public-package"
+      ]
+    },
+    {
+      "path": "src/runtime_loader.js",
+      "sha256": "ad6b98492ba04a81f0d5577578cf72c06e5936da937b4f92d421938f720a513c",
       "modes": [
         "pages",
         "public-package"
