@@ -1,0 +1,283 @@
+{
+  "schema_version": "project-os-gate7-r5-post-r7-verify-v1",
+  "project": "sf-trip-visualizer",
+  "change": "CHG-67",
+  "gate": "Production Readiness Gate 7",
+  "verification_mode": "evidence-only VERIFY of released exact main",
+  "classification": "FIX_REQUIRED",
+  "classification_scope": "R5 verifies the already released exact main and does not repair it. This record is not Gate 5 completion, REC-179 resolution, Gate 8 completion, or overall production-readiness approval.",
+  "recorded_on": "2026-09-19",
+  "scope_controls": {
+    "product_source_modified": false,
+    "runtime_source_modified": false,
+    "workflow_modified": false,
+    "dependency_pin_modified": false,
+    "manifest_modified": false,
+    "vendored_runtime_modified": false,
+    "tests_modified": false,
+    "release_logic_modified": false,
+    "durable_changes_path": "QA/project_os_verify/gate7_r5/"
+  },
+  "identities": {
+    "authoritative_target_main": "61511ac0485aa145522a6567b484d2cc9aa97e20",
+    "authoritative_target_tree": "02a1698d0c508a775642bc7c20f1af103c22d26e",
+    "authoritative_main_ref_before": "61511ac0485aa145522a6567b484d2cc9aa97e20",
+    "authoritative_main_ref_after": "61511ac0485aa145522a6567b484d2cc9aa97e20",
+    "r4_accepted_lineage": "6a111add1ebe6a6017d48a1050e497a720c83520",
+    "r4_accepted_tree": "df73c85a9274526eeeb787c90be4e3bd40c20d71",
+    "r7_merge_parents": [
+      "6a111add1ebe6a6017d48a1050e497a720c83520",
+      "08e393af80e8006cfdb955c030fa91a0364bfd6b"
+    ],
+    "base_ancestry_verified": true,
+    "checkout_before_evidence": {
+      "head": "61511ac0485aa145522a6567b484d2cc9aa97e20",
+      "tree": "02a1698d0c508a775642bc7c20f1af103c22d26e",
+      "branch": "codex/sf-trip-visualizer-security-privacy-post-r7-verify-r5",
+      "worktree_clean": true,
+      "index_clean": true,
+      "tracked_source_unchanged_during_checks": true
+    }
+  },
+  "r7_changed_file_review": {
+    "comparison": "6a111add1ebe6a6017d48a1050e497a720c83520..61511ac0485aa145522a6567b484d2cc9aa97e20",
+    "security_sensitive_source_files": [
+      ".github/workflows/candidate-qualification.yml",
+      ".github/workflows/deploy-pages.yml",
+      "manifests/security_privacy_contract.json",
+      "scripts/hosted_linux_pipeline.py",
+      "scripts/pipeline.py",
+      "scripts/run_cross_browser.py",
+      "scripts/security_privacy.py",
+      "tests/test_canonical_pipeline.py"
+    ],
+    "release_evidence_only_file": "QA/project_os_verify/gate2_r7/evidence.json",
+    "review_result": "R7 changes are limited to the hosted-Linux release contract, exact-revision Pages/candidate workflow wiring, canonical release authority enforcement, cross-browser environment propagation, security-validator binding, and contract tests. No requirements-qa.txt, vendor, runtime bundle, or product data path changed from R4.",
+    "requirements_and_vendor_diff_from_r4": [],
+    "security_review_points": [
+      "Workflow inputs are exact github.sha and fixed repository paths; no generated output is evaluated as shell or workflow code.",
+      "Candidate release-path exercise uses a second clean exact-SHA checkout and remains non-deploying.",
+      "Pages diagnostics are uploaded with static path globs and a system-provided SHA in the artifact name.",
+      "The shared wrapper is the only new hosted-Linux entry point and delegates to scripts/pipeline.py.",
+      "R7 adds hosted-Linux environment constants to the cross-browser worker path without adding a second qualification authority.",
+      "The security validator binds the hosted wrapper hash along with the existing source, workflow, dependency, and vendor hashes."
+    ]
+  },
+  "workflow_security_matrix": {
+    "candidate": {
+      "workflow": ".github/workflows/candidate-qualification.yml",
+      "triggers": ["push to codex/**"],
+      "permissions": {"contents": "read"},
+      "checkout": {"ref": "${{ github.sha }}", "fetch_depth": 0, "lfs": true},
+      "dependency_install": "python3 -m pip install --require-hashes -r requirements-qa.txt; python3 -m playwright install --with-deps chromium firefox webkit",
+      "qualification": "python3 scripts/hosted_linux_pipeline.py qualify --revision \"$GITHUB_SHA\"",
+      "release_path_exercise": "success-gated clean exact-SHA checkout; hosted_linux_pipeline.py release then pipeline.py verify-public; no deployment",
+      "diagnostic_upload": "if: always(); GitHub Actions artifact upload only",
+      "pages_or_oidc_write": false,
+      "contents_write": false,
+      "secret_access": false,
+      "pull_request_target": false,
+      "deploy_pages_action": false,
+      "candidate_push_can_trigger_pages": false,
+      "review": "PASS: candidate push qualification is read-only and non-deploying. Authorized manual Pages dispatch remains the only documented non-main trigger of the Pages workflow."
+    },
+    "pages": {
+      "workflow": ".github/workflows/deploy-pages.yml",
+      "triggers": ["push to main", "workflow_dispatch (authorized)"],
+      "permissions": {"contents": "read", "pages": "write", "id-token": "write"},
+      "checkout": {"ref": "${{ github.sha }}", "fetch_depth": 0, "lfs": true},
+      "dependency_install": "python3 -m pip install --require-hashes -r requirements-qa.txt; python3 -m playwright install --with-deps chromium firefox webkit",
+      "qualification": "python3 scripts/hosted_linux_pipeline.py release --revision \"$GITHUB_SHA\"",
+      "diagnostic_upload": {"condition": "if: always()", "artifact": "pages-release-diagnostics-${{ github.sha }}", "paths": ["QA/release/*.json", "QA/release/*.log", "QA/map_first/**/*.json", "QA/map_first/screenshots/**"]},
+      "verify_public": "default success-gated step: python3 scripts/pipeline.py verify-public --revision \"$GITHUB_SHA\"",
+      "pages_upload": "default success-gated actions/upload-pages-artifact",
+      "deploy": "default success-gated actions/deploy-pages",
+      "review": "PASS for the documented main-push/authorized-dispatch Pages authority. The always-run diagnostic step has no deployment authority; a failed release leaves verify-public, Pages upload, and deploy skipped by normal GitHub success semantics."
+    },
+    "forbidden_or_untrusted_paths_reviewed": {
+      "pull_request_target": false,
+      "contents_write": false,
+      "candidate_pages_or_oidc_permissions": false,
+      "secrets_reference": false,
+      "dynamic_shell_command_from_output": false,
+      "dynamic_workflow_interpolation_from_test_output": false,
+      "path": "PASS"
+    },
+    "immutable_action_pins": [
+      {"action": "actions/checkout", "version_comment": "v7.0.1", "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1"},
+      {"action": "actions/setup-python", "version_comment": "v5.6.0", "sha": "a26af69be951a213d495a4c3e4e4022e16d87065"},
+      {"action": "actions/upload-artifact", "version_comment": "v4.6.2", "sha": "ea165f8d65b6e75b540449e92b4886f43607fa02"},
+      {"action": "actions/upload-pages-artifact", "version_comment": "v5.0.0", "sha": "fc324d3547104276b827a68afc52ff2a11cc49c9"},
+      {"action": "actions/deploy-pages", "version_comment": "v5.0.1", "sha": "368f82528645a54fb793d4d04e342629a3f51346"}
+    ],
+    "validator_result": "PASS: security_privacy.py workflow_trust; all discovered actions are full 40-hex SHA pins matching the contract."
+  },
+  "hosted_linux_wrapper_trust": {
+    "path": "scripts/hosted_linux_pipeline.py",
+    "review": [
+      "Argparse restricts command to the bounded choices qualify or release and requires --revision.",
+      "shutil.which('xvfb-run') is required before invocation.",
+      "The wrapper sets TRIP_CROSS_BROWSER_FIREFOX_MODE=hosted-linux and LIBGL_ALWAYS_SOFTWARE=1 while preserving the inherited environment.",
+      "xvfb-run uses fixed --auto-servernum and fixed -screen 0 1280x1024x24 arguments.",
+      "pipeline_command returns a fixed argv list [sys.executable, scripts/pipeline.py, command, --revision, revision]; subprocess.call receives argv, cwd=ROOT, and env without shell interpolation.",
+      "scripts/pipeline.py imports the same contract checker and release requires contract_failures() to be empty; missing Linux, hosted Firefox mode, software GL, or DISPLAY fails closed before decisive qualification.",
+      "scripts/run_cross_browser.py imports the shared constants and only propagates software GL to the hosted Linux worker; no command construction or release authority is added."
+    ],
+    "tests": {"hosted_contract": "PASS", "release_without_contract": "PASS / expected FAIL", "cross_browser_environment_propagation": "PASS"},
+    "result": "PASS"
+  },
+  "diagnostic_artifact_secret_safety": {
+    "workflow_behavior": "The Pages diagnostic upload is always-run for forensics only. Every following release-verification, Pages-artifact-upload, and deploy step has default success gating.",
+    "validator_counts_from_exact_main_report": {"production_inputs_scanned": 260, "generated_artifacts_inspected": 734, "production_findings": 0, "generated_findings": 0},
+    "downloaded_artifact": {
+      "run_id": 35468747006,
+      "artifact_id": 10592665610,
+      "name": "pages-release-diagnostics-61511ac0485aa145522a6567b484d2cc9aa97e20",
+      "size_bytes": 3856976,
+      "api_digest": "sha256:93b4d8b6401ef236caff57af626d582ab2ec6ff96adc2a29d289d97964f8da42",
+      "extracted_file_count": 33,
+      "extracted_scan": {"secret_or_credential_findings": [], "private_user_path_findings": [], "forbidden_path_findings": []}
+    },
+    "review": [
+      "Uploaded paths are limited to QA JSON/logs/screenshots; no credentials, token files, browser profiles, private photo sources, or arbitrary repository paths are selected.",
+      "security_privacy.py emits classification-only redacted findings and does not serialize matched secret values.",
+      "Generated test content remains evidence-only: filenames and logs are uploaded as artifacts and never interpolated into a command, action reference, permission, or deployment input.",
+      "The downloaded exact-main diagnostic artifact contained no GitHub token, OIDC token, authorization header, credential assignment, private user path, or forbidden private/credential path."
+    ],
+    "result": "PASS"
+  },
+  "dependency_and_provenance": {
+    "requirements_path": "requirements-qa.txt",
+    "requirements_sha256": "e56176ea7b47040608aeae86322fd8d3d4c1ad7a31555cae699111f11f5904ea",
+    "unchanged_from_r4": true,
+    "install_policy": "Both candidate and Pages workflows use --require-hashes; pip is not upgraded.",
+    "exact_pins": [
+      "beautifulsoup4==4.12.2", "Pillow==12.3.0", "playwright==1.62.0", "requests==2.33.0", "soupsieve==2.9.2", "greenlet==3.5.5", "pyee==13.0.1", "typing-extensions==4.16.0", "certifi==2026.7.22", "charset-normalizer==2.0.4", "idna==3.19", "urllib3==2.8.0"
+    ],
+    "supported_platforms": ["macos-arm64-cp311", "linux-x86_64-cp311"],
+    "artifact_hash_matrix": {
+      "beautifulsoup4==4.12.2": ["bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a"],
+      "Pillow==12.3.0": ["23d27a3e0307ec2244cc51e7287b919aa68d097504ebe19df4e76a98a3eea5bd (linux)", "37d6d0a00072fd2948eb22bce7e1475f34569d90c87c59f7a2ec59541b77f7a6 (macOS)"],
+      "playwright==1.62.0": ["db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034 (macOS ARM)", "ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3 (Linux x86_64)"],
+      "requests==2.33.0": ["3324635456fa185245e24865e810cecec7b4caf933d7eb133dcde67d48cee69b"],
+      "soupsieve==2.9.2": ["8089a26fd974ca7a1f30276d3d8492ab266ab15af581642dfe8aa162e0c1c823"],
+      "greenlet==3.5.5": ["be63afcbbccfad3dd95a1ba12ada84dab2ef32031973d80b5b92df67fa763a61 (macOS)", "74cc6df89ec5302337adc9cf096221cbed2510fd444b0e0f1586cf0470740864 (Linux)"],
+      "pyee==13.0.1": ["af2f8fede4171ef667dfded53f96e2ed0d6e6bd7ee3bb46437f77e3b57689228"],
+      "typing-extensions==4.16.0": ["481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"],
+      "certifi==2026.7.22": ["62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775"],
+      "charset-normalizer==2.0.4": ["0c8911edd15d19223366a194a513099a302055a962bca2cec0f54b8b63175d8b"],
+      "idna==3.19": ["815e7be7a7806d54abb586dc943addc79e8b2ee16915059658cbeff4b1b43bf4"],
+      "urllib3==2.8.0": ["0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3"]
+    },
+    "deterministic_platform_hash_validation": {"status": "PASS", "tests": ["test_platform_coverage_requires_linux_playwright_hash", "test_repaired_artifact_matrix_covers_supported_platforms", "test_wrong_linux_artifact_hash_fails_coverage", "test_unapproved_platform_artifact_hash_fails_closed", "test_unknown_platform_artifact_is_rejected"]},
+    "vendor_hashes": {
+      "vendor/maplibre-gl.js": "be9633c4d870e26fb37f1cfe5c5a77181667114003ea16207ac7850d8da8add1",
+      "vendor/maplibre-gl.css": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9",
+      "vendor/plotly.min.js": "e2b0f77ee8156ff9d525852fe4acb7bfe7d85e8a2e1da0523f6d16209b848968",
+      "vendor/trip-vector.js": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d"
+    },
+    "vendor_inventory_result": "PASS"
+  },
+  "r3_r4_provenance_reconciliation": {
+    "trip_vector": {
+      "current_sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+      "bytes": 73896,
+      "current_vs_r4": "unchanged",
+      "r3_exact_reproduction": ["fflate 0.8.3", "pmtiles 4.5.0", "@protomaps/basemaps 5.7.2", "esbuild 0.28.2"],
+      "r3_evidence_commit": "820eb11",
+      "r3_evidence_blob_sha1": "a7eb7b1d09440621545f51ab75a6ca2b4d512b04",
+      "r3_evidence_sha256": "4bee443a966a0876b6f3cd9ca5d28c32eb1e5ad4392a57f78e07cb95d7cb8b3e",
+      "r4_preservation_evidence": "QA/project_os_verify/gate7_r4/evidence.json",
+      "r4_preservation_evidence_sha256": "c7678573dc6b560583a187020c3ea39df611ea8ac7b0fd77f534554c2136ce58",
+      "reconciliation": "The generated report's VERIFY_REQUIRED semver prose is historical metadata absence, not a new unknown version. R3 exact byte reproduction remains decisive for the unchanged shipped bytes; current advisory review below separately covers the recovered versions."
+    },
+    "playwright": {
+      "python_package": "playwright==1.62.0",
+      "macos_wheel_sha256": "db755ab27db21a04186f1fe8169888e42356086e439b1059b923ef417f0b6034",
+      "linux_wheel_sha256": "ba33bae6a13b3d9d354c751cb618af357d20fe1d57767cbcce52079bbef17ad3",
+      "package_defined_revisions": {"chromium": "1234 / 151.0.7922.34", "chromium_headless_shell": "1234 / 151.0.7922.34", "firefox": "1538 / 153.0", "webkit": "2336 / 26.5 (macOS override 2251)", "ffmpeg": "1011"},
+      "r3_package_provenance": "exact package-defined revision mapping recovered in R3 and unchanged in R5",
+      "archive_integrity_limitation": "Playwright package metadata defines revisions, browser versions, archive paths, and mirrors but does not expose SHA-256 values for downloaded browser archives. This is a bounded archive-integrity limitation, not an unknown package/browser version claim."
+    }
+  },
+  "current_advisory_review": {
+    "reviewed_on": "2026-09-19",
+    "method": "Fresh exact-version review using GitHub Advisory Database API records and authoritative upstream security/release pages. Shipped runtime is distinguished from build/test-only Python and browser exposure.",
+    "authoritative_sources": [
+      "https://api.github.com/advisories?ecosystem=npm&affects=maplibre-gl&per_page=100",
+      "https://github.com/advisories/GHSA-jrc7-96c5-q579",
+      "https://api.github.com/advisories?ecosystem=npm&affects=fflate&per_page=100",
+      "https://api.github.com/advisories?ecosystem=npm&affects=pmtiles&per_page=100",
+      "https://api.github.com/advisories?ecosystem=npm&affects=%40protomaps%2Fbasemaps&per_page=100",
+      "https://api.github.com/advisories?ecosystem=npm&affects=esbuild&per_page=100",
+      "https://api.github.com/advisories?ecosystem=npm&affects=plotly.js&per_page=100",
+      "https://api.github.com/advisories?ecosystem=pip&affects=urllib3&per_page=100",
+      "https://api.github.com/advisories?ecosystem=pip&affects=Pillow&per_page=100",
+      "https://api.github.com/advisories?ecosystem=pip&affects=requests&per_page=100",
+      "https://api.github.com/advisories?ecosystem=pip&affects=soupsieve&per_page=100",
+      "https://api.github.com/advisories?ecosystem=pip&affects=certifi&per_page=100",
+      "https://api.github.com/advisories?ecosystem=pip&affects=idna&per_page=100",
+      "https://api.github.com/advisories?ecosystem=pip&affects=playwright&per_page=100",
+      "https://www.mozilla.org/en-US/security/advisories/mfsa2026-74/",
+      "https://chromereleases.googleblog.com/2026/08/stable-channel-update-for-desktop_01815628406.html?m=1",
+      "https://support.apple.com/en-us/127121"
+    ],
+    "results": [
+      {"package": "maplibre-gl-js", "exact_version": "4.7.1", "exposure": "runtime-shipped vendored browser renderer", "advisory": "CVE-2026-85061 / GHSA-jrc7-96c5-q579", "affected": "<=6.4.0", "patched": "6.4.1", "severity": "critical / CVSS 10.0", "result": "FIX_REQUIRED: exact shipped version is affected; advisory describes a zero-click XSS sanitizer bypass in DOM.sanitize() via live NamedNodeMap attribute removal. The current contract incorrectly records maplibre-gl-js 4.7.1 as PASS and does not include this advisory."},
+      {"package": "fflate", "exact_version": "0.8.3", "exposure": "embedded shipped runtime", "advisory": "GHSA-px8p-9vwx-vf98", "affected": ">=0.4.5,<0.4.9", "patched": "0.4.9", "result": "PASS: exact 0.8.3 is outside the affected range; R3 byte provenance remains valid."},
+      {"package": "pmtiles", "exact_version": "4.5.0", "exposure": "embedded shipped runtime", "result": "PASS: no GitHub Advisory Database result returned for exact package query; not a universal clean-bill claim."},
+      {"package": "@protomaps/basemaps", "exact_version": "5.7.2", "exposure": "embedded shipped runtime", "result": "PASS: no GitHub Advisory Database result returned for exact package query; not a universal clean-bill claim."},
+      {"package": "esbuild", "exact_version": "0.28.2", "exposure": "build-time only; not embedded in trip-vector.js", "advisories": ["GHSA-gv7w-rqvm-qjhr", "GHSA-g7r4-m6w7-qqqr", "GHSA-67mh-4wv8-2f99"], "patched": "0.28.1 or 0.25.0 as applicable", "result": "PASS: exact 0.28.2 is outside affected ranges."},
+      {"package": "plotly.js", "exact_version": "3.3.1", "exposure": "runtime-shipped local charting dependency", "advisories": ["GHSA-wjc4-73q6-gv3m", "GHSA-2fqv-h3r5-m4vf"], "affected": "<2.25.2 and <1.16.0", "result": "PASS: exact 3.3.1 is outside affected ranges."},
+      {"package": "Python QA/release closure", "exact_versions": "12 exact pins in requirements-qa.txt", "exposure": "build/test/release-only", "advisories_reviewed": "GitHub Advisory Database current records for each exact package; known ranges for urllib3, Pillow, requests, soupsieve, certifi, and idna are fixed at or below the exact pins; no exact affected pin established; remaining packages returned no advisory result.", "result": "PASS for exact closure; does not mitigate the shipped MapLibre finding."},
+      {"package": "playwright", "exact_version": "1.62.0", "exposure": "QA-only browser automation", "result": "PASS for package advisory review; exact package version and package-defined browser identities are known. Archive SHA-256 remains unavailable from package metadata."},
+      {"package": "Firefox browser", "exact_version": "153.0 / revision 1538", "exposure": "QA-only browser cache", "advisory": "CVE-2026-74990 / MFSA 2026-74", "affected": "Firefox 153.0", "patched": "Firefox 153.1 / 154", "result": "QA-only limitation: not shipped product runtime; preserve the bounded disposition rather than treating this as a runtime FIX_REQUIRED."},
+      {"package": "Chromium for Testing", "exact_version": "151.0.7922.34 / revision 1234", "exposure": "QA-only browser cache", "result": "Current Google stable-channel source shows later 151.0.7922.137/.138 with five security fixes. No unsupported exact CVE equivalence to the Playwright CfT archive is claimed; this remains QA-only and archive-integrity bounded."},
+      {"package": "Playwright WebKit", "exact_version": "26.5 / package revision 2336, macOS override 2251", "exposure": "QA-only browser cache", "result": "Apple Safari 26.5 security content was reviewed, but Safari/WebKit system build equivalence to Playwright's package archive is not claimed."}
+    ],
+    "material_current_finding": "CVE-2026-85061 / GHSA-jrc7-96c5-q579 in shipped maplibre-gl-js 4.7.1",
+    "new_since_r4": true,
+    "advisory_disposition": "FIX_REQUIRED; do not repair in VERIFY. Update or otherwise remediate the shipped MapLibre renderer and its advisory/contract evidence in a follow-up, then rerun Gate 7."
+  },
+  "focused_verification_results": {
+    "security_privacy_command": {"command": "python3 scripts/security_privacy.py --revision 61511ac0485aa145522a6567b484d2cc9aa97e20", "status": "PASS", "candidate_head": "61511ac0485aa145522a6567b484d2cc9aa97e20", "checks": {"candidate_binding": true, "production_secret_scan": true, "artifact_secret_scan": true, "vendor_inventory": true, "requirements_reproducible": true, "workflow_trust": true, "external_origins": true, "local_storage": true, "static_controls": true, "artifact_binding": true}, "failures": [], "local_report_sha256": "09b3aa1a4e8ed653be44ea2755cbe2ddf84ebd3651810817eb343b4f32915f8c"},
+    "focused_unittest_command": {"command": "python3 -m unittest tests.test_security_privacy tests.test_canonical_pipeline tests.test_cross_browser_runner -v", "status": "PASS", "tests": 33, "summary": "secret redaction; candidate binding; vendor drift; deterministic platform/hash coverage; workflow pins/least privilege; origin/storage/static controls; hosted-Linux contract; fail-closed release authority; public exact-SHA gating; diagnostic persistence and subprocess cleanup/propagation."},
+    "public_rights_tests": {"command": "python3 -m unittest tests.test_public_asset_rights -v", "status": "PASS", "tests": 9},
+    "report_interpretation": "The local canonical security report is PASS for its static/offline contract checks, but the fresh upstream advisory review establishes a separate material shipped MapLibre defect; this is why R5 classification is FIX_REQUIRED."
+  },
+  "exact_main_pages_release": {
+    "run_id": 35468747006,
+    "run_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35468747006",
+    "workflow": "Deploy current main to GitHub Pages",
+    "event": "push",
+    "head_branch": "main",
+    "head_sha": "61511ac0485aa145522a6567b484d2cc9aa97e20",
+    "job_id": 105965735520,
+    "job_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35468747006/job/105965735520",
+    "conclusion": "success",
+    "steps": {"exact_checkout": "success", "hash_pinned_dependencies_and_browsers": "success", "hosted_linux_release_qualification": "success", "diagnostic_upload_if_always": "success", "verify_public": "success", "pages_artifact_upload": "success", "deploy": "success"},
+    "qualification": {"status": "PASS", "candidate_head": "61511ac0485aa145522a6567b484d2cc9aa97e20", "components": 15, "component_statuses": ["public_asset_rights", "canonical_truth", "photo_integrity", "map_first_smoke", "map_first_full", "map_first_p0", "standalone", "location_gap", "interaction_dynamics", "route_continuity", "route_panel", "exhaustive_states", "cross_browser", "visual_spots", "gate4_runtime"], "qualification_json_sha256": "13b2b0d83393a4c19963a3f211e20dc57d5f8a218e8845b17397132a674e3ff7"},
+    "security": {"status": "PASS", "candidate_head": "61511ac0485aa145522a6567b484d2cc9aa97e20", "exact_candidate_bound": true, "artifact_security_report_sha256": "a92fcbfa29f3587bb80657ff93030dde6b763f7d1305f4192d30287bda58e1d8"},
+    "rights": {"status": "PASS", "photos": 108, "derivatives": 216, "rights_report_sha256": "bb451ef97750f4c404bd2188347e68cc252c1497265148624a87aaac112bba77"},
+    "gate4": {"status": "PASS", "runtime": "PASS", "delivery_parity": "PASS", "gate4_report_sha256": "74119ece2a301ca8903e00c743f3795e303b7b584ac5b44485a2b207b89a13f1"},
+    "pages_artifact": {"artifact_id": 10592331251, "name": "github-pages", "api_digest": "sha256:e0bf1ab82f494246eea61b0f9b52f7b89639dc3749526854d89d035152a2c772"},
+    "deployment": {"deployment_id": 6545591038, "sha": "61511ac0485aa145522a6567b484d2cc9aa97e20", "ref": "main", "status": "success", "status_id": 18572577046, "environment": "github-pages", "environment_url": "https://kimhw8084.github.io/sf-trip-visualizer/", "pages_build_version": "61511ac0485aa145522a6567b484d2cc9aa97e20", "binding_source": "run log: Creating Pages deployment with payload"},
+    "reconciliation": "The released artifact, qualification, security report, rights report, Gate-4 report, deployment ref, and pages_build_version all bind to exact main. The fresh MapLibre advisory applies to that released unchanged vendor version despite the generated report's stale advisory inventory."
+  },
+  "gate5_boundary": {
+    "not_reclassified_as_gate7_security_defects": ["native Safari/macOS remote-automation evidence", "physical-device or human field evidence", "final performance adjudication"],
+    "status": "Preserved: these remain Gate-5/external boundaries and are not claimed complete here."
+  },
+  "remaining_limitations": [
+    "MapLibre exact shipped runtime remediation is required before a future Gate-7 verification can classify the target ready.",
+    "Playwright browser archive SHA-256/integrity values are not exposed by the exact package metadata; package version and package-defined browser revisions remain known.",
+    "Historical JS dependency workspace/lockfile was not tracked; exact trip-vector provenance rests on R3 registry identities plus independent byte-identical reproduction and R4 preservation.",
+    "Current advisory review is bounded to exact versions and authoritative sources recorded above; no universal absence-of-vulnerabilities claim is made.",
+    "Gate 5, REC-179, Gate 8, and overall production readiness remain outside this evidence-only verification."
+  ],
+  "final_policy": {
+    "classification": "FIX_REQUIRED",
+    "reason": "A current authoritative advisory establishes a critical known-affected exact shipped runtime version: maplibre-gl-js 4.7.1 <= 6.4.0, fixed in 6.4.1. The VERIFY run did not mutate source or repair it.",
+    "project_os_independent_audit_required": true
+  }
+}
