@@ -47,6 +47,7 @@ with sync_playwright() as playwright:
     page.locator("#mapOptionsToggle").click()
     options_open = page.locator("#mapOptionsPanel").is_visible() and page.evaluate("document.activeElement?.id === 'mapOptionsClose'")
     page.keyboard.press("Escape")
+    page.wait_for_function("document.activeElement?.id === 'mapOptionsToggle'")
     options_closed = page.locator("#mapOptionsPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'mapOptionsToggle'") and page.locator("#mapOptionsPanel button:visible").count() == 0
     results.append(oracle("compact_map_options_focus_contract", options_open and options_closed))
     page.locator("#mapOptionsToggle").click()
@@ -62,6 +63,7 @@ with sync_playwright() as playwright:
     page.locator("#routeLegendToggle").click()
     legend_open = page.locator("#routeLegendPanel").is_visible()
     page.keyboard.press("Escape")
+    page.wait_for_function("document.activeElement?.id === 'routeLegendToggle'")
     results.append(oracle("route_key_disclosure_focus_contract", legend_open and page.locator("#routeLegendPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'routeLegendToggle'")))
     results.append(oracle("legacy_surface_removed", page.locator("#dateRibbon,#mapSchedule,#mapFocus,#routeTip,#mobileDate,#mobileProvider").count() == 0))
     shot("decide_default_desktop", (1440, 900), "decide", "recommended_default")
