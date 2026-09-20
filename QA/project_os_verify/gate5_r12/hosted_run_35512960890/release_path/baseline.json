@@ -1,0 +1,1845 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "gate": "production_readiness_gate_5",
+  "phase": "baseline",
+  "candidate_head": "f9631a57d3b9e51216e082b62d80519599b84711",
+  "source_binding": {
+    "schema_version": 1,
+    "binding": "exact_commit",
+    "status": "PASS",
+    "claimed_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+    "checked_out_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+    "source_worktree_dirty": false,
+    "source_fingerprint": {
+      "sha256": "fbef7f322121c9541a84e4393009569373f7df6ba9f46dfa5b4dd4f9989b7fb5",
+      "file_count": 341,
+      "tracked_head": "f9631a57d3b9e51216e082b62d80519599b84711",
+      "worktree_dirty": false,
+      "excluded_from_hash": [
+        "QA/",
+        ".build/",
+        ".release/",
+        ".public-site/"
+      ]
+    },
+    "reason": "clean checkout is bound to the exact checked-out revision"
+  },
+  "captured_at": "2026-09-20T14:10:47.130160+00:00",
+  "performance": {
+    "samples": {
+      "browser": "Chromium",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "phase": "baseline",
+      "sample_count": 8,
+      "environment_signature": {
+        "schema_version": 1,
+        "os": {
+          "system": "Linux",
+          "release": "6.17.0-1022-azure",
+          "version": "#22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026"
+        },
+        "architecture": {
+          "machine": "x86_64",
+          "bits": "64bit"
+        },
+        "browser": {
+          "family": "chromium",
+          "runtime_version": "151.0.7922.34",
+          "playwright_version": "1.62.0"
+        },
+        "execution": {
+          "mode": "ci",
+          "ci_value": "true",
+          "headless": true,
+          "display_backend": "x11",
+          "software_gl": "1"
+        },
+        "device_emulation": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "device_scale_factor": 1,
+          "has_touch": false,
+          "is_mobile": false,
+          "user_agent": "playwright-default"
+        },
+        "sample_conditions": {
+          "sample_count": 8,
+          "measurement_profile": "gate5-performance-r4-paired-blocks-v1",
+          "server": "local-http",
+          "network": "default-playwright-context",
+          "cold_condition": "new-context-and-page",
+          "warm_condition": "same-page-reload-readiness-after-cold-sample",
+          "browser_cache_condition": "isolated-new-context",
+          "runner_order_condition": "alternated-paired-same-browser-process",
+          "ready_milestones": [
+            "dom_content_loaded",
+            "smart_style_ready",
+            "markers_timeline_ready",
+            "first_actionable_state"
+          ],
+          "interaction_repeat_count": 1
+        }
+      },
+      "source_binding": {
+        "schema_version": 1,
+        "binding": "exact_commit",
+        "status": "PASS",
+        "claimed_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+        "checked_out_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+        "source_worktree_dirty": false,
+        "source_fingerprint": {
+          "sha256": "fbef7f322121c9541a84e4393009569373f7df6ba9f46dfa5b4dd4f9989b7fb5",
+          "file_count": 341,
+          "tracked_head": "f9631a57d3b9e51216e082b62d80519599b84711",
+          "worktree_dirty": false,
+          "excluded_from_hash": [
+            "QA/",
+            ".build/",
+            ".release/",
+            ".public-site/"
+          ]
+        },
+        "reason": "clean checkout is bound to the exact checked-out revision"
+      },
+      "cold_milestones": {
+        "dom_content_loaded": {
+          "count": 8,
+          "values": [
+            151.2,
+            166.8,
+            184.4,
+            352.7,
+            354.3,
+            360.1,
+            400.1,
+            415.9
+          ],
+          "min": 151.2,
+          "median": 353.5,
+          "max": 415.9,
+          "mean": 298.188,
+          "stdev": 110.848,
+          "p95": 415.9
+        },
+        "smart_style_ready": {
+          "count": 8,
+          "values": [
+            1266.5,
+            1267.5,
+            1270.1,
+            1281.7,
+            1281.8,
+            1298.9,
+            1336.3,
+            1362.2
+          ],
+          "min": 1266.5,
+          "median": 1281.75,
+          "max": 1362.2,
+          "mean": 1295.625,
+          "stdev": 35.402,
+          "p95": 1362.2
+        },
+        "map_visual_ready": {
+          "count": 8,
+          "values": [
+            2161.2,
+            2163.1,
+            2188.4,
+            2201.9,
+            2203.9,
+            2208.5,
+            2253.0,
+            2273.8
+          ],
+          "min": 2161.2,
+          "median": 2202.9,
+          "max": 2273.8,
+          "mean": 2206.725,
+          "stdev": 39.617,
+          "p95": 2273.8
+        },
+        "markers_timeline_ready": {
+          "count": 8,
+          "values": [
+            2162.7,
+            2164.5,
+            2191.1,
+            2203.3,
+            2207.4,
+            2210.2,
+            2254.3,
+            2276.9
+          ],
+          "min": 2162.7,
+          "median": 2205.35,
+          "max": 2276.9,
+          "mean": 2208.8,
+          "stdev": 39.898,
+          "p95": 2276.9
+        },
+        "first_actionable_state": {
+          "count": 8,
+          "values": [
+            2166.1,
+            2167.5,
+            2194.4,
+            2206.5,
+            2210.6,
+            2213.4,
+            2257.2,
+            2281.9
+          ],
+          "min": 2166.1,
+          "median": 2208.55,
+          "max": 2281.9,
+          "mean": 2212.2,
+          "stdev": 40.284,
+          "p95": 2281.9
+        }
+      },
+      "warm_milestones": {
+        "dom_content_loaded": {
+          "count": 8,
+          "values": [
+            141.1,
+            142.0,
+            160.3,
+            175.5,
+            223.5,
+            229.9,
+            233.4,
+            238.3
+          ],
+          "min": 141.1,
+          "median": 199.5,
+          "max": 238.3,
+          "mean": 193.0,
+          "stdev": 42.504,
+          "p95": 238.3
+        },
+        "smart_style_ready": {
+          "count": 8,
+          "values": [
+            1048.0,
+            1106.7,
+            1111.9,
+            1121.1,
+            1144.2,
+            1148.2,
+            1172.9,
+            1176.5
+          ],
+          "min": 1048.0,
+          "median": 1132.65,
+          "max": 1176.5,
+          "mean": 1128.687,
+          "stdev": 41.74,
+          "p95": 1176.5
+        },
+        "map_visual_ready": {
+          "count": 8,
+          "values": [
+            1869.8,
+            1928.7,
+            1982.7,
+            2016.4,
+            2067.4,
+            2069.4,
+            2076.7,
+            2083.9
+          ],
+          "min": 1869.8,
+          "median": 2041.9,
+          "max": 2083.9,
+          "mean": 2011.875,
+          "stdev": 79.063,
+          "p95": 2083.9
+        },
+        "markers_timeline_ready": {
+          "count": 8,
+          "values": [
+            1874.8,
+            1932.0,
+            1987.1,
+            2020.3,
+            2069.1,
+            2071.0,
+            2080.6,
+            2088.0
+          ],
+          "min": 1874.8,
+          "median": 2044.7,
+          "max": 2088.0,
+          "mean": 2015.362,
+          "stdev": 78.418,
+          "p95": 2088.0
+        },
+        "first_actionable_state": {
+          "count": 8,
+          "values": [
+            1877.8,
+            1935.3,
+            1990.1,
+            2023.3,
+            2072.9,
+            2074.4,
+            2083.7,
+            2091.2
+          ],
+          "min": 1877.8,
+          "median": 2048.1,
+          "max": 2091.2,
+          "mean": 2018.587,
+          "stdev": 78.53,
+          "p95": 2091.2
+        }
+      },
+      "interactions": {
+        "route": {
+          "count": 8,
+          "values": [
+            487.179,
+            495.366,
+            496.294,
+            499.898,
+            503.153,
+            506.278,
+            514.279,
+            524.69
+          ],
+          "min": 487.179,
+          "median": 501.526,
+          "max": 524.69,
+          "mean": 503.392,
+          "stdev": 11.774,
+          "p95": 524.69
+        },
+        "date": {
+          "count": 8,
+          "values": [
+            244.094,
+            244.653,
+            245.755,
+            247.472,
+            247.647,
+            249.34,
+            250.542,
+            251.844
+          ],
+          "min": 244.094,
+          "median": 247.56,
+          "max": 251.844,
+          "mean": 247.668,
+          "stdev": 2.779,
+          "p95": 251.844
+        },
+        "region": {
+          "count": 8,
+          "values": [
+            1081.925,
+            1083.528,
+            1085.166,
+            1098.129,
+            1104.035,
+            1114.89,
+            1136.341,
+            1340.69
+          ],
+          "min": 1081.925,
+          "median": 1101.082,
+          "max": 1340.69,
+          "mean": 1130.588,
+          "stdev": 86.872,
+          "p95": 1340.69
+        },
+        "preview": {
+          "count": 8,
+          "values": [
+            135.888,
+            373.244,
+            375.598,
+            375.726,
+            377.185,
+            377.455,
+            379.121,
+            381.753
+          ],
+          "min": 135.888,
+          "median": 376.456,
+          "max": 381.753,
+          "mean": 346.996,
+          "stdev": 85.338,
+          "p95": 381.753
+        },
+        "preview_actionability": {
+          "count": 8,
+          "values": [
+            130.623,
+            369.822,
+            371.377,
+            372.003,
+            372.123,
+            374.358,
+            374.966,
+            376.298
+          ],
+          "min": 130.623,
+          "median": 372.063,
+          "max": 376.298,
+          "mean": 342.696,
+          "stdev": 85.716,
+          "p95": 376.298
+        },
+        "preview_handler": {
+          "count": 8,
+          "values": [
+            3.514,
+            3.541,
+            3.616,
+            3.652,
+            3.691,
+            3.697,
+            3.763,
+            3.902
+          ],
+          "min": 3.514,
+          "median": 3.671,
+          "max": 3.902,
+          "mean": 3.672,
+          "stdev": 0.124,
+          "p95": 3.902
+        },
+        "detail": {
+          "count": 8,
+          "values": [
+            87.386,
+            91.716,
+            96.36,
+            98.209,
+            99.006,
+            99.743,
+            100.356,
+            102.793
+          ],
+          "min": 87.386,
+          "median": 98.608,
+          "max": 102.793,
+          "mean": 96.946,
+          "stdev": 5.051,
+          "p95": 102.793
+        },
+        "panel": {
+          "count": 8,
+          "values": [
+            691.425,
+            705.595,
+            705.843,
+            847.798,
+            852.779,
+            859.949,
+            868.884,
+            944.084
+          ],
+          "min": 691.425,
+          "median": 850.288,
+          "max": 944.084,
+          "mean": 809.545,
+          "stdev": 94.874,
+          "p95": 944.084
+        },
+        "provider_recovery": {
+          "count": 8,
+          "values": [
+            107.98,
+            494.741,
+            499.524,
+            508.016,
+            517.414,
+            522.645,
+            624.635,
+            745.898
+          ],
+          "min": 107.98,
+          "median": 512.715,
+          "max": 745.898,
+          "mean": 502.607,
+          "stdev": 181.475,
+          "p95": 745.898
+        }
+      },
+      "request_behavior": {
+        "resources": {
+          "count": 8,
+          "values": [
+            56.0,
+            56.0,
+            56.0,
+            56.0,
+            56.0,
+            56.0,
+            56.0,
+            56.0
+          ],
+          "min": 56.0,
+          "median": 56.0,
+          "max": 56.0,
+          "mean": 56.0,
+          "stdev": 0.0,
+          "p95": 56.0
+        },
+        "transfer_bytes": {
+          "count": 8,
+          "values": [
+            3879912.0,
+            3879912.0,
+            3879912.0,
+            3879912.0,
+            3879912.0,
+            3879912.0,
+            3879912.0,
+            3879912.0
+          ],
+          "min": 3879912.0,
+          "median": 3879912.0,
+          "max": 3879912.0,
+          "mean": 3879912.0,
+          "stdev": 0.0,
+          "p95": 3879912.0
+        },
+        "remote_requests": 8,
+        "failed_requests": 8
+      },
+      "runtime_growth": {
+        "map_creations": {
+          "count": 8,
+          "values": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "min": 1.0,
+          "median": 1.0,
+          "max": 1.0,
+          "mean": 1.0,
+          "stdev": 0.0,
+          "p95": 1.0
+        },
+        "map_removals": {
+          "count": 8,
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "stdev": 0.0,
+          "p95": 0.0
+        },
+        "markers": {
+          "count": 8,
+          "values": [
+            36.0,
+            36.0,
+            36.0,
+            36.0,
+            36.0,
+            36.0,
+            36.0,
+            36.0
+          ],
+          "min": 36.0,
+          "median": 36.0,
+          "max": 36.0,
+          "mean": 36.0,
+          "stdev": 0.0,
+          "p95": 36.0
+        },
+        "canvas": {
+          "count": 8,
+          "values": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "min": 1.0,
+          "median": 1.0,
+          "max": 1.0,
+          "mean": 1.0,
+          "stdev": 0.0,
+          "p95": 1.0
+        }
+      },
+      "longtasks_ms": {
+        "count": 0,
+        "min": null,
+        "median": null,
+        "p95": null,
+        "max": null,
+        "mean": null,
+        "stdev": null
+      },
+      "memory_js_heap": [
+        {
+          "used": 33100000,
+          "total": 50400000,
+          "limit": 3760000000
+        },
+        {
+          "used": 33100000,
+          "total": 47400000,
+          "limit": 3760000000
+        },
+        {
+          "used": 37300000,
+          "total": 50400000,
+          "limit": 3760000000
+        },
+        {
+          "used": 33100000,
+          "total": 50400000,
+          "limit": 3760000000
+        },
+        {
+          "used": 39600000,
+          "total": 50400000,
+          "limit": 3760000000
+        },
+        {
+          "used": 39600000,
+          "total": 50400000,
+          "limit": 3760000000
+        },
+        {
+          "used": 39600000,
+          "total": 50400000,
+          "limit": 3760000000
+        },
+        {
+          "used": 33100000,
+          "total": 50400000,
+          "limit": 3760000000
+        }
+      ],
+      "raw_samples": [
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 151.19999999995343,
+            "smart_style_ready": 1270.0999999998603,
+            "map_visual_ready": 2208.5,
+            "markers_timeline_ready": 2210.1999999999534,
+            "first_actionable_state": 2213.399999999907
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 142,
+            "smart_style_ready": 1172.8999999999069,
+            "map_visual_ready": 1928.6999999999534,
+            "markers_timeline_ready": 1932,
+            "first_actionable_state": 1935.2999999998137
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                487.179
+              ],
+              "min": 487.179,
+              "median": 487.179,
+              "max": 487.179,
+              "mean": 487.179,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                250.542
+              ],
+              "min": 250.542,
+              "median": 250.542,
+              "max": 250.542,
+              "mean": 250.542,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                1104.035
+              ],
+              "min": 1104.035,
+              "median": 1104.035,
+              "max": 1104.035,
+              "mean": 1104.035,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                377.455
+              ],
+              "min": 377.455,
+              "median": 377.455,
+              "max": 377.455,
+              "mean": 377.455,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                374.358
+              ],
+              "min": 374.358,
+              "median": 374.358,
+              "max": 374.358,
+              "mean": 374.358,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                3.514
+              ],
+              "min": 3.514,
+              "median": 3.514,
+              "max": 3.514,
+              "mean": 3.514,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                98.209
+              ],
+              "min": 98.209,
+              "median": 98.209,
+              "max": 98.209,
+              "mean": 98.209,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                944.084
+              ],
+              "min": 944.084,
+              "median": 944.084,
+              "max": 944.084,
+              "mean": 944.084,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                107.98
+              ],
+              "min": 107.98,
+              "median": 107.98,
+              "max": 107.98,
+              "mean": 107.98,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 400.10000000009313,
+            "smart_style_ready": 1336.3000000000466,
+            "map_visual_ready": 2253,
+            "markers_timeline_ready": 2254.3000000000466,
+            "first_actionable_state": 2257.2000000001863
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 141.10000000009313,
+            "smart_style_ready": 1148.1999999999534,
+            "map_visual_ready": 2067.399999999907,
+            "markers_timeline_ready": 2069.100000000093,
+            "first_actionable_state": 2072.899999999907
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                496.294
+              ],
+              "min": 496.294,
+              "median": 496.294,
+              "max": 496.294,
+              "mean": 496.294,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                244.653
+              ],
+              "min": 244.653,
+              "median": 244.653,
+              "max": 244.653,
+              "mean": 244.653,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                1114.89
+              ],
+              "min": 1114.89,
+              "median": 1114.89,
+              "max": 1114.89,
+              "mean": 1114.89,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                379.121
+              ],
+              "min": 379.121,
+              "median": 379.121,
+              "max": 379.121,
+              "mean": 379.121,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                374.966
+              ],
+              "min": 374.966,
+              "median": 374.966,
+              "max": 374.966,
+              "mean": 374.966,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                3.541
+              ],
+              "min": 3.541,
+              "median": 3.541,
+              "max": 3.541,
+              "mean": 3.541,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                99.743
+              ],
+              "min": 99.743,
+              "median": 99.743,
+              "max": 99.743,
+              "mean": 99.743,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                691.425
+              ],
+              "min": 691.425,
+              "median": 691.425,
+              "max": 691.425,
+              "mean": 691.425,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                624.635
+              ],
+              "min": 624.635,
+              "median": 624.635,
+              "max": 624.635,
+              "mean": 624.635,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 166.80000000004657,
+            "smart_style_ready": 1281.6999999999534,
+            "map_visual_ready": 2161.1999999999534,
+            "markers_timeline_ready": 2162.6999999999534,
+            "first_actionable_state": 2166.100000000093
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 223.5,
+            "smart_style_ready": 1111.8999999999069,
+            "map_visual_ready": 2016.3999999999069,
+            "markers_timeline_ready": 2020.2999999998137,
+            "first_actionable_state": 2023.2999999998137
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                506.278
+              ],
+              "min": 506.278,
+              "median": 506.278,
+              "max": 506.278,
+              "mean": 506.278,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                247.472
+              ],
+              "min": 247.472,
+              "median": 247.472,
+              "max": 247.472,
+              "mean": 247.472,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                1083.528
+              ],
+              "min": 1083.528,
+              "median": 1083.528,
+              "max": 1083.528,
+              "mean": 1083.528,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                375.726
+              ],
+              "min": 375.726,
+              "median": 375.726,
+              "max": 375.726,
+              "mean": 375.726,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                372.123
+              ],
+              "min": 372.123,
+              "median": 372.123,
+              "max": 372.123,
+              "mean": 372.123,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                3.616
+              ],
+              "min": 3.616,
+              "median": 3.616,
+              "max": 3.616,
+              "mean": 3.616,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                100.356
+              ],
+              "min": 100.356,
+              "median": 100.356,
+              "max": 100.356,
+              "mean": 100.356,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                859.949
+              ],
+              "min": 859.949,
+              "median": 859.949,
+              "max": 859.949,
+              "mean": 859.949,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                745.898
+              ],
+              "min": 745.898,
+              "median": 745.898,
+              "max": 745.898,
+              "mean": 745.898,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 360.0999999998603,
+            "smart_style_ready": 1266.5,
+            "map_visual_ready": 2188.399999999907,
+            "markers_timeline_ready": 2191.0999999998603,
+            "first_actionable_state": 2194.399999999907
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 238.29999999981374,
+            "smart_style_ready": 1121.0999999998603,
+            "map_visual_ready": 2076.6999999999534,
+            "markers_timeline_ready": 2080.5999999998603,
+            "first_actionable_state": 2083.6999999999534
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                524.69
+              ],
+              "min": 524.69,
+              "median": 524.69,
+              "max": 524.69,
+              "mean": 524.69,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                249.34
+              ],
+              "min": 249.34,
+              "median": 249.34,
+              "max": 249.34,
+              "mean": 249.34,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                1081.925
+              ],
+              "min": 1081.925,
+              "median": 1081.925,
+              "max": 1081.925,
+              "mean": 1081.925,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                381.753
+              ],
+              "min": 381.753,
+              "median": 381.753,
+              "max": 381.753,
+              "mean": 381.753,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                376.298
+              ],
+              "min": 376.298,
+              "median": 376.298,
+              "max": 376.298,
+              "mean": 376.298,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                3.763
+              ],
+              "min": 3.763,
+              "median": 3.763,
+              "max": 3.763,
+              "mean": 3.763,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                87.386
+              ],
+              "min": 87.386,
+              "median": 87.386,
+              "max": 87.386,
+              "mean": 87.386,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                705.595
+              ],
+              "min": 705.595,
+              "median": 705.595,
+              "max": 705.595,
+              "mean": 705.595,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                494.741
+              ],
+              "min": 494.741,
+              "median": 494.741,
+              "max": 494.741,
+              "mean": 494.741,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 415.9000000001397,
+            "smart_style_ready": 1362.1999999999534,
+            "map_visual_ready": 2273.8000000000466,
+            "markers_timeline_ready": 2276.9000000001397,
+            "first_actionable_state": 2281.9000000001397
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 233.39999999990687,
+            "smart_style_ready": 1048,
+            "map_visual_ready": 1869.7999999998137,
+            "markers_timeline_ready": 1874.7999999998137,
+            "first_actionable_state": 1877.7999999998137
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                503.153
+              ],
+              "min": 503.153,
+              "median": 503.153,
+              "max": 503.153,
+              "mean": 503.153,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                247.647
+              ],
+              "min": 247.647,
+              "median": 247.647,
+              "max": 247.647,
+              "mean": 247.647,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                1340.69
+              ],
+              "min": 1340.69,
+              "median": 1340.69,
+              "max": 1340.69,
+              "mean": 1340.69,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                135.888
+              ],
+              "min": 135.888,
+              "median": 135.888,
+              "max": 135.888,
+              "mean": 135.888,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                130.623
+              ],
+              "min": 130.623,
+              "median": 130.623,
+              "max": 130.623,
+              "mean": 130.623,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                3.691
+              ],
+              "min": 3.691,
+              "median": 3.691,
+              "max": 3.691,
+              "mean": 3.691,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                91.716
+              ],
+              "min": 91.716,
+              "median": 91.716,
+              "max": 91.716,
+              "mean": 91.716,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                847.798
+              ],
+              "min": 847.798,
+              "median": 847.798,
+              "max": 847.798,
+              "mean": 847.798,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                517.414
+              ],
+              "min": 517.414,
+              "median": 517.414,
+              "max": 517.414,
+              "mean": 517.414,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 184.4000000001397,
+            "smart_style_ready": 1298.9000000001397,
+            "map_visual_ready": 2203.9000000001397,
+            "markers_timeline_ready": 2207.4000000001397,
+            "first_actionable_state": 2210.600000000093
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 160.29999999981374,
+            "smart_style_ready": 1106.6999999999534,
+            "map_visual_ready": 1982.6999999999534,
+            "markers_timeline_ready": 1987.0999999998603,
+            "first_actionable_state": 1990.0999999998603
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                495.366
+              ],
+              "min": 495.366,
+              "median": 495.366,
+              "max": 495.366,
+              "mean": 495.366,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                245.755
+              ],
+              "min": 245.755,
+              "median": 245.755,
+              "max": 245.755,
+              "mean": 245.755,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                1098.129
+              ],
+              "min": 1098.129,
+              "median": 1098.129,
+              "max": 1098.129,
+              "mean": 1098.129,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                377.185
+              ],
+              "min": 377.185,
+              "median": 377.185,
+              "max": 377.185,
+              "mean": 377.185,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                371.377
+              ],
+              "min": 371.377,
+              "median": 371.377,
+              "max": 371.377,
+              "mean": 371.377,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                3.902
+              ],
+              "min": 3.902,
+              "median": 3.902,
+              "max": 3.902,
+              "mean": 3.902,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                96.36
+              ],
+              "min": 96.36,
+              "median": 96.36,
+              "max": 96.36,
+              "mean": 96.36,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                852.779
+              ],
+              "min": 852.779,
+              "median": 852.779,
+              "max": 852.779,
+              "mean": 852.779,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                522.645
+              ],
+              "min": 522.645,
+              "median": 522.645,
+              "max": 522.645,
+              "mean": 522.645,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 352.69999999995343,
+            "smart_style_ready": 1267.5,
+            "map_visual_ready": 2163.100000000093,
+            "markers_timeline_ready": 2164.5,
+            "first_actionable_state": 2167.5
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 175.5,
+            "smart_style_ready": 1176.5,
+            "map_visual_ready": 2083.899999999907,
+            "markers_timeline_ready": 2088,
+            "first_actionable_state": 2091.1999999999534
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                499.898
+              ],
+              "min": 499.898,
+              "median": 499.898,
+              "max": 499.898,
+              "mean": 499.898,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                251.844
+              ],
+              "min": 251.844,
+              "median": 251.844,
+              "max": 251.844,
+              "mean": 251.844,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                1085.166
+              ],
+              "min": 1085.166,
+              "median": 1085.166,
+              "max": 1085.166,
+              "mean": 1085.166,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                375.598
+              ],
+              "min": 375.598,
+              "median": 375.598,
+              "max": 375.598,
+              "mean": 375.598,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                372.003
+              ],
+              "min": 372.003,
+              "median": 372.003,
+              "max": 372.003,
+              "mean": 372.003,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                3.697
+              ],
+              "min": 3.697,
+              "median": 3.697,
+              "max": 3.697,
+              "mean": 3.697,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                99.006
+              ],
+              "min": 99.006,
+              "median": 99.006,
+              "max": 99.006,
+              "mean": 99.006,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                868.884
+              ],
+              "min": 868.884,
+              "median": 868.884,
+              "max": 868.884,
+              "mean": 868.884,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                508.016
+              ],
+              "min": 508.016,
+              "median": 508.016,
+              "max": 508.016,
+              "mean": 508.016,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        },
+        {
+          "cold_milestones": {
+            "dom_content_loaded": 354.30000000004657,
+            "smart_style_ready": 1281.8000000000466,
+            "map_visual_ready": 2201.9000000001397,
+            "markers_timeline_ready": 2203.3000000000466,
+            "first_actionable_state": 2206.5
+          },
+          "warm_milestones": {
+            "dom_content_loaded": 229.89999999990687,
+            "smart_style_ready": 1144.1999999999534,
+            "map_visual_ready": 2069.399999999907,
+            "markers_timeline_ready": 2071,
+            "first_actionable_state": 2074.399999999907
+          },
+          "interactions": {
+            "route": {
+              "count": 1,
+              "values": [
+                514.279
+              ],
+              "min": 514.279,
+              "median": 514.279,
+              "max": 514.279,
+              "mean": 514.279,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "date": {
+              "count": 1,
+              "values": [
+                244.094
+              ],
+              "min": 244.094,
+              "median": 244.094,
+              "max": 244.094,
+              "mean": 244.094,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "region": {
+              "count": 1,
+              "values": [
+                1136.341
+              ],
+              "min": 1136.341,
+              "median": 1136.341,
+              "max": 1136.341,
+              "mean": 1136.341,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview": {
+              "count": 1,
+              "values": [
+                373.244
+              ],
+              "min": 373.244,
+              "median": 373.244,
+              "max": 373.244,
+              "mean": 373.244,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_actionability": {
+              "count": 1,
+              "values": [
+                369.822
+              ],
+              "min": 369.822,
+              "median": 369.822,
+              "max": 369.822,
+              "mean": 369.822,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "preview_handler": {
+              "count": 1,
+              "values": [
+                3.652
+              ],
+              "min": 3.652,
+              "median": 3.652,
+              "max": 3.652,
+              "mean": 3.652,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "detail": {
+              "count": 1,
+              "values": [
+                102.793
+              ],
+              "min": 102.793,
+              "median": 102.793,
+              "max": 102.793,
+              "mean": 102.793,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "panel": {
+              "count": 1,
+              "values": [
+                705.843
+              ],
+              "min": 705.843,
+              "median": 705.843,
+              "max": 705.843,
+              "mean": 705.843,
+              "stdev": 0.0,
+              "p95": null
+            },
+            "provider_recovery": {
+              "count": 1,
+              "values": [
+                499.524
+              ],
+              "min": 499.524,
+              "median": 499.524,
+              "max": 499.524,
+              "mean": 499.524,
+              "stdev": 0.0,
+              "p95": null
+            }
+          }
+        }
+      ],
+      "limitations": [
+        "Chromium CI memory/long-task APIs are capability-dependent; no phone/device result is asserted.",
+        "Each sample uses a fresh Playwright browser context and page; paired runs share only the browser process and host."
+      ]
+    },
+    "measurement_schedule": {
+      "method": "two-independent-order-balanced-blocks-same-runner",
+      "block_count": 2,
+      "pairs_per_block": 4,
+      "total_pairs": 8,
+      "sample_count_per_side": 8,
+      "order_by_block": [
+        [
+          "candidate>baseline",
+          "baseline>candidate",
+          "candidate>baseline",
+          "baseline>candidate"
+        ],
+        [
+          "baseline>candidate",
+          "candidate>baseline",
+          "baseline>candidate",
+          "candidate>baseline"
+        ]
+      ],
+      "fresh_context_per_measurement": true,
+      "independent_browser_process_per_block": true,
+      "same_runner_environment": true,
+      "candidate_server": {
+        "url": "http://127.0.0.1:50809/index.html",
+        "build": ".build/modular",
+        "isolated": true
+      },
+      "baseline_server": {
+        "url": "http://127.0.0.1:52011/index.html",
+        "build": "/home/runner/work/sf-trip-visualizer/sf-trip-visualizer/gate5-base-8voa0q90/source/.build/modular",
+        "revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+        "isolated": true
+      },
+      "schedule": [
+        {
+          "block": 1,
+          "pair": 1,
+          "pair_in_block": 1,
+          "position": 1,
+          "side": "candidate",
+          "revision": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 1,
+          "pair_in_block": 1,
+          "position": 2,
+          "side": "baseline",
+          "revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 2,
+          "pair_in_block": 2,
+          "position": 1,
+          "side": "baseline",
+          "revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 2,
+          "pair_in_block": 2,
+          "position": 2,
+          "side": "candidate",
+          "revision": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 3,
+          "pair_in_block": 3,
+          "position": 1,
+          "side": "candidate",
+          "revision": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 3,
+          "pair_in_block": 3,
+          "position": 2,
+          "side": "baseline",
+          "revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 4,
+          "pair_in_block": 4,
+          "position": 1,
+          "side": "baseline",
+          "revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+          "fresh_context": true
+        },
+        {
+          "block": 1,
+          "pair": 4,
+          "pair_in_block": 4,
+          "position": 2,
+          "side": "candidate",
+          "revision": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 5,
+          "pair_in_block": 1,
+          "position": 1,
+          "side": "baseline",
+          "revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 5,
+          "pair_in_block": 1,
+          "position": 2,
+          "side": "candidate",
+          "revision": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 6,
+          "pair_in_block": 2,
+          "position": 1,
+          "side": "candidate",
+          "revision": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 6,
+          "pair_in_block": 2,
+          "position": 2,
+          "side": "baseline",
+          "revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 7,
+          "pair_in_block": 3,
+          "position": 1,
+          "side": "baseline",
+          "revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 7,
+          "pair_in_block": 3,
+          "position": 2,
+          "side": "candidate",
+          "revision": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 8,
+          "pair_in_block": 4,
+          "position": 1,
+          "side": "candidate",
+          "revision": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+          "fresh_context": true
+        },
+        {
+          "block": 2,
+          "pair": 8,
+          "pair_in_block": 4,
+          "position": 2,
+          "side": "baseline",
+          "revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+          "fresh_context": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "candidate_head": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+  "static": {
+    "status": "PASS",
+    "failures": []
+  },
+  "browser": {
+    "status": "PASS",
+    "advisory": "GHSA-jrc7-96c5-q579 / CVE-2026-85061",
+    "patched": {
+      "version": "4.7.1",
+      "html": "<details open=\"\">inert</details><a>inert link</a>",
+      "dangerous_attributes": [],
+      "sentinel": 0
+    },
+    "stock_fixture": {
+      "revision": "61511ac0485aa145522a6567b484d2cc9aa97e20",
+      "sha256": "be9633c4d870e26fb37f1cfe5c5a77181667114003ea16207ac7850d8da8add1",
+      "version": "4.7.1",
+      "html": "<details open=\"\" onload=\"window.__maplibreSecuritySentinel += 1\" ontoggle=\"window.__maplibreSecuritySentinel += 2\">inert</details><a href=\"javascript:window.__maplibreSecuritySentinel += 4\" onclick=\"window.__maplibreSecuritySentinel += 8\">inert link</a>",
+      "dangerous_attributes": [
+        {
+          "name": "onload",
+          "value": "window.__maplibreSecuritySentinel += 1"
+        },
+        {
+          "name": "ontoggle",
+          "value": "window.__maplibreSecuritySentinel += 2"
+        },
+        {
+          "name": "href",
+          "value": "javascript:window.__maplibreSecuritySentinel += 4"
+        },
+        {
+          "name": "onclick",
+          "value": "window.__maplibreSecuritySentinel += 8"
+        }
+      ],
+      "sentinel": 2
+    },
+    "failures": []
+  }
+}

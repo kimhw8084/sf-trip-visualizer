@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_4",
+  "status": "PASS",
+  "candidate_head": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+  "test_modes": [
+    "static",
+    "browser",
+    "delivery_parity"
+  ],
+  "static": {
+    "status": "PASS",
+    "evidence": "QA/release/gate4_static.json"
+  },
+  "runtime": {
+    "status": "PASS",
+    "evidence": "QA/release/gate4_runtime.json",
+    "external_provider": {
+      "status": "PASS",
+      "provider": "satellite",
+      "success_requests": 22,
+      "note": "optional success path independently observed in this environment",
+      "post_switch_tile_failure_recovery": "PASS"
+    }
+  },
+  "delivery": {
+    "schema_version": 1,
+    "status": "PASS",
+    "candidate_head": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+    "test_mode": "delivery_parity",
+    "forms": [
+      {
+        "form": "modular",
+        "path": ".build/modular/index.html",
+        "sha256": "7679c0a19e780080d142f8e8421c8d6bbec001ecbc3ec5c246359f1143409fe6",
+        "truth_digest": "c927a42ac3ecebc8099fe16c5e3b2923faab623d089f100c7c60739dcb2d07d5",
+        "truth_matches": true,
+        "freshness_matches": true,
+        "contract_matches": true
+      },
+      {
+        "form": "standalone",
+        "path": ".build/standalone/SF_Smart_Minority_Map_First_Standalone.html",
+        "sha256": "8a3c6dbce32179e644f26fe5542bc35b626eacb456271be9b35175b33e12c72a",
+        "truth_digest": "c927a42ac3ecebc8099fe16c5e3b2923faab623d089f100c7c60739dcb2d07d5",
+        "truth_matches": true,
+        "freshness_matches": true,
+        "contract_matches": true
+      },
+      {
+        "form": "public_staging",
+        "path": ".public-site/index.html",
+        "sha256": "7679c0a19e780080d142f8e8421c8d6bbec001ecbc3ec5c246359f1143409fe6",
+        "exact_modular": true,
+        "truth_digest": "c927a42ac3ecebc8099fe16c5e3b2923faab623d089f100c7c60739dcb2d07d5",
+        "truth_matches": true,
+        "freshness_matches": true,
+        "contract_matches": true
+      }
+    ],
+    "failures": []
+  },
+  "package": {
+    "status": "VERIFY_REQUIRED",
+    "reason": "package is assembled after qualification"
+  },
+  "limitations": [
+    "This is Gate 4 evidence only; it is not a production-readiness or production-release claim."
+  ]
+}

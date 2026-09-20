@@ -1,0 +1,75 @@
+{
+  "source_candidate": "dcd92d1c01eeffd1603c14ee4d6c0135b7aa7bc1",
+  "effective_gate5_timeout_seconds": 900,
+  "qualification_rule": "Only rc=0 plus a fresh exact-candidate-bound PASS or VERIFY_REQUIRED report is an accepted Gate-5 execution.",
+  "cases": [
+    {
+      "case": "Gate5 PASS + rc0",
+      "execution_status": "COMPLETED",
+      "accepted_gate5_status": "PASS",
+      "overall_qualification": "PASS",
+      "external_verify_required": []
+    },
+    {
+      "case": "Gate5 VERIFY_REQUIRED + rc0 + explicit boundaries",
+      "execution_status": "COMPLETED",
+      "accepted_gate5_status": "VERIFY_REQUIRED",
+      "overall_qualification": "PASS",
+      "external_verify_required": ["gate5_field_quality"]
+    },
+    {
+      "case": "Gate5 timeout / rc124",
+      "execution_status": "UNVERIFIED",
+      "accepted_gate5_status": "FAIL",
+      "overall_qualification": "FAIL",
+      "external_verify_required": []
+    },
+    {
+      "case": "Gate5 other nonzero rc",
+      "execution_status": "FAILED",
+      "accepted_gate5_status": "FAIL",
+      "overall_qualification": "FAIL",
+      "external_verify_required": []
+    },
+    {
+      "case": "missing output",
+      "execution_status": "MISSING",
+      "accepted_gate5_status": "FAIL",
+      "overall_qualification": "FAIL",
+      "external_verify_required": []
+    },
+    {
+      "case": "stale output",
+      "execution_status": "STALE",
+      "accepted_gate5_status": "FAIL",
+      "overall_qualification": "FAIL",
+      "external_verify_required": []
+    },
+    {
+      "case": "wrong candidate head / source binding",
+      "execution_status": "MISMATCH",
+      "accepted_gate5_status": "FAIL",
+      "overall_qualification": "FAIL",
+      "external_verify_required": []
+    },
+    {
+      "case": "malformed result",
+      "execution_status": "MALFORMED",
+      "accepted_gate5_status": "FAIL",
+      "overall_qualification": "FAIL",
+      "external_verify_required": []
+    },
+    {
+      "case": "UNVERIFIED result with rc0",
+      "execution_status": "UNVERIFIED",
+      "accepted_gate5_status": "FAIL",
+      "overall_qualification": "FAIL",
+      "external_verify_required": []
+    }
+  ],
+  "release_mode_regression": {
+    "execution_failure": "FAIL",
+    "public_assembly_invoked": false,
+    "test": "tests/test_gate5_qualification.py::test_release_mode_cannot_assemble_after_gate5_execution_failure"
+  }
+}
