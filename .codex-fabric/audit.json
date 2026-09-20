@@ -1,0 +1,500 @@
+{
+  "accepted_at": "2026-09-20T03:03:42Z",
+  "changed_files": [
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "MANIFEST_SHA256.json",
+      "status": "M"
+    },
+    {
+      "additions": 233,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r6/evidence.json",
+      "status": "A"
+    },
+    {
+      "additions": 84,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r6/fast.json",
+      "status": "A"
+    },
+    {
+      "additions": 91,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r6/maplibre-backport.patch",
+      "status": "A"
+    },
+    {
+      "additions": 44,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r6/maplibre_security.json",
+      "status": "A"
+    },
+    {
+      "additions": 1203,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r6/security_privacy.json",
+      "status": "A"
+    },
+    {
+      "additions": 229,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r6/upstream-sanitizer-introduction.patch",
+      "status": "A"
+    },
+    {
+      "additions": 65,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate7_r6/upstream-security-fix.patch",
+      "status": "A"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "manifests/public_asset_rights.json",
+      "status": "M"
+    },
+    {
+      "additions": 37,
+      "deletions": 7,
+      "path": "manifests/security_privacy_contract.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 0,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 166,
+      "deletions": 0,
+      "path": "scripts/qa_maplibre_security.py",
+      "status": "A"
+    },
+    {
+      "additions": 70,
+      "deletions": 1,
+      "path": "scripts/security_privacy.py",
+      "status": "M"
+    },
+    {
+      "additions": 25,
+      "deletions": 0,
+      "path": "tests/test_maplibre_security.py",
+      "status": "A"
+    },
+    {
+      "additions": 17,
+      "deletions": 0,
+      "path": "tests/test_security_privacy.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "vendor/maplibre-gl.js",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk sleep 20; rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sleep 30; rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sleep 20; rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sleep 20; rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse 61511ac0485aa145522a6567b484d2cc9aa97e20''^{tree} && rtk git merge-base --is-ancestor 61511ac0485aa145522a6567b484d2cc9aa97e20 fa75e57bf25c7d6387d6fbe7219c40c9868f84d0; rtk printf '\"'ancestry=%s\\\\n' \\\"\"'$?\" && rtk git diff --check 61511ac0485aa145522a6567b484d2cc9aa97e20 fa75e57bf25c7d6387d6fbe7219c40c9868f84d0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/artifacts' | rtk jq '{total_count,artifacts:[.artifacts[]|{id,name,size_in_bytes,expired,created_at,archive_download_url}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,reproducible,build,security_privacy,public_asset_rights,gate4_static}' QA/release/fast.json && rtk shasum -a 256 QA/release/fast.json QA/release/security_privacy.json QA/release/maplibre_security.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m pip install --dry-run --require-hashes -r requirements-qa.txt'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sleep 30; rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cp QA/release/fast.json QA/project_os_verify/gate7_r6/fast.json && rtk cp QA/release/maplibre_security.json QA/project_os_verify/gate7_r6/maplibre_security.json && rtk cp QA/release/security_privacy.json QA/project_os_verify/gate7_r6/security_privacy.json && rtk shasum -a 256 QA/project_os_verify/gate7_r6/fast.json QA/project_os_verify/gate7_r6/maplibre_security.json QA/project_os_verify/gate7_r6/security_privacy.json QA/project_os_verify/gate7_r6/maplibre-backport.patch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,140p' QA/project_os_verify/gate7_r6/maplibre-backport.patch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' /Users/haewonkim/.codex/RTK.md\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sleep 30; rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy curl -fsSL https://github.com/maplibre/maplibre-gl-js/commit/1da69f3cd913a39fa948708e01478663bf48bc27.patch > QA/project_os_verify/gate7_r6/upstream-security-fix.patch && rtk wc -l -c QA/project_os_verify/gate7_r6/upstream-security-fix.patch && rtk shasum -a 256 QA/project_os_verify/gate7_r6/upstream-security-fix.patch && rtk sed -n '1,80p' QA/project_os_verify/gate7_r6/upstream-security-fix.patch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy curl -fsSL https://github.com/maplibre/maplibre-gl-js/commit/506090de1202f58c35175802bc0342494c5f5893.patch > QA/project_os_verify/gate7_r6/upstream-sanitizer-introduction.patch && rtk wc -l -c QA/project_os_verify/gate7_r6/upstream-sanitizer-introduction.patch && rtk shasum -a 256 QA/project_os_verify/gate7_r6/upstream-sanitizer-introduction.patch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sleep 20; rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sleep 20; rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{created_at,run_started_at,updated_at,status,conclusion}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-tree -r --name-only 1ab9c6ae65fbf22061e7b43404c9ad36e31fde6f | rtk rg 'gate7_r5|gate7|evidence' | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 1ab9c6ae65fbf22061e7b43404c9ad36e31fde6f:QA/project_os_verify/gate7_r5/evidence.json | rtk jq '{classification,authoritative_base,source_head,changed_files,security,qualification,limitations}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 1ab9c6ae65fbf22061e7b43404c9ad36e31fde6f:QA/project_os_verify/gate7_r5/evidence.json | rtk sed -n '1,240p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 1ab9c6ae65fbf22061e7b43404c9ad36e31fde6f:QA/project_os_verify/gate7_r5/evidence.json | rtk shasum -a 256 && rtk git show 1ab9c6ae65fbf22061e7b43404c9ad36e31fde6f:QA/project_os_verify/gate7_r5/evidence.json | rtk jq '.identities.authoritative_target_main, .current_advisory_review.results[0], .qualification.results' | head -220\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 1ab9c6ae65fbf22061e7b43404c9ad36e31fde6f:QA/project_os_verify/gate7_r5/evidence.json | rtk jq 'keys' && rtk git show 1ab9c6ae65fbf22061e7b43404c9ad36e31fde6f:QA/project_os_verify/gate7_r5/evidence.json | rtk rg -n 'qualification|Smart|provider|browser|Gate 4|full' | head -160\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 1ab9c6ae65fbf22061e7b43404c9ad36e31fde6f:QA/project_os_verify/gate7_r5/evidence.json | rtk sed -n '236,280p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sleep 30; rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sleep 20; rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk jq '{status,conclusion,updated_at}' && rtk curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk jq -r '.jobs[] | .steps[] | [.number,.name,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/jobs/106013453483 | rtk jq '{started_at,completed_at,status,conclusion,steps:[.steps[]|{name,started_at,completed_at,status,conclusion}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/jobs/106013453483 | rtk jq -r '.steps[] | select(.number>=6 and .number<=10) | [.number,.name,.started_at,.completed_at,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/jobs/106013453483 | rtk jq -r '.steps[] | select(.number>=6 and .number<=10) | [.number,.name,.started_at,.completed_at,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/jobs/106013453483 | rtk proxy jq -r '.steps[] | select(.number>=6 and .number<=10) | [.number,.name,.started_at,.completed_at,.status,.conclusion] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk proxy jq '{id,name,status,conclusion,head_sha,head_branch,run_started_at,updated_at,html_url}' && rtk proxy curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk proxy jq -r '.jobs[] | [.id,.name,.status,.conclusion,.html_url] | @tsv'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/jobs/106013453483 | rtk proxy jq '{status,conclusion,started_at,completed_at}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy curl -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk proxy jq '{id,status,conclusion,updated_at}' && rtk proxy curl -sS 'https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633/jobs?per_page=50' | rtk proxy jq '.jobs[] | {id,name,status,conclusion}'\"",
+      "exit_code": 5,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy curl -i -sS https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk tail -40'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk date -r 1789877235'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m json.tool QA/project_os_verify/gate7_r6/evidence.json >/dev/null && rtk git status --short && rtk find QA/project_os_verify/gate7_r6 -maxdepth 1 -type f -print | sort && rtk git diff --check 61511ac0485aa145522a6567b484d2cc9aa97e20 fa75e57bf25c7d6387d6fbe7219c40c9868f84d0'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add QA/project_os_verify/gate7_r6 && rtk git commit -m \"docs: record MapLibre Gate 7 R6 evidence\" && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git status --short --branch && rtk git diff --name-status fa75e57bf25c7d6387d6fbe7219c40c9868f84d0 HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/codex/sf-trip-visualizer-security-privacy-maplibre-fix-r6 && rtk git ls-remote origin refs/heads/codex/sf-trip-visualizer-security-privacy-maplibre-fix-r6 && rtk git ls-remote origin refs/heads/main'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy curl -L -sS https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35486393633 | rtk rg -o '\\\"conclusion\\\":\\\"[\"'^\"]+\"|\"status\":\"[''^\"]+\"|success|in_progress'\"' | tail -20\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && rtk git merge-base --is-ancestor 61511ac0485aa145522a6567b484d2cc9aa97e20 e5968d5cac1207e62184c2c227076b4ce1ab620a && rtk printf 'base_ancestry=0\\\\n' && rtk git diff --name-status fa75e57bf25c7d6387d6fbe7219c40c9868f84d0 e5968d5cac1207e62184c2c227076b4ce1ab620a && rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-security-privacy-maplibre-fix-r6 && rtk git diff --check\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/qa_maplibre_security.py --revision e5968d5cac1207e62184c2c227076b4ce1ab620a --output /tmp/r6-maplibre-final.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/security_privacy.py --revision e5968d5cac1207e62184c2c227076b4ce1ab620a'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk shasum -a 256 QA/project_os_verify/gate7_r6/evidence.json QA/project_os_verify/gate7_r6/fast.json QA/project_os_verify/gate7_r6/maplibre_security.json QA/project_os_verify/gate7_r6/security_privacy.json QA/project_os_verify/gate7_r6/maplibre-backport.patch QA/project_os_verify/gate7_r6/upstream-security-fix.patch QA/project_os_verify/gate7_r6/upstream-sanitizer-introduction.patch && rtk git log --oneline --decorate -3 && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 349,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.77,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 19112192,
+      "fresh_input_tokens": 436681,
+      "input_tokens": 19548873,
+      "non_reasoning_output_tokens": 48423,
+      "output_tokens": 80911,
+      "reasoning_output_tokens": 32488,
+      "total_processed_tokens": 19629784
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "e5968d5cac1207e62184c2c227076b4ce1ab620a",
+      "subject": "docs: record MapLibre Gate 7 R6 evidence"
+    },
+    {
+      "sha": "fa75e57bf25c7d6387d6fbe7219c40c9868f84d0",
+      "subject": "fix security: backport MapLibre attribution sanitizer"
+    }
+  ],
+  "diff": {
+    "additions": 2277,
+    "changed_files": 16,
+    "commit_count": 2,
+    "deletions": 16
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 7,
+    "items": [
+      {
+        "bytes": 43923,
+        "path": "MANIFEST_SHA256.json",
+        "sha256": "66916826bde97096beb0f671243721bfed329b6aae60d74677852534ae0a3eda"
+      },
+      {
+        "bytes": 16677,
+        "path": "QA/project_os_verify/gate7_r6/evidence.json",
+        "sha256": "ea452629e8762f519fe67aa843f6cc9a4ab65ebd748f32362e4182be45004572"
+      },
+      {
+        "bytes": 2456,
+        "path": "QA/project_os_verify/gate7_r6/fast.json",
+        "sha256": "8e3078672b9ab14bce0cc74b90d3665bf2a0d7f77171c3a0da60f3082c9d56e6"
+      },
+      {
+        "bytes": 1428,
+        "path": "QA/project_os_verify/gate7_r6/maplibre_security.json",
+        "sha256": "95407232240a935480bbec52de536bbf4ab523ea8c12cd7975ced9569319eeaf"
+      },
+      {
+        "bytes": 42039,
+        "path": "QA/project_os_verify/gate7_r6/security_privacy.json",
+        "sha256": "a9887181de03e5dcf42d33b66c5922e4b16ed3736c3767e0f5e32a116e0f8a08"
+      },
+      {
+        "bytes": 549637,
+        "path": "manifests/public_asset_rights.json",
+        "sha256": "934ca6fafb7a206ab1fefd9956ec6f13ec75af6b6fe79c50234838a95d175788"
+      },
+      {
+        "bytes": 37407,
+        "path": "manifests/security_privacy_contract.json",
+        "sha256": "3abdfe5483696f29538c84c0f4d408d88559ab92c4ccb075c1b67742fd29f955"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.3-resume-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.3-resume-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-20T03:43:12Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "61511ac0485aa145522a6567b484d2cc9aa97e20",
+    "branch": "codex/sf-trip-visualizer-security-privacy-maplibre-fix-r6",
+    "detached_verify": false,
+    "head_sha": "e5968d5cac1207e62184c2c227076b4ce1ab620a",
+    "remote_exact_head": true,
+    "remote_head_sha": "e5968d5cac1207e62184c2c227076b4ce1ab620a",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "61511ac0485aa145522a6567b484d2cc9aa97e20",
+    "work_branch": "codex/sf-trip-visualizer-security-privacy-maplibre-fix-r6",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-19dc12513fdca8343b36f055",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/security-privacy-maplibre-fix-r6",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/security-privacy-maplibre-fix-r6"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.3-resume-candidate",
+    "policy_sha256": "a642c9f63bab2cb555704bdb0b9d1f28222591f133f934c1d0f93cc5a25ab8a1",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "security-privacy-maplibre-fix-r6",
+  "schema_version": 1,
+  "started_at": "2026-09-20T03:03:42Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 2370,
+    "queue_seconds": 0,
+    "total_seconds": 2370
+  },
+  "transport": {
+    "bytes": 11485,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 11137,
+    "prompt_sha256": "c7aa5dcf279e22ff9f408bcac8193d7e12747d987283322bc297d62473836904",
+    "sha256": "19dc12513fdca8343b36f055a77e3e95b96bb6649cfd67686b9cd203042ecd00"
+  }
+}
