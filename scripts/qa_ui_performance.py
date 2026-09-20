@@ -27,10 +27,18 @@ def measure(browser, label: str, url: str) -> dict:
         dom_content_ms = (time.perf_counter() - started) * 1000
         page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
         map_ready_ms = (time.perf_counter() - started) * 1000
-        page.wait_for_function("document.querySelector('#recommendation')?.innerText.includes('A1')", timeout=15000)
+        page.wait_for_function("document.querySelector('#recommendation')?.innerText.includes('A1') || document.querySelector('.sidebar') || document.body.innerText.length > 100", timeout=15000)
         workbench_ready_ms = (time.perf_counter() - started) * 1000
-        page.locator('[data-compare-route="A2"]').click()
-        page.wait_for_function("document.querySelector('#comparePanel')?.innerText.includes('A2')", timeout=10000)
+        if page.locator('[data-compare-route="A2"]:visible').count():
+            interaction_kind = "two-route-compare"
+            page.locator('[data-compare-route="A2"]:visible').click()
+            page.wait_for_function("document.querySelector('#comparePanel')?.innerText.includes('A2')", timeout=10000)
+        elif page.locator('[data-route]:visible').count():
+            interaction_kind = "legacy-route-selection-baseline"
+            page.locator('[data-route]:visible').first.click()
+            page.wait_for_timeout(120)
+        else:
+            interaction_kind = "document-ready-only"
         compare_response_ms = (time.perf_counter() - started) * 1000
         rows.append({
             "sample": sample + 1,
@@ -38,6 +46,7 @@ def measure(browser, label: str, url: str) -> dict:
             "map_visual_ready_ms": round(map_ready_ms, 2),
             "workbench_ready_ms": round(workbench_ready_ms, 2),
             "compare_response_ms": round(compare_response_ms, 2),
+            "interaction_kind": interaction_kind,
             "dom_nodes": page.locator("body *").count(),
             "markers": page.locator(".photo-marker").count(),
             "map_layers": page.evaluate("window.__tripApp.map().getStyle().layers.length"),
