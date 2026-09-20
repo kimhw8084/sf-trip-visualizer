@@ -20,6 +20,10 @@
     "authority": "Authoritative final identity is the pushed managed R3 branch plus Fabric audit/Project OS postflight; this manifest intentionally resolves final SHA/tree from that authority instead of making a self-referential final-commit claim."
   },
   "source_to_final": {
+    "post_freeze_qa_commit": "8d20be6fd926b7f5db97c9ad045d9f495dc79f1c",
+    "post_freeze_qa_tree": "6e99993a1564b756dda763b2b1b1fd53b0f49f57",
+    "post_freeze_qa_files": ["scripts/qa_decision_workbench.py"],
+    "post_freeze_qa_rationale": "Hosted Linux exposed a timing-sensitive oracle sample before the already-scheduled explicit focus return. The QA-only oracle now waits for that return; no product/runtime/workflow/dependency/manifest file was changed.",
     "commits_after_stable_source": "Evidence-only commits may follow; the remote branch and hosted audit are authoritative for the exact final head.",
     "mutation_contract": "Any commit after the stable source must be QA/evidence-only and hosted-qualified on its exact SHA."
   },
@@ -38,6 +42,7 @@
     "accessibility": "QA/project_os_verify/ui_revamp_r3/accessibility.json",
     "browsers": "QA/project_os_verify/ui_revamp_r3/browser_summary.json",
     "visual_index": "QA/project_os_verify/ui_revamp_r3/visual_index.json"
+    ,"hosted_qualification": "QA/project_os_verify/ui_revamp_r3/qualification_hosted.json"
   },
   "preservation": {
     "maplibre_sha256": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675",
@@ -50,6 +55,6 @@
     "Native Safari and physical-device behavior remain outside local Playwright evidence.",
     "Independent human/Project OS pixel and field review remains required for Golden UI perfection.",
     "Performance residual is within observed matched noise but remains VERIFY_REQUIRED rather than a fabricated universal budget.",
-    "Hosted-Linux Firefox/Xvfb qualification, exact managed-branch identity, and postflight release-path evidence are pending this local handoff."
+    "Final evidence-head hosted rerun after the next evidence-only commit must be recorded by the managed branch/Fabric postflight; the completed hosted candidate validation is in qualification_hosted.json."
   ]
 }

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "candidate": "8d20be6fd926b7f5db97c9ad045d9f495dc79f1c",
+  "candidate_tree": "6e99993a1564b756dda763b2b1b1fd53b0f49f57",
+  "candidate_binding": "exact-clean-checkout",
+  "environment": {
+    "runner": "ubuntu-latest",
+    "firefox_mode": "hosted-linux",
+    "display": "Xvfb 1280x1024x24",
+    "software_gl": true,
+    "qualification_runner": "scripts/hosted_linux_pipeline.py"
+  },
+  "workflow": {
+    "name": "Qualify Fabric candidate",
+    "run_id": 35542814955,
+    "job_id": 106163431517,
+    "run_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35542814955",
+    "job_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35542814955/job/106163431517"
+  },
+  "artifact": {
+    "id": 10616015043,
+    "name": "candidate-qualification-8d20be6fd926b7f5db97c9ad045d9f495dc79f1c",
+    "archive_url": "https://api.github.com/repos/kimhw8084/sf-trip-visualizer/actions/artifacts/10616015043/zip"
+  },
+  "components": {
+    "public_asset_rights": "PASS",
+    "canonical_truth": "PASS",
+    "photo_integrity": "PASS",
+    "maplibre_security": "PASS",
+    "map_first_smoke": "PASS",
+    "decision_workbench": "PASS",
+    "accessibility_reflow": "PASS",
+    "map_geometry": "PASS",
+    "map_first_full": "PASS",
+    "map_first_p0": "PASS",
+    "standalone": "PASS",
+    "location_gap": "PASS",
+    "interaction_dynamics": "PASS",
+    "route_continuity": "PASS",
+    "route_panel": "PASS",
+    "exhaustive_states": "PASS",
+    "cross_browser": "PASS",
+    "visual_spots": "PASS",
+    "gate4_runtime": "PASS",
+    "repository_unit_and_contract": "PASS",
+    "clean_pages_release_path": "PASS",
+    "verify_public": "PASS",
+    "evidence_upload": "PASS"
+  },
+  "public_release": {
+    "artifact_sha256": "18d2bf09444bbfc1771b043409706b71dbfae8132d3b67db83300b3393208216",
+    "artifact_files": 248,
+    "all_provenance_rights_security_checks": "PASS",
+    "deployed": false
+  },
+  "note": "This hosted PASS validates the post-freeze QA-only focus synchronization commit. The final evidence-head identity remains authoritative from the pushed managed branch and its subsequent hosted rerun; no production deployment was performed."
+}

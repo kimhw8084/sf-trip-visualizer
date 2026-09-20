@@ -24,9 +24,10 @@ Fresh order-balanced evidence has 8 samples per variant across two blocks. Curre
 - Local browsers: PASS for Firefox and WebKit at 1280×800 and 390×844; open/closed option geometry and focus return included.
 - Visual pack: 35 indexed real files covering canonical, compact options, region change, route key, provider failure, Decide/Day/Place, workbench sizes, stress profiles, and fresh 1536×864 / 414×896 holdouts.
 - Repository checks: 46 unittest cases PASS; compileall, JavaScript syntax, and `git diff --check` PASS. Full local canonical qualification also passed all 19 components, including Gate-4 runtime resilience after it was updated to open Map Options before region selection.
+- Hosted Linux qualification: PASS on post-freeze QA-only candidate `8d20be6fd926b7f5db97c9ad045d9f495dc79f1c` / tree `6e99993a1564b756dda763b2b1b1fd53b0f49f57`, run `35542814955`, job `106163431517`, artifact `10616015043`. All 19 decisive components, repository unit/contract checks, clean non-deploying Pages release, `verify-public`, and evidence upload passed under `ubuntu-latest`, Xvfb, software GL, and hosted-Linux Firefox mode. The earlier hosted 18/19 failure was isolated to an immediate QA focus assertion and is preserved as a diagnostic history, not a product failure.
 
 R2→R3 complete diff: `r2_to_r3.diff` (including the Gate-6 rights-contract registration and changed first-party hashes). Preservation hashes and canonical counts are in `revision_manifest.json`. Fabric evidence is objective and does not self-certify aesthetic perfection.
 
 ## Qualification boundary
 
-At handoff, hosted-Linux Firefox/Xvfb qualification, exact managed-branch equality, hosted clean Pages release-path exercise, `verify-public`, and evidence-upload identities remain to be established. Native Safari, physical devices, independent human review, and Project OS Golden UI inspection remain external boundaries. Final classification: `VERIFY_REQUIRED`.
+The next evidence-only commit must receive its own exact hosted rerun before final branch identity is closed; the preceding hosted candidate validation is durable in `qualification_hosted.json`. Native Safari, physical devices, independent human review, and Project OS Golden UI inspection remain external boundaries. Final classification: `VERIFY_REQUIRED`.
