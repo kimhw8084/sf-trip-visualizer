@@ -13,7 +13,7 @@ from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2"
+OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3"
 OUT.mkdir(parents=True, exist_ok=True)
 IDENTITY = candidate_identity()
 
@@ -44,6 +44,25 @@ with sync_playwright() as playwright:
 
     results.append(oracle("decide_recommendation", page.locator("#recommendation").is_visible() and "A1" in page.locator("#recommendation").inner_text() and all(text in page.locator("#recommendation").inner_text() for text in ("감수할 것", "선택·전환 규칙", "후회 방지"))))
     results.append(oracle("single_authority_controls", page.locator("#dateSelect").count() == 1 and page.locator("#providerControls [data-provider]").count() == 2 and page.locator("#regionControls [data-region]").count() == 4 and page.locator("#peek").count() == 1))
+    page.locator("#mapOptionsToggle").click()
+    options_open = page.locator("#mapOptionsPanel").is_visible() and page.evaluate("document.activeElement?.id === 'mapOptionsClose'")
+    page.keyboard.press("Escape")
+    options_closed = page.locator("#mapOptionsPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'mapOptionsToggle'") and page.locator("#mapOptionsPanel button:visible").count() == 0
+    results.append(oracle("compact_map_options_focus_contract", options_open and options_closed))
+    page.locator("#mapOptionsToggle").click()
+    page.locator("#providerControls [data-provider='vector']").click()
+    page.wait_for_function("window.__tripApp.state.runtime.provider === 'vector'")
+    page.locator("#mapOptionsToggle").click()
+    page.locator("#regionControls [data-region='yosemite']").click()
+    page.wait_for_function("window.__tripApp.state.task.region === 'yosemite'")
+    page.locator("#mapOptionsToggle").click()
+    page.locator("#regionControls [data-region='overall']").click()
+    page.wait_for_function("window.__tripApp.state.task.region === 'overall'")
+    results.append(oracle("compact_map_options_provider_region_selection", page.evaluate("window.__tripApp.state.runtime.provider === 'vector' && window.__tripApp.state.task.region === 'overall'")))
+    page.locator("#routeLegendToggle").click()
+    legend_open = page.locator("#routeLegendPanel").is_visible()
+    page.keyboard.press("Escape")
+    results.append(oracle("route_key_disclosure_focus_contract", legend_open and page.locator("#routeLegendPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'routeLegendToggle'")))
     results.append(oracle("legacy_surface_removed", page.locator("#dateRibbon,#mapSchedule,#mapFocus,#routeTip,#mobileDate,#mobileProvider").count() == 0))
     shot("decide_default_desktop", (1440, 900), "decide", "recommended_default")
 
@@ -74,12 +93,14 @@ with sync_playwright() as playwright:
     results.append(oracle("place_return_context", page.evaluate("window.__tripApp.state.presentation.mode") == "day" and page.input_value("#dateSelect") == "10/8"))
     shot("place_inspector_desktop", (1440, 900), "place", "inspector_after_peek")
 
+    page.locator("#mapOptionsToggle").click()
     page.locator("#regionControls [data-region='yosemite']").click()
     page.locator("#dateSelect").select_option("10/7")
     page.locator(".photo-marker[data-place-key='cooks']").click()
     results.append(oracle("cooks_real_pointer_activation", page.locator("#peek.show").count() == 1 and page.evaluate("window.__tripApp.state.task.selected==='cooks'")))
     page.keyboard.press("Escape")
     page.locator("#dateSelect").select_option("10/8")
+    page.locator("#mapOptionsToggle").click()
     page.locator("#regionControls [data-region='overall']").click()
 
     page.route("https://server.arcgisonline.com/**", lambda route: route.abort())

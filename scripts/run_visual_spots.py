@@ -1,4 +1,4 @@
-"""Capture the exact-bound R2 visual matrix for independent pixel review."""
+"""Capture the exact-bound R3 visual matrix for independent pixel review."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2"
+OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3"
 SHOTS = OUT / "screenshots"
 
 
@@ -48,6 +48,16 @@ def main() -> int:
 
         context, page, page_errors = new_page(browser, (1440, 900))
         capture(page, rows, "canonical_decide_default_1440x900", (1440, 900), "decide", "recommended_default", "canonical-anchor", "canonical desktop default")
+        page.locator("#mapOptionsToggle").click()
+        capture(page, rows, "compact_map_options_open_1440x900", (1440, 900), "decide", "Map options open", "compact provider/region disclosure and focus return target", "canonical-anchor", "compact map options")
+        page.locator("#providerControls [data-provider='vector']").click()
+        page.locator("#mapOptionsToggle").click()
+        page.locator("#regionControls [data-region='yosemite']").click()
+        page.wait_for_timeout(300)
+        capture(page, rows, "compact_map_region_yosemite_1440x900", (1440, 900), "decide", "Yosemite selected", "semantic region change through compact map options", "canonical-anchor", "region change")
+        page.locator("#routeLegendToggle").click()
+        capture(page, rows, "compact_route_key_open_1440x900", (1440, 900), "decide", "route key open", "on-demand route semantics disclosure", "canonical-anchor", "route key disclosure")
+        page.keyboard.press("Escape")
         page.locator('[data-compare-route="A2"]').click()
         capture(page, rows, "canonical_decide_compare_1440x900", (1440, 900), "decide", "A1_vs_A2", "two-route human comparison", "canonical-anchor", "canonical desktop compare")
         page.locator("#modeNav [data-mode='day']").click()
@@ -55,9 +65,11 @@ def main() -> int:
         capture(page, rows, "canonical_day_dense_recovery_1440x900", (1440, 900), "day", "10/8", "dense Day with recovery and typed decisions", "canonical-anchor", "canonical dense day")
         page.locator("#dateSelect").select_option("10/9")
         capture(page, rows, "canonical_day_sparse_1440x900", (1440, 900), "day", "10/9", "sparse/recovery Day state", "canonical-anchor", "canonical sparse day")
+        page.locator("#mapOptionsToggle").click()
         page.locator("#regionControls [data-region='sf']").click()
         page.locator("#dateSelect").select_option("10/6")
         capture(page, rows, "canonical_no_results_1440x900", (1440, 900), "day", "SF + 10/6 no-results", "no-results handling", "canonical-anchor", "no-result state")
+        page.locator("#mapOptionsToggle").click()
         page.locator("#regionControls [data-region='yosemite']").click()
         page.locator("#dateSelect").select_option("10/7")
         page.locator(".photo-marker[data-place-key='cooks']").click()
@@ -92,6 +104,7 @@ def main() -> int:
             page.close(); context.close()
 
         context, page, page_errors = new_page(browser, (390, 844))
+        page.locator("#mapOptionsToggle").click()
         page.locator("#regionControls [data-region='yosemite']").click()
         page.locator("#modeNav [data-mode='day']").click()
         page.locator("#dateSelect").select_option("10/7")
@@ -136,7 +149,10 @@ def main() -> int:
         page.close(); context.close()
         browser.close()
 
-    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1536x864", "414x896"], "frozen_after": "stable R2 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
+    for row in rows:
+        row["candidate"] = identity["sha"]
+        row["candidate_tree"] = identity["tree"]
+    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1536x864", "414x896"], "frozen_after": "stable R3 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
     bind_report(report, identity)
     OUT.joinpath("visual_index.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"status": report["status"], "screenshots": len(rows), "errors": errors}, ensure_ascii=False))

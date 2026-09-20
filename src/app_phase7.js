@@ -33,6 +33,15 @@
   const MAP_SAFE_MARGIN = 16;
   let peekHideTimer = null;
   let suppressPeekFocusKey = null;
+  let mapOptionsInvoker = null;
+  let routeLegendInvoker = null;
+
+  const markStartup = (name, detail = {}) => {
+    if (typeof window.__tripStartupMark === 'function') return window.__tripStartupMark(name, detail);
+    const started = window.__tripLoadStarted || performance.now();
+    (window.__tripStartupMarks ||= []).push({ name, at_ms: Math.round((performance.now() - started) * 100) / 100, ...detail });
+  };
+  markStartup('authored_js_evaluated');
 
   const m = key => messages.messages[state.presentation.lang]?.[key] || messages.messages.en[key] || key;
   const tr = value => {
@@ -137,6 +146,7 @@
     return source === 'basemap' || source === 'hillshade' || /pmtiles|tripasset|glyph|sprite|font|local asset|range|byte serving/i.test(message);
   }
   async function setupVector() {
+    markStartup('local_vector_setup_start');
     if (!window.TRIP_VECTOR) throw new Error('Local vector renderer missing');
     const { Protocol, PMTiles, FileSource } = window.TRIP_VECTOR;
     const protocol = new Protocol();
@@ -149,6 +159,7 @@
       vectorUrl = 'sf_trip.pmtiles'; archive = new PMTiles(new FileSource(new File([blob], 'sf_trip.pmtiles')));
     } else archive = new PMTiles(vectorUrl);
     const header = await archive.getHeader();
+    markStartup('local_pmtiles_header_ready', { tile_type: header?.tileType, max_zoom: header?.maxZoom });
     if (!header || ![1, 6].includes(header.tileType) || header.maxZoom < 1 || header.minLon >= header.maxLon || header.minLat >= header.maxLat) throw new Error('Smart map PMTiles header is invalid');
     protocol.add(archive); maplibregl.addProtocol('pmtiles', protocol.tile);
     maplibregl.addProtocol('tripasset', async params => {
@@ -159,8 +170,10 @@
       return { data: path.endsWith('.json') ? await response.json() : await response.arrayBuffer() };
     });
     state.runtime.localAssets.status = 'ready'; state.runtime.providerHealth.vector = 'ready'; recordRuntimeEvent('smart_ready', 'vector', { identity: state.runtime.providerIdentity });
+    markStartup('local_vector_setup_ready');
   }
   function vectorStyle({ labelsOnly = false } = {}) {
+    markStartup('local_map_asset_style_start', { labels_only: labelsOnly });
     const vector = window.TRIP_VECTOR, dark = state.presentation.theme === 'dark';
     const layers = vector.layers('basemap', vector.namedFlavor(dark ? 'dark' : 'light'), { lang: 'en', labelsOnly });
     for (const layer of layers) {
@@ -180,7 +193,9 @@
       const index = layers.findIndex(layer => layer.id === 'roads_tunnels_other_casing');
       layers.splice(index < 0 ? layers.length : index, 0, { id: 'yosemite-relief', type: 'raster', source: 'hillshade', minzoom: 8, maxzoom: 18, paint: { 'raster-opacity': dark ? .58 : .72, 'raster-fade-duration': 0 } });
     }
-    return { version: 8, glyphs: 'tripasset://assets/vector/fonts/{fontstack}/{range}.pbf', sprite: `tripasset://assets/vector/sprites/${dark ? 'dark' : 'light'}`, sources, layers };
+    const style = { version: 8, glyphs: 'tripasset://assets/vector/fonts/{fontstack}/{range}.pbf', sprite: `tripasset://assets/vector/sprites/${dark ? 'dark' : 'light'}`, sources, layers };
+    markStartup('local_map_asset_style_ready', { labels_only: labelsOnly, layers: layers.length, hillshade: !labelsOnly });
+    return style;
   }
   function providerStyle(provider) {
     if (provider === 'vector') return vectorStyle();
@@ -229,6 +244,12 @@
   function renderProviderState() {
     const provider = state.runtime.provider, health = state.runtime.providerHealth[provider] || 'untested', status = document.getElementById('providerStatus');
     const label = provider === 'vector' ? (health === 'ready' ? m('mapReady') : health === 'failed' ? m('mapUnavailable') : m('mapChecking')) : (health === 'ready' ? m('satelliteReady') : health === 'failed' ? m('satelliteUnavailable') : m('satelliteChecking'));
+    const region = state.task.region === 'overall' ? m('overall') : DATA.region_cfg[state.task.region]?.[state.presentation.lang === 'ko' ? 'label' : 'label_en'] || state.task.region;
+    const providerLabel = provider === 'vector' ? m('smartMap') : m('satellite');
+    const summary = document.getElementById('mapCurrentSummary');
+    if (summary) summary.textContent = `${providerLabel} · ${region}`;
+    const optionsToggle = document.getElementById('mapOptionsToggle');
+    if (optionsToggle) optionsToggle.setAttribute('aria-label', `${m('mapOptions')}: ${providerLabel} · ${region}`);
     if (status) { status.textContent = label; status.className = `map-status ${health === 'ready' ? 'ready' : health === 'failed' ? 'failed' : ''}`; }
     document.querySelectorAll('[data-provider]').forEach(button => { button.dataset.health = state.runtime.providerHealth[button.dataset.provider] || 'untested'; button.setAttribute('aria-pressed', String(button.dataset.provider === provider)); });
   }
@@ -250,6 +271,7 @@
     return features;
   }
   function installRouteLayers(map) {
+    markStartup('route_layer_install_start');
     const add = () => {
       if (map.getSource('trip-routes')) return;
       map.addSource('trip-routes', { type: 'geojson', data: { type: 'FeatureCollection', features: visibleRouteFeatures() } });
@@ -273,6 +295,7 @@
         });
         map.on('mouseleave', hitId, () => { map.getCanvas().style.cursor = ''; if (state.presentation.peek?.route) scheduleHidePeek(); });
       }
+      markStartup('route_layer_install_ready', { layers: map.getStyle()?.layers?.length || 0 });
     };
     if (map.isStyleLoaded()) add(); else map.once('load', add);
   }
@@ -293,6 +316,19 @@
       const rect = element.getBoundingClientRect();
       return { selector: element.className || element.tagName.toLowerCase(), left: rect.left - shellRect.left, top: rect.top - shellRect.top, right: rect.right - shellRect.left, bottom: rect.bottom - shellRect.top, width: rect.width, height: rect.height };
     });
+  }
+  function unionArea(rects) {
+    const xs = [...new Set(rects.flatMap(rect => [Math.max(0, rect.left), Math.min(rect.right, rect.shellWidth || Infinity)]))].sort((a, b) => a - b);
+    let area = 0;
+    for (let index = 0; index < xs.length - 1; index += 1) {
+      const left = xs[index], right = xs[index + 1];
+      if (right <= left) continue;
+      const intervals = rects.filter(rect => rect.left < right && rect.right > left).map(rect => [rect.top, rect.bottom]).sort((a, b) => a[0] - b[0]);
+      let covered = 0, end = -Infinity;
+      intervals.forEach(([top, bottom]) => { if (bottom > end) { covered += bottom - Math.max(top, end); end = bottom; } });
+      area += (right - left) * covered;
+    }
+    return area;
   }
   function mapSafePadding(map = photoMap) {
     const shell = document.querySelector('.map-shell');
@@ -319,6 +355,7 @@
       if (padding.top >= padding.bottom) padding.bottom = Math.max(MAP_SAFE_MARGIN, verticalBudget - padding.top);
       else padding.top = Math.max(MAP_SAFE_MARGIN, verticalBudget - padding.bottom);
     }
+    markStartup('map_safe_padding_computed', { padding: { ...padding } });
     return padding;
   }
   function mapGeometrySnapshot() {
@@ -335,15 +372,19 @@
       const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
       return { key: element.dataset.placeKey || element.getAttribute('aria-label') || element.className, rect: effective, intersects_obstacle: obstacles.filter(obstacle => intersects(effective, obstacle)).map(obstacle => obstacle.selector), center_hit: hit?.closest?.('.photo-marker, .photo-cluster, .route-leg-label')?.className || hit?.className || null, center: center };
     });
-    return { shell: { width: shellRect.width, height: shellRect.height }, safe_padding: mapSafePadding(), obstacles, markers };
+    const persistent = obstacles.filter(obstacle => !/(map-options-panel|route-legend-panel)/.test(obstacle.selector)).map(obstacle => ({ ...obstacle, shellWidth: shellRect.width }));
+    const shellArea = shellRect.width * shellRect.height, persistentArea = unionArea(persistent);
+    return { shell: { width: shellRect.width, height: shellRect.height, area_px: shellArea }, safe_padding: mapSafePadding(), obstacles, persistent_opaque_chrome: { area_px: persistentArea, ratio: shellArea ? persistentArea / shellArea : 0, rectangles: persistent }, unobstructed_interior: { area_px: Math.max(0, shellArea - persistentArea), ratio: shellArea ? Math.max(0, shellArea - persistentArea) / shellArea : 0 }, markers };
   }
   function fitVisibleMap(map = photoMap) {
     if (!map) return;
+    markStartup('initial_fit_start');
     const visible = DATA.markers.filter(item => markerVisible(item, { map: true })), routePoints = visibleRouteFeatures().filter(feature => feature.properties.kind !== 'transfer').flatMap(feature => feature.geometry.coordinates), points = [...visible.map(item => [item.lon, item.lat]), ...routePoints];
     if (!points.length) return;
     if (points.length === 1) return map.jumpTo({ center: points[0], zoom: 13.1 });
     const bounds = [[Math.min(...points.map(point => point[0])), Math.min(...points.map(point => point[1]))], [Math.max(...points.map(point => point[0])), Math.max(...points.map(point => point[1]))]];
     map.fitBounds(bounds, { padding: mapSafePadding(map), maxZoom: state.task.date !== 'all' ? 12.8 : 7.8, duration: 0 });
+    markStartup('initial_fit_complete');
   }
   function ringFor(marker) {
     const colors = marker.routes.filter(route => activeRoutes({ map: true }).has(route)).map(route => safeColor(routeMeta[route].color));
@@ -381,8 +422,10 @@
     });
   }
   function bindLocalImageFailures(root) { root?.querySelectorAll('img').forEach(image => { if (!image.src.startsWith('data:')) image.addEventListener('error', () => showMapFailure(new Error(`Missing local photo ${image.getAttribute('src') || ''}`), 'photo_asset')); }); }
-  function installPhotoMarkers(map) {
+  function installPhotoMarkers(map, { deferClusters = false } = {}) {
     photoMap = map; photoMarkers = [];
+    markStartup('photo_preparation_start');
+    markStartup('marker_install_start', { count: DATA.markers.filter(item => markerVisible(item, { map: true })).length });
     DATA.markers.filter(item => markerVisible(item, { map: true })).forEach(marker => {
       const element = document.createElement('button'); element.type = 'button'; element.className = `photo-marker${state.task.selected === marker.place_key ? ' selected' : ''}${marker.source_class === 'official_gap_audit' ? ' audited' : ''}`; element.dataset.placeKey = marker.place_key; element.setAttribute('aria-label', `${m('choosePlace')}: ${placeName(marker.place_key)}`); element.title = placeName(marker.place_key); element.style.background = ringFor(marker);
       const occurrence = preferredOccurrence(marker), sequence = state.task.date === 'all' ? DATA.markers.indexOf(marker) + 1 : occurrence?.seq || DATA.markers.indexOf(marker) + 1;
@@ -394,7 +437,10 @@
       element.addEventListener('click', event => { event.stopPropagation(); selectPlace(marker.place_key, { focus: false, open: false, invoker: element }); showPeek(marker.place_key, { event, focusAction: false, invoker: element }); });
       photoMarkers.push(new maplibregl.Marker({ element, anchor: 'center' }).setLngLat([marker.lon, marker.lat]).addTo(map));
     });
-    map.on('zoomend', updatePhotoClusters); map.on('moveend', updatePhotoClusters); updatePhotoClusters();
+    if (!map.__tripClusterHandlersInstalled) { map.on('zoomend', updatePhotoClusters); map.on('moveend', updatePhotoClusters); map.__tripClusterHandlersInstalled = true; }
+    if (!deferClusters) updatePhotoClusters();
+    markStartup('photo_preparation_ready', { markers: photoMarkers.length });
+    markStartup('marker_install_ready', { markers: photoMarkers.length });
   }
   function installLegLabels(map) {
     legMarkers.forEach(marker => marker.remove()); legMarkers = [];
@@ -407,6 +453,7 @@
   }
   function drawMap(preserve = true) {
     state.runtime.drawRequests += 1;
+    markStartup('map_draw_requested', { request: state.runtime.drawRequests });
     const perform = async () => {
       const previous = photoMap, same = previous && renderedProvider === state.runtime.provider && renderedTheme === state.presentation.theme;
       clusterMarkers.forEach(marker => marker.remove()); clusterMarkers = []; photoMarkers.forEach(marker => marker.remove()); photoMarkers = []; legMarkers.forEach(marker => marker.remove()); legMarkers = [];
@@ -419,8 +466,8 @@
       let map;
       try {
         map = new maplibregl.Map({ container: 'map', style: providerStyle(state.runtime.provider), center: [region.center.lon, region.center.lat], zoom: region.zoom, attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 18 });
-        photoMap = map; renderedProvider = state.runtime.provider; renderedTheme = state.presentation.theme; state.runtime.mapCreations += 1; state.runtime.mapStatus = 'loading'; renderProviderState();
-        map.on('load', () => { installRouteLayers(map); installPhotoMarkers(map); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; renderProviderState(); renderMapLegend(); renderShellStatus(); });
+        photoMap = map; renderedProvider = state.runtime.provider; renderedTheme = state.presentation.theme; state.runtime.mapCreations += 1; state.runtime.mapStatus = 'loading'; renderProviderState(); markStartup('map_created');
+        map.on('load', () => { markStartup('map_style_ready'); installRouteLayers(map); installPhotoMarkers(map, { deferClusters: true }); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); updatePhotoClusters(); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; renderProviderState(); renderMapLegend(); renderShellStatus(); markStartup('map_visual_ready', { markers: photoMarkers.length, layers: map.getStyle()?.layers?.length || 0 }); });
         map.on('click', () => hidePeek({ returnFocus: false }));
         map.on('error', event => { if (localMapError(event)) showMapFailure(event.error || event.message, 'map_runtime'); });
         return true;
@@ -518,15 +565,61 @@
   function renderPlace() { const marker = markerByKey[state.task.selected]; if (state.presentation.mode === 'place' && marker) renderPlaceInspector(marker); else if (state.presentation.mode === 'place') renderPlaceBrowser(); }
 
   /* ----- Shell, i18n, transitions, focus, and responsive sheet ----- */
+  function positionMapOptions() {
+    const shell = document.querySelector('.map-shell'), surface = document.getElementById('mapControlSurface'), panel = document.getElementById('mapOptionsPanel');
+    if (!shell || !surface || !panel || panel.hidden) return;
+    const shellRect = shell.getBoundingClientRect();
+    panel.classList.remove('open-up', 'align-right');
+    const panelRect = panel.getBoundingClientRect(), surfaceRect = surface.getBoundingClientRect();
+    if (panelRect.bottom > shellRect.bottom - 8) panel.classList.add('open-up');
+    if (surfaceRect.left + panelRect.width > shellRect.right - 8) panel.classList.add('align-right');
+  }
+  function setMapOptionsOpen(open, { returnFocus = true, focus = true } = {}) {
+    const toggle = document.getElementById('mapOptionsToggle'), panel = document.getElementById('mapOptionsPanel');
+    if (!toggle || !panel) return;
+    state.presentation.mapOptionsOpen = open;
+    if (open) mapOptionsInvoker = document.activeElement;
+    panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open));
+    if (open) {
+      requestAnimationFrame(() => { positionMapOptions(); fitVisibleMap(); if (focus) panel.querySelector('[data-provider], [data-region], #mapOptionsClose')?.focus({ preventScroll: true }); });
+    } else {
+      panel.classList.remove('open-up', 'align-right');
+      requestAnimationFrame(() => fitVisibleMap());
+      if (returnFocus && mapOptionsInvoker?.focus && document.contains(mapOptionsInvoker)) mapOptionsInvoker.focus({ preventScroll: true });
+      mapOptionsInvoker = null;
+    }
+  }
+  function positionRouteLegend() {
+    const shell = document.querySelector('.map-shell'), surface = document.getElementById('mapLegend'), panel = document.getElementById('routeLegendPanel');
+    if (!shell || !surface || !panel || panel.hidden) return;
+    const shellRect = shell.getBoundingClientRect(); panel.classList.remove('open-down');
+    if (panel.getBoundingClientRect().top < shellRect.top + 8) panel.classList.add('open-down');
+  }
+  function setRouteLegendOpen(open, { returnFocus = true } = {}) {
+    const toggle = document.getElementById('routeLegendToggle'), panel = document.getElementById('routeLegendPanel');
+    if (!toggle || !panel) return;
+    state.presentation.routeLegendOpen = open;
+    if (open) routeLegendInvoker = document.activeElement;
+    panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open));
+    if (open) requestAnimationFrame(() => { positionRouteLegend(); fitVisibleMap(); });
+    else { panel.classList.remove('open-down'); requestAnimationFrame(() => fitVisibleMap()); if (returnFocus && routeLegendInvoker?.focus && document.contains(routeLegendInvoker)) routeLegendInvoker.focus({ preventScroll: true }); routeLegendInvoker = null; }
+  }
   function renderMapControls() {
     const provider = document.getElementById('providerControls'), region = document.getElementById('regionControls');
     provider.innerHTML = ['vector', 'satellite'].map(key => `<button type="button" class="segment" data-provider="${key}" aria-pressed="${state.runtime.provider === key}">${key === 'vector' ? m('smartMap') : m('satellite')}</button>`).join('');
     region.innerHTML = Object.keys(DATA.region_cfg).map(key => `<button type="button" class="segment" data-region="${esc(key)}" aria-pressed="${state.task.region === key}">${esc(key === 'overall' ? m('overall') : DATA.region_cfg[key][state.presentation.lang === 'ko' ? 'label' : 'label_en'] || key)}</button>`).join('');
-    provider.querySelectorAll('[data-provider]').forEach(button => { button.onclick = () => chooseProvider(button.dataset.provider); });
-    region.querySelectorAll('[data-region]').forEach(button => { button.onclick = () => { state.task.region = button.dataset.region; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; renderAll(); persist(); drawMap(false); }; });
+    const panel = document.getElementById('mapOptionsPanel'), toggle = document.getElementById('mapOptionsToggle');
+    if (panel && toggle) { panel.hidden = !state.presentation.mapOptionsOpen; toggle.setAttribute('aria-expanded', String(state.presentation.mapOptionsOpen)); }
+    provider.querySelectorAll('[data-provider]').forEach(button => { button.onclick = async () => { setMapOptionsOpen(false); await chooseProvider(button.dataset.provider); }; });
+    region.querySelectorAll('[data-region]').forEach(button => { button.onclick = () => { setMapOptionsOpen(false); state.task.region = button.dataset.region; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; renderAll(); persist(); drawMap(false); }; });
+    renderProviderState();
   }
   function renderMapLegend() {
-    const legend = document.getElementById('mapLegend'); if (!legend) return; const current = state.task.primaryRoute, meta = routeMeta[current]; legend.innerHTML = `<div class="map-legend"><span class="legend-title">${m('current')}: <b style="color:${safeColor(meta.color)}">${esc(current)} · ${esc(tr(meta.title))}</b></span><span class="legend-primary"><i class="legend-line" style="color:${safeColor(meta.color)}"></i>${esc(m('mapLegend'))}</span></div>`;
+    const current = state.task.primaryRoute, meta = routeMeta[current], currentLabel = document.getElementById('routeLegendCurrent'), panel = document.getElementById('routeLegendPanel'), toggle = document.getElementById('routeLegendToggle');
+    if (!currentLabel || !panel || !toggle) return;
+    currentLabel.textContent = `${m('current')}: ${current} · ${tr(meta.title)}`;
+    panel.innerHTML = ROUTES.map(route => { const item = routeMeta[route], pattern = ['solid', 'dash', 'dot', 'dashdot'].includes(item.pattern) ? item.pattern : 'solid', narrative = routeNarrative(route); return `<div class="route-legend-item"><i class="route-legend-swatch ${pattern}" style="--route-color:${safeColor(item.color)}" aria-hidden="true"></i><span><strong>${esc(route)} · ${esc(tr(item.title))}</strong><small>${esc(tr(narrative.best_for || item.core_reason || ''))}</small></span></div>`; }).join('');
+    panel.hidden = !state.presentation.routeLegendOpen; toggle.setAttribute('aria-expanded', String(state.presentation.routeLegendOpen));
   }
   function renderShellStatus() {
     const status = document.getElementById('workbenchStatus'); if (!status) return; const mode = state.presentation.mode === 'decide' ? m('decide') : state.presentation.mode === 'day' ? m('day') : m('place'); const context = state.presentation.mode === 'day' && state.task.date !== 'all' ? dateLabel(state.task.date) : state.task.primaryRoute; status.textContent = `${mode} · ${context}`;
@@ -548,25 +641,29 @@
   function renderModes() {
     const mode = state.presentation.mode, workbench = document.getElementById('workbench'); workbench.dataset.mode = mode; document.querySelectorAll('[data-mode]').forEach(button => { const active = button.dataset.mode === mode; button.classList.toggle('active', active); if (active) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current'); }); document.querySelectorAll('.mode-view').forEach(view => { const active = view.dataset.view === mode; view.hidden = !active; view.classList.toggle('active', active); });
   }
-  function renderAll() { applyTranslations(); renderMapControls(); renderModes(); renderShellStatus(); renderDecide(); renderDay(); renderPlace(); renderMapLegend(); }
+  function renderAll() { applyTranslations(); renderMapControls(); renderModes(); renderShellStatus(); renderDecide(); if (state.presentation.mode === 'day') renderDay(); if (state.presentation.mode === 'place') renderPlace(); renderMapLegend(); }
   function bindShell() {
     document.querySelectorAll('[data-mode]').forEach(button => { button.onclick = () => setMode(button.dataset.mode); });
     document.querySelectorAll('[data-sheet]').forEach(button => { if (button.classList.contains('icon-button')) button.onclick = () => setSheet(button.dataset.sheet); });
     document.getElementById('workbenchToggle').onclick = () => setSheet(state.presentation.sheet === 'compact' ? 'expanded' : 'compact');
+    document.getElementById('mapOptionsToggle').onclick = () => setMapOptionsOpen(!state.presentation.mapOptionsOpen);
+    document.getElementById('mapOptionsClose').onclick = () => setMapOptionsOpen(false);
+    document.getElementById('routeLegendToggle').onclick = () => setRouteLegendOpen(!state.presentation.routeLegendOpen);
     document.getElementById('langToggle').onclick = () => { state.presentation.lang = state.presentation.lang === 'ko' ? 'en' : 'ko'; hidePeek({ returnFocus: false }); renderAll(); persist(); drawMap(true); };
     document.getElementById('themeToggle').onclick = () => { state.presentation.theme = state.presentation.theme === 'dark' ? 'light' : 'dark'; renderAll(); persist(); drawMap(true); };
     document.getElementById('fitMap').onclick = () => fitVisibleMap();
     document.getElementById('smartRetry').onclick = async () => { document.getElementById('mapError').hidden = true; state.runtime.provider = 'vector'; state.runtime.providerHealth.vector = 'loading'; state.runtime.localAssets.status = 'checking'; renderProviderState(); try { await setupVector(); await drawMap(true); } catch (error) { showMapFailure(error, 'retry'); } };
     document.getElementById('dateSelect').onchange = event => { state.task.date = event.target.value; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; state.presentation.mode = 'day'; renderAll(); persist(); drawMap(false); };
-    const handleEscape = event => { if (event.key !== 'Escape') return; if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };
+    const handleEscape = event => { if (event.key !== 'Escape') return; if (state.presentation.mapOptionsOpen) { setMapOptionsOpen(false); event.preventDefault(); return; } if (state.presentation.routeLegendOpen) { setRouteLegendOpen(false); event.preventDefault(); return; } if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };
     document.onkeydown = handleEscape;
     document.body?.addEventListener('keydown', handleEscape);
-    window.addEventListener('resize', () => { renderModes(); photoMap?.resize(); });
+    document.addEventListener('pointerdown', event => { if (state.presentation.mapOptionsOpen && !event.target.closest('#mapControlSurface')) setMapOptionsOpen(false); if (state.presentation.routeLegendOpen && !event.target.closest('#mapLegend')) setRouteLegendOpen(false); });
+    window.addEventListener('resize', () => { renderModes(); photoMap?.resize(); if (state.presentation.mapOptionsOpen) positionMapOptions(); if (state.presentation.routeLegendOpen) positionRouteLegend(); });
   }
 
   /* ----- QA instrumentation and compatibility surface ----- */
   function runtimeSnapshot() {
-    return { provider: state.runtime.provider, provider_identity: state.runtime.providerIdentity, provider_health: { ...state.runtime.providerHealth }, app_ready: state.runtime.mapStatus === 'ready', map_visual_ready: state.runtime.mapVisualReady, planning_state: { routes: [...activeRoutes()], primary_route: state.task.primaryRoute, compare_routes: [...state.task.compareRoutes], date: state.task.date, region: state.task.region, selected: state.task.selected, mode: state.presentation.mode, sheet: state.presentation.sheet, lang: state.presentation.lang, theme: state.presentation.theme }, provider_events: state.runtime.providerEvents.slice(), local_assets: { status: state.runtime.localAssets.status, failures: state.runtime.localAssets.failures.slice() }, runtime: { ...state.runtime, events: state.runtime.events.slice() }, map: { canvas_count: document.querySelectorAll('.maplibregl-canvas').length, photo_markers: document.querySelectorAll('.photo-marker').length, photo_marker_keys: [...document.querySelectorAll('.photo-marker')].map(element => element.dataset.placeKey), clusters: document.querySelectorAll('.photo-cluster').length, leg_markers: document.querySelectorAll('.route-leg-label').length, layers: photoMap?.getStyle?.()?.layers?.length || 0 } };
+    return { provider: state.runtime.provider, provider_identity: state.runtime.providerIdentity, provider_health: { ...state.runtime.providerHealth }, app_ready: state.runtime.mapStatus === 'ready', map_visual_ready: state.runtime.mapVisualReady, planning_state: { routes: [...activeRoutes()], primary_route: state.task.primaryRoute, compare_routes: [...state.task.compareRoutes], date: state.task.date, region: state.task.region, selected: state.task.selected, mode: state.presentation.mode, sheet: state.presentation.sheet, lang: state.presentation.lang, theme: state.presentation.theme }, provider_events: state.runtime.providerEvents.slice(), local_assets: { status: state.runtime.localAssets.status, failures: state.runtime.localAssets.failures.slice() }, startup: { marks: [...(window.__tripStartupMarks || [])] }, runtime: { ...state.runtime, events: state.runtime.events.slice() }, map: { canvas_count: document.querySelectorAll('.maplibregl-canvas').length, photo_markers: document.querySelectorAll('.photo-marker').length, photo_marker_keys: [...document.querySelectorAll('.photo-marker')].map(element => element.dataset.placeKey), clusters: document.querySelectorAll('.photo-cluster').length, leg_markers: document.querySelectorAll('.route-leg-label').length, layers: photoMap?.getStyle?.()?.layers?.length || 0 } };
   }
   function renderFixture(value) {
     const marker = DATA.markers[0], saved = marker ? JSON.parse(JSON.stringify(marker)) : null;
@@ -579,9 +676,11 @@
     window.__tripSecurity = { escapeHtml: esc, safeExternalUrl, safePhotoPath: photoPath, renderFixture, allowedStorageKeys: ['trip_visualizer_runtime_v2', 'trip_visualizer_runtime_v1', 'trip_lang', 'trip_theme'] };
   }
   async function init() {
-    state.touch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0; expose(); renderAll(); bindShell();
+    markStartup('init_start'); state.touch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0; expose(); renderAll(); bindShell(); markStartup('decision_shell_ready', { dom_nodes: document.body.querySelectorAll('*').length });
     setStatus(state.presentation.lang === 'ko' ? '로컬 Smart 지도와 결정 화면을 준비하는 중입니다.' : 'Preparing the local Smart map and decision views.');
-    try { await setupVector(); await drawMap(false); setStatus(m('mapReady')); } catch (error) { showMapFailure(error, 'initialization'); }
+    try { if (window.__tripRuntimeReady) await window.__tripRuntimeReady; await setupVector(); await drawMap(false); setStatus(m('mapReady')); markStartup('init_complete'); } catch (error) { showMapFailure(error, 'initialization'); }
   }
-  window.addEventListener('DOMContentLoaded', () => init().catch(error => showMapFailure(error, 'initialization')));
+  const boot = () => init().catch(error => showMapFailure(error, 'initialization'));
+  if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', boot, { once: true });
+  else queueMicrotask(boot);
 })();

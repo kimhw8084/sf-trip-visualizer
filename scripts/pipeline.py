@@ -47,9 +47,9 @@ COMPONENTS = (
     ("photo_integrity", "scripts/check_photo_integrity.py", "QA/photo_integrity.json"),
     ("maplibre_security", "scripts/qa_maplibre_security.py", "QA/release/maplibre_security.json"),
     ("map_first_smoke", "scripts/qa_map_first.py", "QA/map_first/smoke.json"),
-    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r2/task_oracles.json"),
-    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r2/accessibility.json"),
-    ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r2/map_geometry.json"),
+    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r3/task_oracles.json"),
+    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r3/accessibility.json"),
+    ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r3/map_geometry.json"),
     ("map_first_full", "scripts/qa_map_first_full.py", "QA/map_first/full_acceptance.json"),
     ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
     ("standalone", "scripts/qa_standalone_map_first.py", "QA/map_first/standalone.json"),
@@ -58,8 +58,8 @@ COMPONENTS = (
     ("route_continuity", "scripts/audit_route_continuity.py", "QA/map_first/route_continuity.json"),
     ("route_panel", "scripts/qa_route_explanations_panel.py", "QA/route_panel/route_explanations_panel.json"),
     ("exhaustive_states", "scripts/run_exhaustive_states.py", "QA/map_first/exhaustive_states.json"),
-    ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r2/browser_summary.json"),
-    ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r2/visual_index.json"),
+    ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r3/browser_summary.json"),
+    ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r3/visual_index.json"),
     ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
 )
 

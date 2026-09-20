@@ -28,8 +28,8 @@ from qa_evidence import candidate_identity
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = MODULAR_URL
-OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r2/browser_summary.json"
-SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r2/screenshots"
+OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r3/browser_summary.json"
+SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r3/screenshots"
 CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "60"))
 TERM_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_TERM_GRACE_SECONDS", "2"))
 KILL_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_KILL_GRACE_SECONDS", "2"))
@@ -419,6 +419,17 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
         page.locator("#dateSelect").select_option("10/8")
         page.wait_for_function("document.querySelectorAll('#dayPlan .day-item, #dayPlan .plan-card').length > 0", timeout=8000)
         row["day_items"] = page.locator("#dayPlan .day-item, #dayPlan .plan-card").count()
+        page.locator("#mapOptionsToggle").click()
+        row["map_options_open"] = page.locator("#mapOptionsPanel").is_visible() and page.evaluate("document.activeElement?.id === 'mapOptionsClose'")
+        row["map_options_open_geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
+        page.keyboard.press("Escape")
+        row["map_options_close_focus_return"] = page.locator("#mapOptionsPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'mapOptionsToggle' and document.querySelectorAll('#mapOptionsPanel button:visible').length === 0")
+        page.locator("#routeLegendToggle").click()
+        row["route_key_open"] = page.locator("#routeLegendPanel").is_visible()
+        row["route_key_open_geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
+        page.keyboard.press("Escape")
+        row["route_key_close_focus_return"] = page.locator("#routeLegendPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'routeLegendToggle'")
+        page.locator("#mapOptionsToggle").click()
         page.locator("#regionControls [data-region='yosemite']").click()
         page.locator("#dateSelect").select_option("10/7")
         page.wait_for_function("document.querySelector('.photo-marker[data-place-key=\"cooks\"]')?.getBoundingClientRect().width > 0", timeout=8000)
@@ -443,6 +454,10 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
             and not row["horizontal_overflow"]
             and row["broken_marker_images"] == 0
             and row["inspector_photos"] == 3
+            and row["map_options_open"]
+            and row["map_options_close_focus_return"]
+            and row["route_key_open"]
+            and row["route_key_close_focus_return"]
             and row["marker_activation"] == "cooks"
             and not any(marker.get("intersects_obstacle") for marker in row["geometry"].get("markers", []))
             and not row["page_errors"]

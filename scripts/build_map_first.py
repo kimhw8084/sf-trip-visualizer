@@ -20,7 +20,7 @@ FRESHNESS_MANIFEST_PATH = ROOT / "manifests" / "trip_freshness.json"
 RUNTIME_CONTRACT_PATH = ROOT / "manifests" / "runtime_resilience_contract.json"
 COORDINATE_AUDIT_PATH = ROOT / "data" / "coordinate_audit.json"
 MODULAR_FILES = (
-    "src/app_phase7.css", "src/app_phase7.js", "src/atlas_messages.js", "src/atlas_state.js", "src/map_first.css",
+    "src/app_phase7.css", "src/app_phase7.js", "src/atlas_messages.js", "src/atlas_state.js", "src/runtime_loader.js", "src/map_first.css",
     "vendor/maplibre-gl.css", "vendor/maplibre-gl.js", "vendor/trip-vector.js", "vendor/plotly.min.js",
     "assets/vector/sf_trip.pmtiles", "assets/vector/yosemite_hillshade_shadow.webp",
 )
@@ -101,13 +101,13 @@ def build(output_root: Path) -> dict:
     head.append(template.new_tag("link", rel="stylesheet", href="vendor/maplibre-gl.css"))
     head.append(template.new_tag("link", rel="stylesheet", href="src/map_first.css"))
     template.select_one("#tripData").string = "window.TRIP_DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";"
-    app_script = template.select_one('script[src="src/app_phase7.js"]')
+    runtime_loader = template.select_one('script[src="src/runtime_loader.js"]')
     for name, payload in (("TRIP_ROUTE_GEOMETRY", geometry), ("TRIP_I18N", translations), ("TRIP_FRESHNESS", freshness), ("TRIP_RUNTIME_CONTRACT", runtime_contract)):
         script = template.new_tag("script")
         script.string = f"window.{name}=" + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";"
-        app_script.insert_before(script)
+        runtime_loader.insert_before(script)
     early = template.new_tag("script")
-    early.string = "window.__tripLoadStarted=performance.now();try{const t=localStorage.getItem('trip_theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch{document.documentElement.dataset.theme='light'}"
+    early.string = "window.__tripStartupMarks=[];window.__tripLoadStarted=performance.now();window.__tripStartupMark=(name,detail={})=>window.__tripStartupMarks.push({name,at_ms:Math.round((performance.now()-window.__tripLoadStarted)*100)/100,...detail});window.__tripStartupMark('html_parse_start');document.addEventListener('DOMContentLoaded',()=>window.__tripStartupMark('dom_content_loaded'),{once:true});try{const t=localStorage.getItem('trip_theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch{document.documentElement.dataset.theme='light'}"
     head.insert(0, early)
     (modular_dir / "index.html").write_text(str(template))
     copy_runtime(modular_dir)
@@ -121,9 +121,21 @@ def build(output_root: Path) -> dict:
         style.string = (ROOT / link["href"]).read_text()
         link.replace_with(style)
     for script in standalone.find_all("script", src=True):
-        inline = standalone.new_tag("script")
-        inline.string = (ROOT / script["src"]).read_text()
-        script.replace_with(inline)
+        if script["src"] != "src/runtime_loader.js":
+            inline = standalone.new_tag("script")
+            inline.string = (ROOT / script["src"]).read_text()
+            script.replace_with(inline)
+            continue
+        inline_scripts = []
+        for relative in ("src/atlas_messages.js", "src/atlas_state.js", "vendor/maplibre-gl.js", "vendor/trip-vector.js", "vendor/plotly.min.js", "src/app_phase7.js"):
+            inline = standalone.new_tag("script")
+            inline.string = (ROOT / relative).read_text()
+            inline_scripts.append(inline)
+        script.replace_with(inline_scripts[0])
+        cursor = inline_scripts[0]
+        for inline in inline_scripts[1:]:
+            cursor.insert_after(inline)
+            cursor = inline
     app_inline = standalone.find_all("script")[-1]
     hillshade_path = ROOT / "assets/vector/yosemite_hillshade_shadow.webp"
     hillshade = standalone.new_tag("script")

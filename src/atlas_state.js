@@ -34,6 +34,8 @@
         previousMode: null,
         previousContext: null,
         focusReturn: null,
+        mapOptionsOpen: false,
+        routeLegendOpen: false,
       },
       runtime: {
         provider: 'vector', providerIdentity: data.providers?.vector?.identity || 'smart-local-vector',

@@ -26,21 +26,40 @@
     <main class="workspace">
       <section class="map-shell" aria-label="Trip map" data-i18n-aria="mapControls">
         <div id="map" class="map" aria-label="Interactive trip map"></div>
-        <div class="map-chrome map-top-left">
-          <div class="map-control-group" aria-label="Map presentation">
-            <span class="map-control-label" data-i18n="mapControls">지도 표현</span>
-            <div id="providerControls" class="segmented-control"></div>
+        <div class="map-chrome map-top-left" id="mapControlSurface">
+          <div class="map-toolbar" role="group" aria-label="Map controls">
+            <button id="mapOptionsToggle" class="map-summary-button" type="button" aria-controls="mapOptionsPanel" aria-expanded="false">
+              <span class="map-summary-kicker" data-i18n="mapControls">지도</span>
+              <span id="mapCurrentSummary" class="map-summary-value"></span>
+            </button>
+            <button id="fitMap" class="map-action" type="button" data-i18n="fit">현재 계획 맞추기</button>
           </div>
-          <div class="map-control-group" aria-label="Trip region">
-            <span class="map-control-label" data-i18n="region">지역</span>
-            <div id="regionControls" class="segmented-control"></div>
-          </div>
-        </div>
-        <div class="map-chrome map-top-right">
-          <button id="fitMap" class="map-action" type="button" data-i18n="fit">현재 계획 맞추기</button>
           <div id="providerStatus" class="map-status" role="status" aria-live="polite"></div>
+          <div id="mapOptionsPanel" class="map-options-panel map-chrome" role="dialog" aria-label="Map options" aria-labelledby="mapOptionsHeading" hidden>
+            <div class="map-options-head">
+              <div>
+                <span class="map-control-label" data-i18n="mapControls">지도 표현</span>
+                <strong id="mapOptionsHeading" data-i18n="mapOptions">Map options</strong>
+              </div>
+              <button id="mapOptionsClose" class="map-options-close" type="button" aria-label="Close map options">×</button>
+            </div>
+            <div class="map-control-group" aria-label="Map provider">
+              <span class="map-control-label" data-i18n="provider">Provider</span>
+              <div id="providerControls" class="segmented-control"></div>
+            </div>
+            <div class="map-control-group" aria-label="Trip region">
+              <span class="map-control-label" data-i18n="region">지역</span>
+              <div id="regionControls" class="segmented-control"></div>
+            </div>
+          </div>
         </div>
-        <div id="mapLegend" class="map-chrome map-bottom-left" aria-label="Map legend"></div>
+        <div id="mapLegend" class="map-chrome map-bottom-left" aria-label="Map legend">
+          <div class="route-key-bar">
+            <span id="routeLegendCurrent" class="route-legend-current"></span>
+            <button id="routeLegendToggle" class="route-key-toggle" type="button" aria-controls="routeLegendPanel" aria-expanded="false" data-i18n="routeKey">경로 키</button>
+          </div>
+          <div id="routeLegendPanel" class="route-legend-panel map-chrome" role="region" aria-label="Route key" hidden></div>
+        </div>
         <div id="mapError" class="map-error" role="alert" aria-live="assertive" hidden>
           <div class="map-error-message"></div>
           <button id="smartRetry" type="button" data-i18n="retrySmart">Smart 지도 다시 시도</button>
@@ -113,11 +132,7 @@
     <div id="startupStatus" class="sr-only" role="status" aria-live="polite"></div>
   </div>
   <script id="tripData">window.TRIP_DATA={};</script>
-  <script src="vendor/maplibre-gl.js"></script>
-  <script src="vendor/trip-vector.js"></script>
-  <script src="vendor/plotly.min.js"></script>
-  <script src="src/atlas_messages.js"></script>
-  <script src="src/atlas_state.js"></script>
-  <script src="src/app_phase7.js"></script>
+  <script>window.__tripStartupMark?.('canonical_data_parsed');</script>
+  <script src="src/runtime_loader.js"></script>
 </body>
 </html>

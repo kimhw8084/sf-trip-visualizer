@@ -11,7 +11,7 @@ from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r2" / "accessibility.json"
+OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "accessibility.json"
 IDENTITY = candidate_identity()
 report = {"schema_version": 1, "checks": {}, "errors": []}
 
@@ -28,6 +28,7 @@ with sync_playwright() as playwright:
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
     page.wait_for_function("document.querySelectorAll('.photo-marker').length===36", timeout=15000)
     put("focusable_controls_have_visible_focus", page.evaluate("""()=>{const controls=[...document.querySelectorAll('button,a,select')].filter(element=>element.getClientRects().length&&getComputedStyle(element).visibility!=='hidden');for(const element of controls.slice(0,18)){element.focus();const r=element.getBoundingClientRect(),s=getComputedStyle(element);if(r.width<1||r.height<1||s.visibility==='hidden')return false}return true}"""))
+    page.locator("#mapOptionsToggle").click()
     page.locator("#regionControls [data-region='yosemite']").click()
     page.locator("#modeNav [data-mode='day']").click()
     page.locator("#dateSelect").select_option("10/7")
