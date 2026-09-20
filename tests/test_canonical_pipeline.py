@@ -132,6 +132,7 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertNotIn("pip install --upgrade", workflow)
         self.assertIn("candidate-qualification-${{ github.sha }}", workflow)
         self.assertIn("QA/release/*.json", workflow)
+        self.assertIn("QA/project_os_verify/gate5_r11/**", workflow)
         self.assertIn("QA/map_first/**/*.json", workflow)
         self.assertIn("QA/map_first/screenshots/**", workflow)
 

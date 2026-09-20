@@ -8,7 +8,8 @@
     "canonical_renderer": "src/app_phase7.js",
     "canonical_build": "scripts/build_map_first.py",
     "canonical_pipeline": "scripts/pipeline.py",
-    "filename_note": "phase7_app_data.json and app_phase7.js are current maintained inputs; their names do not indicate legacy authority. Authority is defined by this manifest and the supported pipeline."
+    "filename_note": "phase7_app_data.json and app_phase7.js are current maintained inputs; their names do not indicate legacy authority. Authority is defined by this manifest and the supported pipeline.",
+    "gate5_contract": "manifests/gate5_field_quality_contract.json"
   },
   "truth_authority": {
     "scope": "routes, dates, regions, physical places, route occurrences, timeline cards, typed legs, decision rules, endpoint anchors, and provider configuration",
@@ -124,6 +125,7 @@
     "QA/map_first/p0_independent.json",
     "QA/map_first/standalone.json",
     "QA/map_first/location_gap_visuals.json",
+    "QA/map_first/location_gap_race.json",
     "QA/map_first/interaction_dynamics.json",
     "QA/map_first/route_continuity.json",
     "QA/route_panel/route_explanations_panel.json",
@@ -137,6 +139,13 @@
     "QA/release/gate4.json",
     "QA/release/public_asset_rights.json",
     "QA/release/public_asset_rights_package.json",
-    "QA/release/security_privacy.json"
+    "QA/release/security_privacy.json",
+    "manifests/gate5_field_quality_contract.json",
+    "QA/project_os_verify/gate5_r11/baseline.json",
+    "QA/project_os_verify/gate5_r11/candidate.json",
+    "QA/project_os_verify/gate5_r11/finding_matrix.json",
+    "QA/project_os_verify/gate5_r11/paired_comparison.json",
+    "QA/project_os_verify/gate5_r11/same_host_webkit_control.json",
+    "QA/project_os_verify/gate5_r11/review_pack_index.json"
   ]
 }

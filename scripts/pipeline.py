@@ -51,6 +51,7 @@ COMPONENTS = (
     ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
     ("standalone", "scripts/qa_standalone_map_first.py", "QA/map_first/standalone.json"),
     ("location_gap", "scripts/qa_location_gap_visuals.py", "QA/map_first/location_gap_visuals.json"),
+    ("location_gap_race", "scripts/qa_location_gap_race.py", "QA/map_first/location_gap_race.json"),
     ("interaction_dynamics", "scripts/qa_interaction_dynamics.py", "QA/map_first/interaction_dynamics.json"),
     ("route_continuity", "scripts/audit_route_continuity.py", "QA/map_first/route_continuity.json"),
     ("route_panel", "scripts/qa_route_explanations_panel.py", "QA/route_panel/route_explanations_panel.json"),
@@ -58,6 +59,7 @@ COMPONENTS = (
     ("cross_browser", "scripts/run_cross_browser.py", "QA/map_first/cross_browser.json"),
     ("visual_spots", "scripts/run_visual_spots.py", "QA/map_first/visual_spots.json"),
     ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
+    ("gate5_field_quality", "scripts/qa_gate5_field_quality.py", "QA/project_os_verify/gate5_r11/candidate.json"),
 )
 
 
@@ -360,14 +362,12 @@ def free_local_port() -> int:
 def evidence_status(path: Path, returncode: int) -> str:
     if returncode == 124:
         return "UNVERIFIED"
-    if returncode:
-        return "FAIL" if path.is_file() else "UNVERIFIED"
     if not path.is_file():
-        return "UNVERIFIED"
+        return "FAIL" if returncode else "UNVERIFIED"
     payload = json.loads(path.read_text())
     if isinstance(payload, dict):
         status = payload.get("status")
-        if status in {"PASS", "FAIL", "UNVERIFIED"}:
+        if status in {"PASS", "FAIL", "UNVERIFIED", "VERIFY_REQUIRED"}:
             return status
         # Some maintained evidence schemas are terminal by successful exit
         # and intentionally omit a status field. A stale in-progress record is
@@ -425,9 +425,15 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
                 command.extend(["--revision", report["candidate_head"], "--output", str(output_path)])
             if name == "gate4_runtime":
                 command.extend(["--mode", "browser", "--output", str(output_path)])
+            if name == "gate5_field_quality":
+                command.extend(["--expected-revision", report["candidate_head"]])
             code, stdout, stderr = run_process(command, env)
+            if name == "gate5_field_quality":
+                print(stdout, end="", flush=True)
+                if stderr:
+                    print(stderr, end="", file=sys.stderr, flush=True)
             status = evidence_status(output_path, code)
-            command_text = f"python3 {script}" + (" --runtime-only" if name == "photo_integrity" else "") + (f" --mode browser --output {output}" if name == "gate4_runtime" else "")
+            command_text = f"python3 {script}" + (" --runtime-only" if name == "photo_integrity" else "") + (f" --mode browser --output {output}" if name == "gate4_runtime" else "") + (f" --expected-revision {report['candidate_head']}" if name == "gate5_field_quality" else "")
             if name == "maplibre_security":
                 command_text += f' --revision {report["candidate_head"]} --output {output}'
             test_report = {"name": name, "command": command_text, "evidence": output, "status": status, "returncode": code, "timeout_seconds": COMPONENT_TIMEOUT_SECONDS, "stdout_tail": stdout, "stderr_tail": stderr}
@@ -441,8 +447,11 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
         report["authored_inputs_unchanged"] = True
         report["build"] = fast["build"]
         write_gate4_summary()
-        if not report["tests"] or not all(test["status"] == "PASS" for test in report["tests"]):
+        decisive_failures = [test for test in report["tests"] if test["name"] != "gate5_field_quality" and test["status"] != "PASS"]
+        gate5_failure = next((test for test in report["tests"] if test["name"] == "gate5_field_quality" and test["status"] == "FAIL"), None)
+        if decisive_failures or gate5_failure:
             raise RuntimeError("One or more decisive qualification gates failed or were unverified.")
+        report["external_verify_required"] = [test["name"] for test in report["tests"] if test["status"] == "VERIFY_REQUIRED"]
         report["status"] = "PASS"
     except (Exception, SystemExit) as error:
         report["errors"].append(str(error))

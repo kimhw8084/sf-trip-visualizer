@@ -12,10 +12,11 @@
     <header class="top">
       <div class="headline">
         <div>
-          <div class="brand">Smart Minority · SF → Monterey → Yosemite</div>
+          <h1 class="brand">Smart Minority · SF → Monterey → Yosemite</h1>
           <div class="sub">Trip visualizer</div>
         </div>
-        <div id="providerState" class="provider-state">Smart map <a class="credits-link" href="ATTRIBUTION.md">Credits &amp; licenses</a></div>
+        <div id="providerState" class="provider-state" role="status" aria-live="polite">Smart map <a class="credits-link" href="ATTRIBUTION.md">Credits &amp; licenses</a></div>
+        <div id="providerFeedback" class="provider-feedback" role="status" aria-live="polite"></div>
       </div>
       <div class="control-row" aria-label="Map filters">
         <div class="group">
@@ -45,16 +46,16 @@
     <main class="workspace">
       <section class="mapwrap">
         <div id="map" class="map" aria-label="Interactive trip map"></div>
-        <div id="mapError" class="map-error" role="alert" hidden></div>
-        <div id="previewCard" class="preview-card" role="status"></div>
+        <div id="mapError" class="map-error" role="alert" aria-live="assertive" hidden></div>
+        <div id="previewCard" class="preview-card" role="dialog" aria-modal="false" aria-hidden="true" aria-labelledby="previewTitle" aria-describedby="previewDescription"></div>
         <div class="map-badge"><b id="activeFilterSummary"></b><span id="fallbackNote"></span><span id="freshnessNote"></span></div>
-        <button id="panelReopen" class="panel-reopen" type="button">Open panel</button>
+        <button id="panelReopen" class="panel-reopen" type="button" aria-controls="sidebar" aria-expanded="false">Open panel</button>
       </section>
       <div id="panelResizer" class="panel-resizer" role="separator" aria-orientation="vertical" aria-label="Resize itinerary panel" aria-valuemin="300" aria-valuemax="620" tabindex="0"></div>
-      <aside class="sidebar" aria-label="Itinerary and place details">
+      <aside id="sidebar" class="sidebar" aria-label="Itinerary and place details" aria-hidden="false">
         <div class="tabs" role="tablist">
-          <button class="tab active" data-tab="timeline" role="tab" aria-selected="true">Timeline</button>
-          <button class="tab" data-tab="details" role="tab" aria-selected="false">Details</button>
+          <button id="timelineTab" class="tab active" data-tab="timeline" role="tab" aria-selected="true" aria-controls="timelinePane" tabindex="0">Timeline</button>
+          <button id="detailsTab" class="tab" data-tab="details" role="tab" aria-selected="false" aria-controls="detailsPane" tabindex="-1">Details</button>
           <div class="panel-adjustments" aria-label="Panel controls">
             <button id="panelSmaller" class="panel-adjust" type="button">−</button>
             <button id="panelLarger" class="panel-adjust" type="button">+</button>
@@ -62,14 +63,14 @@
           </div>
         </div>
         <div class="pane-wrap">
-          <div id="timelinePane" class="pane active"></div>
-          <div id="detailsPane" class="pane"></div>
+          <div id="timelinePane" class="pane active" role="tabpanel" aria-labelledby="timelineTab" tabindex="0"></div>
+          <div id="detailsPane" class="pane" role="tabpanel" aria-labelledby="detailsTab" tabindex="0" hidden></div>
         </div>
       </aside>
     </main>
   </div>
   <div id="routeOverview" class="sr-only"></div>
-  <div id="routeExplain" class="route-explain" role="tooltip" aria-hidden="true"></div>
+  <div id="routeExplain" class="route-explain" role="dialog" aria-modal="false" aria-hidden="true" aria-labelledby="routeExplainTitle"></div>
   <script src="vendor/plotly.min.js"></script>
   <script>window.TRIP_DATA={};</script>
   <script src="src/app_phase7.js"></script>

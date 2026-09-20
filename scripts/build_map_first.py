@@ -131,7 +131,7 @@ def build(output_root: Path) -> dict:
         swatch = template.new_tag("span", attrs={"class": f'route-swatch {meta.get("pattern", "solid")}', "style": f'color:{meta["color"]}'})
         button.append(swatch)
         button.append(route)
-        info = template.new_tag("button", attrs={"class": "route-info", "data-route-info": route, "type": "button", "aria-label": f"Explain route {route}", "aria-expanded": "false"})
+        info = template.new_tag("button", attrs={"class": "route-info", "data-route-info": route, "type": "button", "aria-label": f"Explain route {route}", "aria-expanded": "false", "aria-controls": "routeExplain"})
         info.string = "i"
         pair.append(button)
         pair.append(info)
@@ -176,12 +176,15 @@ def build(output_root: Path) -> dict:
     overview = template.select_one("#routeOverview")
     overview.extract()
     overview["class"] = "route-overview"
-    guide = template.new_tag("details", attrs={"class": "route-guide"})
+    guide = template.new_tag("details", attrs={"class": "route-guide", "open": "open"})
     guide_summary = template.new_tag("summary", attrs={"data-i18n": "compare"})
     guide_summary.string = "Compare four strategies"
     guide.append(guide_summary)
     guide.append(overview)
-    template.select_one(".sidebar").insert(0, guide)
+    summary = template.new_tag("div", attrs={"id": "fieldSummary", "class": "field-summary"})
+    summary.append(BeautifulSoup('<strong data-i18n="tripOverview"></strong><p id="fieldSummaryText"></p><p id="branchLegendText" class="branch-legend"></p>', "html.parser"))
+    template.select_one(".sidebar").insert(0, summary)
+    template.select_one(".sidebar").insert(1, guide)
     actions = template.new_tag("div", attrs={"class": "utility-actions"})
     for button_id, text in (("themeToggle", "☾ Dark"), ("langToggle", "EN"), ("panelToggle", "Hide panel")):
         button = template.new_tag("button", id=button_id, attrs={"class": "utility-button", "type": "button"})
@@ -193,7 +196,7 @@ def build(output_root: Path) -> dict:
         mapwrap.append(template.new_tag(tag, id=ident, attrs={"class": cls}))
     badge = template.select_one(".map-badge")
     badge.clear()
-    badge.append(BeautifulSoup('<b id="activeFilterSummary"></b><div id="mapRouteLegend" class="map-route-legend"></div><span data-i18n="conceptual"></span><span id="fallbackNote"></span>', "html.parser"))
+    badge.append(BeautifulSoup('<b id="activeFilterSummary"></b><div id="mapRouteLegend" class="map-route-legend"></div><span data-i18n="conceptual"></span><span id="fallbackNote"></span><span id="freshnessNote"></span>', "html.parser"))
     loading = BeautifulSoup(
         '<div id="loadingScreen" role="status" aria-live="polite">'
         '<img id="loadingHero" class="loading-hero" src="assets/photos/medium/ggb__hero.webp" alt="Golden Gate Bridge">'
