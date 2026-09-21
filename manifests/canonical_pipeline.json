@@ -8,6 +8,7 @@
     "canonical_renderer": "src/app_phase7.js",
     "canonical_build": "scripts/build_map_first.py",
     "canonical_pipeline": "scripts/pipeline.py",
+    "gate5_contract": "manifests/gate5_field_quality_contract.json",
     "filename_note": "phase7_app_data.json and app_phase7.js are current maintained inputs; their names do not indicate legacy authority. Authority is defined by this manifest and the supported pipeline."
   },
   "truth_authority": {
@@ -75,6 +76,7 @@
     ".build/",
     ".public-site/",
     ".release/",
+    "QA/project_os_verify/gate5_r13/",
     "QA/release/",
     "QA/map_first/",
     "QA/map_first/screenshots/"
@@ -123,9 +125,14 @@
     "QA/map_first/canonical_truth.json",
     "QA/photo_integrity.json",
     "QA/map_first/smoke.json",
-    "QA/project_os_verify/ui_revamp_r1/task_oracles.json",
-    "QA/project_os_verify/ui_revamp_r1/performance.json",
-    "QA/project_os_verify/ui_revamp_r1/accessibility.json",
+    "QA/project_os_verify/ui_revamp_r5/task_oracles.json",
+    "QA/project_os_verify/ui_revamp_r5/performance.json",
+    "QA/project_os_verify/ui_revamp_r5/accessibility.json",
+    "QA/project_os_verify/ui_revamp_r5/map_geometry.json",
+    "QA/project_os_verify/ui_revamp_r5/sheet_geometry.json",
+    "QA/project_os_verify/ui_revamp_r5/route_key_camera.json",
+    "QA/project_os_verify/ui_revamp_r5/browser_summary.json",
+    "QA/project_os_verify/ui_revamp_r5/visual_index.json",
     "QA/map_first/full_acceptance.json",
     "QA/map_first/p0_independent.json",
     "QA/map_first/standalone.json",
@@ -143,6 +150,12 @@
     "QA/release/gate4.json",
     "QA/release/public_asset_rights.json",
     "QA/release/public_asset_rights_package.json",
-    "QA/release/security_privacy.json"
+    "QA/release/security_privacy.json",
+    "manifests/gate5_field_quality_contract.json",
+    "QA/project_os_verify/gate5_r13/candidate.json",
+    "QA/project_os_verify/gate5_r13/baseline.json",
+    "QA/project_os_verify/gate5_r13/paired_comparison.json",
+    "QA/project_os_verify/gate5_r13/finding_matrix.json",
+    "QA/project_os_verify/gate5_r13/review_pack_index.json"
   ]
 }
