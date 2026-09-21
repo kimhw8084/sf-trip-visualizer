@@ -1,0 +1,1012 @@
+{
+  "accepted_at": "2026-09-21T19:54:38Z",
+  "changed_files": [
+    {
+      "additions": 4,
+      "deletions": 0,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "M"
+    },
+    {
+      "additions": 61,
+      "deletions": 61,
+      "path": "QA/map_first/canonical_truth.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 118,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/baseline.json",
+      "status": "A"
+    },
+    {
+      "additions": 1816,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/candidate.json",
+      "status": "A"
+    },
+    {
+      "additions": 1383,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/finding_matrix.json",
+      "status": "A"
+    },
+    {
+      "additions": 415,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/paired_comparison.json",
+      "status": "A"
+    },
+    {
+      "additions": 8,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/performance_summary.log",
+      "status": "A"
+    },
+    {
+      "additions": 25,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/review_pack_index.json",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "QA/project_os_verify/ui_revamp_r5/accessibility.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "QA/project_os_verify/ui_revamp_r5/browser_summary.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/day_1008_desktop.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/decide_compare_desktop.png",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "QA/project_os_verify/ui_revamp_r5/map_geometry.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_mobile_expanded.png",
+      "status": "M"
+    },
+    {
+      "additions": 34,
+      "deletions": 34,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_camera.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/satellite_failure_recovery_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_dense_recovery_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_sparse_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_compare_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_default_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_no_results_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_peek_cooks_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_place_inspector_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_expanded_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_full_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_region_yosemite_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_1280_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_390_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_touch_peek_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_1280_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_390_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": 60,
+      "deletions": 60,
+      "path": "QA/project_os_verify/ui_revamp_r5/sheet_geometry.json",
+      "status": "M"
+    },
+    {
+      "additions": 12,
+      "deletions": 12,
+      "path": "QA/project_os_verify/ui_revamp_r5/task_oracles.json",
+      "status": "M"
+    },
+    {
+      "additions": 98,
+      "deletions": 98,
+      "path": "QA/project_os_verify/ui_revamp_r5/visual_index.json",
+      "status": "M"
+    },
+    {
+      "additions": 17,
+      "deletions": 4,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "M"
+    },
+    {
+      "additions": 71,
+      "deletions": 0,
+      "path": "manifests/gate5_field_quality_contract.json",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "manifests/public_asset_rights.json",
+      "status": "M"
+    },
+    {
+      "additions": 109,
+      "deletions": 12,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 112,
+      "deletions": 3,
+      "path": "scripts/qa_gate4_resilience.py",
+      "status": "M"
+    },
+    {
+      "additions": 313,
+      "deletions": 0,
+      "path": "scripts/qa_gate5_field_quality.py",
+      "status": "A"
+    },
+    {
+      "additions": 21,
+      "deletions": 5,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 133,
+      "deletions": 0,
+      "path": "tests/test_gate5_qualification.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"revision|candidate|build_manifest|TRIP.*SHA|git\\\" scripts/build_map_first.py src/map_shell_template.html | sed -n '1,260p'; rtk sed -n '1,180p' scripts/build_map_first.py; rtk rg -n \\\"build_revision|source_revision|revision|tree\\\" .build 2>/dev/null | head -100\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,135p' scripts/qa_gate5_field_quality.py; rtk sed -n '135,275p' scripts/qa_gate5_field_quality.py; rtk cat manifests/gate5_field_quality_contract.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk nl -ba scripts/qa_gate5_field_quality.py | sed -n '116,150p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m compileall -q scripts tests && rtk python3 -m unittest tests.test_gate5_qualification tests.test_canonical_pipeline -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --check && rtk git diff --stat && rtk git diff -- src/app_phase7.js scripts/qa_gate4_resilience.py scripts/qa_gate5_field_quality.py manifests/gate5_field_quality_contract.json | sed -n '1,900p'; rtk git status --short\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/build_map_first.py --output-dir .build && rtk python3 scripts/serve_map.py --port 8766 --directory .build/modular'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk lsof -nP -iTCP:8766 -sTCP:LISTEN || true; rtk curl -sS -I http://127.0.0.1:8766/index.html | sed -n '1,20p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'TRIP_QA_URL=http://127.0.0.1:8790/index.html rtk python3 scripts/qa_gate4_resilience.py --mode browser --output QA/release/gate4_runtime.json'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\np=json.load(open('QA/release/gate4_runtime.json'))\nprint(json.dumps({'status':p.get('status'),'failures':p.get('failures'),'deterministic_provider':p.get('deterministic_provider'),'modular_failures':p.get('modular',{}).get('failures'),'external_provider':p.get('external_provider')}, indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/build_map_first.py --output-dir .build && TRIP_QA_URL=http://127.0.0.1:8790/index.html rtk python3 scripts/qa_gate4_resilience.py --mode browser --output QA/release/gate4_runtime.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\np=json.load(open('QA/release/gate4_runtime.json'))\nd=p['deterministic_provider']\nprint(json.dumps({'status':p['status'],'deterministic':{'status':d['status'],'activation':{k:d['activation'][k] for k in ('result','provider','success_requests','raster_success_requests')},'recovery':{k:d['recovery'][k] for k in ('provider','provider_identity','provider_health','activation_state_preserved','planning_state_preserved','feedback_visible','map_visual_ready','satellite_stats')},'retry_allowed':d['retry_allowed'],'bounded':d['bounded'],'failure_requests':d['failure_requests'],'screenshot':d['screenshot'],'failures':d['failures']},'external':p['external_provider'],'negative':[(r['case'],r['pass']) for r in p['negative_checks']]},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m compileall -q scripts tests && rtk python3 -m unittest tests.test_gate5_qualification tests.test_canonical_pipeline -v >/tmp/r14-focused-tests.log && rtk git diff --check && rtk git add src/app_phase7.js scripts/qa_gate4_resilience.py scripts/qa_gate5_field_quality.py manifests/gate5_field_quality_contract.json tests/test_gate5_qualification.py && rtk git commit -m \\\"fix: recover Satellite tile failures to Smart\\\" && rtk git status --short --branch && rtk git show -s --format='%H%n%T%n%P%n%s' HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git add QA/project_os_verify/ui_revamp_r5/satellite_failure_recovery_1440x900.png && rtk git commit -m \\\"qa: capture R14 Satellite recovery evidence\\\" && rtk git status --short --branch && rtk git show -s --format='%H%n%T%n%P%n%s' HEAD && rtk git diff --stat a2088ba075dbade3ab27be5e2dabc3c7b008b9ec HEAD && rtk git diff --name-status a2088ba075dbade3ab27be5e2dabc3c7b008b9ec HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '650,780p' scripts/pipeline.py; rtk python3 -m unittest discover -s tests -p 'test_*.py' -v\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env TRIP_GATE5_BASELINE_URL=http://127.0.0.1:8791/index.html TRIP_GATE5_BASELINE_REVISION=a2088ba075dbade3ab27be5e2dabc3c7b008b9ec TRIP_GATE5_BASELINE_TREE=0facde544275953b37f9448d1a25aa145ac5c160 TRIP_GATE5_PERFORMANCE_SAMPLES=8 python3 scripts/pipeline.py qualify --revision f815be46b3d6321116e10c9a2e916bda0f6d683d'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json, pathlib\nfor name in ['QA/release/fast.json','QA/release/gate4_static.json','QA/release/public_asset_rights.json','QA/release/security_privacy.json']:\n p=pathlib.Path(name)\n if p.exists():\n  d=json.loads(p.read_text()); print('\\\\n---',name,'---'); print(json.dumps({'status':d.get('status'),'errors':d.get('errors'),'failures':d.get('failures'),'checks':d.get('checks')},indent=2)[:20000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n -C 8 'src/app_phase7.js|hash_bound|hash-bound|input_sha256' manifests/public_asset_rights.json | sed -n '1,260p'; rtk sed -n '9300,9780p' manifests/public_asset_rights.json | sed -n '1,520p'; rtk rg -n -C 4 'src/app_phase7.js' QA/release/public_asset_rights.json | sed -n '1,100p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk shasum -a 256 src/app_phase7.js && rtk rg -n 'b9ed0a43|56f40999' manifests/public_asset_rights.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '210,280p' scripts/public_asset_rights.py; rtk sed -n '11290,11400p' manifests/public_asset_rights.json; rtk sed -n '13240,13300p' manifests/public_asset_rights.json; rtk git show a2088ba075dbade3ab27be5e2dabc3c7b008b9ec:src/app_phase7.js | shasum -a 256\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,160p' scripts/package_map_first.py; rtk sed -n '1,180p' scripts/prepare_public_site.py; rtk git show --stat --oneline 724b229326d0eedeffd5b8c02ca18fc55647b2fd | sed -n '1,120p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short && rtk git diff --check && rtk git add manifests/public_asset_rights.json && rtk git commit -m \\\"chore: bind R14 runtime rights hash\\\" && rtk git status --short --branch && rtk git show -s --format='%H%n%T%n%P%n%s' HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env TRIP_GATE5_BASELINE_URL=http://127.0.0.1:8791/index.html TRIP_GATE5_BASELINE_REVISION=a2088ba075dbade3ab27be5e2dabc3c7b008b9ec TRIP_GATE5_BASELINE_TREE=0facde544275953b37f9448d1a25aa145ac5c160 TRIP_GATE5_PERFORMANCE_SAMPLES=8 python3 scripts/pipeline.py qualify --revision bc5763dae62179b14a9376527157536bbfa6c313'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json, pathlib\npaths=['QA/release/qualification.json','QA/release/gate4_runtime.json','QA/release/gate4.json','QA/project_os_verify/gate5_r13/candidate.json','QA/project_os_verify/gate5_r13/paired_comparison.json','QA/project_os_verify/gate5_r13/baseline.json','QA/project_os_verify/gate5_r13/finding_matrix.json']\nfor name in paths:\n p=pathlib.Path(name); d=json.loads(p.read_text()); print('\\\\n---',name,'---')\n if name.endswith('qualification.json'):\n  print(json.dumps({'status':d.get('status'),'candidate_head':d.get('candidate_head'),'working_tree_clean':d.get('working_tree_clean'),'external_verify_required':d.get('external_verify_required'),'tests':{x['name']:x['status'] for x in d.get('tests',[])},'errors':d.get('errors')},indent=2))\n elif name.endswith('gate4_runtime.json'):\n  q=d.get('deterministic_provider',{}); print(json.dumps({'status':d.get('status'),'candidate_head':d.get('candidate_head'),'failures':d.get('failures'),'deterministic':{'status':q.get('status'),'activation':{k:q.get('activation',{}).get(k) for k in ('result','provider','success_requests','raster_success_requests')},'recovery':{k:q.get('recovery',{}).get(k) for k in ('provider','provider_identity','provider_health','activation_state_preserved','planning_state_preserved','feedback_visible','map_visual_ready','satellite_stats')},'retry_allowed':q.get('retry_allowed'),'bounded':q.get('bounded'),'failure_requests':q.get('failure_requests'),'screenshot':q.get('screenshot'),'screenshot_sha256':q.get('screenshot_sha256'),'failures':q.get('failures')},'external_provider':d.get('external_provider')},indent=2))\n elif name.endswith('candidate.json'):\n  print(json.dumps({'status':d.get('status'),'candidate_head':d.get('candidate_head'),'candidate_tree':d.get('candidate_tree'),'source_binding':d.get('source_binding'),'verify_required':d.get('verify_required'),'failures':d.get('failures'),'performance':{'status':d.get('performance',{}).get('status'),'comparison_status':d.get('performance',{}).get('comparison_status'),'environment':d.get('performance',{}).get('environment'),'comparison':d.get('performance',{}).get('comparison')}},indent=2))\n else:\n  print(json.dumps({'status':d.get('status'),'candidate_revision':d.get('candidate_revision'),'reason':d.get('reason'),'external_boundaries':d.get('external_boundaries')},indent=2)[:20000])\nPY\nprintf '%s\\\\n' '--- changed working tree ---'\nrtk git status --short --branch\nprintf '%s\\\\n' '--- Gate5 performance summary ---'\nrtk sed -n '1,80p' QA/project_os_verify/gate5_r13/performance_summary.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git check-ignore -v QA/release/qualification.json QA/release/gate4_runtime.json QA/project_os_verify/gate5_r13/candidate.json || true; rtk git status --short --untracked-files=all | sed -n '1,180p'; printf '%s\\\\n' '--- QA diff stat ---'; rtk git diff --stat -- QA; printf '%s\\\\n' '--- tracked/ignored QA paths ---'; rtk git ls-files QA/project_os_verify/gate5_r13 QA/release/qualification.json QA/release/gate4_runtime.json | sed -n '1,100p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git add QA/map_first QA/project_os_verify && rtk git diff --cached --stat && rtk git commit -m \\\"qa: record R14 Gate 5 qualification evidence\\\" && rtk git status --short --branch && rtk git show -s --format='%H%n%T%n%P%n%s' HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env TRIP_GATE5_BASELINE_URL=http://127.0.0.1:8791/index.html TRIP_GATE5_BASELINE_REVISION=a2088ba075dbade3ab27be5e2dabc3c7b008b9ec TRIP_GATE5_BASELINE_TREE=0facde544275953b37f9448d1a25aa145ac5c160 TRIP_GATE5_PERFORMANCE_SAMPLES=8 python3 scripts/pipeline.py qualify --revision e08c684e3be6175194ae2f99150aca2aa65607e2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision e08c684e3be6175194ae2f99150aca2aa65607e2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py verify-public --revision e08c684e3be6175194ae2f99150aca2aa65607e2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 724b229:QA/project_os_verify/gate5_r13/candidate.json 2>/dev/null | rtk python3 -c 'import json,sys; d=json.load(sys.stdin); print(json.dumps({k:d.get(k) for k in (\\\"candidate_head\\\",\\\"candidate_tree\\\",\\\"status\\\")}, indent=2))' || true; rtk git show 724b229:QA/project_os_verify/gate5_r13/review_pack_index.json 2>/dev/null | rtk sed -n '1,60p' || true; rtk git status --short --branch | sed -n '1,120p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 scripts/hosted_linux_pipeline.py release --revision e08c684e3be6175194ae2f99150aca2aa65607e2 || true; printf '%s\\\\n' '--- final revision/tree ---'; rtk git show -s --format='%H%n%T%n%P%n%s' HEAD; printf '%s\\\\n' '--- stable source revision/tree ---'; rtk git show -s --format='%H%n%T%n%s' bc5763dae62179b14a9376527157536bbfa6c313; rtk git show -s --format='%T' bc5763dae62179b14a9376527157536bbfa6c313; printf '%s\\\\n' '--- status ---'; rtk git status --short --branch; printf '%s\\\\n' '--- source diff stat vs authoritative main ---'; rtk git diff --stat a2088ba075dbade3ab27be5e2dabc3c7b008b9ec HEAD -- .github manifests/public_asset_rights.json scripts/pipeline.py scripts/qa_gate4_resilience.py scripts/qa_gate5_field_quality.py src/app_phase7.js tests/test_canonical_pipeline.py tests/test_gate5_qualification.py; printf '%s\\\\n' '--- app source diff ---'; rtk git diff -- src/app_phase7.js; printf '%s\\\\n' '--- commits ---'; rtk git log --oneline --decorate a2088ba075dbade3ab27be5e2dabc3c7b008b9ec..HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short && rtk git rev-parse HEAD && rtk git show -s --format='%H%n%T%n%s' HEAD && rtk git show -s --format='%H%n%T%n%s' bc5763dae62179b14a9376527157536bbfa6c313 && rtk git diff --name-status a2088ba075dbade3ab27be5e2dabc3c7b008b9ec HEAD | sed -n '1,220p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk which xvfb-run || true; rtk python3 scripts/hosted_linux_pipeline.py release --revision e08c684e3be6175194ae2f99150aca2aa65607e2 2>&1 | sed -n '1,80p'; true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find QA/release -maxdepth 1 -type f -print | sort; rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor name in ['qualification.json','gate4_runtime.json','gate4.json','gate5.json','public_asset_rights.json','security_privacy.json','verify_public.json']:\n p=Path('QA/release')/name\n if not p.exists():\n  print(name, 'MISSING')\n  continue\n try:\n  d=json.loads(p.read_text())\n  print('\\\\n'+name)\n  for k in ['status','candidate_revision','candidate_head','candidate_tree','tested_sha','artifact_sha256','exact_candidate_bound','comparison_mode','performance_status','external_provider','verify_public_status']:\n   if k in d: print(k, d[k])\n  for k in ['gate4','gate5','security_privacy','public_asset_rights','performance','contract_failures','verify_required']:\n   if k in d: print(k, d[k] if isinstance(d[k],(str,int,bool)) else type(d[k]).__name__)\n except Exception as e: print(name, 'ERROR', e)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor name in ['qualification.json','gate4_runtime.json','gate4.json','security_privacy.json']:\n d=json.loads((Path('QA/release')/name).read_text())\n print('\\\\n===', name, '===')\n print('top keys:', ', '.join(d.keys()))\n if name=='qualification.json':\n  print('overall:', d.get('status'), 'head:', d.get('candidate_head'), 'tree:', d.get('candidate_tree'))\n  for k,v in d.items():\n   if isinstance(v,dict) and ('status' in v or 'result' in v): print(k, 'status=',v.get('status'),'result=',v.get('result'))\n   elif isinstance(v,list): print(k, 'len=',len(v))\n elif name.startswith('gate4'):\n  for k in ['status','candidate_head','candidate_tree','deterministic_satellite_tile_failure_recovery','provider_row','external_provider','negative_matrix','checks','findings','verify_required']:\n   if k in d: print(k, json.dumps(d[k], sort_keys=True)[:8000])\n elif name=='security_privacy.json':\n  for k in ['status','candidate_head','candidate_tree','exact_candidate_bound','checks','verify_required']:\n   if k in d: print(k, json.dumps(d[k], sort_keys=True)[:4000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor name in ['gate4_runtime.json','gate4.json','qualification.json']:\n d=json.loads((Path('QA/release')/name).read_text())\n print('\\\\n===',name,'===')\n if name=='gate4_runtime.json':\n  for k in ['modular','standalone','negative_checks','deterministic_provider','external_provider','failures']:\n   print(k, json.dumps(d.get(k), sort_keys=True))\n if name=='gate4.json':\n  for k in ['static','runtime','delivery','package','limitations']:\n   print(k, json.dumps(d.get(k), sort_keys=True)[:12000])\n if name=='qualification.json':\n  print('external_verify_required=',json.dumps(d['external_verify_required'],sort_keys=True))\n  print('historical_evidence_excluded=',json.dumps(d['historical_evidence_excluded'],sort_keys=True))\n  print('errors=',d['errors'])\n  for row in d['tests']:\n   if any(x in str(row).lower() for x in ['gate5','performance','gate4','security','rights','browser','accessibility']): print(json.dumps(row,sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\npaths=['QA/project_os_verify/gate5_r13/candidate.json','QA/project_os_verify/gate5_r13/paired_comparison.json','QA/project_os_verify/gate5_r13/performance_summary.log','QA/project_os_verify/gate5_r13/finding_matrix.json']\nfor s in paths:\n p=Path(s); print('\\\\n===',s,'===')\n if s.endswith('.log'):\n  print(p.read_text()[:12000]); continue\n d=json.loads(p.read_text())\n print('keys',list(d))\n for k in ['status','candidate_head','candidate_tree','source_revision','source_tree','component','verify_required','failures','performance','paired_comparison','deterministic_satellite_tile_failure_recovery','checks','findings','matrix']:\n  if k in d: print(k, json.dumps(d[k],sort_keys=True)[:12000])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --stat e3cc355c473ab3ddabffd1b430fe8e58e85668ef..bc5763dae62179b14a9376527157536bbfa6c313 -- . ':\"'!QA'\"' && rtk git diff -- src/app_phase7.js e3cc355c473ab3ddabffd1b430fe8e58e85668ef..bc5763dae62179b14a9376527157536bbfa6c313 | sed -n '1,240p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff e3cc355c473ab3ddabffd1b430fe8e58e85668ef..bc5763dae62179b14a9376527157536bbfa6c313 -- src/app_phase7.js | sed -n '1,260p'; rtk git diff a2088ba075dbade3ab27be5e2dabc3c7b008b9ec..bc5763dae62179b14a9376527157536bbfa6c313 -- scripts/qa_gate4_resilience.py scripts/qa_gate5_field_quality.py manifests/gate5_field_quality_contract.json tests/test_gate5_qualification.py | sed -n '1,320p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py' -q && rtk python3 -m compileall -q scripts tests && rtk git diff a2088ba075dbade3ab27be5e2dabc3c7b008b9ec..HEAD --check\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nd=json.loads(Path('QA/release/qualification.json').read_text())\nfor row in d['tests']:\n print(f\\\"{row.get('name')}: {row.get('status') or row.get('acceptance_status')}\\\")\nprint('qualification_status=',d['status'],'working_tree_clean=',d['working_tree_clean'])\nprint('build=',json.dumps(d.get('build'),sort_keys=True))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py verify-public --revision e08c684e3be6175194ae2f99150aca2aa65607e2 | tail -n 80'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show -s --format='%H%n%T%n%P%n%s' d1fb4d6; rtk git show -s --format='%H%n%T%n%P%n%s' 5fef4ac; rtk git show -s --format='%H%n%T%n%P%n%s' e3cc355c473ab3ddabffd1b430fe8e58e85668ef; rtk git diff --stat 5fef4ac..bc5763dae62179b14a9376527157536bbfa6c313 -- . ':\"'!QA'\"'; rtk git diff --name-status 5fef4ac..bc5763dae62179b14a9376527157536bbfa6c313 -- . ':\"'!QA'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show --stat --oneline --summary e08c684e3be6175194ae2f99150aca2aa65607e2 | sed -n '1,160p'; rtk git diff --name-only 5fef4ac6588501fcdcac1830140e380f16ec2e15..bc5763dae62179b14a9376527157536bbfa6c313 -- . ':\"'!QA'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"echo COMMITTED_RELATIVE_TO_MAIN; rtk git diff --name-only a2088ba075dbade3ab27be5e2dabc3c7b008b9ec HEAD | sort; echo CURRENT_GENERATED_REFRESH; rtk git status --short | sed -n 's/\"'^.. //p'\"' | sort; echo COUNTS; printf 'committed='; rtk git diff --name-only a2088ba075dbade3ab27be5e2dabc3c7b008b9ec HEAD | wc -l; printf 'dirty='; rtk git status --short | wc -l\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git log --oneline --decorate -8'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show HEAD:QA/project_os_verify/gate5_r13/candidate.json | rtk python3 -c 'import json,sys; d=json.load(sys.stdin); print(json.dumps({k:d.get(k) for k in [\\\"status\\\",\\\"candidate_head\\\",\\\"candidate_tree\\\",\\\"verify_required\\\",\\\"failures\\\",\\\"source_binding\\\",\\\"supplemental_external_provider\\\"]},sort_keys=True))'; rtk git show HEAD:QA/release/qualification.json 2>/dev/null | head -c 200 || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport subprocess\nbase='a2088ba075dbade3ab27be5e2dabc3c7b008b9ec'\ncomm=set(subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines())\ndirty=set(x[3:] for x in subprocess.check_output(['git','status','--short'],text=True).splitlines())\nprint('dirty_not_committed')\nfor x in sorted(dirty-comm): print(x)\nprint('committed_not_dirty')\nfor x in sorted(comm-dirty): print(x)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport subprocess,collections\nbase='a2088ba075dbade3ab27be5e2dabc3c7b008b9ec'\nfiles=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()\nfor prefix in ['QA/map_first/','QA/project_os_verify/gate5_r13/','QA/project_os_verify/ui_revamp_r5/','manifests/','scripts/','tests/','.github/','src/']:\n a=[x for x in files if x.startswith(prefix)]\n print(prefix,len(a))\n for x in a: print(' ',x)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport subprocess\nfiles=set(x[3:] for x in subprocess.check_output(['git','status','--short'],text=True).splitlines())\nfor prefix in ['QA/map_first/','QA/project_os_verify/gate5_r13/','QA/project_os_verify/ui_revamp_r5/']:\n a=sorted(x for x in files if x.startswith(prefix)); print(prefix,len(a))\nmissing=[]\nbase='a2088ba075dbade3ab27be5e2dabc3c7b008b9ec'\ncomm=set(subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines())\nfor x in sorted(comm & files): pass\nprint('dirty total',len(files))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"satelliteFallbackFlight|isSatelliteRasterError|returnToSmart\\\\(|map.on\\\\('error'\\\" src/app_phase7.js; rtk rg -n \\\"deterministic_satellite|REQUIRED_PAIRED_BASELINE|Gate 5 timed out|gate5_timeout\\\" scripts/qa_gate4_resilience.py scripts/qa_gate5_field_quality.py manifests/gate5_field_quality_contract.json scripts/pipeline.py | sed -n '1,120p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 177,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.47,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 15331584,
+      "fresh_input_tokens": 398589,
+      "input_tokens": 15730173,
+      "non_reasoning_output_tokens": 28965,
+      "output_tokens": 60886,
+      "reasoning_output_tokens": 31921,
+      "total_processed_tokens": 15791059
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "67f2606d0c83049bce314cc3de4238ee1062c9ba",
+      "subject": "fabric: capture completed model changes [CF-0e1caec58b97cb02c3b75e14]"
+    },
+    {
+      "sha": "e08c684e3be6175194ae2f99150aca2aa65607e2",
+      "subject": "qa: record R14 Gate 5 qualification evidence"
+    },
+    {
+      "sha": "bc5763dae62179b14a9376527157536bbfa6c313",
+      "subject": "chore: bind R14 runtime rights hash"
+    },
+    {
+      "sha": "f815be46b3d6321116e10c9a2e916bda0f6d683d",
+      "subject": "qa: capture R14 Satellite recovery evidence"
+    },
+    {
+      "sha": "81f725ddfc52790ae60b19bb0da9f12f11e1ed60",
+      "subject": "fix: recover Satellite tile failures to Smart"
+    },
+    {
+      "sha": "5fef4ac6588501fcdcac1830140e380f16ec2e15",
+      "subject": "qa: record Satellite recovery boundary in Gate 5"
+    },
+    {
+      "sha": "d1fb4d62b978b9db8db656750c3ad0f912d80d9c",
+      "subject": "fix: restore fail-closed Gate 5 qualification"
+    }
+  ],
+  "diff": {
+    "additions": 4830,
+    "changed_files": 55,
+    "commit_count": 7,
+    "deletions": 307
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 48,
+    "items": [
+      {
+        "bytes": 201777,
+        "path": "QA/map_first/canonical_truth.json",
+        "sha256": "94bc54367b71044161598fd1fbbce96fca04132ff1b9a12306062377723de219"
+      },
+      {
+        "bytes": 10287,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "2356e80c4103a96bd291b00581917fd07419249e093739d1dcbd49a9591a8d19"
+      },
+      {
+        "bytes": 2970,
+        "path": "QA/project_os_verify/gate5_r13/baseline.json",
+        "sha256": "b9e8779d05333f7cdb047647d8cf27c401bebade2c9e541d0aef117787b27e24"
+      },
+      {
+        "bytes": 55469,
+        "path": "QA/project_os_verify/gate5_r13/candidate.json",
+        "sha256": "9f881c2e8549b3e690d35da9d8ac1b0d2f560d701bcbe29970fd7e63fde3d9c8"
+      },
+      {
+        "bytes": 44149,
+        "path": "QA/project_os_verify/gate5_r13/finding_matrix.json",
+        "sha256": "523e00ce8092cd205872c54fecced26fcc96059d5c4cffd0c57013338f036c5c"
+      },
+      {
+        "bytes": 10456,
+        "path": "QA/project_os_verify/gate5_r13/paired_comparison.json",
+        "sha256": "2336aae95869ce15b228c8b54d3512d7b91a85a8424ba4ef8917d52df9eff1d7"
+      },
+      {
+        "bytes": 1849,
+        "path": "QA/project_os_verify/gate5_r13/performance_summary.log",
+        "sha256": "39b466eaa1473ff053daba88fb14df56694479368b3a090a3669f5e457b1a59b"
+      },
+      {
+        "bytes": 1431,
+        "path": "QA/project_os_verify/gate5_r13/review_pack_index.json",
+        "sha256": "d39b9805dd874488bfb736f76314a091203f71f252f6c7d8fcbf50c0b40f3ccd"
+      },
+      {
+        "bytes": 789,
+        "path": "QA/project_os_verify/ui_revamp_r5/accessibility.json",
+        "sha256": "fcceb8a0f6837ba008311307174fb52d5f568bfb7b14ac3b36a38ec7ef15e269"
+      },
+      {
+        "bytes": 46700,
+        "path": "QA/project_os_verify/ui_revamp_r5/browser_summary.json",
+        "sha256": "8cfb197f0b9397b870b7679fb8ab20ba08ba4954f5e5a216c4e7372a46336f76"
+      },
+      {
+        "bytes": 695658,
+        "path": "QA/project_os_verify/ui_revamp_r5/day_1008_desktop.png",
+        "sha256": "dce1aec9d097174b00a88338c5129b15fbf3743494d38d4615d2e6c737cca235"
+      },
+      {
+        "bytes": 318324,
+        "path": "QA/project_os_verify/ui_revamp_r5/decide_compare_desktop.png",
+        "sha256": "d003baaba6ebfb29faed3e8959c0e240f4e5886b591f0fb9e6531f728b1b52fa"
+      },
+      {
+        "bytes": 81378,
+        "path": "QA/project_os_verify/ui_revamp_r5/map_geometry.json",
+        "sha256": "74f404686d27245fb4f207da53be1825b813e5612d0df21337d55a8927fd7923"
+      },
+      {
+        "bytes": 200276,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_mobile_expanded.png",
+        "sha256": "73f4b8188d97707feee6d6d8b0be394e309728173affe42ada27677506e67c0c"
+      },
+      {
+        "bytes": 76223,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_camera.json",
+        "sha256": "66280295cae57126d7cc6b69d8cdc4c9d902b74d0fc34535ce7220ecc2c819a4"
+      },
+      {
+        "bytes": 134915,
+        "path": "QA/project_os_verify/ui_revamp_r5/satellite_failure_recovery_1440x900.png",
+        "sha256": "8b313324507260de6d59849497d1ff50ce705d0528c9c2bef72f103a69f4b905"
+      },
+      {
+        "bytes": 625906,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_dense_recovery_1440x900.png",
+        "sha256": "78781cdd8a81857dc6516be957ddf400c33b8075d23b3d3784b8f4a22e10fa20"
+      },
+      {
+        "bytes": 348042,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_sparse_1440x900.png",
+        "sha256": "f174633d2c4284841d0d16486436d1eb6240a4ad295d6dec015543f1ff93fd0c"
+      },
+      {
+        "bytes": 338694,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_compare_1440x900.png",
+        "sha256": "9d0eaf61015059a8c26535f5d0ad0c023e6c3d78077213928a0cb0aee6280993"
+      },
+      {
+        "bytes": 407422,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_default_1440x900.png",
+        "sha256": "469eccdd4413b32498027c8aa4ab05d5a4be823d077d396a245dfd610664e1fe"
+      },
+      {
+        "bytes": 415456,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_no_results_1440x900.png",
+        "sha256": "852be409aece5bc717ed6617af8118ee9c7ec6130c08e3f7368d7b99187a4b1a"
+      },
+      {
+        "bytes": 637290,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_peek_cooks_1440x900.png",
+        "sha256": "51e19c73b6e65c6de0dea7c775afca695038f064266d036550d5fee83ca3379b"
+      },
+      {
+        "bytes": 759625,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_place_inspector_1440x900.png",
+        "sha256": "83e25a5e77cfd7ae2562b12e21dd5cc5b2fee44ab7151024237b22612fc8e53d"
+      },
+      {
+        "bytes": 421675,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_expanded_1440x900.png",
+        "sha256": "6928a580410577a6e9d8380d885513bf6997facc2eff5f993fd8812f7ea0635c"
+      },
+      {
+        "bytes": 410139,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_full_1440x900.png",
+        "sha256": "dcb8348f3750eaaa7fdb515b597a1e0c7d5ac37656d3793839d117f6fa9ce4c8"
+      },
+      {
+        "bytes": 420873,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_region_yosemite_1440x900.png",
+        "sha256": "e4bb9e12b7599a2e4953643db8dec29d7b0e55b7aa3dac034740c5eb46c9e799"
+      },
+      {
+        "bytes": 713709,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_1280_detail.png",
+        "sha256": "ef520449dbf0a448ada45f1bfd6793dd35dc9cb27b83aef1876cfe2d0869df8e"
+      },
+      {
+        "bytes": 237448,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_390_detail.png",
+        "sha256": "8a9f4fcabad08f40afb8cab5c7088cfccdbe26869d7f633f040a35f57b9e36b9"
+      },
+      {
+        "bytes": 50130,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_360x800.png",
+        "sha256": "31394e97c4c447175def34e5d0fb9f5fe01b7d158c432a214213608449f5439c"
+      },
+      {
+        "bytes": 50615,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_390x844.png",
+        "sha256": "3f120b3e3383f38db6aec4c5e0ac8f4f29a11a4bc2dfc04cc1cd7f21b2d01428"
+      },
+      {
+        "bytes": 64253,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_414x896.png",
+        "sha256": "f8c9d76a5d9788b8ea69357584fcdb93e2d20a09d29a7281cc40d6ca439613ed"
+      },
+      {
+        "bytes": 167763,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_360x800.png",
+        "sha256": "67eea79b15d5797335789ccb56d93cbab4b678202f5cb7e1a40957e80280f975"
+      },
+      {
+        "bytes": 174865,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_375x812.png",
+        "sha256": "12bf7de5fa0ed918cd57bb8ed3e87be9bfae6138f24a6425ed55a257fb10522a"
+      },
+      {
+        "bytes": 184231,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_390x844.png",
+        "sha256": "2fcda80642970add8c69f92a644b49d0b15e0807bae235c00f5082c0867d8228"
+      },
+      {
+        "bytes": 201672,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_414x896.png",
+        "sha256": "f2d360a31aa215a3551169d4d10d92f3666951c00ab7f129eef7d6183d830497"
+      },
+      {
+        "bytes": 161799,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_360x800.png",
+        "sha256": "da6f9d0b4d010862f4262f3d8f28d25b48a05b75e0a3f6768040cac436b3522b"
+      },
+      {
+        "bytes": 177046,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_375x812.png",
+        "sha256": "7f09321ba0fb2854e40ffd123b736aecf8f04d0f1302b0b2d1974746ff8d9d4d"
+      },
+      {
+        "bytes": 185639,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_390x844.png",
+        "sha256": "b628a6856f98ca206f7b6139928c63ec3e662babcb0beac84bd560154a4a74a9"
+      },
+      {
+        "bytes": 200168,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_414x896.png",
+        "sha256": "c2f5aa9426e4ec5f5ba54aba5090cbf113ec64a36c5412126e44dfa0f4ab89b0"
+      },
+      {
+        "bytes": 166079,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_touch_peek_390x844.png",
+        "sha256": "26bd43270ceed0a3b61a38779c6943745e22ef9fcf4de5e1123c13f5795cc78f"
+      },
+      {
+        "bytes": 817262,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_1280_detail.png",
+        "sha256": "4639052fdf8ba80313e2cbfec3264b51e94f53d4cf35fcbee0a030cc6af79465"
+      },
+      {
+        "bytes": 269165,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_390_detail.png",
+        "sha256": "ed86b0b813ce117b0a439c282e00812572134601ec52a083ef184b18d6f2223b"
+      },
+      {
+        "bytes": 54569,
+        "path": "QA/project_os_verify/ui_revamp_r5/sheet_geometry.json",
+        "sha256": "f7b09507aa47df5257b017d84cf91fe6730abe9c830318ec0e7794e8b512de4c"
+      },
+      {
+        "bytes": 4207,
+        "path": "QA/project_os_verify/ui_revamp_r5/task_oracles.json",
+        "sha256": "2d6e63f9824c27207e9ed005f6ec04ccb939fd15765e99e81f6900e54b2c0cf0"
+      },
+      {
+        "bytes": 26794,
+        "path": "QA/project_os_verify/ui_revamp_r5/visual_index.json",
+        "sha256": "20b1d221556f39582b75a8f40059e534ac2400c896a6c01a83da631608e3dd4f"
+      },
+      {
+        "bytes": 5942,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "7189058769222d8d1a41ff179439398d0ef669fa0089910164000caf8c68ec27"
+      },
+      {
+        "bytes": 3785,
+        "path": "manifests/gate5_field_quality_contract.json",
+        "sha256": "5bd86580dfe2a4976c99b6734c999371a165331baa611cc6fddbd0638b1fbae1"
+      },
+      {
+        "bytes": 551809,
+        "path": "manifests/public_asset_rights.json",
+        "sha256": "aa140bea55c077efdd9ed58a9772be01846802728dce53521826ec846665cad2"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.4-quota-recovery-candidate",
+  "fabric_capture": {
+    "applied": true,
+    "commit_message": "fabric: capture completed model changes [CF-0e1caec58b97cb02c3b75e14]",
+    "commit_sha": "67f2606d0c83049bce314cc3de4238ee1062c9ba",
+    "paths_before": 49,
+    "status_before": [
+      " M QA/map_first/canonical_truth.json",
+      " M QA/map_first/full_acceptance.json",
+      " M QA/project_os_verify/gate5_r13/baseline.json",
+      " M QA/project_os_verify/gate5_r13/candidate.json",
+      " M QA/project_os_verify/gate5_r13/finding_matrix.json",
+      " M QA/project_os_verify/gate5_r13/paired_comparison.json",
+      " M QA/project_os_verify/gate5_r13/performance_summary.log",
+      " M QA/project_os_verify/gate5_r13/review_pack_index.json",
+      " M QA/project_os_verify/ui_revamp_r5/accessibility.json",
+      " M QA/project_os_verify/ui_revamp_r5/browser_summary.json",
+      " M QA/project_os_verify/ui_revamp_r5/day_1008_desktop.png",
+      " M QA/project_os_verify/ui_revamp_r5/decide_compare_desktop.png",
+      " M QA/project_os_verify/ui_revamp_r5/map_geometry.json",
+      " M QA/project_os_verify/ui_revamp_r5/place_mobile_expanded.png",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_camera.json",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_closed_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_open_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_dense_recovery_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_sparse_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_compare_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_default_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_no_results_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_peek_cooks_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_place_inspector_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_expanded_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_full_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_options_open_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_region_yosemite_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/firefox_1280_detail.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/firefox_390_detail.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_414x896.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_414x896.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_414x896.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_touch_peek_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/webkit_1280_detail.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/webkit_390_detail.png",
+      " M QA/project_os_verify/ui_revamp_r5/sheet_geometry.json",
+      " M QA/project_os_verify/ui_revamp_r5/task_oracles.json",
+      " M QA/project_os_verify/ui_revamp_r5/visual_index.json"
+    ],
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.4-quota-recovery-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-21T20:39:23Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "a2088ba075dbade3ab27be5e2dabc3c7b008b9ec",
+    "branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-satellite-runtime-recovery-fix-r14",
+    "detached_verify": false,
+    "head_sha": "67f2606d0c83049bce314cc3de4238ee1062c9ba",
+    "remote_exact_head": true,
+    "remote_head_sha": "67f2606d0c83049bce314cc3de4238ee1062c9ba",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "a2088ba075dbade3ab27be5e2dabc3c7b008b9ec",
+    "work_branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-satellite-runtime-recovery-fix-r14",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-0e1caec58b97cb02c3b75e14",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-satellite-runtime-recovery-fix-r14",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-satellite-runtime-recovery-fix-r14"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.4-quota-recovery-candidate",
+    "policy_sha256": "a642c9f63bab2cb555704bdb0b9d1f28222591f133f934c1d0f93cc5a25ab8a1",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "field-ux-a11y-performance-g5-satellite-runtime-recovery-fix-r14",
+  "schema_version": 1,
+  "started_at": "2026-09-21T19:54:38Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 2685,
+    "queue_seconds": 0,
+    "total_seconds": 2685
+  },
+  "transport": {
+    "bytes": 6612,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6203,
+    "prompt_sha256": "da3402e00e4407f08736518d8c8b96018b4b38fe4d785d82b85419c72f0246a6",
+    "sha256": "0e1caec58b97cb02c3b75e14ae687c5791686803136fb01825be57ba11f5c89e"
+  }
+}
