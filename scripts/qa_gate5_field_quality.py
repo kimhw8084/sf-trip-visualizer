@@ -235,7 +235,7 @@ def run(expected_revision: str | None, output: Path) -> dict:
             "current-lineage performance was measured, but no exact same-environment paired current-main baseline was available",
         ]
         external = next((row.get("external_provider") for row in report["evidence"] if row["name"] == "provider_recovery"), {})
-        if external.get("status") == "VERIFY_REQUIRED":
+        if external.get("status") == "VERIFY_REQUIRED" or external.get("post_switch_tile_failure_recovery") == "VERIFY_REQUIRED":
             report["verify_required"].append("optional Satellite provider success/recovery remains externally unverified")
     if not report["failures"]:
         report["status"] = "VERIFY_REQUIRED" if report["verify_required"] else "PASS"
