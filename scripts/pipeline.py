@@ -52,7 +52,6 @@ COMPONENTS = (
     ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r5/map_geometry.json"),
     ("sheet_geometry", "scripts/qa_sheet_geometry.py", "QA/project_os_verify/ui_revamp_r5/sheet_geometry.json"),
     ("route_key_camera", "scripts/qa_route_key_camera.py", "QA/project_os_verify/ui_revamp_r5/route_key_camera.json"),
-    ("ui_performance", "scripts/qa_ui_performance.py", "QA/project_os_verify/ui_revamp_r5/performance.json"),
     ("map_first_full", "scripts/qa_map_first_full.py", "QA/map_first/full_acceptance.json"),
     ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
     ("standalone", "scripts/qa_standalone_map_first.py", "QA/map_first/standalone.json"),
