@@ -532,7 +532,11 @@
   ],
   "failed_requests": [
     {
-      "url": "http://127.0.0.1:52815/assets/vector/sf_trip.pmtiles",
+      "url": "http://127.0.0.1:58270/assets/vector/sf_trip.pmtiles",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:58270/assets/vector/sf_trip.pmtiles",
       "failure": "net::ERR_ABORTED"
     },
     {
@@ -540,13 +544,17 @@
       "failure": "net::ERR_FAILED"
     }
   ],
-  "candidate": "bc5763dae62179b14a9376527157536bbfa6c313",
-  "candidate_tree": "0d62a89d73ce7afa68de0846db19096e9fee5e9c",
+  "candidate": "e08c684e3be6175194ae2f99150aca2aa65607e2",
+  "candidate_tree": "7d0f1214b97a15daddf4e4bbd473b0514d5681b1",
   "candidate_binding": "exact-clean-checkout",
   "matrix_failures": [],
   "expected_network_events": [
     {
-      "url": "http://127.0.0.1:52815/assets/vector/sf_trip.pmtiles",
+      "url": "http://127.0.0.1:58270/assets/vector/sf_trip.pmtiles",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:58270/assets/vector/sf_trip.pmtiles",
       "failure": "net::ERR_ABORTED"
     },
     {
