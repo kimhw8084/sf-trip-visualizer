@@ -28,6 +28,7 @@
       "cross_browser",
       "visual_evidence",
       "provider_recovery",
+      "deterministic_satellite_tile_failure_recovery",
       "current_lineage_performance"
     ],
     "hard_gates": [
@@ -44,9 +45,9 @@
       ]
     },
     "performance": {
-      "current_lineage_samples": 3,
-      "record": ["environment", "browser", "viewport", "sample values", "variance", "source binding"],
-      "comparison_rule": "No material regression classification is claimed without an exact clean current-main paired baseline on the same environment; absent that comparison is VERIFY_REQUIRED, never PASS by historical comparison."
+      "current_lineage_samples": 8,
+      "record": ["environment", "browser", "viewport", "sample values", "variance", "source binding", "exact-main baseline revision and tree"],
+      "comparison_rule": "R14 runtime changes require balanced repeated exact-main-versus-candidate samples in the same environment. A missing or mismatched clean current-main baseline is VERIFY_REQUIRED, never PASS by historical comparison."
     }
   },
   "evidence": {

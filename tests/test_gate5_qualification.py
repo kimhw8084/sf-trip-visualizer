@@ -117,6 +117,17 @@ class Gate5QualificationTests(unittest.TestCase):
         self.assertEqual(qa_gate5_field_quality.process_exit_code("UNVERIFIED"), 1)
         self.assertEqual(qa_gate5_field_quality.process_exit_code("FAIL"), 1)
 
+    def test_satellite_raster_errors_are_source_scoped_and_single_flight(self):
+        source = (Path(__file__).resolve().parents[1] / "src/app_phase7.js").read_text()
+        self.assertIn("function isSatelliteRasterError(event, map)", source)
+        self.assertIn("String(event?.sourceId || '') !== 'base'", source)
+        self.assertIn("source?.type === 'raster'", source)
+        self.assertIn("let satelliteFallbackFlight = null", source)
+        self.assertIn("if (provider === 'satellite' && satelliteFallbackFlight) return satelliteFallbackFlight", source)
+        self.assertIn("if (isSatelliteRasterError(event, map))", source)
+        self.assertIn("reason === 'tile_error'", source)
+        self.assertIn("if (localMapError(event))", source)
+
 
 if __name__ == "__main__":
     unittest.main()

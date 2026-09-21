@@ -45,6 +45,8 @@ CURRENT_EVIDENCE = {
     "provider_recovery": ROOT / "QA" / "release" / "gate4_runtime.json",
 }
 SOURCE_EXCLUDED_PREFIXES = ("QA/", ".build/", ".release/", ".public-site/")
+REQUIRED_PAIRED_BASELINE_REVISION = "a2088ba075dbade3ab27be5e2dabc3c7b008b9ec"
+REQUIRED_PAIRED_BASELINE_TREE = "0facde544275953b37f9448d1a25aa145ac5c160"
 
 
 def now() -> str:
@@ -156,15 +158,34 @@ def provider_row(path: Path, expected_revision: str, started_ns: int) -> tuple[d
     if not isinstance(payload, dict):
         return {**row, "execution_status": "MALFORMED"}, ["provider_recovery: evidence must be a JSON object"]
     external = payload.get("external_provider") or {}
-    row.update({"reported_status": payload.get("status"), "candidate_head": payload.get("candidate_head"), "external_provider": external})
+    deterministic = payload.get("deterministic_provider") or {}
+    row.update({"reported_status": payload.get("status"), "candidate_head": payload.get("candidate_head"), "deterministic_provider": deterministic, "external_provider": external})
     if payload.get("candidate_head") != expected_revision:
         failures.append("provider_recovery: wrong candidate binding")
     if payload.get("status") != "PASS":
         failures.append(f"provider_recovery: status is {payload.get('status')!r}")
+    if deterministic.get("status") != "PASS":
+        failures.append(f"provider_recovery: deterministic Satellite recovery is {deterministic.get('status')!r}")
     if payload.get("failures") or payload.get("errors"):
         failures.append("provider_recovery: errors or contradictory failures are present")
     row["status"] = "PASS" if not failures else "FAIL"
     return row, failures
+
+
+def measure_performance_page(browser, url: str, label: str, sample: int, order: int) -> dict:
+    context = browser.new_context(viewport={"width": 1440, "height": 900})
+    page = context.new_page()
+    try:
+        started = time.perf_counter()
+        page.goto(url, wait_until="domcontentloaded", timeout=90000)
+        dom_content_ms = (time.perf_counter() - started) * 1000
+        page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
+        smart_style_ms = (time.perf_counter() - started) * 1000
+        page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
+        ready_ms = (time.perf_counter() - started) * 1000
+        return {"label": label, "sample": sample, "order": order, "dom_content_ms": round(dom_content_ms, 3), "smart_style_ready_ms": round(smart_style_ms, 3), "first_actionable_state_ms": round(ready_ms, 3), "markers": page.locator(".photo-marker").count(), "map_layers": page.evaluate("window.__tripApp?.map()?.getStyle?.()?.layers?.length || 0")}
+    finally:
+        context.close()
 
 
 def current_performance(url: str, samples: int) -> dict:
@@ -173,32 +194,50 @@ def current_performance(url: str, samples: int) -> dict:
         browser = playwright.chromium.launch(headless=True)
         browser_version = browser.version
         for sample in range(1, samples + 1):
-            context = browser.new_context(viewport={"width": 1440, "height": 900})
-            page = context.new_page()
-            started = time.perf_counter()
-            page.goto(url, wait_until="domcontentloaded", timeout=90000)
-            dom_content_ms = (time.perf_counter() - started) * 1000
-            page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-            smart_style_ms = (time.perf_counter() - started) * 1000
-            page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
-            ready_ms = (time.perf_counter() - started) * 1000
-            rows.append({"sample": sample, "dom_content_ms": round(dom_content_ms, 3), "smart_style_ready_ms": round(smart_style_ms, 3), "first_actionable_state_ms": round(ready_ms, 3), "markers": page.locator(".photo-marker").count(), "map_layers": page.evaluate("window.__tripApp?.map()?.getStyle?.()?.layers?.length || 0")})
-            context.close()
+            rows.append(measure_performance_page(browser, url, "candidate", sample, 0))
         browser.close()
-    return {"status": "MEASURED", "environment": {"platform": platform.platform(), "python": sys.version.split()[0], "browser": "Chromium", "browser_version": browser_version, "viewport": "1440x900", "headless": True, "url": url, "sample_count": samples}, "samples": rows, "metrics": {key: quantiles([row[key] for row in rows]) for key in ("dom_content_ms", "smart_style_ready_ms", "first_actionable_state_ms")}}
+    return {"status": "MEASURED", "comparison_status": "VERIFY_REQUIRED", "environment": {"platform": platform.platform(), "python": sys.version.split()[0], "browser": "Chromium", "browser_version": browser_version, "viewport": "1440x900", "headless": True, "url": url, "sample_count": samples}, "samples": rows, "metrics": {key: quantiles([row[key] for row in rows]) for key in ("dom_content_ms", "smart_style_ready_ms", "first_actionable_state_ms")}}
+
+
+def paired_performance(candidate_url: str, baseline_url: str, samples: int, baseline_revision: str, baseline_tree: str) -> dict:
+    rows = {"baseline": [], "candidate": []}
+    ordering = []
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        browser_version = browser.version
+        for sample in range(1, samples + 1):
+            variant_order = (("baseline", baseline_url), ("candidate", candidate_url)) if sample % 2 else (("candidate", candidate_url), ("baseline", baseline_url))
+            for order, (label, url) in enumerate(variant_order):
+                ordering.append({"sample": sample, "label": label, "order": order})
+                rows[label].append(measure_performance_page(browser, url, label, sample, order))
+        browser.close()
+    metric_names = ("dom_content_ms", "smart_style_ready_ms", "first_actionable_state_ms")
+    deltas = [{"sample": index, "deltas": {key: round(rows["candidate"][index - 1][key] - rows["baseline"][index - 1][key], 3) for key in metric_names}} for index in range(1, samples + 1)]
+    comparison = {}
+    for key in metric_names:
+        values = [row["deltas"][key] for row in deltas]
+        comparison[key] = {"mean_ms": round(statistics.mean(values), 3), "median_ms": round(statistics.median(values), 3), "stdev_ms": round(statistics.stdev(values), 3) if len(values) > 1 else 0.0, "slower_count": sum(value > 0 for value in values), "material_slower_200ms_count": sum(value > 200 for value in values)}
+    material = any(row["mean_ms"] > 250 or row["material_slower_200ms_count"] >= max(6, (samples + 1) // 2) for row in comparison.values())
+    noisy_direction = any(row["slower_count"] >= max(5, (samples + 1) // 2 + 1) for row in comparison.values())
+    comparison_status = "FIX_REQUIRED" if material else "VERIFY_REQUIRED" if noisy_direction else "PASS"
+    environment = {"platform": platform.platform(), "python": sys.version.split()[0], "browser": "Chromium", "browser_version": browser_version, "viewport": "1440x900", "headless": True, "sample_count_per_variant": samples, "ordering": ordering, "candidate_url": candidate_url, "baseline_url": baseline_url, "baseline_revision": baseline_revision, "baseline_tree": baseline_tree}
+    return {"status": "PAIRED", "comparison_status": comparison_status, "environment": environment, "baseline": {"revision": baseline_revision, "tree": baseline_tree, "samples": rows["baseline"], "metrics": {key: quantiles([row[key] for row in rows["baseline"]]) for key in metric_names}}, "candidate": {"samples": rows["candidate"], "metrics": {key: quantiles([row[key] for row in rows["candidate"]]) for key in metric_names}}, "comparison": comparison, "deltas": deltas}
 
 
 def write_auxiliary(report: dict, performance: dict) -> None:
     EVIDENCE_ROOT.mkdir(parents=True, exist_ok=True)
-    BASELINE_OUTPUT.write_text(json.dumps({"schema_version": 1, "status": "VERIFY_REQUIRED", "reason": "No exact same-environment paired current-main baseline was claimed; historical R5 evidence is excluded.", "candidate_revision": report["candidate_head"]}, ensure_ascii=False, indent=2) + "\n")
-    PAIRED_OUTPUT.write_text(json.dumps({"schema_version": 1, "status": "VERIFY_REQUIRED", "candidate_revision": report["candidate_head"], "reason": "Current-lineage samples are recorded, but no exact same-environment paired current-main baseline is available in this run.", "performance": performance}, ensure_ascii=False, indent=2) + "\n")
+    paired = performance.get("status") == "PAIRED"
+    BASELINE_OUTPUT.write_text(json.dumps({"schema_version": 1, "status": "PASS" if paired else "VERIFY_REQUIRED", "candidate_revision": report["candidate_head"], "baseline": performance.get("baseline"), "reason": None if paired else "No exact same-environment paired current-main baseline was claimed; historical R5 evidence is excluded."}, ensure_ascii=False, indent=2) + "\n")
+    PAIRED_OUTPUT.write_text(json.dumps({"schema_version": 1, "status": performance.get("comparison_status", "VERIFY_REQUIRED"), "candidate_revision": report["candidate_head"], "performance": performance}, ensure_ascii=False, indent=2) + "\n")
     FINDING_MATRIX.write_text(json.dumps({"schema_version": 1, "candidate_revision": report["candidate_head"], "suites": report["evidence"], "external_boundaries": report["verify_required"], "status": report["status"]}, ensure_ascii=False, indent=2) + "\n")
     screenshot_paths = [str(path.relative_to(ROOT)) for path in sorted(UI_ROOT.glob("*.png"))]
     REVIEW_INDEX.write_text(json.dumps({"schema_version": 1, "candidate_revision": report["candidate_head"], "source": "current Golden UI R5 suites", "screenshots": screenshot_paths}, ensure_ascii=False, indent=2) + "\n")
     lines = ["gate5_performance_summary schema=1", f"candidate_revision={report['candidate_head']}", f"candidate_tree={report['candidate_tree']}", f"environment={json.dumps(performance.get('environment', {}), sort_keys=True)}"]
     for metric, values in performance.get("metrics", {}).items():
         lines.append(f"metric={metric} distribution={json.dumps(values, sort_keys=True)}")
-    lines.append("status=VERIFY_REQUIRED")
+    for metric, values in performance.get("comparison", {}).items():
+        lines.append(f"comparison={metric} result={json.dumps(values, sort_keys=True)}")
+    lines.append(f"status={performance.get('comparison_status', 'VERIFY_REQUIRED')}")
     SUMMARY_OUTPUT.write_text("\n".join(lines) + "\n")
 
 
@@ -223,20 +262,34 @@ def run(expected_revision: str | None, output: Path) -> dict:
             report["evidence"].append(row)
             report["failures"].extend(failures)
         url = os.environ.get("TRIP_QA_URL", "http://127.0.0.1:8768/index.html")
-        samples = max(3, int(os.environ.get("TRIP_GATE5_PERFORMANCE_SAMPLES", "3")))
+        samples = max(8, int(os.environ.get("TRIP_GATE5_PERFORMANCE_SAMPLES", "8")))
         try:
-            report["performance"] = current_performance(url, samples)
+            baseline_url = os.environ.get("TRIP_GATE5_BASELINE_URL", "")
+            baseline_revision = os.environ.get("TRIP_GATE5_BASELINE_REVISION", "")
+            baseline_tree = os.environ.get("TRIP_GATE5_BASELINE_TREE", "")
+            if baseline_url:
+                if baseline_revision != REQUIRED_PAIRED_BASELINE_REVISION or baseline_tree != REQUIRED_PAIRED_BASELINE_TREE:
+                    report["failures"].append("paired performance baseline identity is not the requested clean authoritative main")
+                else:
+                    report["performance"] = paired_performance(url, baseline_url, samples, baseline_revision, baseline_tree)
+                    if report["performance"].get("comparison_status") == "FIX_REQUIRED":
+                        report["failures"].append("matched exact-main-versus-candidate performance comparison classified a material regression")
+                    elif report["performance"].get("comparison_status") == "VERIFY_REQUIRED":
+                        report["verify_required"].append("matched exact-main-versus-candidate performance remained directionally noisy after balanced repeated sampling")
+            else:
+                report["performance"] = current_performance(url, samples)
+                report["verify_required"].append("current-lineage performance was measured, but no exact same-environment paired current-main baseline was available")
         except Exception as error:
             report["failures"].append(f"current-lineage performance measurement failed: {type(error).__name__}: {error}")
         report["verify_required"] = [
             "native Safari remote automation is unavailable; Playwright WebKit is not a native Safari substitute",
             "no verifiably real iPhone or iPad is available in this execution environment",
             "independent candidate-bound multimodal visual/usability review is not supplied",
-            "current-lineage performance was measured, but no exact same-environment paired current-main baseline was available",
+            *(["current-lineage performance was measured, but no exact same-environment paired current-main baseline was available"] if not report["performance"].get("status") == "PAIRED" else []),
+            *(["matched exact-main-versus-candidate performance remained directionally noisy after balanced repeated sampling"] if report["performance"].get("comparison_status") == "VERIFY_REQUIRED" else []),
         ]
         external = next((row.get("external_provider") for row in report["evidence"] if row["name"] == "provider_recovery"), {})
-        if external.get("status") == "VERIFY_REQUIRED" or external.get("post_switch_tile_failure_recovery") == "VERIFY_REQUIRED":
-            report["verify_required"].append("optional Satellite provider success/recovery remains externally unverified")
+        report["supplemental_external_provider"] = external
     if not report["failures"]:
         report["status"] = "VERIFY_REQUIRED" if report["verify_required"] else "PASS"
     report["completed_at"] = now()
