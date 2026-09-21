@@ -1,0 +1,964 @@
+{
+  "accepted_at": "2026-09-21T14:33:38Z",
+  "changed_files": [
+    {
+      "additions": 4,
+      "deletions": 0,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "M"
+    },
+    {
+      "additions": 59,
+      "deletions": 59,
+      "path": "QA/map_first/canonical_truth.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 12,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/baseline.json",
+      "status": "A"
+    },
+    {
+      "additions": 188,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/candidate.json",
+      "status": "A"
+    },
+    {
+      "additions": 107,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/finding_matrix.json",
+      "status": "A"
+    },
+    {
+      "additions": 71,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/paired_comparison.json",
+      "status": "A"
+    },
+    {
+      "additions": 8,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/performance_summary.log",
+      "status": "A"
+    },
+    {
+      "additions": 24,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r13/review_pack_index.json",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "QA/project_os_verify/ui_revamp_r5/accessibility.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "QA/project_os_verify/ui_revamp_r5/browser_summary.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/day_1008_desktop.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/decide_compare_desktop.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/decide_default_desktop.png",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "QA/project_os_verify/ui_revamp_r5/map_geometry.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_inspector_desktop.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_mobile_expanded.png",
+      "status": "M"
+    },
+    {
+      "additions": 34,
+      "deletions": 34,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_camera.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_dense_recovery_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_sparse_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_compare_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_default_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_peek_cooks_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_place_inspector_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_compact_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_expanded_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_full_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_region_yosemite_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_1280_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_390_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_keyboard_peek_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_touch_peek_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_1280_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_390_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": 60,
+      "deletions": 60,
+      "path": "QA/project_os_verify/ui_revamp_r5/sheet_geometry.json",
+      "status": "M"
+    },
+    {
+      "additions": 12,
+      "deletions": 12,
+      "path": "QA/project_os_verify/ui_revamp_r5/task_oracles.json",
+      "status": "M"
+    },
+    {
+      "additions": 98,
+      "deletions": 98,
+      "path": "QA/project_os_verify/ui_revamp_r5/visual_index.json",
+      "status": "M"
+    },
+    {
+      "additions": 17,
+      "deletions": 4,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "M"
+    },
+    {
+      "additions": 70,
+      "deletions": 0,
+      "path": "manifests/gate5_field_quality_contract.json",
+      "status": "A"
+    },
+    {
+      "additions": 109,
+      "deletions": 12,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 260,
+      "deletions": 0,
+      "path": "scripts/qa_gate5_field_quality.py",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 122,
+      "deletions": 0,
+      "path": "tests/test_gate5_qualification.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,rows:[.rows[]|{browser,width,height,status,completed,error,provider:(.diagnostics.provider // null),provider_health:(.diagnostics.provider_health // null)}]}' QA/project_os_verify/ui_revamp_r5/browser_summary.json && rtk jq '{status,failures,verify_required,evidence:[.evidence[]|{name,status,reported_status,execution_status}]}' QA/project_os_verify/gate5_r13/candidate.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{tree:.candidate_tree,gate5_tree:.candidate_tree}' QA/project_os_verify/ui_revamp_r5/browser_summary.json QA/project_os_verify/gate5_r13/candidate.json 2>/dev/null || true; rtk jq '{candidate_head,candidate_tree,source_binding,status}' QA/project_os_verify/gate5_r13/candidate.json; rtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run rerun 35616240286'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35616240286 --json status,conclusion,jobs,headSha --jq '{status,conclusion,headSha,jobs:[.jobs[]|{id,name,status,conclusion,startedAt,completedAt}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35616240286 --json status,conclusion,jobs --jq '{status,conclusion,jobs:[.jobs[]|{id,name,status,conclusion,startedAt,completedAt}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35616240286 --json status,conclusion,jobs --jq '{status,conclusion,jobs:[.jobs[]|{id,name,status,conclusion,startedAt,completedAt}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --name-only a2088ba075dbade3ab27be5e2dabc3c7b008b9ec..HEAD | rtk rg '\"'^(src/|data/|assets/|vendor/)'\"'\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-only a2088ba075dbade3ab27be5e2dabc3c7b008b9ec..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD HEAD''^{tree} && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check a2088ba075dbade3ab27be5e2dabc3c7b008b9ec..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' QA/project_os_verify/gate5_r13/performance_summary.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,gate5_timeout_seconds,external_verify_required,tests:[.tests[]|{name,status,returncode,timeout_seconds,process_completed,acceptance_status,execution_status,status_reason}]}' QA/release/qualification.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,candidate_tree,failures,verify_required,performance}' QA/project_os_verify/gate5_r13/candidate.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,rows:[.rows[]|{browser,width,height,status,completed}]}' QA/project_os_verify/ui_revamp_r5/browser_summary.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,failures,checks}' QA/project_os_verify/ui_revamp_r5/accessibility.json QA/project_os_verify/ui_revamp_r5/sheet_geometry.json QA/project_os_verify/ui_revamp_r5/map_geometry.json QA/project_os_verify/ui_revamp_r5/route_key_camera.json QA/project_os_verify/ui_revamp_r5/task_oracles.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35616240286 --json status,conclusion,jobs --jq '{status,conclusion,jobs:[.jobs[]|{id,name,status,conclusion,startedAt,completedAt}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' .github/workflows/candidate-qualification.yml && rtk sed -n '1,260p' scripts/hosted_linux_pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run watch 35616240286 --exit-status'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 35616240286 --json status,conclusion,headSha,jobs,url --jq '{status,conclusion,headSha,url,jobs:[.jobs[]|{id,name,status,conclusion,startedAt,completedAt}]} '\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run download 35616240286 --name candidate-qualification-724b229326d0eedeffd5b8c02ca18fc55647b2fd --dir /tmp/gate5-r13-final35616240286'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh api repos/kimhw8084/sf-trip-visualizer/actions/runs/35616240286/jobs --jq '.jobs[] | {id,name,status,conclusion,started_at,completed_at,run_attempt}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release -maxdepth 1 -type f -printf '%f\\\\n' | sort\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,candidate_tree,source_binding,failures,verify_required,performance}' /tmp/gate5-r13-final35616240286/QA/project_os_verify/gate5_r13/candidate.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-release.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,rows:[.rows[]|{browser,width,height,status,completed,error}]}' /tmp/gate5-r13-final35616240286/QA/project_os_verify/ui_revamp_r5/browser_summary.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,candidate_tree,external_verify_required,gate5_timeout_seconds,tests:[.tests[]|{name,status,returncode,timeout_seconds,process_completed,acceptance_status,execution_status}]}' /tmp/gate5-r13-final35616240286/QA/release/qualification.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-verify-public.log\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,revision,release_mode,qualification,public_site,verify_public}' /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-release.json /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-verify-public.json 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk tail -40 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-release.log'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk tail -30 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-verify-public.log'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,public.status,public.revision,public.checks,public.artifact_sha256,public.files}' /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/verify-public.json 2>/dev/null || true\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '.tests[] | select(.name==\\\"gate5_field_quality\\\")' /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/qualification.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,candidate_tree,failures,verify_required,performance.environment,performance.metrics}' /tmp/gate5-r13-final35616240286/QA/project_os_verify/gate5_r13/candidate.json\"",
+      "exit_code": 3,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk tail -1 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-release.log && rtk tail -1 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-verify-public.log && rtk jq '{environment:.performance.environment,metrics:.performance.metrics,verify_required,failures,status}' /tmp/gate5-r13-final35616240286/QA/project_os_verify/gate5_r13/candidate.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk tail -1 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-release.log | rtk jq '{status,candidate_head,tests:[.tests[]|select(.name==\\\"gate5_field_quality\\\")|{name,status,returncode,timeout_seconds,process_completed,acceptance_status,execution_status}]}' && rtk tail -1 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-verify-public.log | rtk jq '{status,candidate_head,public_status:.public.status,revision:.public.revision,checks:.public.checks,artifact_sha256:.public.artifact_sha256,files:.public.files}'\"",
+      "exit_code": 5,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk tail -5 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-release.log && rtk tail -2 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-verify-public.log'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk tail -1 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-verify-public.log | rtk jq '{status,candidate_head,public_status:.public.status,revision:.public.revision,artifact_sha256:.public.artifact_sha256,files:.public.files,checks:.public.checks}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk tail -1 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-verify-public.log | rtk cut -c1-500'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk tail -1 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-verify-public.log | rtk jq '{status,revision,artifact_sha256,files,checks}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk tail -1 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-release.log | rtk jq '{status,candidate_head,failures,verify_required}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk wc -l /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-release.log /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-verify-public.log && rtk tail -3 /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/pages-release.log | rtk jq -c '.'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,candidate_tree,source_binding,failures,verify_required,environment:.performance.environment,metrics:.performance.metrics}' /tmp/gate5-r13-final35616240286/QA/project_os_verify/gate5_r13/candidate.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '.performance.metrics' /tmp/gate5-r13-final35616240286/QA/project_os_verify/gate5_r13/candidate.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest -v tests.test_gate5_qualification'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,gate5_timeout_seconds,external_verify_required,tests:[.tests[]|{name,status,returncode,timeout_seconds,process_completed,acceptance_status,execution_status}]}' /tmp/gate5-r13-final35616240286/QA/release/qualification.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq -c '{status,candidate_head,gate5_timeout_seconds,external_verify_required,ordinary_failures:[.tests[]|select(.name\"'!=\"gate5_field_quality\" and .status!=\"PASS\")|.name],gate5:[.tests[]|select(.name==\"gate5_field_quality\")|{status,returncode,timeout_seconds,process_completed,acceptance_status,execution_status,status_reason}]}'\"' /tmp/gate5-r13-final35616240286/QA/release/qualification.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git log --oneline --decorate --reverse a2088ba075dbade3ab27be5e2dabc3c7b008b9ec..HEAD && rtk git show --stat --oneline --summary e3cc355c473ab3ddabffd1b430fe8e58e85668ef && rtk git show --stat --oneline --summary 724b229326d0eedeffd5b8c02ca18fc55647b2fd'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk jq '{status,candidate_head,failures}' /tmp/gate5-r13-final35616240286/QA/release/fast.json && rtk jq '{status,candidate_head,failures}' /tmp/gate5-r13-final35616240286/release-path-checkout/QA/release/fast.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 289,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.91,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 27037184,
+      "fresh_input_tokens": 578337,
+      "input_tokens": 27615521,
+      "non_reasoning_output_tokens": 37790,
+      "output_tokens": 64716,
+      "reasoning_output_tokens": 26926,
+      "total_processed_tokens": 27680237
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "724b229326d0eedeffd5b8c02ca18fc55647b2fd",
+      "subject": "qa: record Gate 5 R13 current-lineage evidence"
+    },
+    {
+      "sha": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+      "subject": "qa: record Satellite recovery boundary in Gate 5"
+    },
+    {
+      "sha": "e1b39c07f7f5984387985763d7bc229e67dfd031",
+      "subject": "fix: restore fail-closed Gate 5 qualification"
+    }
+  ],
+  "diff": {
+    "additions": 1265,
+    "changed_files": 56,
+    "commit_count": 3,
+    "deletions": 301
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 51,
+    "items": [
+      {
+        "bytes": 201777,
+        "path": "QA/map_first/canonical_truth.json",
+        "sha256": "dd06599510c31b982bf4901052c4458a319693f27068b9bba0188a39a7c390ab"
+      },
+      {
+        "bytes": 10051,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "026e2bd362cd503d8941c2fc39a22a8a6c24d9661b2b64a59006446a6cd9b2d9"
+      },
+      {
+        "bytes": 244,
+        "path": "QA/project_os_verify/gate5_r13/baseline.json",
+        "sha256": "1e36e2f3421a2e9238b922b156dc723363ef2a788590349e6b0a405661217e74"
+      },
+      {
+        "bytes": 6968,
+        "path": "QA/project_os_verify/gate5_r13/candidate.json",
+        "sha256": "e3e030deafb24c086d4f5418e4992b97b57c8962b964410f764f33cfa027a352"
+      },
+      {
+        "bytes": 4617,
+        "path": "QA/project_os_verify/gate5_r13/finding_matrix.json",
+        "sha256": "e691d5599ed55bfe95a387d96f37085bec432302ccd94b34b28d448fee00a798"
+      },
+      {
+        "bytes": 1885,
+        "path": "QA/project_os_verify/gate5_r13/paired_comparison.json",
+        "sha256": "bdf241d0d6ad8a2b6f8b3f29552c921d7fba49a71da166cfcc19bca2bda45874"
+      },
+      {
+        "bytes": 874,
+        "path": "QA/project_os_verify/gate5_r13/performance_summary.log",
+        "sha256": "4f444ef7f93b2f6491d4928044ccd2c2d9f32ab8d8b57a67603c9300d3b40d8d"
+      },
+      {
+        "bytes": 1350,
+        "path": "QA/project_os_verify/gate5_r13/review_pack_index.json",
+        "sha256": "54a24a25d8a6601f605e38ac4568f603f6e89a6ccb98c045c2ed56d5919db82c"
+      },
+      {
+        "bytes": 789,
+        "path": "QA/project_os_verify/ui_revamp_r5/accessibility.json",
+        "sha256": "477b4f17dfa12891088aec6b3b3d98c826e43b5c033b6920d58709202ab4bb08"
+      },
+      {
+        "bytes": 46700,
+        "path": "QA/project_os_verify/ui_revamp_r5/browser_summary.json",
+        "sha256": "e169fe15859f90fedbc14b39504629e7db9c138c8d3993fb4d9b45e3d5fe51cf"
+      },
+      {
+        "bytes": 695654,
+        "path": "QA/project_os_verify/ui_revamp_r5/day_1008_desktop.png",
+        "sha256": "1d2698014b3e704d37f381ca9d69b7f0c1e57ba9ac82252b71543d69dc888b4a"
+      },
+      {
+        "bytes": 318735,
+        "path": "QA/project_os_verify/ui_revamp_r5/decide_compare_desktop.png",
+        "sha256": "74683194d6d54681a170ea8d3cb4da8341fe48cd0274b61e430a344ad9864f3e"
+      },
+      {
+        "bytes": 409963,
+        "path": "QA/project_os_verify/ui_revamp_r5/decide_default_desktop.png",
+        "sha256": "783bf6ba9e5e5a95c60e10981d85c263c139156983ba44f86503a4fbaee3aa36"
+      },
+      {
+        "bytes": 81378,
+        "path": "QA/project_os_verify/ui_revamp_r5/map_geometry.json",
+        "sha256": "afd2015f28b7781e042b3832068bf6264dbc54a68274839fe89083e795fd7007"
+      },
+      {
+        "bytes": 697688,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_inspector_desktop.png",
+        "sha256": "8f1d068d5322a2bdc049f76be193c1159c3a4346068caf98d31cb60fd3f9ed26"
+      },
+      {
+        "bytes": 200592,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_mobile_expanded.png",
+        "sha256": "4d969b71a6de91926f0f09be5f6a2c56459cebfc7388bd47cbb2c05014d4689b"
+      },
+      {
+        "bytes": 76223,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_camera.json",
+        "sha256": "99653e89b3fcbb79e6c36b7d2cc8b2888381d9db86c3c85f45ade834fa9f5291"
+      },
+      {
+        "bytes": 169201,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_375x812.png",
+        "sha256": "0a3b2f22f93574cecec23519d336e74d2d209f9117a345f88805013e0951d327"
+      },
+      {
+        "bytes": 187503,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_375x812.png",
+        "sha256": "7bdfc6a1f58db91a059bea0bc6df07ce69c51b6ea22ff76934b4715644a8af94"
+      },
+      {
+        "bytes": 626586,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_dense_recovery_1440x900.png",
+        "sha256": "54b11be81174d289c983a687d7fcd3bd7cf5e5874aa2705a79b2ce7d6f2c098f"
+      },
+      {
+        "bytes": 432184,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_sparse_1440x900.png",
+        "sha256": "23d4b95ac7a45a81bb1dd93b89209ae5c21a5c81c765f75c4de9a3e23f14dfa0"
+      },
+      {
+        "bytes": 338590,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_compare_1440x900.png",
+        "sha256": "df325b186142cb6c3b65270bf8ca819b92f05456aa4cfafe62d11ace22b6037c"
+      },
+      {
+        "bytes": 407422,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_default_1440x900.png",
+        "sha256": "469eccdd4413b32498027c8aa4ab05d5a4be823d077d396a245dfd610664e1fe"
+      },
+      {
+        "bytes": 637298,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_peek_cooks_1440x900.png",
+        "sha256": "1143e5a97b86059e79e9b5590879b053da4bbd78b5d18d2678d37d5e3039b5ac"
+      },
+      {
+        "bytes": 759616,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_place_inspector_1440x900.png",
+        "sha256": "a21f8a64957fad6d633772385269c28d73f0ad39ecdbe357c487abfcfe70ecb3"
+      },
+      {
+        "bytes": 427547,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_compact_1440x900.png",
+        "sha256": "b4a1a834d13bd8240a02ff54bb76776af4ba2abf8536ed2ddaa12dc08f931f73"
+      },
+      {
+        "bytes": 430226,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_expanded_1440x900.png",
+        "sha256": "78e6e5c568799c64bbaa84a5193359a744259d9582e2c3e2e077f8261405d3a5"
+      },
+      {
+        "bytes": 416678,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_full_1440x900.png",
+        "sha256": "2aa57683bb93adb5b19a08005fda5208c24fab815ebfcf0130d95cc609c16251"
+      },
+      {
+        "bytes": 420145,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_region_yosemite_1440x900.png",
+        "sha256": "1d8fe4499df1f7c670f16ff37777d7ffdfdc18d57049af6b22cc469b2c771de6"
+      },
+      {
+        "bytes": 713726,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_1280_detail.png",
+        "sha256": "99fcad6922d722f86a38186975b21d4b1484a94c138cf63d82c0815e1df4cfe4"
+      },
+      {
+        "bytes": 237433,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_390_detail.png",
+        "sha256": "bf699590ed2059000b1ce0b58260e6250ac9209701ce30096ea170f08dc0f4d4"
+      },
+      {
+        "bytes": 50131,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_360x800.png",
+        "sha256": "1cb81af777be5e78342eee634a131829bfe8e0b973a42d6008215cc33eb3a94f"
+      },
+      {
+        "bytes": 50286,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_375x812.png",
+        "sha256": "383afefa962a2a3387f949444d4262e0ed6e33dcbef93e59e78228f81840263c"
+      },
+      {
+        "bytes": 64255,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_414x896.png",
+        "sha256": "640c5ea81f6e1a5829dc44078229a614c2d0b7f0b72da755c9c436e74d3e6386"
+      },
+      {
+        "bytes": 168387,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_360x800.png",
+        "sha256": "7a0328601e165f8ffb10aebb3a076ebb21539cf493108b6b4afe9297462ec836"
+      },
+      {
+        "bytes": 174810,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_375x812.png",
+        "sha256": "89267eaa83b58cffd90e8e6922ce2fae52b3cd8bfc0a6ae3a051b2330e9339b4"
+      },
+      {
+        "bytes": 184119,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_390x844.png",
+        "sha256": "6baaba0fae8bbe72e8c8ec2d0e51887b8041764efeb734ebb36406521ded09bc"
+      },
+      {
+        "bytes": 201751,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_414x896.png",
+        "sha256": "b2c1cfa3199ba9a687154c03ac38b3916b29a3b77774cc45eb40dcdcf731865f"
+      },
+      {
+        "bytes": 162720,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_360x800.png",
+        "sha256": "29a015b4a7c0e487983e738a0d4a44753d4b49048c19276deb7d2857fbbf6dd0"
+      },
+      {
+        "bytes": 177132,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_375x812.png",
+        "sha256": "e3af000513302a0a03f0c913c00eb4f223170e2d98904e658fa0e97574d80b36"
+      },
+      {
+        "bytes": 186450,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_390x844.png",
+        "sha256": "8d74bd5e5d5a7dfe2be9062580daf5ea3274f0aaafc7ff5854d9404fec7f49fb"
+      },
+      {
+        "bytes": 200220,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_414x896.png",
+        "sha256": "29429137b0d5007a17ac60b3fa0863b47a89b0752e8676d05d78ed5f80fef69e"
+      },
+      {
+        "bytes": 165794,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_keyboard_peek_390x844.png",
+        "sha256": "a9c3b9c0b41fd19df87c4a7eaff3d0753a32b10dde5837cb0d35b0c5bb3ef493"
+      },
+      {
+        "bytes": 166197,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_touch_peek_390x844.png",
+        "sha256": "41645fc682e7843f7c0febb515c47e6ff8780943d054e1192ed6f2bca613a245"
+      },
+      {
+        "bytes": 817354,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_1280_detail.png",
+        "sha256": "989e4ee53102e5605f9b1b7274f9f33eb3d71f208bb0579a7b9c96f5d6c9b5c1"
+      },
+      {
+        "bytes": 269187,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_390_detail.png",
+        "sha256": "9207d57dd6e4614c4fc585e062784b919d62eec6b0544642b2b4b994c6b923c4"
+      },
+      {
+        "bytes": 54568,
+        "path": "QA/project_os_verify/ui_revamp_r5/sheet_geometry.json",
+        "sha256": "abed1e4b91b9c091acdbad431cedc6b6349c65b0c383a52f88eea73be4451478"
+      },
+      {
+        "bytes": 4207,
+        "path": "QA/project_os_verify/ui_revamp_r5/task_oracles.json",
+        "sha256": "9a33890c5a3f2927d12646e4ff5446367ad0b629e1a04c722abcd33056031c7a"
+      },
+      {
+        "bytes": 26794,
+        "path": "QA/project_os_verify/ui_revamp_r5/visual_index.json",
+        "sha256": "79f21c0c5564d720ea303a60fc70435630e7386d40e63406b1a4078ba4a989dc"
+      },
+      {
+        "bytes": 5942,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "7189058769222d8d1a41ff179439398d0ef669fa0089910164000caf8c68ec27"
+      },
+      {
+        "bytes": 3679,
+        "path": "manifests/gate5_field_quality_contract.json",
+        "sha256": "cae156d882292d9afa14017f56c589e76204461b449aa4e5c80a45566376cae6"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.4-quota-recovery-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.4-quota-recovery-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-21T15:58:30Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "a2088ba075dbade3ab27be5e2dabc3c7b008b9ec",
+    "branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-golden-ui-reconcile-r13",
+    "detached_verify": false,
+    "head_sha": "724b229326d0eedeffd5b8c02ca18fc55647b2fd",
+    "remote_exact_head": true,
+    "remote_head_sha": "724b229326d0eedeffd5b8c02ca18fc55647b2fd",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "a2088ba075dbade3ab27be5e2dabc3c7b008b9ec",
+    "work_branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-golden-ui-reconcile-r13",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-c551bc7a53ce2f11673c812a",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-golden-ui-reconcile-r13",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-golden-ui-reconcile-r13"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.4-quota-recovery-candidate",
+    "policy_sha256": "a642c9f63bab2cb555704bdb0b9d1f28222591f133f934c1d0f93cc5a25ab8a1",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "field-ux-a11y-performance-g5-golden-ui-reconcile-r13",
+  "schema_version": 1,
+  "started_at": "2026-09-21T14:33:38Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 5092,
+    "queue_seconds": 0,
+    "total_seconds": 5092
+  },
+  "transport": {
+    "bytes": 7290,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 6903,
+    "prompt_sha256": "61f38bca3f2d10904df500e1565fce8e1e68bd549e1c2d725e14740f08cc5b59",
+    "sha256": "c551bc7a53ce2f11673c812aa890d1d01acd9c4c1fc6afcffc21984d76265ce2"
+  }
+}
