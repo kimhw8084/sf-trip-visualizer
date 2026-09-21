@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "change": "CHG-157 R4 mobile compact-sheet geometry repair",
+  "authority": {
+    "target_main": "f9631a57d3b9e51216e082b62d80519599b84711",
+    "target_main_tree": "11f886df2d0d9eb18f4550a399d533b10f7a4752",
+    "r3_stable_source": "bf200f781e7ebb080ddbece5df13950eb8e8e6a2",
+    "r3_stable_tree": "0e0173c939c693f2e05dee52cfc40092e1e78fc6",
+    "r3_fabric_receipt": "CF-df62f1bb2451e02d3a1af853",
+    "r3_final_work_head": "5d9604f96ccf7d0cf5bb3872c219692aad56cf11",
+    "r3_hosted_run": "35543706582",
+    "r3_hosted_job": "106165804140"
+  },
+  "stable_r4_source": {
+    "sha": "bd65a4400cca6f7a48c4ce124a687498ea0e035b",
+    "tree": "8d65423268222a9fa0fffe00784825d6171a21e5",
+    "parent": "f9631a57d3b9e51216e082b62d80519599b84711",
+    "checkout_binding": "exact-clean-source-checkout-before-evidence",
+    "source_diff_from_r3": {
+      "path": "QA/project_os_verify/ui_revamp_r4/r3_to_r4_source.diff",
+      "files": 12,
+      "insertions": 385,
+      "deletions": 41
+    }
+  },
+  "evidence_boundary": {
+    "r1_r3_immutable": true,
+    "durable_r4_root": "QA/project_os_verify/ui_revamp_r4/",
+    "final_head_is_not_self_referenced": true,
+    "final_head_authority": "remote managed branch identity plus Fabric audit and Project OS postflight",
+    "post_freeze_executable_changes": []
+  },
+  "reports": {
+    "geometry": "sheet_geometry.json",
+    "task": "task_oracles.json",
+    "accessibility": "accessibility.json",
+    "map_geometry": "map_geometry.json",
+    "performance": "performance.json",
+    "performance_replay_audit": "performance_replay_audit.json",
+    "browser": "browser_summary.json",
+    "visual": "visual_index.json",
+    "complete_source_diff": "r3_to_r4_source.diff"
+  },
+  "preservation": {
+    "maplibre_sha256": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675",
+    "trip_vector_sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+    "counts": {
+      "places": 36,
+      "photos": 108,
+      "timeline_cards": 79,
+      "route_legs": 41,
+      "routes": 4,
+      "dates": 9,
+      "regions": 3
+    }
+  },
+  "hosted_stable_source": {
+    "workflow": "Qualify Fabric candidate",
+    "superseded_attempt": {
+      "run": "35556985636",
+      "job": "106202397194",
+      "sha": "4162d0825236aa67dba872634dea9fb3f3652eff",
+      "conclusion": "failure",
+      "failure": "decision_workbench compact_map_options_focus_contract timing race"
+    },
+    "run": "35557938769",
+    "job": "106205142325",
+    "sha": "bd65a4400cca6f7a48c4ce124a687498ea0e035b",
+    "status_at_manifest_creation": "success",
+    "artifact": {
+      "id": "10621331580",
+      "name": "candidate-qualification-bd65a4400cca6f7a48c4ce124a687498ea0e035b"
+    },
+    "release_and_verify_public": {
+      "status": "PASS",
+      "public_staging_artifact_sha256": "92d46eb5b97b9e326afe1dddf0063ceef2f7c9266eb61a5b7844521676a22eb4",
+      "public_staging_files": 248
+    }
+  },
+  "classification": "VERIFY_REQUIRED",
+  "classification_rule": "Hosted qualification/release/verify-public PASS; native/device/human/Project OS review remains external, so no GO_READY_EVIDENCE claim."
+}

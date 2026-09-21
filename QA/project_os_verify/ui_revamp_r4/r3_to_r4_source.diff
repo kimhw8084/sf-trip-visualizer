@@ -1,0 +1,1183 @@
+.github/workflows/candidate-qualification.yml |   4 +-
+ manifests/public_asset_rights.json            |   4 +-
+ scripts/pipeline.py                           |  11 +-
+ scripts/qa_accessibility_reflow.py            |   2 +-
+ scripts/qa_decision_workbench.py              |   4 +-
+ scripts/qa_map_geometry.py                    |   2 +-
+ scripts/qa_sheet_geometry.py                  | 236 ++++++++++++++++++++++++++
+ scripts/qa_ui_performance.py                  |  24 +--
+ scripts/run_cross_browser.py                  |   4 +-
+ scripts/run_visual_spots.py                   |  14 +-
+ src/app_phase7.css                            |   9 +-
+ src/app_phase7.js                             | 112 +++++++++++-
+ 12 files changed, 385 insertions(+), 41 deletions(-)
+
+diff --git a/.github/workflows/candidate-qualification.yml b/.github/workflows/candidate-qualification.yml
+index 1badc24..2aece33 100644
+--- a/.github/workflows/candidate-qualification.yml
++++ b/.github/workflows/candidate-qualification.yml
+@@ -85,11 +85,11 @@ jobs:
+             QA/map_first/screenshots/**
+             QA/photo_integrity.json
+             QA/route_panel/**/*.json
+-            QA/project_os_verify/ui_revamp_r3/**
++            QA/project_os_verify/ui_revamp_r4/**
+             .public-site/.release-provenance.json
+             release-path-checkout/QA/release/*.json
+             release-path-checkout/QA/release/*.log
+             release-path-checkout/QA/map_first/**/*.json
+             release-path-checkout/QA/map_first/screenshots/**
+-            release-path-checkout/QA/project_os_verify/ui_revamp_r3/**
++            release-path-checkout/QA/project_os_verify/ui_revamp_r4/**
+             release-path-checkout/.public-site/.release-provenance.json
+diff --git a/manifests/public_asset_rights.json b/manifests/public_asset_rights.json
+index 53f9098..ff2e392 100644
+--- a/manifests/public_asset_rights.json
++++ b/manifests/public_asset_rights.json
+@@ -13263,7 +13263,7 @@
+     },
+     {
+       "path": "src/app_phase7.css",
+-      "sha256": "255bde5158c7d69c878b00894f8cb365e2b432c940e3b62c1fba7a920c256d98",
++      "sha256": "e579f3798053119555533bc5ff7c7ede2c610bd6eb22e6f8f6604c7c52cd137d",
+       "modes": [
+         "pages",
+         "public-package"
+@@ -13271,7 +13271,7 @@
+     },
+     {
+       "path": "src/app_phase7.js",
+-      "sha256": "02728612daa49ca8ab639e9aaa65e3d6d1ddef14d29875cda35a2ea37390715f",
++      "sha256": "1ac48a3c6ec3a8b523204b783954b8daefed3a19f884b876de09872be8a443a3",
+       "modes": [
+         "pages",
+         "public-package"
+diff --git a/scripts/pipeline.py b/scripts/pipeline.py
+index 310ceed..7e689c7 100644
+--- a/scripts/pipeline.py
++++ b/scripts/pipeline.py
+@@ -47,9 +47,10 @@ COMPONENTS = (
+     ("photo_integrity", "scripts/check_photo_integrity.py", "QA/photo_integrity.json"),
+     ("maplibre_security", "scripts/qa_maplibre_security.py", "QA/release/maplibre_security.json"),
+     ("map_first_smoke", "scripts/qa_map_first.py", "QA/map_first/smoke.json"),
+-    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r3/task_oracles.json"),
+-    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r3/accessibility.json"),
+-    ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r3/map_geometry.json"),
++    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r4/task_oracles.json"),
++    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r4/accessibility.json"),
++    ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r4/map_geometry.json"),
++    ("sheet_geometry", "scripts/qa_sheet_geometry.py", "QA/project_os_verify/ui_revamp_r4/sheet_geometry.json"),
+     ("map_first_full", "scripts/qa_map_first_full.py", "QA/map_first/full_acceptance.json"),
+     ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
+     ("standalone", "scripts/qa_standalone_map_first.py", "QA/map_first/standalone.json"),
+@@ -58,8 +59,8 @@ COMPONENTS = (
+     ("route_continuity", "scripts/audit_route_continuity.py", "QA/map_first/route_continuity.json"),
+     ("route_panel", "scripts/qa_route_explanations_panel.py", "QA/route_panel/route_explanations_panel.json"),
+     ("exhaustive_states", "scripts/run_exhaustive_states.py", "QA/map_first/exhaustive_states.json"),
+-    ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r3/browser_summary.json"),
+-    ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r3/visual_index.json"),
++    ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r4/browser_summary.json"),
++    ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r4/visual_index.json"),
+     ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
+ )
+ 
+diff --git a/scripts/qa_accessibility_reflow.py b/scripts/qa_accessibility_reflow.py
+index 2a54274..7598148 100644
+--- a/scripts/qa_accessibility_reflow.py
++++ b/scripts/qa_accessibility_reflow.py
+@@ -11,7 +11,7 @@ from qa_evidence import bind_report, candidate_identity
+ 
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "accessibility.json"
++OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4" / "accessibility.json"
+ IDENTITY = candidate_identity()
+ report = {"schema_version": 1, "checks": {}, "errors": []}
+ 
+diff --git a/scripts/qa_decision_workbench.py b/scripts/qa_decision_workbench.py
+index 77c86b8..16d5462 100644
+--- a/scripts/qa_decision_workbench.py
++++ b/scripts/qa_decision_workbench.py
+@@ -13,7 +13,7 @@ from qa_evidence import bind_report, candidate_identity
+ 
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3"
++OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4"
+ OUT.mkdir(parents=True, exist_ok=True)
+ IDENTITY = candidate_identity()
+ 
+@@ -45,8 +45,10 @@ with sync_playwright() as playwright:
+     results.append(oracle("decide_recommendation", page.locator("#recommendation").is_visible() and "A1" in page.locator("#recommendation").inner_text() and all(text in page.locator("#recommendation").inner_text() for text in ("감수할 것", "선택·전환 규칙", "후회 방지"))))
+     results.append(oracle("single_authority_controls", page.locator("#dateSelect").count() == 1 and page.locator("#providerControls [data-provider]").count() == 2 and page.locator("#regionControls [data-region]").count() == 4 and page.locator("#peek").count() == 1))
+     page.locator("#mapOptionsToggle").click()
++    page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === false && document.activeElement?.id === 'mapOptionsClose'")
+     options_open = page.locator("#mapOptionsPanel").is_visible() and page.evaluate("document.activeElement?.id === 'mapOptionsClose'")
+     page.keyboard.press("Escape")
++    page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === true && document.activeElement?.id === 'mapOptionsToggle'")
+     options_closed = page.locator("#mapOptionsPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'mapOptionsToggle'") and page.locator("#mapOptionsPanel button:visible").count() == 0
+     results.append(oracle("compact_map_options_focus_contract", options_open and options_closed))
+     page.locator("#mapOptionsToggle").click()
+diff --git a/scripts/qa_map_geometry.py b/scripts/qa_map_geometry.py
+index ec7b5a2..d59ab0a 100644
+--- a/scripts/qa_map_geometry.py
++++ b/scripts/qa_map_geometry.py
+@@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
+ from qa_evidence import ROOT, bind_report, candidate_identity
+ 
+ 
+-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "map_geometry.json"
++OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4" / "map_geometry.json"
+ 
+ 
+ def wait_ready(page) -> None:
+diff --git a/scripts/qa_sheet_geometry.py b/scripts/qa_sheet_geometry.py
+new file mode 100644
+index 0000000..4b17004
+--- /dev/null
++++ b/scripts/qa_sheet_geometry.py
+@@ -0,0 +1,236 @@
++"""R4 mobile sheet geometry, state, focus, and real-pointer oracle."""
++
++from __future__ import annotations
++
++import json
++import time
++from pathlib import Path
++
++from playwright.sync_api import sync_playwright
++
++from qa_config import MODULAR_URL
++from qa_evidence import ROOT, bind_report, candidate_identity
++
++
++OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4" / "sheet_geometry.json"
++VIEWPORTS = ((360, 800), (390, 844), (414, 896), (844, 390), (375, 812), (1600, 900))
++MOBILE_PORTRAITS = {(360, 800), (390, 844), (414, 896), (375, 812)}
++
++
++def wait_ready(page) -> None:
++    page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
++    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
++    page.wait_for_function("document.querySelectorAll('.photo-marker').length > 0", timeout=15000)
++    page.evaluate("window.__tripApp.whenGeometryIdle()")
++
++
++def snapshot(page) -> dict:
++    return page.evaluate(
++        """
++        () => {
++          const app = window.__tripApp;
++          const geometry = app.mapGeometrySnapshot();
++          const scroll = document.querySelector('#workbench .workbench-scroll');
++          const active = document.activeElement;
++          return {
++            sheet: app.state.presentation.sheet,
++            task: {
++              primary_route: app.state.task.primaryRoute,
++              compare_routes: [...app.state.task.compareRoutes].sort(),
++              date: app.state.task.date,
++              region: app.state.task.region,
++              selected: app.state.task.selected,
++              mode: app.state.presentation.mode,
++              provider: app.state.runtime.provider,
++              lang: app.state.presentation.lang,
++              theme: app.state.presentation.theme,
++            },
++            geometry: geometry.sheet_geometry,
++            map: geometry.shell,
++            useful_map_ratio: geometry.sheet_geometry?.useful_map_ratio ?? null,
++            scroll_hidden: Boolean(scroll?.hidden),
++            scroll_inert: Boolean(scroll?.inert),
++            scroll_visible_focusables: scroll ? [...scroll.querySelectorAll('button,a,select,input,textarea,[tabindex]')].filter(element => element.getClientRects().length && getComputedStyle(element).visibility !== 'hidden').length : 0,
++            active_element: active?.id || active?.dataset?.sheet || active?.tagName || null,
++            horizontal_overflow: document.documentElement.scrollWidth > window.innerWidth,
++          };
++        }
++        """
++    )
++
++
++def activate(page, sheet: str, method: str) -> dict:
++    started = time.perf_counter()
++    button = page.locator(f"#workbench [data-sheet='{sheet}']")
++    if method == "keyboard":
++        button.focus()
++        page.keyboard.press("Enter")
++    elif method == "touch":
++        button.tap()
++    else:
++        button.click()
++    page.wait_for_function("sheet => window.__tripApp.state.presentation.sheet === sheet", arg=sheet)
++    page.evaluate("window.__tripApp.whenGeometryIdle()")
++    page.wait_for_timeout(60)
++    row = snapshot(page)
++    row["transition_ms"] = round((time.perf_counter() - started) * 1000, 2)
++    return row
++
++
++def task_signature(row: dict) -> dict:
++    return row["task"]
++
++
++def prepare_context(page) -> dict:
++    page.locator("#mapOptionsToggle").click()
++    page.locator("#regionControls [data-region='yosemite']").click()
++    page.locator("#modeNav [data-mode='day']").click()
++    page.locator("#dateSelect").select_option("10/7")
++    page.wait_for_function("document.querySelector('.photo-marker[data-place-key=\"cooks\"]')?.getBoundingClientRect().width > 0")
++    page.locator(".photo-marker[data-place-key='cooks']").click()
++    page.locator("#langToggle").click()
++    page.locator("#themeToggle").click()
++    page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
++    page.evaluate("window.__tripApp.whenIdle()")
++    return snapshot(page)
++
++
++def transition_rows(page, method: str) -> tuple[list[dict], list[str]]:
++    failures = []
++    rows = []
++    expected_task = task_signature(snapshot(page))
++    for sheet in ("compact", "expanded", "full", "expanded", "compact"):
++        row = activate(page, sheet, method)
++        row["activation"] = method
++        rows.append(row)
++        if row["task"] != expected_task:
++            failures.append(f"{method}:{sheet}: task state changed")
++        if row["horizontal_overflow"]:
++            failures.append(f"{method}:{sheet}: horizontal overflow")
++        if sheet == "compact" and (
++            not row["scroll_hidden"]
++            or not row["scroll_inert"]
++            or row["scroll_visible_focusables"]
++            or row["geometry"]["workbench_height"] >= 220
++        ):
++            failures.append(f"{method}:{sheet}: compact content is not hidden/inert or sheet is oversized")
++        if sheet != "compact" and (row["scroll_hidden"] or row["scroll_inert"]):
++            failures.append(f"{method}:{sheet}: workbench content remained hidden/inert")
++        if method in {"keyboard", "pointer", "touch"} and row["active_element"] not in {sheet, "workbenchToggle"}:
++            failures.append(f"{method}:{sheet}: focus not on size control or predictable desktop toggle ({row['active_element']})")
++    return rows, failures
++
++
++def main() -> int:
++    OUT.parent.mkdir(parents=True, exist_ok=True)
++    identity = candidate_identity()
++    report = {
++        "schema_version": 1,
++        "change": "CHG-157 R4 mobile compact-sheet geometry",
++        "status": "FAIL",
++        "viewports": {},
++        "transition_rows": [],
++        "failures": [],
++        "orientation_rule": "The explicit sheet state is preserved across orientation changes. If compact becomes desktop-invalid at width >800px, the workbench adapts to the desktop collapsed presentation and the app-bar workbench toggle owns focus; returning to mobile restores the compact bottom sheet without resetting task state.",
++        "notes": [
++            "Geometry is read from rendered DOM rectangles after the coalesced MapLibre resize/refit settles.",
++            "Cook's Meadow activation uses Playwright locator pointer input; no programmatic click is used.",
++            "Independent Project OS pixel review, native Safari, physical-device behavior, and human field review remain external boundaries.",
++        ],
++    }
++    errors = []
++
++    with sync_playwright() as playwright:
++        browser = playwright.chromium.launch(headless=True)
++        for viewport in VIEWPORTS:
++            context = browser.new_context(
++                viewport={"width": viewport[0], "height": viewport[1]},
++                has_touch=viewport[0] < 500,
++                is_mobile=viewport[0] < 500,
++            )
++            page = context.new_page()
++            page_errors = []
++            page.on("pageerror", lambda error: page_errors.append(str(error)))
++            try:
++                wait_ready(page)
++                states = {}
++                geometry_order = ("compact", "expanded", "full") if viewport in MOBILE_PORTRAITS else ("expanded", "full", "compact")
++                for sheet in geometry_order:
++                    states[sheet] = activate(page, sheet, "pointer")
++                report["viewports"][f"{viewport[0]}x{viewport[1]}"] = states
++
++                if viewport in MOBILE_PORTRAITS:
++                    compact = states["compact"]["geometry"]
++                    expanded = states["expanded"]["geometry"]
++                    full = states["full"]["geometry"]
++                    if compact["map_height"] <= expanded["map_height"] + 80:
++                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: compact map is not materially larger than expanded")
++                    if compact["workbench_height"] >= 220 or compact["workbench_height"] >= expanded["workbench_height"] * 0.8:
++                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: compact workbench is not actual-controls height")
++                    if full["workbench_height"] <= expanded["workbench_height"] * 1.5:
++                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: full sheet is not task-dominant")
++
++                    activate(page, "expanded", "pointer")
++                    prepared = prepare_context(page)
++                    rows, failures = transition_rows(page, "keyboard")
++                    report["transition_rows"].extend(rows)
++                    report["failures"].extend(f"{viewport[0]}x{viewport[1]}: {failure}" for failure in failures)
++
++                    activate(page, "expanded", "pointer")
++                    rows, failures = transition_rows(page, "touch" if viewport[0] < 500 else "pointer")
++                    report["transition_rows"].extend(rows)
++                    report["failures"].extend(f"{viewport[0]}x{viewport[1]}: {failure}" for failure in failures)
++                    if snapshot(page)["task"] != prepared["task"]:
++                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: task state failed transition preservation")
++
++                    activate(page, "compact", "pointer")
++                    for control in ("#mapOptionsToggle", "#routeLegendToggle"):
++                        page.locator(control).click()
++                        page.wait_for_timeout(40)
++                        if control == "#mapOptionsToggle" and page.locator("#mapOptionsPanel").is_hidden():
++                            report["failures"].append(f"{viewport[0]}x{viewport[1]}: map options unreachable in compact")
++                        if control == "#routeLegendToggle" and page.locator("#routeLegendPanel").is_hidden():
++                            report["failures"].append(f"{viewport[0]}x{viewport[1]}: route key unreachable in compact")
++                        page.keyboard.press("Escape")
++                    cooks = page.locator(".photo-marker[data-place-key='cooks']")
++                    cooks.click(timeout=5000)
++                    if page.locator("#peek.show").count() != 1:
++                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: Cook's Meadow Peek did not open in compact")
++                    page.keyboard.press("Escape")
++
++                    page.set_viewport_size({"width": 844, "height": 390})
++                    page.wait_for_timeout(120)
++                    landscape = snapshot(page)
++                    if landscape["task"] != prepared["task"]:
++                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: orientation changed task state")
++                    if landscape["sheet"] != "compact":
++                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: orientation changed explicit sheet state")
++                    page.set_viewport_size({"width": viewport[0], "height": viewport[1]})
++                    page.wait_for_timeout(120)
++                    restored = snapshot(page)
++                    if restored["task"] != prepared["task"] or restored["sheet"] != "compact":
++                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: portrait recomposition failed to restore state")
++
++                    page.evaluate("document.documentElement.style.fontSize='200%'")
++                    page.wait_for_timeout(100)
++                    if snapshot(page)["horizontal_overflow"]:
++                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: 200% compact reflow overflow")
++            except Exception as error:
++                errors.append(f"{viewport[0]}x{viewport[1]}: {type(error).__name__}: {error}")
++            if page_errors:
++                report.setdefault("page_errors", {})[f"{viewport[0]}x{viewport[1]}"] = list(page_errors)
++            errors.extend(page_errors)
++            page.close()
++            context.close()
++        browser.close()
++
++    report["errors"] = errors
++    report["status"] = "PASS" if not report["failures"] and not errors and report["viewports"] else "FAIL"
++    bind_report(report, identity)
++    OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
++    print(json.dumps({"status": report["status"], "viewports": len(report["viewports"]), "transitions": len(report["transition_rows"]), "failures": report["failures"], "errors": errors}, ensure_ascii=False))
++    return 0 if report["status"] == "PASS" else 1
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/scripts/qa_ui_performance.py b/scripts/qa_ui_performance.py
+index 37aba7d..a9ef683 100644
+--- a/scripts/qa_ui_performance.py
++++ b/scripts/qa_ui_performance.py
+@@ -1,4 +1,4 @@
+-"""Order-balanced startup comparison for current main, R2, and R3."""
++"""Order-balanced startup comparison for current main, R2, and R4."""
+ 
+ from __future__ import annotations
+ 
+@@ -13,14 +13,14 @@ from playwright.sync_api import sync_playwright
+ from qa_evidence import ROOT, bind_report, candidate_identity
+ 
+ 
+-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "performance.json"
++OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4" / "performance.json"
+ BASELINE_URL = os.environ.get("TRIP_BASELINE_URL", "http://127.0.0.1:8765/index.html")
+ R2_URL = os.environ.get("TRIP_R2_URL", "http://127.0.0.1:8767/index.html")
+ CANDIDATE_URL = os.environ.get("TRIP_QA_URL", "http://127.0.0.1:8768/index.html")
+ SAMPLES = max(8, int(os.environ.get("TRIP_PERF_SAMPLES", "8")))
+ BLOCKS = 2
+ VIEWPORT = {"width": 1440, "height": 900}
+-VARIANTS = (("baseline", BASELINE_URL), ("r2_reference", R2_URL), ("r3_candidate", CANDIDATE_URL))
++VARIANTS = (("baseline", BASELINE_URL), ("r2_reference", R2_URL), ("r4_candidate", CANDIDATE_URL))
+ 
+ 
+ def wait_workbench(page) -> tuple[str, str]:
+@@ -98,10 +98,10 @@ def classify(comparison: dict) -> dict:
+     material = map_delta["mean"] > 250 or dom_delta["mean"] > 250 or decision_delta["mean"] > 250
+     consistent_material = map_delta["material_slower_200ms_count"] >= 6 or dom_delta["material_slower_200ms_count"] >= 6 or decision_delta["material_slower_200ms_count"] >= 6
+     if material or consistent_material:
+-        return {"status": "FIX_REQUIRED", "reason": "R3 still shows a material, consistent first-use regression against current main."}
++        return {"status": "FIX_REQUIRED", "reason": "R4 shows a material, consistent first-use regression against current main."}
+     if map_delta["slower_count"] >= 5 or dom_delta["slower_count"] >= 5 or decision_delta["slower_count"] >= 5:
+-        return {"status": "VERIFY_REQUIRED", "reason": "R3 removes the hundreds-of-ms failure pattern, but residual direction remains noisy or mildly slower."}
+-    return {"status": "PASS", "reason": "R3 does not reproduce the R2 material first-use/map-readiness regression against current main."}
++        return {"status": "VERIFY_REQUIRED", "reason": "R4 removes the hundreds-of-ms failure pattern, but residual direction remains noisy or mildly slower."}
++    return {"status": "PASS", "reason": "R4 does not reproduce the R2 material first-use/map-readiness regression against current main."}
+ 
+ 
+ def main() -> int:
+@@ -122,10 +122,10 @@ def main() -> int:
+                     rows[label].append(measure(browser, label, url, sample_index, block, order_index))
+         browser.close()
+ 
+-    comparisons = {"baseline_vs_r2": paired(rows, "baseline", "r2_reference"), "baseline_vs_r3": paired(rows, "baseline", "r3_candidate"), "r2_vs_r3": paired(rows, "r2_reference", "r3_candidate")}
++    comparisons = {"baseline_vs_r2": paired(rows, "baseline", "r2_reference"), "baseline_vs_r4": paired(rows, "baseline", "r4_candidate"), "r2_vs_r4": paired(rows, "r2_reference", "r4_candidate")}
+     report = {
+         "schema_version": 3,
+-        "change": "CHG-157 R3",
++        "change": "CHG-157 R4",
+         "base_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+         "r2_reference": {"sha": "4a2520a8fb40ec789784fccf513de78f26318507", "tree": "1d42515d23cc6f1995e3ccc8f41da6802321dcf5"},
+         "r2_authoritative_recorded_reference": {
+@@ -143,15 +143,15 @@ def main() -> int:
+         "environment": {"browser": "Chromium headless", "browser_version": browser_version, "viewport": "1440x900", "samples_per_variant": len(rows["baseline"]), "blocks": BLOCKS, "ordering": order, "platform": platform.system(), "python": os.sys.version.split(".")[0]},
+         "baseline": {"url": BASELINE_URL, "samples": rows["baseline"], "metrics": summarize(rows["baseline"])},
+         "r2_reference_samples": {"url": R2_URL, "samples": rows["r2_reference"], "metrics": summarize(rows["r2_reference"])},
+-        "r3_candidate_samples": {"url": CANDIDATE_URL, "samples": rows["r3_candidate"], "metrics": summarize(rows["r3_candidate"])},
++        "r4_candidate_samples": {"url": CANDIDATE_URL, "samples": rows["r4_candidate"], "metrics": summarize(rows["r4_candidate"])},
+         "comparisons": comparisons,
+-        "classification": classify(comparisons["baseline_vs_r3"]),
++        "classification": classify(comparisons["baseline_vs_r4"]),
+         "interaction_qualification": "The route-toggle and two-route compare tasks remain semantically non-equivalent; no interaction-response PASS is asserted here.",
+-        "notes": ["R3 uses runtime.mapVisualReady for the candidate and map.isStyleLoaded for the legacy baseline; both methods are recorded per sample.", "Decision shell readiness is recorded separately from map readiness.", "The authoritative R2 qualification distribution is preserved explicitly; the fresh replay is labeled separately because local replay timing differs from the recorded R2 environment.", "Native Safari, physical-device and independent-human field performance remain separate evidence boundaries."],
++        "notes": ["R4 uses runtime.mapVisualReady for the candidate and map.isStyleLoaded for the legacy baseline; both methods are recorded per sample.", "Decision shell readiness is recorded separately from map readiness.", "The authoritative R2 qualification distribution is preserved explicitly; the fresh replay is labeled separately because local replay timing differs from the recorded R2 environment.", "Native Safari, physical-device and independent-human field performance remain separate evidence boundaries."],
+     }
+     bind_report(report, identity)
+     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+-    print(json.dumps({"status": report["classification"]["status"], "samples_per_variant": len(rows["baseline"]), "candidate": identity["sha"], "map_delta_ms": comparisons["baseline_vs_r3"]["summary"]["map_visual_ready_ms"]["mean"]}, ensure_ascii=False))
++    print(json.dumps({"status": report["classification"]["status"], "samples_per_variant": len(rows["baseline"]), "candidate": identity["sha"], "map_delta_ms": comparisons["baseline_vs_r4"]["summary"]["map_visual_ready_ms"]["mean"]}, ensure_ascii=False))
+     return 0 if report["classification"]["status"] in {"PASS", "VERIFY_REQUIRED"} else 1
+ 
+ 
+diff --git a/scripts/run_cross_browser.py b/scripts/run_cross_browser.py
+index 45cb3aa..f0ad7c8 100644
+--- a/scripts/run_cross_browser.py
++++ b/scripts/run_cross_browser.py
+@@ -28,8 +28,8 @@ from qa_evidence import candidate_identity
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+ URL = MODULAR_URL
+-OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r3/browser_summary.json"
+-SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r3/screenshots"
++OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r4/browser_summary.json"
++SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r4/screenshots"
+ CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "60"))
+ TERM_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_TERM_GRACE_SECONDS", "2"))
+ KILL_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_KILL_GRACE_SECONDS", "2"))
+diff --git a/scripts/run_visual_spots.py b/scripts/run_visual_spots.py
+index c971442..7a32a9e 100644
+--- a/scripts/run_visual_spots.py
++++ b/scripts/run_visual_spots.py
+@@ -1,4 +1,4 @@
+-"""Capture the exact-bound R3 visual matrix for independent pixel review."""
++"""Capture the exact-bound R4 visual matrix for independent pixel review."""
+ 
+ from __future__ import annotations
+ 
+@@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
+ from qa_evidence import ROOT, bind_report, candidate_identity
+ 
+ 
+-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3"
++OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4"
+ SHOTS = OUT / "screenshots"
+ 
+ 
+@@ -90,12 +90,18 @@ def main() -> int:
+         errors.extend(page_errors)
+         page.close(); context.close()
+ 
+-        for viewport, profile in (((1366, 768), "stress desktop"), ((1920, 1080), "stress desktop large"), ((390, 844), "stress mobile portrait"), ((360, 800), "stress mobile narrow"), ((844, 390), "stress mobile landscape"), ((1536, 864), "fresh holdout desktop"), ((414, 896), "fresh holdout mobile")):
++        for viewport, profile in (((1366, 768), "stress desktop"), ((1920, 1080), "stress desktop large"), ((390, 844), "stress mobile portrait"), ((360, 800), "stress mobile narrow"), ((844, 390), "stress mobile landscape"), ((1600, 900), "fresh holdout desktop"), ((375, 812), "fresh holdout mobile"), ((1536, 864), "additional desktop holdout"), ((414, 896), "additional mobile holdout")):
+             context, page, page_errors = new_page(browser, viewport)
+             capture(page, rows, f"stress_decide_{viewport[0]}x{viewport[1]}", viewport, "decide", "recommended_default", "responsive route recommendation", "holdout" if "holdout" in profile else "stress", profile)
+             if viewport[0] < 500:
+                 page.locator("#workbench [data-sheet='compact']").click()
+                 capture(page, rows, f"mobile_compact_{viewport[0]}x{viewport[1]}", viewport, "decide", "mobile compact", "mobile compact task sheet", "stress", "mobile compact")
++                page.locator("#mapOptionsToggle").click()
++                capture(page, rows, f"mobile_compact_map_options_{viewport[0]}x{viewport[1]}", viewport, "decide", "mobile compact map options", "compact provider/region disclosure", "stress", "mobile compact map options")
++                page.keyboard.press("Escape")
++                page.locator("#routeLegendToggle").click()
++                capture(page, rows, f"mobile_compact_route_key_{viewport[0]}x{viewport[1]}", viewport, "decide", "mobile compact route key", "on-demand route semantics disclosure", "stress", "mobile compact route key")
++                page.keyboard.press("Escape")
+                 page.locator("#workbench [data-sheet='expanded']").click()
+                 capture(page, rows, f"mobile_expanded_{viewport[0]}x{viewport[1]}", viewport, "decide", "mobile expanded", "mobile expanded task sheet", "stress", "mobile expanded")
+                 page.locator("#workbench [data-sheet='full']").click()
+@@ -152,7 +158,7 @@ def main() -> int:
+     for row in rows:
+         row["candidate"] = identity["sha"]
+         row["candidate_tree"] = identity["tree"]
+-    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1536x864", "414x896"], "frozen_after": "stable R3 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
++    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1600x900 desktop", "375x812 mobile"], "frozen_after": "stable R4 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
+     bind_report(report, identity)
+     OUT.joinpath("visual_index.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+     print(json.dumps({"status": report["status"], "screenshots": len(rows), "errors": errors}, ensure_ascii=False))
+diff --git a/src/app_phase7.css b/src/app_phase7.css
+index 7b16de8..193754c 100644
+--- a/src/app_phase7.css
++++ b/src/app_phase7.css
+@@ -262,7 +262,9 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+   .global-actions { gap: 4px; }
+   .utility-button { min-height: 32px; padding: 6px 8px; font-size: 10px; }
+   .workbench-toggle { display: none; }
+-  .workspace { grid-template-columns: 1fr; grid-template-rows: minmax(0, 56%) minmax(0, 44%); }
++  .workspace { position: relative; grid-template-columns: 1fr; grid-template-rows: minmax(0, 56%) minmax(0, 44%); }
++  #app[data-sheet="compact"] .workspace { grid-template-rows: minmax(0, 1fr) max-content; }
++  #app[data-sheet="full"] .workspace { grid-template-rows: minmax(0, 1fr); }
+   .map-top-left { top: 8px; left: 8px; max-width: calc(100% - 16px); padding: 5px; gap: 5px; }
+   .map-bottom-left { left: 8px; bottom: 8px; max-width: calc(100% - 16px); }
+   .map-control-label { font-size: 8px; }
+@@ -275,8 +277,9 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+   .peek { right: 8px; bottom: 8px; left: 8px; top: auto; width: auto; max-height: min(310px, calc(100% - 16px)); }
+   .peek-media { height: 82px; }
+   .workbench { position: relative; z-index: 15; border-top: 1px solid var(--border); border-left: 0; border-radius: 18px 18px 0 0; box-shadow: 0 -12px 30px rgba(35, 47, 42, .15); }
+-  .workbench[data-sheet="compact"] { grid-template-rows: auto auto 0; }
+-  .workbench[data-sheet="compact"] .workbench-scroll { display: none; }
++  .workbench[data-sheet="compact"] { height: max-content; grid-template-rows: auto auto 0; overflow: hidden; }
++  .workbench[data-sheet="compact"] .workbench-scroll,
++  .workbench[data-sheet="compact"] .workbench-scroll[hidden] { display: none; }
+   .workbench[data-sheet="full"] { position: absolute; inset: 0; border-radius: 0; }
+   .workbench-head { padding: 9px 12px 5px; }
+   .mode-nav { padding: 5px 8px; }
+diff --git a/src/app_phase7.js b/src/app_phase7.js
+index 2bca83a..7731e61 100644
+--- a/src/app_phase7.js
++++ b/src/app_phase7.js
+@@ -35,6 +35,10 @@
+   let suppressPeekFocusKey = null;
+   let mapOptionsInvoker = null;
+   let routeLegendInvoker = null;
++  let geometryFrame = 0;
++  let geometryNeedsRefit = false;
++  let geometryWaiters = [];
++  let observedMapSize = null;
+ 
+   const markStartup = (name, detail = {}) => {
+     if (typeof window.__tripStartupMark === 'function') return window.__tripStartupMark(name, detail);
+@@ -348,12 +352,22 @@
+     const horizontalBudget = Math.max(MAP_SAFE_MARGIN * 2, shellRect.width - MAP_SAFE_MARGIN * 2);
+     const verticalBudget = Math.max(MAP_SAFE_MARGIN * 2, shellRect.height - MAP_SAFE_MARGIN * 2);
+     if (padding.left + padding.right > horizontalBudget) {
+-      if (padding.left >= padding.right) padding.right = Math.max(MAP_SAFE_MARGIN, horizontalBudget - padding.left);
+-      else padding.left = Math.max(MAP_SAFE_MARGIN, horizontalBudget - padding.right);
++      if (padding.left >= padding.right) {
++        padding.left = Math.min(padding.left, horizontalBudget - MAP_SAFE_MARGIN);
++        padding.right = Math.min(padding.right, horizontalBudget - padding.left);
++      } else {
++        padding.right = Math.min(padding.right, horizontalBudget - MAP_SAFE_MARGIN);
++        padding.left = Math.min(padding.left, horizontalBudget - padding.right);
++      }
+     }
+     if (padding.top + padding.bottom > verticalBudget) {
+-      if (padding.top >= padding.bottom) padding.bottom = Math.max(MAP_SAFE_MARGIN, verticalBudget - padding.top);
+-      else padding.top = Math.max(MAP_SAFE_MARGIN, verticalBudget - padding.bottom);
++      if (padding.top >= padding.bottom) {
++        padding.top = Math.min(padding.top, verticalBudget - MAP_SAFE_MARGIN);
++        padding.bottom = Math.min(padding.bottom, verticalBudget - padding.top);
++      } else {
++        padding.bottom = Math.min(padding.bottom, verticalBudget - MAP_SAFE_MARGIN);
++        padding.top = Math.min(padding.top, verticalBudget - padding.bottom);
++      }
+     }
+     markStartup('map_safe_padding_computed', { padding: { ...padding } });
+     return padding;
+@@ -374,7 +388,25 @@
+     });
+     const persistent = obstacles.filter(obstacle => !/(map-options-panel|route-legend-panel)/.test(obstacle.selector)).map(obstacle => ({ ...obstacle, shellWidth: shellRect.width }));
+     const shellArea = shellRect.width * shellRect.height, persistentArea = unionArea(persistent);
+-    return { shell: { width: shellRect.width, height: shellRect.height, area_px: shellArea }, safe_padding: mapSafePadding(), obstacles, persistent_opaque_chrome: { area_px: persistentArea, ratio: shellArea ? persistentArea / shellArea : 0, rectangles: persistent }, unobstructed_interior: { area_px: Math.max(0, shellArea - persistentArea), ratio: shellArea ? Math.max(0, shellArea - persistentArea) / shellArea : 0 }, markers };
++    const appbarRect = document.querySelector('.appbar')?.getBoundingClientRect();
++    const workbenchRect = document.querySelector('.workbench')?.getBoundingClientRect();
++    const usefulMapRatio = shellArea ? Math.max(0, shellArea - persistentArea) / shellArea : 0;
++    return {
++      shell: { width: shellRect.width, height: shellRect.height, area_px: shellArea },
++      sheet_geometry: {
++        viewport_height: window.innerHeight,
++        appbar_height: appbarRect?.height || 0,
++        map_height: shellRect.height,
++        workbench_height: workbenchRect?.height || 0,
++        useful_map_ratio: usefulMapRatio,
++        sheet: state.presentation.sheet,
++      },
++      safe_padding: mapSafePadding(),
++      obstacles,
++      persistent_opaque_chrome: { area_px: persistentArea, ratio: shellArea ? persistentArea / shellArea : 0, rectangles: persistent },
++      unobstructed_interior: { area_px: Math.max(0, shellArea - persistentArea), ratio: usefulMapRatio },
++      markers,
++    };
+   }
+   function fitVisibleMap(map = photoMap) {
+     if (!map) return;
+@@ -386,6 +418,29 @@
+     map.fitBounds(bounds, { padding: mapSafePadding(map), maxZoom: state.task.date !== 'all' ? 12.8 : 7.8, duration: 0 });
+     markStartup('initial_fit_complete');
+   }
++  function scheduleMapGeometryUpdate({ refit = false, reason = 'viewport' } = {}) {
++    if (refit) geometryNeedsRefit = true;
++    if (!photoMap) return Promise.resolve();
++    const promise = new Promise(resolve => geometryWaiters.push(resolve));
++    if (geometryFrame) return promise;
++    geometryFrame = requestAnimationFrame(() => {
++      geometryFrame = 0;
++      const map = photoMap;
++      const shouldRefit = geometryNeedsRefit;
++      geometryNeedsRefit = false;
++      if (map) {
++        map.resize();
++        if (shouldRefit && state.runtime.mapVisualReady) fitVisibleMap(map);
++        if (state.presentation.mapOptionsOpen) positionMapOptions();
++        if (state.presentation.routeLegendOpen) positionRouteLegend();
++        markStartup('map_geometry_recomposed', { reason, refit: shouldRefit });
++      }
++      const waiters = geometryWaiters;
++      geometryWaiters = [];
++      waiters.forEach(resolve => resolve());
++    });
++    return promise;
++  }
+   function ringFor(marker) {
+     const colors = marker.routes.filter(route => activeRoutes({ map: true }).has(route)).map(route => safeColor(routeMeta[route].color));
+     if (colors.length === 1) return colors[0];
+@@ -633,11 +688,37 @@
+     const compareKicker = document.querySelector('.compare-section .eyebrow'); if (compareKicker) compareKicker.textContent = m('compareKicker');
+     document.getElementById('langToggle').textContent = state.presentation.lang === 'ko' ? 'EN' : '한국어'; document.getElementById('themeToggle').textContent = state.presentation.theme === 'dark' ? `☀ ${m('light')}` : `☾ ${m('dark')}`;
+     document.getElementById('workbenchToggle').textContent = state.presentation.sheet === 'compact' ? m('expand') : m('collapse');
++    syncSheetPresentation();
+     renderProviderState();
+     document.querySelectorAll('[data-sheet]').forEach(button => { if (button.classList.contains('icon-button')) { button.setAttribute('aria-pressed', String(button.dataset.sheet === state.presentation.sheet)); button.title = m(button.dataset.sheet); button.setAttribute('aria-label', m(button.dataset.sheet)); } });
+   }
+   function setMode(mode) { if (!['decide', 'day', 'place'].includes(mode)) return; if (mode === 'place' && !state.task.selected) state.presentation.mode = 'place'; else state.presentation.mode = mode; renderAll(); persist(); }
+-  function setSheet(sheet) { if (!['compact', 'expanded', 'full'].includes(sheet)) return; state.presentation.sheet = sheet; const app = document.getElementById('app'), workbench = document.getElementById('workbench'); app.dataset.sheet = sheet; workbench.dataset.sheet = sheet; app.classList.toggle('app-collapsed', sheet === 'compact' && !isMobile()); document.getElementById('workbenchToggle').setAttribute('aria-expanded', String(sheet !== 'compact')); applyTranslations(); requestAnimationFrame(() => photoMap?.resize()); persist(); }
++  function syncSheetPresentation() {
++    const app = document.getElementById('app'), workbench = document.getElementById('workbench'), scroll = workbench?.querySelector('.workbench-scroll');
++    if (!app || !workbench) return;
++    const compact = state.presentation.sheet === 'compact';
++    app.dataset.sheet = state.presentation.sheet;
++    workbench.dataset.sheet = state.presentation.sheet;
++    app.classList.toggle('app-collapsed', compact && !isMobile());
++    if (scroll) {
++      scroll.hidden = compact;
++      scroll.inert = compact;
++      scroll.setAttribute('aria-hidden', String(compact));
++    }
++    if (compact && !isMobile() && workbench.contains(document.activeElement)) {
++      requestAnimationFrame(() => document.getElementById('workbenchToggle')?.focus({ preventScroll: true }));
++    }
++  }
++  function setSheet(sheet) {
++    if (!['compact', 'expanded', 'full'].includes(sheet)) return;
++    const previous = state.presentation.sheet;
++    state.presentation.sheet = sheet;
++    syncSheetPresentation();
++    document.getElementById('workbenchToggle').setAttribute('aria-expanded', String(sheet !== 'compact'));
++    applyTranslations();
++    scheduleMapGeometryUpdate({ refit: previous !== sheet, reason: `sheet:${sheet}` });
++    persist();
++  }
+   function renderModes() {
+     const mode = state.presentation.mode, workbench = document.getElementById('workbench'); workbench.dataset.mode = mode; document.querySelectorAll('[data-mode]').forEach(button => { const active = button.dataset.mode === mode; button.classList.toggle('active', active); if (active) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current'); }); document.querySelectorAll('.mode-view').forEach(view => { const active = view.dataset.view === mode; view.hidden = !active; view.classList.toggle('active', active); });
+   }
+@@ -658,7 +739,22 @@
+     document.onkeydown = handleEscape;
+     document.body?.addEventListener('keydown', handleEscape);
+     document.addEventListener('pointerdown', event => { if (state.presentation.mapOptionsOpen && !event.target.closest('#mapControlSurface')) setMapOptionsOpen(false); if (state.presentation.routeLegendOpen && !event.target.closest('#mapLegend')) setRouteLegendOpen(false); });
+-    window.addEventListener('resize', () => { renderModes(); photoMap?.resize(); if (state.presentation.mapOptionsOpen) positionMapOptions(); if (state.presentation.routeLegendOpen) positionRouteLegend(); });
++    const handleViewportChange = () => {
++      syncSheetPresentation();
++      renderModes();
++      scheduleMapGeometryUpdate({ refit: true, reason: 'viewport' });
++    };
++    window.addEventListener('resize', handleViewportChange);
++    const mapShell = document.querySelector('.map-shell');
++    if (window.ResizeObserver && mapShell) {
++      new ResizeObserver(entries => {
++        const rect = entries[0]?.contentRect;
++        const next = rect ? `${Math.round(rect.width)}x${Math.round(rect.height)}` : '';
++        if (!next || next === observedMapSize) return;
++        observedMapSize = next;
++        scheduleMapGeometryUpdate({ refit: true, reason: 'map-shell-resize' });
++      }).observe(mapShell);
++    }
+   }
+ 
+   /* ----- QA instrumentation and compatibility surface ----- */
+@@ -672,7 +768,7 @@
+     finally { Object.assign(marker, saved); renderPlace(); }
+   }
+   function expose() {
+-    window.__tripApp = { state, DATA, drawMap, whenIdle: () => drawQueue, map: () => photoMap, whenMapVisualReady: () => Promise.resolve(runtimeSnapshot().map), selectPlace, chooseProvider, testProvider, setMode, setTab: tab => setMode(tab === 'timeline' ? 'day' : tab === 'details' ? 'place' : 'decide'), markerVisible, timelineVisible, legVisible, visibleRouteFeatures, renderTimeline: renderDay, renderDetail: key => { if (key) state.task.selected = key; renderPlace(); }, showPreview: showPeek, showRoutePeek: properties => showRoutePeek(properties), hidePreview: hidePeek, fitVisibleMap, mapGeometrySnapshot, runtimeSnapshot };
++    window.__tripApp = { state, DATA, drawMap, whenIdle: () => Promise.all([drawQueue, scheduleMapGeometryUpdate()]), whenGeometryIdle: () => scheduleMapGeometryUpdate(), map: () => photoMap, whenMapVisualReady: () => Promise.resolve(runtimeSnapshot().map), selectPlace, chooseProvider, testProvider, setMode, setSheet, setTab: tab => setMode(tab === 'timeline' ? 'day' : tab === 'details' ? 'place' : 'decide'), markerVisible, timelineVisible, legVisible, visibleRouteFeatures, renderTimeline: renderDay, renderDetail: key => { if (key) state.task.selected = key; renderPlace(); }, showPreview: showPeek, showRoutePeek: properties => showRoutePeek(properties), hidePreview: hidePeek, fitVisibleMap, mapGeometrySnapshot, runtimeSnapshot };
+     window.__tripSecurity = { escapeHtml: esc, safeExternalUrl, safePhotoPath: photoPath, renderFixture, allowedStorageKeys: ['trip_visualizer_runtime_v2', 'trip_visualizer_runtime_v1', 'trip_lang', 'trip_theme'] };
+   }
+   async function init() {
+
+Changes:
+
+.github/workflows/candidate-qualification.yml
+  @@ -85,11 +85,11 @@ jobs:
+  -            QA/project_os_verify/ui_revamp_r3/**
+  +            QA/project_os_verify/ui_revamp_r4/**
+               .public-site/.release-provenance.json
+               release-path-checkout/QA/release/*.json
+               release-path-checkout/QA/release/*.log
+               release-path-checkout/QA/map_first/**/*.json
+               release-path-checkout/QA/map_first/screenshots/**
+  -            release-path-checkout/QA/project_os_verify/ui_revamp_r3/**
+  +            release-path-checkout/QA/project_os_verify/ui_revamp_r4/**
+               release-path-checkout/.public-site/.release-provenance.json
+  +2 -2
+
+manifests/public_asset_rights.json
+  @@ -13263,7 +13263,7 @@
+  -      "sha256": "255bde5158c7d69c878b00894f8cb365e2b432c940e3b62c1fba7a920c256d98",
+  +      "sha256": "e579f3798053119555533bc5ff7c7ede2c610bd6eb22e6f8f6604c7c52cd137d",
+         "modes": [
+           "pages",
+           "public-package"
+  @@ -13271,7 +13271,7 @@
+  -      "sha256": "02728612daa49ca8ab639e9aaa65e3d6d1ddef14d29875cda35a2ea37390715f",
+  +      "sha256": "1ac48a3c6ec3a8b523204b783954b8daefed3a19f884b876de09872be8a443a3",
+         "modes": [
+           "pages",
+           "public-package"
+  +2 -2
+
+scripts/pipeline.py
+  @@ -47,9 +47,10 @@ COMPONENTS = (
+  -    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r3/task_oracles.json"),
+  -    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r3/accessibility.json"),
+  -    ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r3/map_geometry.json"),
+  +    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r4/task_oracles.json"),
+  +    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r4/accessibility.json"),
+  +    ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r4/map_geometry.json"),
+  +    ("sheet_geometry", "scripts/qa_sheet_geometry.py", "QA/project_os_verify/ui_revamp_r4/sheet_geometry.json"),
+       ("map_first_full", "scripts/qa_map_first_full.py", "QA/map_first/full_acceptance.json"),
+       ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
+       ("standalone", "scripts/qa_standalone_map_first.py", "QA/map_first/standalone.json"),
+  @@ -58,8 +59,8 @@ COMPONENTS = (
+  -    ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r3/browser_summary.json"),
+  -    ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r3/visual_index.json"),
+  +    ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r4/browser_summary.json"),
+  +    ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r4/visual_index.json"),
+       ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
+   )
+   
+  +6 -5
+
+scripts/qa_accessibility_reflow.py
+  @@ -11,7 +11,7 @@ from qa_evidence import bind_report, candidate_identity
+  -OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "accessibility.json"
+  +OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4" / "accessibility.json"
+   IDENTITY = candidate_identity()
+   report = {"schema_version": 1, "checks": {}, "errors": []}
+   
+  +1 -1
+
+scripts/qa_decision_workbench.py
+  @@ -13,7 +13,7 @@ from qa_evidence import bind_report, candidate_identity
+  -OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3"
+  +OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4"
+   OUT.mkdir(parents=True, exist_ok=True)
+   IDENTITY = candidate_identity()
+   
+  @@ -45,8 +45,10 @@ with sync_playwright() as playwright:
+  +    page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === false && document.activeElement?.id === 'mapOptionsClose'")
+       options_open = page.locator("#mapOptionsPanel").is_visible() and page.evaluate("document.activeElement?.id === 'mapOptionsClose'")
+       page.keyboard.press("Escape")
+  +    page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === true && document.activeElement?.id === 'mapOptionsToggle'")
+       options_closed = page.locator("#mapOptionsPanel").is_hidden() and page.evaluate("document.activeElement?.id === 'mapOptionsToggle'") and page.locator("#mapOptionsPanel button:visible").count() == 0
+       results.append(oracle("compact_map_options_focus_contract", options_open and options_closed))
+       page.locator("#mapOptionsToggle").click()
+  +3 -1
+
+scripts/qa_map_geometry.py
+  @@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
+  -OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "map_geometry.json"
+  +OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4" / "map_geometry.json"
+   
+   
+   def wait_ready(page) -> None:
+  +1 -1
+
+scripts/qa_sheet_geometry.py
+  @@ -0,0 +1,236 @@
+  +"""R4 mobile sheet geometry, state, focus, and real-pointer oracle."""
+  +
+  +from __future__ import annotations
+  +
+  +import json
+  +import time
+  +from pathlib import Path
+  +
+  +from playwright.sync_api import sync_playwright
+  +
+  +from qa_config import MODULAR_URL
+  +from qa_evidence import ROOT, bind_report, candidate_identity
+  +
+  +
+  +OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4" / "sheet_geometry.json"
+  +VIEWPORTS = ((360, 800), (390, 844), (414, 896), (844, 390), (375, 812), (1600, 900))
+  +MOBILE_PORTRAITS = {(360, 800), (390, 844), (414, 896), (375, 812)}
+  +
+  +
+  +def wait_ready(page) -> None:
+  +    page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
+  +    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
+  +    page.wait_for_function("document.querySelectorAll('.photo-marker').length > 0", timeout=15000)
+  +    page.evaluate("window.__tripApp.whenGeometryIdle()")
+  +
+  +
+  +def snapshot(page) -> dict:
+  +    return page.evaluate(
+  +        """
+  +        () => {
+  +          const app = window.__tripApp;
+  +          const geometry = app.mapGeometrySnapshot();
+  +          const scroll = document.querySelector('#workbench .workbench-scroll');
+  +          const active = document.activeElement;
+  +          return {
+  +            sheet: app.state.presentation.sheet,
+  +            task: {
+  +              primary_route: app.state.task.primaryRoute,
+  +              compare_routes: [...app.state.task.compareRoutes].sort(),
+  +              date: app.state.task.date,
+  +              region: app.state.task.region,
+  +              selected: app.state.task.selected,
+  +              mode: app.state.presentation.mode,
+  +              provider: app.state.runtime.provider,
+  +              lang: app.state.presentation.lang,
+  +              theme: app.state.presentation.theme,
+  +            },
+  +            geometry: geometry.sheet_geometry,
+  +            map: geometry.shell,
+  +            useful_map_ratio: geometry.sheet_geometry?.useful_map_ratio ?? null,
+  +            scroll_hidden: Boolean(scroll?.hidden),
+  +            scroll_inert: Boolean(scroll?.inert),
+  +            scroll_visible_focusables: scroll ? [...scroll.querySelectorAll('button,a,select,input,textarea,[tabindex]')].filter(element => element.getClientRects().length && getComputedStyle(element).visibility !== 'hidden').length : 0,
+  +            active_element: active?.id || active?.dataset?.sheet || active?.tagName || null,
+  +            horizontal_overflow: document.documentElement.scrollWidth > window.innerWidth,
+  +          };
+  +        }
+  +        """
+  +    )
+  +
+  +
+  +def activate(page, sheet: str, method: str) -> dict:
+  +    started = time.perf_counter()
+  +    button = page.locator(f"#workbench [data-sheet='{sheet}']")
+  +    if method == "keyboard":
+  +        button.focus()
+  +        page.keyboard.press("Enter")
+  +    elif method == "touch":
+  +        button.tap()
+  +    else:
+  +        button.click()
+  +    page.wait_for_function("sheet => window.__tripApp.state.presentation.sheet === sheet", arg=sheet)
+  +    page.evaluate("window.__tripApp.whenGeometryIdle()")
+  +    page.wait_for_timeout(60)
+  +    row = snapshot(page)
+  +    row["transition_ms"] = round((time.perf_counter() - started) * 1000, 2)
+  +    return row
+  +
+  +
+  +def task_signature(row: dict) -> dict:
+  +    return row["task"]
+  +
+  +
+  +def prepare_context(page) -> dict:
+  +    page.locator("#mapOptionsToggle").click()
+  +    page.locator("#regionControls [data-region='yosemite']").click()
+  +    page.locator("#modeNav [data-mode='day']").click()
+  +    page.locator("#dateSelect").select_option("10/7")
+  +    page.wait_for_function("document.querySelector('.photo-marker[data-place-key=\"cooks\"]')?.getBoundingClientRect().width > 0")
+  +    page.locator(".photo-marker[data-place-key='cooks']").click()
+  +    page.locator("#langToggle").click()
+  +    page.locator("#themeToggle").click()
+  +    page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
+  +    page.evaluate("window.__tripApp.whenIdle()")
+  +    return snapshot(page)
+  +
+  +
+  +def transition_rows(page, method: str) -> tuple[list[dict], list[str]]:
+  +    failures = []
+  +    rows = []
+  ... (136 lines truncated)
+  +236 -0
+
+scripts/qa_ui_performance.py
+  @@ -1,4 +1,4 @@
+  -"""Order-balanced startup comparison for current main, R2, and R3."""
+  +"""Order-balanced startup comparison for current main, R2, and R4."""
+   
+   from __future__ import annotations
+   
+  @@ -13,14 +13,14 @@ from playwright.sync_api import sync_playwright
+  -OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3" / "performance.json"
+  +OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4" / "performance.json"
+   BASELINE_URL = os.environ.get("TRIP_BASELINE_URL", "http://127.0.0.1:8765/index.html")
+   R2_URL = os.environ.get("TRIP_R2_URL", "http://127.0.0.1:8767/index.html")
+   CANDIDATE_URL = os.environ.get("TRIP_QA_URL", "http://127.0.0.1:8768/index.html")
+   SAMPLES = max(8, int(os.environ.get("TRIP_PERF_SAMPLES", "8")))
+   BLOCKS = 2
+   VIEWPORT = {"width": 1440, "height": 900}
+  -VARIANTS = (("baseline", BASELINE_URL), ("r2_reference", R2_URL), ("r3_candidate", CANDIDATE_URL))
+  +VARIANTS = (("baseline", BASELINE_URL), ("r2_reference", R2_URL), ("r4_candidate", CANDIDATE_URL))
+   
+   
+   def wait_workbench(page) -> tuple[str, str]:
+  @@ -98,10 +98,10 @@ def classify(comparison: dict) -> dict:
+  -        return {"status": "FIX_REQUIRED", "reason": "R3 still shows a material, consistent first-use regression against current main."}
+  +        return {"status": "FIX_REQUIRED", "reason": "R4 shows a material, consistent first-use regression against current main."}
+       if map_delta["slower_count"] >= 5 or dom_delta["slower_count"] >= 5 or decision_delta["slower_count"] >= 5:
+  -        return {"status": "VERIFY_REQUIRED", "reason": "R3 removes the hundreds-of-ms failure pattern, but residual direction remains noisy or mildly slower."}
+  -    return {"status": "PASS", "reason": "R3 does not reproduce the R2 material first-use/map-readiness regression against current main."}
+  +        return {"status": "VERIFY_REQUIRED", "reason": "R4 removes the hundreds-of-ms failure pattern, but residual direction remains noisy or mildly slower."}
+  +    return {"status": "PASS", "reason": "R4 does not reproduce the R2 material first-use/map-readiness regression against current main."}
+   
+   
+   def main() -> int:
+  @@ -122,10 +122,10 @@ def main() -> int:
+  -    comparisons = {"baseline_vs_r2": paired(rows, "baseline", "r2_reference"), "baseline_vs_r3": paired(rows, "baseline", "r3_candidate"), "r2_vs_r3": paired(rows, "r2_reference", "r3_candidate")}
+  +    comparisons = {"baseline_vs_r2": paired(rows, "baseline", "r2_reference"), "baseline_vs_r4": paired(rows, "baseline", "r4_candidate"), "r2_vs_r4": paired(rows, "r2_reference", "r4_candidate")}
+       report = {
+           "schema_version": 3,
+  -        "change": "CHG-157 R3",
+  +        "change": "CHG-157 R4",
+           "base_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
+           "r2_reference": {"sha": "4a2520a8fb40ec789784fccf513de78f26318507", "tree": "1d42515d23cc6f1995e3ccc8f41da6802321dcf5"},
+           "r2_authoritative_recorded_reference": {
+  @@ -143,15 +143,15 @@ def main() -> int:
+  -        "r3_candidate_samples": {"url": CANDIDATE_URL, "samples": rows["r3_candidate"], "metrics": summarize(rows["r3_candidate"])},
+  +        "r4_candidate_samples": {"url": CANDIDATE_URL, "samples": rows["r4_candidate"], "metrics": summarize(rows["r4_candidate"])},
+           "comparisons": comparisons,
+  -        "classification": classify(comparisons["baseline_vs_r3"]),
+  +        "classification": classify(comparisons["baseline_vs_r4"]),
+           "interaction_qualification": "The route-toggle and two-route compare tasks remain semantically non-equivalent; no interaction-response PASS is asserted here.",
+  -        "notes": ["R3 uses runtime.mapVisualReady for the candidate and map.isStyleLoaded for the legacy baseline; both methods are recorded per sample.", "Decision shell readiness is recorded separately from map readiness.", "The authoritative R2 qualification distribution is preserved explicitly; the fresh replay is labeled separately because local replay timing differs from the recorded R2 environment.", "Native Safari, physical-device and independent-human field performance remain separate evidence boundaries."],
+  +        "notes": ["R4 uses runtime.mapVisualReady for the candidate and map.isStyleLoaded for the legacy baseline; both methods are recorded per sample.", "Decision shell readiness is recorded separately from map readiness.", "The authoritative R2 qualification distribution is preserved explicitly; the fresh replay is labeled separately because local replay timing differs from the recorded R2 environment.", "Native Safari, physical-device and independent-human field performance remain separate evidence boundaries."],
+       }
+       bind_report(report, identity)
+       OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+  -    print(json.dumps({"status": report["classification"]["status"], "samples_per_variant": len(rows["baseline"]), "candidate": identity["sha"], "map_delta_ms": comparisons["baseline_vs_r3"]["summary"]["map_visual_ready_ms"]["mean"]}, ensure_ascii=False))
+  +    print(json.dumps({"status": report["classification"]["status"], "samples_per_variant": len(rows["baseline"]), "candidate": identity["sha"], "map_delta_ms": comparisons["baseline_vs_r4"]["summary"]["map_visual_ready_ms"]["mean"]}, ensure_ascii=False))
+       return 0 if report["classification"]["status"] in {"PASS", "VERIFY_REQUIRED"} else 1
+   
+   
+  +12 -12
+
+scripts/run_cross_browser.py
+  @@ -28,8 +28,8 @@ from qa_evidence import candidate_identity
+  -OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r3/browser_summary.json"
+  -SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r3/screenshots"
+  +OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r4/browser_summary.json"
+  +SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r4/screenshots"
+   CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "60"))
+   TERM_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_TERM_GRACE_SECONDS", "2"))
+   KILL_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_KILL_GRACE_SECONDS", "2"))
+  +2 -2
+
+scripts/run_visual_spots.py
+  @@ -1,4 +1,4 @@
+  -"""Capture the exact-bound R3 visual matrix for independent pixel review."""
+  +"""Capture the exact-bound R4 visual matrix for independent pixel review."""
+   
+   from __future__ import annotations
+   
+  @@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
+  -OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r3"
+  +OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4"
+   SHOTS = OUT / "screenshots"
+   
+   
+  @@ -90,12 +90,18 @@ def main() -> int:
+  -        for viewport, profile in (((1366, 768), "stress desktop"), ((1920, 1080), "stress desktop large"), ((390, 844), "stress mobile portrait"), ((360, 800), "stress mobile narrow"), ((844, 390), "stress mobile landscape"), ((1536, 864), "fresh holdout desktop"), ((414, 896), "fresh holdout mobile")):
+  +        for viewport, profile in (((1366, 768), "stress desktop"), ((1920, 1080), "stress desktop large"), ((390, 844), "stress mobile portrait"), ((360, 800), "stress mobile narrow"), ((844, 390), "stress mobile landscape"), ((1600, 900), "fresh holdout desktop"), ((375, 812), "fresh holdout mobile"), ((1536, 864), "additional desktop holdout"), ((414, 896), "additional mobile holdout")):
+               context, page, page_errors = new_page(browser, viewport)
+               capture(page, rows, f"stress_decide_{viewport[0]}x{viewport[1]}", viewport, "decide", "recommended_default", "responsive route recommendation", "holdout" if "holdout" in profile else "stress", profile)
+               if viewport[0] < 500:
+                   page.locator("#workbench [data-sheet='compact']").click()
+                   capture(page, rows, f"mobile_compact_{viewport[0]}x{viewport[1]}", viewport, "decide", "mobile compact", "mobile compact task sheet", "stress", "mobile compact")
+  +                page.locator("#mapOptionsToggle").click()
+  +                capture(page, rows, f"mobile_compact_map_options_{viewport[0]}x{viewport[1]}", viewport, "decide", "mobile compact map options", "compact provider/region disclosure", "stress", "mobile compact map options")
+  +                page.keyboard.press("Escape")
+  +                page.locator("#routeLegendToggle").click()
+  +                capture(page, rows, f"mobile_compact_route_key_{viewport[0]}x{viewport[1]}", viewport, "decide", "mobile compact route key", "on-demand route semantics disclosure", "stress", "mobile compact route key")
+  +                page.keyboard.press("Escape")
+                   page.locator("#workbench [data-sheet='expanded']").click()
+                   capture(page, rows, f"mobile_expanded_{viewport[0]}x{viewport[1]}", viewport, "decide", "mobile expanded", "mobile expanded task sheet", "stress", "mobile expanded")
+                   page.locator("#workbench [data-sheet='full']").click()
+  @@ -152,7 +158,7 @@ def main() -> int:
+  -    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1536x864", "414x896"], "frozen_after": "stable R3 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
+  +    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1600x900 desktop", "375x812 mobile"], "frozen_after": "stable R4 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
+       bind_report(report, identity)
+       OUT.joinpath("visual_index.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+       print(json.dumps({"status": report["status"], "screenshots": len(rows), "errors": errors}, ensure_ascii=False))
+  +10 -4
+
+src/app_phase7.css
+  @@ -262,7 +262,9 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+  -  .workspace { grid-template-columns: 1fr; grid-template-rows: minmax(0, 56%) minmax(0, 44%); }
+  +  .workspace { position: relative; grid-template-columns: 1fr; grid-template-rows: minmax(0, 56%) minmax(0, 44%); }
+  +  #app[data-sheet="compact"] .workspace { grid-template-rows: minmax(0, 1fr) max-content; }
+  +  #app[data-sheet="full"] .workspace { grid-template-rows: minmax(0, 1fr); }
+     .map-top-left { top: 8px; left: 8px; max-width: calc(100% - 16px); padding: 5px; gap: 5px; }
+     .map-bottom-left { left: 8px; bottom: 8px; max-width: calc(100% - 16px); }
+     .map-control-label { font-size: 8px; }
+  @@ -275,8 +277,9 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
+  -  .workbench[data-sheet="compact"] { grid-template-rows: auto auto 0; }
+  -  .workbench[data-sheet="compact"] .workbench-scroll { display: none; }
+  +  .workbench[data-sheet="compact"] { height: max-content; grid-template-rows: auto auto 0; overflow: hidden; }
+  +  .workbench[data-sheet="compact"] .workbench-scroll,
+  +  .workbench[data-sheet="compact"] .workbench-scroll[hidden] { display: none; }
+     .workbench[data-sheet="full"] { position: absolute; inset: 0; border-radius: 0; }
+     .workbench-head { padding: 9px 12px 5px; }
+     .mode-nav { padding: 5px 8px; }
+  +6 -3
+
+src/app_phase7.js
+  @@ -35,6 +35,10 @@
+  +  let geometryFrame = 0;
+  +  let geometryNeedsRefit = false;
+  +  let geometryWaiters = [];
+  +  let observedMapSize = null;
+   
+     const markStartup = (name, detail = {}) => {
+       if (typeof window.__tripStartupMark === 'function') return window.__tripStartupMark(name, detail);
+  @@ -348,12 +352,22 @@
+  -      if (padding.left >= padding.right) padding.right = Math.max(MAP_SAFE_MARGIN, horizontalBudget - padding.left);
+  -      else padding.left = Math.max(MAP_SAFE_MARGIN, horizontalBudget - padding.right);
+  +      if (padding.left >= padding.right) {
+  +        padding.left = Math.min(padding.left, horizontalBudget - MAP_SAFE_MARGIN);
+  +        padding.right = Math.min(padding.right, horizontalBudget - padding.left);
+  +      } else {
+  +        padding.right = Math.min(padding.right, horizontalBudget - MAP_SAFE_MARGIN);
+  +        padding.left = Math.min(padding.left, horizontalBudget - padding.right);
+  +      }
+       }
+       if (padding.top + padding.bottom > verticalBudget) {
+  -      if (padding.top >= padding.bottom) padding.bottom = Math.max(MAP_SAFE_MARGIN, verticalBudget - padding.top);
+  -      else padding.top = Math.max(MAP_SAFE_MARGIN, verticalBudget - padding.bottom);
+  +      if (padding.top >= padding.bottom) {
+  +        padding.top = Math.min(padding.top, verticalBudget - MAP_SAFE_MARGIN);
+  +        padding.bottom = Math.min(padding.bottom, verticalBudget - padding.top);
+  +      } else {
+  +        padding.bottom = Math.min(padding.bottom, verticalBudget - MAP_SAFE_MARGIN);
+  +        padding.top = Math.min(padding.top, verticalBudget - padding.bottom);
+  +      }
+       }
+       markStartup('map_safe_padding_computed', { padding: { ...padding } });
+       return padding;
+  @@ -374,7 +388,25 @@
+  -    return { shell: { width: shellRect.width, height: shellRect.height, area_px: shellArea }, safe_padding: mapSafePadding(), obstacles, persistent_opaque_chrome: { area_px: persistentArea, ratio: shellArea ? persistentArea / shellArea : 0, rectangles: persistent }, unobstructed_interior: { area_px: Math.max(0, shellArea - persistentArea), ratio: shellArea ? Math.max(0, shellArea - persistentArea) / shellArea : 0 }, markers };
+  +    const appbarRect = document.querySelector('.appbar')?.getBoundingClientRect();
+  +    const workbenchRect = document.querySelector('.workbench')?.getBoundingClientRect();
+  +    const usefulMapRatio = shellArea ? Math.max(0, shellArea - persistentArea) / shellArea : 0;
+  +    return {
+  +      shell: { width: shellRect.width, height: shellRect.height, area_px: shellArea },
+  +      sheet_geometry: {
+  +        viewport_height: window.innerHeight,
+  +        appbar_height: appbarRect?.height || 0,
+  +        map_height: shellRect.height,
+  +        workbench_height: workbenchRect?.height || 0,
+  +        useful_map_ratio: usefulMapRatio,
+  +        sheet: state.presentation.sheet,
+  +      },
+  +      safe_padding: mapSafePadding(),
+  +      obstacles,
+  +      persistent_opaque_chrome: { area_px: persistentArea, ratio: shellArea ? persistentArea / shellArea : 0, rectangles: persistent },
+  +      unobstructed_interior: { area_px: Math.max(0, shellArea - persistentArea), ratio: usefulMapRatio },
+  +      markers,
+  +    };
+     }
+     function fitVisibleMap(map = photoMap) {
+       if (!map) return;
+  @@ -386,6 +418,29 @@
+  +  function scheduleMapGeometryUpdate({ refit = false, reason = 'viewport' } = {}) {
+  +    if (refit) geometryNeedsRefit = true;
+  +    if (!photoMap) return Promise.resolve();
+  +    const promise = new Promise(resolve => geometryWaiters.push(resolve));
+  +    if (geometryFrame) return promise;
+  +    geometryFrame = requestAnimationFrame(() => {
+  +      geometryFrame = 0;
+  +      const map = photoMap;
+  +      const shouldRefit = geometryNeedsRefit;
+  +      geometryNeedsRefit = false;
+  +      if (map) {
+  +        map.resize();
+  +        if (shouldRefit && state.runtime.mapVisualReady) fitVisibleMap(map);
+  +        if (state.presentation.mapOptionsOpen) positionMapOptions();
+  +        if (state.presentation.routeLegendOpen) positionRouteLegend();
+  +        markStartup('map_geometry_recomposed', { reason, refit: shouldRefit });
+  +      }
+  +      const waiters = geometryWaiters;
+  +      geometryWaiters = [];
+  +      waiters.forEach(resolve => resolve());
+  +    });
+  +    return promise;
+  +  }
+     function ringFor(marker) {
+       const colors = marker.routes.filter(route => activeRoutes({ map: true }).has(route)).map(route => safeColor(routeMeta[route].color));
+       if (colors.length === 1) return colors[0];
+  @@ -633,11 +688,37 @@
+  +    syncSheetPresentation();
+       renderProviderState();
+       document.querySelectorAll('[data-sheet]').forEach(button => { if (button.classList.contains('icon-button')) { button.setAttribute('aria-pressed', String(button.dataset.sheet === state.presentation.sheet)); button.title = m(button.dataset.sheet); button.setAttribute('aria-label', m(button.dataset.sheet)); } });
+     }
+     function setMode(mode) { if (!['decide', 'day', 'place'].includes(mode)) return; if (mode === 'place' && !state.task.selected) state.presentation.mode = 'place'; else state.presentation.mode = mode; renderAll(); persist(); }
+  -  function setSheet(sheet) { if (!['compact', 'expanded', 'full'].includes(sheet)) return; state.presentation.sheet = sheet; const app = document.getElementById('app'), workbench = document.getElementById('workbench'); app.dataset.sheet = sheet; workbench.dataset.sheet = sheet; app.classList.toggle('app-collapsed', sheet === 'compact' && !isMobile()); document.getElementById('workbenchToggle').setAttribute('aria-expanded', String(sheet !== 'compact')); applyTranslations(); requestAnimationFrame(() => photoMap?.resize()); persist(); }
+  +  function syncSheetPresentation() {
+  +    const app = document.getElementById('app'), workbench = document.getElementById('workbench'), scroll = workbench?.querySelector('.workbench-scroll');
+  +    if (!app || !workbench) return;
+  +    const compact = state.presentation.sheet === 'compact';
+  +    app.dataset.sheet = state.presentation.sheet;
+  +    workbench.dataset.sheet = state.presentation.sheet;
+  +    app.classList.toggle('app-collapsed', compact && !isMobile());
+  +    if (scroll) {
+  +      scroll.hidden = compact;
+  +      scroll.inert = compact;
+  +      scroll.setAttribute('aria-hidden', String(compact));
+  +    }
+  +    if (compact && !isMobile() && workbench.contains(document.activeElement)) {
+  +      requestAnimationFrame(() => document.getElementById('workbenchToggle')?.focus({ preventScroll: true }));
+  +    }
+  +  }
+  +  function setSheet(sheet) {
+  +    if (!['compact', 'expanded', 'full'].includes(sheet)) return;
+  +    const previous = state.presentation.sheet;
+  +    state.presentation.sheet = sheet;
+  +    syncSheetPresentation();
+  +    document.getElementById('workbenchToggle').setAttribute('aria-expanded', String(sheet !== 'compact'));
+  +    applyTranslations();
+  +    scheduleMapGeometryUpdate({ refit: previous !== sheet, reason: `sheet:${sheet}` });
+  +    persist();
+  +  }
+     function renderModes() {
+       const mode = state.presentation.mode, workbench = document.getElementById('workbench'); workbench.dataset.mode = mode; document.querySelectorAll('[data-mode]').forEach(button => { const active = button.dataset.mode === mode; button.classList.toggle('active', active); if (active) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current'); }); document.querySelectorAll('.mode-view').forEach(view => { const active = view.dataset.view === mode; view.hidden = !active; view.classList.toggle('active', active); });
+     }
+  @@ -658,7 +739,22 @@
+  -    window.addEventListener('resize', () => { renderModes(); photoMap?.resize(); if (state.presentation.mapOptionsOpen) positionMapOptions(); if (state.presentation.routeLegendOpen) positionRouteLegend(); });
+  +    const handleViewportChange = () => {
+  +      syncSheetPresentation();
+  +      renderModes();
+  +      scheduleMapGeometryUpdate({ refit: true, reason: 'viewport' });
+  +    };
+  +    window.addEventListener('resize', handleViewportChange);
+  +    const mapShell = document.querySelector('.map-shell');
+  +    if (window.ResizeObserver && mapShell) {
+  +      new ResizeObserver(entries => {
+  +        const rect = entries[0]?.contentRect;
+  +        const next = rect ? `${Math.round(rect.width)}x${Math.round(rect.height)}` : '';
+  +        if (!next || next === observedMapSize) return;
+  +        observedMapSize = next;
+  +        scheduleMapGeometryUpdate({ refit: true, reason: 'map-shell-resize' });
+  +      }).observe(mapShell);
+  +    }
+     }
+   
+     /* ----- QA instrumentation and compatibility surface ----- */
+  @@ -672,7 +768,7 @@
+  -    window.__tripApp = { state, DATA, drawMap, whenIdle: () => drawQueue, map: () => photoMap, whenMapVisualReady: () => Promise.resolve(runtimeSnapshot().map), selectPlace, chooseProvider, testProvider, setMode, setTab: tab => setMode(tab === 'timeline' ? 'day' : tab === 'details' ? 'place' : 'decide'), markerVisible, timelineVisible, legVisible, visibleRouteFeatures, renderTimeline: renderDay, renderDetail: key => { if (key) state.task.selected = key; renderPlace(); }, showPreview: showPeek, showRoutePeek: properties => showRoutePeek(properties), hidePreview: hidePeek, fitVisibleMap, mapGeometrySnapshot, runtimeSnapshot };
+  +    window.__tripApp = { state, DATA, drawMap, whenIdle: () => Promise.all([drawQueue, scheduleMapGeometryUpdate()]), whenGeometryIdle: () => scheduleMapGeometryUpdate(), map: () => photoMap, whenMapVisualReady: () => Promise.resolve(runtimeSnapshot().map), selectPlace, chooseProvider, testProvider, setMode, setSheet, setTab: tab => setMode(tab === 'timeline' ? 'day' : tab === 'details' ? 'place' : 'decide'), markerVisible, timelineVisible, legVisible, visibleRouteFeatures, renderTimeline: renderDay, renderDetail: key => { if (key) state.task.selected = key; renderPlace(); }, showPreview: showPeek, showRoutePeek: properties => showRoutePeek(properties), hidePreview: hidePeek, fitVisibleMap, mapGeometrySnapshot, runtimeSnapshot };
+       window.__tripSecurity = { escapeHtml: esc, safeExternalUrl, safePhotoPath: photoPath, renderFixture, allowedStorageKeys: ['trip_visualizer_runtime_v2', 'trip_visualizer_runtime_v1', 'trip_lang', 'trip_theme'] };
+     }
+     async function init() {
+  +104 -8
+[full diff: rtk git diff --no-compact]

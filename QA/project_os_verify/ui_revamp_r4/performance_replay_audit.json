@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "candidate": "bd65a4400cca6f7a48c4ce124a687498ea0e035b",
+  "candidate_tree": "8d65423268222a9fa0fffe00784825d6171a21e5",
+  "probe": "qa_ui_performance.py, 8 samples per variant, two reversed order blocks, 1440x900 Chromium",
+  "replays": [
+    {
+      "id": "replay-1-superseded-source",
+      "candidate": "4162d0825236aa67dba872634dea9fb3f3652eff",
+      "baseline_vs_r4_map_visual_ready_mean_delta_ms": 348.19,
+      "classification": "FIX_REQUIRED",
+      "observation": "Outlier replay; DOM and decision-shell means were faster for R4, but map readiness was slower in 7/8 pairs."
+    },
+    {
+      "id": "replay-2-replacement-source",
+      "candidate": "bd65a4400cca6f7a48c4ce124a687498ea0e035b",
+      "baseline_vs_r4_map_visual_ready_mean_delta_ms": -39.61,
+      "baseline_vs_r4_dom_content_mean_delta_ms": -48.98,
+      "baseline_vs_r4_decision_workbench_mean_delta_ms": -197.63,
+      "baseline_vs_r4_dom_content_mean_delta_ms": -62.28,
+      "baseline_vs_r4_decision_workbench_mean_delta_ms": -157.8,
+      "classification": "PASS",
+      "observation": "Fresh balanced replay on a separately restarted R4 server; map readiness was slower in 3/8 pairs and no map sample exceeded the 200ms material threshold."
+    }
+  ],
+  "investigation": {
+    "action": "Replayed with current-main and actual R2 servers, restarted R4 server on a fresh port, and retained only the exact second-run report as performance.json.",
+    "conclusion": "The first result was not reproducible; R4 does not reproduce the R2 +498ms/8-of-8 slower pattern. The remaining local timing variance is recorded for independent/hosted review."
+  }
+}
