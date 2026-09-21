@@ -11,7 +11,7 @@ from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4" / "accessibility.json"
+OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5" / "accessibility.json"
 IDENTITY = candidate_identity()
 report = {"schema_version": 1, "checks": {}, "errors": []}
 

@@ -1,4 +1,4 @@
-"""Capture the exact-bound R4 visual matrix for independent pixel review."""
+"""Capture the exact-bound R5 visual matrix for independent pixel review."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4"
+OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5"
 SHOTS = OUT / "screenshots"
 
 
@@ -158,7 +158,7 @@ def main() -> int:
     for row in rows:
         row["candidate"] = identity["sha"]
         row["candidate_tree"] = identity["tree"]
-    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1600x900 desktop", "375x812 mobile"], "frozen_after": "stable R4 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
+    report = {"schema_version": 2, "status": "PASS" if rows and not errors else "FAIL", "base": "f9631a57d3b9e51216e082b62d80519599b84711", "rows": rows, "errors": errors, "canonical_anchors": ["1440x900 desktop", "390x844 mobile"], "stress_profiles": ["1366x768", "1920x1080", "360x800", "844x390", "200% reflow via accessibility oracle"], "fresh_holdouts": {"profiles": ["1600x900 desktop", "375x812 mobile"], "frozen_after": "stable R5 source candidate", "tuning_status": "captured after source freeze; no new failure class recorded by script"}, "notes": ["This is an exact file index and objective render pack for independent review; Fabric does not self-certify aesthetic perfection.", "Playwright Chromium only; native Safari, physical devices and independent human/field evidence remain separate."]}
     bind_report(report, identity)
     OUT.joinpath("visual_index.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"status": report["status"], "screenshots": len(rows), "errors": errors}, ensure_ascii=False))

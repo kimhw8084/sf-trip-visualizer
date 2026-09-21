@@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4" / "map_geometry.json"
+OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5" / "map_geometry.json"
 
 
 def wait_ready(page) -> None:

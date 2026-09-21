@@ -1,4 +1,4 @@
-"""R4 mobile sheet geometry, state, focus, and real-pointer oracle."""
+"""R5 mobile sheet geometry, state, focus, and real-pointer regression oracle."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r4" / "sheet_geometry.json"
+OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5" / "sheet_geometry.json"
 VIEWPORTS = ((360, 800), (390, 844), (414, 896), (844, 390), (375, 812), (1600, 900))
 MOBILE_PORTRAITS = {(360, 800), (390, 844), (414, 896), (375, 812)}
 
@@ -126,7 +126,7 @@ def main() -> int:
     identity = candidate_identity()
     report = {
         "schema_version": 1,
-        "change": "CHG-157 R4 mobile compact-sheet geometry",
+        "change": "CHG-157 R5 mobile compact-sheet geometry regression",
         "status": "FAIL",
         "viewports": {},
         "transition_rows": [],

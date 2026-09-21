@@ -28,8 +28,8 @@ from qa_evidence import candidate_identity
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = MODULAR_URL
-OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r4/browser_summary.json"
-SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r4/screenshots"
+OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r5/browser_summary.json"
+SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r5/screenshots"
 CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "60"))
 TERM_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_TERM_GRACE_SECONDS", "2"))
 KILL_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_KILL_GRACE_SECONDS", "2"))
