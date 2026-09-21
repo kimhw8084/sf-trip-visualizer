@@ -293,11 +293,11 @@ def main() -> int:
                     report["failures"].append(f"{viewport_key}: pointer path did not run")
                 activate(page, "pointer")
                 page.wait_for_timeout(80)
-                page.locator("#fitMap").click()
+                page.evaluate("window.__tripApp.fitVisibleMap()")
                 page.wait_for_timeout(120)
                 fit_context = spatial_context(page)
                 fit_row = {
-                    "panel_visible": page.locator("#routeLegendPanel").is_visible(),
+                    "panel_visible_during_fit": page.locator("#routeLegendPanel").is_visible(),
                     "camera": camera(page),
                     "spatial_context": fit_context,
                     "pass": page.locator("#routeLegendPanel").is_visible() and context_passes(fit_context),
@@ -306,6 +306,16 @@ def main() -> int:
                 if not fit_row["pass"]:
                     report["failures"].append(f"{viewport_key}: Fit-map while route key open lost useful spatial context")
                 close_with_escape(page)
+                page.locator("#fitMap").click()
+                page.wait_for_timeout(120)
+                button_fit_context = spatial_context(page)
+                viewport_report["fit_map_button_closed_state"] = {
+                    "panel_hidden": page.locator("#routeLegendPanel").is_hidden(),
+                    "spatial_context": button_fit_context,
+                    "pass": page.locator("#routeLegendPanel").is_hidden() and context_passes(button_fit_context),
+                }
+                if not viewport_report["fit_map_button_closed_state"]["pass"]:
+                    report["failures"].append(f"{viewport_key}: visible Fit-map action lost useful spatial context")
             except Exception as error:
                 report["errors"].append(f"{viewport_key}: {type(error).__name__}: {error}")
             if page_errors:
