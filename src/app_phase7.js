@@ -39,6 +39,7 @@
   let geometryNeedsRefit = false;
   let geometryWaiters = [];
   let observedMapSize = null;
+  let satelliteFallbackFlight = null;
 
   const markStartup = (name, detail = {}) => {
     if (typeof window.__tripStartupMark === 'function') return window.__tripStartupMark(name, detail);
@@ -150,6 +151,11 @@
     const source = String(event?.sourceId || ''), message = String(event?.error?.message || event?.message || event?.error || '');
     return source === 'basemap' || source === 'hillshade' || /pmtiles|tripasset|glyph|sprite|font|local asset|range|byte serving/i.test(message);
   }
+  function isSatelliteRasterError(event, map) {
+    if (state.runtime.provider !== 'satellite' || renderedProvider !== 'satellite' || photoMap !== map || String(event?.sourceId || '') !== 'base') return false;
+    const source = map?.getStyle?.()?.sources?.base;
+    return source?.type === 'raster' && Array.isArray(source.tiles) && source.tiles.some(tile => tile === SATELLITE_TILE_TEMPLATE);
+  }
   async function setupVector() {
     markStartup('local_vector_setup_start');
     if (!window.TRIP_VECTOR) throw new Error('Local vector renderer missing');
@@ -234,10 +240,19 @@
     state.runtime.providerStats[provider].viewportProbes++; const ok = await probeImage(tileUrlAt(provider, center.lat, center.lon, zoom), 2800, 'viewport');
     if (!ok) state.runtime.providerHealth[provider] = 'failed'; renderProviderState(); return ok;
   }
-  async function returnToSmart(provider, reason) {
-    state.runtime.providerStats[provider].fallbacks++; state.runtime.providerHealth[provider] = 'failed'; state.runtime.provider = 'vector'; recordRuntimeEvent('fallback_to_smart', provider, { reason });
-    const errorBox = document.getElementById('mapError'); if (errorBox && provider === 'satellite') { errorBox.querySelector('.map-error-message').textContent = m('satelliteFallback'); errorBox.hidden = false; }
-    renderProviderState(); persist(); await drawMap(true); return false;
+  async function returnToSmart(provider, reason, detail = {}) {
+    if (provider === 'satellite' && satelliteFallbackFlight) return satelliteFallbackFlight;
+    const fallback = (async () => {
+      state.runtime.providerStats[provider].fallbacks++; if (reason === 'tile_error') state.runtime.providerStats[provider].tileErrors++;
+      state.runtime.providerHealth[provider] = 'failed'; state.runtime.provider = 'vector';
+      if (reason === 'tile_error') recordRuntimeEvent('tile_error', provider, detail);
+      recordRuntimeEvent('fallback_to_smart', provider, { reason, ...detail });
+      const errorBox = document.getElementById('mapError'); if (errorBox && provider === 'satellite') { errorBox.querySelector('.map-error-message').textContent = m('satelliteFallback'); errorBox.hidden = false; }
+      renderProviderState(); persist(); await drawMap(true); return false;
+    })();
+    if (provider !== 'satellite') return fallback;
+    satelliteFallbackFlight = fallback.finally(() => { satelliteFallbackFlight = null; });
+    return satelliteFallbackFlight;
   }
   async function chooseProvider(provider) {
     if (!['vector', 'satellite'].includes(provider)) return false;
@@ -522,11 +537,12 @@
       const region = DATA.region_cfg[state.task.region];
       let map;
       try {
+        state.runtime.mapStatus = 'loading'; state.runtime.mapVisualReady = false;
         map = new maplibregl.Map({ container: 'map', style: providerStyle(state.runtime.provider), center: [region.center.lon, region.center.lat], zoom: region.zoom, attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 18 });
         photoMap = map; renderedProvider = state.runtime.provider; renderedTheme = state.presentation.theme; state.runtime.mapCreations += 1; state.runtime.mapStatus = 'loading'; renderProviderState(); markStartup('map_created');
         map.on('load', () => { markStartup('map_style_ready'); installRouteLayers(map); installPhotoMarkers(map, { deferClusters: true }); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); updatePhotoClusters(); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; renderProviderState(); renderMapLegend(); renderShellStatus(); markStartup('map_visual_ready', { markers: photoMarkers.length, layers: map.getStyle()?.layers?.length || 0 }); });
         map.on('click', () => hidePeek({ returnFocus: false }));
-        map.on('error', event => { if (localMapError(event)) showMapFailure(event.error || event.message, 'map_runtime'); });
+        map.on('error', event => { if (isSatelliteRasterError(event, map)) { void returnToSmart('satellite', 'tile_error', { source_id: event.sourceId, message: String(event?.error?.message || event?.message || event?.error || 'raster tile request failed') }); return; } if (localMapError(event)) showMapFailure(event.error || event.message, 'map_runtime'); });
         return true;
       } catch (error) { showMapFailure(error, 'map_create'); return false; }
     };
