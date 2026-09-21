@@ -41,6 +41,11 @@ GATE4_RUNTIME = ROOT / "QA" / "release" / "gate4_runtime.json"
 GATE4_SUMMARY = ROOT / "QA" / "release" / "gate4.json"
 SECURITY_EVIDENCE = ROOT / "QA" / "release" / "security_privacy.json"
 COMPONENT_TIMEOUT_SECONDS = int(os.environ.get("TRIP_QUALIFICATION_TIMEOUT_SECONDS", "300"))
+GATE5_TIMEOUT_SECONDS = int(os.environ.get("TRIP_GATE5_QUALIFICATION_TIMEOUT_SECONDS", "900"))
+GATE5_TIMEOUT_RATIONALE = (
+    "Gate 5 runs the integrated Golden UI evidence aggregation and current-lineage performance sample. "
+    "It has a dedicated finite 900s budget; ordinary qualification components retain the 300s bound."
+)
 
 COMPONENTS = (
     ("canonical_truth", "scripts/qa_canonical_truth.py", "QA/map_first/canonical_truth.json"),
@@ -63,6 +68,7 @@ COMPONENTS = (
     ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r5/browser_summary.json"),
     ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r5/visual_index.json"),
     ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
+    ("gate5_field_quality", "scripts/qa_gate5_field_quality.py", "QA/project_os_verify/gate5_r13/candidate.json"),
 )
 
 
@@ -187,17 +193,18 @@ def validate_authority_boundaries() -> None:
             raise RuntimeError(f"Legacy script is not mechanically deprecated: {relative}")
 
 
-def run_process(command: list[str], env: dict[str, str] | None = None) -> tuple[int, str, str]:
+def run_process(command: list[str], env: dict[str, str] | None = None, timeout_seconds: int | None = None) -> tuple[int, str, str]:
+    timeout_seconds = COMPONENT_TIMEOUT_SECONDS if timeout_seconds is None else timeout_seconds
     process = subprocess.Popen(command, cwd=ROOT, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
     try:
-        stdout, stderr = process.communicate(timeout=COMPONENT_TIMEOUT_SECONDS)
+        stdout, stderr = process.communicate(timeout=timeout_seconds)
         return process.returncode, stdout[-5000:], stderr[-5000:]
     except subprocess.TimeoutExpired as error:
         os.killpg(process.pid, signal.SIGKILL)
         stdout, stderr = process.communicate()
         stdout = stdout or error.stdout or ""
         stderr = stderr or error.stderr or ""
-        return 124, stdout[-5000:], f"TIMEOUT after {COMPONENT_TIMEOUT_SECONDS}s\n{stderr[-4800:]}"
+        return 124, stdout[-5000:], f"TIMEOUT after {timeout_seconds}s\n{stderr[-4800:]}"
 
 
 def run_build(output: Path) -> None:
@@ -372,7 +379,7 @@ def evidence_status(path: Path, returncode: int) -> str:
     payload = json.loads(path.read_text())
     if isinstance(payload, dict):
         status = payload.get("status")
-        if status in {"PASS", "FAIL", "UNVERIFIED"}:
+        if status in {"PASS", "FAIL", "UNVERIFIED", "VERIFY_REQUIRED"}:
             return status
         # Some maintained evidence schemas are terminal by successful exit
         # and intentionally omit a status field. A stale in-progress record is
@@ -385,6 +392,71 @@ def evidence_status(path: Path, returncode: int) -> str:
     return "FAIL"
 
 
+def validate_gate5_execution(
+    path: Path,
+    returncode: int,
+    expected_revision: str,
+    invocation_started_ns: int | None = None,
+    expected_tree: str | None = None,
+) -> dict:
+    """Validate Gate 5 process completion before considering its report status."""
+    if returncode != 0:
+        if returncode == 124:
+            reason = f"Gate 5 subprocess exceeded the dedicated {GATE5_TIMEOUT_SECONDS}s bound; execution is unverified and qualification is fail-closed."
+            execution_status = "UNVERIFIED"
+        else:
+            reason = f"Gate 5 subprocess exited with return code {returncode}; execution did not complete successfully and qualification is fail-closed."
+            execution_status = "FAILED"
+        return {"status": "FAIL", "process_completed": False, "acceptance_status": None, "execution_status": execution_status, "status_reason": reason}
+    if not path.is_file():
+        return {"status": "FAIL", "process_completed": False, "acceptance_status": None, "execution_status": "MISSING", "status_reason": "Gate 5 completed without producing its expected evidence report."}
+    if invocation_started_ns is not None and path.stat().st_mtime_ns <= invocation_started_ns:
+        return {"status": "FAIL", "process_completed": False, "acceptance_status": None, "execution_status": "STALE", "status_reason": "Gate 5 evidence report was not freshly produced by this invocation."}
+    try:
+        payload = json.loads(path.read_text())
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        return {"status": "FAIL", "process_completed": False, "acceptance_status": None, "execution_status": "MALFORMED", "status_reason": f"Gate 5 evidence report is malformed: {error}."}
+    if not isinstance(payload, dict):
+        return {"status": "FAIL", "process_completed": False, "acceptance_status": None, "execution_status": "MALFORMED", "status_reason": "Gate 5 evidence report must be a JSON object."}
+    if payload.get("candidate_head") != expected_revision or expected_tree and payload.get("candidate_tree") != expected_tree:
+        return {"status": "FAIL", "process_completed": False, "acceptance_status": payload.get("status"), "execution_status": "MISMATCH", "status_reason": "Gate 5 evidence report is bound to a different candidate head or tree."}
+    binding = payload.get("source_binding")
+    if not isinstance(binding, dict) or binding.get("binding") != "exact_commit" or binding.get("status") != "PASS" or binding.get("claimed_revision") != expected_revision or binding.get("checked_out_revision") != expected_revision or binding.get("source_worktree_dirty") is not False:
+        return {"status": "FAIL", "process_completed": False, "acceptance_status": payload.get("status"), "execution_status": "MISMATCH", "status_reason": "Gate 5 evidence report does not prove a clean exact-commit source binding."}
+    status = payload.get("status")
+    if status == "UNVERIFIED":
+        return {"status": "FAIL", "process_completed": False, "acceptance_status": status, "execution_status": status, "status_reason": "Gate 5 reported UNVERIFIED execution status; qualification is fail-closed."}
+    if status not in {"PASS", "VERIFY_REQUIRED"}:
+        return {"status": "FAIL", "process_completed": False, "acceptance_status": status, "execution_status": "MALFORMED", "status_reason": f"Gate 5 reported unsupported terminal status {status!r}."}
+    failures = payload.get("failures")
+    if not isinstance(failures, list) or failures:
+        return {"status": "FAIL", "process_completed": False, "acceptance_status": status, "execution_status": "FAILED", "status_reason": "Gate 5 report contains failures despite a non-failing terminal status."}
+    if status == "VERIFY_REQUIRED":
+        boundaries = payload.get("verify_required")
+        if not isinstance(boundaries, list) or not boundaries or any(not isinstance(item, str) or not item.strip() for item in boundaries):
+            return {"status": "FAIL", "process_completed": False, "acceptance_status": status, "execution_status": "MALFORMED", "status_reason": "Gate 5 VERIFY_REQUIRED report does not explicitly record unresolved external boundaries."}
+    return {"status": status, "process_completed": True, "acceptance_status": status, "execution_status": "COMPLETED", "status_reason": "Gate 5 subprocess exited 0 and produced a fresh exact-candidate-bound report.", "report": payload}
+
+
+def prepare_gate5_output(path: Path) -> int:
+    """Remove any prior Gate 5 report and return this invocation's start marker."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.unlink(missing_ok=True)
+    return time.time_ns()
+
+
+def qualification_decision(tests: list[dict]) -> dict:
+    """Apply canonical qualification semantics, including Gate 5 execution."""
+    decisive_failures = [test for test in tests if test["name"] != "gate5_field_quality" and test.get("status") != "PASS"]
+    gate5_rows = [test for test in tests if test["name"] == "gate5_field_quality"]
+    gate5 = gate5_rows[0] if len(gate5_rows) == 1 else None
+    if decisive_failures:
+        return {"status": "FAIL", "external_verify_required": [], "reason": "One or more decisive qualification gates failed or were unverified."}
+    if gate5 is None or gate5.get("returncode") != 0 or gate5.get("process_completed") is not True or gate5.get("status") not in {"PASS", "VERIFY_REQUIRED"}:
+        return {"status": "FAIL", "external_verify_required": [], "reason": "Gate 5 execution did not complete successfully with an accepted status."}
+    return {"status": "PASS", "external_verify_required": [test["name"] for test in tests if test.get("status") == "VERIFY_REQUIRED"], "reason": None}
+
+
 def run_qualification(expected_revision: str | None = None, require_clean: bool = False) -> dict:
     report = {
         "schema_version": 1,
@@ -394,8 +466,11 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
         "working_tree_clean": working_tree_clean(),
         "canonical": {"manifest": "manifests/canonical_pipeline.json", "build": "scripts/build_map_first.py", "data": "data/phase7_app_data.json"},
         "component_timeout_seconds": COMPONENT_TIMEOUT_SECONDS,
+        "gate5_timeout_seconds": GATE5_TIMEOUT_SECONDS,
+        "timeout_policy": {"gate5": {"seconds": GATE5_TIMEOUT_SECONDS, "rationale": GATE5_TIMEOUT_RATIONALE}},
         "tests": [],
         "errors": [],
+        "external_verify_required": [],
         "historical_evidence_excluded": ["QA/final_acceptance.json", "QA/final_cross_browser.json", "QA/final_live_providers.json", "P0_PROOF_REPORT.md"],
     }
     server = None
@@ -422,6 +497,7 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
         env["TRIP_STANDALONE_PATH"] = str(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html")
         env["TRIP_EXPECTED_REVISION"] = report["candidate_head"]
         env["TRIP_CANDIDATE_SHA"] = report["candidate_head"]
+        env["TRIP_GATE5_EVIDENCE_STARTED_NS"] = str(time.time_ns())
         for name, script, output in COMPONENTS:
             print(json.dumps({"qualification": "running", "test": name, "candidate_head": report["candidate_head"]}), flush=True)
             output_path = ROOT / output
@@ -432,13 +508,32 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
                 command.extend(["--revision", report["candidate_head"], "--output", str(output_path)])
             if name == "gate4_runtime":
                 command.extend(["--mode", "browser", "--output", str(output_path)])
-            code, stdout, stderr = run_process(command, env)
-            status = evidence_status(output_path, code)
-            command_text = f"python3 {script}" + (" --runtime-only" if name == "photo_integrity" else "") + (f" --mode browser --output {output}" if name == "gate4_runtime" else "")
+            if name == "gate5_field_quality":
+                command.extend(["--expected-revision", report["candidate_head"], "--output", str(output_path)])
+            invocation_started_ns = None
+            invocation_started_monotonic = None
+            if name == "gate5_field_quality":
+                invocation_started_ns = prepare_gate5_output(output_path)
+                invocation_started_monotonic = time.monotonic()
+            code, stdout, stderr = run_process(command, env, timeout_seconds=GATE5_TIMEOUT_SECONDS if name == "gate5_field_quality" else COMPONENT_TIMEOUT_SECONDS)
+            gate5_validation = None
+            if name == "gate5_field_quality":
+                print(stdout, end="", flush=True)
+                if stderr:
+                    print(stderr, end="", file=sys.stderr, flush=True)
+                expected_tree = subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=ROOT, text=True).strip()
+                gate5_validation = validate_gate5_execution(output_path, code, report["candidate_head"], invocation_started_ns, expected_tree)
+                status = gate5_validation["status"]
+            else:
+                status = evidence_status(output_path, code)
+            command_text = f"python3 {script}" + (" --runtime-only" if name == "photo_integrity" else "") + (f" --mode browser --output {output}" if name == "gate4_runtime" else "") + (f" --expected-revision {report['candidate_head']} --output {output}" if name == "gate5_field_quality" else "")
             if name == "maplibre_security":
                 command_text += f' --revision {report["candidate_head"]} --output {output}'
-            test_report = {"name": name, "command": command_text, "evidence": output, "status": status, "returncode": code, "timeout_seconds": COMPONENT_TIMEOUT_SECONDS, "stdout_tail": stdout, "stderr_tail": stderr}
-            if code == 124:
+            test_report = {"name": name, "command": command_text, "evidence": output, "status": status, "returncode": code, "timeout_seconds": GATE5_TIMEOUT_SECONDS if name == "gate5_field_quality" else COMPONENT_TIMEOUT_SECONDS, "stdout_tail": stdout, "stderr_tail": stderr}
+            if name == "gate5_field_quality":
+                test_report.update({key: gate5_validation[key] for key in ("process_completed", "acceptance_status", "execution_status", "status_reason")})
+                test_report["duration_seconds"] = round(time.monotonic() - invocation_started_monotonic, 3)
+            elif code == 124:
                 test_report["status_reason"] = f"Component exceeded the {COMPONENT_TIMEOUT_SECONDS}s bound; gate remains unverified and release is fail-closed."
             report["tests"].append(test_report)
         after = authored_snapshot(pipeline_manifest())
@@ -448,9 +543,11 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
         report["authored_inputs_unchanged"] = True
         report["build"] = fast["build"]
         write_gate4_summary()
-        if not report["tests"] or not all(test["status"] == "PASS" for test in report["tests"]):
-            raise RuntimeError("One or more decisive qualification gates failed or were unverified.")
-        report["status"] = "PASS"
+        decision = qualification_decision(report["tests"])
+        report["external_verify_required"] = decision["external_verify_required"]
+        if decision["status"] != "PASS":
+            raise RuntimeError(decision["reason"])
+        report["status"] = decision["status"]
     except (Exception, SystemExit) as error:
         report["errors"].append(str(error))
     finally:

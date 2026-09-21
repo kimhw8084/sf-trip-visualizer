@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_5",
+  "purpose": "Current-lineage Gate 5 field-quality evidence for the integrated Golden UI candidate. This gate does not claim production readiness.",
+  "authority": {
+    "canonical_pipeline": "scripts/pipeline.py",
+    "canonical_build": "scripts/build_map_first.py",
+    "canonical_data": "data/phase7_app_data.json",
+    "golden_ui_evidence": "QA/project_os_verify/ui_revamp_r5/",
+    "freshness": "manifests/trip_freshness.json",
+    "gate4_contract": "manifests/runtime_resilience_contract.json"
+  },
+  "contract": {
+    "architecture": [
+      "Decide → Day → Place is the single Golden UI authority",
+      "mobile compact, expanded, and full sheets preserve task truth",
+      "route-key camera safety and map controls remain reachable",
+      "Smart local-first map and optional Satellite recovery preserve Gate 4 invariants",
+      "KO/EN, light/dark, trip truth, rights, and security controls remain coherent"
+    ],
+    "evidence_suites": [
+      "decision_workbench",
+      "accessibility_reflow",
+      "sheet_geometry",
+      "route_key_camera",
+      "map_geometry",
+      "cross_browser",
+      "visual_evidence",
+      "provider_recovery",
+      "current_lineage_performance"
+    ],
+    "hard_gates": [
+      "every decisive Golden UI artifact is fresh for this invocation and exact-candidate-bound",
+      "a missing, stale, malformed, mismatched, non-clean, non-exact, contradictory, or UNVERIFIED artifact fails closed",
+      "native Safari, physical-device, independent visual/usability, and paired performance limits are explicit boundaries"
+    ],
+    "browser_matrix": {
+      "families": ["chromium", "firefox", "webkit"],
+      "viewports": [
+        {"name": "desktop", "width": 1440, "height": 900},
+        {"name": "tablet", "width": 834, "height": 1112},
+        {"name": "mobile", "width": 390, "height": 844}
+      ]
+    },
+    "performance": {
+      "current_lineage_samples": 3,
+      "record": ["environment", "browser", "viewport", "sample values", "variance", "source binding"],
+      "comparison_rule": "No material regression classification is claimed without an exact clean current-main paired baseline on the same environment; absent that comparison is VERIFY_REQUIRED, never PASS by historical comparison."
+    }
+  },
+  "evidence": {
+    "runner": "scripts/qa_gate5_field_quality.py",
+    "candidate": "QA/project_os_verify/gate5_r13/candidate.json",
+    "baseline": "QA/project_os_verify/gate5_r13/baseline.json",
+    "paired_comparison": "QA/project_os_verify/gate5_r13/paired_comparison.json",
+    "performance_summary": "QA/project_os_verify/gate5_r13/performance_summary.log",
+    "screenshots": "QA/project_os_verify/ui_revamp_r5/",
+    "finding_matrix": "QA/project_os_verify/gate5_r13/finding_matrix.json",
+    "review_pack_index": "QA/project_os_verify/gate5_r13/review_pack_index.json"
+  },
+  "acceptance_boundaries": {
+    "implementation_status": "PASS means objective Gate 5 checks passed for the exact candidate; it is not a production-readiness claim.",
+    "independent_review": "VERIFY_REQUIRED unless independently supplied, candidate-bound multimodal visual/usability review exists.",
+    "native_safari": "VERIFY_REQUIRED when native Safari remote automation is unavailable; Playwright WebKit is not a substitute.",
+    "real_device": "VERIFY_REQUIRED when a verifiably real iPhone/iPad is unavailable.",
+    "performance": "VERIFY_REQUIRED when current-lineage measurements lack an exact same-environment paired base.",
+    "rights": "Photo and third-party redistribution rights are outside this gate."
+  }
+}
