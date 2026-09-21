@@ -1,0 +1,8 @@
+gate5_performance_summary schema=1
+candidate_revision=e3cc355c473ab3ddabffd1b430fe8e58e85668ef
+candidate_tree=0513e47e45c991eb3b081ffa01680fe3f28d2fd9
+environment={"browser": "Chromium", "browser_version": "151.0.7922.34", "headless": true, "platform": "macOS-26.6.2-arm64-arm-64bit", "python": "3.11.7", "sample_count": 3, "url": "http://127.0.0.1:63173/index.html", "viewport": "1440x900"}
+metric=dom_content_ms distribution={"count": 3, "max_ms": 40.829, "mean_ms": 38.629, "median_ms": 37.706, "min_ms": 37.351, "stdev_ms": 1.914}
+metric=smart_style_ready_ms distribution={"count": 3, "max_ms": 589.662, "mean_ms": 569.074, "median_ms": 559.044, "min_ms": 558.515, "stdev_ms": 17.832}
+metric=first_actionable_state_ms distribution={"count": 3, "max_ms": 1123.895, "mean_ms": 1060.45, "median_ms": 1030.338, "min_ms": 1027.116, "stdev_ms": 54.969}
+status=VERIFY_REQUIRED

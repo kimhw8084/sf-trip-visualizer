@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "status": "VERIFY_REQUIRED",
+  "candidate_revision": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+  "reason": "Current-lineage samples are recorded, but no exact same-environment paired current-main baseline is available in this run.",
+  "performance": {
+    "status": "MEASURED",
+    "environment": {
+      "platform": "macOS-26.6.2-arm64-arm-64bit",
+      "python": "3.11.7",
+      "browser": "Chromium",
+      "browser_version": "151.0.7922.34",
+      "viewport": "1440x900",
+      "headless": true,
+      "url": "http://127.0.0.1:63173/index.html",
+      "sample_count": 3
+    },
+    "samples": [
+      {
+        "sample": 1,
+        "dom_content_ms": 40.829,
+        "smart_style_ready_ms": 589.662,
+        "first_actionable_state_ms": 1123.895,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "sample": 2,
+        "dom_content_ms": 37.706,
+        "smart_style_ready_ms": 559.044,
+        "first_actionable_state_ms": 1030.338,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "sample": 3,
+        "dom_content_ms": 37.351,
+        "smart_style_ready_ms": 558.515,
+        "first_actionable_state_ms": 1027.116,
+        "markers": 36,
+        "map_layers": 135
+      }
+    ],
+    "metrics": {
+      "dom_content_ms": {
+        "count": 3,
+        "min_ms": 37.351,
+        "median_ms": 37.706,
+        "max_ms": 40.829,
+        "mean_ms": 38.629,
+        "stdev_ms": 1.914
+      },
+      "smart_style_ready_ms": {
+        "count": 3,
+        "min_ms": 558.515,
+        "median_ms": 559.044,
+        "max_ms": 589.662,
+        "mean_ms": 569.074,
+        "stdev_ms": 17.832
+      },
+      "first_actionable_state_ms": {
+        "count": 3,
+        "min_ms": 1027.116,
+        "median_ms": 1030.338,
+        "max_ms": 1123.895,
+        "mean_ms": 1060.45,
+        "stdev_ms": 54.969
+      }
+    }
+  }
+}

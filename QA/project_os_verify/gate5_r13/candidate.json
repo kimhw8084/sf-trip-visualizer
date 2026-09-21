@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "gate": "production_readiness_gate_5",
+  "status": "VERIFY_REQUIRED",
+  "candidate_head": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+  "candidate_tree": "0513e47e45c991eb3b081ffa01680fe3f28d2fd9",
+  "source_binding": {
+    "binding": "exact_commit",
+    "status": "PASS",
+    "claimed_revision": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+    "checked_out_revision": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+    "checked_out_tree": "0513e47e45c991eb3b081ffa01680fe3f28d2fd9",
+    "source_worktree_dirty": false,
+    "reason": "clean checkout is bound to the exact checked-out revision"
+  },
+  "contract": "manifests/gate5_field_quality_contract.json",
+  "captured_at": "2026-09-21T15:00:26.059814+00:00",
+  "evidence_started_ns": 1790002561928095000,
+  "evidence": [
+    {
+      "name": "decision_workbench",
+      "path": "QA/project_os_verify/ui_revamp_r5/task_oracles.json",
+      "status": "PASS",
+      "sha256": "9a33890c5a3f2927d12646e4ff5446367ad0b629e1a04c722abcd33056031c7a",
+      "mtime_ns": 1790002576756420616,
+      "reported_status": "PASS",
+      "candidate": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+      "candidate_tree": "0513e47e45c991eb3b081ffa01680fe3f28d2fd9",
+      "candidate_binding": "exact-clean-checkout"
+    },
+    {
+      "name": "accessibility_reflow",
+      "path": "QA/project_os_verify/ui_revamp_r5/accessibility.json",
+      "status": "PASS",
+      "sha256": "477b4f17dfa12891088aec6b3b3d98c826e43b5c033b6920d58709202ab4bb08",
+      "mtime_ns": 1790002582688322143,
+      "reported_status": "PASS",
+      "candidate": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+      "candidate_tree": "0513e47e45c991eb3b081ffa01680fe3f28d2fd9",
+      "candidate_binding": "exact-clean-checkout"
+    },
+    {
+      "name": "sheet_geometry",
+      "path": "QA/project_os_verify/ui_revamp_r5/sheet_geometry.json",
+      "status": "PASS",
+      "sha256": "abed1e4b91b9c091acdbad431cedc6b6349c65b0c383a52f88eea73be4451478",
+      "mtime_ns": 1790002623718867931,
+      "reported_status": "PASS",
+      "candidate": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+      "candidate_tree": "0513e47e45c991eb3b081ffa01680fe3f28d2fd9",
+      "candidate_binding": "exact-clean-checkout"
+    },
+    {
+      "name": "route_key_camera",
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_camera.json",
+      "status": "PASS",
+      "sha256": "99653e89b3fcbb79e6c36b7d2cc8b2888381d9db86c3c85f45ade834fa9f5291",
+      "mtime_ns": 1790002635938728391,
+      "reported_status": "PASS",
+      "candidate": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+      "candidate_tree": "0513e47e45c991eb3b081ffa01680fe3f28d2fd9",
+      "candidate_binding": "exact-clean-checkout"
+    },
+    {
+      "name": "map_geometry",
+      "path": "QA/project_os_verify/ui_revamp_r5/map_geometry.json",
+      "status": "PASS",
+      "sha256": "afd2015f28b7781e042b3832068bf6264dbc54a68274839fe89083e795fd7007",
+      "mtime_ns": 1790002590277152821,
+      "reported_status": "PASS",
+      "candidate": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+      "candidate_tree": "0513e47e45c991eb3b081ffa01680fe3f28d2fd9",
+      "candidate_binding": "exact-clean-checkout"
+    },
+    {
+      "name": "cross_browser",
+      "path": "QA/project_os_verify/ui_revamp_r5/browser_summary.json",
+      "status": "PASS",
+      "sha256": "e169fe15859f90fedbc14b39504629e7db9c138c8d3993fb4d9b45e3d5fe51cf",
+      "mtime_ns": 1790002724715110681,
+      "reported_status": "PASS",
+      "candidate": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+      "candidate_tree": "0513e47e45c991eb3b081ffa01680fe3f28d2fd9",
+      "candidate_binding": "exact-clean-checkout"
+    },
+    {
+      "name": "visual_evidence",
+      "path": "QA/project_os_verify/ui_revamp_r5/visual_index.json",
+      "status": "PASS",
+      "sha256": "79f21c0c5564d720ea303a60fc70435630e7386d40e63406b1a4078ba4a989dc",
+      "mtime_ns": 1790002755992695423,
+      "reported_status": "PASS",
+      "candidate": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+      "candidate_tree": "0513e47e45c991eb3b081ffa01680fe3f28d2fd9",
+      "candidate_binding": "exact-clean-checkout"
+    },
+    {
+      "name": "provider_recovery",
+      "path": "QA/release/gate4_runtime.json",
+      "status": "PASS",
+      "sha256": "50d6edc6e5ba34995b6f377f6b627060595212f8ce5f9773b5b6bb7986c67d73",
+      "mtime_ns": 1790002825826387199,
+      "reported_status": "PASS",
+      "candidate_head": "e3cc355c473ab3ddabffd1b430fe8e58e85668ef",
+      "external_provider": {
+        "status": "PASS",
+        "provider": "satellite",
+        "success_requests": 2,
+        "note": "optional success path independently observed in this environment",
+        "post_switch_tile_failure_recovery": "VERIFY_REQUIRED"
+      }
+    }
+  ],
+  "performance": {
+    "status": "MEASURED",
+    "environment": {
+      "platform": "macOS-26.6.2-arm64-arm-64bit",
+      "python": "3.11.7",
+      "browser": "Chromium",
+      "browser_version": "151.0.7922.34",
+      "viewport": "1440x900",
+      "headless": true,
+      "url": "http://127.0.0.1:63173/index.html",
+      "sample_count": 3
+    },
+    "samples": [
+      {
+        "sample": 1,
+        "dom_content_ms": 40.829,
+        "smart_style_ready_ms": 589.662,
+        "first_actionable_state_ms": 1123.895,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "sample": 2,
+        "dom_content_ms": 37.706,
+        "smart_style_ready_ms": 559.044,
+        "first_actionable_state_ms": 1030.338,
+        "markers": 36,
+        "map_layers": 135
+      },
+      {
+        "sample": 3,
+        "dom_content_ms": 37.351,
+        "smart_style_ready_ms": 558.515,
+        "first_actionable_state_ms": 1027.116,
+        "markers": 36,
+        "map_layers": 135
+      }
+    ],
+    "metrics": {
+      "dom_content_ms": {
+        "count": 3,
+        "min_ms": 37.351,
+        "median_ms": 37.706,
+        "max_ms": 40.829,
+        "mean_ms": 38.629,
+        "stdev_ms": 1.914
+      },
+      "smart_style_ready_ms": {
+        "count": 3,
+        "min_ms": 558.515,
+        "median_ms": 559.044,
+        "max_ms": 589.662,
+        "mean_ms": 569.074,
+        "stdev_ms": 17.832
+      },
+      "first_actionable_state_ms": {
+        "count": 3,
+        "min_ms": 1027.116,
+        "median_ms": 1030.338,
+        "max_ms": 1123.895,
+        "mean_ms": 1060.45,
+        "stdev_ms": 54.969
+      }
+    }
+  },
+  "verify_required": [
+    "native Safari remote automation is unavailable; Playwright WebKit is not a native Safari substitute",
+    "no verifiably real iPhone or iPad is available in this execution environment",
+    "independent candidate-bound multimodal visual/usability review is not supplied",
+    "current-lineage performance was measured, but no exact same-environment paired current-main baseline was available",
+    "optional Satellite provider success/recovery remains externally unverified"
+  ],
+  "failures": [],
+  "completed_at": "2026-09-21T15:00:30.195178+00:00"
+}
