@@ -54,6 +54,7 @@
   };
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
   const isMobile = () => window.matchMedia('(max-width:800px)').matches;
+  const compactRouteLegendCameraNeutral = () => isMobile() && state.presentation.sheet === 'compact';
   const safeColor = value => /^#[0-9a-f]{6}$/i.test(String(value ?? '')) ? String(value) : '#72857b';
   const photoPath = (key, role, variant) => /^[a-z0-9]+(?:_[a-z0-9]+)*$/i.test(String(key ?? '')) && SAFE_PHOTO_ROLES.has(role) && SAFE_PHOTO_VARIANTS.has(variant) ? `assets/photos/${variant}/${key}__${role}.webp` : SAFE_PIXEL;
   const photoSrc = path => window.EMBEDDED_PHOTOS?.[path] || path;
@@ -339,6 +340,7 @@
     if (!map || !shell) return isMobile() ? { top: 118, right: 30, bottom: 112, left: 30 } : { top: 170, right: 60, bottom: 100, left: 60 };
     const shellRect = shell.getBoundingClientRect(), padding = { top: MAP_SAFE_MARGIN, right: MAP_SAFE_MARGIN, bottom: MAP_SAFE_MARGIN, left: MAP_SAFE_MARGIN };
     for (const obstacle of mapObstacleRects()) {
+      if (compactRouteLegendCameraNeutral() && obstacle.selector.includes('route-legend-panel')) continue;
       const touchesLeft = obstacle.left <= MAP_SAFE_MARGIN && obstacle.right > 0;
       const touchesRight = obstacle.right >= shellRect.width - MAP_SAFE_MARGIN && obstacle.left < shellRect.width;
       const touchesTop = obstacle.top <= MAP_SAFE_MARGIN && obstacle.bottom > 0;
@@ -656,8 +658,8 @@
     state.presentation.routeLegendOpen = open;
     if (open) routeLegendInvoker = toggle;
     panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open));
-    if (open) requestAnimationFrame(() => { positionRouteLegend(); fitVisibleMap(); });
-    else { panel.classList.remove('open-down'); const restore = returnFocus && routeLegendInvoker?.focus && document.contains(routeLegendInvoker) ? routeLegendInvoker : null; requestAnimationFrame(() => { fitVisibleMap(); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); }); routeLegendInvoker = null; }
+    if (open) requestAnimationFrame(() => { positionRouteLegend(); if (!compactRouteLegendCameraNeutral()) fitVisibleMap(); });
+    else { panel.classList.remove('open-down'); const restore = returnFocus && routeLegendInvoker?.focus && document.contains(routeLegendInvoker) ? routeLegendInvoker : null; requestAnimationFrame(() => { if (!compactRouteLegendCameraNeutral()) fitVisibleMap(); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); }); routeLegendInvoker = null; }
   }
   function renderMapControls() {
     const provider = document.getElementById('providerControls'), region = document.getElementById('regionControls');

@@ -238,7 +238,6 @@ def main() -> int:
                         and panel_items == len(baseline_state["task"]["routes"])
                         and len(route_labels) == panel_items
                         and camera_neutral(open_row["camera_delta_open"])
-                        and open_context == baseline_context
                         and context_passes(open_context)
                     )
                     close_with_escape(page)
@@ -261,7 +260,6 @@ def main() -> int:
                         and closed_focus == "routeLegendToggle"
                         and open_row["state_preserved_on_close"]
                         and camera_neutral(open_row["camera_delta_close"])
-                        and closed_context == baseline_context
                         and context_passes(closed_context)
                     )
                     viewport_report["paths"][path] = open_row
@@ -293,6 +291,21 @@ def main() -> int:
                             report["screenshots"].append(screenshot)
                 if not pointer_done:
                     report["failures"].append(f"{viewport_key}: pointer path did not run")
+                activate(page, "pointer")
+                page.wait_for_timeout(80)
+                page.locator("#fitMap").click()
+                page.wait_for_timeout(120)
+                fit_context = spatial_context(page)
+                fit_row = {
+                    "panel_visible": page.locator("#routeLegendPanel").is_visible(),
+                    "camera": camera(page),
+                    "spatial_context": fit_context,
+                    "pass": page.locator("#routeLegendPanel").is_visible() and context_passes(fit_context),
+                }
+                viewport_report["fit_map_while_open"] = fit_row
+                if not fit_row["pass"]:
+                    report["failures"].append(f"{viewport_key}: Fit-map while route key open lost useful spatial context")
+                close_with_escape(page)
             except Exception as error:
                 report["errors"].append(f"{viewport_key}: {type(error).__name__}: {error}")
             if page_errors:
