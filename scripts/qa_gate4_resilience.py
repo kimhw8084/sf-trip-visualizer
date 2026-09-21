@@ -382,6 +382,9 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
                 deterministic_page.locator(".photo-marker").first.click()
             deterministic_page.wait_for_timeout(300)
             stable_before_satellite = snapshot(deterministic_page)
+            pre_satellite_smart_camera = stable_before_satellite.get("smart_camera")
+            if not pre_satellite_smart_camera or not pre_satellite_smart_camera.get("spatial", {}).get("useful"):
+                deterministic_failures.append("useful Smart camera/spatial context was not recorded before Satellite activation")
             activated = bool(deterministic_page.evaluate("async()=>await window.__tripApp.chooseProvider('satellite')"))
             deterministic_page.wait_for_function("window.__tripApp.state.provider==='satellite' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
             satellite_active = snapshot(deterministic_page)
@@ -390,7 +393,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
                 deterministic_failures.append("fulfilled Satellite activation did not establish a ready raster map")
 
             deterministic["phase"] = "failure"
-            deterministic_page.evaluate("()=>window.__tripApp.map().jumpTo({center:[-118.2437,34.0522],zoom:13,bearing:0,pitch:0})")
+            deterministic_page.evaluate("()=>window.__tripApp.map().panTo([-118.2437,34.0522],{duration:0})")
             deterministic_page.wait_for_function("window.__tripApp.state.provider==='vector' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
             deterministic_page.wait_for_timeout(900)
             recovered = snapshot(deterministic_page)
@@ -399,6 +402,29 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             stats = recovered["runtime"]["providerStats"]["satellite"]
             preserved = stable_before_satellite["planning_state"] == recovered["planning_state"]
             activation_state_preserved = stable_before_satellite["planning_state"] == satellite_active["planning_state"]
+            inherited_remote_spatial = deterministic_page.evaluate("""()=>{const app=window.__tripApp,map=app.map();map.jumpTo({center:[-118.2437,34.0522],zoom:13,bearing:0,pitch:0});return app.mapSpatialSnapshot();}""")
+            restored_view = recovered.get("map", {}).get("camera")
+            if restored_view:
+                deterministic_page.evaluate("view=>window.__tripApp.map().jumpTo(view)", restored_view)
+            deterministic_page.wait_for_timeout(250)
+            recovered = snapshot(deterministic_page)
+            recovered_spatial = recovered.get("map", {}).get("spatial") or {}
+            prior_view = pre_satellite_smart_camera or {}
+            recovered_view = recovered.get("map", {}).get("camera") or {}
+            camera_match = bool(prior_view and recovered_view and all(abs(float(recovered_view["center"][index]) - float(prior_view["center"][index])) < 0.0001 for index in (0, 1)) and abs(float(recovered_view["zoom"]) - float(prior_view["zoom"])) < 0.01)
+            spatial_recovery = {
+                "pre_satellite_smart_camera": pre_satellite_smart_camera,
+                "recovered_smart_camera": recovered.get("smart_camera"),
+                "recovered_map_camera": recovered_view,
+                "camera_restored": camera_match,
+                "inherited_satellite_camera_negative_control": inherited_remote_spatial,
+                "inherited_camera_was_spatially_empty": not inherited_remote_spatial.get("useful") and inherited_remote_spatial.get("markers_in_viewport", 0) == 0 and inherited_remote_spatial.get("route_features_in_viewport", 0) == 0,
+                "recovered_spatial": recovered_spatial,
+                "recovered_useful": bool(recovered_spatial.get("useful")),
+                "recovered_markers_in_viewport": recovered_spatial.get("markers_in_viewport", 0),
+                "recovered_routes_in_viewport": recovered_spatial.get("route_features_in_viewport", 0),
+                "recovered_content_occupancy_ratio": recovered_spatial.get("content_occupancy_ratio", 0),
+            }
             bounded = {
                 "single_fallback": stats["fallbacks"] == 1 and len(fallback_events) == 1,
                 "single_tile_error_episode": stats["tileErrors"] == 1 and len(tile_events) == 1,
@@ -406,8 +432,14 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
                 "single_canvas": recovered["map"]["canvas_count"] == 1,
                 "unique_markers": len(set(recovered["map"]["photo_marker_keys"])) == recovered["map"]["photo_markers"],
                 "bounded_failure_requests": len(deterministic["failure_requests"]) <= 48,
+                "inherited_camera_negative_control": spatial_recovery["inherited_camera_was_spatially_empty"],
+                "recovered_camera_or_safe_fit": spatial_recovery["camera_restored"] or (spatial_recovery["recovered_useful"] and spatial_recovery["recovered_markers_in_viewport"] > 0),
+                "recovered_task_occupancy": spatial_recovery["recovered_useful"] and spatial_recovery["recovered_markers_in_viewport"] > 0 and spatial_recovery["recovered_routes_in_viewport"] > 0,
             }
-            feedback_visible = bool(deterministic_page.locator("#mapError:not([hidden])").count()) and "Smart" in deterministic_page.locator("#mapError .map-error-message").inner_text()
+            feedback_message = deterministic_page.locator("#mapError .map-error-message").inner_text() if deterministic_page.locator("#mapError:not([hidden])").count() else ""
+            feedback_action = deterministic_page.locator("#smartRetry").inner_text() if deterministic_page.locator("#smartRetry").count() else ""
+            feedback_visible = bool(feedback_message) and "Smart" in feedback_message
+            feedback_truthful = feedback_visible and "failed" not in feedback_message.lower() and "Satellite" in feedback_action
             screenshot_path = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5" / "satellite_failure_recovery_1440x900.png"
             screenshot_path.parent.mkdir(parents=True, exist_ok=True)
             deterministic_page.screenshot(path=str(screenshot_path))
@@ -433,13 +465,15 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
                 deterministic_failures.append("Smart map_visual_ready did not recover")
             if not feedback_visible:
                 deterministic_failures.append("Satellite recovery feedback was not visible")
+            if not feedback_truthful:
+                deterministic_failures.append("Satellite recovery feedback did not truthfully describe usable Smart recovery")
             if not retry_allowed:
                 deterministic_failures.append("explicit later Satellite probe was not allowed")
             deterministic_row = {
                 "status": "PASS" if not deterministic_failures and recovered["provider"] == "vector" and smart_identity(recovered["provider_identity"]) and recovered["provider_health"].get("satellite") == "failed" and recovered["map_visual_ready"] and preserved and feedback_visible and all(bounded.values()) and retry_allowed else "FAIL",
                 "mode": "deterministic_fulfilled_then_failed_remote_raster",
                 "activation": {"result": activated, "provider": satellite_active["provider"], "provider_health": satellite_active["provider_health"], "success_requests": len(deterministic["success_requests"]), "raster_success_requests": len(raster_success_requests), "snapshot": satellite_active},
-                "recovery": {"provider": recovered["provider"], "provider_identity": recovered["provider_identity"], "provider_health": recovered["provider_health"], "satellite_stats": stats, "tile_error_events": tile_events, "fallback_events": fallback_events, "activation_state_preserved": activation_state_preserved, "planning_state_preserved": preserved, "feedback_visible": feedback_visible, "map_visual_ready": recovered["map_visual_ready"], "snapshot": recovered},
+                "recovery": {"provider": recovered["provider"], "provider_identity": recovered["provider_identity"], "provider_health": recovered["provider_health"], "satellite_stats": stats, "tile_error_events": tile_events, "fallback_events": fallback_events, "activation_state_preserved": activation_state_preserved, "planning_state_preserved": preserved, "feedback_visible": feedback_visible, "feedback_truthful": feedback_truthful, "map_visual_ready": recovered["map_visual_ready"], "spatial_recovery": spatial_recovery, "snapshot": recovered},
                 "retry_allowed": retry_allowed,
                 "bounded": bounded,
                 "failure_requests": len(deterministic["failure_requests"]),

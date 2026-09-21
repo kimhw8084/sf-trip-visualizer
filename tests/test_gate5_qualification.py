@@ -128,6 +128,25 @@ class Gate5QualificationTests(unittest.TestCase):
         self.assertIn("reason === 'tile_error'", source)
         self.assertIn("if (localMapError(event))", source)
 
+    def test_provider_camera_ownership_has_spatial_recovery_boundary(self):
+        source = (Path(__file__).resolve().parents[1] / "src/app_phase7.js").read_text()
+        self.assertIn("let smartCamera = null", source)
+        self.assertIn("function mapSpatialSnapshot(map = photoMap)", source)
+        self.assertIn("function rememberSmartCamera(map = photoMap)", source)
+        self.assertIn("function validSmartCamera()", source)
+        self.assertIn("return validSmartCamera() ?", source)
+        self.assertIn("if (state.runtime.provider === 'vector') rememberSmartCamera(map)", source)
+        self.assertIn("smart_camera: validSmartCamera()", source)
+
+    def test_satellite_recovery_feedback_does_not_retry_smart_as_if_smart_failed(self):
+        source = (Path(__file__).resolve().parents[1] / "src/app_phase7.js").read_text()
+        messages = (Path(__file__).resolve().parents[1] / "src/atlas_messages.js").read_text()
+        template = (Path(__file__).resolve().parents[1] / "src/map_shell_template.html").read_text()
+        self.assertIn("retry.dataset.retryProvider = 'satellite'", source)
+        self.assertIn("retryProvider === 'satellite'", source)
+        self.assertIn("retrySatellite", messages)
+        self.assertIn('id="mapErrorDismiss"', template)
+
 
 if __name__ == "__main__":
     unittest.main()
