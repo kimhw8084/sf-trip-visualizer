@@ -440,6 +440,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             feedback_action = deterministic_page.locator("#smartRetry").inner_text() if deterministic_page.locator("#smartRetry").count() else ""
             feedback_visible = bool(feedback_message) and "Smart" in feedback_message
             feedback_truthful = feedback_visible and "failed" not in feedback_message.lower() and "Satellite" in feedback_action
+            feedback_dismissible = bool(deterministic_page.locator("#mapErrorDismiss").count()) and deterministic_page.locator("#mapErrorDismiss").is_visible()
             screenshot_path = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5" / "satellite_failure_recovery_1440x900.png"
             screenshot_path.parent.mkdir(parents=True, exist_ok=True)
             deterministic_page.screenshot(path=str(screenshot_path))
@@ -467,13 +468,15 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
                 deterministic_failures.append("Satellite recovery feedback was not visible")
             if not feedback_truthful:
                 deterministic_failures.append("Satellite recovery feedback did not truthfully describe usable Smart recovery")
+            if not feedback_dismissible:
+                deterministic_failures.append("Satellite recovery feedback was not visibly dismissible")
             if not retry_allowed:
                 deterministic_failures.append("explicit later Satellite probe was not allowed")
             deterministic_row = {
                 "status": "PASS" if not deterministic_failures and recovered["provider"] == "vector" and smart_identity(recovered["provider_identity"]) and recovered["provider_health"].get("satellite") == "failed" and recovered["map_visual_ready"] and preserved and feedback_visible and all(bounded.values()) and retry_allowed else "FAIL",
                 "mode": "deterministic_fulfilled_then_failed_remote_raster",
                 "activation": {"result": activated, "provider": satellite_active["provider"], "provider_health": satellite_active["provider_health"], "success_requests": len(deterministic["success_requests"]), "raster_success_requests": len(raster_success_requests), "snapshot": satellite_active},
-                "recovery": {"provider": recovered["provider"], "provider_identity": recovered["provider_identity"], "provider_health": recovered["provider_health"], "satellite_stats": stats, "tile_error_events": tile_events, "fallback_events": fallback_events, "activation_state_preserved": activation_state_preserved, "planning_state_preserved": preserved, "feedback_visible": feedback_visible, "feedback_truthful": feedback_truthful, "map_visual_ready": recovered["map_visual_ready"], "spatial_recovery": spatial_recovery, "snapshot": recovered},
+                "recovery": {"provider": recovered["provider"], "provider_identity": recovered["provider_identity"], "provider_health": recovered["provider_health"], "satellite_stats": stats, "tile_error_events": tile_events, "fallback_events": fallback_events, "activation_state_preserved": activation_state_preserved, "planning_state_preserved": preserved, "feedback_visible": feedback_visible, "feedback_truthful": feedback_truthful, "feedback_dismissible": feedback_dismissible, "map_visual_ready": recovered["map_visual_ready"], "spatial_recovery": spatial_recovery, "snapshot": recovered},
                 "retry_allowed": retry_allowed,
                 "bounded": bounded,
                 "failure_requests": len(deterministic["failure_requests"]),
