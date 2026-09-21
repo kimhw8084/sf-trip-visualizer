@@ -1,359 +1,567 @@
 {
+  "status": "PASS",
   "checks": {
-    "loading_completed": true,
-    "initial": {
-      "provider": "vector",
-      "health": "ready",
-      "features": 139,
-      "clusters": 3,
-      "dayChips": 10,
-      "dayCards": 9,
-      "legLabels": 4,
-      "routeLayers": [
-        true,
-        true,
-        true,
-        true
+    "shell_ready": {
+      "pass": true,
+      "detail": null
+    },
+    "no_artificial_splash": {
+      "pass": true,
+      "detail": null
+    },
+    "initial_recommendation": {
+      "pass": true,
+      "detail": null
+    },
+    "all_four_route_strategies": {
+      "pass": true,
+      "detail": null
+    },
+    "two_route_compare": {
+      "pass": true,
+      "detail": null
+    },
+    "day_semantics_and_nonspatial_content": {
+      "pass": true,
+      "detail": null
+    },
+    "single_date_authority": {
+      "pass": true,
+      "detail": null
+    },
+    "peek_single_overlay": {
+      "pass": true,
+      "detail": null
+    },
+    "place_inspector_three_roles": {
+      "pass": true,
+      "detail": null
+    },
+    "place_returns_to_day": {
+      "pass": true,
+      "detail": null
+    },
+    "english_critical_surface": {
+      "pass": true,
+      "detail": null
+    },
+    "dark_tokens_applied": {
+      "pass": true,
+      "detail": null
+    },
+    "satellite_failure_preserves_plan": {
+      "pass": true,
+      "detail": {
+        "provider": "vector",
+        "date": "10/8",
+        "mode": "day",
+        "error": true,
+        "smart": "ready"
+      }
+    },
+    "mobile_reflow": {
+      "pass": true,
+      "detail": null
+    },
+    "mobile_compact_reachable": {
+      "pass": true,
+      "detail": null
+    },
+    "mobile_expanded_reachable": {
+      "pass": true,
+      "detail": null
+    }
+  },
+  "matrix": [
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
       ],
-      "canvas": 1
+      "date": "all",
+      "region": "overall",
+      "markers": 35,
+      "expected": 35,
+      "features": 35,
+      "failures": []
     },
-    "gap_audit": {
-      "places": 36,
-      "photos": 108,
-      "audited": [
-        "pier39",
-        "tunnel_tops",
-        "bixby",
-        "ghirardelli",
-        "cable_car",
-        "carmel",
-        "el_capitan",
-        "monterey_wharf"
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
       ],
-      "auditedMarkers": 8,
-      "routeKinds": [
-        "bonus",
-        "choice",
-        "conditional",
-        "local",
-        "option",
-        "recovery",
-        "transfer"
-      ],
-      "routeLayerColors": true
-    },
-    "cluster_hover": {
-      "preview": true,
-      "routeTip": false,
-      "photo": 1200
-    },
-    "cluster_zoom": {
-      "zoom": 11,
-      "localRouteLayer": true,
-      "renderedRoutes": 14,
-      "localRouteLayout": "visible",
-      "visibleMarkers": 20
-    },
-    "map_only": {
-      "panelHidden": true,
-      "dayChips": 10,
-      "dayCards": 9,
-      "mapWidth": 1440
-    },
-    "a1_oct3_sf_zoom12": {
-      "date": "10/3",
+      "date": "all",
       "region": "sf",
+      "markers": 22,
+      "expected": 22,
+      "features": 20,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "date": "all",
+      "region": "monterey",
+      "markers": 6,
+      "expected": 6,
+      "features": 6,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "date": "all",
+      "region": "yosemite",
+      "markers": 7,
+      "expected": 7,
+      "features": 6,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "date": "10/8",
+      "region": "overall",
+      "markers": 3,
+      "expected": 3,
+      "features": 3,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "date": "10/8",
+      "region": "sf",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "date": "10/8",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "date": "10/8",
+      "region": "yosemite",
+      "markers": 3,
+      "expected": 3,
+      "features": 3,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "date": "10/9",
+      "region": "overall",
+      "markers": 1,
+      "expected": 1,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "date": "10/9",
+      "region": "sf",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "date": "10/9",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1",
+        "A2",
+        "B1",
+        "B2"
+      ],
+      "date": "10/9",
+      "region": "yosemite",
+      "markers": 1,
+      "expected": 1,
+      "features": 0,
+      "failures": []
+    },
+    {
       "routes": [
         "A1"
       ],
-      "zoom": 12.2,
-      "routeLayer": true,
-      "renderedRoutes": 1,
-      "labels": 1,
-      "scheduleCards": 4
+      "date": "all",
+      "region": "overall",
+      "markers": 35,
+      "expected": 35,
+      "features": 35,
+      "failures": []
     },
-    "stop_hover": {
-      "preview": true,
-      "photo": 1200,
-      "text": "Ferry Building + Farmers Market\n페리 빌딩 · 파머스 마켓\n필수\nA1 · 10/3 토 · 08:30–10:15 · 확정\n왜 지금? 날짜 한정 이벤트를 먼저 확보. 전날 21시 도착이라 08시 개장런까지는 하지 않음.\n장점: 희소성\n상세 ↗"
-    },
-    "place_detail": {
-      "focus": true,
-      "title": "Ferry Building + Farmers Market",
-      "subtitle": "페리 빌딩 · 파머스 마켓",
-      "photos": 3,
-      "decoded": true,
-      "timingCards": 1
-    },
-    "english": {
-      "lang": "en",
-      "title": "Ferry Building + Farmers Market",
-      "subtitleCount": 0,
-      "controls": [
-        "4 routes · 9 days · 108 real photos · 36 verified places",
-        "ROUTES",
-        "DATE",
-        "REGION",
-        "Overall",
-        "SF + Marin",
-        "Monterey",
-        "Yosemite",
-        "MAP",
-        "Smart map",
-        "Satellite + labels",
-        "Colored lines = routes · long dash = recovery gap · short dash = choice/conditional"
+    {
+      "routes": [
+        "A1"
       ],
-      "reason": "PLANNED · 10/3 SAT · 08:30–10:15\nWhy now?\nSecure date-limited events first. It arrives at 21:00 the day before, so it won't open until 08:00.\nAdvantage: scarcity"
+      "date": "all",
+      "region": "sf",
+      "markers": 22,
+      "expected": 22,
+      "features": 20,
+      "failures": []
     },
-    "dark": {
-      "theme": "dark",
-      "mapBackground": "#334553",
-      "canvas": 1
+    {
+      "routes": [
+        "A1"
+      ],
+      "date": "all",
+      "region": "monterey",
+      "markers": 6,
+      "expected": 6,
+      "features": 6,
+      "failures": []
     },
-    "matrix": {
-      "states": 600,
-      "failed": [],
-      "min_markers": 0,
-      "max_markers": 36
+    {
+      "routes": [
+        "A1"
+      ],
+      "date": "all",
+      "region": "yosemite",
+      "markers": 7,
+      "expected": 7,
+      "features": 6,
+      "failures": []
     },
-    "a1_oct9_yosemite": {
+    {
+      "routes": [
+        "A1"
+      ],
+      "date": "10/8",
+      "region": "overall",
+      "markers": 3,
+      "expected": 3,
+      "features": 3,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1"
+      ],
+      "date": "10/8",
+      "region": "sf",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1"
+      ],
+      "date": "10/8",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1"
+      ],
+      "date": "10/8",
+      "region": "yosemite",
+      "markers": 3,
+      "expected": 3,
+      "features": 3,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1"
+      ],
+      "date": "10/9",
+      "region": "overall",
       "markers": 1,
-      "legs": 0,
-      "cards": 1
+      "expected": 1,
+      "features": 0,
+      "failures": []
     },
-    "widths": {
-      "1440": {
-        "overflow": 0,
-        "mapWidth": 1440,
-        "sidebarVisible": false,
-        "dateChips": 10
-      },
-      "1280": {
-        "overflow": 0,
-        "mapWidth": 1280,
-        "sidebarVisible": false,
-        "dateChips": 10
-      },
-      "1024": {
-        "overflow": 0,
-        "mapWidth": 1024,
-        "sidebarVisible": false,
-        "dateChips": 10
-      },
-      "768": {
-        "overflow": 0,
-        "mapWidth": 768,
-        "sidebarVisible": false,
-        "dateChips": 10
-      },
-      "430": {
-        "overflow": 0,
-        "mapWidth": 430,
-        "sidebarVisible": false,
-        "dateChips": 10
-      },
-      "390": {
-        "overflow": 0,
-        "mapWidth": 390,
-        "sidebarVisible": false,
-        "dateChips": 10
-      }
-    },
-    "providers": {
-      "satellite": {
-        "active": "satellite",
-        "health": "ready",
-        "canvas": 1,
-        "tilesLoaded": true
-      },
-      "vector": {
-        "active": "vector",
-        "health": "ready",
-        "canvas": 1,
-        "tilesLoaded": true
-      }
-    },
-    "visible_provider_controls": {
-      "desktop": [
-        "vector",
-        "satellite"
+    {
+      "routes": [
+        "A1"
       ],
-      "mobile": [
-        "vector",
-        "satellite"
+      "date": "10/9",
+      "region": "sf",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A1"
       ],
-      "data": [
-        "vector",
-        "satellite"
-      ]
+      "date": "10/9",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
     },
-    "console_errors_before_injected_failure": [],
-    "failed_requests_before_injected_failure": [],
-    "satellite_initial_failure_fallback": {
-      "active": "vector",
-      "satelliteHealth": "failed",
-      "note": "Satellite tiles failed → Smart map automatically",
-      "canvas": 1
+    {
+      "routes": [
+        "A1"
+      ],
+      "date": "10/9",
+      "region": "yosemite",
+      "markers": 1,
+      "expected": 1,
+      "features": 0,
+      "failures": []
     },
-    "post_success_pan_failure_fallback": {
-      "active": "vector",
-      "satelliteHealth": "failed",
-      "canvas": 1
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "all",
+      "region": "overall",
+      "markers": 35,
+      "expected": 35,
+      "features": 35,
+      "failures": []
     },
-    "expected_injected_failure_console": [
-      "Failed to load resource: net::ERR_FAILED",
-      "Failed to load resource: net::ERR_FAILED"
-    ],
-    "touch_390": {
-      "preview": false,
-      "details": 3,
-      "decoded": true,
-      "overflow": 0,
-      "cluster_preview": true,
-      "marker_preview": {
-        "visible": true,
-        "photo": 1200,
-        "details": 0
-      }
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "all",
+      "region": "sf",
+      "markers": 22,
+      "expected": 22,
+      "features": 20,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "all",
+      "region": "monterey",
+      "markers": 6,
+      "expected": 6,
+      "features": 6,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "all",
+      "region": "yosemite",
+      "markers": 7,
+      "expected": 7,
+      "features": 6,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "10/8",
+      "region": "overall",
+      "markers": 3,
+      "expected": 3,
+      "features": 3,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "10/8",
+      "region": "sf",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "10/8",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "10/8",
+      "region": "yosemite",
+      "markers": 3,
+      "expected": 3,
+      "features": 3,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "10/9",
+      "region": "overall",
+      "markers": 1,
+      "expected": 1,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "10/9",
+      "region": "sf",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "10/9",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A2",
+        "B1"
+      ],
+      "date": "10/9",
+      "region": "yosemite",
+      "markers": 1,
+      "expected": 1,
+      "features": 0,
+      "failures": []
     }
-  },
+  ],
   "screenshots": [
-    "QA/map_first/loading_1440.png",
     "QA/map_first/default_1440_ko_light.png",
-    "QA/map_first/cluster_hover_1440.png",
-    "QA/map_first/cluster_zoom_1440.png",
-    "QA/map_first/map_only_1440.png",
-    "QA/map_first/a1_oct3_sf_map_only.png",
-    "QA/map_first/stop_hover_1440.png",
-    "QA/map_first/ferry_detail_map_only.png",
-    "QA/map_first/english_light_1440.png",
+    "QA/map_first/compare_a1_a2_1440.png",
+    "QA/map_first/day_1008_1440.png",
+    "QA/map_first/place_inspector_1440.png",
     "QA/map_first/english_dark_1440.png",
-    "QA/map_first/english_dark_sidebar_1440.png",
-    "QA/map_first/a1_oct9_yosemite.png",
-    "QA/map_first/responsive_1440.png",
-    "QA/map_first/responsive_1280.png",
-    "QA/map_first/responsive_1024.png",
-    "QA/map_first/responsive_768.png",
-    "QA/map_first/responsive_430.png",
-    "QA/map_first/responsive_390.png",
-    "QA/map_first/provider_satellite.png",
-    "QA/map_first/provider_vector.png",
-    "QA/map_first/satellite_failure_fallback.png",
-    "QA/map_first/satellite_pan_failure_fallback.png",
-    "QA/map_first/touch_390_preview.png",
-    "QA/map_first/touch_390_detail.png"
+    "QA/map_first/mobile_expanded_390.png"
   ],
   "errors": [],
   "console_errors": [
-    "Failed to load resource: net::ERR_FAILED",
     "Failed to load resource: net::ERR_FAILED"
   ],
   "failed_requests": [
     {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=4",
+      "url": "http://127.0.0.1:63765/assets/vector/sf_trip.pmtiles",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:63765/assets/vector/sf_trip.pmtiles",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1",
       "failure": "net::ERR_FAILED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/6/24/10?viewport=7",
-      "failure": "net::ERR_FAILED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3166/1310",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3165/1310",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3166/1309",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3165/1309",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3166/1311",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3167/1310",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3165/1311",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3167/1309",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3164/1310",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3167/1311",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3166/1308",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3164/1309",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3165/1308",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3164/1311",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3167/1308",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3166/1312",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
-    },
-    {
-      "url": "http://127.0.0.1:51317/assets/vector/sf_trip.pmtiles",
-      "failure": "net::ERR_ABORTED"
     }
   ],
-  "cleanup_warnings": [],
-  "status": "PASS"
+  "candidate": "530d7c82d386200d7ec443e32c40ef0f1a644f70",
+  "candidate_tree": "99d359edc19aae5952f68545ccbafcf863a759e1",
+  "candidate_binding": "exact-clean-checkout",
+  "matrix_failures": [],
+  "expected_network_events": [
+    {
+      "url": "http://127.0.0.1:63765/assets/vector/sf_trip.pmtiles",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:63765/assets/vector/sf_trip.pmtiles",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1",
+      "failure": "net::ERR_FAILED"
+    }
+  ],
+  "unexpected_network_events": [],
+  "unexpected_console_errors": []
 }

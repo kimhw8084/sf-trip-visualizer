@@ -1,0 +1,1670 @@
+{
+  "schema_version": 1,
+  "change": "CHG-157 R5 compact-mobile route-key camera safety",
+  "status": "FAIL",
+  "camera_contract": "Compact-mobile route-key disclosure is camera-neutral within renderer noise; Fit-map remains an explicit action.",
+  "viewports": {
+    "360x800": {
+      "paths": {
+        "pointer": {
+          "path": "pointer",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.20122852140952
+            },
+            "zoom": 6.264539264032619,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -128.8386725638611,
+              "lat": 37.528489474665946
+            },
+            "zoom": 3.637457396598756,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 7.766107063861114,
+            "center_lat": 0.32726095325642746,
+            "zoom": 2.627081867433863,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 360,
+              "height": 648
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 1,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.1474826388888892,
+            "occupied_height_ratio": 0.052254906888293644,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.20122852140952
+            },
+            "zoom": 6.264539264032616,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 0.0,
+            "center_lat": 0.0,
+            "zoom": 2.6645352591003757e-15,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 360,
+              "height": 648
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.9111111111111084,
+            "occupied_height_ratio": 0.3228178356089056,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": false
+        },
+        "keyboard": {
+          "path": "keyboard",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.20122852140952
+            },
+            "zoom": 6.264539264032619,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -128.83867256386105,
+              "lat": 37.528489474665946
+            },
+            "zoom": 3.6374573965987578,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 7.766107063861057,
+            "center_lat": 0.32726095325642746,
+            "zoom": 2.627081867433861,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 360,
+              "height": 648
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 1,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.14748263888888952,
+            "occupied_height_ratio": 0.052254906888293644,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.20122852140952
+            },
+            "zoom": 6.264539264032615,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 0.0,
+            "center_lat": 0.0,
+            "zoom": 3.552713678800501e-15,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 360,
+              "height": 648
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.9111111111111084,
+            "occupied_height_ratio": 0.3228178356089056,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": false
+        },
+        "touch": {
+          "path": "touch",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.20122852140952
+            },
+            "zoom": 6.264539264032619,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -128.8386725638611,
+              "lat": 37.52848947466596
+            },
+            "zoom": 3.6374573965987564,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 7.766107063861114,
+            "center_lat": 0.32726095325644167,
+            "zoom": 2.6270818674338625,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 360,
+              "height": 648
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 1,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.1474826388888892,
+            "occupied_height_ratio": 0.052254906888293644,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -128.8386725638611,
+              "lat": 37.52848947466596
+            },
+            "zoom": 3.6374573965987564,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 7.766107063861114,
+            "center_lat": 0.32726095325644167,
+            "zoom": 2.6270818674338625,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 360,
+              "height": 648
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 1,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.1474826388888892,
+            "occupied_height_ratio": 0.052254906888293644,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": false
+        }
+      },
+      "screenshots": [
+        {
+          "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_360x800.png",
+          "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+          "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+          "browser": "chromium",
+          "viewport": "360x800",
+          "state": "open",
+          "route_key_path": "pointer"
+        },
+        {
+          "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_360x800.png",
+          "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+          "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+          "browser": "chromium",
+          "viewport": "360x800",
+          "state": "closed",
+          "route_key_path": "pointer"
+        }
+      ]
+    },
+    "375x812": {
+      "paths": {
+        "pointer": {
+          "path": "pointer",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19845836915664
+            },
+            "zoom": 6.329052025587348,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -127.12791928682879,
+              "lat": 37.44261412159163
+            },
+            "zoom": 3.9964377405304425,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 6.055353786828789,
+            "center_lat": 0.24415575243499177,
+            "zoom": 2.3326142850569056,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 375,
+              "height": 660
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 2,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.18158333333333335,
+            "occupied_height_ratio": 0.06579941006921683,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19845836915667
+            },
+            "zoom": 6.329052025587348,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 0.0,
+            "center_lat": 2.842170943040401e-14,
+            "zoom": 0.0,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 375,
+              "height": 660
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.9146666666666643,
+            "occupied_height_ratio": 0.33144301281309196,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": true
+        },
+        "keyboard": {
+          "path": "keyboard",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19845836915664
+            },
+            "zoom": 6.329052025587348,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -127.12791928682879,
+              "lat": 37.44261412159163
+            },
+            "zoom": 3.9964377405304425,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 6.055353786828789,
+            "center_lat": 0.24415575243499177,
+            "zoom": 2.3326142850569056,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 375,
+              "height": 660
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 2,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.18158333333333335,
+            "occupied_height_ratio": 0.06579941006921683,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19845836915667
+            },
+            "zoom": 6.329052025587348,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 0.0,
+            "center_lat": 2.842170943040401e-14,
+            "zoom": 0.0,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 375,
+              "height": 660
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.9146666666666643,
+            "occupied_height_ratio": 0.33144301281309196,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": true
+        },
+        "touch": {
+          "path": "touch",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19845836915664
+            },
+            "zoom": 6.329052025587348,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -127.12791928682879,
+              "lat": 37.44261412159163
+            },
+            "zoom": 3.9964377405304425,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 6.055353786828789,
+            "center_lat": 0.24415575243499177,
+            "zoom": 2.3326142850569056,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 375,
+              "height": 660
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 2,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.18158333333333335,
+            "occupied_height_ratio": 0.06579941006921683,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19845836915667
+            },
+            "zoom": 6.329052025587348,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 0.0,
+            "center_lat": 2.842170943040401e-14,
+            "zoom": 0.0,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 375,
+              "height": 660
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.9146666666666643,
+            "occupied_height_ratio": 0.33144301281309196,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": true
+        }
+      },
+      "screenshots": [
+        {
+          "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_375x812.png",
+          "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+          "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+          "browser": "chromium",
+          "viewport": "375x812",
+          "state": "open",
+          "route_key_path": "pointer"
+        },
+        {
+          "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_375x812.png",
+          "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+          "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+          "browser": "chromium",
+          "viewport": "375x812",
+          "state": "closed",
+          "route_key_path": "pointer"
+        }
+      ]
+    },
+    "390x844": {
+      "paths": {
+        "pointer": {
+          "path": "pointer",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.195920263330635
+            },
+            "zoom": 6.390803036678792,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -126.03481292440767,
+              "lat": 37.38769136162749
+            },
+            "zoom": 4.283655321272203,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 4.962247424407678,
+            "center_lat": 0.19177109829685435,
+            "zoom": 2.1071477154065885,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 390,
+              "height": 692
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 2,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.21306089743589743,
+            "occupied_height_ratio": 0.0765809850112018,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19592026333062
+            },
+            "zoom": 6.3908030366787925,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 0.0,
+            "center_lat": 1.4210854715202004e-14,
+            "zoom": 8.881784197001252e-16,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 390,
+              "height": 692
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.9179487179487179,
+            "occupied_height_ratio": 0.32994049051837,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": false
+        },
+        "keyboard": {
+          "path": "keyboard",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.195920263330635
+            },
+            "zoom": 6.390803036678792,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -126.03481292440767,
+              "lat": 37.38769136162749
+            },
+            "zoom": 4.283655321272204,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 4.962247424407678,
+            "center_lat": 0.19177109829685435,
+            "zoom": 2.1071477154065876,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 390,
+              "height": 692
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 2,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.21306089743589743,
+            "occupied_height_ratio": 0.07658098501120238,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -126.03481292440767,
+              "lat": 37.38769136162749
+            },
+            "zoom": 4.283655321272204,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 4.962247424407678,
+            "center_lat": 0.19177109829685435,
+            "zoom": 2.1071477154065876,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 390,
+              "height": 692
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 2,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.21306089743589743,
+            "occupied_height_ratio": 0.07658098501120238,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": false
+        },
+        "touch": {
+          "path": "touch",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.195920263330635
+            },
+            "zoom": 6.390803036678792,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -126.03481292440767,
+              "lat": 37.38769136162749
+            },
+            "zoom": 4.283655321272204,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 4.962247424407678,
+            "center_lat": 0.19177109829685435,
+            "zoom": 2.1071477154065876,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 390,
+              "height": 692
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 2,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.21306089743589743,
+            "occupied_height_ratio": 0.07658098501120238,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -126.03481292440767,
+              "lat": 37.38769136162749
+            },
+            "zoom": 4.283655321272204,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 4.962247424407678,
+            "center_lat": 0.19177109829685435,
+            "zoom": 2.1071477154065876,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 390,
+              "height": 692
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 2,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.21306089743589743,
+            "occupied_height_ratio": 0.07658098501120238,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": false
+        }
+      },
+      "screenshots": [
+        {
+          "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_390x844.png",
+          "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+          "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+          "browser": "chromium",
+          "viewport": "390x844",
+          "state": "open",
+          "route_key_path": "pointer"
+        },
+        {
+          "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_390x844.png",
+          "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+          "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+          "browser": "chromium",
+          "viewport": "390x844",
+          "state": "closed",
+          "route_key_path": "pointer"
+        }
+      ]
+    },
+    "414x896": {
+      "paths": {
+        "pointer": {
+          "path": "pointer",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19227374623223
+            },
+            "zoom": 6.484416087450281,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -124.9227598103297,
+              "lat": 37.331775311733224
+            },
+            "zoom": 4.649717735933708,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 3.850194310329698,
+            "center_lat": 0.1395015655009928,
+            "zoom": 1.8346983515165736,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 414,
+              "height": 744
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.2586805555555565,
+            "occupied_height_ratio": 0.09180152042884661,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19227374623223
+            },
+            "zoom": 6.484416087450282,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 0.0,
+            "center_lat": 0.0,
+            "zoom": 8.881784197001252e-16,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 414,
+              "height": 744
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.9227053140096618,
+            "occupied_height_ratio": 0.3274531035080899,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": false
+        },
+        "keyboard": {
+          "path": "keyboard",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19227374623223
+            },
+            "zoom": 6.484416087450281,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -124.9227598103297,
+              "lat": 37.331775311733224
+            },
+            "zoom": 4.649717735933708,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 3.850194310329698,
+            "center_lat": 0.1395015655009928,
+            "zoom": 1.8346983515165736,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 414,
+              "height": 744
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.2586805555555565,
+            "occupied_height_ratio": 0.09180152042884661,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -124.9227598103297,
+              "lat": 37.331775311733224
+            },
+            "zoom": 4.649717735933708,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 3.850194310329698,
+            "center_lat": 0.1395015655009928,
+            "zoom": 1.8346983515165736,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 414,
+              "height": 744
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.9227053140096618,
+            "occupied_height_ratio": 0.3274531035080899,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": false
+        },
+        "touch": {
+          "path": "touch",
+          "focus_on_open": "routeLegendToggle",
+          "aria_expanded": "true",
+          "panel_visible": true,
+          "panel_items": 4,
+          "route_labels": [
+            "A1 · 3박 Yosemite — 옵션가치 극대화형",
+            "A2 · 3박 Yosemite — 감동 스펙트럼 최대형",
+            "B1 · 2박 Yosemite — Fleet Week 역이용형",
+            "B2 · 2박 Yosemite — Yosemite 아침 보호 + SF 회복형"
+          ],
+          "state_preserved_on_open": true,
+          "camera_before": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19227374623223
+            },
+            "zoom": 6.484416087450281,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_open": {
+            "center": {
+              "lng": -124.9227598103297,
+              "lat": 37.331775311733224
+            },
+            "zoom": 4.649717735933708,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_open": {
+            "center_lng": 3.850194310329698,
+            "center_lat": 0.1395015655009928,
+            "zoom": 1.8346983515165736,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_open": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 414,
+              "height": 744
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.2586805555555565,
+            "occupied_height_ratio": 0.09180152042884661,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "open_pass": false,
+          "focus_after_escape": "routeLegendToggle",
+          "panel_hidden_after_escape": true,
+          "state_preserved_on_close": true,
+          "camera_closed": {
+            "center": {
+              "lng": -121.0725655,
+              "lat": 37.19227374623223
+            },
+            "zoom": 6.484416087450282,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "camera_delta_close": {
+            "center_lng": 0.0,
+            "center_lat": 0.0,
+            "zoom": 8.881784197001252e-16,
+            "bearing": 0.0,
+            "pitch": 0
+          },
+          "spatial_context_closed": {
+            "canvas_count": 1,
+            "style_loaded": true,
+            "canvas": {
+              "width": 414,
+              "height": 744
+            },
+            "marker_count": 36,
+            "rendered_marker_count": 3,
+            "route_feature_count": 139,
+            "point_count": 44562,
+            "points_in_frame": 44562,
+            "route_points_in_frame": 44526,
+            "marker_points_in_frame": 36,
+            "occupied_width_ratio": 0.9227053140096618,
+            "occupied_height_ratio": 0.3274531035080899,
+            "marker_hits": [
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              },
+              {
+                "key": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
+                "intercepted_by_route_panel": false
+              }
+            ]
+          },
+          "close_pass": false
+        }
+      },
+      "screenshots": [
+        {
+          "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_414x896.png",
+          "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+          "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+          "browser": "chromium",
+          "viewport": "414x896",
+          "state": "open",
+          "route_key_path": "pointer"
+        },
+        {
+          "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_414x896.png",
+          "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+          "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+          "browser": "chromium",
+          "viewport": "414x896",
+          "state": "closed",
+          "route_key_path": "pointer"
+        }
+      ]
+    }
+  },
+  "failures": [
+    "360x800:pointer: route-key open contract failed",
+    "360x800:pointer: route-key Escape close contract failed",
+    "360x800:keyboard: route-key open contract failed",
+    "360x800:keyboard: route-key Escape close contract failed",
+    "360x800:touch: route-key open contract failed",
+    "360x800:touch: route-key Escape close contract failed",
+    "375x812:pointer: route-key open contract failed",
+    "375x812:keyboard: route-key open contract failed",
+    "375x812:touch: route-key open contract failed",
+    "390x844:pointer: route-key open contract failed",
+    "390x844:pointer: route-key Escape close contract failed",
+    "390x844:keyboard: route-key open contract failed",
+    "390x844:keyboard: route-key Escape close contract failed",
+    "390x844:touch: route-key open contract failed",
+    "390x844:touch: route-key Escape close contract failed",
+    "414x896:pointer: route-key open contract failed",
+    "414x896:pointer: route-key Escape close contract failed",
+    "414x896:keyboard: route-key open contract failed",
+    "414x896:keyboard: route-key Escape close contract failed",
+    "414x896:touch: route-key open contract failed",
+    "414x896:touch: route-key Escape close contract failed"
+  ],
+  "errors": [],
+  "screenshots": [
+    {
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_360x800.png",
+      "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+      "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+      "browser": "chromium",
+      "viewport": "360x800",
+      "state": "open",
+      "route_key_path": "pointer"
+    },
+    {
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_360x800.png",
+      "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+      "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+      "browser": "chromium",
+      "viewport": "360x800",
+      "state": "closed",
+      "route_key_path": "pointer"
+    },
+    {
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_375x812.png",
+      "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+      "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+      "browser": "chromium",
+      "viewport": "375x812",
+      "state": "open",
+      "route_key_path": "pointer"
+    },
+    {
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_375x812.png",
+      "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+      "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+      "browser": "chromium",
+      "viewport": "375x812",
+      "state": "closed",
+      "route_key_path": "pointer"
+    },
+    {
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_390x844.png",
+      "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+      "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+      "browser": "chromium",
+      "viewport": "390x844",
+      "state": "open",
+      "route_key_path": "pointer"
+    },
+    {
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_390x844.png",
+      "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+      "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+      "browser": "chromium",
+      "viewport": "390x844",
+      "state": "closed",
+      "route_key_path": "pointer"
+    },
+    {
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_414x896.png",
+      "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+      "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+      "browser": "chromium",
+      "viewport": "414x896",
+      "state": "open",
+      "route_key_path": "pointer"
+    },
+    {
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_414x896.png",
+      "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+      "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+      "browser": "chromium",
+      "viewport": "414x896",
+      "state": "closed",
+      "route_key_path": "pointer"
+    }
+  ],
+  "fresh_holdout": {
+    "viewport": "414x896",
+    "used_for_tuning": false
+  },
+  "notes": [
+    "All disclosure paths use real Playwright pointer, keyboard, or touch input.",
+    "Spatial context is measured from projected route and marker coordinates, not only DOM rectangle intersection.",
+    "Native Safari, physical-device behavior, and independent pixel review remain external evidence boundaries."
+  ],
+  "candidate": "8b5b5b387b7c180660614acd69fd536ad5396e16",
+  "candidate_tree": "d6d394a01433b05ce600c29e7c709f8e3a7e7ef6",
+  "candidate_binding": "exact-clean-checkout"
+}

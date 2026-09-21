@@ -50,6 +50,11 @@
   },
   "persisted_state": {
     "storage_keys": {
+      "trip_visualizer_runtime_v2": {
+        "data_classes": ["primary route, route comparison, date/region, selected canonical place, mode/sheet/language/theme"],
+        "sensitive": false,
+        "retention": "Until the user or browser clears localStorage; never transmitted by the application."
+      },
       "trip_visualizer_runtime_v1": {
         "data_classes": ["route selection", "region/date filter", "selected canonical place key", "tab/language/theme", "panel dimensions/visibility"],
         "sensitive": false,

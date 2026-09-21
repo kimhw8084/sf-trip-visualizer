@@ -23,12 +23,13 @@ from hosted_linux_pipeline import (
     FIREFOX_MODE_ENV,
     SOFTWARE_GL_ENV,
 )
+from qa_evidence import candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = MODULAR_URL
-OUTPUT = ROOT / "QA/map_first/cross_browser.json"
-SHOTS = ROOT / "QA/map_first/screenshots"
+OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r5/browser_summary.json"
+SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r5/screenshots"
 CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "60"))
 TERM_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_TERM_GRACE_SECONDS", "2"))
 KILL_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_KILL_GRACE_SECONDS", "2"))
@@ -120,6 +121,7 @@ def base_row(case: tuple[str, int, int]) -> dict:
         "console_errors": [],
         "failed_requests": [],
         "map_error_events": [],
+        "candidate": os.environ.get("TRIP_CANDIDATE_SHA"),
     }
 
 
@@ -413,14 +415,42 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
                 "expected_places": page.evaluate("window.__tripApp.DATA.markers.length"),
             }
         )
-        page.locator("[data-timeline]").first.click()
-        page.locator("[data-tab=details]").click()
-        page.wait_for_function(
-            "[...document.querySelectorAll('#detailsPane .photo-slot img')].length===3&&"
-            "[...document.querySelectorAll('#detailsPane .photo-slot img')].every(e=>e.complete&&e.naturalWidth>0)",
-            timeout=8000,
-        )
-        row["detail_photos"] = page.locator("#detailsPane .photo-slot img").count()
+        page.locator("#modeNav [data-mode='day']").click()
+        page.locator("#dateSelect").select_option("10/8")
+        page.wait_for_function("document.querySelectorAll('#dayPlan .day-item, #dayPlan .plan-card').length > 0", timeout=8000)
+        row["day_items"] = page.locator("#dayPlan .day-item, #dayPlan .plan-card").count()
+        page.locator("#mapOptionsToggle").click()
+        page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
+        page.wait_for_function("document.activeElement?.id === 'mapOptionsClose'", timeout=5000)
+        page.wait_for_timeout(250)
+        row["map_options_open"] = page.evaluate("!document.querySelector('#mapOptionsPanel')?.hidden && document.activeElement?.id === 'mapOptionsClose'")
+        row["map_options_open_geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
+        page.keyboard.press("Escape")
+        page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden")
+        page.wait_for_function("document.activeElement?.id === 'mapOptionsToggle'", timeout=5000)
+        row["map_options_close_focus_return"] = page.evaluate("document.querySelector('#mapOptionsPanel')?.hidden && document.activeElement?.id === 'mapOptionsToggle' && !document.activeElement?.closest('#mapOptionsPanel')")
+        page.locator("#routeLegendToggle").click()
+        page.wait_for_function("!document.querySelector('#routeLegendPanel')?.hidden")
+        row["route_key_open"] = page.evaluate("!document.querySelector('#routeLegendPanel')?.hidden")
+        row["route_key_open_geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
+        page.keyboard.press("Escape")
+        page.wait_for_function("document.querySelector('#routeLegendPanel')?.hidden")
+        page.wait_for_function("document.activeElement?.id === 'routeLegendToggle'", timeout=5000)
+        row["route_key_close_focus_return"] = page.evaluate("document.querySelector('#routeLegendPanel')?.hidden && document.activeElement?.id === 'routeLegendToggle'")
+        page.locator("#mapOptionsToggle").click()
+        page.locator("#regionControls [data-region='yosemite']").click()
+        page.locator("#dateSelect").select_option("10/7")
+        page.wait_for_function("document.querySelector('.photo-marker[data-place-key=\"cooks\"]')?.getBoundingClientRect().width > 0", timeout=8000)
+        # This is deliberately a real Playwright pointer activation. It is the
+        # regression guard for the marker previously covered by map chrome.
+        page.locator(".photo-marker[data-place-key='cooks']").click()
+        page.wait_for_selector("#peek.show")
+        row["marker_activation"] = "cooks"
+        page.locator("#peek [data-peek-open]").click()
+        page.wait_for_function("window.__tripApp.state.presentation.mode==='place'", timeout=8000)
+        page.wait_for_function("document.querySelectorAll('#placeInspector .photo-slot img').length===3", timeout=8000)
+        row["inspector_photos"] = page.locator("#placeInspector .photo-slot img").count()
+        row["geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
         row["page_errors"] = list(page_errors)
         row["console_errors"] = list(console_errors)
         row["failed_requests"] = list(failed_requests)
@@ -431,7 +461,13 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
             and row["canvas"] == 1
             and not row["horizontal_overflow"]
             and row["broken_marker_images"] == 0
-            and row["detail_photos"] == 3
+            and row["inspector_photos"] == 3
+            and row["map_options_open"]
+            and row["map_options_close_focus_return"]
+            and row["route_key_open"]
+            and row["route_key_close_focus_return"]
+            and row["marker_activation"] == "cooks"
+            and not any(marker.get("intersects_obstacle") for marker in row["geometry"].get("markers", []))
             and not row["page_errors"]
             else "FAIL"
         )
@@ -599,6 +635,10 @@ def run_parent() -> dict:
     rows_by_case = {}
     temporary_directory = None
     try:
+        identity = candidate_identity()
+        evidence["candidate"] = identity["sha"]
+        evidence["candidate_tree"] = identity["tree"]
+        evidence["candidate_binding"] = "exact-clean-checkout"
         SHOTS.mkdir(parents=True, exist_ok=True)
         durable_json(OUTPUT, evidence)
         temporary_directory = tempfile.TemporaryDirectory(prefix="cross-browser-results-")

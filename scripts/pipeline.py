@@ -47,6 +47,11 @@ COMPONENTS = (
     ("photo_integrity", "scripts/check_photo_integrity.py", "QA/photo_integrity.json"),
     ("maplibre_security", "scripts/qa_maplibre_security.py", "QA/release/maplibre_security.json"),
     ("map_first_smoke", "scripts/qa_map_first.py", "QA/map_first/smoke.json"),
+    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/project_os_verify/ui_revamp_r5/task_oracles.json"),
+    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/project_os_verify/ui_revamp_r5/accessibility.json"),
+    ("map_geometry", "scripts/qa_map_geometry.py", "QA/project_os_verify/ui_revamp_r5/map_geometry.json"),
+    ("sheet_geometry", "scripts/qa_sheet_geometry.py", "QA/project_os_verify/ui_revamp_r5/sheet_geometry.json"),
+    ("route_key_camera", "scripts/qa_route_key_camera.py", "QA/project_os_verify/ui_revamp_r5/route_key_camera.json"),
     ("map_first_full", "scripts/qa_map_first_full.py", "QA/map_first/full_acceptance.json"),
     ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/map_first/p0_independent.json"),
     ("standalone", "scripts/qa_standalone_map_first.py", "QA/map_first/standalone.json"),
@@ -55,8 +60,8 @@ COMPONENTS = (
     ("route_continuity", "scripts/audit_route_continuity.py", "QA/map_first/route_continuity.json"),
     ("route_panel", "scripts/qa_route_explanations_panel.py", "QA/route_panel/route_explanations_panel.json"),
     ("exhaustive_states", "scripts/run_exhaustive_states.py", "QA/map_first/exhaustive_states.json"),
-    ("cross_browser", "scripts/run_cross_browser.py", "QA/map_first/cross_browser.json"),
-    ("visual_spots", "scripts/run_visual_spots.py", "QA/map_first/visual_spots.json"),
+    ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r5/browser_summary.json"),
+    ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r5/visual_index.json"),
     ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
 )
 
@@ -415,6 +420,8 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
         env = os.environ.copy()
         env["TRIP_QA_URL"] = qa_url
         env["TRIP_STANDALONE_PATH"] = str(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html")
+        env["TRIP_EXPECTED_REVISION"] = report["candidate_head"]
+        env["TRIP_CANDIDATE_SHA"] = report["candidate_head"]
         for name, script, output in COMPONENTS:
             print(json.dumps({"qualification": "running", "test": name, "candidate_head": report["candidate_head"]}), flush=True)
             output_path = ROOT / output

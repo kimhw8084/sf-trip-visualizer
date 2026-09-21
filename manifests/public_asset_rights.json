@@ -569,6 +569,9 @@
       "paths": [
         "src/app_phase7.css",
         "src/app_phase7.js",
+        "src/atlas_messages.js",
+        "src/atlas_state.js",
+        "src/runtime_loader.js",
         "src/map_first.css"
       ],
       "provenance": "Project source at the candidate commit",
@@ -9254,6 +9257,72 @@
       "decision": "approved"
     },
     {
+      "id": "pages/src/atlas_messages.js",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "src/atlas_messages.js"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "package-public/src/atlas_messages.js",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/src/atlas_messages.js"
+      ],
+      "asset_class": "public-artifact-copy",
+      "decision": "approved"
+    },
+    {
+      "id": "pages/src/atlas_state.js",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "src/atlas_state.js"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "pages/src/runtime_loader.js",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "src/runtime_loader.js"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "package-public/src/runtime_loader.js",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/src/runtime_loader.js"
+      ],
+      "asset_class": "public-artifact-copy",
+      "decision": "approved"
+    },
+    {
+      "id": "package-public/src/atlas_state.js",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/src/atlas_state.js"
+      ],
+      "asset_class": "public-artifact-copy",
+      "decision": "approved"
+    },
+    {
       "id": "pages/vendor/maplibre-gl.css",
       "modes": [
         "pages"
@@ -11289,7 +11358,7 @@
     },
     {
       "path": "artifacts/public/src/app_phase7.js",
-      "sha256": "e32806d924694574eb47f9ed30cbc51b69d1fe2b00273a790d9079ec011712c4",
+      "sha256": "56f409996fc202bf6f05a3905156d2409711ef8f60b1a75459e8e9e3e65a13b1",
       "modes": [
         "public-package"
       ]
@@ -13194,7 +13263,7 @@
     },
     {
       "path": "src/app_phase7.css",
-      "sha256": "c7e60c7151b7e476054f0eb44cda402fa855a81ed47c547d66a9955795d649a3",
+      "sha256": "2e86950b1737f654fe6b71daff42b9f72e3c6da118664ad63756d90eba746cac",
       "modes": [
         "pages",
         "public-package"
@@ -13202,7 +13271,7 @@
     },
     {
       "path": "src/app_phase7.js",
-      "sha256": "e32806d924694574eb47f9ed30cbc51b69d1fe2b00273a790d9079ec011712c4",
+      "sha256": "b9ed0a43ab57b8672900b7ff2d133a50ddadc89bad90d98bfa48285f20265b23",
       "modes": [
         "pages",
         "public-package"
@@ -13210,7 +13279,31 @@
     },
     {
       "path": "src/map_first.css",
-      "sha256": "7bea01808a240711e0d054ce91ec0edd97dd688ccd52d7b6ff2f4bb35ce90038",
+      "sha256": "3a4d7c315f34154311c91e6537438be3dc395a3176ef328faa91f5381aee2c59",
+      "modes": [
+        "pages",
+        "public-package"
+      ]
+    },
+    {
+      "path": "src/atlas_messages.js",
+      "sha256": "0b76060d3bb17a9d28ef2835b7f23286640139b15b33a3cafcba5baee855d3d4",
+      "modes": [
+        "pages",
+        "public-package"
+      ]
+    },
+    {
+      "path": "src/atlas_state.js",
+      "sha256": "3476019afbbe194ac5fa0d451536f2a6bc5dcb938bdf3530d825f4180884ec77",
+      "modes": [
+        "pages",
+        "public-package"
+      ]
+    },
+    {
+      "path": "src/runtime_loader.js",
+      "sha256": "ad6b98492ba04a81f0d5577578cf72c06e5936da937b4f92d421938f720a513c",
       "modes": [
         "pages",
         "public-package"
