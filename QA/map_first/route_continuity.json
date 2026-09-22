@@ -1,7 +1,7 @@
 {
   "status": "PASS",
-  "states_tested": 36,
-  "connected_multi_marker_states": 30,
+  "states_tested": 45,
+  "connected_multi_marker_states": 36,
   "failures": [],
   "semantic_links": [
     {
@@ -10,10 +10,11 @@
       "from": "exploratorium",
       "to": "bay_lights",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "branch_kind": "recovery",
       "label": "Exploratorium → Bay Lights evening return",
@@ -25,10 +26,10 @@
       "from": "battery",
       "to": "tunnel_tops",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "D",
+        "E"
       ],
       "branch_kind": "recovery",
       "label": "Battery Spencer → afternoon recovery → Tunnel Tops",
@@ -40,73 +41,17 @@
       "from": "alcatraz",
       "to": "pier39",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A"
       ],
       "branch_kind": "recovery",
       "label": "Alcatraz return ferry → Pier 33 / waterfront",
       "note": "실제 페리는 Pier 33으로 돌아온다. 선은 가까운 PIER 39 일정 마커까지의 개념 연결이며 선박 항적이 아니다."
-    },
-    {
-      "leg_id": "UX_1008_RETURN",
-      "date": "10/8",
-      "from": "glacier",
-      "to": "cooks",
-      "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
-      ],
-      "branch_kind": "recovery",
-      "label": "Glacier Point → Valley recovery base",
-      "note": "전망 뒤 Valley로 돌아와 점심·낮잠·자유시간을 보호한다."
-    },
-    {
-      "leg_id": "UX_1009_B2_VIEW_CHOICE",
-      "date": "10/9",
-      "from": "painted",
-      "to": "twin_peaks",
-      "routes": [
-        "B2"
-      ],
-      "branch_kind": "choice",
-      "label": "Painted Ladies ↔ Twin Peaks: choose one",
-      "note": "두 장소를 모두 방문하는 이동선이 아니다. 날씨와 가족 에너지에 따라 하나만 고르는 선택 관계다."
-    },
-    {
-      "leg_id": "UX_1010_VIEW_CHOICE",
-      "date": "10/10",
-      "from": "painted",
-      "to": "twin_peaks",
-      "routes": [
-        "A1",
-        "A2",
-        "B1"
-      ],
-      "branch_kind": "choice",
-      "label": "Painted Ladies ↔ Twin Peaks: choose one",
-      "note": "두 장소를 모두 방문하는 이동선이 아니다. 날씨와 가족 에너지에 따라 하나만 고르는 선택 관계다."
-    },
-    {
-      "leg_id": "UX_1010_B1_RESET",
-      "date": "10/10",
-      "from": "botanical",
-      "to": "painted",
-      "routes": [
-        "B1"
-      ],
-      "branch_kind": "recovery",
-      "label": "Botanical Garden → long recovery → evening view choice",
-      "note": "09:00 이후 긴 점심·낮잠·자유시간을 거친 뒤 저녁 택1 전망으로 이어진다."
     }
   ],
   "states": [
     {
       "date": "10/3",
-      "route": "A1",
+      "route": "A",
       "markers": 3,
       "edges": 2,
       "components": [
@@ -120,7 +65,7 @@
     },
     {
       "date": "10/3",
-      "route": "A2",
+      "route": "B",
       "markers": 3,
       "edges": 2,
       "components": [
@@ -134,7 +79,7 @@
     },
     {
       "date": "10/3",
-      "route": "B1",
+      "route": "C",
       "markers": 3,
       "edges": 2,
       "components": [
@@ -148,7 +93,21 @@
     },
     {
       "date": "10/3",
-      "route": "B2",
+      "route": "D",
+      "markers": 3,
+      "edges": 2,
+      "components": [
+        [
+          "bay_lights",
+          "exploratorium",
+          "ferry"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/3",
+      "route": "E",
       "markers": 3,
       "edges": 2,
       "components": [
@@ -162,9 +121,9 @@
     },
     {
       "date": "10/4",
-      "route": "A1",
+      "route": "A",
       "markers": 6,
-      "edges": 5,
+      "edges": 6,
       "components": [
         [
           "battery",
@@ -179,9 +138,9 @@
     },
     {
       "date": "10/4",
-      "route": "A2",
+      "route": "B",
       "markers": 6,
-      "edges": 5,
+      "edges": 6,
       "components": [
         [
           "battery",
@@ -196,9 +155,25 @@
     },
     {
       "date": "10/4",
-      "route": "B1",
-      "markers": 6,
+      "route": "C",
+      "markers": 5,
       "edges": 5,
+      "components": [
+        [
+          "crissy",
+          "ggb",
+          "muir",
+          "palace",
+          "tunnel_tops"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/4",
+      "route": "D",
+      "markers": 6,
+      "edges": 6,
       "components": [
         [
           "battery",
@@ -213,9 +188,9 @@
     },
     {
       "date": "10/4",
-      "route": "B2",
+      "route": "E",
       "markers": 6,
-      "edges": 5,
+      "edges": 6,
       "components": [
         [
           "battery",
@@ -230,13 +205,14 @@
     },
     {
       "date": "10/5",
-      "route": "A1",
-      "markers": 9,
-      "edges": 10,
+      "route": "A",
+      "markers": 10,
+      "edges": 13,
       "components": [
         [
           "alcatraz",
           "cable_car",
+          "chinatown",
           "coit",
           "fortune",
           "ghirardelli",
@@ -250,67 +226,125 @@
     },
     {
       "date": "10/5",
-      "route": "A2",
-      "markers": 9,
-      "edges": 10,
+      "route": "B",
+      "markers": 7,
+      "edges": 7,
       "components": [
         [
           "alcatraz",
           "cable_car",
+          "chinatown",
           "coit",
           "fortune",
-          "ghirardelli",
           "lombard",
-          "musee",
-          "north_beach",
-          "pier39"
+          "north_beach"
         ]
       ],
       "status": "PASS"
     },
     {
       "date": "10/5",
-      "route": "B1",
-      "markers": 9,
-      "edges": 10,
+      "route": "C",
+      "markers": 5,
+      "edges": 5,
       "components": [
         [
           "alcatraz",
           "cable_car",
-          "coit",
+          "chinatown",
           "fortune",
-          "ghirardelli",
-          "lombard",
-          "musee",
-          "north_beach",
-          "pier39"
+          "north_beach"
         ]
       ],
       "status": "PASS"
     },
     {
       "date": "10/5",
-      "route": "B2",
-      "markers": 9,
-      "edges": 10,
+      "route": "D",
+      "markers": 8,
+      "edges": 8,
       "components": [
         [
           "alcatraz",
           "cable_car",
+          "chinatown",
           "coit",
           "fortune",
           "ghirardelli",
           "lombard",
-          "musee",
-          "north_beach",
-          "pier39"
+          "north_beach"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/5",
+      "route": "E",
+      "markers": 6,
+      "edges": 6,
+      "components": [
+        [
+          "alcatraz",
+          "cable_car",
+          "chinatown",
+          "fortune",
+          "lombard",
+          "north_beach"
         ]
       ],
       "status": "PASS"
     },
     {
       "date": "10/6",
-      "route": "A1",
+      "route": "A",
+      "markers": 5,
+      "edges": 4,
+      "components": [
+        [
+          "aquarium",
+          "carmel",
+          "lone_cypress",
+          "monterey_wharf",
+          "point_lobos"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/6",
+      "route": "B",
+      "markers": 5,
+      "edges": 5,
+      "components": [
+        [
+          "aquarium",
+          "bixby",
+          "carmel",
+          "lone_cypress",
+          "point_lobos"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/6",
+      "route": "C",
+      "markers": 5,
+      "edges": 4,
+      "components": [
+        [
+          "aquarium",
+          "carmel",
+          "lone_cypress",
+          "monterey_wharf",
+          "point_lobos"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/6",
+      "route": "D",
       "markers": 6,
       "edges": 6,
       "components": [
@@ -327,41 +361,7 @@
     },
     {
       "date": "10/6",
-      "route": "A2",
-      "markers": 6,
-      "edges": 6,
-      "components": [
-        [
-          "aquarium",
-          "bixby",
-          "carmel",
-          "lone_cypress",
-          "monterey_wharf",
-          "point_lobos"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/6",
-      "route": "B1",
-      "markers": 6,
-      "edges": 6,
-      "components": [
-        [
-          "aquarium",
-          "bixby",
-          "carmel",
-          "lone_cypress",
-          "monterey_wharf",
-          "point_lobos"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/6",
-      "route": "B2",
+      "route": "E",
       "markers": 6,
       "edges": 6,
       "components": [
@@ -378,11 +378,46 @@
     },
     {
       "date": "10/7",
-      "route": "A1",
-      "markers": 4,
-      "edges": 3,
+      "route": "A",
+      "markers": 6,
+      "edges": 6,
       "components": [
         [
+          "bridalveil",
+          "cooks",
+          "el_capitan",
+          "mariposa",
+          "tunnel_view",
+          "valley_view"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/7",
+      "route": "B",
+      "markers": 6,
+      "edges": 6,
+      "components": [
+        [
+          "bridalveil",
+          "cooks",
+          "el_capitan",
+          "mariposa",
+          "tunnel_view",
+          "valley_view"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/7",
+      "route": "C",
+      "markers": 5,
+      "edges": 5,
+      "components": [
+        [
+          "bridalveil",
           "cooks",
           "el_capitan",
           "tunnel_view",
@@ -393,11 +428,12 @@
     },
     {
       "date": "10/7",
-      "route": "A2",
-      "markers": 4,
-      "edges": 3,
+      "route": "D",
+      "markers": 5,
+      "edges": 5,
       "components": [
         [
+          "bridalveil",
           "cooks",
           "el_capitan",
           "tunnel_view",
@@ -408,28 +444,15 @@
     },
     {
       "date": "10/7",
-      "route": "B1",
-      "markers": 4,
-      "edges": 3,
+      "route": "E",
+      "markers": 6,
+      "edges": 6,
       "components": [
         [
+          "bridalveil",
           "cooks",
           "el_capitan",
-          "tunnel_view",
-          "valley_view"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/7",
-      "route": "B2",
-      "markers": 4,
-      "edges": 3,
-      "components": [
-        [
-          "cooks",
-          "el_capitan",
+          "mariposa",
           "tunnel_view",
           "valley_view"
         ]
@@ -438,144 +461,139 @@
     },
     {
       "date": "10/8",
-      "route": "A1",
-      "markers": 3,
-      "edges": 3,
-      "components": [
-        [
-          "cooks",
-          "glacier",
-          "washburn"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/8",
-      "route": "A2",
-      "markers": 3,
-      "edges": 3,
-      "components": [
-        [
-          "cooks",
-          "glacier",
-          "washburn"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/8",
-      "route": "B1",
-      "markers": 3,
-      "edges": 3,
-      "components": [
-        [
-          "cooks",
-          "glacier",
-          "washburn"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/8",
-      "route": "B2",
-      "markers": 3,
-      "edges": 3,
-      "components": [
-        [
-          "cooks",
-          "glacier",
-          "washburn"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/9",
-      "route": "A1",
-      "markers": 1,
-      "edges": 0,
-      "components": [
-        [
-          "mariposa"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/9",
-      "route": "A2",
-      "markers": 1,
-      "edges": 0,
-      "components": [
-        [
-          "mariposa"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/9",
-      "route": "B1",
-      "markers": 1,
-      "edges": 0,
-      "components": [
-        [
-          "academy"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/9",
-      "route": "B2",
+      "route": "A",
       "markers": 2,
       "edges": 1,
       "components": [
         [
-          "painted",
-          "twin_peaks"
+          "glacier",
+          "washburn"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/8",
+      "route": "B",
+      "markers": 2,
+      "edges": 1,
+      "components": [
+        [
+          "glacier",
+          "washburn"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/8",
+      "route": "C",
+      "markers": 2,
+      "edges": 1,
+      "components": [
+        [
+          "glacier",
+          "washburn"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/8",
+      "route": "D",
+      "markers": 2,
+      "edges": 1,
+      "components": [
+        [
+          "glacier",
+          "washburn"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/8",
+      "route": "E",
+      "markers": 2,
+      "edges": 1,
+      "components": [
+        [
+          "glacier",
+          "washburn"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/9",
+      "route": "A",
+      "markers": 1,
+      "edges": 0,
+      "components": [
+        [
+          "painted"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/9",
+      "route": "B",
+      "markers": 1,
+      "edges": 0,
+      "components": [
+        [
+          "painted"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/9",
+      "route": "C",
+      "markers": 1,
+      "edges": 0,
+      "components": [
+        [
+          "painted"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/9",
+      "route": "D",
+      "markers": 1,
+      "edges": 0,
+      "components": [
+        [
+          "painted"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/9",
+      "route": "E",
+      "markers": 1,
+      "edges": 0,
+      "components": [
+        [
+          "painted"
         ]
       ],
       "status": "PASS"
     },
     {
       "date": "10/10",
-      "route": "A1",
-      "markers": 2,
-      "edges": 1,
+      "route": "A",
+      "markers": 4,
+      "edges": 3,
       "components": [
         [
-          "painted",
-          "twin_peaks"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/10",
-      "route": "A2",
-      "markers": 2,
-      "edges": 1,
-      "components": [
-        [
-          "painted",
-          "twin_peaks"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/10",
-      "route": "B1",
-      "markers": 3,
-      "edges": 2,
-      "components": [
-        [
+          "academy",
           "botanical",
-          "painted",
+          "tea_garden",
           "twin_peaks"
         ]
       ],
@@ -583,45 +601,67 @@
     },
     {
       "date": "10/10",
-      "route": "B2",
-      "markers": 1,
-      "edges": 0,
-      "components": [
-        [
-          "botanical"
-        ]
-      ],
-      "status": "PASS"
-    },
-    {
-      "date": "10/11",
-      "route": "A1",
-      "markers": 2,
-      "edges": 1,
+      "route": "B",
+      "markers": 4,
+      "edges": 3,
       "components": [
         [
           "academy",
-          "botanical"
+          "botanical",
+          "tea_garden",
+          "twin_peaks"
         ]
       ],
       "status": "PASS"
     },
     {
-      "date": "10/11",
-      "route": "A2",
-      "markers": 2,
-      "edges": 1,
+      "date": "10/10",
+      "route": "C",
+      "markers": 4,
+      "edges": 3,
       "components": [
         [
           "academy",
-          "botanical"
+          "botanical",
+          "tea_garden",
+          "twin_peaks"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/10",
+      "route": "D",
+      "markers": 4,
+      "edges": 3,
+      "components": [
+        [
+          "academy",
+          "botanical",
+          "tea_garden",
+          "twin_peaks"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/10",
+      "route": "E",
+      "markers": 4,
+      "edges": 3,
+      "components": [
+        [
+          "academy",
+          "botanical",
+          "tea_garden",
+          "twin_peaks"
         ]
       ],
       "status": "PASS"
     },
     {
       "date": "10/11",
-      "route": "B1",
+      "route": "A",
       "markers": 1,
       "edges": 0,
       "components": [
@@ -633,12 +673,49 @@
     },
     {
       "date": "10/11",
-      "route": "B2",
+      "route": "B",
       "markers": 1,
       "edges": 0,
       "components": [
         [
-          "academy"
+          "lands_end"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/11",
+      "route": "C",
+      "markers": 1,
+      "edges": 0,
+      "components": [
+        [
+          "lands_end"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/11",
+      "route": "D",
+      "markers": 1,
+      "edges": 0,
+      "components": [
+        [
+          "lands_end"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/11",
+      "route": "E",
+      "markers": 2,
+      "edges": 1,
+      "components": [
+        [
+          "coit",
+          "lands_end"
         ]
       ],
       "status": "PASS"
