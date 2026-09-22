@@ -98,6 +98,7 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .route-legend-swatch.dash { border-top-style: dashed; }
 .route-legend-swatch.dot { border-top-style: dotted; }
 .route-legend-swatch.dashdot { border-top-style: dashed; opacity: .75; }
+.route-legend-swatch.longdash { border-top-style: dashed; border-top-width: 4px; }
 .map-control-group { display: grid; gap: 5px; }
 .map-control-label { color: var(--text-subtle); font-size: 9px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
 .segmented-control { display: flex; flex-wrap: wrap; gap: 4px; }
@@ -168,6 +169,7 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .route-card-title { min-width: 0; }
 .route-card-title strong { display: block; font-size: 14px; line-height: 1.25; }
 .route-card-title small { display: block; margin-top: 3px; color: var(--text-muted); font-size: 10px; line-height: 1.35; }
+.route-architecture { margin: 9px 0 0; color: var(--text); font-size: 10px; line-height: 1.4; }
 .route-code-pill { flex: 0 0 auto; color: var(--route-color); font-size: 11px; font-weight: 900; letter-spacing: .08em; }
 .route-card-actions { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
 .route-card-actions button { min-height: 34px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text); padding: 6px 8px; font-size: 10px; font-weight: 800; cursor: pointer; }
@@ -218,6 +220,9 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .place-inspector { min-height: 120px; }
 .place-browser { display: grid; gap: 7px; }
 .place-browser-intro { margin-bottom: 6px; color: var(--text-muted); font-size: 11px; line-height: 1.45; }
+.membership-legend { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 9px; padding: 8px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface-muted); color: var(--text-muted); font-size: 9px; line-height: 1.3; }
+.membership-legend strong { width: 100%; color: var(--text); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.membership-legend b { color: var(--text); }
 .place-list-item { display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: 9px; width: 100%; padding: 7px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-raised); color: var(--text); text-align: left; cursor: pointer; }
 .place-list-item:hover { border-color: var(--accent); background: var(--accent-soft); }
 .place-list-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 7px; }
@@ -225,6 +230,17 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .place-list-item strong { font-size: 11px; line-height: 1.25; }
 .place-list-item small { margin-top: 2px; color: var(--text-muted); font-size: 9px; }
 .place-list-item em { margin-top: 5px; color: var(--accent-strong); font-size: 9px; font-style: normal; line-height: 1.35; }
+.place-list-copy { min-width: 0; }
+.route-membership { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; width: 100%; margin-top: 7px; }
+.membership-cell { min-width: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto; align-items: center; gap: 0 3px; padding: 3px 4px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-muted); line-height: 1.1; }
+.membership-cell b { grid-row: 1 / 3; color: var(--text); font-size: 9px; }
+.membership-cell i { min-width: 0; overflow: hidden; color: var(--text); font-size: 9px; font-style: normal; font-weight: 900; text-overflow: ellipsis; white-space: nowrap; }
+.membership-cell small { grid-column: 2; min-width: 0; overflow: hidden; color: var(--text-muted); font-size: 7px; line-height: 1.1; text-overflow: ellipsis; white-space: nowrap; }
+.membership-cell.role-core { border-color: var(--accent); }
+.membership-cell.role-strong { border-style: solid; }
+.membership-cell.role-conditional { border-style: dashed; }
+.membership-cell.role-skip { border-style: dotted; opacity: .78; }
+.inspector-membership { margin-top: 10px; }
 .place-back { margin-bottom: 13px; }
 .place-title-row { display: flex; align-items: start; justify-content: space-between; gap: 9px; }
 .place-title-row h3 { margin: 0; font-size: 22px; line-height: 1.12; letter-spacing: -.035em; }

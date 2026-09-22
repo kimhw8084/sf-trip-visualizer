@@ -30,14 +30,14 @@ with sync_playwright() as playwright:
     page.wait_for_function("window.__tripApp?.state?.task?.routes", timeout=15000)
 
     report["provider_inventory"] = page.evaluate("()=>({active:window.__tripApp.state.provider,data:Object.keys(window.__tripApp.DATA.providers),controls:[...document.querySelectorAll('[data-provider]')].map(x=>x.dataset.provider)})")
-    for route, date in (("A1", "10/3"), ("A2", "10/4"), ("B1", "10/7"), ("B2", "10/10")):
+    for route, date in (("A", "10/3"), ("B", "10/4"), ("C", "10/7"), ("D", "10/10"), ("E", "10/11")):
         row = page.evaluate(
             """async ({route,date})=>{const a=window.__tripApp;a.state.routes=new Set([route]);a.state.date=date;a.state.region='overall';a.state.selected=null;a.setMode('day');await a.drawMap(false);const m=a.map(),markers=a.DATA.markers.filter(a.markerVisible),canvas=m.getCanvas(),inside=markers.every(x=>{const p=m.project([x.lon,x.lat]);return p.x>=-2&&p.x<=canvas.clientWidth+2&&p.y>=-2&&p.y<=canvas.clientHeight+2});return {route,date,markers:markers.length,features:a.visibleRouteFeatures().length,zoom:Number(m.getZoom().toFixed(2)),inside,canvas:document.querySelectorAll('.maplibregl-canvas').length}}""",
             {"route": route, "date": date},
         )
         report["fit_states"].append(row)
 
-    page.evaluate("async()=>{const a=window.__tripApp;a.state.routes=new Set(['A1']);a.state.date='all';a.state.region='overall';a.setMode('decide');await a.drawMap(false)}")
+    page.evaluate("async()=>{const a=window.__tripApp;a.state.routes=new Set(['A']);a.state.date='all';a.state.region='overall';a.setMode('decide');await a.drawMap(false)}")
     page.wait_for_timeout(400)
     for zoom in (5, 8, 11, 14, 17):
         page.evaluate("z=>window.__tripApp.map().jumpTo({zoom:z})", zoom)
@@ -45,7 +45,7 @@ with sync_playwright() as playwright:
         report["zoom_states"].append(page.evaluate("()=>({zoom:window.__tripApp.map().getZoom(),features:window.__tripApp.visibleRouteFeatures().length,canvas:document.querySelectorAll('.maplibregl-canvas').length})"))
 
     # Route geometry is a discoverable map surface with a shared Peek overlay.
-    page.evaluate("async()=>{const a=window.__tripApp;a.state.routes=new Set(['A1']);a.state.date='all';a.state.region='overall';a.setMode('decide');await a.drawMap(false)}")
+    page.evaluate("async()=>{const a=window.__tripApp;a.state.routes=new Set(['A']);a.state.date='all';a.state.region='overall';a.setMode('decide');await a.drawMap(false)}")
     page.wait_for_timeout(900)
     feature = page.evaluate("""()=>{const a=window.__tripApp,m=a.map();for(const f of a.visibleRouteFeatures()){for(const coord of f.geometry.coordinates){const p=m.project(coord);if(m.queryRenderedFeatures([p.x,p.y]).some(x=>String(x.layer?.id||'').endsWith('-hit')))return coord}}return null}""")
     if feature:

@@ -41,6 +41,7 @@ GATE4_RUNTIME = ROOT / "QA" / "release" / "gate4_runtime.json"
 GATE4_SUMMARY = ROOT / "QA" / "release" / "gate4.json"
 SECURITY_EVIDENCE = ROOT / "QA" / "release" / "security_privacy.json"
 COMPONENT_TIMEOUT_SECONDS = int(os.environ.get("TRIP_QUALIFICATION_TIMEOUT_SECONDS", "300"))
+PERFORMANCE_BASE_REVISION = "a2088ba075dbade3ab27be5e2dabc3c7b008b9ec"
 
 COMPONENTS = (
     ("canonical_truth", "scripts/qa_canonical_truth.py", "QA/map_first/canonical_truth.json"),
@@ -62,6 +63,7 @@ COMPONENTS = (
     ("exhaustive_states", "scripts/run_exhaustive_states.py", "QA/map_first/exhaustive_states.json"),
     ("cross_browser", "scripts/run_cross_browser.py", "QA/project_os_verify/ui_revamp_r5/browser_summary.json"),
     ("visual_spots", "scripts/run_visual_spots.py", "QA/project_os_verify/ui_revamp_r5/visual_index.json"),
+    ("performance", "scripts/qa_ui_performance.py", "QA/project_os_verify/ui_revamp_r5/performance.json"),
     ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/release/gate4_runtime.json"),
 )
 
@@ -142,13 +144,13 @@ def validate_product() -> dict:
         "photos": len(asset_manifest["assets"]) == expected["photos"] and asset_manifest["required_assets"] == expected["photos"],
         "timeline_cards": len(data["timeline"]) == expected["timeline_cards"],
         "route_legs": len(data["legs"]) == expected["route_legs"],
-        "route_strategies": len(routes) == expected["route_strategies"] and sorted(routes) == ["A1", "A2", "B1", "B2"],
+        "route_strategies": len(routes) == expected["route_strategies"] and sorted(routes) == ["A", "B", "C", "D", "E"],
         "dates": len(data["dates"]) == expected["dates"],
         "regions": len(regions) == expected["regions"] and regions == ["monterey", "sf", "yosemite"],
         "providers": set(providers) == set(expected["providers"]),
         "place_region": set(data["place_region"]) == set(marker_keys),
         "photo_roles": {asset["role"] for asset in asset_manifest["assets"]} == set(expected["photo_roles"]),
-        "photo_status": asset_manifest["status"] == "COMPLETE_108_LOCAL_REAL_PHOTOS",
+        "photo_status": asset_manifest["status"] == "COMPLETE_117_LOCAL_REAL_PHOTOS",
         "semantic_links": all(leg.get("label") and leg.get("note") for leg in data["legs"] if leg.get("branch_kind") in {"recovery", "choice"}),
     }
     missing_assets = []
@@ -362,6 +364,47 @@ def free_local_port() -> int:
         return probe.getsockname()[1]
 
 
+def start_exact_main_performance_server() -> tuple[Path, subprocess.Popen, str]:
+    """Serve the exact transported main source for balanced performance evidence."""
+
+    baseline_root = Path(tempfile.mkdtemp(prefix="sf-trip-main-performance-"))
+    checkout = subprocess.run(
+        ["git", "worktree", "add", "--detach", str(baseline_root), PERFORMANCE_BASE_REVISION],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if checkout.returncode:
+        shutil.rmtree(baseline_root, ignore_errors=True)
+        raise RuntimeError(f"Could not materialize exact-main performance baseline: {checkout.stderr[-1000:]}")
+    baseline_build = baseline_root / ".build"
+    build = subprocess.run(
+        [sys.executable, "scripts/build_map_first.py", "--output-dir", str(baseline_build)],
+        cwd=baseline_root,
+        text=True,
+        capture_output=True,
+    )
+    if build.returncode:
+        subprocess.run(["git", "worktree", "remove", "--force", str(baseline_root)], cwd=ROOT, capture_output=True, text=True)
+        shutil.rmtree(baseline_root, ignore_errors=True)
+        raise RuntimeError(f"Could not build exact-main performance baseline: {build.stderr[-1000:]}")
+    port = free_local_port()
+    server = subprocess.Popen(
+        [sys.executable, str(ROOT / "scripts" / "serve_map.py"), "--port", str(port), "--directory", str(baseline_build / "modular")],
+        cwd=ROOT,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
+    )
+    url = f"http://127.0.0.1:{port}/index.html"
+    try:
+        wait_for_server(url, server)
+    except Exception:
+        server.terminate()
+        subprocess.run(["git", "worktree", "remove", "--force", str(baseline_root)], cwd=ROOT, capture_output=True, text=True)
+        raise
+    return baseline_root, server, url
+
+
 def evidence_status(path: Path, returncode: int) -> str:
     if returncode == 124:
         return "UNVERIFIED"
@@ -399,6 +442,8 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
         "historical_evidence_excluded": ["QA/final_acceptance.json", "QA/final_cross_browser.json", "QA/final_live_providers.json", "P0_PROOF_REPORT.md"],
     }
     server = None
+    baseline_root = None
+    baseline_server = None
     try:
         if require_clean:
             failures = contract_failures()
@@ -417,8 +462,12 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
         qa_url = f"http://127.0.0.1:{port}/index.html"
         server = subprocess.Popen([sys.executable, str(ROOT / "scripts" / "serve_map.py"), "--port", str(port), "--directory", str(BUILD / "modular")], cwd=ROOT, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
         wait_for_server(qa_url, server)
+        baseline_root, baseline_server, baseline_url = start_exact_main_performance_server()
         env = os.environ.copy()
         env["TRIP_QA_URL"] = qa_url
+        env["TRIP_BASELINE_URL"] = baseline_url
+        env["TRIP_BASELINE_REVISION"] = PERFORMANCE_BASE_REVISION
+        env.pop("TRIP_R2_URL", None)
         env["TRIP_STANDALONE_PATH"] = str(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html")
         env["TRIP_EXPECTED_REVISION"] = report["candidate_head"]
         env["TRIP_CANDIDATE_SHA"] = report["candidate_head"]
@@ -460,6 +509,15 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
                 server.wait(timeout=5)
             except subprocess.TimeoutExpired:
                 server.kill()
+        if baseline_server is not None:
+            baseline_server.terminate()
+            try:
+                baseline_server.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                baseline_server.kill()
+        if baseline_root is not None:
+            subprocess.run(["git", "worktree", "remove", "--force", str(baseline_root)], cwd=ROOT, capture_output=True, text=True)
+            shutil.rmtree(baseline_root, ignore_errors=True)
         QUALIFICATION.parent.mkdir(parents=True, exist_ok=True)
         QUALIFICATION.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     return report

@@ -2,7 +2,7 @@
 
 ## Outcome
 
-The 230-row selection workbook was reconciled against the 28-place application and then cross-checked against official family and destination sources. The original map missed two selected workbook places (Presidio Tunnel Tops and Bixby Creek Bridge). More importantly, the workbook itself contained no PIER 39 or sea-lion entry. The corrected application contains 36 map places and 108 verified local photographs.
+The 230-row selection workbook was reconciled against the maintained place universe and then cross-checked against official family and destination sources. The owner-approved build contains exactly 39 map places and 117 verified local photographs, including Chinatown San Francisco, Japanese Tea Garden, and Bridalveil Fall as unique physical identities.
 
 ## Workbook reconciliation
 

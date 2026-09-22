@@ -49,7 +49,7 @@ Without safe external retrieval, the workflow stays fail-closed as
   are either one physical `place_key` or an explicit `endpoint_anchors` entry such
   as a ferry embarkation or regional transfer anchor.
 
-The maintained invariants are 36 markers, 79 timeline cards, 41 legs, four routes, nine dates, three non-overall regions, and exactly the `vector` and `satellite` providers. `manifests/asset_manifest.json` supplies 108 places/roles as 108 total real local photographs: HERO, EXPERIENCE, and SCALE_CONTEXT for every place.
+The maintained invariants are 39 markers, 67 timeline cards, 45 typed connectors, five routes (A–E), nine dates, three non-overall regions, and exactly the `vector` and `satellite` providers. `manifests/asset_manifest.json` supplies 117 place/roles as 117 total real local photographs: HERO, EXPERIENCE, and SCALE_CONTEXT for every place.
 
 ## Route semantics
 

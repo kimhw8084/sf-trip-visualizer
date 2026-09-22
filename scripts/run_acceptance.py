@@ -53,11 +53,11 @@ with sync_playwright() as playwright:
     shot(page, "1440_overall")
 
     matrix = page.evaluate("""() => {const a=window.__tripApp,s=a.state,dates=['all',...a.DATA.dates.map(x=>x.key)],regions=['overall','sf','monterey','yosemite'],out=[];
-      for(const route of ['A1','A2','B1','B2'])for(const date of dates)for(const region of regions){s.routes=new Set([route]);s.date=date;s.region=region;
+      for(const route of ['A','B','C','D','E'])for(const date of dates)for(const region of regions){s.routes=new Set([route]);s.date=date;s.region=region;
         const markers=a.DATA.markers.filter(a.markerVisible),timeline=a.DATA.timeline.filter(a.timelineVisible),legs=a.DATA.legs.filter(a.legVisible);
         out.push({route,date,region,markers:markers.length,timeline:timeline.length,legs:legs.length,
           invalid:markers.some(m=>!m.routes.includes(route))||timeline.some(t=>!t.routes.includes(route)||date!=='all'&&t.date_key!==date)||legs.some(l=>{let from=a.DATA.markers.find(m=>m.place_key===l.from),to=a.DATA.markers.find(m=>m.place_key===l.to);return !l.routes.includes(route)||date!=='all'&&l.date!==date||from&&to&&(!from.occurrences.some(o=>o.route===route&&o.date.startsWith(l.date))||!to.occurrences.some(o=>o.route===route&&o.date.startsWith(l.date)))} )});
-      }s.routes=new Set(['A1','A2','B1','B2']);s.date='all';s.region='overall';return out;}""")
+      }s.routes=new Set(['A','B','C','D','E']);s.date='all';s.region='overall';return out;}""")
     check("state_matrix_size", len(matrix), 160)
     check("state_matrix_invalid_compositions", sum(x["invalid"] for x in matrix), 0)
     result["state_matrix"] = matrix
@@ -65,12 +65,12 @@ with sync_playwright() as playwright:
     check("cross_day_conceptual_legs_suppressed", len(suppressed), 3)
     result["cross_day_suppressed_leg_ids"] = suppressed
 
-    for route in ("A1", "A2", "B1", "B2"):
+    for route in ("A", "B", "C", "D", "E"):
         page.locator(f"[data-route={route}]").click()
         settle(page, 220)
         page.locator(f"[data-route={route}]").click()
         settle(page, 220)
-    check("all_route_toggles_restored", page.evaluate("[...window.__tripApp.state.routes].sort().join(',')"), "A1,A2,B1,B2")
+    check("all_route_toggles_restored", page.evaluate("[...window.__tripApp.state.routes].sort().join(',')"), "A,B,C,D,E")
     for date in ["10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11", "all"]:
         page.locator("#dateSelect").select_option(date)
         expected = page.evaluate("window.__tripApp.DATA.markers.filter(window.__tripApp.markerVisible).length")
@@ -83,17 +83,17 @@ with sync_playwright() as playwright:
         check(f"region_{region}_marker_count", page.locator(".photo-marker").count(), {"sf": 19, "monterey": 3, "yosemite": 6, "overall": 28}[region])
         shot(page, f"1440_{region}")
 
-    for route in ("A2", "B1", "B2"):
+    for route in ("B", "C", "D", "E"):
         page.locator(f"[data-route={route}]").click()
         settle(page, 180)
     page.locator("#dateSelect").select_option("10/9")
     page.locator("[data-region=yosemite]").click()
     settle(page, 600)
-    check("A1_10_9_yosemite_markers", page.locator(".photo-marker").count(), 1)
-    check("A1_10_9_yosemite_timeline", page.locator("[data-timeline]").count(), 1)
-    check("A1_10_9_yosemite_flex", "FLEX" in page.locator("[data-timeline]").first.inner_text(), True)
-    check("A1_10_9_yosemite_no_cross_day_leg", page.evaluate("window.__tripApp.DATA.legs.filter(window.__tripApp.legVisible).length"), 0)
-    shot(page, "A1_10_9_yosemite")
+    check("A_10_9_yosemite_markers", page.locator(".photo-marker").count(), 1)
+    check("A_10_9_yosemite_timeline", page.locator("[data-timeline]").count(), 1)
+    check("A_10_9_yosemite_flex", "FLEX" in page.locator("[data-timeline]").first.inner_text(), True)
+    check("A_10_9_yosemite_no_cross_day_leg", page.evaluate("window.__tripApp.DATA.legs.filter(window.__tripApp.legVisible).length"), 0)
+    shot(page, "A_10_9_yosemite")
 
     page.reload()
     settle(page, 850)
@@ -107,7 +107,7 @@ with sync_playwright() as playwright:
     check("ferry_detail_exactly_three_photos", page.locator("#detailsPane .photo-slot img").count(), 3)
     check("ferry_detail_broken_photos", page.locator("#detailsPane .photo-slot img").evaluate_all("es=>es.filter(e=>!e.complete||e.naturalWidth===0).length"), 0)
     check("ferry_detail_deduped_timing_cards", page.locator("#detailsPane .timeline-card").count(), 1)
-    check("ferry_detail_four_route_chips", page.locator("#detailsPane .chip").count(), 4)
+    check("ferry_detail_five_route_chips", page.locator("#detailsPane .chip").count(), 5)
     check("ferry_detail_google_maps", page.locator("#detailsPane .maps-link").count(), 1)
     shot(page, "1440_ferry_detail")
     page.evaluate("window.__tripApp.selectPlace('mariposa',{focus:true,openDetails:true})")

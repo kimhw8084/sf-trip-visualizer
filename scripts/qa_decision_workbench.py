@@ -42,7 +42,7 @@ with sync_playwright() as playwright:
         page.screenshot(path=str(path), full_page=True)
         screenshots.append({"path": str(path.relative_to(ROOT)), "candidate": IDENTITY["sha"], "candidate_tree": IDENTITY["tree"], "browser": "chromium", "viewport": f"{viewport[0]}x{viewport[1]}", "language": page.evaluate("document.documentElement.lang"), "theme": page.evaluate("document.documentElement.dataset.theme"), "mode": mode, "state": state, "purpose": name})
 
-    results.append(oracle("decide_recommendation", page.locator("#recommendation").is_visible() and "A1" in page.locator("#recommendation").inner_text() and all(text in page.locator("#recommendation").inner_text() for text in ("감수할 것", "선택·전환 규칙", "후회 방지"))))
+    results.append(oracle("decide_recommendation", page.locator("#recommendation").is_visible() and "A" in page.locator("#recommendation").inner_text() and all(text in page.locator("#recommendation").inner_text() for text in ("감수할 것", "선택·전환 규칙", "후회 방지"))))
     results.append(oracle("single_authority_controls", page.locator("#dateSelect").count() == 1 and page.locator("#providerControls [data-provider]").count() == 2 and page.locator("#regionControls [data-region]").count() == 4 and page.locator("#peek").count() == 1))
     page.locator("#mapOptionsToggle").click()
     page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === false && document.activeElement?.id === 'mapOptionsClose'")
@@ -68,10 +68,10 @@ with sync_playwright() as playwright:
     results.append(oracle("legacy_surface_removed", page.locator("#dateRibbon,#mapSchedule,#mapFocus,#routeTip,#mobileDate,#mobileProvider").count() == 0))
     shot("decide_default_desktop", (1440, 900), "decide", "recommended_default")
 
-    page.locator('[data-compare-route="A2"]').click()
+    page.locator('[data-compare-route="B"]').click()
     compare_text = page.locator("#comparePanel").inner_text()
-    results.append(oracle("decide_compare_two_routes", "A1" in compare_text and "A2" in compare_text and "공통" in compare_text and "갈라지는" in compare_text))
-    shot("decide_compare_desktop", (1440, 900), "decide", "A1_vs_A2_compare")
+    results.append(oracle("decide_compare_two_routes", "A" in compare_text and "B" in compare_text and "공통" in compare_text and "갈라지는" in compare_text))
+    shot("decide_compare_desktop", (1440, 900), "decide", "A_vs_B_compare")
 
     page.locator('[data-mode="day"]').click()
     page.locator("#dateSelect").select_option("10/8")
@@ -108,7 +108,7 @@ with sync_playwright() as playwright:
     page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
     page.evaluate("window.__tripApp.chooseProvider('satellite')")
     page.wait_for_timeout(3500)
-    results.append(oracle("satellite_failure_recovery", page.evaluate("window.__tripApp.state.provider") == "vector" and page.locator("#mapError:not([hidden])").count() == 1 and page.input_value("#dateSelect") == "10/8" and page.evaluate("window.__tripApp.state.primaryRoute || window.__tripApp.state.task.primaryRoute") == "A1"))
+    results.append(oracle("satellite_failure_recovery", page.evaluate("window.__tripApp.state.provider") == "vector" and page.locator("#mapError:not([hidden])").count() == 1 and page.input_value("#dateSelect") == "10/8" and page.evaluate("window.__tripApp.state.primaryRoute || window.__tripApp.state.task.primaryRoute") == "A"))
 
     page.set_viewport_size({"width": 390, "height": 844})
     page.wait_for_timeout(450)
@@ -117,6 +117,7 @@ with sync_playwright() as playwright:
     results.append(oracle("mobile_compact_non_drag", page.locator('#workbench[data-sheet="compact"]').count() == 1 and page.locator(".workbench-scroll").is_hidden()))
     page.locator('[data-sheet="expanded"]').click()
     results.append(oracle("mobile_expanded_non_drag", page.locator('#workbench[data-sheet="expanded"]').count() == 1 and not page.locator(".workbench-scroll").is_hidden()))
+    page.locator(".photo-marker").first.click()
     page.locator('[data-mode="place"]').click()
     results.append(oracle("mobile_mode_identity", page.evaluate("window.__tripApp.state.presentation.mode") == "place"))
     shot("place_mobile_expanded", (390, 844), "place", "expanded_sheet")
