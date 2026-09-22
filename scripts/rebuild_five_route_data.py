@@ -504,6 +504,9 @@ def main() -> None:
     data = load(DATA_PATH)
     roles_doc = load(ROLE_PATH)
     schedules = canonicalize_schedule(load(SCHEDULE_PATH), roles_doc["places"], data.get("place_region", {}))
+    source_truth = validate_route_truth(data, roles_doc, schedules)
+    if source_truth["status"] != "PASS":
+        raise SystemExit("route schedule source validation failed: " + "; ".join(source_truth["failures"][:20]))
     roles = roles_doc["places"]
     if set(roles) != {marker["place_key"] for marker in data["markers"]} | set(NEW_PLACES):
         missing = sorted(({marker["place_key"] for marker in data["markers"]} | set(NEW_PLACES)) - set(roles))

@@ -28,6 +28,7 @@ ROLE_BUCKETS = {
 }
 ROLE_FIELDS = {role: field for field, role in ROLE_BUCKETS.items()}
 ROLES = {"Core", "Strong", "Conditional", "Skip"}
+DROP_FIRST_ROLES = {"Strong", "Conditional"}
 KO_WEEKDAYS = ("월", "화", "수", "목", "금", "토", "일")
 REGION_ALLOWANCE = {
     "10/3": {"sf"},
@@ -138,12 +139,16 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
     _check(failures, set(place_region) == set(markers), "place-region authority does not cover exactly the 39 places")
 
     scheduled_rows = 0
+    drop_first_references = 0
+    drop_first_days = 0
     daily_regions: dict[str, dict[str, list[str]]] = {route: {} for route in ROUTES}
     for route in ROUTES:
         days = schedule.get("routes", {}).get(route, {}).get("days", {})
         _check(failures, route in schedule.get("routes", {}), f"missing schedule route {route}")
+        _check(failures, set(days) == set(date_keys), f"{route} schedule must cover exactly the canonical sightseeing dates")
         seen_by_day: dict[str, set[str]] = {}
         for day_key, day in days.items():
+            drop_first_days += 1
             _check(failures, day_key in labels, f"{route} uses non-canonical date {day_key}")
             seen = seen_by_day.setdefault(day_key, set())
             regions: list[str] = []
@@ -172,6 +177,38 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
                     if region == "monterey" and day_key != "10/6":
                         failures.append(f"{route} {day_key} schedules Monterey stop {place} after departure")
             daily_regions[route][day_key] = regions
+
+            drop_first = day.get("drop_first", [])
+            _check(failures, isinstance(drop_first, list), f"{route} {day_key} drop_first must be a list")
+            if isinstance(drop_first, list):
+                drop_first_references += len(drop_first)
+                live_buckets: dict[str, list[str]] = {}
+                for field, live_role in ROLE_BUCKETS.items():
+                    for place in day.get(field, []):
+                        live_buckets.setdefault(place, []).append(live_role)
+                seen_drop_first: set[str] = set()
+                for place in drop_first:
+                    prefix = f"{route} {day_key} drop_first {place}"
+                    if place in seen_drop_first:
+                        failures.append(f"{prefix} is duplicated")
+                    seen_drop_first.add(place)
+                    if place not in roles:
+                        failures.append(f"{prefix} references a place outside the canonical 39-place matrix")
+                        continue
+                    canonical_role = roles[place].get(route)
+                    if canonical_role == "Skip":
+                        failures.append(f"{prefix} references a canonical Skip place")
+                    elif canonical_role == "Core":
+                        failures.append(f"{prefix} references a canonical Core place")
+                    elif canonical_role not in DROP_FIRST_ROLES:
+                        failures.append(f"{prefix} has invalid canonical role {canonical_role}")
+                    live_roles = live_buckets.get(place, [])
+                    if not live_roles:
+                        failures.append(f"{prefix} is not scheduled on the same route/day")
+                    elif len(live_roles) != 1:
+                        failures.append(f"{prefix} is scheduled in {len(live_roles)} live role buckets; expected exactly one")
+                    elif live_roles[0] != canonical_role:
+                        failures.append(f"{prefix} is scheduled as {live_roles[0]}, canonical role is {canonical_role}")
 
         _check(failures, set(days) <= set(date_keys), f"{route} schedule dates are outside the canonical sightseeing window")
         ordered_regions: list[str] = []
@@ -234,6 +271,8 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
             "routes": len(schedule.get("routes", {})),
             "matrix_places": len(roles),
             "scheduled_rows": scheduled_rows,
+            "drop_first_references": drop_first_references,
+            "drop_first_days": drop_first_days,
             "occurrences": occurrence_count,
             "dates": len(labels),
         },

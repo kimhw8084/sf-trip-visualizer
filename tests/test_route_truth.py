@@ -29,6 +29,12 @@ class RouteTruthTests(unittest.TestCase):
         self.assertEqual(report["counts"]["dates"], 9)
         self.assertEqual(report["counts"]["occurrences"], 176)
 
+    def test_production_drop_first_is_exhaustively_valid_across_45_route_days(self):
+        report = validate_route_truth(self.data, self.roles, self.schedule)
+        self.assertEqual(report["status"], "PASS", report["failures"])
+        self.assertEqual(report["counts"]["drop_first_days"], 45)
+        self.assertEqual(report["counts"]["drop_first_references"], 78)
+
     def test_wrong_role_bucket_is_rejected(self):
         mutated = copy.deepcopy(self.schedule)
         mutated["routes"]["A"]["days"]["10/3"]["strong"].remove("bay_lights")
@@ -45,6 +51,34 @@ class RouteTruthTests(unittest.TestCase):
         self.assertEqual(report["status"], "FAIL")
         self.assertTrue(any("schedules Skip place bixby" in failure for failure in report["failures"]))
         self.assertTrue(any("Monterey stop monterey_wharf" in failure for failure in report["failures"]))
+
+    def test_drop_first_unscheduled_place_is_rejected(self):
+        mutated = copy.deepcopy(self.schedule)
+        mutated["routes"]["A"]["days"]["10/3"]["drop_first"].append("lone_cypress")
+        report = validate_route_truth(self.data, self.roles, mutated)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(any("A 10/3 drop_first lone_cypress is not scheduled" in failure for failure in report["failures"]))
+
+    def test_drop_first_skip_place_is_rejected(self):
+        mutated = copy.deepcopy(self.schedule)
+        mutated["routes"]["A"]["days"]["10/6"]["drop_first"].append("bixby")
+        report = validate_route_truth(self.data, self.roles, mutated)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(any("A 10/6 drop_first bixby references a canonical Skip place" in failure for failure in report["failures"]))
+
+    def test_drop_first_core_place_is_rejected(self):
+        mutated = copy.deepcopy(self.schedule)
+        mutated["routes"]["A"]["days"]["10/3"]["drop_first"].append("ferry")
+        report = validate_route_truth(self.data, self.roles, mutated)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(any("A 10/3 drop_first ferry references a canonical Core place" in failure for failure in report["failures"]))
+
+    def test_drop_first_duplicate_is_rejected(self):
+        mutated = copy.deepcopy(self.schedule)
+        mutated["routes"]["A"]["days"]["10/3"]["drop_first"].append("bay_lights")
+        report = validate_route_truth(self.data, self.roles, mutated)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(any("A 10/3 drop_first bay_lights is duplicated" in failure for failure in report["failures"]))
 
     def test_stale_weekday_label_is_rejected(self):
         mutated = copy.deepcopy(self.data)
