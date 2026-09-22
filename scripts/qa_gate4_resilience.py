@@ -8,6 +8,7 @@ reported separately because it is not a prerequisite for Smart-map use.
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -28,6 +29,7 @@ PROVIDER_MANIFEST_PATH = ROOT / "manifests" / "basemap_provider_manifest.json"
 BUILD = ROOT / ".build"
 MODULAR = BUILD / "modular" / "index.html"
 STANDALONE = BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"
+SATELLITE_TILE_BODY = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=")
 
 
 def digest(path: Path) -> str:
@@ -213,7 +215,7 @@ def digest_bytes(value: bytes) -> str:
 def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
     from playwright.sync_api import sync_playwright
 
-    report = {"schema_version": 1, "status": "FAIL", "candidate_head": revision(), "test_mode": "browser", "modular": {}, "standalone": {}, "negative_checks": [], "external_provider": {"status": "VERIFY_REQUIRED", "reason": "not attempted"}, "failures": []}
+    report = {"schema_version": 1, "status": "FAIL", "candidate_head": revision(), "test_mode": "browser", "modular": {}, "standalone": {}, "negative_checks": [], "deterministic_provider": {"status": "FAIL", "reason": "not attempted"}, "external_provider": {"status": "VERIFY_REQUIRED", "reason": "not attempted"}, "failures": []}
 
     def wait_ready(page, standalone=False):
         page.wait_for_function("window.__tripApp?.map?.()", timeout=30000)
@@ -345,6 +347,150 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         standalone_row["critical_pass"] = standalone_snapshot["provider"] == "vector" and smart_identity(standalone_snapshot["provider_identity"]) and standalone_snapshot["local_assets"]["status"] == "ready" and not standalone_row["remote_requests"] and standalone_snapshot["map"]["canvas_count"] == 1
         report["standalone"] = standalone_row
 
+        # Deterministic provider recovery: establish a successful Satellite map with
+        # fulfilled probe/viewport/raster responses, then fail only subsequent remote
+        # raster requests on a new viewport. Live provider availability is not used.
+        deterministic_page = browser.new_page(viewport={"width": 1440, "height": 900})
+        deterministic_page.set_default_timeout(30000)
+        deterministic = {"phase": "success", "requests": [], "success_requests": [], "failure_requests": []}
+        deterministic_failures: list[str] = []
+
+        def deterministic_route(route):
+            url = route.request.url
+            deterministic["requests"].append(url)
+            if deterministic["phase"] == "success":
+                deterministic["success_requests"].append(url)
+                route.fulfill(status=200, content_type="image/png", body=SATELLITE_TILE_BODY)
+            else:
+                deterministic["failure_requests"].append(url)
+                route.abort()
+
+        deterministic_page.route("https://server.arcgisonline.com/**", deterministic_route)
+        try:
+            deterministic_page.goto(modular_url, wait_until="domcontentloaded", timeout=90000)
+            wait_ready(deterministic_page)
+            deterministic_page.locator('[data-mode="day"]').click()
+            deterministic_page.locator("#dateSelect").select_option("10/3")
+            deterministic_page.locator("#mapOptionsToggle").click()
+            deterministic_page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
+            deterministic_page.locator('[data-region="sf"]').click()
+            deterministic_page.locator('[data-sheet="full"]').click()
+            deterministic_page.locator("#langToggle").click()
+            deterministic_page.locator("#themeToggle").click()
+            deterministic_page.wait_for_timeout(500)
+            if deterministic_page.locator(".photo-marker").count():
+                deterministic_page.locator(".photo-marker").first.click()
+            deterministic_page.wait_for_timeout(300)
+            stable_before_satellite = snapshot(deterministic_page)
+            pre_satellite_smart_camera = stable_before_satellite.get("smart_camera")
+            if not pre_satellite_smart_camera or not pre_satellite_smart_camera.get("spatial", {}).get("useful"):
+                deterministic_failures.append("useful Smart camera/spatial context was not recorded before Satellite activation")
+            activated = bool(deterministic_page.evaluate("async()=>await window.__tripApp.chooseProvider('satellite')"))
+            deterministic_page.wait_for_function("window.__tripApp.state.provider==='satellite' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
+            satellite_active = snapshot(deterministic_page)
+            raster_success_requests = [url for url in deterministic["success_requests"] if "/ArcGIS/rest/services/World_Imagery/MapServer/tile/" in url and "health=" not in url and "viewport=" not in url]
+            if not activated or satellite_active["provider"] != "satellite" or satellite_active["provider_health"].get("satellite") != "ready" or not raster_success_requests:
+                deterministic_failures.append("fulfilled Satellite activation did not establish a ready raster map")
+
+            deterministic["phase"] = "failure"
+            deterministic_page.evaluate("()=>window.__tripApp.map().panTo([-118.2437,34.0522],{duration:0})")
+            deterministic_page.wait_for_function("window.__tripApp.state.provider==='vector' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
+            deterministic_page.wait_for_timeout(900)
+            recovered = snapshot(deterministic_page)
+            fallback_events = [event for event in recovered["provider_events"] if event.get("type") == "fallback_to_smart" and event.get("provider") == "satellite" and event.get("reason") == "tile_error"]
+            tile_events = [event for event in recovered["provider_events"] if event.get("type") == "tile_error" and event.get("provider") == "satellite"]
+            stats = recovered["runtime"]["providerStats"]["satellite"]
+            preserved = stable_before_satellite["planning_state"] == recovered["planning_state"]
+            activation_state_preserved = stable_before_satellite["planning_state"] == satellite_active["planning_state"]
+            inherited_remote_spatial = deterministic_page.evaluate("""()=>{const app=window.__tripApp,map=app.map();map.jumpTo({center:[-118.2437,34.0522],zoom:13,bearing:0,pitch:0});return app.mapSpatialSnapshot();}""")
+            restored_view = recovered.get("map", {}).get("camera")
+            if restored_view:
+                deterministic_page.evaluate("view=>window.__tripApp.map().jumpTo(view)", restored_view)
+            deterministic_page.wait_for_timeout(250)
+            recovered = snapshot(deterministic_page)
+            recovered_spatial = recovered.get("map", {}).get("spatial") or {}
+            prior_view = pre_satellite_smart_camera or {}
+            recovered_view = recovered.get("map", {}).get("camera") or {}
+            camera_match = bool(prior_view and recovered_view and all(abs(float(recovered_view["center"][index]) - float(prior_view["center"][index])) < 0.0001 for index in (0, 1)) and abs(float(recovered_view["zoom"]) - float(prior_view["zoom"])) < 0.01)
+            spatial_recovery = {
+                "pre_satellite_smart_camera": pre_satellite_smart_camera,
+                "recovered_smart_camera": recovered.get("smart_camera"),
+                "recovered_map_camera": recovered_view,
+                "camera_restored": camera_match,
+                "inherited_satellite_camera_negative_control": inherited_remote_spatial,
+                "inherited_camera_was_spatially_empty": not inherited_remote_spatial.get("useful") and inherited_remote_spatial.get("markers_in_viewport", 0) == 0 and inherited_remote_spatial.get("route_features_in_viewport", 0) == 0,
+                "recovered_spatial": recovered_spatial,
+                "recovered_useful": bool(recovered_spatial.get("useful")),
+                "recovered_markers_in_viewport": recovered_spatial.get("markers_in_viewport", 0),
+                "recovered_routes_in_viewport": recovered_spatial.get("route_features_in_viewport", 0),
+                "recovered_content_occupancy_ratio": recovered_spatial.get("content_occupancy_ratio", 0),
+            }
+            bounded = {
+                "single_fallback": stats["fallbacks"] == 1 and len(fallback_events) == 1,
+                "single_tile_error_episode": stats["tileErrors"] == 1 and len(tile_events) == 1,
+                "one_recovery_draw": recovered["runtime"]["mapCreations"] - satellite_active["runtime"]["mapCreations"] == 1,
+                "single_canvas": recovered["map"]["canvas_count"] == 1,
+                "unique_markers": len(set(recovered["map"]["photo_marker_keys"])) == recovered["map"]["photo_markers"],
+                "bounded_failure_requests": len(deterministic["failure_requests"]) <= 48,
+                "inherited_camera_negative_control": spatial_recovery["inherited_camera_was_spatially_empty"],
+                "recovered_camera_or_safe_fit": spatial_recovery["camera_restored"] or (spatial_recovery["recovered_useful"] and spatial_recovery["recovered_markers_in_viewport"] > 0),
+                "recovered_task_occupancy": spatial_recovery["recovered_useful"] and spatial_recovery["recovered_markers_in_viewport"] > 0 and spatial_recovery["recovered_routes_in_viewport"] > 0,
+            }
+            feedback_message = deterministic_page.locator("#mapError .map-error-message").inner_text() if deterministic_page.locator("#mapError:not([hidden])").count() else ""
+            feedback_action = deterministic_page.locator("#smartRetry").inner_text() if deterministic_page.locator("#smartRetry").count() else ""
+            feedback_visible = bool(feedback_message) and "Smart" in feedback_message
+            feedback_truthful = feedback_visible and "failed" not in feedback_message.lower() and "Satellite" in feedback_action
+            feedback_dismissible = bool(deterministic_page.locator("#mapErrorDismiss").count()) and deterministic_page.locator("#mapErrorDismiss").is_visible()
+            screenshot_path = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5" / "satellite_failure_recovery_1440x900.png"
+            screenshot_path.parent.mkdir(parents=True, exist_ok=True)
+            deterministic_page.screenshot(path=str(screenshot_path))
+            retry_before = recovered["runtime"]["providerStats"]["satellite"]["healthProbes"]
+            deterministic["phase"] = "success"
+            retry_result = bool(deterministic_page.evaluate("async()=>await window.__tripApp.chooseProvider('satellite')"))
+            deterministic_page.wait_for_function("window.__tripApp.state.provider==='satellite' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
+            retry_snapshot = snapshot(deterministic_page)
+            retry_allowed = retry_result and retry_snapshot["runtime"]["providerStats"]["satellite"]["healthProbes"] > retry_before
+            deterministic_page.evaluate("async()=>await window.__tripApp.chooseProvider('vector')")
+            deterministic_page.wait_for_function("window.__tripApp.state.provider==='vector' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
+            if not activation_state_preserved:
+                deterministic_failures.append("Satellite activation changed planning/presentation state")
+            if not preserved:
+                deterministic_failures.append("Satellite tile failure did not preserve planning/presentation state")
+            if not all(bounded.values()):
+                deterministic_failures.extend([f"bounded recovery assertion failed: {name}" for name, passed in bounded.items() if not passed])
+            if recovered["provider"] != "vector" or not smart_identity(recovered["provider_identity"]):
+                deterministic_failures.append("recovery did not return to the local Smart provider")
+            if recovered["provider_health"].get("satellite") != "failed":
+                deterministic_failures.append("Satellite health was not marked failed")
+            if not recovered["map_visual_ready"]:
+                deterministic_failures.append("Smart map_visual_ready did not recover")
+            if not feedback_visible:
+                deterministic_failures.append("Satellite recovery feedback was not visible")
+            if not feedback_truthful:
+                deterministic_failures.append("Satellite recovery feedback did not truthfully describe usable Smart recovery")
+            if not feedback_dismissible:
+                deterministic_failures.append("Satellite recovery feedback was not visibly dismissible")
+            if not retry_allowed:
+                deterministic_failures.append("explicit later Satellite probe was not allowed")
+            deterministic_row = {
+                "status": "PASS" if not deterministic_failures and recovered["provider"] == "vector" and smart_identity(recovered["provider_identity"]) and recovered["provider_health"].get("satellite") == "failed" and recovered["map_visual_ready"] and preserved and feedback_visible and all(bounded.values()) and retry_allowed else "FAIL",
+                "mode": "deterministic_fulfilled_then_failed_remote_raster",
+                "activation": {"result": activated, "provider": satellite_active["provider"], "provider_health": satellite_active["provider_health"], "success_requests": len(deterministic["success_requests"]), "raster_success_requests": len(raster_success_requests), "snapshot": satellite_active},
+                "recovery": {"provider": recovered["provider"], "provider_identity": recovered["provider_identity"], "provider_health": recovered["provider_health"], "satellite_stats": stats, "tile_error_events": tile_events, "fallback_events": fallback_events, "activation_state_preserved": activation_state_preserved, "planning_state_preserved": preserved, "feedback_visible": feedback_visible, "feedback_truthful": feedback_truthful, "feedback_dismissible": feedback_dismissible, "map_visual_ready": recovered["map_visual_ready"], "spatial_recovery": spatial_recovery, "snapshot": recovered},
+                "retry_allowed": retry_allowed,
+                "bounded": bounded,
+                "failure_requests": len(deterministic["failure_requests"]),
+                "screenshot": str(screenshot_path.relative_to(ROOT)),
+                "screenshot_sha256": digest(screenshot_path),
+                "failures": deterministic_failures,
+            }
+        except Exception as error:
+            deterministic_failures.append(f"deterministic Satellite recovery: {type(error).__name__}: {error}")
+            deterministic_row = {"status": "FAIL", "mode": "deterministic_fulfilled_then_failed_remote_raster", "failure_requests": len(deterministic["failure_requests"]), "failures": deterministic_failures}
+        finally:
+            deterministic_page.close()
+        report["deterministic_provider"] = deterministic_row
+
         # Best-effort real-provider success probe. A network failure is explicit VERIFY_REQUIRED.
         provider_page = browser.new_page(viewport={"width": 1280, "height": 800})
         provider_requests: list[str] = []
@@ -368,8 +514,8 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         context.close()
         browser.close()
 
-    report["status"] = "PASS" if report["modular"].get("critical_pass") and report["standalone"].get("critical_pass") and all(row["pass"] for row in report["negative_checks"]) and not report["modular"].get("page_errors") and not report["standalone"].get("page_errors") else "FAIL"
-    report["failures"] = report["modular"].get("failures", []) + [f"negative case: {row['case']}" for row in report["negative_checks"] if not row["pass"]]
+    report["status"] = "PASS" if report["modular"].get("critical_pass") and report["standalone"].get("critical_pass") and report["deterministic_provider"].get("status") == "PASS" and all(row["pass"] for row in report["negative_checks"]) and not report["modular"].get("page_errors") and not report["standalone"].get("page_errors") else "FAIL"
+    report["failures"] = report["modular"].get("failures", []) + report["deterministic_provider"].get("failures", []) + [f"negative case: {row['case']}" for row in report["negative_checks"] if not row["pass"]]
     return report
 
 
@@ -418,3 +564,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
