@@ -14,6 +14,8 @@ import json
 from pathlib import Path
 from urllib.parse import quote_plus
 
+from validate_route_truth import canonicalize_schedule, display_date, validate_route_truth
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data" / "phase7_app_data.json"
@@ -132,10 +134,13 @@ def dump(path: Path, value) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
-def new_occurrence(route: str, place: dict, role: str, seq: int) -> dict:
+def new_occurrence(route: str, place: dict, role: str, seq: int, date_key: str, data: dict) -> dict:
+    labels = display_date(data, date_key)
     return {
         "route": route,
-        "date": place["date"],
+        "date_key": date_key,
+        "date": labels["ko"],
+        "date_en": labels["en"],
         "time": place["time"],
         "title": place["title"],
         "reason": place["reason"],
@@ -170,19 +175,16 @@ def role_enrichment(marker: dict, route: str, role: str) -> None:
         occurrence["fallback_rule"] = ROLE_FALLBACK.get(marker["place_key"], "use the next named route fallback while preserving the Core spine")
 
 
-def scheduled_day(route: str, key: str, schedules: dict) -> str | None:
-    for date_key in data_date_keys():
+def scheduled_day(route: str, key: str, schedules: dict, date_keys: list[str]) -> str | None:
+    for date_key in date_keys:
         day = schedules["routes"][route]["days"].get(date_key, {})
         if key in day.get("hard_anchors", []) + day.get("strong", []) + day.get("conditional", []):
             return date_key
     return None
 
 
-def weekday_for(date_key: str) -> str:
-    return "토일월화수목금"[int(date_key.split("/")[1]) % 7]
-
-
 def projected_markers(data: dict, roles: dict, schedules: dict) -> list[dict]:
+    date_keys = data_date_keys(data)
     existing = {item["place_key"]: copy.deepcopy(item) for item in data["markers"]}
     for key, place in NEW_PLACES.items():
         existing[key] = {
@@ -217,7 +219,8 @@ def projected_markers(data: dict, roles: dict, schedules: dict) -> list[dict]:
             for route in ROUTES:
                 role = marker_roles[route]
                 if role != "Skip":
-                    marker["occurrences"].append(new_occurrence(route, NEW_PLACES[key], role, source_seq))
+                    planned_date = scheduled_day(route, key, schedules, date_keys) or date_keys[-1]
+                    marker["occurrences"].append(new_occurrence(route, NEW_PLACES[key], role, source_seq, planned_date, data))
         else:
             marker["occurrences"] = []
             for route in ROUTES:
@@ -231,9 +234,11 @@ def projected_markers(data: dict, roles: dict, schedules: dict) -> list[dict]:
                     occurrence = copy.deepcopy(all_occurrences[0]) if all_occurrences else {"date": "10/11 일", "time": "flex", "title": marker.get("title", marker["name"]), "reason": marker.get("why", "Route fallback"), "advantage": "route fallback", "kind": "route-specific", "status": "fallback", "seq": 90}
                 occurrence["route"] = route
                 occurrence["route_title"] = ""
-                planned_date = scheduled_day(route, key, schedules)
-                if planned_date:
-                    occurrence["date"] = f"{planned_date} {weekday_for(planned_date)}"
+                planned_date = scheduled_day(route, key, schedules, date_keys) or occurrence_date_key(occurrence.get("date")) or date_keys[-1]
+                labels = display_date(data, planned_date)
+                occurrence["date_key"] = planned_date
+                occurrence["date"] = labels["ko"]
+                occurrence["date_en"] = labels["en"]
                 marker["occurrences"].append(occurrence)
         marker["routes"] = [route for route in ROUTES if marker_roles[route] != "Skip"]
         marker["route_count"] = len(marker["routes"])
@@ -276,7 +281,7 @@ def projected_timeline(data: dict, markers: list[dict], roles: dict) -> list[dic
         place = marker_by_key[key]
         timeline.append({
             "id": item_id,
-            "date": f"{date_key} {'토일월화수목금'[int(date_key.split('/')[1]) % 7]}",
+            "date": display_date(data, date_key)["ko"],
             "date_key": date_key,
             "time": time,
             "title": title,
@@ -292,11 +297,11 @@ def projected_timeline(data: dict, markers: list[dict], roles: dict) -> list[dic
             "fallback_rule": "use the named route fallback only for an external access or safety blocker",
         })
     unique = {item["id"]: item for item in timeline}
-    return sorted(unique.values(), key=lambda item: (list(data_date_keys()).index(item["date_key"]), str(item.get("time", "")), item["id"]))
+    return sorted(unique.values(), key=lambda item: (list(data_date_keys(data)).index(item["date_key"]), str(item.get("time", "")), item["id"]))
 
 
-def data_date_keys() -> list[str]:
-    return [f"10/{day}" for day in range(3, 12)]
+def data_date_keys(data: dict) -> list[str]:
+    return [item["key"] for item in data.get("dates", [])]
 
 
 def projected_legs(data: dict, markers: list[dict], roles: dict) -> list[dict]:
@@ -498,11 +503,12 @@ def update_audits(markers: list[dict]) -> None:
 def main() -> None:
     data = load(DATA_PATH)
     roles_doc = load(ROLE_PATH)
-    schedules = load(SCHEDULE_PATH)
+    schedules = canonicalize_schedule(load(SCHEDULE_PATH), roles_doc["places"], data.get("place_region", {}))
     roles = roles_doc["places"]
     if set(roles) != {marker["place_key"] for marker in data["markers"]} | set(NEW_PLACES):
         missing = sorted(({marker["place_key"] for marker in data["markers"]} | set(NEW_PLACES)) - set(roles))
         raise SystemExit(f"role matrix coverage mismatch: {missing}")
+    dump(SCHEDULE_PATH, schedules)
     markers = projected_markers(data, roles, schedules)
     route_meta = route_metadata(schedules)
     data["routes"] = route_meta
@@ -518,6 +524,10 @@ def main() -> None:
     data["phase2_note"] = f"{len(markers) * 3} local real photographs for {len(markers)} physical places, with thumbnail and medium derivatives."
     data["location_audit"] = {**data.get("location_audit", {}), "version": "2026-09-21", "total_places": len(markers), "critical_finding": "Owner-approved additions reconciled into the canonical 39-place universe."}
     dump(DATA_PATH, data)
+
+    truth = validate_route_truth(data, roles_doc, schedules)
+    if truth["status"] != "PASS":
+        raise SystemExit("route truth validation failed: " + "; ".join(truth["failures"][:20]))
 
     canonical = load(CANONICAL_PATH)
     by_key = {item["place_key"]: item for item in canonical}
