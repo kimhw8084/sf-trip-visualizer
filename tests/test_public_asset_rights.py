@@ -89,12 +89,12 @@ class PublicAssetRightsTests(unittest.TestCase):
     def test_replacements_preserve_place_role_and_integrity_bindings(self):
         manifest = load_json(ROOT / "manifests/asset_manifest.json")
         contract = load_contract()
-        self.assertEqual(len(manifest["assets"]), 108)
-        self.assertEqual(len(contract["photo_assets"]), 108)
-        self.assertEqual(len({item["sha256"] for item in manifest["assets"]}), 108)
+        self.assertEqual(len(manifest["assets"]), 117)
+        self.assertEqual(len(contract["photo_assets"]), 117)
+        self.assertEqual(len({item["sha256"] for item in manifest["assets"]}), 117)
         self.assertEqual(len(contract["initially_ambiguous_replacements"]), 12)
         roles = {(item["place_key"], item["role"]) for item in manifest["assets"]}
-        self.assertEqual(len(roles), 108)
+        self.assertEqual(len(roles), 117)
         for item in manifest["assets"]:
             rights = next(row for row in contract["photo_assets"] if row["id"] == f'{item["place_key"]}/{item["role"]}')
             self.assertEqual(rights["public_paths"], [item["local_thumb_path"], item["local_medium_path"]])

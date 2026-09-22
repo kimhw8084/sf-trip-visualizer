@@ -23,6 +23,7 @@ FRESHNESS = ROOT / "manifests" / "trip_freshness.json"
 TRANSLATIONS = ROOT / "data" / "translations.json"
 GEOMETRY = ROOT / "data" / "route_geometry_cache.json"
 GEOMETRY_MANIFEST = ROOT / "data" / "route_geometry_manifest.json"
+ROLE_MATRIX = ROOT / "data" / "route_role_matrix.json"
 ASSETS = ROOT / "manifests" / "asset_manifest.json"
 REFERENCE_FILES = {
     "routes": ROOT / "data" / "routes.json",
@@ -69,6 +70,9 @@ def validate_trip_data() -> dict[str, Any]:
     geometry_manifest = load(GEOMETRY_MANIFEST)
     assets = load(ASSETS)
     freshness = load(FRESHNESS)
+    role_doc = load(ROLE_MATRIX)
+    route_role_matrix = role_doc.get("places", {})
+    canonical_route_ids = role_doc.get("route_ids", [])
     references = {name: load(path) for name, path in REFERENCE_FILES.items()}
     failures: list[str] = []
     checks: dict[str, bool] = {}
@@ -98,12 +102,12 @@ def validate_trip_data() -> dict[str, Any]:
 
     check("physical_place_keys_unique", len(marker_keys) == len(marker_set) and all(has_text(key) for key in marker_keys))
     expected = manifest.get("invariants", {})
-    check("place_count", len(markers) == expected.get("places"))
+    check("place_count", len(markers) == expected.get("places") == len(route_role_matrix) == 39)
     check("timeline_count", len(data.get("timeline", [])) == expected.get("timeline_cards"))
     check("leg_count", len(data.get("legs", [])) == expected.get("route_legs"))
-    check("route_count", sorted(route_ids) == ["A1", "A2", "B1", "B2"])
+    check("route_count", sorted(route_ids) == sorted(canonical_route_ids) == ["A", "B", "C", "D", "E"])
     recommended_routes = [route for route, meta in routes.items() if meta.get("recommended") is True]
-    check("recommended_route_is_explicit", recommended_routes == ["A1"])
+    check("recommended_route_is_explicit", recommended_routes == ["A"])
     check("date_count", len(dates) == expected.get("dates") and len(date_set) == len(dates))
     check("region_count", set(place_region.values()) == REGIONS and set(data.get("region_cfg", {})) == REGIONS | {"overall"})
     check("provider_keys", sorted(data.get("providers", {})) == ["satellite", "vector"])
@@ -115,6 +119,9 @@ def validate_trip_data() -> dict[str, Any]:
         path = f"markers[{key}]"
         routes_for_marker = marker.get("routes", [])
         check(f"{path}.routes_valid", bool(routes_for_marker) and set(routes_for_marker) <= route_ids and marker.get("route_count") == len(routes_for_marker))
+        roles = route_role_matrix.get(key, {})
+        check(f"{path}.role_matrix", set(roles) == set(canonical_route_ids) and all(roles[route] in {"Core", "Strong", "Conditional", "Skip"} for route in canonical_route_ids))
+        check(f"{path}.routes_derived_from_roles", set(routes_for_marker) == {route for route in canonical_route_ids if roles.get(route) != "Skip"})
         check(f"{path}.region_resolves", key in place_region and place_region[key] in REGIONS)
         check(f"{path}.coordinate", isinstance(marker.get("lat"), (int, float)) and isinstance(marker.get("lon"), (int, float)))
         occurrences = marker.get("occurrences", [])
@@ -126,6 +133,12 @@ def validate_trip_data() -> dict[str, Any]:
             check(f"{path}.occurrence[{index}].route", route in route_ids and route in routes_for_marker)
             check(f"{path}.occurrence[{index}].date", day in date_set)
             check(f"{path}.occurrence[{index}].critical_fields", all(has_text(occurrence.get(field)) for field in ("title", "reason", "advantage", "status")))
+            role = roles.get(route)
+            check(f"{path}.occurrence[{index}].role_agrees", role in {"Core", "Strong", "Conditional"})
+            if role == "Conditional":
+                check(f"{path}.occurrence[{index}].conditional_rule", has_text(occurrence.get("condition")) and has_text(occurrence.get("recovery_rule")))
+            if role == "Core":
+                check(f"{path}.occurrence[{index}].core_fallback", has_text(occurrence.get("fallback_rule")))
 
     check("place_region_is_exact", set(place_region) == marker_set)
 

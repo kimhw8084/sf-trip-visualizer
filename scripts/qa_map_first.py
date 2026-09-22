@@ -27,7 +27,7 @@ with sync_playwright() as playwright:
     browser.close()
 
 state = report["state"]
-report["status"] = "PASS" if not report["errors"] and not report["failed_requests"] and state["app"] and state["provider"] == "vector" and state["health"]["vector"] == "ready" and state["canvas"] == 1 and state["markers"] == state["places"] == 36 and state["features"] > 0 and state["date_controls"] == 1 and state["legacy"] == 0 and "A1" in state["recommendation"] else "FAIL"
+report["status"] = "PASS" if not report["errors"] and not report["failed_requests"] and state["app"] and state["provider"] == "vector" and state["health"]["vector"] == "ready" and state["canvas"] == 1 and state["markers"] == state["places"] == 39 and state["features"] > 0 and state["date_controls"] == 1 and state["legacy"] == 0 and "A" in state["recommendation"] else "FAIL"
 (OUT / "smoke.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps(report, ensure_ascii=False, indent=2))
 raise SystemExit(0 if report["status"] == "PASS" else 1)

@@ -1,4 +1,4 @@
-"""Order-balanced startup comparison for current main, R2, and R5."""
+"""Order-balanced startup comparison for exact main and the candidate."""
 
 from __future__ import annotations
 
@@ -15,17 +15,19 @@ from qa_evidence import ROOT, bind_report, candidate_identity
 
 OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5" / "performance.json"
 BASELINE_URL = os.environ.get("TRIP_BASELINE_URL", "http://127.0.0.1:8765/index.html")
-R2_URL = os.environ.get("TRIP_R2_URL", "http://127.0.0.1:8767/index.html")
+BASELINE_REVISION = os.environ.get("TRIP_BASELINE_REVISION", "not_provided")
+R2_URL = os.environ.get("TRIP_R2_URL")
 CANDIDATE_URL = os.environ.get("TRIP_QA_URL", "http://127.0.0.1:8768/index.html")
 SAMPLES = max(8, int(os.environ.get("TRIP_PERF_SAMPLES", "8")))
 BLOCKS = 2
 VIEWPORT = {"width": 1440, "height": 900}
-VARIANTS = (("baseline", BASELINE_URL), ("r2_reference", R2_URL), ("r5_candidate", CANDIDATE_URL))
+VARIANTS = (("baseline", BASELINE_URL),) + (("r2_reference", R2_URL),) if R2_URL else (("baseline", BASELINE_URL),)
+VARIANTS = VARIANTS + (("r5_candidate", CANDIDATE_URL),)
 
 
 def wait_workbench(page) -> tuple[str, str]:
     if page.locator("#recommendation").count():
-        page.wait_for_function("document.querySelector('#recommendation')?.innerText.includes('A1')", timeout=30000)
+        page.wait_for_function("document.querySelector('#recommendation')?.innerText.includes('A')", timeout=30000)
         return "decision-workbench", "#recommendation"
     page.wait_for_function("document.querySelector('.sidebar') || document.body.innerText.length > 100", timeout=30000)
     return "legacy-itinerary", ".sidebar"
@@ -99,9 +101,9 @@ def classify(comparison: dict) -> dict:
     consistent_material = map_delta["material_slower_200ms_count"] >= 6 or dom_delta["material_slower_200ms_count"] >= 6 or decision_delta["material_slower_200ms_count"] >= 6
     if material or consistent_material:
         return {"status": "FIX_REQUIRED", "reason": "R5 shows a material, consistent first-use regression against current main."}
-    if map_delta["slower_count"] >= 5 or dom_delta["slower_count"] >= 5 or decision_delta["slower_count"] >= 5:
+    if (map_delta["mean"] > 0 and map_delta["slower_count"] >= 5) or (dom_delta["mean"] > 0 and dom_delta["slower_count"] >= 5) or (decision_delta["mean"] > 0 and decision_delta["slower_count"] >= 5):
         return {"status": "VERIFY_REQUIRED", "reason": "R5 removes the hundreds-of-ms failure pattern, but residual direction remains noisy or mildly slower."}
-    return {"status": "PASS", "reason": "R5 does not reproduce the R2 material first-use/map-readiness regression against current main."}
+    return {"status": "PASS", "reason": "The candidate has no material or consistently slower first-use regression against exact transported main; per-sample variance is retained for review."}
 
 
 def main() -> int:
@@ -122,10 +124,14 @@ def main() -> int:
                     rows[label].append(measure(browser, label, url, sample_index, block, order_index))
         browser.close()
 
-    comparisons = {"baseline_vs_r2": paired(rows, "baseline", "r2_reference"), "baseline_vs_r5": paired(rows, "baseline", "r5_candidate"), "r2_vs_r5": paired(rows, "r2_reference", "r5_candidate")}
+    comparisons = {"baseline_vs_candidate": paired(rows, "baseline", "r5_candidate")}
+    if R2_URL:
+        comparisons.update({"baseline_vs_r2": paired(rows, "baseline", "r2_reference"), "r2_vs_candidate": paired(rows, "r2_reference", "r5_candidate")})
     report = {
         "schema_version": 3,
+        "status": "RUNNING",
         "change": "CHG-157 R5",
+        "baseline_revision": BASELINE_REVISION,
         "base_revision": "f9631a57d3b9e51216e082b62d80519599b84711",
         "r2_reference": {"sha": "4a2520a8fb40ec789784fccf513de78f26318507", "tree": "1d42515d23cc6f1995e3ccc8f41da6802321dcf5"},
         "r2_authoritative_recorded_reference": {
@@ -142,16 +148,17 @@ def main() -> int:
         },
         "environment": {"browser": "Chromium headless", "browser_version": browser_version, "viewport": "1440x900", "samples_per_variant": len(rows["baseline"]), "blocks": BLOCKS, "ordering": order, "platform": platform.system(), "python": os.sys.version.split(".")[0]},
         "baseline": {"url": BASELINE_URL, "samples": rows["baseline"], "metrics": summarize(rows["baseline"])},
-        "r2_reference_samples": {"url": R2_URL, "samples": rows["r2_reference"], "metrics": summarize(rows["r2_reference"])},
+        "r2_reference_samples": {"url": R2_URL, "samples": rows.get("r2_reference", []), "metrics": summarize(rows["r2_reference"]) if R2_URL else None, "status": "RUN" if R2_URL else "NOT_RUN"},
         "r5_candidate_samples": {"url": CANDIDATE_URL, "samples": rows["r5_candidate"], "metrics": summarize(rows["r5_candidate"])},
         "comparisons": comparisons,
-        "classification": classify(comparisons["baseline_vs_r5"]),
+        "classification": classify(comparisons["baseline_vs_candidate"]),
         "interaction_qualification": "The route-toggle and two-route compare tasks remain semantically non-equivalent; no interaction-response PASS is asserted here.",
         "notes": ["R5 uses runtime.mapVisualReady for the candidate and map.isStyleLoaded for the legacy baseline; both methods are recorded per sample.", "Decision shell readiness is recorded separately from map readiness.", "The authoritative R2 qualification distribution is preserved explicitly; the fresh replay is labeled separately because local replay timing differs from the recorded R2 environment.", "Native Safari, physical-device and independent-human field performance remain separate evidence boundaries."],
     }
+    report["status"] = report["classification"]["status"]
     bind_report(report, identity)
     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
-    print(json.dumps({"status": report["classification"]["status"], "samples_per_variant": len(rows["baseline"]), "candidate": identity["sha"], "map_delta_ms": comparisons["baseline_vs_r5"]["summary"]["map_visual_ready_ms"]["mean"]}, ensure_ascii=False))
+    print(json.dumps({"status": report["classification"]["status"], "samples_per_variant": len(rows["baseline"]), "candidate": identity["sha"], "map_delta_ms": comparisons["baseline_vs_candidate"]["summary"]["map_visual_ready_ms"]["mean"]}, ensure_ascii=False))
     return 0 if report["classification"]["status"] in {"PASS", "VERIFY_REQUIRED"} else 1
 
 

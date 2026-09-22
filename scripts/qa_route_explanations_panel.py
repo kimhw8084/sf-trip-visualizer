@@ -28,12 +28,12 @@ with sync_playwright() as playwright:
     page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
 
-    for route in ("A1", "A2", "B1", "B2"):
+    for route in ("A", "B", "C", "D", "E"):
         card = page.locator(f'.route-card:has([data-compare-route="{route}"])')
         text = card.inner_text()
         report["route_explanations"].append({"route": route, "human_title": len(text) > 10, "score_profile": "score" in text.lower() or "/10" in text, "compare_control": card.locator('[data-compare-route]').count() == 1})
 
-    page.locator('[data-compare-route="A2"]').click()
+    page.locator('[data-compare-route="B"]').click()
     report["desktop"] = {"compare": page.locator("#comparePanel").inner_text(), "compare_visible": page.locator("#comparePanel").count() == 1, "screenshot": snapshot(page, "decide_compare_1440")}
     page.locator('[data-sheet="compact"]').click()
     report["desktop"]["compact"] = page.locator('#workbench[data-sheet="compact"]').count() == 1 and page.locator(".workbench-scroll").is_hidden()
@@ -49,8 +49,8 @@ with sync_playwright() as playwright:
     report["mobile"]["screenshot"] = snapshot(page, "workbench_mobile_390")
     browser.close()
 
-route_pass = len(report["route_explanations"]) == 4 and all(row["human_title"] and row["score_profile"] and row["compare_control"] for row in report["route_explanations"])
-compare_pass = report["desktop"]["compare_visible"] and all(value in report["desktop"]["compare"] for value in ("A1", "A2"))
+route_pass = len(report["route_explanations"]) == 5 and all(row["human_title"] and row["score_profile"] and row["compare_control"] for row in report["route_explanations"])
+compare_pass = report["desktop"]["compare_visible"] and all(value in report["desktop"]["compare"] for value in ("A", "B"))
 responsive_pass = report["desktop"]["compact"] and report["desktop"]["expanded"] and report["mobile"]["initial"]["overflow"] == 0 and all(row["active"] and row["overflow"] == 0 for key, row in report["mobile"].items() if key in ("compact", "expanded", "full"))
 report["status"] = "PASS" if not report["errors"] and route_pass and compare_pass and responsive_pass else "FAIL"
 (OUT / "route_explanations_panel.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
