@@ -1,0 +1,2202 @@
+{
+  "accepted_at": "2026-09-22T10:54:19Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "LOCATION_COVERAGE_AUDIT.md",
+      "status": "M"
+    },
+    {
+      "additions": 2252,
+      "deletions": 1628,
+      "path": "QA/map_first/canonical_truth.json",
+      "status": "M"
+    },
+    {
+      "additions": 6209,
+      "deletions": 1089,
+      "path": "QA/map_first/exhaustive_states.json",
+      "status": "M"
+    },
+    {
+      "additions": 173,
+      "deletions": 153,
+      "path": "QA/map_first/full_acceptance.json",
+      "status": "M"
+    },
+    {
+      "additions": 26,
+      "deletions": 17,
+      "path": "QA/map_first/interaction_dynamics.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 5,
+      "path": "QA/map_first/location_gap_visuals.json",
+      "status": "M"
+    },
+    {
+      "additions": 43,
+      "deletions": 10,
+      "path": "QA/map_first/p0_independent.json",
+      "status": "M"
+    },
+    {
+      "additions": 256,
+      "deletions": 179,
+      "path": "QA/map_first/route_continuity.json",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "QA/map_first/smoke.json",
+      "status": "M"
+    },
+    {
+      "additions": 19704,
+      "deletions": 10,
+      "path": "QA/map_first/standalone.json",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "QA/photo_integrity.json",
+      "status": "M"
+    },
+    {
+      "additions": 118,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r2/baseline.json",
+      "status": "A"
+    },
+    {
+      "additions": 2048,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r2/candidate.json",
+      "status": "A"
+    },
+    {
+      "additions": 1615,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r2/finding_matrix.json",
+      "status": "A"
+    },
+    {
+      "additions": 415,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r2/paired_comparison.json",
+      "status": "A"
+    },
+    {
+      "additions": 8,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r2/performance_summary.log",
+      "status": "A"
+    },
+    {
+      "additions": 33,
+      "deletions": 0,
+      "path": "QA/project_os_verify/gate5_r2/review_pack_index.json",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "QA/project_os_verify/ui_revamp_r5/accessibility.json",
+      "status": "M"
+    },
+    {
+      "additions": 409,
+      "deletions": 439,
+      "path": "QA/project_os_verify/ui_revamp_r5/browser_summary.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/day_1008_desktop.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/decide_compare_desktop.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/decide_default_desktop.png",
+      "status": "M"
+    },
+    {
+      "additions": 599,
+      "deletions": 701,
+      "path": "QA/project_os_verify/ui_revamp_r5/map_geometry.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_inspector_desktop.png",
+      "status": "M"
+    },
+    {
+      "additions": 191,
+      "deletions": 0,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_1440x900_ko_light_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_1440x900_ko_light_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_360x800_stress_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_360x800_stress_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_375x812_stress_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_375x812_stress_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_390x844_en_dark_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_390x844_en_dark_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/place_mobile_expanded.png",
+      "status": "M"
+    },
+    {
+      "additions": 298,
+      "deletions": 286,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_camera.json",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/satellite_failure_recovery_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_dense_recovery_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_sparse_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_compare_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_default_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_en_dark_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_no_results_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_peek_cooks_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_place_inspector_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_compact_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_expanded_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_full_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_options_open_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_region_yosemite_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/compact_route_key_open_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_1280_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_390_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_keyboard_peek_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_touch_peek_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/satellite_failure_recovery_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/smart_failure_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/startup_immediate_1440x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1366x768.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1536x864.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1600x900.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1920x1080.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_360x800.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_375x812.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_390x844.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_414x896.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_844x390.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_1280_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_390_detail.png",
+      "status": "M"
+    },
+    {
+      "additions": 246,
+      "deletions": 246,
+      "path": "QA/project_os_verify/ui_revamp_r5/sheet_geometry.json",
+      "status": "M"
+    },
+    {
+      "additions": 13,
+      "deletions": 13,
+      "path": "QA/project_os_verify/ui_revamp_r5/task_oracles.json",
+      "status": "M"
+    },
+    {
+      "additions": 99,
+      "deletions": 99,
+      "path": "QA/project_os_verify/ui_revamp_r5/visual_index.json",
+      "status": "M"
+    },
+    {
+      "additions": 11,
+      "deletions": 5,
+      "path": "QA/route_panel/route_explanations_panel.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 3,
+      "path": "README.md",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "TRIP_VISUALIZER_SCHEMA.md",
+      "status": "M"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/medium/bridalveil__experience.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/medium/bridalveil__hero.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/medium/bridalveil__scale_context.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/medium/chinatown__experience.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/medium/chinatown__hero.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/medium/chinatown__scale_context.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/medium/tea_garden__experience.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/medium/tea_garden__hero.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/medium/tea_garden__scale_context.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/thumb/bridalveil__experience.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/thumb/bridalveil__hero.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/thumb/bridalveil__scale_context.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/thumb/chinatown__experience.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/thumb/chinatown__hero.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/thumb/chinatown__scale_context.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/thumb/tea_garden__experience.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/thumb/tea_garden__hero.webp",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "assets/photos/thumb/tea_garden__scale_context.webp",
+      "status": "A"
+    },
+    {
+      "additions": 3803,
+      "deletions": 1336,
+      "path": "data/canonical_places.json",
+      "status": "M"
+    },
+    {
+      "additions": 11,
+      "deletions": 8,
+      "path": "data/coordinate_audit.csv",
+      "status": "M"
+    },
+    {
+      "additions": 148,
+      "deletions": 106,
+      "path": "data/coordinate_audit.json",
+      "status": "M"
+    },
+    {
+      "additions": 53,
+      "deletions": 358,
+      "path": "data/itineraries.json",
+      "status": "M"
+    },
+    {
+      "additions": 47,
+      "deletions": 6,
+      "path": "data/location_coverage_audit.json",
+      "status": "M"
+    },
+    {
+      "additions": 5543,
+      "deletions": 2000,
+      "path": "data/phase7_app_data.json",
+      "status": "M"
+    },
+    {
+      "additions": 7895,
+      "deletions": 35867,
+      "path": "data/route_geometry_cache.json",
+      "status": "M"
+    },
+    {
+      "additions": 261,
+      "deletions": 377,
+      "path": "data/route_geometry_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 22,
+      "deletions": 0,
+      "path": "data/route_research_ledger.json",
+      "status": "A"
+    },
+    {
+      "additions": 52,
+      "deletions": 0,
+      "path": "data/route_role_matrix.json",
+      "status": "A"
+    },
+    {
+      "additions": 1016,
+      "deletions": 0,
+      "path": "data/route_schedules.json",
+      "status": "A"
+    },
+    {
+      "additions": 216,
+      "deletions": 12312,
+      "path": "data/routes.json",
+      "status": "M"
+    },
+    {
+      "additions": 25,
+      "deletions": 1,
+      "path": "data/translations.json",
+      "status": "M"
+    },
+    {
+      "additions": 2926,
+      "deletions": 2575,
+      "path": "manifests/asset_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 24,
+      "deletions": 10,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "M"
+    },
+    {
+      "additions": 73,
+      "deletions": 0,
+      "path": "manifests/gate5_field_quality_contract.json",
+      "status": "A"
+    },
+    {
+      "additions": 2334,
+      "deletions": 1632,
+      "path": "manifests/public_asset_rights.json",
+      "status": "M"
+    },
+    {
+      "additions": 244,
+      "deletions": 40,
+      "path": "manifests/trip_freshness.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "manifests/ui_decision_workbench_contract.json",
+      "status": "M"
+    },
+    {
+      "additions": 13,
+      "deletions": 3,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 181,
+      "deletions": 14,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_accessibility_reflow.py",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 5,
+      "path": "scripts/qa_decision_workbench.py",
+      "status": "M"
+    },
+    {
+      "additions": 150,
+      "deletions": 3,
+      "path": "scripts/qa_gate4_resilience.py",
+      "status": "M"
+    },
+    {
+      "additions": 324,
+      "deletions": 0,
+      "path": "scripts/qa_gate5_field_quality.py",
+      "status": "A"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "scripts/qa_interaction_dynamics.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "scripts/qa_location_gap_visuals.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 6,
+      "path": "scripts/qa_map_first_full.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_map_first_p0.py",
+      "status": "M"
+    },
+    {
+      "additions": 183,
+      "deletions": 0,
+      "path": "scripts/qa_place_list_membership.py",
+      "status": "A"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "scripts/qa_route_explanations_panel.py",
+      "status": "M"
+    },
+    {
+      "additions": 114,
+      "deletions": 16,
+      "path": "scripts/qa_standalone_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 17,
+      "deletions": 10,
+      "path": "scripts/qa_ui_performance.py",
+      "status": "M"
+    },
+    {
+      "additions": 581,
+      "deletions": 0,
+      "path": "scripts/rebuild_five_route_data.py",
+      "status": "A"
+    },
+    {
+      "additions": 32,
+      "deletions": 0,
+      "path": "scripts/refresh_rights_hashes.py",
+      "status": "A"
+    },
+    {
+      "additions": 151,
+      "deletions": 0,
+      "path": "scripts/register_new_place_photos.py",
+      "status": "A"
+    },
+    {
+      "additions": 11,
+      "deletions": 11,
+      "path": "scripts/run_acceptance.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "scripts/run_exhaustive_states.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "scripts/run_visual_spots.py",
+      "status": "M"
+    },
+    {
+      "additions": 66,
+      "deletions": 0,
+      "path": "scripts/sync_freshness_from_research.py",
+      "status": "A"
+    },
+    {
+      "additions": 260,
+      "deletions": 0,
+      "path": "scripts/validate_route_truth.py",
+      "status": "A"
+    },
+    {
+      "additions": 16,
+      "deletions": 3,
+      "path": "scripts/validate_trip_data.py",
+      "status": "M"
+    },
+    {
+      "additions": 16,
+      "deletions": 0,
+      "path": "src/app_phase7.css",
+      "status": "M"
+    },
+    {
+      "additions": 143,
+      "deletions": 34,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    },
+    {
+      "additions": 12,
+      "deletions": 6,
+      "path": "src/atlas_messages.js",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "src/map_shell_template.html",
+      "status": "M"
+    },
+    {
+      "additions": 159,
+      "deletions": 0,
+      "path": "tests/test_gate5_qualification.py",
+      "status": "A"
+    },
+    {
+      "additions": 39,
+      "deletions": 0,
+      "path": "tests/test_place_list_membership.py",
+      "status": "A"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "tests/test_public_asset_rights.py",
+      "status": "M"
+    },
+    {
+      "additions": 66,
+      "deletions": 0,
+      "path": "tests/test_route_truth.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/validate_route_truth.py --json-out QA/release/route_truth.json && rtk python3 scripts/validate_trip_data.py --json-out QA/release/canonical_truth.json && rtk python3 scripts/pipeline.py fast'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py fast'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add .github/workflows/candidate-qualification.yml data/canonical_places.json data/location_coverage_audit.json data/phase7_app_data.json data/route_schedules.json manifests/canonical_pipeline.json manifests/public_asset_rights.json manifests/gate5_field_quality_contract.json scripts/pipeline.py scripts/rebuild_five_route_data.py scripts/qa_gate5_field_quality.py scripts/qa_place_list_membership.py scripts/validate_route_truth.py src/app_phase7.js tests/test_gate5_qualification.py tests/test_place_list_membership.py tests/test_route_truth.py && rtk git commit -m \"reconcile CHG-168 R2 route truth and gate5\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree} && rtk git status --short --branch && rtk git show --stat --oneline --summary HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"status --porcelain|porcelain|dirty|source_binding|git status|QA/\" scripts/pipeline.py scripts/qa_gate5_field_quality.py | head -160'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '100,145p' scripts/pipeline.py && rtk sed -n '430,520p' scripts/pipeline.py && rtk sed -n '850,1010p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1010,1165p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk wc -l scripts/pipeline.py && rtk sed -n '500,760p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '760,820p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def contract_failures|working_tree_clean\\\" scripts/pipeline.py && rtk sed -n '280,390p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add QA/project_os_verify/ui_revamp_r5/place_list_membership.json QA/project_os_verify/ui_revamp_r5/place_list_membership_1440x900_ko_light_scrolled.png QA/project_os_verify/ui_revamp_r5/place_list_membership_1440x900_ko_light_top.png QA/project_os_verify/ui_revamp_r5/place_list_membership_360x800_stress_scrolled.png QA/project_os_verify/ui_revamp_r5/place_list_membership_360x800_stress_top.png QA/project_os_verify/ui_revamp_r5/place_list_membership_375x812_stress_scrolled.png QA/project_os_verify/ui_revamp_r5/place_list_membership_375x812_stress_top.png QA/project_os_verify/ui_revamp_r5/place_list_membership_390x844_en_dark_scrolled.png QA/project_os_verify/ui_revamp_r5/place_list_membership_390x844_en_dark_top.png && rtk git commit -m \"record place list membership evidence\" && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision 06e7bfe8d0e28b86c1be1b8af8dd6e2676f33b7a'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git rev-parse HEAD && rtk git status --short --branch && rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor p in [Path('QA/release/fast.json'), Path('QA/release/qualification.json')]:\n    if p.exists():\n        d=json.loads(p.read_text())\n        print(p, json.dumps({'status':d.get('status'),'candidate_head':d.get('candidate_head'),'errors':d.get('errors')}, ensure_ascii=False))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision 06e7bfe8ce901981f827e418de5a30c6dc7be766'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\npaths = [\n Path('QA/project_os_verify/gate5_r2/candidate.json'),\n Path('QA/project_os_verify/ui_revamp_r5/provider_recovery.json'),\n Path('QA/project_os_verify/ui_revamp_r5/provider_recovery_matrix.json'),\n Path('QA/project_os_verify/ui_revamp_r5/provider_recovery_summary.json'),\n]\nfor p in paths:\n    print(f'--- {p} exists={p.exists()}')\n    if p.exists():\n        try:\n            d=json.loads(p.read_text())\n            if p.name == 'candidate.json':\n                print(json.dumps({'status':d.get('status'),'failures':d.get('failures'),'verify_required':d.get('verify_required'),'evidence':d.get('evidence'),'performance':d.get('performance')}, ensure_ascii=False, indent=2)[:12000])\n            else:\n                print(json.dumps(d, ensure_ascii=False, indent=2)[:12000])\n        except Exception as e: print(e)\nPY\nrtk rg -n \\\"deterministic Satellite|Satellite recovery|provider_recovery\\\" scripts QA/project_os_verify/ui_revamp_r5 QA/project_os_verify/gate5_r2/candidate.json | head -200\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,380p' scripts/qa_gate4_resilience.py | tail -180 && rtk sed -n '120,185p' scripts/qa_gate5_field_quality.py && rtk sed -n '250,315p' scripts/qa_gate5_field_quality.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show abfd9d800dc9ed9ce07f53d373ad1be88fcfc90a:scripts/qa_gate4_resilience.py | rtk rg -n -C 8 \"deterministic_provider|blocked_provider|external_provider\" | head -180 && rtk git show 79d9154dbdbe42e7d22fcc2f43202239f1f2703a:scripts/qa_gate4_resilience.py | rtk rg -n -C 8 \"deterministic_provider|blocked_provider|external_provider\" | head -180'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show abfd9d800dc9ed9ce07f53d373ad1be88fcfc90a:scripts/qa_gate4_resilience.py | rtk sed -n '370,505p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show abfd9d800dc9ed9ce07f53d373ad1be88fcfc90a:scripts/qa_gate4_resilience.py | rtk sed -n '320,380p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff abfd9d800dc9ed9ce07f53d373ad1be88fcfc90a..HEAD -- scripts/qa_gate4_resilience.py | head -300'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,45p' scripts/qa_gate4_resilience.py && rtk sed -n '320,390p' scripts/qa_gate4_resilience.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show abfd9d800dc9ed9ce07f53d373ad1be88fcfc90a:scripts/qa_gate4_resilience.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show abfd9d800dc9ed9ce07f53d373ad1be88fcfc90a:scripts/qa_gate4_resilience.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check && rtk python3 -m py_compile scripts/qa_gate4_resilience.py scripts/pipeline.py scripts/qa_gate5_field_quality.py && rtk python3 -m unittest tests.test_gate5_qualification tests.test_route_truth tests.test_place_list_membership -q && rtk git status --short --branch && rtk git diff --stat'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check && rtk python3 -m py_compile scripts/qa_gate4_resilience.py scripts/pipeline.py scripts/qa_gate5_field_quality.py && rtk python3 -m unittest tests.test_gate5_qualification tests.test_route_truth tests.test_place_list_membership -q && rtk git status --short --branch && rtk git diff --stat'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --check; echo diffcheck=$?; rtk python3 -m py_compile scripts/qa_gate4_resilience.py scripts/pipeline.py scripts/qa_gate5_field_quality.py; echo pycompile=$?; rtk git status --short --branch; rtk git diff --stat'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_gate5_qualification tests.test_route_truth tests.test_place_list_membership -q'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff abfd9d800dc9ed9ce07f53d373ad1be88fcfc90a -- scripts/qa_gate4_resilience.py | head -30; rtk git diff --numstat -- scripts/qa_gate4_resilience.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add scripts/qa_gate4_resilience.py && rtk git commit -m \"restore deterministic provider recovery evidence\" && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision 9ef67a633ecdf8c81d59604994c8ad590d147f18'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git stash push --include-untracked -m \"pre-release generated QA evidence\" -- QA && rtk git status --short --branch && rtk git stash list | head -3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py release --revision 9ef67a633ecdf8c81d59604994c8ad590d147f18'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision 9ef67a633ecdf8c81d59604994c8ad590d147f18'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision 9ef67a633ecdf8c81d59604994c8ad590d147f18'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py assemble-public --revision 9ef67a633ecdf8c81d59604994c8ad590d147f18'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\n\ndef load(p):\n    q=Path(p)\n    return json.loads(q.read_text()) if q.exists() else None\n\nfor p in ['QA/release/route_truth.json','QA/release/canonical_truth.json','QA/project_os_verify/ui_revamp_r5/place_list_membership.json','QA/release/gate4_runtime.json','QA/project_os_verify/gate5_r2/candidate.json','QA/release/qualification.json','QA/release/fast.json','QA/release/public_asset_rights.json']:\n    d=load(p)\n    print('\\\\n---',p)\n    if not d: print('MISSING'); continue\n    if p.endswith('qualification.json'):\n        print(json.dumps({'status':d.get('status'),'candidate_head':d.get('candidate_head'),'working_tree_clean':d.get('working_tree_clean'),'errors':d.get('errors'),'external_verify_required':d.get('external_verify_required'),'tests':{x.get('name'):x.get('status') for x in d.get('tests',[])}},ensure_ascii=False))\n    elif p.endswith('gate5_r2/candidate.json'):\n        print(json.dumps({'status':d.get('status'),'candidate_head':d.get('candidate_head'),'candidate_tree':d.get('candidate_tree'),'failures':d.get('failures'),'verify_required':d.get('verify_required'),'performance':{'status':d.get('performance',{}).get('status'),'comparison_status':d.get('performance',{}).get('comparison_status'),'delta':d.get('performance',{}).get('delta'),'classification':d.get('performance',{}).get('classification')}},ensure_ascii=False))\n    elif p.endswith('gate4_runtime.json'):\n        print(json.dumps({'status':d.get('status'),'candidate_head':d.get('candidate_head'),'deterministic_provider':d.get('deterministic_provider',{}).get('status'),'external_provider':d.get('external_provider'),'standalone_pass':d.get('standalone',{}).get('critical_pass'),'negative_checks':all(x.get('pass') for x in d.get('negative_checks',[]))},ensure_ascii=False))\n    elif p.endswith('place_list_membership.json'):\n        print(json.dumps({'status':d.get('status'),'candidate':d.get('candidate'),'candidate_tree':d.get('candidate_tree'),'checks':d.get('checks'),'errors':d.get('errors'),'screenshots':len(d.get('screenshots',[])) if isinstance(d.get('screenshots'),list) else d.get('screenshot_count')},ensure_ascii=False))\n    elif p.endswith('route_truth.json'):\n        print(json.dumps({'status':d.get('status'),'counts':d.get('counts'),'failures':d.get('failures'),'checks':d.get('checks'),'calendar':d.get('calendar'),'lodging':d.get('lodging')},ensure_ascii=False))\n    else:\n        print(json.dumps({k:d.get(k) for k in ('status','candidate_head','errors','failure_count','counts','file_count') if k in d},ensure_ascii=False))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('QA/project_os_verify/gate5_r2/candidate.json').read_text())\nperf=p['performance']\nprint(json.dumps({k:perf.get(k) for k in ('status','comparison_status','baseline_revision','baseline_tree','sample_count','thresholds','summary','metrics','differences','candidate','baseline') if k in perf},ensure_ascii=False,indent=2)[:24000])\nprint('top_keys',sorted(perf))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('QA/project_os_verify/gate5_r2/candidate.json').read_text())['performance']\nprint(json.dumps({'comparison_status':p.get('comparison_status'),'deltas':p.get('deltas'),'comparison':p.get('comparison'),'environment':p.get('environment')},ensure_ascii=False,indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport subprocess, json\n\ndef sh(*args): return subprocess.check_output(['git',*args], text=True).splitlines()\nprint('HEAD', sh('rev-parse','HEAD')[0])\nprint('TREE', sh('rev-parse','HEAD\"'^{tree}'\"')[0])\nprint('R1_TO_R2_SOURCE')\nfor x in sh('diff','--name-status','79d9154dbdbe42e7d22fcc2f43202239f1f2703a','HEAD','--',':\"'!QA'\"'):\n    print(x)\nprint('R2_EVIDENCE_COMMIT')\nfor x in sh('show','--format=','--name-status','06e7bfe8ce901981f827e418de5a30c6dc7be766'):\n    if x: print(x)\nstatus=sh('status','--short')\nprint('WORKTREE_STATUS_COUNT',len(status))\nprint('WORKTREE_NON_QA',[x for x in status if ' QA/' not in x and not x.startswith('?? QA/')])\nprint('WORKTREE_QA_PATHS')\nfor x in status: print(x)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py' -q\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nasset=json.loads(Path('manifests/asset_manifest.json').read_text())\nrights=json.loads(Path('manifests/public_asset_rights.json').read_text())\nkeys=['bridalveil_fall','chinatown','tea_garden']\nfor key in keys:\n    a=[x for x in asset.get('assets',[]) if key in x.get('path','') or key in x.get('asset_id','') or key in x.get('place_key','')]\n    r=[x for x in rights.get('assets',[]) if key in x.get('path','') or key in x.get('asset_id','') or key in x.get('place_key','')]\n    print(key, 'asset',len(a),'rights',len(r))\n    for row in (a or r)[:3]: print({k:row.get(k) for k in ('path','asset_id','place_key','license','artist','source','source_url','attribution') if k in row})\nPY\nrtk git diff --check -- . ':(exclude)QA/**'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor name in ['manifests/asset_manifest.json','manifests/public_asset_rights.json']:\n d=json.loads(Path(name).read_text())\n print(name, type(d), d.keys() if isinstance(d,dict) else None)\n if isinstance(d,dict):\n  for k,v in d.items():\n   if isinstance(v,list):\n    print('list',k,'len',len(v),'sample',v[0] if v else None)\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nasset=json.loads(Path('manifests/asset_manifest.json').read_text())['assets']\nrights=json.loads(Path('manifests/public_asset_rights.json').read_text())['photo_assets']\nfor key in ['bridalveil','chinatown','tea_garden']:\n a=[x for x in asset if x.get('place_key')==key]\n r=[x for x in rights if x.get('place_key')==key]\n print(key,'asset',len(a),'rights',len(r), 'all_approved',all(x.get('public_distribution_decision')=='approved' for x in r), 'fields', all(x.get(k) for x in r for k in ('license_or_permission','creator_or_owner','source_page','attribution_text')))\n print([(x.get('role'),x.get('license_or_permission'),x.get('creator_or_owner')) for x in r])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,320p' scripts/validate_route_truth.py | tail -100 && rtk rg -n \\\"report|weekday|calendar|lodging|occurrence\\\" scripts/validate_route_truth.py | head -120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\np=json.loads(Path('QA/release/route_truth.json').read_text())\nprint(json.dumps(p['daily_regions'],ensure_ascii=False,indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk find QA/project_os_verify/gate5_r2 -maxdepth 1 -type f -print | sort && rtk find QA/project_os_verify/ui_revamp_r5 -maxdepth 1 -type f -name '*place_list*' -print | sort && rtk find QA/release -maxdepth 1 -type f -print | sort | head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git log --oneline -4 && rtk git rev-parse HEAD''^{tree} && rtk git stash list | head -3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --stat 79d9154dbdbe42e7d22fcc2f43202239f1f2703a HEAD -- ':\"'!QA'\"' && rtk git diff --shortstat 79d9154dbdbe42e7d22fcc2f43202239f1f2703a HEAD -- ':\"'!QA'\"' && rtk git diff --stat a2088ba075dbade3ab27be5e2dabc3c7b008b9ec HEAD -- ':\"'!QA'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show 79d9154dbdbe42e7d22fcc2f43202239f1f2703a:data/phase7_app_data.json | rtk python3 -c 'import sys,json; d=json.load(sys.stdin); print(sum(len(m.get(\\\"occurrences\\\",[])) for m in d.get(\\\"markers\\\",[])))' && rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\nm=json.loads(Path('data/route_role_matrix.json').read_text())\nprint(m.keys())\nfor k,v in m.items():\n if isinstance(v,list): print(k,len(v))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom collections import Counter\nfrom pathlib import Path\nm=json.loads(Path('data/route_role_matrix.json').read_text())['places']\nc=Counter(cell for row in m.values() for cell in row.values())\nprint('places',len(m),'cells',sum(c.values()),'roles',dict(c))\n# canonical date table\nD=json.loads(Path('data/phase7_app_data.json').read_text())['dates']\nprint('dates',[(d.get('key'),d.get('label'),d.get('label_en')) for d in D])\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-5.6-luna",
+    "event_count": 332,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.94,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 21508096,
+      "fresh_input_tokens": 452213,
+      "input_tokens": 21960309,
+      "non_reasoning_output_tokens": 47477,
+      "output_tokens": 94769,
+      "reasoning_output_tokens": 47292,
+      "total_processed_tokens": 22055078
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "5961a9e7f7a005b8912c93b7912df8d84bce5237",
+      "subject": "fabric: capture completed model changes [CF-375341c4b923b4fa0076c2bb]"
+    },
+    {
+      "sha": "9ef67a633ecdf8c81d59604994c8ad590d147f18",
+      "subject": "restore deterministic provider recovery evidence"
+    },
+    {
+      "sha": "06e7bfe8ce901981f827e418de5a30c6dc7be766",
+      "subject": "record place list membership evidence"
+    },
+    {
+      "sha": "867d7797a2abc9ecf354e29f9a7f4942f2f0da22",
+      "subject": "reconcile CHG-168 R2 route truth and gate5"
+    },
+    {
+      "sha": "d8e771b5f26339d34127170080bfea7e3d55e4ca",
+      "subject": "build five SF trip route strategies and resilient Smart map"
+    }
+  ],
+  "diff": {
+    "additions": 62055,
+    "changed_files": 172,
+    "commit_count": 5,
+    "deletions": 61660
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 139,
+    "items": [
+      {
+        "bytes": 3042,
+        "path": "LOCATION_COVERAGE_AUDIT.md",
+        "sha256": "3a5d334248b3fa5fe18ea020a1db7ebd592d280a48e0737935471a3ece2da005"
+      },
+      {
+        "bytes": 240308,
+        "path": "QA/map_first/canonical_truth.json",
+        "sha256": "b40d99f43b5e04621dbccb137b4624e6267c433ad295306883cac4d5a38f9313"
+      },
+      {
+        "bytes": 183285,
+        "path": "QA/map_first/exhaustive_states.json",
+        "sha256": "6f79d1cb097c77571586d585ab7e04c38e786e778304cb427c965756bea678f8"
+      },
+      {
+        "bytes": 10595,
+        "path": "QA/map_first/full_acceptance.json",
+        "sha256": "df0176ae1de779dedeb6b85536d4f03c67b23b4901a97ff54d06a4fbd31ac1de"
+      },
+      {
+        "bytes": 1699,
+        "path": "QA/map_first/interaction_dynamics.json",
+        "sha256": "f91dbe491a658887ab07d0996e61de0560cf480b235cdb3e5097ebb30a786a37"
+      },
+      {
+        "bytes": 1237,
+        "path": "QA/map_first/location_gap_visuals.json",
+        "sha256": "e319017885cdedade8a60421baadcdece89d05206f74269404d9cbe48c5bd51c"
+      },
+      {
+        "bytes": 10884,
+        "path": "QA/map_first/p0_independent.json",
+        "sha256": "0ec9c1a0418efd96ec6a6e1cb01d3e0fbe8aae3a821a12f619dd0942ce514a8d"
+      },
+      {
+        "bytes": 12822,
+        "path": "QA/map_first/route_continuity.json",
+        "sha256": "93601a54f4a8c3e02e29953c454b7da59685730bcbc54dd9ea2f42583d3e4642"
+      },
+      {
+        "bytes": 624,
+        "path": "QA/map_first/smoke.json",
+        "sha256": "c6d6137f063b569e170e5687d5ae86138bf0670f7745f12c7fefa310dd42da83"
+      },
+      {
+        "bytes": 493195,
+        "path": "QA/map_first/standalone.json",
+        "sha256": "61c71783e537b32d4dc05bc1709b95a5677b0699194560566a6f4c38cbcbc5e1"
+      },
+      {
+        "bytes": 424,
+        "path": "QA/photo_integrity.json",
+        "sha256": "356469ddd4543a3c21a58524aa49b4283d31c18bba18769c7720373a2de1a6ee"
+      },
+      {
+        "bytes": 2970,
+        "path": "QA/project_os_verify/gate5_r2/baseline.json",
+        "sha256": "bc20bd92f49149eb52568d163561023435530e857bd8b997ed64c9c70f501658"
+      },
+      {
+        "bytes": 63107,
+        "path": "QA/project_os_verify/gate5_r2/candidate.json",
+        "sha256": "ca94da611e373598b44345646fde5ba784e5f75e0a1843c7f35c31d095a6a282"
+      },
+      {
+        "bytes": 51778,
+        "path": "QA/project_os_verify/gate5_r2/finding_matrix.json",
+        "sha256": "4626d3a482a91e16f288e877dca7f28e4a4476d5d0e2b8fca49af28ad9a9e065"
+      },
+      {
+        "bytes": 10476,
+        "path": "QA/project_os_verify/gate5_r2/paired_comparison.json",
+        "sha256": "e03d18b684d08ea995aa3db66fb557aecdd401ca965f400a91c8264cf8e60c12"
+      },
+      {
+        "bytes": 1861,
+        "path": "QA/project_os_verify/gate5_r2/performance_summary.log",
+        "sha256": "98644befa8abd188154c1fa1e2279b9638318c622eac7bc8258b5782a1eb1651"
+      },
+      {
+        "bytes": 2147,
+        "path": "QA/project_os_verify/gate5_r2/review_pack_index.json",
+        "sha256": "8ea4ba101f08b1931f9bc52887e03e152435c4a2df703ab5a5367ff9b18cb09c"
+      },
+      {
+        "bytes": 789,
+        "path": "QA/project_os_verify/ui_revamp_r5/accessibility.json",
+        "sha256": "7dfc056dc010f3455a3b45f0cd631527bfedf476a9d8854b629dc9bc9edfcbe6"
+      },
+      {
+        "bytes": 45724,
+        "path": "QA/project_os_verify/ui_revamp_r5/browser_summary.json",
+        "sha256": "327f51c67d6b3930fb329a3a811ff9937c9ec8acbf343c1358cba219b9bd4d0a"
+      },
+      {
+        "bytes": 577888,
+        "path": "QA/project_os_verify/ui_revamp_r5/day_1008_desktop.png",
+        "sha256": "0ba56a711d1f21df94ae26380939aa1d21ba2c4eea199c4748e08f74157248eb"
+      },
+      {
+        "bytes": 311574,
+        "path": "QA/project_os_verify/ui_revamp_r5/decide_compare_desktop.png",
+        "sha256": "f5830a4bdbf83173fba42785d5d5b3e81dc855499ac04ebce1564ff218dcd490"
+      },
+      {
+        "bytes": 392700,
+        "path": "QA/project_os_verify/ui_revamp_r5/decide_default_desktop.png",
+        "sha256": "f9918d24e83309eff6f1965f867bb7cc8bb5f26408245592cc53a8040c77a772"
+      },
+      {
+        "bytes": 78696,
+        "path": "QA/project_os_verify/ui_revamp_r5/map_geometry.json",
+        "sha256": "80dede089c11e084b6af64de600293099190d07d93494c4427cec31e2b38bcd4"
+      },
+      {
+        "bytes": 590027,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_inspector_desktop.png",
+        "sha256": "7837ddc93f14a8f84cc62bf933e2ecb8ce89f138dbab042a4f3a5d123e89744b"
+      },
+      {
+        "bytes": 4917,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership.json",
+        "sha256": "eecd3e80855a63044c7b49e67b22cff1ba957f78092683da31d31ec620d900cc"
+      },
+      {
+        "bytes": 354943,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_1440x900_ko_light_scrolled.png",
+        "sha256": "bf064ca2d7f98c25df9279e7b0602df781ddbc41afa171f5449e973908475ebc"
+      },
+      {
+        "bytes": 150058,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_1440x900_ko_light_top.png",
+        "sha256": "d51b794208a561fc51cb9b8c3f7f647d0e896647fa7476bbf3528dba31a685df"
+      },
+      {
+        "bytes": 150753,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_360x800_stress_scrolled.png",
+        "sha256": "b5c3bc7ada0f774b477eb41e44fc63be37b7e9c40a0d14fdd6f19eb37b858184"
+      },
+      {
+        "bytes": 54070,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_360x800_stress_top.png",
+        "sha256": "4d14d0f9c396e14c091c747c83a4452535485af3999b32be0d997f1ed09bb7d7"
+      },
+      {
+        "bytes": 156554,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_375x812_stress_scrolled.png",
+        "sha256": "6cb6f985e94baab0189e18a41fd378a976ef514ff32a53fd74bb29e6165bd6be"
+      },
+      {
+        "bytes": 55909,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_375x812_stress_top.png",
+        "sha256": "45b57393026f98351d089746d4ea4b53fa50dbe5b91f4397389da80dad6bfba3"
+      },
+      {
+        "bytes": 163171,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_390x844_en_dark_scrolled.png",
+        "sha256": "8d2cf2a57b96423220bb56a3a9375bb2c7f05a885df3820fa24a5e9f36c0acfa"
+      },
+      {
+        "bytes": 105509,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_list_membership_390x844_en_dark_top.png",
+        "sha256": "26c84b691625dc787fb23c5b1995476d20a545e7d285c71163d3dbe343786f30"
+      },
+      {
+        "bytes": 185651,
+        "path": "QA/project_os_verify/ui_revamp_r5/place_mobile_expanded.png",
+        "sha256": "54e849fde5a6d913973adf91daea82eafac9d5cb73a4d1e53ad00577bf6019bd"
+      },
+      {
+        "bytes": 75347,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_camera.json",
+        "sha256": "e99b9e779bf768618f0752876131f2b12f8c3b7f50fdab61542abcaa92b66509"
+      },
+      {
+        "bytes": 166038,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_360x800.png",
+        "sha256": "bb136eb2a676ce2bd6a37dbc34a6e1b0639a1673ff7edce4dc11eba4a0438f4c"
+      },
+      {
+        "bytes": 172217,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_375x812.png",
+        "sha256": "e32fc2b1f93d7a0ac0a57e545b58ac5752a7313ea4db3a60504af459e169a387"
+      },
+      {
+        "bytes": 180399,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_390x844.png",
+        "sha256": "8fd9c7239e5f83909faee671d8da9f454593c77b22bf0c435e7ba019b6addc15"
+      },
+      {
+        "bytes": 194744,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_closed_414x896.png",
+        "sha256": "10007aff89fd2abf12c89b6a328ce143c0cc1ba98b4137e00da2edd63675a0e5"
+      },
+      {
+        "bytes": 169185,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_360x800.png",
+        "sha256": "fe46ec79cecb7f766b5434b3935cafafbf5e81bcaeb4ba0fd37d7d03f04312f1"
+      },
+      {
+        "bytes": 175853,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_375x812.png",
+        "sha256": "5aa35d01ed80bd53eff1185eb0c3b46debf1bd01450a7812e420b9f83252c875"
+      },
+      {
+        "bytes": 186382,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_390x844.png",
+        "sha256": "b1372ae8f268867141c7b2f17779b7941ee34bfeb03a83b3f52579180ae2bda1"
+      },
+      {
+        "bytes": 203885,
+        "path": "QA/project_os_verify/ui_revamp_r5/route_key_open_414x896.png",
+        "sha256": "89744961ec46f58ab94b975ad90ed7b55032979ff73d101e0f95ea6c5d513c34"
+      },
+      {
+        "bytes": 585422,
+        "path": "QA/project_os_verify/ui_revamp_r5/satellite_failure_recovery_1440x900.png",
+        "sha256": "558297919c1c1d05a9e0767fd8e1f3e6b2a80a5fad7375771ec60a9f2c658ab0"
+      },
+      {
+        "bytes": 453058,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_dense_recovery_1440x900.png",
+        "sha256": "4a1dab2f30488751b3822b99c7feaa262dd33694cad02e5e3590dc2f72331b9f"
+      },
+      {
+        "bytes": 567510,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_sparse_1440x900.png",
+        "sha256": "d1f0ee137ada04e419bcf9ce573d3aca489f16fa97334300db81caefeeb532a3"
+      },
+      {
+        "bytes": 342780,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_compare_1440x900.png",
+        "sha256": "232d9f0bf1e660b9cb96a8fe62c6150b9cc7d9857e7db8e06e4966d56c9f7f33"
+      },
+      {
+        "bytes": 390611,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_default_1440x900.png",
+        "sha256": "3064a0c145b3bbfa7464f3f48ad1384541f5a535284d1bb1a55ae687d2e42701"
+      },
+      {
+        "bytes": 128049,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_en_dark_1440x900.png",
+        "sha256": "feffc35eef89cc1169dec66ac0a01cbc39242b25f8262d8246995d0fc4283bb1"
+      },
+      {
+        "bytes": 76602,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_no_results_1440x900.png",
+        "sha256": "9cb027917803d4dbf9d558b5f8ce994e5634b14bc015819752e113e0e6192c4f"
+      },
+      {
+        "bytes": 834294,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_peek_cooks_1440x900.png",
+        "sha256": "584c9b4852e5430cf0d01304c13c0103386d68202f12706de2932b2ec66cb9cc"
+      },
+      {
+        "bytes": 952993,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_place_inspector_1440x900.png",
+        "sha256": "b6ae9e9d8829226ad8f883827ad4a0821633d18f5f2cbee9141ca5f0c6d9eff4"
+      },
+      {
+        "bytes": 644097,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_compact_1440x900.png",
+        "sha256": "1bd56e013467b21d233510936fbaed8557ce595683171db0e7d542c64692205b"
+      },
+      {
+        "bytes": 514011,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_expanded_1440x900.png",
+        "sha256": "5f5ad62cfec6f37895fd1e7a3ed3461eeabb445911335a03c84ab13cd181555d"
+      },
+      {
+        "bytes": 513145,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_full_1440x900.png",
+        "sha256": "5a5f847a411abb47febf5e5a7b70a1c46e3e1f00c24d8996b3f4ee1bac20c202"
+      },
+      {
+        "bytes": 414675,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_options_open_1440x900.png",
+        "sha256": "3c79d35ea905c6e9156adf9b4a86a8796680c0237318d51244fb3bf7313fe3f8"
+      },
+      {
+        "bytes": 408244,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_region_yosemite_1440x900.png",
+        "sha256": "fbe7da3699e7b90ee036602a69b23602e71f64cf46b17c9a00c175c687140166"
+      },
+      {
+        "bytes": 419012,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/compact_route_key_open_1440x900.png",
+        "sha256": "ea7c9ff0e7dba8ef79c6638b707b96ebb78fbe36af22b9f0eb3d0fa56948a207"
+      },
+      {
+        "bytes": 829282,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_1280_detail.png",
+        "sha256": "81e3dbba3e96a431d3532cacceaae693248986137df7e4401527aa63c6de0a11"
+      },
+      {
+        "bytes": 289143,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/firefox_390_detail.png",
+        "sha256": "8f9405fbafdc43ff27d901aefab575298eed3968ddbf4de20521bbf1aa570ffd"
+      },
+      {
+        "bytes": 164682,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_360x800.png",
+        "sha256": "e95183d02e5be8977ff01f339b3e8e1f54cc3632f2ef2bdf756e1c1e881b6f7a"
+      },
+      {
+        "bytes": 171228,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_375x812.png",
+        "sha256": "895abc37aaee311dcb1d41a27edd72a0337f28a8fb7cedc47d6610477a47c9a1"
+      },
+      {
+        "bytes": 178560,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_390x844.png",
+        "sha256": "9e393f61605ad8f2c10c9a6519576dcfd3f10e0e7534fa25bd9cf4677f82ee78"
+      },
+      {
+        "bytes": 192570,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_414x896.png",
+        "sha256": "e79387832c38f3da91bab162ce9919c1a21a1ebb68c4c1d9d23fb73a2a8b3dcf"
+      },
+      {
+        "bytes": 49167,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_360x800.png",
+        "sha256": "306be39a6d5e918887c15a3fdbe1623e387c000452a3854092bb30edeb403843"
+      },
+      {
+        "bytes": 49342,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_375x812.png",
+        "sha256": "b26b55fee5ce9270f3c81393d20ca5cbb4dc3163d6b33bd3cc41d4e8d54910fe"
+      },
+      {
+        "bytes": 49676,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_390x844.png",
+        "sha256": "a4791baa7bd6b65a26e6dafb2bb94c3b4f68746351715ff13bf9f4639a73b05a"
+      },
+      {
+        "bytes": 63335,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_414x896.png",
+        "sha256": "61fe3fd1ef8ab42f25b165298bfb76c9e11b8c3695cc6df659955ff3b73005d4"
+      },
+      {
+        "bytes": 155230,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_360x800.png",
+        "sha256": "bedfcddae3b592d4862c2b7498e845bc4ac4f119aa9fd7d6b974c037307f0bf4"
+      },
+      {
+        "bytes": 162404,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_375x812.png",
+        "sha256": "80ac35019bca956abdb33b90c9591a6dcd50b28c11876c732b43fc6d02fc9a67"
+      },
+      {
+        "bytes": 172511,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_390x844.png",
+        "sha256": "4eee0531be683d1e71a94e1c83068a84fcf3b08c38c9cdfae52bf3f5d8fae84f"
+      },
+      {
+        "bytes": 190987,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_414x896.png",
+        "sha256": "e3a175a9a9be2f19a9bc567acaa7f487572756b1cdeb6a7772b7d8f63a904ad8"
+      },
+      {
+        "bytes": 165911,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_360x800.png",
+        "sha256": "e8497ed5d6f0b782b54f74cf4e225b0c544efc5e21213a4714423d6d75b31cf2"
+      },
+      {
+        "bytes": 178090,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_375x812.png",
+        "sha256": "e4ea10fcdf1cce023826a92edf85452c5decfedb23ca07c5848d6a940b88f20a"
+      },
+      {
+        "bytes": 185018,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_390x844.png",
+        "sha256": "30f783d34a9dc2d7a0f6853dda3d46d08351b6f18a50b8967c3153b01a55bdb7"
+      },
+      {
+        "bytes": 199281,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_414x896.png",
+        "sha256": "b46795876c644b3ce2ae832f688f73976b7ebbdc29e7b45e34b18e4ed1775fe4"
+      },
+      {
+        "bytes": 119394,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_360x800.png",
+        "sha256": "c4f165ff6ea215b35fc800fbf00e95bfb53715a19b964365cdb62f8233eba3fc"
+      },
+      {
+        "bytes": 124865,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_375x812.png",
+        "sha256": "e3bf1c087751142c25892e38de8a22c444af8944f984c784b557154eace08a79"
+      },
+      {
+        "bytes": 128238,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_390x844.png",
+        "sha256": "d4dfe39a72f03a10552b262b27f9a7fa92d77656e5848ef4d5dcfc4fba863f85"
+      },
+      {
+        "bytes": 139895,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_414x896.png",
+        "sha256": "8fafd827fa0162761182172860477697eb6544f60a03af8c1de61402f8234ef7"
+      },
+      {
+        "bytes": 201725,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_keyboard_peek_390x844.png",
+        "sha256": "762fab9e5a16fc2440f29d1082e19e91af33a230e15e310d62cf93a935c5bd84"
+      },
+      {
+        "bytes": 201688,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/mobile_touch_peek_390x844.png",
+        "sha256": "64349a06414e1f57a40b7f43de3fe1b74aae3725e98067a1b7de7d8e4f5bcb58"
+      },
+      {
+        "bytes": 389200,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/satellite_failure_recovery_1440x900.png",
+        "sha256": "2b004ae910636c2ea7690927ccab09c27fd82b4b8de9a7e1f5064d7bc0d53685"
+      },
+      {
+        "bytes": 204612,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/smart_failure_1440x900.png",
+        "sha256": "d5708f92805321df2d49a2fce12928bd6f8e24093e104fcd438666cabfa35371"
+      },
+      {
+        "bytes": 193976,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/startup_immediate_1440x900.png",
+        "sha256": "7b87bc9a2d867002f95560bcfdc3b9fffda49cd8ef7e4c73629b533d230e5609"
+      },
+      {
+        "bytes": 361940,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1366x768.png",
+        "sha256": "2e64cc3ec09e7fa806a6e829287be45a811d9e06ca5deebd813b1f43aa1b2ec9"
+      },
+      {
+        "bytes": 534528,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1536x864.png",
+        "sha256": "9b98a51973a75d18da3d3ca6500927b9b77549e8f66a95ba91ba57a7702667e8"
+      },
+      {
+        "bytes": 558215,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1600x900.png",
+        "sha256": "609428aa1566f4c16d042636159354d9f53748079e107357b150671b013146fe"
+      },
+      {
+        "bytes": 700242,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1920x1080.png",
+        "sha256": "7baabacc8a0fafacbe1cbd7c83aac013c33fe2993a0fcd9ef4dfe8d6a940b719"
+      },
+      {
+        "bytes": 166637,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_360x800.png",
+        "sha256": "fb31f4c2005aad5b1cb6f8035c0ee8481c78e17221927bc5f04bf5584d90232c"
+      },
+      {
+        "bytes": 178393,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_375x812.png",
+        "sha256": "e597d0d99642502f5f8db0635e446f3d8097126adb8196e5739dc7f0af7c7a80"
+      },
+      {
+        "bytes": 186015,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_390x844.png",
+        "sha256": "c423b7ca2447827d5da2c5f6212001477faa36dce59aa3e5d929e1e12883d95b"
+      },
+      {
+        "bytes": 199362,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_414x896.png",
+        "sha256": "80b28b0ff89738662ca08afe46be36a2b1f960dacc7780945e67f8c506fba259"
+      },
+      {
+        "bytes": 125330,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_844x390.png",
+        "sha256": "c3ae05200a9b394ce73e2945a433d0c9b935395946204de637c2f20e5c73450b"
+      },
+      {
+        "bytes": 938790,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_1280_detail.png",
+        "sha256": "06785bda3865693da55e6f1891d0089d1962c371f25207711d2373edc33aeba9"
+      },
+      {
+        "bytes": 320642,
+        "path": "QA/project_os_verify/ui_revamp_r5/screenshots/webkit_390_detail.png",
+        "sha256": "5a0834af222ac6a4fdc74f729952e4d85486305180eb7894ae74ec9cdadc8dae"
+      },
+      {
+        "bytes": 54535,
+        "path": "QA/project_os_verify/ui_revamp_r5/sheet_geometry.json",
+        "sha256": "e7b859e7708f401e8199f6c8cb59d61a75591056ea194f06e6b5b04f4db69c6c"
+      },
+      {
+        "bytes": 4205,
+        "path": "QA/project_os_verify/ui_revamp_r5/task_oracles.json",
+        "sha256": "fe0d04887cf9984864659a13c6a44aff4d7078ad320146afee77a5635ef9397a"
+      },
+      {
+        "bytes": 26792,
+        "path": "QA/project_os_verify/ui_revamp_r5/visual_index.json",
+        "sha256": "1e892c06edd579baa1fe98c651dfe73226ae75f072f36660ac43cdfbc08f2507"
+      },
+      {
+        "bytes": 1925,
+        "path": "QA/route_panel/route_explanations_panel.json",
+        "sha256": "792e881391cf9e4d3c76c8af76c5a9ed5d90074e8eb7d0229a34958597f4e5f6"
+      },
+      {
+        "bytes": 9215,
+        "path": "README.md",
+        "sha256": "fc2f9ee5b3425e4794d1a33bc000b43fbcb698be577e16ff77d3e94da5be5579"
+      },
+      {
+        "bytes": 6919,
+        "path": "TRIP_VISUALIZER_SCHEMA.md",
+        "sha256": "f7ed28ef9219b22c52d9bdaf8ffbc0fa34af2fd63b83123fe9b27e2969923c2a"
+      },
+      {
+        "bytes": 437030,
+        "path": "assets/photos/medium/bridalveil__experience.webp",
+        "sha256": "1e0d474379483548cf3938cb81b5783d4bbbaef97d64271f9f1539872cd81f48"
+      },
+      {
+        "bytes": 712534,
+        "path": "assets/photos/medium/bridalveil__hero.webp",
+        "sha256": "3c2e956676706e4f2b9ab44bd46c79f131c7b6149c1823c02a2c1038c2913ba2"
+      },
+      {
+        "bytes": 567562,
+        "path": "assets/photos/medium/bridalveil__scale_context.webp",
+        "sha256": "8f4ffd1324b7d7cca096e47fc0a07614c59c168fedeb3dbfd67124a7acdc6341"
+      },
+      {
+        "bytes": 277082,
+        "path": "assets/photos/medium/chinatown__experience.webp",
+        "sha256": "545262ade103636f6537ddcca6fee99ec99b175d05e25873db67617c8074d64b"
+      },
+      {
+        "bytes": 447914,
+        "path": "assets/photos/medium/chinatown__hero.webp",
+        "sha256": "5b4e0c0d553b0705fccb444dcee73794be6c6bd4f4535db9d59101a75bbe9610"
+      },
+      {
+        "bytes": 180724,
+        "path": "assets/photos/medium/chinatown__scale_context.webp",
+        "sha256": "ce2b9ffe2bf8d9cc5265f82852c0314a70b595f38e903411061670cde058efd3"
+      },
+      {
+        "bytes": 268816,
+        "path": "assets/photos/medium/tea_garden__experience.webp",
+        "sha256": "9d2353362e8a5b0f863226829c4b1678bd2e2c60e9532f2eb4702ed9d23d4b7e"
+      },
+      {
+        "bytes": 670684,
+        "path": "assets/photos/medium/tea_garden__hero.webp",
+        "sha256": "f96ab90c406dc8d579a63782e3c9e1c54ab79156b987a45cbd675950019b37c9"
+      },
+      {
+        "bytes": 642132,
+        "path": "assets/photos/medium/tea_garden__scale_context.webp",
+        "sha256": "5067dbdb9e1de807d94f5b700fcf6b7647934c0826c3b5af21dbc6bd1389638d"
+      },
+      {
+        "bytes": 5258,
+        "path": "assets/photos/thumb/bridalveil__experience.webp",
+        "sha256": "aa5f2faaf8184dc7d63e302eda00ab9b125668ef7f42f2b59b649a062466dcd2"
+      },
+      {
+        "bytes": 5304,
+        "path": "assets/photos/thumb/bridalveil__hero.webp",
+        "sha256": "deabc9234cfa393afbb3c6ddbaaa0c552cb376f535703a44fbaba7d702fb2d0f"
+      },
+      {
+        "bytes": 5628,
+        "path": "assets/photos/thumb/bridalveil__scale_context.webp",
+        "sha256": "83dfeaeb0673c55db64b9ba8d8b71cb44cda1ab361730ed7b12871803f6bc725"
+      },
+      {
+        "bytes": 5738,
+        "path": "assets/photos/thumb/chinatown__experience.webp",
+        "sha256": "db01735c29a01d424144fbce07dc7857dce7e0917bbec3ccb2b03980596fd689"
+      },
+      {
+        "bytes": 6742,
+        "path": "assets/photos/thumb/chinatown__hero.webp",
+        "sha256": "d0a2bc68722bca90edcf3c92dd3d4d369f96068c6ebe971f1f95809be61b09e8"
+      },
+      {
+        "bytes": 3366,
+        "path": "assets/photos/thumb/chinatown__scale_context.webp",
+        "sha256": "e6c617ed3204b33262211f045001991df33d7768fe7818b4cc81211c20b0fabd"
+      },
+      {
+        "bytes": 6898,
+        "path": "assets/photos/thumb/tea_garden__experience.webp",
+        "sha256": "7041827287b771c349cb57c9078a5bc9cf6a17c59582383d3213d2f521569f2c"
+      },
+      {
+        "bytes": 6154,
+        "path": "assets/photos/thumb/tea_garden__hero.webp",
+        "sha256": "795a6734086fde9d73b7d0082e115f0d1cd3dcfa13d840ec505a27a41821958b"
+      },
+      {
+        "bytes": 5982,
+        "path": "assets/photos/thumb/tea_garden__scale_context.webp",
+        "sha256": "75fb1df515e36b244fa684a2198c9e0a285867f7c2aa418a0d3ce06757ca3743"
+      },
+      {
+        "bytes": 216524,
+        "path": "data/canonical_places.json",
+        "sha256": "0244d64cda4ecf16ba83fb7d41f21c38a8082db01355c779a7c329d923b0a919"
+      },
+      {
+        "bytes": 23360,
+        "path": "data/coordinate_audit.json",
+        "sha256": "b87cd35268b882d699e7d428cef9b9ead32db3edbf006ad4154d92c35eb1c00c"
+      },
+      {
+        "bytes": 18434,
+        "path": "data/itineraries.json",
+        "sha256": "2a28b0a8305f950958ad512e6b43ca6f3c06c14669df9169fbcb76a34901d837"
+      },
+      {
+        "bytes": 7203,
+        "path": "data/location_coverage_audit.json",
+        "sha256": "2d10412ded86dd705c4cceb7743c447baeb870a8f70c2a34afb196804008535f"
+      },
+      {
+        "bytes": 359298,
+        "path": "data/phase7_app_data.json",
+        "sha256": "69c39a68974e487b17e6b6df1657178f5da36d180215f7e25b06b6497befcbd3"
+      },
+      {
+        "bytes": 1760421,
+        "path": "data/route_geometry_cache.json",
+        "sha256": "0d7d033bb32b5a8dfb9ab50d06274ce329b6dcc1b0acf15d73e06fdb209dc762"
+      },
+      {
+        "bytes": 37085,
+        "path": "data/route_geometry_manifest.json",
+        "sha256": "bdab8865e58751e635075cd666f41b4ea46b89cae7813495e371bf28a376a672"
+      },
+      {
+        "bytes": 10835,
+        "path": "data/route_research_ledger.json",
+        "sha256": "6259984546884461726b01754cf135ec2af91502c41854b63e394122af9d03e8"
+      },
+      {
+        "bytes": 3836,
+        "path": "data/route_role_matrix.json",
+        "sha256": "25e0565cc2e78e49b9dd4d9ffe5bbc7b9021692016aa1518959a604154040b3e"
+      },
+      {
+        "bytes": 26099,
+        "path": "data/route_schedules.json",
+        "sha256": "0b61b1265360fef31229ed851ad5fe30d57c8f8a3211d3e1153298ed7ad35563"
+      },
+      {
+        "bytes": 17925,
+        "path": "data/routes.json",
+        "sha256": "8293b055ceff6ff89284e7774b665476222946ce56070ea733b069aebcbd1904"
+      },
+      {
+        "bytes": 88817,
+        "path": "data/translations.json",
+        "sha256": "ae91e3f6e432234ea67166e00d2b36570f9a77777bea4e23deaef3b5710b8754"
+      },
+      {
+        "bytes": 292239,
+        "path": "manifests/asset_manifest.json",
+        "sha256": "cebc8d31d3c3c569f399b1e0e0851883a7482e0d95960f02445f88319d99df81"
+      },
+      {
+        "bytes": 5980,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "cc946fa3dc4a6b30192cdf53aea27e483d25afee54232bc5b1bc927e6e639c5a"
+      },
+      {
+        "bytes": 3917,
+        "path": "manifests/gate5_field_quality_contract.json",
+        "sha256": "2d1b79029c8c400c13e77ab2c41e52637c0e78ee8854f7f4a82ae264f61fd40c"
+      },
+      {
+        "bytes": 583256,
+        "path": "manifests/public_asset_rights.json",
+        "sha256": "4e5c18329e7d85512197e840f9d5c92d0068a765970793a1dc37a5ea0ed96917"
+      },
+      {
+        "bytes": 21019,
+        "path": "manifests/trip_freshness.json",
+        "sha256": "7f4b2aa1b28eeb4010d53a691ed44a5fda327938ffff6d2801849eea5ec670ab"
+      },
+      {
+        "bytes": 6290,
+        "path": "manifests/ui_decision_workbench_contract.json",
+        "sha256": "72a5a9eb7b8c0bd40620f4b1e7cde142f83b970f6484d452c26141695a9bba4d"
+      },
+      {
+        "bytes": 9078,
+        "path": "src/map_shell_template.html",
+        "sha256": "80acee07e0716e0bae671421c60c4fad402df99441c099ea909bfb0b493adede"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.4-quota-recovery-candidate",
+  "fabric_capture": {
+    "applied": true,
+    "commit_message": "fabric: capture completed model changes [CF-375341c4b923b4fa0076c2bb]",
+    "commit_sha": "5961a9e7f7a005b8912c93b7912df8d84bce5237",
+    "paths_before": 90,
+    "status_before": [
+      " M QA/map_first/canonical_truth.json",
+      " M QA/map_first/exhaustive_states.json",
+      " M QA/map_first/full_acceptance.json",
+      " M QA/map_first/interaction_dynamics.json",
+      " M QA/map_first/location_gap_visuals.json",
+      " M QA/map_first/p0_independent.json",
+      " M QA/map_first/route_continuity.json",
+      " M QA/map_first/smoke.json",
+      " M QA/map_first/standalone.json",
+      " M QA/photo_integrity.json",
+      " M QA/project_os_verify/ui_revamp_r5/accessibility.json",
+      " M QA/project_os_verify/ui_revamp_r5/browser_summary.json",
+      " M QA/project_os_verify/ui_revamp_r5/day_1008_desktop.png",
+      " M QA/project_os_verify/ui_revamp_r5/decide_compare_desktop.png",
+      " M QA/project_os_verify/ui_revamp_r5/decide_default_desktop.png",
+      " M QA/project_os_verify/ui_revamp_r5/map_geometry.json",
+      " M QA/project_os_verify/ui_revamp_r5/place_inspector_desktop.png",
+      " M QA/project_os_verify/ui_revamp_r5/place_list_membership.json",
+      " M QA/project_os_verify/ui_revamp_r5/place_list_membership_1440x900_ko_light_top.png",
+      " M QA/project_os_verify/ui_revamp_r5/place_list_membership_360x800_stress_top.png",
+      " M QA/project_os_verify/ui_revamp_r5/place_list_membership_375x812_stress_top.png",
+      " M QA/project_os_verify/ui_revamp_r5/place_list_membership_390x844_en_dark_top.png",
+      " M QA/project_os_verify/ui_revamp_r5/place_mobile_expanded.png",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_camera.json",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_closed_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_closed_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_closed_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_closed_414x896.png",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_open_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_open_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_open_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/route_key_open_414x896.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_dense_recovery_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_day_sparse_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_compare_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_decide_default_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_en_dark_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_no_results_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_peek_cooks_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_place_inspector_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_compact_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_expanded_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/canonical_workbench_full_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_options_open_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/compact_map_region_yosemite_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/compact_route_key_open_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/firefox_1280_detail.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/firefox_390_detail.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_414x896.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_map_options_414x896.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_compact_route_key_414x896.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_expanded_414x896.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_full_414x896.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_keyboard_peek_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/mobile_touch_peek_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/satellite_failure_recovery_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/smart_failure_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/startup_immediate_1440x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1366x768.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1536x864.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1600x900.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_1920x1080.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_360x800.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_375x812.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_390x844.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_414x896.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/stress_decide_844x390.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/webkit_1280_detail.png",
+      " M QA/project_os_verify/ui_revamp_r5/screenshots/webkit_390_detail.png",
+      " M QA/project_os_verify/ui_revamp_r5/sheet_geometry.json",
+      " M QA/project_os_verify/ui_revamp_r5/task_oracles.json",
+      " M QA/project_os_verify/ui_revamp_r5/visual_index.json",
+      " M QA/route_panel/route_explanations_panel.json",
+      "?? QA/project_os_verify/gate5_r2/",
+      "?? QA/project_os_verify/ui_revamp_r5/satellite_failure_recovery_1440x900.png"
+    ],
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.4-quota-recovery-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-22T11:51:08Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "a2088ba075dbade3ab27be5e2dabc3c7b008b9ec",
+    "branch": "codex/sf-trip-visualizer-five-worldclass-routes-smart-map-ui-fix-r2",
+    "detached_verify": false,
+    "head_sha": "5961a9e7f7a005b8912c93b7912df8d84bce5237",
+    "remote_exact_head": true,
+    "remote_head_sha": "5961a9e7f7a005b8912c93b7912df8d84bce5237",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "a2088ba075dbade3ab27be5e2dabc3c7b008b9ec",
+    "work_branch": "codex/sf-trip-visualizer-five-worldclass-routes-smart-map-ui-fix-r2",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-375341c4b923b4fa0076c2bb",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/five-worldclass-routes-smart-map-ui-fix-r2",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/five-worldclass-routes-smart-map-ui-fix-r2"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.4-quota-recovery-candidate",
+    "policy_sha256": "a642c9f63bab2cb555704bdb0b9d1f28222591f133f934c1d0f93cc5a25ab8a1",
+    "registry_sha256": "cfc765f3211c37c7967a138f3b2d89a99341939b15b2623f92744d007f625d6f"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "five-worldclass-routes-smart-map-ui-fix-r2",
+  "schema_version": 1,
+  "started_at": "2026-09-22T10:54:19Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 3409,
+    "queue_seconds": 0,
+    "total_seconds": 3409
+  },
+  "transport": {
+    "bytes": 14435,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 14067,
+    "prompt_sha256": "69743ee9764e68ef5762099e5b0e47923b2e9d252a2408661b6adffefaaf0c4d",
+    "sha256": "375341c4b923b4fa0076c2bbd6f142eea9fbe3a35eac6948ad6753292af1e418"
+  }
+}
