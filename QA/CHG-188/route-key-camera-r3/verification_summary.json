@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "change": "CHG-188 bounded route-key camera QA readiness repair",
+  "terminal_verdict": "PASS_WITH_EXTERNAL_VERIFY_REQUIRED",
+  "lineage": {
+    "target_base": {
+      "commit": "7d5d8727b1772642e87311d91d087e211656f6e4",
+      "tree": "ede888516de0dc9c8554036435ae9f8034aaea4f"
+    },
+    "exact_predecessor": "2545984d509d947bc75d8b4f0cfa3d420e9a4d71",
+    "predecessor_first_parent_r1": "3783b2178d087ed5c4f58fd9ae7c56c0215191c9",
+    "stable_product_source": {
+      "commit": "32437a27722e7dc7e4b97e2b0dff467ecead4857",
+      "tree": "0f35fca435e96cf50575c25f39af52403ba1da21"
+    },
+    "ancestry_preserved_by_fast_forward": true
+  },
+  "source_candidate": {
+    "commit": "886e8ff8a0fb80b2f579894b26b0aaf539765358",
+    "tree": "a9384953b17f0edb16b248eafceead43c23d4bc8",
+    "product_data_ui_assets_and_manifests_unchanged_from_stable_source": true
+  },
+  "changed_source_files": [
+    "scripts/qa_route_key_camera.py",
+    "tests/test_route_key_camera.py"
+  ],
+  "focused_reproduction": {
+    "viewports": ["360x800", "375x812", "390x844", "414x896"],
+    "final_candidate_fresh_browser_process_runs": {
+      "normal": {
+        "status": "PASS",
+        "viewports_passed": 4,
+        "evidence": "QA/CHG-188/route-key-camera-r3/candidate-886e8ff/normal/report.json"
+      },
+      "injected_transient_style_false_then_ready": {
+        "status": "PASS",
+        "viewports_recovered": 4,
+        "transient_recovery_recorded": true,
+        "evidence": "QA/CHG-188/route-key-camera-r3/candidate-886e8ff/transient/report.json"
+      },
+      "injected_never_ready_negative_control": {
+        "expected_oracle_status": "FAIL",
+        "viewports_failed_closed": 4,
+        "readiness_bound_ms": 5000,
+        "evidence": "QA/CHG-188/route-key-camera-r3/candidate-886e8ff/never-ready/report.json"
+      }
+    },
+    "repeat_runs_before_path_free_console_followup": {
+      "candidate": "663fe0da31c9b5ccdc66a4c68ab26804bc42d38f",
+      "normal_runs": 2,
+      "each_run_passed_all_four_viewports": true,
+      "transient_run_passed_and_recovered_all_four": true,
+      "never_ready_control_failed_all_four": true,
+      "evidence_directory": "QA/CHG-188/route-key-camera-r3"
+    },
+    "acceptance_invariants": {
+      "canvas_count": 1,
+      "visible_markers": 3,
+      "route_features": 2,
+      "spatial_usefulness": true,
+      "viewport_coverage": true,
+      "task_state_preserved": true,
+      "focus_return_and_panel_close": true,
+      "comparison_chrome_count": 0
+    }
+  },
+  "repository_tests": {
+    "suite": "python3 -m unittest discover -s tests -p 'test_*.py'",
+    "result": "PASS",
+    "tests": 87,
+    "hosted_and_local": true
+  },
+  "hosted_qualification": {
+    "workflow_run_id": 35929179288,
+    "job_id": 107411433807,
+    "candidate": "886e8ff8a0fb80b2f579894b26b0aaf539765358",
+    "workflow_status": "success",
+    "qualification_status": "PASS",
+    "component_status": {
+      "public_asset_rights": "PASS",
+      "canonical_truth": "PASS",
+      "photo_integrity": "PASS",
+      "maplibre_security": "PASS",
+      "map_first_smoke": "PASS",
+      "decision_workbench": "PASS",
+      "accessibility_reflow": "PASS",
+      "map_geometry": "PASS",
+      "sheet_geometry": "PASS",
+      "route_key_camera": "PASS",
+      "map_first_full": "PASS",
+      "map_first_p0": "PASS",
+      "standalone": "PASS",
+      "location_gap": "PASS",
+      "interaction_dynamics": "PASS",
+      "route_continuity": "PASS",
+      "route_panel": "PASS",
+      "place_list_membership": "PASS",
+      "exhaustive_states": "PASS",
+      "cross_browser": "PASS",
+      "visual_spots": "PASS",
+      "gate4_runtime": "PASS",
+      "gate5_field_quality": "VERIFY_REQUIRED"
+    },
+    "product_surface": {
+      "canonical_truth": "PASS",
+      "active_route_ids": ["A"],
+      "comparison_chrome_count": 0,
+      "stale_route_negative_controls": {"B": "REJECTED", "C": "REJECTED", "D": "REJECTED", "E": "REJECTED"},
+      "route_surface": "PASS",
+      "locale_theme_and_reflow": "PASS"
+    },
+    "smart_satellite_recovery": {
+      "gate4": "PASS",
+      "smart_ready": "PASS",
+      "satellite_activation": "PASS",
+      "satellite_failure_fallback_to_smart": "PASS",
+      "task_and_camera_recovery": "PASS"
+    },
+    "gate4_static": "PASS",
+    "gate4_summary": "PASS",
+    "gate5_status": "VERIFY_REQUIRED",
+    "gate5_external_boundaries": [
+      "Native Safari remote automation is unavailable; Playwright WebKit is not a native Safari substitute.",
+      "No verifiably real iPhone or iPad is available in this execution environment.",
+      "Independent candidate-bound multimodal visual/usability review is not supplied."
+    ],
+    "no_deploy_release_path": {
+      "status": "PASS",
+      "public_verification": "PASS",
+      "public_delivery_parity": "PASS",
+      "gate7_artifact_secret_scan": "PASS"
+    }
+  },
+  "hosted_evidence": {
+    "run_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35929179288",
+    "artifact_id": 10780947949,
+    "artifact_name": "candidate-qualification-886e8ff8a0fb80b2f579894b26b0aaf539765358",
+    "artifact_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35929179288/artifacts/10780947949"
+  },
+  "initial_release_attempt_note": "Candidate 663fe0da passed qualification and tests, but its console summary exposed an absolute evidence path in public provenance. The final QA-only follow-up removed that path; Gate 7 artifact scan and the no-deploy release path then passed on 886e8ff8.",
+  "external_security_verify_boundaries": [
+    "Authoritative advisory coverage for exact embedded fflate, PMTiles, and @protomaps/basemaps versions remains VERIFY_REQUIRED because the bundle does not embed semver and no lockfile is present.",
+    "Playwright browser archive provenance remains VERIFY_REQUIRED beyond the exact package pin."
+  ]
+}
