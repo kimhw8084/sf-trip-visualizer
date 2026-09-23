@@ -15,6 +15,9 @@ from bs4 import BeautifulSoup
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data" / "phase7_app_data.json"
+ROLE_MATRIX_PATH = ROOT / "data" / "route_role_matrix.json"
+ROUTE_SCHEDULES_PATH = ROOT / "data" / "route_schedules.json"
+RESEARCH_LEDGER_PATH = ROOT / "data" / "route_research_ledger.json"
 PHOTO_MANIFEST_PATH = ROOT / "manifests" / "asset_manifest.json"
 FRESHNESS_MANIFEST_PATH = ROOT / "manifests" / "trip_freshness.json"
 RUNTIME_CONTRACT_PATH = ROOT / "manifests" / "runtime_resilience_contract.json"
@@ -65,10 +68,17 @@ def build(output_root: Path) -> dict:
     standalone_dir.mkdir(parents=True)
 
     data = json.loads(DATA_PATH.read_text())
+    role_matrix = json.loads(ROLE_MATRIX_PATH.read_text())
+    route_schedules = json.loads(ROUTE_SCHEDULES_PATH.read_text())
+    research_ledger = json.loads(RESEARCH_LEDGER_PATH.read_text())
     photo_manifest = json.loads(PHOTO_MANIFEST_PATH.read_text())
     place_count, photo_count = len(data["markers"]), len(photo_manifest["assets"])
-    if (place_count, photo_count, len(data["timeline"]), len(data["legs"])) != (36, 108, 79, 41):
-        raise SystemExit("Canonical product invariant failed before build; refusing to emit artifacts.")
+    if (place_count, photo_count) != (len(role_matrix["places"]), len(role_matrix["places"]) * 3):
+        raise SystemExit("Canonical place/photo invariant failed before build; refusing to emit artifacts.")
+    if sorted(data.get("routes", {})) != sorted(role_matrix.get("route_ids", [])) or data.get("route_roles") != role_matrix.get("places"):
+        raise SystemExit("Canonical route-role projection is stale; refusing to emit artifacts.")
+    if sorted(data.get("route_day_models", {})) != sorted(route_schedules.get("routes", {})):
+        raise SystemExit("Canonical route-day projection is stale; refusing to emit artifacts.")
     if sorted(data["providers"]) != ["satellite", "vector"]:
         raise SystemExit("Canonical provider invariant failed before build; refusing to emit artifacts.")
     if sum(bool(route.get("recommended")) for route in data["routes"].values()) != 1:
@@ -102,7 +112,7 @@ def build(output_root: Path) -> dict:
     head.append(template.new_tag("link", rel="stylesheet", href="src/map_first.css"))
     template.select_one("#tripData").string = "window.TRIP_DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";"
     runtime_loader = template.select_one('script[src="src/runtime_loader.js"]')
-    for name, payload in (("TRIP_ROUTE_GEOMETRY", geometry), ("TRIP_I18N", translations), ("TRIP_FRESHNESS", freshness), ("TRIP_RUNTIME_CONTRACT", runtime_contract)):
+    for name, payload in (("TRIP_ROUTE_GEOMETRY", geometry), ("TRIP_I18N", translations), ("TRIP_FRESHNESS", freshness), ("TRIP_RESEARCH_LEDGER", research_ledger), ("TRIP_RUNTIME_CONTRACT", runtime_contract)):
         script = template.new_tag("script")
         script.string = f"window.{name}=" + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";"
         runtime_loader.insert_before(script)

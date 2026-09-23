@@ -41,7 +41,7 @@ with sync_playwright() as playwright:
     check("physical_marker_objects", page.locator(".photo-marker").count(), expected_places)
     check("marker_place_keys_unique", page.locator(".photo-marker").evaluate_all("xs=>new Set(xs.map(x=>x.dataset.placeKey)).size"), expected_places)
     check("all_marker_hero_thumbs_decode", page.locator(".photo-marker img").evaluate_all("xs=>xs.every(x=>x.complete&&x.naturalWidth>0)"), True)
-    check("route_layers_present", page.evaluate("()=>['A1','A2','B1','B2'].every(r=>!!window.__tripApp.map().getLayer('trip-local-'+r))"), True)
+    check("route_layers_present", page.evaluate("()=>['A','B','C','D','E'].every(r=>!!window.__tripApp.map().getLayer('trip-local-'+r))"), True)
     check("provider_controls_are_single_owner", page.locator("#providerControls [data-provider]").count(), 2)
     check("date_control_is_single_owner", page.locator("#dateSelect").count(), 1)
     check("legacy_surface_absence", page.locator("#dateRibbon,#mapSchedule,#mapFocus,#routeTip,#mobileDate,#mobileProvider,#previewCard,#detailsPane").count(), 0)

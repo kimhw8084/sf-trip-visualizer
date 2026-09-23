@@ -13,7 +13,7 @@ from qa_config import MODULAR_URL
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "QA" / "map_first"
 OUT.mkdir(parents=True, exist_ok=True)
-ROUTES = ("A1", "A2", "B1", "B2")
+ROUTES = ("A", "B", "C", "D", "E")
 DATES = ("all", "10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11")
 REGIONS = ("overall", "sf", "monterey", "yosemite")
 report = bind_report(
@@ -45,13 +45,13 @@ with sync_playwright() as playwright:
 
     check("shell_ready", page.locator("#workbench").count() == 1 and page.locator("#map").count() == 1)
     check("no_artificial_splash", page.locator("#loadingScreen").count() == 0)
-    check("initial_recommendation", "A1" in page.locator("#recommendation").inner_text() and page.locator("#recommendation .decision-cell").count() == 4)
-    check("all_four_route_strategies", page.locator("#routeCards .route-card").count() == 4)
+    check("initial_recommendation", "A" in page.locator("#recommendation").inner_text() and page.locator("#recommendation .decision-cell").count() == 4)
+    check("all_five_route_strategies", page.locator("#routeCards .route-card").count() == 5)
     capture(page, "default_1440_ko_light")
 
-    page.locator('[data-compare-route="A2"]').click()
+    page.locator('[data-compare-route="B"]').click()
     compare = page.locator("#comparePanel").inner_text()
-    check("two_route_compare", all(value in compare for value in ("A1", "A2", "공통", "갈라지는")))
+    check("two_route_compare", all(value in compare for value in ("A", "B", "공통", "갈라지는")))
     capture(page, "compare_a1_a2_1440")
 
     page.locator('[data-mode="day"]').click()
@@ -75,7 +75,7 @@ with sync_playwright() as playwright:
     capture(page, "place_inspector_1440")
 
     # Exercise nonempty state combinations without retaining the old duplicate UI.
-    for routes, date, region in itertools.product((ROUTES, ("A1",), ("A2", "B1")), ("all", "10/8", "10/9"), ("overall", "sf", "monterey", "yosemite")):
+    for routes, date, region in itertools.product((ROUTES, ("A",), ("B", "D")), ("all", "10/8", "10/9"), ("overall", "sf", "monterey", "yosemite")):
         result = page.evaluate(
             """async ({routes,date,region})=>{const a=window.__tripApp,s=a.state.task;s.routes=new Set(routes);s.primaryRoute=routes[0];s.compareRoutes=new Set();s.date=date;s.region=region;s.selected=null;a.setMode('day');await a.drawMap(false);const expected=a.DATA.markers.filter(a.markerVisible).length,actual=document.querySelectorAll('.photo-marker').length,features=a.visibleRouteFeatures(),fail=[];if(actual!==expected)fail.push('markers');if(document.querySelectorAll('.maplibregl-canvas').length!==1)fail.push('canvas');if(document.documentElement.scrollWidth>innerWidth)fail.push('overflow');if(date!=='all'&&features.some(f=>f.properties.date!==date))fail.push('cross_date_route');return {routes,date,region,markers:actual,expected,features:features.length,failures:fail}}""",
             {"routes": routes, "date": date, "region": region},

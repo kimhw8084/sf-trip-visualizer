@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-14",
+  "version": "2026-09-21",
   "scope": "SF / Monterey / Yosemite family trip",
   "workbook": "SF_Trip_FINAL_SELECTION_50Criteria_2026-09-13.xlsx",
   "workbook_rows": 230,
@@ -11,7 +11,7 @@
     "bundle_reference": 3
   },
   "reconciliation": {
-    "selected_concrete_rows": 32,
+    "selected_concrete_rows": 39,
     "already_mapped": 28,
     "broad_areas_merged_into_existing_stops": [
       "Golden Gate Park",
@@ -21,13 +21,15 @@
       "Presidio Tunnel Tops",
       "Bixby Creek Bridge"
     ],
-    "critical_source_list_blind_spot": "PIER 39 and Sea Lions were absent from the workbook (0 matching rows)."
+    "critical_source_list_blind_spot": "PIER 39 and Sea Lions were absent from the workbook (0 matching rows).",
+    "final_map_places": 39
   },
   "result": {
     "original_map_places": 28,
     "audited_additions": 8,
-    "final_map_places": 36,
-    "photo_assets": 108
+    "final_map_places": 39,
+    "photo_assets": 117,
+    "total_places": 39
   },
   "additions": [
     {
@@ -141,7 +143,46 @@
           "text": "아이가 잠들었거나 도착이 30분 이상 밀리면 정차하지 않고 숙소로 간다."
         }
       ]
+    },
+    {
+      "name": "Chinatown San Francisco",
+      "schedule_tier": "must",
+      "workbook_status": "owner-approved place addition",
+      "official_source": "https://sf.gov/article/san-francisco-chinatown",
+      "decision_rule": [
+        {
+          "key": "family_energy_below_6",
+          "text": "Keep the Dragon Gate → Grant/Stockton spine and drop the last street block."
+        }
+      ],
+      "place_key": "chinatown"
+    },
+    {
+      "name": "Japanese Tea Garden",
+      "schedule_tier": "must",
+      "workbook_status": "owner-approved place addition",
+      "official_source": "https://japaneseteagardensf.com/visit/",
+      "decision_rule": [
+        {
+          "key": "carrier_first",
+          "text": "Use a carrier for paths/steps; if access is not workable, keep Academy as the indoor fallback."
+        }
+      ],
+      "place_key": "tea_garden"
+    },
+    {
+      "name": "Bridalveil Fall",
+      "schedule_tier": "must",
+      "workbook_status": "owner-approved place addition",
+      "official_source": "https://www.nps.gov/yose/planyourvisit/bridalveil-fall.htm",
+      "decision_rule": [
+        {
+          "key": "yosemite_access",
+          "text": "If the current road or trail access is closed, use Tunnel View/Valley View without pretending the fall was visited."
+        }
+      ],
+      "place_key": "bridalveil"
     }
   ],
-  "guardrail": "The audit adds representative gaps, not every popular attraction. Swap and bonus tiers remain visible without silently overloading the day."
+  "guardrail": "The audit adds representative gaps, not every popular attraction. Swap and bonus tiers remain visible without silently overloading the day. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39."
 }

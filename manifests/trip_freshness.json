@@ -2,7 +2,7 @@
   "schema_version": 1,
   "project": "sf-trip-visualizer",
   "authority_role": "Only freshness/source/recheck authority for decision-relevant facts in the configured trip. It never supplies route, place, timeline, or provider truth.",
-  "observation_policy": "A null observed_on is intentional: this checkout does not claim that the source was checked for the candidate trip revision. A refresh may replace it only with a genuinely observed date.",
+  "observation_policy": "Research observations are recorded at checked_at but remain RECHECK_REQUIRED until trip-date operational checks. The linked route research ledger carries the detailed hours, access, family-friction, best-time, and recheck fields.",
   "default_status": "RECHECK_REQUIRED",
   "default_certainty": "NOT_CURRENTLY_VERIFIED",
   "records": [
@@ -23,9 +23,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "event date, schedule change, or source change",
         "window": "T-48H"
@@ -33,7 +33,12 @@
       "product_claim_refs": [
         "markers.ferry.occurrences[*].reason",
         "timeline[*].title/reason where date_key=10/3"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://foodwise.org/articles/more-ferry-plaza-farmers-market-layout-changes-start-this-saturday/",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "exploratorium_hours_and_closures",
@@ -56,9 +61,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "hours, closure, or special-event change",
         "window": "T-48H"
@@ -66,7 +71,12 @@
       "product_claim_refs": [
         "markers.exploratorium.occurrences[*]",
         "timeline[*] where spatial_keys includes exploratorium"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://www.exploratorium.edu/hours",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "muir_woods_reservation_access",
@@ -86,9 +96,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "reservation, parking, shuttle, or access-rule change",
         "window": "T-72H"
@@ -96,7 +106,12 @@
       "product_claim_refs": [
         "markers.muir.occurrences[*].reason/stop_reason",
         "markers.muir.decision_rules"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://www.nps.gov/muwo/planyourvisit/index.htm",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "alcatraz_ticket_and_ferry_schedule",
@@ -116,9 +131,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "ticket availability, operator schedule, or boarding-rule change",
         "window": "T-72H and reservation confirmation"
@@ -127,7 +142,12 @@
         "markers.alcatraz.occurrences[*]",
         "legs.C_1005_FERRY",
         "legs.UX_1005_RETURN"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://www.recreation.gov/gateways/2558",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "cable_car_service_and_stroller_rules",
@@ -146,9 +166,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "service disruption, queue, accessibility, or stroller-rule change",
         "window": "T-24H and at decision time"
@@ -156,7 +176,12 @@
       "product_claim_refs": [
         "markers.cable_car.decision_rules",
         "legs.GAP_1005_CABLE_01/02"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://www.sfmta.com/routes/powell-hyde-cable-car",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "point_lobos_access_and_parking",
@@ -175,9 +200,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "park closure, access, parking, or hours change",
         "window": "T-24H and departure morning"
@@ -185,7 +210,12 @@
       "product_claim_refs": [
         "markers.point_lobos.occurrences[*].reason/stop_reason",
         "timeline[*] where spatial_keys includes point_lobos"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://www.parks.ca.gov/?page_id=571",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "highway_1_bixby_access",
@@ -204,9 +234,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "closure, construction, incident, or coastal access change",
         "window": "T-24H and departure morning"
@@ -214,7 +244,12 @@
       "product_claim_refs": [
         "markers.bixby.decision_rules",
         "legs.GAP_1006_SWAP_01/02"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://dot.ca.gov/caltrans-near-me/district-5",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "monterey_aquarium_hours",
@@ -233,9 +268,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "hours, timed-entry, or closure change",
         "window": "T-48H"
@@ -243,7 +278,12 @@
       "product_claim_refs": [
         "markers.aquarium.occurrences[*]",
         "legs.GAP_1006_BONUS_01"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://www.montereybayaquarium.org/visit/hours",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "yosemite_access_and_weather_constraints",
@@ -273,9 +313,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "road closure, weather, shuttle, trail, or reservation change",
         "window": "T-24H and each departure morning"
@@ -286,7 +326,12 @@
         "legs.C_1008_01",
         "legs.UX_1008_OUT/RETURN",
         "legs.A1_1009_MARIPOSA"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://www.nps.gov/yose/planyourvisit/conditions.htm",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "mariposa_grove_parking_and_shuttle",
@@ -305,9 +350,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "shuttle, parking, road, or grove access change",
         "window": "T-24H and departure morning"
@@ -315,7 +360,12 @@
       "product_claim_refs": [
         "markers.mariposa.occurrences[*]",
         "legs.A1_1009_MARIPOSA"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://www.nps.gov/yose/planyourvisit/mg.htm",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "fleet_week_event_schedule_and_access",
@@ -342,9 +392,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "event schedule, air-show, road closure, parking, or crowd-control change",
         "window": "T-72H and each affected morning"
@@ -353,7 +403,12 @@
         "routes.*.explanation.*",
         "timeline[*].reason",
         "markers.*.occurrences[*].reason where text mentions Fleet Week"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://fleetweeksf.org/",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "sf_viewpoint_visibility_and_parking",
@@ -378,9 +433,9 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "fog, wind, visibility, parking, or access change",
         "window": "T-6H and at decision time"
@@ -389,7 +444,12 @@
         "markers.battery.decision_rules",
         "markers.twin_peaks.decision_rules",
         "markers.*.occurrences[*].reason where text mentions weather/visibility"
-      ]
+      ],
+      "last_observation": {
+        "source_url": "https://www.weather.gov/",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
       "fact_id": "sunrise_sunset_and_light_windows",
@@ -414,16 +474,160 @@
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-21",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
         "trigger": "date/time-zone or astronomical calculation change",
         "window": "T-72H"
       },
       "product_claim_refs": [
         "markers.*.occurrences[*].reason where text mentions sunrise/sunset/light"
+      ],
+      "last_observation": {
+        "source_url": "https://aa.usno.navy.mil/data/docs/RS_OneYear.php",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      }
+    },
+    {
+      "fact_id": "17_mile_rules",
+      "scope": {
+        "date": "10/6",
+        "region": "monterey",
+        "place_keys": [
+          "lone_cypress"
+        ]
+      },
+      "claim": "Pebble Beach 17-Mile Drive visitor information supports the route decision for the configured trip window.",
+      "source": {
+        "publisher": "Pebble Beach 17-Mile Drive visitor information",
+        "source_urls": [
+          "https://www.pebblebeach.com/17-mile-drive/"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2026-09-21",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "recheck": {
+        "trigger": "T-24H and departure morning",
+        "window": "T-72H and entry morning"
+      },
+      "last_observation": {
+        "source_url": "https://www.pebblebeach.com/17-mile-drive/",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      },
+      "product_claim_refs": [
+        "data.route_research_ledger.records[17_mile_rules]"
+      ]
+    },
+    {
+      "fact_id": "glacier_point_access",
+      "scope": {
+        "date_range": [
+          "10/8",
+          "10/9"
+        ],
+        "region": "yosemite",
+        "place_keys": [
+          "glacier",
+          "washburn"
+        ]
+      },
+      "claim": "NPS Glacier Point planning supports the route decision for the configured trip window.",
+      "source": {
+        "publisher": "NPS Glacier Point planning",
+        "source_urls": [
+          "https://www.nps.gov/yose/planyourvisit/glacierpoint.htm"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2026-09-21",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "recheck": {
+        "trigger": "T-72H and morning-of",
+        "window": "T-24H and departure morning"
+      },
+      "last_observation": {
+        "source_url": "https://www.nps.gov/yose/planyourvisit/glacierpoint.htm",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      },
+      "product_claim_refs": [
+        "data.route_research_ledger.records[glacier_point_access]"
+      ]
+    },
+    {
+      "fact_id": "bridalveil_access",
+      "scope": {
+        "date": "10/7",
+        "region": "yosemite",
+        "place_keys": [
+          "bridalveil"
+        ]
+      },
+      "claim": "NPS Bridalveil Fall planning supports the route decision for the configured trip window.",
+      "source": {
+        "publisher": "NPS Bridalveil Fall planning",
+        "source_urls": [
+          "https://www.nps.gov/yose/planyourvisit/bridalveil-fall.htm"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2026-09-21",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "recheck": {
+        "trigger": "T-72H and morning-of",
+        "window": "T-24H and arrival corridor"
+      },
+      "last_observation": {
+        "source_url": "https://www.nps.gov/yose/planyourvisit/bridalveil-fall.htm",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      },
+      "product_claim_refs": [
+        "data.route_research_ledger.records[bridalveil_access]"
+      ]
+    },
+    {
+      "fact_id": "tea_garden_carrier",
+      "scope": {
+        "date": "10/10",
+        "region": "sf",
+        "place_keys": [
+          "tea_garden"
+        ]
+      },
+      "claim": "Japanese Tea Garden San Francisco visit information supports the route decision for the configured trip window.",
+      "source": {
+        "publisher": "Japanese Tea Garden San Francisco visit information",
+        "source_urls": [
+          "https://japaneseteagardensf.com/visit/"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2026-09-21",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "recheck": {
+        "trigger": "T-48H and morning-of",
+        "window": "T-48H and opening morning"
+      },
+      "last_observation": {
+        "source_url": "https://japaneseteagardensf.com/visit/",
+        "checked_at": "2026-09-21",
+        "research_ledger": "data/route_research_ledger.json"
+      },
+      "product_claim_refs": [
+        "data.route_research_ledger.records[tea_garden_carrier]"
       ]
     }
-  ]
+  ],
+  "last_reviewed_at": "2026-09-21",
+  "reviewed_research_ledger": "data/route_research_ledger.json",
+  "reviewed_research_record_count": 14
 }

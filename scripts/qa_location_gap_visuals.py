@@ -33,7 +33,7 @@ with sync_playwright() as playwright:
         GAPS,
     )
     page.wait_for_function("window.__tripApp?.state?.task?.routes", timeout=15000)
-    page.evaluate("""async()=>{const a=window.__tripApp;a.state.routes=new Set(['A1','A2','B1','B2']);a.state.date='10/5';a.state.region='sf';a.state.selected=null;a.setMode('day');await a.drawMap(false)}""")
+    page.evaluate("""async()=>{const a=window.__tripApp;a.state.routes=new Set(['A','B','C','D','E']);a.state.primaryRoute='A';a.state.date='10/5';a.state.region='sf';a.state.selected=null;a.setMode('day');await a.drawMap(false)}""")
     report["checks"]["sf_branches"] = page.evaluate("()=>{const a=window.__tripApp,keys=new Set(a.DATA.markers.filter(a.markerVisible).map(x=>x.place_key)),kinds=new Set(a.visibleRouteFeatures().map(x=>x.properties.kind));return {pier39:keys.has('pier39'),kinds:[...kinds]}}")
     capture(page, "gap_1440_sf_decision_surface")
     page.locator(".photo-marker[data-place-key='pier39']").click()
@@ -47,7 +47,7 @@ with sync_playwright() as playwright:
     report["checks"]["english_inspector"] = page.evaluate("()=>({hangul:document.querySelector('#placeInspector').innerText.split('\\n').filter(x=>/[가-힣]/.test(x))})")
     page.locator("[data-place-back]").click()
     page.locator("#langToggle").click()
-    page.evaluate("""async()=>{const a=window.__tripApp;a.state.date='10/6';a.state.region='monterey';a.state.selected=null;a.setMode('day');await a.drawMap(false)}""")
+    page.evaluate("""async()=>{const a=window.__tripApp;a.state.primaryRoute='B';a.state.routes=new Set(['B']);a.state.date='10/6';a.state.region='monterey';a.state.selected=null;a.setMode('day');await a.drawMap(false)}""")
     report["checks"]["monterey_branches"] = page.evaluate("()=>{const a=window.__tripApp,keys=new Set(a.DATA.markers.filter(a.markerVisible).map(x=>x.place_key));return {bixby:keys.has('bixby'),features:a.visibleRouteFeatures().length}}")
     page.set_viewport_size({"width": 390, "height": 844})
     page.wait_for_timeout(250)
@@ -55,7 +55,7 @@ with sync_playwright() as playwright:
     browser.close()
 
 data = report["checks"]["data"]
-report["status"] = "PASS" if not report["errors"] and data["places"] == 36 and data["timeline"] == 79 and data["legs"] == 41 and not data["missing"] and report["checks"]["sf_branches"]["pier39"] and report["checks"]["pier_inspector"]["photos"] == 3 and not report["checks"]["english_inspector"]["hangul"] and report["checks"]["monterey_branches"]["bixby"] and report["checks"]["mobile"]["overflow"] == 0 else "FAIL"
+report["status"] = "PASS" if not report["errors"] and data["places"] == 39 and data["timeline"] == 67 and data["legs"] == 45 and not data["missing"] and report["checks"]["sf_branches"]["pier39"] and report["checks"]["pier_inspector"]["photos"] == 3 and not report["checks"]["english_inspector"]["hangul"] and report["checks"]["monterey_branches"]["bixby"] and report["checks"]["mobile"]["overflow"] == 0 else "FAIL"
 (OUT / "location_gap_visuals.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "checks": report["checks"], "errors": report["errors"]}, ensure_ascii=False, indent=2))
 raise SystemExit(0 if report["status"] == "PASS" else 1)

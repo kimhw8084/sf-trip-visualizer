@@ -39,6 +39,8 @@
   let geometryNeedsRefit = false;
   let geometryWaiters = [];
   let observedMapSize = null;
+  let satelliteFallbackFlight = null;
+  let smartCamera = null;
 
   const markStartup = (name, detail = {}) => {
     if (typeof window.__tripStartupMark === 'function') return window.__tripStartupMark(name, detail);
@@ -60,6 +62,12 @@
   const photoSrc = path => window.EMBEDDED_PHOTOS?.[path] || path;
   const placeName = key => I18N.places[key]?.[0] || markerByKey[key]?.name || key;
   const placeKo = key => I18N.places[key]?.[1] || '';
+  const roleFor = (key, route) => DATA.route_roles?.[key]?.[route] || (markerByKey[key]?.routes?.includes(route) ? 'Strong' : 'Skip');
+  const roleShort = role => ({ Core: 'C', Strong: 'S', Conditional: '△', Skip: '—' }[role] || '—');
+  const roleLabel = role => m({ Core: 'roleCore', Strong: 'roleStrong', Conditional: 'roleConditional', Skip: 'roleSkip' }[role] || 'roleSkip');
+  function routeMembershipMarkup(key) {
+    return `<div class="route-membership" role="group" aria-label="${esc(m('routeMembership'))}">${ROUTES.map(route => { const role = roleFor(key, route); return `<span class="membership-cell role-${role.toLowerCase()}" data-route="${esc(route)}" data-role="${esc(role)}" aria-label="${esc(`Route ${route} — ${roleLabel(role)}`)}"><b>${esc(route)}</b><i aria-hidden="true">${roleShort(role)}</i><small>${esc(roleLabel(role))}</small></span>`; }).join('')}</div>`;
+  }
   const dateLabel = value => {
     const key = String(value || '').match(/^\d+\/\d+/)?.[0];
     if (!key) return tr(value);
@@ -81,7 +89,8 @@
     return new Set([state.task.primaryRoute]);
   }
   function routeIntersects(routes, options) { return (routes || []).some(route => activeRoutes(options).has(route)); }
-  function dateMatchesOccurrence(item) { return state.task.date === 'all' || (item.date || '').startsWith(state.task.date + ' ') || item.date === state.task.date; }
+  const occurrenceDateKey = item => item?.date_key || String(item?.date || '').split(' ')[0];
+  function dateMatchesOccurrence(item) { return state.task.date === 'all' || occurrenceDateKey(item) === state.task.date; }
   function markerVisible(marker, options = {}) {
     if (!routeIntersects(marker.routes, options)) return false;
     if (state.task.region !== 'overall' && DATA.place_region[marker.place_key] !== state.task.region) return false;
@@ -97,7 +106,7 @@
     if (!routeIntersects(leg.routes, options)) return false;
     if (state.task.date !== 'all' && leg.date !== state.task.date) return false;
     const from = markerByKey[leg.from], to = markerByKey[leg.to], routes = activeRoutes(options);
-    if (from && to && !leg.routes.some(route => routes.has(route) && from.occurrences.some(item => item.route === route && item.date.startsWith(leg.date)) && to.occurrences.some(item => item.route === route && item.date.startsWith(leg.date)))) return false;
+    if (from && to && !leg.routes.some(route => routes.has(route) && from.occurrences.some(item => item.route === route && occurrenceDateKey(item) === leg.date) && to.occurrences.some(item => item.route === route && occurrenceDateKey(item) === leg.date))) return false;
     if (state.task.region !== 'overall') {
       const fromRegion = DATA.place_region[leg.from], toRegion = DATA.place_region[leg.to];
       if (fromRegion !== state.task.region && toRegion !== state.task.region) return false;
@@ -138,6 +147,18 @@
   function setStatus(text) {
     const startup = document.getElementById('startupStatus'); if (startup) startup.textContent = text;
   }
+  function clearMapFeedback() {
+    const errorBox = document.getElementById('mapError'), retry = document.getElementById('smartRetry');
+    if (errorBox) errorBox.hidden = true;
+    if (retry) { retry.dataset.retryProvider = 'vector'; retry.textContent = m('retrySmart'); }
+  }
+  function showSatelliteFallbackFeedback() {
+    const errorBox = document.getElementById('mapError'), retry = document.getElementById('smartRetry');
+    if (!errorBox) return;
+    errorBox.querySelector('.map-error-message').textContent = m('satelliteFallback');
+    errorBox.hidden = false;
+    if (retry) { retry.dataset.retryProvider = 'satellite'; retry.textContent = m('retrySatellite'); }
+  }
   function showMapFailure(error, phase = 'runtime') {
     const message = `${m('smartFailure')} ${mapFailureText(error, phase)}`;
     const errorBox = document.getElementById('mapError');
@@ -150,6 +171,19 @@
     const source = String(event?.sourceId || ''), message = String(event?.error?.message || event?.message || event?.error || '');
     return source === 'basemap' || source === 'hillshade' || /pmtiles|tripasset|glyph|sprite|font|local asset|range|byte serving/i.test(message);
   }
+  function isSatelliteRasterError(event, map) {
+    if (state.runtime.provider !== 'satellite' || renderedProvider !== 'satellite' || photoMap !== map || String(event?.sourceId || '') !== 'base') return false;
+    const source = map?.getStyle?.()?.sources?.base;
+    return source?.type === 'raster' && Array.isArray(source.tiles) && source.tiles.some(tile => tile === SATELLITE_TILE_TEMPLATE);
+  }
+  function embeddedBytes(encoded, label) {
+    if (typeof encoded !== 'string' || encoded.length < 8) throw new Error(`Missing embedded asset ${label}`);
+    const binary = atob(encoded.replace(/\s+/g, ''));
+    const bytes = new Uint8Array(binary.length);
+    for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+    if (!bytes.length) throw new Error(`Empty embedded asset ${label}`);
+    return bytes;
+  }
   async function setupVector() {
     markStartup('local_vector_setup_start');
     if (!window.TRIP_VECTOR) throw new Error('Local vector renderer missing');
@@ -158,10 +192,9 @@
     let archive;
     if (window.EMBEDDED_VECTOR) {
       if (typeof window.EMBEDDED_VECTOR !== 'string' || window.EMBEDDED_VECTOR.length < 100000) throw new Error('Embedded PMTiles payload is missing or truncated');
-      const response = await fetch(`data:application/octet-stream;base64,${window.EMBEDDED_VECTOR}`);
-      const blob = await response.blob();
-      if (blob.size < 127) throw new Error('Embedded PMTiles payload is too small');
-      vectorUrl = 'sf_trip.pmtiles'; archive = new PMTiles(new FileSource(new File([blob], 'sf_trip.pmtiles')));
+      const bytes = embeddedBytes(window.EMBEDDED_VECTOR, 'sf_trip.pmtiles');
+      if (bytes.byteLength < 127) throw new Error('Embedded PMTiles payload is too small');
+      vectorUrl = 'sf_trip.pmtiles'; archive = new PMTiles(new FileSource(new File([bytes], 'sf_trip.pmtiles', { type: 'application/octet-stream' })));
     } else archive = new PMTiles(vectorUrl);
     const header = await archive.getHeader();
     markStartup('local_pmtiles_header_ready', { tile_type: header?.tileType, max_zoom: header?.maxZoom });
@@ -170,7 +203,11 @@
     maplibregl.addProtocol('tripasset', async params => {
       const path = decodeURIComponent(params.url.replace('tripasset://', ''));
       if (!/^assets\/vector\/(?:fonts|sprites)\/[^?#]+$/.test(path) || path.includes('..')) throw new Error('Unsafe local map asset path');
-      const response = await fetch(window.EMBEDDED_MAP_ASSETS?.[path] ? `data:application/octet-stream;base64,${window.EMBEDDED_MAP_ASSETS[path]}` : path);
+      if (window.EMBEDDED_MAP_ASSETS) {
+        const bytes = embeddedBytes(window.EMBEDDED_MAP_ASSETS[path], path);
+        return { data: path.endsWith('.json') ? JSON.parse(new TextDecoder().decode(bytes)) : bytes.buffer };
+      }
+      const response = await fetch(path);
       if (!response.ok) throw new Error(`Missing map asset ${path}`);
       return { data: path.endsWith('.json') ? await response.json() : await response.arrayBuffer() };
     });
@@ -234,17 +271,27 @@
     state.runtime.providerStats[provider].viewportProbes++; const ok = await probeImage(tileUrlAt(provider, center.lat, center.lon, zoom), 2800, 'viewport');
     if (!ok) state.runtime.providerHealth[provider] = 'failed'; renderProviderState(); return ok;
   }
-  async function returnToSmart(provider, reason) {
-    state.runtime.providerStats[provider].fallbacks++; state.runtime.providerHealth[provider] = 'failed'; state.runtime.provider = 'vector'; recordRuntimeEvent('fallback_to_smart', provider, { reason });
-    const errorBox = document.getElementById('mapError'); if (errorBox && provider === 'satellite') { errorBox.querySelector('.map-error-message').textContent = m('satelliteFallback'); errorBox.hidden = false; }
-    renderProviderState(); persist(); await drawMap(true); return false;
+  async function returnToSmart(provider, reason, detail = {}) {
+    if (provider === 'satellite' && satelliteFallbackFlight) return satelliteFallbackFlight;
+    const fallback = (async () => {
+      state.runtime.providerStats[provider].fallbacks++; if (reason === 'tile_error') state.runtime.providerStats[provider].tileErrors++;
+      state.runtime.providerHealth[provider] = 'failed'; state.runtime.provider = 'vector';
+      if (reason === 'tile_error') recordRuntimeEvent('tile_error', provider, detail);
+      recordRuntimeEvent('fallback_to_smart', provider, { reason, ...detail });
+      if (provider === 'satellite') showSatelliteFallbackFeedback();
+      renderProviderState(); persist(); await drawMap(true); return false;
+    })();
+    if (provider !== 'satellite') return fallback;
+    satelliteFallbackFlight = fallback.finally(() => { satelliteFallbackFlight = null; });
+    return satelliteFallbackFlight;
   }
   async function chooseProvider(provider) {
     if (!['vector', 'satellite'].includes(provider)) return false;
-    if (provider === 'vector') { state.runtime.provider = 'vector'; document.getElementById('mapError').hidden = true; renderProviderState(); persist(); return drawMap(true); }
+    if (provider === 'vector') { rememberSmartCamera(); state.runtime.provider = 'vector'; clearMapFeedback(); renderProviderState(); persist(); return drawMap(true); }
+    rememberSmartCamera();
     const ok = await testProvider(provider) && await testViewportProvider(provider);
     if (!ok) { await returnToSmart(provider, 'probe_failure'); return false; }
-    state.runtime.provider = provider; state.runtime.providerSwitches++; recordRuntimeEvent('provider_switch', provider, { from: 'vector' }); renderProviderState(); persist(); return drawMap(true);
+    clearMapFeedback(); state.runtime.provider = provider; state.runtime.providerSwitches++; recordRuntimeEvent('provider_switch', provider, { from: 'vector' }); renderProviderState(); persist(); return drawMap(true);
   }
   function renderProviderState() {
     const provider = state.runtime.provider, health = state.runtime.providerHealth[provider] || 'untested', status = document.getElementById('providerStatus');
@@ -268,19 +315,63 @@
       const kind = transfer ? 'transfer' : branch === 'swap' ? 'option' : ['bonus', 'conditional', 'recovery', 'choice'].includes(branch) ? branch : 'local';
       const coordinates = geometry?.coordinates || [[leg.from_latlon[1], leg.from_latlon[0]], [leg.to_latlon[1], leg.to_latlon[0]]];
       leg.routes.filter(route => routes.has(route)).forEach((route, index, active) => {
-        const fromOccurrence = markerByKey[leg.from]?.occurrences.find(item => item.route === route && item.date.startsWith(leg.date));
-        const toOccurrence = markerByKey[leg.to]?.occurrences.find(item => item.route === route && item.date.startsWith(leg.date));
+        const fromOccurrence = markerByKey[leg.from]?.occurrences.find(item => item.route === route && occurrenceDateKey(item) === leg.date);
+        const toOccurrence = markerByKey[leg.to]?.occurrences.find(item => item.route === route && occurrenceDateKey(item) === leg.date);
         features.push({ type: 'Feature', geometry: { type: 'LineString', coordinates }, properties: { leg_id: leg.leg_id, label: leg.label, mode: leg.mode, note: leg.note, date: leg.date, route, color: safeColor(routeMeta[route].color), offset: (index - (active.length - 1) / 2) * (transfer ? 3.2 : 3), kind, branch, emphasis: route === state.task.primaryRoute ? 1 : .22, status: geometry?.status || 'conceptual_fallback', distance_km: geometry?.distance_km || 0, time: [fromOccurrence?.time, toOccurrence?.time].filter(Boolean).map(tr).join(' → ') } });
       });
     }
     return features;
+  }
+  function cameraTaskContext() {
+    return { routes: [...state.task.routes].sort(), primary_route: state.task.primaryRoute, compare_routes: [...state.task.compareRoutes].sort(), date: state.task.date, region: state.task.region };
+  }
+  function sameCameraTask(a, b) {
+    return !!a && !!b && JSON.stringify(a) === JSON.stringify(b);
+  }
+  function cameraView(map = photoMap) {
+    if (!map) return null;
+    const center = map.getCenter?.();
+    if (!center || !Number.isFinite(center.lng) || !Number.isFinite(center.lat)) return null;
+    return { center: [center.lng, center.lat], zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch() };
+  }
+  function mapSpatialSnapshot(map = photoMap) {
+    if (!map) return { useful: false, reason: 'map-missing' };
+    const canvas = map.getCanvas?.(), width = canvas?.clientWidth || canvas?.width || 0, height = canvas?.clientHeight || canvas?.height || 0;
+    if (!width || !height) return { useful: false, reason: 'viewport-missing', width, height };
+    const inside = point => point && point.x >= 0 && point.x <= width && point.y >= 0 && point.y <= height;
+    const visibleMarkers = DATA.markers.filter(item => markerVisible(item, { map: true }));
+    const markerPoints = visibleMarkers.map(item => { try { return map.project([item.lon, item.lat]); } catch { return null; } }).filter(Boolean);
+    const routeFeatures = visibleRouteFeatures().filter(feature => feature.properties.kind !== 'transfer');
+    const routePoints = routeFeatures.flatMap(feature => feature.geometry.coordinates).map(coordinate => { try { return map.project(coordinate); } catch { return null; } }).filter(Boolean);
+    const markerPointsInViewport = markerPoints.filter(inside), routePointsInViewport = routePoints.filter(inside);
+    const routeFeaturesInViewport = routeFeatures.filter(feature => feature.geometry.coordinates.some(coordinate => { try { return inside(map.project(coordinate)); } catch { return false; } }));
+    const contentPoints = [...markerPointsInViewport, ...routePointsInViewport];
+    const minX = contentPoints.length ? Math.min(...contentPoints.map(point => point.x)) : 0, maxX = contentPoints.length ? Math.max(...contentPoints.map(point => point.x)) : 0;
+    const minY = contentPoints.length ? Math.min(...contentPoints.map(point => point.y)) : 0, maxY = contentPoints.length ? Math.max(...contentPoints.map(point => point.y)) : 0;
+    const occupancy = width * height ? Math.max(0, (maxX - minX) * (maxY - minY)) / (width * height) : 0;
+    return { useful: markerPointsInViewport.length > 0 && (routeFeaturesInViewport.length > 0 || markerPointsInViewport.length > 0), width, height, visible_markers: visibleMarkers.length, markers_in_viewport: markerPointsInViewport.length, route_features: routeFeatures.length, route_features_in_viewport: routeFeaturesInViewport.length, route_points_in_viewport: routePointsInViewport.length, content_occupancy_ratio: Number(occupancy.toFixed(4)) };
+  }
+  function rememberSmartCamera(map = photoMap) {
+    if (!map || state.runtime.provider !== 'vector' || renderedProvider !== 'vector' || !state.runtime.mapVisualReady) return null;
+    const view = cameraView(map), spatial = mapSpatialSnapshot(map);
+    if (!view || !spatial.useful) return null;
+    smartCamera = { ...view, task: cameraTaskContext(), spatial, owner: 'smart' };
+    return smartCamera;
+  }
+  function validSmartCamera() {
+    return smartCamera && sameCameraTask(smartCamera.task, cameraTaskContext()) && smartCamera.spatial?.useful ? smartCamera : null;
+  }
+  function viewForDraw(preserve, previous) {
+    if (!preserve || !previous) return null;
+    if (renderedProvider === state.runtime.provider) return cameraView(previous);
+    return validSmartCamera() ? { center: validSmartCamera().center, zoom: validSmartCamera().zoom, bearing: validSmartCamera().bearing, pitch: validSmartCamera().pitch } : null;
   }
   function installRouteLayers(map) {
     markStartup('route_layer_install_start');
     const add = () => {
       if (map.getSource('trip-routes')) return;
       map.addSource('trip-routes', { type: 'geojson', data: { type: 'FeatureCollection', features: visibleRouteFeatures() } });
-      const patterns = { transfer: [3, 2], conditional: [5, 2], option: [4, 2], bonus: [1, 2.4], recovery: [8, 3], choice: [2, 2] }, routePatterns = { solid: null, dash: [5, 2], dot: [1.2, 2.2], dashdot: [5, 1.4, 1.2, 1.4] };
+      const patterns = { transfer: [3, 2], conditional: [5, 2], option: [4, 2], bonus: [1, 2.4], recovery: [8, 3], choice: [2, 2] }, routePatterns = { solid: null, dash: [5, 2], dot: [1.2, 2.2], dashdot: [5, 1.4, 1.2, 1.4], longdash: [10, 3] };
       for (const kind of ['transfer', 'local', 'conditional', 'option', 'bonus', 'recovery', 'choice']) {
         const kindFilter = ['==', ['get', 'kind'], kind], transfer = kind === 'transfer', faint = kind === 'bonus';
         for (const route of ROUTES) {
@@ -450,12 +541,12 @@
   }
   function preferredOccurrence(marker) {
     const routes = activeRoutes();
-    return marker.occurrences.find(item => routes.has(item.route) && dateMatchesOccurrence(item)) || marker.occurrences.find(item => routes.has(item.route)) || marker.occurrences[0];
+    return marker.occurrences.find(item => routes.has(item.route) && dateMatchesOccurrence(item)) || marker.occurrences.find(item => routes.has(item.route)) || null;
   }
   function groupOccurrences(marker) {
     const groups = {};
     marker.occurrences.filter(item => activeRoutes().has(item.route) && (state.task.date === 'all' || dateMatchesOccurrence(item))).forEach(item => {
-      const signature = [item.date, item.time, item.title, item.reason, item.advantage, item.status].join('|');
+      const signature = [occurrenceDateKey(item), item.time, item.title, item.reason, item.advantage, item.status].join('|');
       if (!groups[signature]) groups[signature] = { ...item, routes: [] };
       groups[signature].routes.push(item.route);
     });
@@ -480,6 +571,9 @@
   }
   function bindLocalImageFailures(root) { root?.querySelectorAll('img').forEach(image => { if (!image.src.startsWith('data:')) image.addEventListener('error', () => showMapFailure(new Error(`Missing local photo ${image.getAttribute('src') || ''}`), 'photo_asset')); }); }
   function installPhotoMarkers(map, { deferClusters = false } = {}) {
+    map.getContainer()?.querySelectorAll('.maplibregl-marker.photo-marker, .maplibregl-marker .photo-marker').forEach(element => {
+      (element.classList.contains('maplibregl-marker') ? element : element.parentElement)?.remove();
+    });
     photoMap = map; photoMarkers = [];
     markStartup('photo_preparation_start');
     markStartup('marker_install_start', { count: DATA.markers.filter(item => markerVisible(item, { map: true })).length });
@@ -515,18 +609,20 @@
       const previous = photoMap, same = previous && renderedProvider === state.runtime.provider && renderedTheme === state.presentation.theme;
       clusterMarkers.forEach(marker => marker.remove()); clusterMarkers = []; photoMarkers.forEach(marker => marker.remove()); photoMarkers = []; legMarkers.forEach(marker => marker.remove()); legMarkers = [];
       if (same && state.runtime.localAssets.status === 'ready') {
-        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); renderMapLegend(); if (!preserve || mapGeometrySnapshot().markers.some(marker => marker.intersects_obstacle.length)) fitVisibleMap(previous); return true;
+        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); renderMapLegend(); if (!preserve || mapGeometrySnapshot().markers.some(marker => marker.intersects_obstacle.length)) fitVisibleMap(previous); rememberSmartCamera(previous); return true;
       }
-      const view = preserve && previous ? { center: previous.getCenter(), zoom: previous.getZoom() } : null;
+      const view = viewForDraw(preserve, previous);
       if (previous) { previous.__tripCleanup?.(); previous.remove(); state.runtime.mapRemovals += 1; }
       const region = DATA.region_cfg[state.task.region];
       let map;
       try {
+        state.runtime.mapStatus = 'loading'; state.runtime.mapVisualReady = false;
         map = new maplibregl.Map({ container: 'map', style: providerStyle(state.runtime.provider), center: [region.center.lon, region.center.lat], zoom: region.zoom, attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 18 });
         photoMap = map; renderedProvider = state.runtime.provider; renderedTheme = state.presentation.theme; state.runtime.mapCreations += 1; state.runtime.mapStatus = 'loading'; renderProviderState(); markStartup('map_created');
-        map.on('load', () => { markStartup('map_style_ready'); installRouteLayers(map); installPhotoMarkers(map, { deferClusters: true }); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); updatePhotoClusters(); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; renderProviderState(); renderMapLegend(); renderShellStatus(); markStartup('map_visual_ready', { markers: photoMarkers.length, layers: map.getStyle()?.layers?.length || 0 }); });
+        map.on('load', () => { markStartup('map_style_ready'); installRouteLayers(map); installPhotoMarkers(map, { deferClusters: true }); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); updatePhotoClusters(); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; if (state.runtime.provider === 'vector') rememberSmartCamera(map); renderProviderState(); renderMapLegend(); renderShellStatus(); markStartup('map_visual_ready', { markers: photoMarkers.length, layers: map.getStyle()?.layers?.length || 0 }); });
+        map.on('moveend', () => { if (state.runtime.provider === 'vector' && renderedProvider === 'vector') rememberSmartCamera(map); });
         map.on('click', () => hidePeek({ returnFocus: false }));
-        map.on('error', event => { if (localMapError(event)) showMapFailure(event.error || event.message, 'map_runtime'); });
+        map.on('error', event => { if (isSatelliteRasterError(event, map)) { void returnToSmart('satellite', 'tile_error', { source_id: event.sourceId, message: String(event?.error?.message || event?.message || event?.error || 'raster tile request failed') }); return; } if (localMapError(event)) showMapFailure(event.error || event.message, 'map_runtime'); });
         return true;
       } catch (error) { showMapFailure(error, 'map_create'); return false; }
     };
@@ -548,7 +644,7 @@
   function showPeek(key, { event, focusAction = false, invoker } = {}) {
     const marker = markerByKey[key]; if (!marker) return;
     const card = document.getElementById('peek'), occurrence = preferredOccurrence(marker), groups = groupOccurrences(marker).slice(0, 3), tier = tierFor(marker); state.presentation.peek = { key, invoker: invoker || document.activeElement }; state.presentation.focusReturn = invoker || document.activeElement;
-    card.innerHTML = `<img class="peek-media" src="${photoSrc(photoPath(key, 'hero', 'medium'))}" alt="${esc(placeName(key))}"><div class="peek-body"><h3 id="peekTitle" class="peek-title">${esc(placeName(key))}</h3>${state.presentation.lang === 'ko' ? `<p class="peek-sub">${esc(placeKo(key))}</p>` : ''}<div class="peek-meta"><span class="tier-chip">${esc(tierLabel(tier))}</span>${groups.map(group => `<span>${esc(group.routes.join('/'))} · ${esc(dateLabel(group.date))} · ${esc(tr(group.time || '—'))}</span>`).join('')}</div><p id="peekDescription" class="peek-why"><strong>${m('whyNow')}</strong> ${esc(tr(occurrence?.reason || marker.why))}</p>${occurrence?.advantage ? `<p class="peek-sub">${m('advantage')}: ${esc(tr(occurrence.advantage))}</p>` : ''}<button class="peek-action" type="button" data-peek-open>${m('openPlace')} ↗</button></div>`;
+    card.innerHTML = `<img class="peek-media" src="${photoSrc(photoPath(key, 'hero', 'medium'))}" alt="${esc(placeName(key))}"><div class="peek-body"><h3 id="peekTitle" class="peek-title">${esc(placeName(key))}</h3>${state.presentation.lang === 'ko' ? `<p class="peek-sub">${esc(placeKo(key))}</p>` : ''}<div class="peek-meta"><span class="tier-chip">${esc(tierLabel(tier))}</span>${groups.map(group => `<span>${esc(group.routes.join('/'))} · ${esc(dateLabel(group.date_key || group.date))} · ${esc(tr(group.time || '—'))}</span>`).join('')}</div><p id="peekDescription" class="peek-why"><strong>${m('whyNow')}</strong> ${esc(tr(occurrence?.reason || marker.why))}</p>${occurrence?.advantage ? `<p class="peek-sub">${m('advantage')}: ${esc(tr(occurrence.advantage))}</p>` : ''}<button class="peek-action" type="button" data-peek-open>${m('openPlace')} ↗</button></div>`;
     bindLocalImageFailures(card); wirePeekHover(card); card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card);
     card.querySelector('[data-peek-open]').onclick = () => openPlace(key);
     if (focusAction) card.querySelector('[data-peek-open]').focus({ preventScroll: true });
@@ -561,20 +657,20 @@
   function updateMarkerEmphasis() { document.querySelectorAll('.photo-marker').forEach(element => element.classList.toggle('selected', element.dataset.placeKey === state.task.selected)); updatePhotoClusters(); }
   function selectPlace(key, { focus = true, open = false, invoker } = {}) {
     if (!markerByKey[key]) return;
-    state.task.selected = key; state.task.selectedOccurrence = preferredOccurrence(markerByKey[key])?.date || null; if (focus) focusPlace(key); updateMarkerEmphasis(); renderDay(); renderPlace(); if (open) openPlace(key, invoker); persist();
+    state.task.selected = key; state.task.selectedOccurrence = occurrenceDateKey(preferredOccurrence(markerByKey[key])) || null; if (focus) focusPlace(key); updateMarkerEmphasis(); renderDay(); renderPlace(); if (open) openPlace(key, invoker); persist();
   }
   function openPlace(key = state.task.selected, invoker) {
     if (!markerByKey[key]) return;
-    state.presentation.previousMode = state.presentation.mode === 'place' ? 'day' : state.presentation.mode; state.presentation.previousContext = { date: state.task.date, selected: state.task.selected, scrollTop: document.querySelector('.workbench-scroll')?.scrollTop || 0 }; state.task.selected = key; state.presentation.mode = 'place'; hidePeek({ returnFocus: false }); renderAll(); document.querySelector('.workbench-scroll')?.scrollTo({ top: 0, behavior: 'smooth' }); persist();
+    state.presentation.previousMode = state.presentation.mode || 'day'; state.presentation.previousContext = { date: state.task.date, selected: state.task.selected, scrollTop: document.querySelector('.workbench-scroll')?.scrollTop || 0, focusPlace: invoker?.dataset?.placeChoice || null }; state.task.selected = key; state.presentation.mode = 'place'; hidePeek({ returnFocus: false }); renderAll(); document.querySelector('.workbench-scroll')?.scrollTo({ top: 0, behavior: 'smooth' }); persist();
   }
   function closePlace() {
-    const previous = state.presentation.previousMode || 'day'; const context = state.presentation.previousContext; state.presentation.mode = previous; state.presentation.previousMode = null; state.presentation.previousContext = null; if (context?.date) state.task.date = context.date; renderAll(); requestAnimationFrame(() => { const scroll = document.querySelector('.workbench-scroll'); if (scroll && Number.isFinite(context?.scrollTop)) scroll.scrollTop = context.scrollTop; }); persist();
+    const previous = state.presentation.previousMode || 'day'; const context = state.presentation.previousContext; state.presentation.mode = previous; state.presentation.previousMode = null; state.presentation.previousContext = null; if (context?.date) state.task.date = context.date; if (context && Object.prototype.hasOwnProperty.call(context, 'selected')) { state.task.selected = context.selected; state.task.selectedOccurrence = context.selected ? state.task.selectedOccurrence : null; } renderAll(); requestAnimationFrame(() => { const scroll = document.querySelector('.workbench-scroll'); if (scroll && Number.isFinite(context?.scrollTop)) scroll.scrollTop = context.scrollTop; if (context?.focusPlace) [...document.querySelectorAll('[data-place-choice]')].find(button => button.dataset.placeChoice === context.focusPlace)?.focus({ preventScroll: true }); }); persist();
   }
 
   /* ----- Decide mode ----- */
   function routeProfile(route) {
     const meta = routeMeta[route], narrative = routeNarrative(route), scores = Object.entries(meta.score || {});
-    return `<article class="route-card ${route === state.task.primaryRoute ? 'primary' : ''}" style="--route-color:${safeColor(meta.color)}"><div class="route-card-head"><div class="route-card-title"><strong>${esc(tr(meta.title))}</strong><small>${esc(tr(meta.subtitle || ''))}</small></div><span class="route-code-pill" aria-label="${m('routeCode')}">${esc(route)}</span></div><div class="score-line" aria-label="${m('routeScore')}">${scores.slice(0, 4).map(([key, value]) => `<span>${esc(state.presentation.lang === 'en' ? messages.scoreLabels[key] || key : key)} ${esc(value)}/10</span>`).join('')}</div><div class="route-card-actions"><button type="button" class="route-use" data-route="${esc(route)}" aria-pressed="${route === state.task.primaryRoute}">${route === state.task.primaryRoute ? m('currentRoute') : m('chooseRoute')}</button><button type="button" class="route-compare" data-compare-route="${esc(route)}" aria-pressed="${state.task.compareRoutes.has(route)}">${state.task.compareRoutes.has(route) ? m('compareRemove') : m('compareSelect')}</button></div></article>`;
+    return `<article class="route-card ${route === state.task.primaryRoute ? 'primary' : ''}" style="--route-color:${safeColor(meta.color)}"><div class="route-card-head"><div class="route-card-title"><strong>${esc(tr(meta.title))}</strong><small>${esc(tr(meta.subtitle || ''))}</small></div><span class="route-code-pill" aria-label="${m('routeCode')}">${esc(route)}</span></div><p class="route-architecture">${esc(tr(meta.operating_architecture || ''))}</p><div class="score-line" aria-label="${m('routeScore')}">${scores.slice(0, 4).map(([key, value]) => `<span>${esc(state.presentation.lang === 'en' ? messages.scoreLabels[key] || key : key)} ${esc(value)}/10</span>`).join('')}</div><div class="route-card-actions"><button type="button" class="route-use" data-route="${esc(route)}" aria-pressed="${route === state.task.primaryRoute}">${route === state.task.primaryRoute ? m('currentRoute') : m('chooseRoute')}</button><button type="button" class="route-compare" data-compare-route="${esc(route)}" aria-pressed="${state.task.compareRoutes.has(route)}">${state.task.compareRoutes.has(route) ? m('compareRemove') : m('compareSelect')}</button></div></article>`;
   }
   function renderDecide() {
     const meta = routeMeta[recommendedRoute], narrative = routeNarrative(recommendedRoute), recommendation = document.getElementById('recommendation');
@@ -595,7 +691,7 @@
   }
 
   /* ----- Day mode ----- */
-  function routeMini(routes) { return routes.filter(route => activeRoutes().has(route)).map(route => `<span class="semantic-tag" style="border-color:${safeColor(routeMeta[route].color)};color:${safeColor(routeMeta[route].color)}">${esc(route)}</span>`).join(''); }
+  function routeMini(routes, key) { return routes.filter(route => activeRoutes().has(route)).map(route => { const role = key ? roleFor(key, route) : ''; return `<span class="semantic-tag" style="border-color:${safeColor(routeMeta[route].color)};color:${safeColor(routeMeta[route].color)}">${esc(route)}${role ? ` · ${esc(roleShort(role))}` : ''}</span>`; }).join(''); }
   function dayIntensity(items) { const tiers = items.map(item => item.schedule_tier || 'main'); if (tiers.filter(tier => tier === 'recovery').length >= 2) return m('calm'); if (tiers.includes('must') && items.length >= 8) return m('full'); return m('steady'); }
   function renderDatePicker() {
     const select = document.getElementById('dateSelect'); select.innerHTML = `<option value="all">${m('allDates')}</option>${DATA.dates.map(date => `<option value="${esc(date.key)}">${esc(dateLabel(date.key))}</option>`).join('')}`; select.value = state.task.date;
@@ -606,17 +702,24 @@
     const dayMeta = DATA.dates.find(date => date.key === state.task.date), regions = [...new Set(items.flatMap(item => item.regions || []))].map(region => DATA.region_cfg[region]?.[state.presentation.lang === 'ko' ? 'label' : 'label_en'] || m(region)).join(' · '), recovery = items.filter(item => ['recovery', 'bonus'].includes(item.schedule_tier)).length, decisions = items.filter(item => ['swap', 'conditional', 'choice'].includes(item.schedule_tier)).length;
     header.innerHTML = `<h3>${esc(dateLabel(dayMeta?.key || state.task.date))}</h3><p>${esc(regions || m('overall'))} · ${esc(state.task.primaryRoute)} · ${esc(m('recheck'))}</p><div class="day-metrics"><span class="day-metric">${m('intensity')}: ${esc(dayIntensity(items))}</span><span class="day-metric">${m('decisions')}: ${decisions}</span><span class="day-metric">${m('calm')}: ${recovery}</span></div>`;
     if (!items.length) { plan.innerHTML = `<div class="empty-state">${m('noSlots')}</div>`; return; }
-    plan.innerHTML = `<p class="day-story">${esc(tr(items[0]?.reason || ''))}</p>${items.map(item => { const mapped = item.spatial_keys?.length, tier = item.schedule_tier || 'main', color = tier === 'must' ? '#a94335' : tier === 'swap' ? '#a76a42' : tier === 'recovery' ? '#72857b' : 'var(--accent)'; return mapped ? `<button type="button" class="day-item ${item.spatial_keys.includes(state.task.selected) ? 'selected' : ''}" data-day-place="${esc(item.spatial_keys[0])}" style="--tier-color:${color}"><span class="day-time">${esc(tr(item.time || '—'))}</span><span class="day-item-main"><span class="day-item-title">${esc(item.spatial_keys.length === 1 ? placeName(item.spatial_keys[0]) : tr(item.title))}</span><span class="day-item-reason"><strong>${esc(m('whyNow'))}:</strong> ${esc(tr(item.reason || ''))}</span><span class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${item.route_specific ? `<span class="semantic-tag">${m('specific')}</span>` : `<span class="semantic-tag">${m('shared')}</span>`}${routeMini(item.routes)}</span></span></button>` : `<article class="plan-card" style="--tier-color:${color}"><strong>${esc(tr(item.time || '—'))} · ${esc(tr(item.title))}</strong><p>${esc(tr(item.reason || item.advantage || ''))} · ${m('noMapped')}</p><div class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${routeMini(item.routes)}</div></article>`; }).join('')}`;
+    plan.innerHTML = `<p class="day-story">${esc(tr(items[0]?.reason || ''))}</p>${items.map(item => { const mapped = item.spatial_keys?.length, tier = item.schedule_tier || 'main', color = tier === 'must' ? '#a94335' : tier === 'swap' ? '#a76a42' : tier === 'recovery' ? '#72857b' : 'var(--accent)'; return mapped ? `<button type="button" class="day-item ${item.spatial_keys.includes(state.task.selected) ? 'selected' : ''}" data-day-place="${esc(item.spatial_keys[0])}" style="--tier-color:${color}"><span class="day-time">${esc(tr(item.time || '—'))}</span><span class="day-item-main"><span class="day-item-title">${esc(item.spatial_keys.length === 1 ? placeName(item.spatial_keys[0]) : tr(item.title))}</span><span class="day-item-reason"><strong>${esc(m('whyNow'))}:</strong> ${esc(tr(item.reason || ''))}</span><span class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${item.route_specific ? `<span class="semantic-tag">${m('specific')}</span>` : `<span class="semantic-tag">${m('shared')}</span>`}${routeMini(item.routes, item.spatial_keys[0])}</span></span></button>` : `<article class="plan-card" style="--tier-color:${color}"><strong>${esc(tr(item.time || '—'))} · ${esc(tr(item.title))}</strong><p>${esc(tr(item.reason || item.advantage || ''))} · ${m('noMapped')}</p><div class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${routeMini(item.routes)}</div></article>`; }).join('')}`;
     plan.querySelectorAll('[data-day-place]').forEach(button => { button.onclick = () => { selectPlace(button.dataset.dayPlace, { focus: true, open: false, invoker: button }); showPeek(button.dataset.dayPlace, { invoker: button }); }; });
   }
 
   /* ----- Place mode: browser, Peek -> Inspector, and return ----- */
   function renderPlaceBrowser() {
-    const visible = DATA.markers.filter(item => markerVisible(item)), html = `<div class="place-browser"><p class="place-browser-intro">${m('browseHint')} ${visible.length} ${m('stop')} · ${esc(state.task.primaryRoute)}</p>${visible.map(marker => { const occurrence = preferredOccurrence(marker); return `<button type="button" class="place-list-item" data-place-choice="${esc(marker.place_key)}"><img src="${photoSrc(photoPath(marker.place_key, 'hero', 'thumb'))}" alt=""><span><strong>${esc(placeName(marker.place_key))}</strong>${state.presentation.lang === 'ko' ? `<small>${esc(placeKo(marker.place_key))}</small>` : ''}<small>${esc(dateLabel(occurrence?.date || ''))} · ${esc(tr(occurrence?.time || '—'))}</small><em>${esc(tr(occurrence?.reason || marker.why))}</em></span></button>`; }).join('')}</div>`; const panel = document.getElementById('placeInspector'); panel.innerHTML = html; panel.querySelectorAll('[data-place-choice]').forEach(button => { button.onclick = () => openPlace(button.dataset.placeChoice, button); });
+    const regionMatches = marker => state.task.region === 'overall' || marker.regions?.includes(state.task.region);
+    const visible = DATA.markers.filter(marker => regionMatches(marker) && (state.task.date === 'all' || markerVisible(marker)));
+    const matrixLegend = `<div class="membership-legend" role="note"><strong>${m('routeMembershipLegend')}</strong><span><b>C</b> ${m('roleCore')}</span><span><b>S</b> ${m('roleStrong')}</span><span><b>△</b> ${m('roleConditional')}</span><span><b>—</b> ${m('roleSkip')}</span></div>`;
+    const html = `<div class="place-browser"><p class="place-browser-intro">${m('placeListComplete')} ${visible.length}/${DATA.markers.length} ${m('stop')} · ${esc(state.task.primaryRoute)}</p>${matrixLegend}<div class="place-list">${visible.map(marker => { const occurrence = preferredOccurrence(marker); return `<button type="button" class="place-list-item" data-place-choice="${esc(marker.place_key)}"><img src="${photoSrc(photoPath(marker.place_key, 'hero', 'thumb'))}" alt=""><span class="place-list-copy"><strong>${esc(placeName(marker.place_key))}</strong>${state.presentation.lang === 'ko' ? `<small>${esc(placeKo(marker.place_key))}</small>` : ''}<small>${esc(dateLabel(occurrence?.date_key || occurrence?.date || ''))} · ${esc(tr(occurrence?.time || '—'))}</small><em>${esc(tr(occurrence?.reason || marker.why))}</em>${routeMembershipMarkup(marker.place_key)}</span></button>`; }).join('')}</div></div>`;
+    const panel = document.getElementById('placeInspector'); panel.innerHTML = html;
+    panel.querySelectorAll('[data-place-choice]').forEach(button => { button.onclick = () => openPlace(button.dataset.placeChoice, button); });
   }
   function renderPlaceInspector(marker) {
     const panel = document.getElementById('placeInspector'), occurrences = groupOccurrences(marker), now = preferredOccurrence(marker), tier = tierFor(marker), photos = [[m('hero'), 'hero'], [m('experiencePhoto'), 'experience'], [m('scale'), 'scale_context']], mapsHref = safeExternalUrl(marker.maps_url);
-    panel.innerHTML = `<button type="button" class="secondary-action place-back" data-place-back>← ${m('closePlace')}</button><div class="place-title-row"><div><h3>${esc(placeName(marker.place_key))}</h3>${state.presentation.lang === 'ko' ? `<p>${esc(placeKo(marker.place_key))}</p>` : ''}</div><span class="place-score">${esc(marker.score)}/100</span></div><div class="place-meta"><span>${esc(tr(marker.cluster))}</span><span>${esc(tierLabel(tier))}</span><span>${marker.routes.filter(route => activeRoutes().has(route)).join(' · ')}</span></div><div class="place-glance"><strong>${esc(tr(now?.status || m('status')))} · ${esc(dateLabel(now?.date || ''))} · ${esc(tr(now?.time || '—'))}</strong><div><b>${m('whyNow')}</b> ${esc(tr(now?.reason || marker.why))}</div>${now?.advantage ? `<em>${m('advantage')}: ${esc(tr(now.advantage))}</em>` : ''}</div><div class="photo-grid">${photos.map(([label, role]) => `<figure class="photo-slot"><img src="${photoSrc(photoPath(marker.place_key, role, 'medium'))}" alt="${esc(placeName(marker.place_key))} — ${esc(label)}" loading="lazy"><figcaption>${esc(label)}</figcaption></figure>`).join('')}</div><div class="place-fact"><strong>${m('placeWhy')}</strong>${esc(tr(marker.why))}</div><div class="place-fact"><strong>${m('experience')}</strong>${esc(tr(marker.summary))}</div><div class="place-fact"><strong>${m('exactTiming')}</strong>${occurrences.length ? occurrences.map(item => `<div class="occurrence"><b>${esc(tr(item.title))}</b><small>${esc(item.routes.join(' · '))} · ${esc(dateLabel(item.date))} · ${esc(tr(item.time || '—'))} · ${esc(tr(item.status || ''))}</small><small>${m('whyNow')}: ${esc(tr(item.reason || ''))}</small></div>`).join('') : `<span class="muted">${m('noSlots')}</span>`}</div>${marker.decision_rules?.length ? `<div class="place-fact"><strong>${m('switchRule')}</strong>${marker.decision_rules.map(rule => `<div class="decision-rule"><b>${esc(decisionLabel(rule.key))}</b>${esc(tr(rule.text))}</div>`).join('')}</div>` : ''}<div class="place-fact"><strong>${m('freshness')}</strong><span>${esc(m('recheck'))}</span></div><div class="place-fact directions"><span>${marker.lat.toFixed(5)}, ${marker.lon.toFixed(5)}</span>${mapsHref ? `<a href="${esc(mapsHref)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${m('directions')} ↗</a>` : `<span>${m('unavailableDirections')}</span>`}</div>`;
+    panel.innerHTML = `<button type="button" class="secondary-action place-back" data-place-back>← ${m('closePlace')}</button><div class="place-title-row"><div><h3>${esc(placeName(marker.place_key))}</h3>${state.presentation.lang === 'ko' ? `<p>${esc(placeKo(marker.place_key))}</p>` : ''}</div><span class="place-score">${esc(marker.score)}/100</span></div><div class="place-meta"><span>${esc(tr(marker.cluster))}</span><span>${esc(tierLabel(tier))}</span><span>${marker.routes.filter(route => activeRoutes().has(route)).join(' · ')}</span></div><div class="place-glance"><strong>${esc(tr(now?.status || m('status')))} · ${esc(dateLabel(now?.date_key || now?.date || ''))} · ${esc(tr(now?.time || '—'))}</strong><div><b>${m('whyNow')}</b> ${esc(tr(now?.reason || marker.why))}</div>${now?.advantage ? `<em>${m('advantage')}: ${esc(tr(now.advantage))}</em>` : ''}</div><div class="photo-grid">${photos.map(([label, role]) => `<figure class="photo-slot"><img src="${photoSrc(photoPath(marker.place_key, role, 'medium'))}" alt="${esc(placeName(marker.place_key))} — ${esc(label)}" loading="lazy"><figcaption>${esc(label)}</figcaption></figure>`).join('')}</div><div class="place-fact"><strong>${m('placeWhy')}</strong>${esc(tr(marker.why))}</div><div class="place-fact"><strong>${m('experience')}</strong>${esc(tr(marker.summary))}</div><div class="place-fact"><strong>${m('exactTiming')}</strong>${occurrences.length ? occurrences.map(item => `<div class="occurrence"><b>${esc(tr(item.title))}</b><small>${esc(item.routes.join(' · '))} · ${esc(dateLabel(item.date_key || item.date))} · ${esc(tr(item.time || '—'))} · ${esc(tr(item.status || ''))}</small><small>${m('whyNow')}: ${esc(tr(item.reason || ''))}</small></div>`).join('') : `<span class="muted">${m('noSlots')}</span>`}</div>${marker.decision_rules?.length ? `<div class="place-fact"><strong>${m('switchRule')}</strong>${marker.decision_rules.map(rule => `<div class="decision-rule"><b>${esc(decisionLabel(rule.key))}</b>${esc(tr(rule.text))}</div>`).join('')}</div>` : ''}<div class="place-fact"><strong>${m('freshness')}</strong><span>${esc(m('recheck'))}</span></div><div class="place-fact directions"><span>${marker.lat.toFixed(5)}, ${marker.lon.toFixed(5)}</span>${mapsHref ? `<a href="${esc(mapsHref)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${m('directions')} ↗</a>` : `<span>${m('unavailableDirections')}</span>`}</div>`;
+    const glance = panel.querySelector('.place-glance');
+    glance?.insertAdjacentHTML('afterend', `<div class="place-fact inspector-membership"><strong>${m('routeMembership')}</strong>${routeMembershipMarkup(marker.place_key)}</div>`);
     bindLocalImageFailures(panel); panel.querySelector('[data-place-back]').onclick = closePlace;
   }
   function renderPlace() { const marker = markerByKey[state.task.selected]; if (state.presentation.mode === 'place' && marker) renderPlaceInspector(marker); else if (state.presentation.mode === 'place') renderPlaceBrowser(); }
@@ -690,6 +793,7 @@
     const compareKicker = document.querySelector('.compare-section .eyebrow'); if (compareKicker) compareKicker.textContent = m('compareKicker');
     document.getElementById('langToggle').textContent = state.presentation.lang === 'ko' ? 'EN' : '한국어'; document.getElementById('themeToggle').textContent = state.presentation.theme === 'dark' ? `☀ ${m('light')}` : `☾ ${m('dark')}`;
     document.getElementById('workbenchToggle').textContent = state.presentation.sheet === 'compact' ? m('expand') : m('collapse');
+    const smartRetry = document.getElementById('smartRetry'); if (smartRetry) smartRetry.textContent = m(smartRetry.dataset.retryProvider === 'satellite' ? 'retrySatellite' : 'retrySmart');
     syncSheetPresentation();
     renderProviderState();
     document.querySelectorAll('[data-sheet]').forEach(button => { if (button.classList.contains('icon-button')) { button.setAttribute('aria-pressed', String(button.dataset.sheet === state.presentation.sheet)); button.title = m(button.dataset.sheet); button.setAttribute('aria-label', m(button.dataset.sheet)); } });
@@ -735,7 +839,12 @@
     document.getElementById('langToggle').onclick = () => { state.presentation.lang = state.presentation.lang === 'ko' ? 'en' : 'ko'; hidePeek({ returnFocus: false }); renderAll(); persist(); drawMap(true); };
     document.getElementById('themeToggle').onclick = () => { state.presentation.theme = state.presentation.theme === 'dark' ? 'light' : 'dark'; renderAll(); persist(); drawMap(true); };
     document.getElementById('fitMap').onclick = () => fitVisibleMap();
-    document.getElementById('smartRetry').onclick = async () => { document.getElementById('mapError').hidden = true; state.runtime.provider = 'vector'; state.runtime.providerHealth.vector = 'loading'; state.runtime.localAssets.status = 'checking'; renderProviderState(); try { await setupVector(); await drawMap(true); } catch (error) { showMapFailure(error, 'retry'); } };
+    document.getElementById('mapErrorDismiss').onclick = () => { document.getElementById('mapError').hidden = true; };
+    document.getElementById('smartRetry').onclick = async event => {
+      const retry = event.currentTarget;
+      if (retry.dataset.retryProvider === 'satellite') { retry.disabled = true; document.getElementById('mapError').hidden = true; await chooseProvider('satellite'); retry.disabled = false; return; }
+      document.getElementById('mapError').hidden = true; state.runtime.provider = 'vector'; state.runtime.providerHealth.vector = 'loading'; state.runtime.localAssets.status = 'checking'; renderProviderState(); try { await setupVector(); await drawMap(true); } catch (error) { showMapFailure(error, 'retry'); }
+    };
     document.getElementById('dateSelect').onchange = event => { state.task.date = event.target.value; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; state.presentation.mode = 'day'; renderAll(); persist(); drawMap(false); };
     const handleEscape = event => { if (event.key !== 'Escape') return; if (state.presentation.mapOptionsOpen) { setMapOptionsOpen(false); event.preventDefault(); return; } if (state.presentation.routeLegendOpen) { setRouteLegendOpen(false); event.preventDefault(); return; } if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };
     document.onkeydown = handleEscape;
@@ -761,7 +870,7 @@
 
   /* ----- QA instrumentation and compatibility surface ----- */
   function runtimeSnapshot() {
-    return { provider: state.runtime.provider, provider_identity: state.runtime.providerIdentity, provider_health: { ...state.runtime.providerHealth }, app_ready: state.runtime.mapStatus === 'ready', map_visual_ready: state.runtime.mapVisualReady, planning_state: { routes: [...activeRoutes()], primary_route: state.task.primaryRoute, compare_routes: [...state.task.compareRoutes], date: state.task.date, region: state.task.region, selected: state.task.selected, mode: state.presentation.mode, sheet: state.presentation.sheet, lang: state.presentation.lang, theme: state.presentation.theme }, provider_events: state.runtime.providerEvents.slice(), local_assets: { status: state.runtime.localAssets.status, failures: state.runtime.localAssets.failures.slice() }, startup: { marks: [...(window.__tripStartupMarks || [])] }, runtime: { ...state.runtime, events: state.runtime.events.slice() }, map: { canvas_count: document.querySelectorAll('.maplibregl-canvas').length, photo_markers: document.querySelectorAll('.photo-marker').length, photo_marker_keys: [...document.querySelectorAll('.photo-marker')].map(element => element.dataset.placeKey), clusters: document.querySelectorAll('.photo-cluster').length, leg_markers: document.querySelectorAll('.route-leg-label').length, layers: photoMap?.getStyle?.()?.layers?.length || 0 } };
+    return { provider: state.runtime.provider, provider_identity: state.runtime.providerIdentity, provider_health: { ...state.runtime.providerHealth }, app_ready: state.runtime.mapStatus === 'ready', map_visual_ready: state.runtime.mapVisualReady, planning_state: { routes: [...activeRoutes()], primary_route: state.task.primaryRoute, compare_routes: [...state.task.compareRoutes], date: state.task.date, region: state.task.region, selected: state.task.selected, mode: state.presentation.mode, sheet: state.presentation.sheet, lang: state.presentation.lang, theme: state.presentation.theme }, provider_events: state.runtime.providerEvents.slice(), local_assets: { status: state.runtime.localAssets.status, failures: state.runtime.localAssets.failures.slice() }, startup: { marks: [...(window.__tripStartupMarks || [])] }, runtime: { ...state.runtime, events: state.runtime.events.slice() }, smart_camera: validSmartCamera(), map: { canvas_count: document.querySelectorAll('.maplibregl-canvas').length, photo_markers: document.querySelectorAll('.photo-marker').length, photo_marker_keys: [...document.querySelectorAll('.photo-marker')].map(element => element.dataset.placeKey), clusters: document.querySelectorAll('.photo-cluster').length, leg_markers: document.querySelectorAll('.route-leg-label').length, layers: photoMap?.getStyle?.()?.layers?.length || 0, camera: cameraView(), spatial: mapSpatialSnapshot() } };
   }
   function renderFixture(value) {
     const marker = DATA.markers[0], saved = marker ? JSON.parse(JSON.stringify(marker)) : null;
@@ -770,7 +879,7 @@
     finally { Object.assign(marker, saved); renderPlace(); }
   }
   function expose() {
-    window.__tripApp = { state, DATA, drawMap, whenIdle: () => Promise.all([drawQueue, scheduleMapGeometryUpdate()]), whenGeometryIdle: () => scheduleMapGeometryUpdate(), map: () => photoMap, whenMapVisualReady: () => Promise.resolve(runtimeSnapshot().map), selectPlace, chooseProvider, testProvider, setMode, setSheet, setTab: tab => setMode(tab === 'timeline' ? 'day' : tab === 'details' ? 'place' : 'decide'), markerVisible, timelineVisible, legVisible, visibleRouteFeatures, renderTimeline: renderDay, renderDetail: key => { if (key) state.task.selected = key; renderPlace(); }, showPreview: showPeek, showRoutePeek: properties => showRoutePeek(properties), hidePreview: hidePeek, fitVisibleMap, mapGeometrySnapshot, runtimeSnapshot };
+    window.__tripApp = { state, DATA, drawMap, whenIdle: () => Promise.all([drawQueue, scheduleMapGeometryUpdate()]), whenGeometryIdle: () => scheduleMapGeometryUpdate(), map: () => photoMap, whenMapVisualReady: () => Promise.resolve(runtimeSnapshot().map), selectPlace, chooseProvider, testProvider, setMode, setSheet, setTab: tab => setMode(tab === 'timeline' ? 'day' : tab === 'details' ? 'place' : 'decide'), markerVisible, timelineVisible, legVisible, visibleRouteFeatures, renderTimeline: renderDay, renderDetail: key => { if (key) state.task.selected = key; renderPlace(); }, showPreview: showPeek, showRoutePeek: properties => showRoutePeek(properties), hidePreview: hidePeek, fitVisibleMap, mapGeometrySnapshot, mapSpatialSnapshot, runtimeSnapshot };
     window.__tripSecurity = { escapeHtml: esc, safeExternalUrl, safePhotoPath: photoPath, renderFixture, allowedStorageKeys: ['trip_visualizer_runtime_v2', 'trip_visualizer_runtime_v1', 'trip_lang', 'trip_theme'] };
   }
   async function init() {

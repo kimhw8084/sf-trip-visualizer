@@ -2,7 +2,7 @@
 
 This repository’s product is the Smart Minority family-trip decision system. The map renderer is reusable infrastructure; decision quality, resilient replanning, truthful route/geographic semantics, local-first Smart-map behavior, one physical-place identity, three real local photo roles, Korean/English, and touch/keyboard/responsive behavior are the product contract.
 
-The maintained product currently contains 36 physical places, 108 real local photographs, 79 itinerary cards, 41 route legs, four route strategies, nine dates, three regions, Korean/English, light/dark, a local Smart map, optional Satellite + labels fallback, modular output, and standalone output.
+The maintained product currently contains exactly 39 physical places, 117 real local photographs, 67 itinerary cards, 45 typed route connectors, five equal-quality route strategies (A–E), nine sightseeing dates, three regions, Korean/English, light/dark, a local Smart map, optional Satellite + labels fallback, modular output, and standalone output.
 
 ## One supported path
 
@@ -45,13 +45,15 @@ Generated locations are:
 - `.release/` package output; and
 - current machine-readable QA under `QA/release/` and `QA/map_first/`.
 
-The build is reproducible enough for Project OS use: fast validation snapshots authored-input hashes, emits the build manifest, rebuilds into a temporary directory, and compares every generated output. It also checks the 36/108/79/41 product counts, route/date/region/provider contracts, exact photo roles, semantic route links, and duplicate physical-place keys.
+The build is reproducible enough for Project OS use: fast validation snapshots authored-input hashes, emits the build manifest, rebuilds into a temporary directory, and compares every generated output. It also checks the 39/117/67/45 product counts, the canonical A–E role matrix and day models, route/date/region/provider contracts, exact photo roles, semantic route links, and duplicate physical-place keys.
 
 ## Local development and product behavior
 
 Run `pipeline.py fast`, then serve with `pipeline.py serve`. Do not open the modular file with `file://`; the local server supplies byte-range requests for `assets/vector/sf_trip.pmtiles`. The standalone HTML in `.build/standalone/` is the direct-open edition and embeds the local vector archive, fonts/sprites, Yosemite relief, photo derivatives, and loading photograph.
 
-The map has exactly two user-facing choices: Smart map and Satellite + labels. Smart map is the bundled Protomaps/OSM vector extract and never silently changes to a raster provider. If its local bundle is damaged, the app exposes a load error. Satellite uses Esri imagery with the same local labels and returns to Smart map if its tiles fail. Runtime routing is not performed: 39 legs use cached OSM reference geometry and two Alcatraz relationships remain explicitly conceptual ferry links.
+The map has exactly two user-facing choices: Smart map and Satellite + labels. Smart map is the bundled Protomaps/OSM vector extract and never silently changes to a raster provider. In standalone/file-origin mode its PMTiles, fonts, sprites, and other local assets are decoded from embedded bytes; missing integrity-bound assets fail explicitly. Satellite uses Esri imagery with the same local labels and returns to Smart map if its tiles fail. Runtime routing is not performed: 45 typed connectors use cached OSM reference geometry or explicitly labeled conceptual connectors/ferry links.
+
+`data/route_role_matrix.json` is the single authored A–E Core/Strong/Conditional/Skip authority for all 39 places. `data/route_schedules.json` is the authored per-route day model with hard anchors, recovery, conditions, fallbacks, and drop-first logic. `data/route_research_ledger.json` records the 2026-09-21 official-source refresh and 72-hour/morning-of recheck boundaries. The place list renders the full A–E role matrix inline; it is not hidden behind a detail panel or color-only encoding.
 
 Dates, regions, route controls, markers, timeline cards, route legs, providers, photo status, and replanning rules are data-driven. A marker is one physical place even when several routes share it. Each place has exactly HERO, EXPERIENCE, and SCALE_CONTEXT local photo roles. The renderer displays English primary names with Korean subtitles in Korean mode, route-colored semantics, exact route/date timing, and explicit recovery/choice/conditional labels.
 

@@ -47,7 +47,7 @@
   },
   "overlay_contract": {"one_contextual_map_overlay": true, "peek_to_inspector_only": true, "escape_order": ["Peek", "Place Inspector", "full_sheet_to_expanded"], "hidden_is_inert": true},
   "task_oracles": [
-    {"id": "decide_recommendation", "precondition": "mode=decide", "input": "read recommended card", "oracle": "A1 is explicitly labeled recommended; human promise, best-for, trade-off, switch rule and regret guard are visible"},
+    {"id": "decide_recommendation", "precondition": "mode=decide", "input": "read recommended card", "oracle": "A is explicitly labeled recommended; human promise, best-for, trade-off, switch rule and regret guard are visible"},
     {"id": "decide_compare", "precondition": "mode=decide", "input": "select a second route for compare", "oracle": "two-route panel shows shared spine and divergence with both route narratives"},
     {"id": "decide_switch", "precondition": "mode=decide", "input": "read switch rule", "oracle": "route switch condition is visible in recommended card and route comparison"},
     {"id": "day_semantics", "precondition": "mode=day and date selected", "input": "inspect plan", "oracle": "must/core/swap/conditional/bonus/recovery/choice are labeled and non-spatial plan items remain first class"},
@@ -55,5 +55,5 @@
     {"id": "satellite_recovery", "precondition": "Smart map ready", "input": "choose Satellite then induce failure", "oracle": "provider failure stays adjacent, Smart identity is explicit, task/date/place state remains intact"}
   ],
   "legacy_surfaces_removed": ["dateRibbon", "mapSchedule", "mapFocus", "desktop/mobile duplicate date controls", "desktop/mobile duplicate provider controls", "Details tab as a second task authority", "full map-focus mini-detail"],
-  "preservation": {"maplibre_sha256": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675", "trip_vector_sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d", "canonical_counts": {"places": 36, "photos": 108, "timeline_cards": 79, "route_legs": 41, "routes": 4, "dates": 9, "regions": 3}}
+  "preservation": {"maplibre_sha256": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675", "trip_vector_sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d", "canonical_counts": {"places": 39, "photos": 117, "timeline_cards": 67, "route_legs": 45, "routes": 5, "dates": 9, "regions": 3}}
 }

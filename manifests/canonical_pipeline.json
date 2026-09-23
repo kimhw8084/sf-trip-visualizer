@@ -4,6 +4,9 @@
   "authority": {
     "product": "Smart Minority family-trip decision system",
     "canonical_data": "data/phase7_app_data.json",
+    "canonical_route_roles": "data/route_role_matrix.json",
+    "canonical_route_schedules": "data/route_schedules.json",
+    "route_truth_validator": "scripts/validate_route_truth.py",
     "canonical_template": "src/map_shell_template.html",
     "canonical_renderer": "src/app_phase7.js",
     "canonical_build": "scripts/build_map_first.py",
@@ -11,7 +14,7 @@
     "filename_note": "phase7_app_data.json and app_phase7.js are current maintained inputs; their names do not indicate legacy authority. Authority is defined by this manifest and the supported pipeline."
   },
   "truth_authority": {
-    "scope": "routes, dates, regions, physical places, route occurrences, timeline cards, typed legs, decision rules, endpoint anchors, and provider configuration",
+    "scope": "routes, canonical route roles, dates, regions, physical places, route occurrences, timeline cards, typed legs, decision rules, endpoint anchors, lodging transitions, and provider configuration",
     "authored_source": "data/phase7_app_data.json",
     "required_top_level_fields": [
       "routes",
@@ -27,9 +30,13 @@
     ],
     "parallel_file_policy": "Reference snapshots and audits may corroborate or reconcile the canonical source, but never override it and never drive the runtime build.",
     "validator": "scripts/validate_trip_data.py"
+    ,"route_schedule_validator": "scripts/validate_route_truth.py"
   },
   "authored_inputs": [
     "data/phase7_app_data.json",
+    "data/route_role_matrix.json",
+    "data/route_schedules.json",
+    "data/route_research_ledger.json",
     "src/map_shell_template.html",
     "src/app_phase7.css",
     "src/app_phase7.js",
@@ -109,11 +116,11 @@
     "release": "python3 scripts/pipeline.py release --revision <exact-git-sha>"
   },
   "invariants": {
-    "places": 36,
-    "photos": 108,
-    "timeline_cards": 79,
-    "route_legs": 41,
-    "route_strategies": 4,
+    "places": 39,
+    "photos": 117,
+    "timeline_cards": 67,
+    "route_legs": 45,
+    "route_strategies": 5,
     "dates": 9,
     "regions": 3,
     "providers": ["vector", "satellite"],
@@ -123,9 +130,9 @@
     "QA/map_first/canonical_truth.json",
     "QA/photo_integrity.json",
     "QA/map_first/smoke.json",
-    "QA/project_os_verify/ui_revamp_r1/task_oracles.json",
-    "QA/project_os_verify/ui_revamp_r1/performance.json",
-    "QA/project_os_verify/ui_revamp_r1/accessibility.json",
+    "QA/project_os_verify/ui_revamp_r5/task_oracles.json",
+    "QA/project_os_verify/ui_revamp_r5/accessibility.json",
+    "QA/project_os_verify/ui_revamp_r5/place_list_membership.json",
     "QA/map_first/full_acceptance.json",
     "QA/map_first/p0_independent.json",
     "QA/map_first/standalone.json",
@@ -143,6 +150,13 @@
     "QA/release/gate4.json",
     "QA/release/public_asset_rights.json",
     "QA/release/public_asset_rights_package.json",
-    "QA/release/security_privacy.json"
+    "QA/release/security_privacy.json",
+    "QA/release/route_truth.json",
+    "QA/project_os_verify/gate5_r2/candidate.json",
+    "QA/project_os_verify/gate5_r2/baseline.json",
+    "QA/project_os_verify/gate5_r2/paired_comparison.json",
+    "QA/project_os_verify/gate5_r2/performance_summary.log",
+    "QA/project_os_verify/gate5_r2/finding_matrix.json",
+    "QA/project_os_verify/gate5_r2/review_pack_index.json"
   ]
 }

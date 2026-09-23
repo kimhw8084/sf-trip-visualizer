@@ -2,13 +2,13 @@
   "status": "PASS",
   "checks": {
     "physical_marker_objects": {
-      "actual": 36,
-      "expected": 36,
+      "actual": 39,
+      "expected": 39,
       "pass": true
     },
     "marker_place_keys_unique": {
-      "actual": 36,
-      "expected": 36,
+      "actual": 39,
+      "expected": 39,
       "pass": true
     },
     "all_marker_hero_thumbs_decode": {
@@ -37,8 +37,8 @@
       "pass": true
     },
     "all_place_inspectors_complete": {
-      "actual": 36,
-      "expected": 36,
+      "actual": 39,
+      "expected": 39,
       "pass": true
     },
     "english_place_has_no_mixed_critical_copy": {
@@ -311,7 +311,7 @@
     {
       "key": "bixby",
       "decoded": true,
-      "occurrences": 1,
+      "occurrences": 0,
       "decisions": 2,
       "whyNow": true,
       "directions": 1,
@@ -355,7 +355,7 @@
     {
       "key": "cooks",
       "decoded": true,
-      "occurrences": 2,
+      "occurrences": 1,
       "decisions": 2,
       "whyNow": true,
       "directions": 1,
@@ -410,7 +410,7 @@
     {
       "key": "glacier",
       "decoded": true,
-      "occurrences": 2,
+      "occurrences": 1,
       "decisions": 3,
       "whyNow": true,
       "directions": 1,
@@ -476,11 +476,44 @@
     {
       "key": "lands_end",
       "decoded": true,
-      "occurrences": 0,
+      "occurrences": 1,
       "decisions": 2,
       "whyNow": true,
       "directions": 1,
       "expectedDecisions": 2,
+      "threeRoles": true,
+      "correct": true
+    },
+    {
+      "key": "chinatown",
+      "decoded": true,
+      "occurrences": 1,
+      "decisions": 1,
+      "whyNow": true,
+      "directions": 1,
+      "expectedDecisions": 1,
+      "threeRoles": true,
+      "correct": true
+    },
+    {
+      "key": "tea_garden",
+      "decoded": true,
+      "occurrences": 1,
+      "decisions": 1,
+      "whyNow": true,
+      "directions": 1,
+      "expectedDecisions": 1,
+      "threeRoles": true,
+      "correct": true
+    },
+    {
+      "key": "bridalveil",
+      "decoded": true,
+      "occurrences": 1,
+      "decisions": 1,
+      "whyNow": true,
+      "directions": 1,
+      "expectedDecisions": 1,
       "threeRoles": true,
       "correct": true
     }

@@ -28,10 +28,11 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.39343,37.79554;-122.397611,37.801389?overview=full&geometries=geojson&steps=false",
@@ -59,10 +60,11 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.475,37.8078;-122.572465,37.892848?overview=full&geometries=geojson&steps=false",
@@ -90,10 +92,10 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.572465,37.892848;-122.48187,37.82802?overview=full&geometries=geojson&steps=false",
@@ -121,10 +123,11 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.448414,37.802897;-122.451188,37.805578?overview=full&geometries=geojson&steps=false",
@@ -152,10 +155,11 @@
       ],
       "mode": "ferry",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "conceptual_ferry",
       "geometry_source": "authoritative dock/island endpoints",
@@ -183,10 +187,11 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.410111,37.800918;-122.40735,37.7957?overview=full&geometries=geojson&steps=false",
@@ -214,10 +219,11 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.966266,36.569476;-121.902,36.617833?overview=full&geometries=geojson&steps=false",
@@ -245,10 +251,11 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.572666,37.720307;-119.573,37.730806?overview=full&geometries=geojson&steps=false",
@@ -277,10 +284,11 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "conceptual_transfer",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.4194,37.7749;-121.93711,36.51599?overview=full&geometries=geojson&steps=false",
@@ -308,10 +316,11 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "conceptual_transfer",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.8947,36.6002;-119.58982,37.74648?overview=full&geometries=geojson&steps=false",
@@ -339,8 +348,9 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2"
+        "A",
+        "B",
+        "E"
       ],
       "geometry_kind": "conceptual_transfer",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.5936,37.7456;-122.4194,37.7749?overview=full&geometries=geojson&steps=false",
@@ -368,8 +378,8 @@
       ],
       "mode": "drive",
       "routes": [
-        "B1",
-        "B2"
+        "C",
+        "D"
       ],
       "geometry_kind": "conceptual_transfer",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.5936,37.7456;-122.4194,37.7749?overview=full&geometries=geojson&steps=false",
@@ -381,132 +391,6 @@
       "distance_km": 301.78,
       "reference_duration_min": 271.5,
       "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
-    },
-    {
-      "leg_id": "A_1009_MARIPOSA",
-      "date": "10/9",
-      "from": "glacier",
-      "to": "mariposa",
-      "from_latlon": [
-        37.730806,
-        -119.573
-      ],
-      "to_latlon": [
-        37.50662,
-        -119.62925
-      ],
-      "mode": "drive",
-      "routes": [
-        "A1",
-        "A2"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.573,37.730806;-119.62925,37.50662?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Glacier-area → Mariposa option",
-      "note": "A1 flex / A2 fixed intent. Rendered as conceptual branch, not road.",
-      "show_overall": true,
-      "branch_kind": "conditional",
-      "relationship_scope": "cross_date_scenario",
-      "from_date_key": "10/8",
-      "to_date_key": "10/9",
-      "geometry_point_count": 1862,
-      "distance_km": 53.34,
-      "reference_duration_min": 72.1,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
-    },
-    {
-      "leg_id": "A_1011_GGP",
-      "date": "10/11",
-      "from": "botanical",
-      "to": "academy",
-      "from_latlon": [
-        37.766943,
-        -122.466823
-      ],
-      "to_latlon": [
-        37.769824,
-        -122.466087
-      ],
-      "mode": "walk",
-      "routes": [
-        "A1",
-        "A2"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.466823,37.766943;-122.466087,37.769824?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Botanical → Academy",
-      "note": "Conceptual itinerary connector; explicitly not road geometry.",
-      "show_overall": true,
-      "geometry_point_count": 35,
-      "distance_km": 0.48,
-      "reference_duration_min": 6.4,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
-    },
-    {
-      "leg_id": "B1_1009_ACADEMY",
-      "date": "10/9",
-      "from": "painted",
-      "to": "academy",
-      "from_latlon": [
-        37.776956,
-        -122.434945
-      ],
-      "to_latlon": [
-        37.769824,
-        -122.466087
-      ],
-      "mode": "drive",
-      "routes": [
-        "B1"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.434945,37.776956;-122.466087,37.769824?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "B1 SF west/central option → Academy",
-      "note": "Scenario relationship only; day schedule uses Academy after return and this connector is not a road claim.",
-      "show_overall": true,
-      "branch_kind": "conditional",
-      "relationship_scope": "cross_date_scenario",
-      "from_date_key": "10/10",
-      "to_date_key": "10/9",
-      "geometry_point_count": 231,
-      "distance_km": 4.52,
-      "reference_duration_min": 8.3,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
-    },
-    {
-      "leg_id": "B2_1011_GGP",
-      "date": "10/11",
-      "from": "botanical",
-      "to": "academy",
-      "from_latlon": [
-        37.766943,
-        -122.466823
-      ],
-      "to_latlon": [
-        37.769824,
-        -122.466087
-      ],
-      "mode": "walk",
-      "routes": [
-        "B2"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.466823,37.766943;-122.466087,37.769824?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "B2 GGP morning → Academy",
-      "note": "Conceptual itinerary connector; explicitly not road geometry.",
-      "show_overall": true,
-      "branch_kind": "conditional",
-      "relationship_scope": "cross_date_scenario",
-      "from_date_key": "10/10",
-      "to_date_key": "10/11",
-      "geometry_point_count": 35,
-      "distance_km": 0.48,
-      "reference_duration_min": 6.4,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
     },
     {
       "leg_id": "GAP_1004_01",
@@ -523,10 +407,11 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.46172,37.80296;-122.448414,37.802897?overview=full&geometries=geojson&steps=false",
@@ -555,10 +440,9 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "D"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.40735,37.7957;-122.40584,37.8024?overview=full&geometries=geojson&steps=false",
@@ -587,10 +471,7 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.40584,37.8024;-122.41038,37.81004?overview=full&geometries=geojson&steps=false",
@@ -619,10 +500,10 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.40735,37.7957;-122.419619,37.802003?overview=full&geometries=geojson&steps=false",
@@ -651,10 +532,7 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.419619,37.802003;-122.41038,37.81004?overview=full&geometries=geojson&steps=false",
@@ -683,10 +561,11 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.40735,37.7957;-122.42067,37.80518?overview=full&geometries=geojson&steps=false",
@@ -715,10 +594,7 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.42067,37.80518;-122.41038,37.81004?overview=full&geometries=geojson&steps=false",
@@ -747,10 +623,7 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.41038,37.81004;-122.41579,37.80925?overview=full&geometries=geojson&steps=false",
@@ -779,10 +652,7 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.41579,37.80925;-122.42294,37.80582?overview=full&geometries=geojson&steps=false",
@@ -811,10 +681,11 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.93711,36.51599;-121.92331,36.55531?overview=full&geometries=geojson&steps=false",
@@ -843,10 +714,11 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.92331,36.55531;-121.966266,36.569476?overview=full&geometries=geojson&steps=false",
@@ -875,10 +747,9 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "B",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.93711,36.51599;-121.90173,36.37149?overview=full&geometries=geojson&steps=false",
@@ -907,10 +778,9 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "B",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.90173,36.37149;-121.902,36.617833?overview=full&geometries=geojson&steps=false",
@@ -939,10 +809,10 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.902,36.617833;-121.89304,36.60393?overview=full&geometries=geojson&steps=false",
@@ -971,10 +841,11 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.58982,37.74648;-119.63312,37.72752?overview=full&geometries=geojson&steps=false",
@@ -1003,10 +874,11 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.63312,37.72752;-119.67693,37.71559?overview=full&geometries=geojson&steps=false",
@@ -1035,10 +907,11 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.63312,37.72752;-119.6621,37.7172?overview=full&geometries=geojson&steps=false",
@@ -1067,10 +940,11 @@
       ],
       "mode": "walk",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.397611,37.801389;-122.39,37.791583?overview=full&geometries=geojson&steps=false",
@@ -1099,10 +973,10 @@
       ],
       "mode": "drive",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "D",
+        "E"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.48187,37.82802;-122.46172,37.80296?overview=full&geometries=geojson&steps=false",
@@ -1131,10 +1005,7 @@
       ],
       "mode": "ferry",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A"
       ],
       "geometry_kind": "conceptual_ferry",
       "geometry_source": "authoritative dock/island endpoints",
@@ -1149,159 +1020,172 @@
       "source_limitation": "Direct ferry relationship, not a surveyed boat track"
     },
     {
-      "leg_id": "UX_1008_OUT",
-      "date": "10/8",
-      "from": "cooks",
-      "to": "washburn",
-      "from_latlon": [
-        37.74648,
-        -119.58982
-      ],
-      "to_latlon": [
-        37.720307,
-        -119.572666
-      ],
-      "mode": "drive",
+      "leg_id": "C_1004_GGB_MUIR",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.58982,37.74648;-119.572666,37.720307?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Valley recovery base → Washburn Point",
-      "note": "날씨가 통과할 때만 실행하는 Glacier Point 아침 외출의 출발 연결이다.",
-      "show_overall": true,
-      "branch_kind": "conditional",
-      "max_route_km": 65,
-      "geometry_point_count": 1679,
-      "distance_km": 48.84,
-      "reference_duration_min": 66.3,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
     },
     {
-      "leg_id": "UX_1008_RETURN",
-      "date": "10/8",
-      "from": "glacier",
-      "to": "cooks",
-      "from_latlon": [
-        37.730806,
-        -119.573
-      ],
-      "to_latlon": [
-        37.74648,
-        -119.58982
-      ],
-      "mode": "drive",
+      "leg_id": "C_1004_MUIR_TUNNEL",
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "C"
       ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.573,37.730806;-119.58982,37.74648?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Glacier Point → Valley recovery base",
-      "note": "전망 뒤 Valley로 돌아와 점심·낮잠·자유시간을 보호한다.",
-      "show_overall": true,
-      "branch_kind": "recovery",
-      "max_route_km": 65,
-      "geometry_point_count": 1719,
-      "distance_km": 48.12,
-      "reference_duration_min": 67.5,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
     },
     {
-      "leg_id": "UX_1009_B2_VIEW_CHOICE",
-      "date": "10/9",
-      "from": "painted",
-      "to": "twin_peaks",
-      "from_latlon": [
-        37.776956,
-        -122.434945
-      ],
-      "to_latlon": [
-        37.75493,
-        -122.44664
-      ],
-      "mode": "drive",
+      "leg_id": "C_1005_ALCATRAZ_CABLE",
       "routes": [
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.434945,37.776956;-122.44664,37.75493?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Painted Ladies ↔ Twin Peaks: choose one",
-      "note": "두 장소를 모두 방문하는 이동선이 아니다. 날씨와 가족 에너지에 따라 하나만 고르는 선택 관계다.",
-      "show_overall": true,
-      "branch_kind": "choice",
-      "geometry_point_count": 635,
-      "distance_km": 7.07,
-      "reference_duration_min": 11.7,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
     },
     {
-      "leg_id": "UX_1010_VIEW_CHOICE",
-      "date": "10/10",
-      "from": "painted",
-      "to": "twin_peaks",
-      "from_latlon": [
-        37.776956,
-        -122.434945
-      ],
-      "to_latlon": [
-        37.75493,
-        -122.44664
-      ],
-      "mode": "drive",
+      "leg_id": "C_1005_FORTUNE_CHINATOWN",
       "routes": [
-        "A1",
-        "A2",
-        "B1"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.434945,37.776956;-122.44664,37.75493?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Painted Ladies ↔ Twin Peaks: choose one",
-      "note": "두 장소를 모두 방문하는 이동선이 아니다. 날씨와 가족 에너지에 따라 하나만 고르는 선택 관계다.",
-      "show_overall": true,
-      "branch_kind": "choice",
-      "geometry_point_count": 635,
-      "distance_km": 7.07,
-      "reference_duration_min": 11.7,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
     },
     {
-      "leg_id": "UX_1010_B1_RESET",
-      "date": "10/10",
-      "from": "botanical",
-      "to": "painted",
-      "from_latlon": [
-        37.766943,
-        -122.466823
-      ],
-      "to_latlon": [
-        37.776956,
-        -122.434945
-      ],
-      "mode": "drive",
+      "leg_id": "C_1005_CHINATOWN_NORTH",
       "routes": [
-        "B1"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
       ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.466823,37.766943;-122.434945,37.776956?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Botanical Garden → long recovery → evening view choice",
-      "note": "09:00 이후 긴 점심·낮잠·자유시간을 거친 뒤 저녁 택1 전망으로 이어진다.",
-      "show_overall": true,
-      "branch_kind": "recovery",
-      "geometry_point_count": 196,
-      "distance_km": 3.75,
-      "reference_duration_min": 7.5,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
+    },
+    {
+      "leg_id": "C_1005_NORTH_GHIRARDELLI",
+      "routes": [
+        "D"
+      ],
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
+    },
+    {
+      "leg_id": "C_1007_TUNNEL_BRIDALVEIL",
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
+    },
+    {
+      "leg_id": "C_1007_BRIDALVEIL_COOKS",
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
+    },
+    {
+      "leg_id": "C_1010_TEA_ACADEMY",
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
+    },
+    {
+      "leg_id": "C_1007_COOKS_MARIPOSA",
+      "routes": [
+        "A",
+        "B",
+        "E"
+      ],
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
+    },
+    {
+      "leg_id": "C_1010_ACADEMY_BOTANICAL",
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
+    },
+    {
+      "leg_id": "C_1010_BOTANICAL_TWIN_PEAKS",
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
+    },
+    {
+      "leg_id": "C_1011_COIT_LANDS_END",
+      "routes": [
+        "E"
+      ],
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "geometry_kind": "conceptual_transfer",
+      "geometry_point_count": 2,
+      "source_limitation": "Conceptual connector only; not a verified road track."
     }
   ],
   "geometry_cache_path": "data/route_geometry_cache.json",

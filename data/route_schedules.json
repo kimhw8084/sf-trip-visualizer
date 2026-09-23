@@ -1,0 +1,1015 @@
+{
+  "schema_version": 1,
+  "trip_window": "2026-10-03/2026-10-11",
+  "lodging": "SF 10/2–10/6 → Monterey exactly one night 10/6–10/7 → Yosemite exactly two nights 10/7–10/9 → SF 10/9–10/12",
+  "routes": {
+    "A": {
+      "title": "Temporal Arbitrage Master",
+      "ko_title": "시간 차익거래 마스터",
+      "operating_architecture": "Protect scarce openings and first-trip anchors, then spend optional budget only after recovery is funded.",
+      "days": {
+        "10/3": {
+          "hard_anchors": [
+            "ferry",
+            "exploratorium"
+          ],
+          "strong": [
+            "bay_lights"
+          ],
+          "conditional": [],
+          "recovery": [
+            "long hotel recovery before evening"
+          ],
+          "drop_first": [
+            "bay_lights"
+          ],
+          "decisions": [
+            "Run Ferry Plaza / Latine Makers opening window; keep evening lights only if family energy supports it."
+          ]
+        },
+        "10/4": {
+          "hard_anchors": [
+            "ggb",
+            "muir"
+          ],
+          "strong": [
+            "tunnel_tops",
+            "palace",
+            "crissy"
+          ],
+          "conditional": [
+            "battery"
+          ],
+          "recovery": [
+            "substantial midday hotel recovery"
+          ],
+          "drop_first": [
+            "battery",
+            "palace"
+          ],
+          "decisions": [
+            "Use the first practical Muir reservation; Battery is valid only if parking and wind are frictionless."
+          ]
+        },
+        "10/5": {
+          "hard_anchors": [
+            "alcatraz",
+            "chinatown"
+          ],
+          "strong": [
+            "pier39",
+            "musee",
+            "cable_car",
+            "fortune",
+            "north_beach"
+          ],
+          "conditional": [
+            "coit",
+            "lombard",
+            "ghirardelli"
+          ],
+          "recovery": [
+            "micro-stops, snack, and transit reset"
+          ],
+          "drop_first": [
+            "ghirardelli",
+            "lombard",
+            "coit"
+          ],
+          "decisions": [
+            "Alcatraz first practical slot; use cable car as transport/experience, not an added detour."
+          ]
+        },
+        "10/6": {
+          "hard_anchors": [
+            "point_lobos",
+            "carmel",
+            "aquarium"
+          ],
+          "strong": [
+            "lone_cypress"
+          ],
+          "conditional": [],
+          "recovery": [
+            "Aquarium late window protects the Monterey overnight transfer"
+          ],
+          "drop_first": [
+            "lone_cypress"
+          ],
+          "decisions": [
+            "If light or energy is poor, defer 17-Mile to its legal sunrise/sunset window and skip Bixby."
+          ]
+        },
+        "10/7": {
+          "hard_anchors": [
+            "tunnel_view",
+            "bridalveil",
+            "cooks"
+          ],
+          "strong": [
+            "el_capitan",
+            "valley_view"
+          ],
+          "conditional": [
+            "mariposa"
+          ],
+          "recovery": [
+            "arrival-day Valley layer; no checklist after long transfer"
+          ],
+          "drop_first": [
+            "mariposa",
+            "el_capitan"
+          ],
+          "decisions": [
+            "Choose the Wawona/south reveal only when fire, smoke, and access support it; otherwise use the safer current corridor."
+          ]
+        },
+        "10/8": {
+          "hard_anchors": [
+            "glacier"
+          ],
+          "strong": [
+            "washburn",
+            "valley_view"
+          ],
+          "conditional": [],
+          "recovery": [
+            "substantial afternoon Valley recovery"
+          ],
+          "drop_first": [
+            "washburn",
+            "valley_view"
+          ],
+          "decisions": [
+            "Glacier/Washburn require open road, useful visibility, and safe weather; otherwise run Valley fallback."
+          ]
+        },
+        "10/9": {
+          "hard_anchors": [
+            "cooks",
+            "bridalveil"
+          ],
+          "strong": [
+            "valley_view"
+          ],
+          "conditional": [
+            "painted"
+          ],
+          "recovery": [
+            "final Yosemite morning, then SF arrival recovery first"
+          ],
+          "drop_first": [
+            "painted"
+          ],
+          "decisions": [
+            "Never trade the final Yosemite morning for a forced SF photo stop."
+          ]
+        },
+        "10/10": {
+          "hard_anchors": [
+            "tea_garden"
+          ],
+          "strong": [
+            "academy",
+            "botanical"
+          ],
+          "conditional": [
+            "twin_peaks"
+          ],
+          "recovery": [
+            "SF recovery after Yosemite"
+          ],
+          "drop_first": [
+            "twin_peaks"
+          ],
+          "decisions": [
+            "Tea Garden opens first; Twin Peaks only when visibility justifies the climb."
+          ]
+        },
+        "10/11": {
+          "hard_anchors": [],
+          "strong": [
+            "lands_end",
+            "botanical"
+          ],
+          "conditional": [
+            "coit"
+          ],
+          "recovery": [
+            "neighborhood finale and packing buffer"
+          ],
+          "drop_first": [
+            "coit",
+            "botanical"
+          ],
+          "decisions": [
+            "Use Lands End or the family’s favorite neighborhood as the low-regret finale."
+          ]
+        }
+      }
+    },
+    "B": {
+      "title": "Awe & Light",
+      "ko_title": "감탄과 빛",
+      "operating_architecture": "Protect every Core stop and move discretionary time toward dawn, golden hour, scale, and clean legal viewpoints.",
+      "days": {
+        "10/3": {
+          "hard_anchors": [
+            "ferry",
+            "exploratorium"
+          ],
+          "strong": [
+            "bay_lights"
+          ],
+          "conditional": [],
+          "recovery": [
+            "hotel reset before night light"
+          ],
+          "drop_first": [
+            "bay_lights"
+          ],
+          "decisions": [
+            "Ferry and Exploratorium remain the weather-proof spine; lights are a short visual coda."
+          ]
+        },
+        "10/4": {
+          "hard_anchors": [
+            "ggb",
+            "muir"
+          ],
+          "strong": [
+            "battery",
+            "palace",
+            "crissy"
+          ],
+          "conditional": [
+            "tunnel_tops"
+          ],
+          "recovery": [
+            "midday reset"
+          ],
+          "drop_first": [
+            "tunnel_tops",
+            "palace"
+          ],
+          "decisions": [
+            "Early bridge and first practical Muir slot; Battery only with clean wind, parking, and visibility."
+          ]
+        },
+        "10/5": {
+          "hard_anchors": [
+            "alcatraz",
+            "chinatown"
+          ],
+          "strong": [
+            "cable_car",
+            "north_beach",
+            "coit"
+          ],
+          "conditional": [
+            "fortune",
+            "lombard"
+          ],
+          "recovery": [
+            "keep Wharf novelty sparse"
+          ],
+          "drop_first": [
+            "lombard",
+            "coit",
+            "fortune"
+          ],
+          "decisions": [
+            "Dense Wharf stops yield first when the light or family energy is better spent elsewhere."
+          ]
+        },
+        "10/6": {
+          "hard_anchors": [
+            "point_lobos",
+            "carmel",
+            "aquarium"
+          ],
+          "strong": [
+            "bixby",
+            "lone_cypress"
+          ],
+          "conditional": [],
+          "recovery": [
+            "late Aquarium and Monterey overnight"
+          ],
+          "drop_first": [
+            "bixby",
+            "lone_cypress"
+          ],
+          "decisions": [
+            "Bixby is a drive-through view only; no illegal stop or U-turn."
+          ]
+        },
+        "10/7": {
+          "hard_anchors": [
+            "tunnel_view",
+            "bridalveil",
+            "cooks"
+          ],
+          "strong": [
+            "el_capitan",
+            "valley_view"
+          ],
+          "conditional": [
+            "mariposa"
+          ],
+          "recovery": [
+            "arrival Valley layer"
+          ],
+          "drop_first": [
+            "mariposa",
+            "el_capitan"
+          ],
+          "decisions": [
+            "Use the current safe corridor if smoke, fire, or access degrades the south reveal."
+          ]
+        },
+        "10/8": {
+          "hard_anchors": [
+            "glacier"
+          ],
+          "strong": [
+            "washburn",
+            "valley_view"
+          ],
+          "conditional": [],
+          "recovery": [
+            "long afternoon recovery"
+          ],
+          "drop_first": [
+            "washburn",
+            "valley_view"
+          ],
+          "decisions": [
+            "Do the high-country light window only with road and visibility confirmation."
+          ]
+        },
+        "10/9": {
+          "hard_anchors": [
+            "cooks",
+            "bridalveil"
+          ],
+          "strong": [
+            "valley_view",
+            "painted"
+          ],
+          "conditional": [],
+          "recovery": [
+            "Yosemite morning before SF"
+          ],
+          "drop_first": [
+            "painted"
+          ],
+          "decisions": [
+            "Protect the final Valley light and allow an easy SF arrival."
+          ]
+        },
+        "10/10": {
+          "hard_anchors": [
+            "tea_garden"
+          ],
+          "strong": [
+            "academy",
+            "twin_peaks"
+          ],
+          "conditional": [
+            "botanical"
+          ],
+          "recovery": [
+            "quiet afternoon"
+          ],
+          "drop_first": [
+            "botanical",
+            "twin_peaks"
+          ],
+          "decisions": [
+            "Twin Peaks belongs only to a clear, low-wind evening."
+          ]
+        },
+        "10/11": {
+          "hard_anchors": [],
+          "strong": [
+            "lands_end"
+          ],
+          "conditional": [
+            "botanical"
+          ],
+          "recovery": [
+            "open-ended coastal finale"
+          ],
+          "drop_first": [
+            "botanical"
+          ],
+          "decisions": [
+            "Coastal light wins over adding another dense neighborhood stop."
+          ]
+        }
+      }
+    },
+    "C": {
+      "title": "Family Serenity",
+      "ko_title": "가족 평온",
+      "operating_architecture": "Protect the Core first, make nap and sensory recovery visible, and drop nonessential friction before comfort breaks.",
+      "days": {
+        "10/3": {
+          "hard_anchors": [
+            "ferry",
+            "exploratorium"
+          ],
+          "strong": [],
+          "conditional": [
+            "bay_lights"
+          ],
+          "recovery": [
+            "long hotel recovery and early night"
+          ],
+          "drop_first": [
+            "bay_lights"
+          ],
+          "decisions": [
+            "Ferry and Exploratorium are the full day; lights are cancelled at the first fatigue signal."
+          ]
+        },
+        "10/4": {
+          "hard_anchors": [
+            "ggb",
+            "muir"
+          ],
+          "strong": [
+            "palace",
+            "crissy",
+            "tunnel_tops"
+          ],
+          "conditional": [],
+          "recovery": [
+            "midday nap / hotel reset"
+          ],
+          "drop_first": [
+            "tunnel_tops",
+            "palace"
+          ],
+          "decisions": [
+            "No Battery; use stroller-friendly or low-demand layers after Muir."
+          ]
+        },
+        "10/5": {
+          "hard_anchors": [
+            "alcatraz",
+            "chinatown"
+          ],
+          "strong": [
+            "fortune",
+            "north_beach",
+            "cable_car"
+          ],
+          "conditional": [],
+          "recovery": [
+            "snack, transit reset, and early return"
+          ],
+          "drop_first": [
+            "cable_car",
+            "north_beach"
+          ],
+          "decisions": [
+            "No Coit, Lombard, Pier 39, Musée, or Ghirardelli; use drop-first order explicitly."
+          ]
+        },
+        "10/6": {
+          "hard_anchors": [
+            "point_lobos",
+            "carmel",
+            "aquarium"
+          ],
+          "strong": [
+            "lone_cypress",
+            "monterey_wharf"
+          ],
+          "conditional": [],
+          "recovery": [
+            "stroller-compatible Point Lobos segment and late Aquarium"
+          ],
+          "drop_first": [
+            "monterey_wharf",
+            "lone_cypress"
+          ],
+          "decisions": [
+            "Keep the coastal drive simple; no Bixby stop and no extra loop after Aquarium."
+          ]
+        },
+        "10/7": {
+          "hard_anchors": [
+            "tunnel_view",
+            "bridalveil",
+            "cooks"
+          ],
+          "strong": [
+            "el_capitan",
+            "valley_view"
+          ],
+          "conditional": [],
+          "recovery": [
+            "arrival nap / low-demand Valley layer"
+          ],
+          "drop_first": [
+            "el_capitan",
+            "valley_view"
+          ],
+          "decisions": [
+            "Valley-only fallback if transfer or children’s energy runs long; never protect Mariposa over Valley."
+          ]
+        },
+        "10/8": {
+          "hard_anchors": [
+            "glacier"
+          ],
+          "strong": [
+            "valley_view"
+          ],
+          "conditional": [
+            "washburn"
+          ],
+          "recovery": [
+            "long afternoon nap and easy Valley reprise"
+          ],
+          "drop_first": [
+            "washburn",
+            "valley_view"
+          ],
+          "decisions": [
+            "Glacier only when conditions are obviously good; otherwise stay in the simple Valley layer."
+          ]
+        },
+        "10/9": {
+          "hard_anchors": [
+            "cooks",
+            "bridalveil"
+          ],
+          "strong": [
+            "valley_view"
+          ],
+          "conditional": [
+            "painted"
+          ],
+          "recovery": [
+            "deliberately empty SF arrival"
+          ],
+          "drop_first": [
+            "painted",
+            "valley_view"
+          ],
+          "decisions": [
+            "Drop-first is all discretionary SF viewing after Yosemite."
+          ]
+        },
+        "10/10": {
+          "hard_anchors": [
+            "tea_garden"
+          ],
+          "strong": [
+            "academy",
+            "botanical"
+          ],
+          "conditional": [
+            "twin_peaks"
+          ],
+          "recovery": [
+            "short hops and quiet afternoon"
+          ],
+          "drop_first": [
+            "twin_peaks",
+            "botanical"
+          ],
+          "decisions": [
+            "Tea Garden is carrier-first; use interior Academy recovery if paths or weather are difficult."
+          ]
+        },
+        "10/11": {
+          "hard_anchors": [],
+          "strong": [
+            "lands_end"
+          ],
+          "conditional": [],
+          "recovery": [
+            "unstructured neighborhood finale"
+          ],
+          "drop_first": [
+            "lands_end"
+          ],
+          "decisions": [
+            "Keep the final day intentionally low-demand; no forced add-ons."
+          ]
+        }
+      }
+    },
+    "D": {
+      "title": "City Texture + Nature Contrast",
+      "ko_title": "도시 결 + 자연 대비",
+      "operating_architecture": "Keep the natural Core intact, then trade novelty for lived-in Chinatown, North Beach, and a deliberate Golden Gate Park cluster.",
+      "days": {
+        "10/3": {
+          "hard_anchors": [
+            "ferry",
+            "exploratorium"
+          ],
+          "strong": [
+            "bay_lights"
+          ],
+          "conditional": [],
+          "recovery": [
+            "easy waterfront reset"
+          ],
+          "drop_first": [
+            "bay_lights"
+          ],
+          "decisions": [
+            "Use the opening market and Exploratorium as a calm city introduction."
+          ]
+        },
+        "10/4": {
+          "hard_anchors": [
+            "ggb",
+            "muir"
+          ],
+          "strong": [
+            "palace",
+            "crissy",
+            "tunnel_tops"
+          ],
+          "conditional": [
+            "battery"
+          ],
+          "recovery": [
+            "midday reset"
+          ],
+          "drop_first": [
+            "battery",
+            "palace"
+          ],
+          "decisions": [
+            "Nature anchors stay; Battery is a friction-controlled add-on."
+          ]
+        },
+        "10/5": {
+          "hard_anchors": [
+            "alcatraz",
+            "chinatown",
+            "north_beach"
+          ],
+          "strong": [
+            "fortune",
+            "cable_car",
+            "coit"
+          ],
+          "conditional": [
+            "lombard",
+            "ghirardelli"
+          ],
+          "recovery": [
+            "food and street-texture pauses"
+          ],
+          "drop_first": [
+            "ghirardelli",
+            "lombard"
+          ],
+          "decisions": [
+            "Chinatown includes Dragon Gate, Grant, Stockton, Portsmouth Square, and food/street texture—not only the factory."
+          ]
+        },
+        "10/6": {
+          "hard_anchors": [
+            "point_lobos",
+            "carmel",
+            "aquarium"
+          ],
+          "strong": [
+            "lone_cypress",
+            "monterey_wharf"
+          ],
+          "conditional": [
+            "bixby"
+          ],
+          "recovery": [
+            "late Aquarium and one-night Monterey"
+          ],
+          "drop_first": [
+            "bixby",
+            "monterey_wharf"
+          ],
+          "decisions": [
+            "Use Bixby only as safe legal drive-through contrast; no scenic shoulder behavior."
+          ]
+        },
+        "10/7": {
+          "hard_anchors": [
+            "tunnel_view",
+            "bridalveil",
+            "cooks"
+          ],
+          "strong": [
+            "el_capitan",
+            "valley_view"
+          ],
+          "conditional": [],
+          "recovery": [
+            "Valley arrival recovery"
+          ],
+          "drop_first": [
+            "el_capitan",
+            "valley_view"
+          ],
+          "decisions": [
+            "Keep natural Core intact but do not force Mariposa or a southern detour."
+          ]
+        },
+        "10/8": {
+          "hard_anchors": [
+            "glacier"
+          ],
+          "strong": [
+            "washburn",
+            "valley_view"
+          ],
+          "conditional": [],
+          "recovery": [
+            "afternoon recovery"
+          ],
+          "drop_first": [
+            "washburn",
+            "valley_view"
+          ],
+          "decisions": [
+            "High-country access and visibility gate the layer."
+          ]
+        },
+        "10/9": {
+          "hard_anchors": [
+            "cooks",
+            "bridalveil"
+          ],
+          "strong": [
+            "valley_view",
+            "painted"
+          ],
+          "conditional": [],
+          "recovery": [
+            "SF arrival before neighborhoods"
+          ],
+          "drop_first": [
+            "painted"
+          ],
+          "decisions": [
+            "Return to the city gently; the contrast works only if arrival is not rushed."
+          ]
+        },
+        "10/10": {
+          "hard_anchors": [
+            "tea_garden"
+          ],
+          "strong": [
+            "academy",
+            "botanical"
+          ],
+          "conditional": [
+            "twin_peaks"
+          ],
+          "recovery": [
+            "single Golden Gate Park cluster"
+          ],
+          "drop_first": [
+            "twin_peaks"
+          ],
+          "decisions": [
+            "After the Oct 3–4 event pressure, cluster Tea Garden + Academy + Botanical in one park day."
+          ]
+        },
+        "10/11": {
+          "hard_anchors": [],
+          "strong": [
+            "lands_end",
+            "coit"
+          ],
+          "conditional": [
+            "twin_peaks"
+          ],
+          "recovery": [
+            "neighborhood finale"
+          ],
+          "drop_first": [
+            "twin_peaks",
+            "coit"
+          ],
+          "decisions": [
+            "Prefer real neighborhood texture to another checklist viewpoint."
+          ]
+        }
+      }
+    },
+    "E": {
+      "title": "2026 Event Edge",
+      "ko_title": "2026 이벤트 엣지",
+      "operating_architecture": "Use trip-date-specific opportunities only when they improve the family day; the trip remains excellent when an event is declined.",
+      "days": {
+        "10/3": {
+          "hard_anchors": [
+            "ferry",
+            "exploratorium"
+          ],
+          "strong": [
+            "bay_lights"
+          ],
+          "conditional": [],
+          "recovery": [
+            "hotel reset"
+          ],
+          "drop_first": [
+            "bay_lights"
+          ],
+          "decisions": [
+            "Exploit Oct 3 Ferry/Latine timing; protect the first day from late arrival debt."
+          ]
+        },
+        "10/4": {
+          "hard_anchors": [
+            "ggb",
+            "muir"
+          ],
+          "strong": [
+            "crissy",
+            "tunnel_tops"
+          ],
+          "conditional": [
+            "palace",
+            "battery"
+          ],
+          "recovery": [
+            "midday reset"
+          ],
+          "drop_first": [
+            "battery",
+            "palace"
+          ],
+          "decisions": [
+            "Do not chase the Oct 3–4 park event pressure; keep a robust nature/interior counter-plan."
+          ]
+        },
+        "10/5": {
+          "hard_anchors": [
+            "alcatraz",
+            "chinatown"
+          ],
+          "strong": [
+            "fortune",
+            "cable_car",
+            "north_beach"
+          ],
+          "conditional": [],
+          "recovery": [
+            "early evening"
+          ],
+          "drop_first": [
+            "north_beach",
+            "cable_car"
+          ],
+          "decisions": [
+            "Use pre-Fleet-Week cable-car timing; Monday Exploratorium closure is already avoided."
+          ]
+        },
+        "10/6": {
+          "hard_anchors": [
+            "point_lobos",
+            "carmel",
+            "aquarium"
+          ],
+          "strong": [
+            "lone_cypress"
+          ],
+          "conditional": [
+            "bixby",
+            "monterey_wharf"
+          ],
+          "recovery": [
+            "Aquarium late window"
+          ],
+          "drop_first": [
+            "bixby",
+            "monterey_wharf"
+          ],
+          "decisions": [
+            "Use Bixby only as a safe legal drive-through view; no parking, shoulder, or U-turn behavior; the event-edge route still obeys the one-night Monterey constraint."
+          ]
+        },
+        "10/7": {
+          "hard_anchors": [
+            "tunnel_view",
+            "bridalveil",
+            "cooks"
+          ],
+          "strong": [
+            "el_capitan",
+            "valley_view"
+          ],
+          "conditional": [
+            "mariposa"
+          ],
+          "recovery": [
+            "Valley arrival recovery"
+          ],
+          "drop_first": [
+            "mariposa",
+            "el_capitan"
+          ],
+          "decisions": [
+            "No event benefit justifies a fire/smoke/access gamble in Yosemite."
+          ]
+        },
+        "10/8": {
+          "hard_anchors": [
+            "glacier"
+          ],
+          "strong": [
+            "washburn",
+            "valley_view"
+          ],
+          "conditional": [],
+          "recovery": [
+            "afternoon recovery"
+          ],
+          "drop_first": [
+            "washburn",
+            "valley_view"
+          ],
+          "decisions": [
+            "Weather/access gate high-country stops exactly as in the other routes."
+          ]
+        },
+        "10/9": {
+          "hard_anchors": [
+            "cooks",
+            "bridalveil"
+          ],
+          "strong": [
+            "valley_view",
+            "painted"
+          ],
+          "conditional": [],
+          "recovery": [
+            "SF arrival recovery"
+          ],
+          "drop_first": [
+            "painted"
+          ],
+          "decisions": [
+            "Fleet Week pressure is a reason to avoid a forced waterfront return, not to erase the Yosemite morning."
+          ]
+        },
+        "10/10": {
+          "hard_anchors": [
+            "tea_garden"
+          ],
+          "strong": [
+            "academy",
+            "botanical",
+            "painted"
+          ],
+          "conditional": [
+            "twin_peaks"
+          ],
+          "recovery": [
+            "Golden Gate Park counter-programming"
+          ],
+          "drop_first": [
+            "twin_peaks",
+            "painted"
+          ],
+          "decisions": [
+            "One controlled Fleet Week encounter only if weather, crowd, noise, and children justify it; otherwise use the park/interior plan."
+          ]
+        },
+        "10/11": {
+          "hard_anchors": [],
+          "strong": [
+            "botanical"
+          ],
+          "conditional": [
+            "lands_end",
+            "coit"
+          ],
+          "recovery": [
+            "open finale and packing buffer"
+          ],
+          "drop_first": [
+            "coit",
+            "botanical"
+          ],
+          "decisions": [
+            "Cancel an event encounter immediately when family friction rises; the route remains complete without the air show."
+          ]
+        }
+      }
+    }
+  }
+}

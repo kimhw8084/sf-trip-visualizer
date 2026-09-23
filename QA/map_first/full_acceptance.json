@@ -13,7 +13,7 @@
       "pass": true,
       "detail": null
     },
-    "all_four_route_strategies": {
+    "all_five_route_strategies": {
       "pass": true,
       "detail": null
     },
@@ -75,80 +75,380 @@
   "matrix": [
     {
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "all",
+      "region": "overall",
+      "markers": 38,
+      "expected": 38,
+      "features": 39,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "all",
+      "region": "sf",
+      "markers": 25,
+      "expected": 25,
+      "features": 25,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "all",
+      "region": "monterey",
+      "markers": 5,
+      "expected": 5,
+      "features": 4,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "all",
+      "region": "yosemite",
+      "markers": 8,
+      "expected": 8,
+      "features": 7,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "10/8",
+      "region": "overall",
+      "markers": 2,
+      "expected": 2,
+      "features": 1,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "10/8",
+      "region": "sf",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "10/8",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "10/8",
+      "region": "yosemite",
+      "markers": 2,
+      "expected": 2,
+      "features": 1,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "10/9",
+      "region": "overall",
+      "markers": 1,
+      "expected": 1,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "10/9",
+      "region": "sf",
+      "markers": 1,
+      "expected": 1,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "10/9",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "date": "10/9",
+      "region": "yosemite",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "all",
+      "region": "overall",
+      "markers": 38,
+      "expected": 38,
+      "features": 39,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "all",
+      "region": "sf",
+      "markers": 25,
+      "expected": 25,
+      "features": 25,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "all",
+      "region": "monterey",
+      "markers": 5,
+      "expected": 5,
+      "features": 4,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "all",
+      "region": "yosemite",
+      "markers": 8,
+      "expected": 8,
+      "features": 7,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/8",
+      "region": "overall",
+      "markers": 2,
+      "expected": 2,
+      "features": 1,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/8",
+      "region": "sf",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/8",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/8",
+      "region": "yosemite",
+      "markers": 2,
+      "expected": 2,
+      "features": 1,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/9",
+      "region": "overall",
+      "markers": 1,
+      "expected": 1,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/9",
+      "region": "sf",
+      "markers": 1,
+      "expected": 1,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/9",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/9",
+      "region": "yosemite",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "B",
+        "D"
       ],
       "date": "all",
       "region": "overall",
       "markers": 35,
       "expected": 35,
-      "features": 35,
+      "features": 34,
       "failures": []
     },
     {
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "B",
+        "D"
       ],
       "date": "all",
       "region": "sf",
       "markers": 22,
       "expected": 22,
-      "features": 20,
+      "features": 19,
       "failures": []
     },
     {
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "B",
+        "D"
       ],
       "date": "all",
       "region": "monterey",
-      "markers": 6,
-      "expected": 6,
-      "features": 6,
+      "markers": 5,
+      "expected": 5,
+      "features": 5,
       "failures": []
     },
     {
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "B",
+        "D"
       ],
       "date": "all",
       "region": "yosemite",
-      "markers": 7,
-      "expected": 7,
-      "features": 6,
+      "markers": 8,
+      "expected": 8,
+      "features": 7,
       "failures": []
     },
     {
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "B",
+        "D"
       ],
       "date": "10/8",
       "region": "overall",
-      "markers": 3,
-      "expected": 3,
-      "features": 3,
+      "markers": 2,
+      "expected": 2,
+      "features": 1,
       "failures": []
     },
     {
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "B",
+        "D"
       ],
       "date": "10/8",
       "region": "sf",
@@ -159,10 +459,8 @@
     },
     {
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "B",
+        "D"
       ],
       "date": "10/8",
       "region": "monterey",
@@ -173,24 +471,20 @@
     },
     {
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "B",
+        "D"
       ],
       "date": "10/8",
       "region": "yosemite",
-      "markers": 3,
-      "expected": 3,
-      "features": 3,
+      "markers": 2,
+      "expected": 2,
+      "features": 1,
       "failures": []
     },
     {
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "B",
+        "D"
       ],
       "date": "10/9",
       "region": "overall",
@@ -201,41 +495,11 @@
     },
     {
       "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
+        "B",
+        "D"
       ],
       "date": "10/9",
       "region": "sf",
-      "markers": 0,
-      "expected": 0,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
-      ],
-      "date": "10/9",
-      "region": "monterey",
-      "markers": 0,
-      "expected": 0,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1",
-        "A2",
-        "B1",
-        "B2"
-      ],
-      "date": "10/9",
-      "region": "yosemite",
       "markers": 1,
       "expected": 1,
       "features": 0,
@@ -243,117 +507,8 @@
     },
     {
       "routes": [
-        "A1"
-      ],
-      "date": "all",
-      "region": "overall",
-      "markers": 35,
-      "expected": 35,
-      "features": 35,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1"
-      ],
-      "date": "all",
-      "region": "sf",
-      "markers": 22,
-      "expected": 22,
-      "features": 20,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1"
-      ],
-      "date": "all",
-      "region": "monterey",
-      "markers": 6,
-      "expected": 6,
-      "features": 6,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1"
-      ],
-      "date": "all",
-      "region": "yosemite",
-      "markers": 7,
-      "expected": 7,
-      "features": 6,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1"
-      ],
-      "date": "10/8",
-      "region": "overall",
-      "markers": 3,
-      "expected": 3,
-      "features": 3,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1"
-      ],
-      "date": "10/8",
-      "region": "sf",
-      "markers": 0,
-      "expected": 0,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1"
-      ],
-      "date": "10/8",
-      "region": "monterey",
-      "markers": 0,
-      "expected": 0,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1"
-      ],
-      "date": "10/8",
-      "region": "yosemite",
-      "markers": 3,
-      "expected": 3,
-      "features": 3,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1"
-      ],
-      "date": "10/9",
-      "region": "overall",
-      "markers": 1,
-      "expected": 1,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1"
-      ],
-      "date": "10/9",
-      "region": "sf",
-      "markers": 0,
-      "expected": 0,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A1"
+        "B",
+        "D"
       ],
       "date": "10/9",
       "region": "monterey",
@@ -364,156 +519,13 @@
     },
     {
       "routes": [
-        "A1"
+        "B",
+        "D"
       ],
       "date": "10/9",
       "region": "yosemite",
-      "markers": 1,
-      "expected": 1,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "all",
-      "region": "overall",
-      "markers": 35,
-      "expected": 35,
-      "features": 35,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "all",
-      "region": "sf",
-      "markers": 22,
-      "expected": 22,
-      "features": 20,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "all",
-      "region": "monterey",
-      "markers": 6,
-      "expected": 6,
-      "features": 6,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "all",
-      "region": "yosemite",
-      "markers": 7,
-      "expected": 7,
-      "features": 6,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "10/8",
-      "region": "overall",
-      "markers": 3,
-      "expected": 3,
-      "features": 3,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "10/8",
-      "region": "sf",
       "markers": 0,
       "expected": 0,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "10/8",
-      "region": "monterey",
-      "markers": 0,
-      "expected": 0,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "10/8",
-      "region": "yosemite",
-      "markers": 3,
-      "expected": 3,
-      "features": 3,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "10/9",
-      "region": "overall",
-      "markers": 1,
-      "expected": 1,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "10/9",
-      "region": "sf",
-      "markers": 0,
-      "expected": 0,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "10/9",
-      "region": "monterey",
-      "markers": 0,
-      "expected": 0,
-      "features": 0,
-      "failures": []
-    },
-    {
-      "routes": [
-        "A2",
-        "B1"
-      ],
-      "date": "10/9",
-      "region": "yosemite",
-      "markers": 1,
-      "expected": 1,
       "features": 0,
       "failures": []
     }
@@ -532,11 +544,15 @@
   ],
   "failed_requests": [
     {
-      "url": "http://127.0.0.1:63765/assets/vector/sf_trip.pmtiles",
+      "url": "http://127.0.0.1:41399/assets/vector/sf_trip.pmtiles",
       "failure": "net::ERR_ABORTED"
     },
     {
-      "url": "http://127.0.0.1:63765/assets/vector/sf_trip.pmtiles",
+      "url": "http://127.0.0.1:41399/assets/vector/sf_trip.pmtiles",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:41399/assets/vector/sf_trip.pmtiles",
       "failure": "net::ERR_ABORTED"
     },
     {
@@ -544,17 +560,21 @@
       "failure": "net::ERR_FAILED"
     }
   ],
-  "candidate": "530d7c82d386200d7ec443e32c40ef0f1a644f70",
-  "candidate_tree": "99d359edc19aae5952f68545ccbafcf863a759e1",
+  "candidate": "7caf40a9c352ecf7e37ba4bdfdb254edb33a0dc4",
+  "candidate_tree": "391b0fe8d7d881f610c04b80f213052d21b5e230",
   "candidate_binding": "exact-clean-checkout",
   "matrix_failures": [],
   "expected_network_events": [
     {
-      "url": "http://127.0.0.1:63765/assets/vector/sf_trip.pmtiles",
+      "url": "http://127.0.0.1:41399/assets/vector/sf_trip.pmtiles",
       "failure": "net::ERR_ABORTED"
     },
     {
-      "url": "http://127.0.0.1:63765/assets/vector/sf_trip.pmtiles",
+      "url": "http://127.0.0.1:41399/assets/vector/sf_trip.pmtiles",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:41399/assets/vector/sf_trip.pmtiles",
       "failure": "net::ERR_ABORTED"
     },
     {
