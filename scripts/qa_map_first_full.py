@@ -41,7 +41,7 @@ with sync_playwright() as playwright:
     page.on("requestfailed", lambda request: report["failed_requests"].append({"url": request.url, "failure": request.failure}))
     page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    page.wait_for_function("document.querySelectorAll('.photo-marker').length===window.__tripApp.DATA.markers.length", timeout=15000)
+    page.wait_for_function("document.querySelectorAll('.photo-marker').length===window.__tripApp.DATA.markers.filter(window.__tripApp.markerVisible).length", timeout=15000)
 
     check("shell_ready", page.locator("#workbench").count() == 1 and page.locator("#map").count() == 1)
     check("no_artificial_splash", page.locator("#loadingScreen").count() == 0)

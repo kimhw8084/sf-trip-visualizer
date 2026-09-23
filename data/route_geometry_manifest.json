@@ -2,10 +2,10 @@
   "version": "2.0-map-first",
   "generated": "2026-09-23",
   "routing_service_status": "OSM_REFERENCE_GEOMETRY_CACHED_LOCALLY",
-  "acceptance_strategy": "18 legs retain cached OSM reference geometry; 2 ferry links, 10 inter-region transfers, and 6 other conceptual connectors remain explicit non-track relationships. App runtime performs no routing requests.",
+  "acceptance_strategy": "18 legs retain cached OSM reference geometry; 2 ferry links, 10 inter-region transfers, and 7 other conceptual connectors remain explicit non-track relationships. App runtime performs no routing requests.",
   "exact_routed_legs": 18,
-  "conceptual_legs": 18,
-  "renderable_conceptual_legs": 18,
+  "conceptual_legs": 19,
+  "renderable_conceptual_legs": 19,
   "cross_day_suppressed_legs": [],
   "display_policy": "Day and active-route membership gate every leg. Geometry is a cached reference or a visibly conceptual relationship; no live routing is used. Main lines are solid; alternate, conditional, bonus, recovery-gap, and choice links retain typed route semantics. Ferry links are explicitly conceptual.",
   "legs": [
@@ -205,6 +205,35 @@
       "distance_km": 1.24,
       "reference_duration_min": 3.2,
       "source_limitation": "Reference OSM routing, not live closure/traffic advice"
+    },
+    {
+      "leg_id": "GAP_1008_02",
+      "date": "10/8",
+      "from": "glacier",
+      "to": "valley_view",
+      "from_latlon": [
+        37.730806,
+        -119.573
+      ],
+      "to_latlon": [
+        37.7172,
+        -119.6621
+      ],
+      "mode": "drive",
+      "routes": [
+        "A"
+      ],
+      "geometry_kind": "conceptual_connector",
+      "geometry_source": "authored optional itinerary relationship; no router or live-routing dependency",
+      "render_style": "conceptual_dots",
+      "label": "Glacier Point → Valley View · optional connector",
+      "note": "Conceptual itinerary connector; explicitly not road geometry.",
+      "show_overall": true,
+      "branch_kind": "conditional",
+      "geometry_point_count": 2,
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Authored itinerary relationship only; not a measured road or walking track"
     },
     {
       "leg_id": "T_1006_SF_MONTEREY",
@@ -1046,5 +1075,5 @@
     }
   ],
   "geometry_cache_path": "data/route_geometry_cache.json",
-  "geometry_cache_sha256": "d195c8eced1b3fc7bfa1e21a7ac15a496bd592b00d1f8340460121c241267b80"
+  "geometry_cache_sha256": "7077f32b2c66c5b18ab6ca0bed04e5e99cd6ad8a34a45b8415b91d9bdf9ae536"
 }

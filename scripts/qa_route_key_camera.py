@@ -37,6 +37,8 @@ def control_path(page, path: str) -> dict:
     else:
         button.click()
     page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === false")
+    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded() && !window.__tripApp.map().isMoving()", timeout=5000)
+    page.wait_for_timeout(160)
     opened = map_context(page)
     open_state = task_state(page)
     if path == "keyboard":
@@ -45,6 +47,8 @@ def control_path(page, path: str) -> dict:
         page.keyboard.press("Escape")
     page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === true")
     page.wait_for_function("document.activeElement?.id === 'mapOptionsToggle'")
+    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded() && !window.__tripApp.map().isMoving()", timeout=5000)
+    page.wait_for_timeout(160)
     closed = map_context(page)
     return {"path": path, "opened": opened, "closed": closed, "task_preserved": task_state(page) == open_state, "focus_returned": page.evaluate("document.activeElement?.id === 'mapOptionsToggle'"), "panel_closed": page.locator("#mapOptionsPanel").is_hidden()}
 

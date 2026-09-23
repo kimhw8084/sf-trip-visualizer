@@ -262,7 +262,7 @@ def collect_failure_diagnostics(
         marker_counts = page.evaluate(
             """() => ({
                 current: document.querySelectorAll('.photo-marker').length,
-                expected: window.__tripApp?.DATA?.markers?.length ?? null,
+                expected: window.__tripApp?.DATA?.markers?.filter(marker => marker.routes?.some(route => window.__tripApp.state.task.routes.has(route))).length ?? null,
             })"""
         )
         if isinstance(marker_counts, dict):
@@ -401,7 +401,7 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
                 pass
         page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
         page.wait_for_function(
-            "document.querySelectorAll('.photo-marker').length===window.__tripApp.DATA.markers.length",
+            "document.querySelectorAll('.photo-marker').length===window.__tripApp.DATA.markers.filter(marker=>marker.routes.some(route=>window.__tripApp.state.task.routes.has(route))).length",
             timeout=15000,
         )
         row.update(
@@ -413,6 +413,7 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
                     "es=>es.filter(e=>!e.complete||e.naturalWidth===0).length"
                 ),
                 "expected_places": page.evaluate("window.__tripApp.DATA.markers.length"),
+                "expected_route_markers": page.evaluate("window.__tripApp.DATA.markers.filter(marker=>marker.routes.some(route=>window.__tripApp.state.task.routes.has(route))).length"),
             }
         )
         page.locator("#modeNav [data-mode='day']").click()
@@ -451,7 +452,7 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
         row["map_error_events"] = read_map_error_events(page)
         row["status"] = (
             "PASS"
-            if row["marker_objects"] == row["expected_places"]
+            if row["marker_objects"] == row["expected_route_markers"]
             and row["canvas"] == 1
             and not row["horizontal_overflow"]
             and row["broken_marker_images"] == 0

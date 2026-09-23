@@ -2,7 +2,7 @@
 
 This repository’s product is the Smart Minority family-trip decision system. The map renderer is reusable infrastructure; decision quality, resilient replanning, truthful route/geographic semantics, local-first Smart-map behavior, one physical-place identity, three real local photo roles, Korean/English, and touch/keyboard/responsive behavior are the product contract.
 
-The configured 2026 trip currently contains 36 physical places, 108 real local photographs, 51 timeline cards, 36 typed route connectors, and one active route: Route A — Temporal Arbitrage Master. It covers nine sightseeing dates and three regions, with Korean/English, light/dark, a local Smart map, optional Satellite + labels fallback, modular output, and standalone output. The renderer and source schema remain data-driven and support one or more configured routes.
+The configured 2026 trip currently contains 36 physical places, 108 real local photographs, 51 timeline cards, 37 typed route connectors, and one active route: Route A — Temporal Arbitrage Master. It covers nine sightseeing dates and three regions, with Korean/English, light/dark, a local Smart map, optional Satellite + labels fallback, modular output, and standalone output. The renderer and source schema remain data-driven and support one or more configured routes.
 
 ## One supported path
 
@@ -51,7 +51,7 @@ The build is reproducible enough for Project OS use: fast validation snapshots a
 
 Run `pipeline.py fast`, then serve with `pipeline.py serve`. Do not open the modular file with `file://`; the local server supplies byte-range requests for `assets/vector/sf_trip.pmtiles`. The standalone HTML in `.build/standalone/` is the direct-open edition and embeds the local vector archive, fonts/sprites, Yosemite relief, photo derivatives, and loading photograph.
 
-The map has exactly two user-facing choices: Smart map and Satellite + labels. Smart map is the bundled Protomaps/OSM vector extract and never silently changes to a raster provider. In standalone/file-origin mode its PMTiles, fonts, sprites, and other local assets are decoded from embedded bytes; missing integrity-bound assets fail explicitly. Satellite uses Esri imagery with the same local labels and returns to Smart map if its tiles fail. Runtime routing is not performed: 45 typed connectors use cached OSM reference geometry or explicitly labeled conceptual connectors/ferry links.
+The map has exactly two user-facing choices: Smart map and Satellite + labels. Smart map is the bundled Protomaps/OSM vector extract and never silently changes to a raster provider. In standalone/file-origin mode its PMTiles, fonts, sprites, and other local assets are decoded from embedded bytes; missing integrity-bound assets fail explicitly. Satellite uses Esri imagery with the same local labels and returns to Smart map if its tiles fail. Runtime routing is not performed: 37 typed connectors use cached OSM reference geometry or explicitly labeled conceptual connectors/ferry links.
 
 `data/route_role_matrix.json` is the single authored Core/Strong/Conditional/Skip authority for the configured route and all active places. `data/route_schedules.json` is the authored per-route day model with hard anchors, recovery, conditions, fallbacks, and drop-first logic. `data/route_research_ledger.json` records source observations while `manifests/trip_freshness.json` preserves fail-closed recheck boundaries. The place list and details show the current route role in visible text.
 

@@ -120,7 +120,16 @@ def current_revision() -> str:
 
 
 def working_tree_clean() -> bool:
-    return not subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).strip()
+    rows = subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=all"], cwd=ROOT, text=True).splitlines()
+    generated_prefixes = tuple(path.rstrip("/") + "/" for path in pipeline_manifest().get("generated_outputs", []))
+    source_changes = []
+    for row in rows:
+        path = row[3:].strip().strip('"') if len(row) >= 4 else ""
+        if " -> " in path:
+            path = path.split(" -> ", 1)[1]
+        if path and not path.startswith(generated_prefixes):
+            source_changes.append(path)
+    return not source_changes
 
 
 def pipeline_manifest() -> dict:

@@ -45,7 +45,7 @@ Without safe external retrieval, the workflow stays fail-closed as
   are either one physical `place_key` or an explicit `endpoint_anchors` entry such
   as a ferry embarkation or regional transfer anchor.
 
-The configured 2026 trip currently has 36 markers, 51 timeline cards, 36 typed connectors, one active route, nine dates, three non-overall regions, and exactly the `vector` and `satellite` providers. Route identifiers come from the canonical role/schedule source; the renderer accepts any non-empty route set, including a one-route trip. `manifests/asset_manifest.json` supplies 108 place/roles as 108 total real local photographs: HERO, EXPERIENCE, and SCALE_CONTEXT for every active place.
+The configured 2026 trip currently has 36 markers, 51 timeline cards, 37 typed connectors, one active route, nine dates, three non-overall regions, and exactly the `vector` and `satellite` providers. Route identifiers come from the canonical role/schedule source; the renderer accepts any non-empty route set, including a one-route trip. `manifests/asset_manifest.json` supplies 108 place/roles as 108 total real local photographs: HERO, EXPERIENCE, and SCALE_CONTEXT for every active place.
 
 ## Route semantics
 

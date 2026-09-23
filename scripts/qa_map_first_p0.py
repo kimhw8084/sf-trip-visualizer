@@ -39,8 +39,9 @@ with sync_playwright() as playwright:
     )
 
     expected_places = page.evaluate("window.__tripApp.DATA.markers.length")
-    check("physical_marker_objects", page.locator(".photo-marker").count(), expected_places)
-    check("marker_place_keys_unique", page.locator(".photo-marker").evaluate_all("xs=>new Set(xs.map(x=>x.dataset.placeKey)).size"), expected_places)
+    expected_route_markers = page.evaluate("ids=>window.__tripApp.DATA.markers.filter(m=>m.routes.some(r=>ids.includes(r))).length", ACTIVE_ROUTE_IDS)
+    check("active_route_marker_objects", page.locator(".photo-marker").count(), expected_route_markers)
+    check("active_route_marker_place_keys_unique", page.locator(".photo-marker").evaluate_all("xs=>new Set(xs.map(x=>x.dataset.placeKey)).size"), expected_route_markers)
     check("all_marker_hero_thumbs_decode", page.locator(".photo-marker img").evaluate_all("xs=>xs.every(x=>x.complete&&x.naturalWidth>0)"), True)
     check("configured_route_layers_present", page.evaluate("ids=>ids.every(r=>!!window.__tripApp.map().getLayer('trip-local-'+r))", ACTIVE_ROUTE_IDS), True)
     check("provider_controls_are_single_owner", page.locator("#providerControls [data-provider]").count(), 2)

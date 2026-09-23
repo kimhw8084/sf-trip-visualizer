@@ -56,7 +56,7 @@ with sync_playwright() as playwright:
     browser.close()
 
 data = report["checks"]["data"]
-report["status"] = "PASS" if not report["errors"] and data["places"] == 36 and data["timeline"] == 51 and data["legs"] == 36 and not data["missing"] and report["checks"]["sf_branches"]["pier39"] and report["checks"]["pier_inspector"]["photos"] == 3 and not report["checks"]["english_inspector"]["hangul"] and not report["checks"]["monterey_branches"]["bixby_visible"] and report["checks"]["monterey_branches"]["bixby_role"] == "Skip" and report["checks"]["monterey_branches"]["wharf"] and report["checks"]["mobile"]["overflow"] == 0 else "FAIL"
+report["status"] = "PASS" if not report["errors"] and data["places"] == 36 and data["timeline"] == 51 and data["legs"] == 37 and not data["missing"] and report["checks"]["sf_branches"]["pier39"] and report["checks"]["pier_inspector"]["photos"] == 3 and not report["checks"]["english_inspector"]["hangul"] and not report["checks"]["monterey_branches"]["bixby_visible"] and report["checks"]["monterey_branches"]["bixby_role"] == "Skip" and report["checks"]["monterey_branches"]["wharf"] and report["checks"]["mobile"]["overflow"] == 0 else "FAIL"
 (OUT / "location_gap_visuals.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "checks": report["checks"], "errors": report["errors"]}, ensure_ascii=False, indent=2))
 raise SystemExit(0 if report["status"] == "PASS" else 1)

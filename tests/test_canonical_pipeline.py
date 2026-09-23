@@ -42,6 +42,12 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertEqual(len(data["dates"]), expected["dates"])
         self.assertEqual(set(data["place_region"]), {marker["place_key"] for marker in data["markers"]})
 
+    def test_generated_evidence_does_not_make_exact_source_checkout_dirty(self):
+        with patch.object(pipeline.subprocess, "check_output", return_value="?? QA/CHG-188/current.json\n?? .build/modular/index.html\n"):
+            self.assertTrue(pipeline.working_tree_clean())
+        with patch.object(pipeline.subprocess, "check_output", return_value="?? QA/CHG-188/current.json\n M src/app_phase7.js\n"):
+            self.assertFalse(pipeline.working_tree_clean())
+
     def test_build_does_not_mutate_authored_data(self):
         authored = ROOT / "data/phase7_app_data.json"
         before = sha256(authored)
