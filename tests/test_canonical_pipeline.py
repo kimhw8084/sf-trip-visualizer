@@ -148,6 +148,10 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertIn("build manifest changed after qualification", public)
         source_generation = (ROOT / "scripts/apply_location_gap_audit.py").read_text()
         self.assertIn("Explicit source-generation step required", source_generation)
+        package = (ROOT / "scripts/package_map_first.py").read_text()
+        self.assertIn('"CHG-188" / "release" / "qualification.json"', package)
+        self.assertIn('"QA/CHG-188/release"', package)
+        self.assertNotIn('"QA" / "release"', package)
 
     def test_smart_map_asset_is_materialized_not_an_lfs_pointer(self):
         vector = ROOT / "assets/vector/sf_trip.pmtiles"
