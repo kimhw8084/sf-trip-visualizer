@@ -6,6 +6,8 @@ explicit must/strong/swap/bonus semantics so discovery does not become overpacki
 
 from __future__ import annotations
 
+raise SystemExit("DEPRECATED LEGACY ENTRY POINT: frozen predecessor generator; use the canonical map-first source and pipeline")
+
 import csv
 import json
 import sys

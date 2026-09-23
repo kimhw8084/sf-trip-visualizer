@@ -24,16 +24,38 @@ class RouteTruthTests(unittest.TestCase):
     def test_canonical_route_and_calendar_truth_passes(self):
         report = validate_route_truth(self.data, self.roles, self.schedule)
         self.assertEqual(report["status"], "PASS", report["failures"])
-        self.assertEqual(report["counts"]["matrix_places"], 39)
-        self.assertEqual(report["counts"]["routes"], 5)
+        self.assertEqual(report["counts"]["matrix_places"], 36)
+        self.assertEqual(report["counts"]["routes"], 1)
         self.assertEqual(report["counts"]["dates"], 9)
-        self.assertEqual(report["counts"]["occurrences"], 176)
+        self.assertEqual(report["counts"]["occurrences"], 37)
 
-    def test_production_drop_first_is_exhaustively_valid_across_45_route_days(self):
+    def test_production_drop_first_is_exhaustively_valid_across_all_nine_trip_days(self):
         report = validate_route_truth(self.data, self.roles, self.schedule)
         self.assertEqual(report["status"], "PASS", report["failures"])
-        self.assertEqual(report["counts"]["drop_first_days"], 45)
-        self.assertEqual(report["counts"]["drop_first_references"], 78)
+        self.assertEqual(report["counts"]["drop_first_days"], 9)
+        self.assertEqual(report["counts"]["drop_first_references"], 13)
+
+    def test_owner_must_upgrades_are_required_in_canonical_schedule(self):
+        mutated = copy.deepcopy(self.schedule)
+        mutated["routes"]["A"]["days"]["10/5"]["hard_anchors"].remove("pier39")
+        report = validate_route_truth(self.data, self.roles, mutated)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(any("pier39 must remain scheduled as a hard anchor on 10/5" in failure for failure in report["failures"]))
+
+    def test_yosemite_morning_to_san_francisco_recovery_is_required(self):
+        mutated = copy.deepcopy(self.schedule)
+        mutated["routes"]["A"]["days"]["10/9"]["recovery"] = ["Add an SF photo stop before hotel check-in."]
+        report = validate_route_truth(self.data, self.roles, mutated)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(any("10/9 Yosemite morning" in failure for failure in report["failures"]))
+
+    def test_yosemite_to_san_francisco_transfer_must_follow_the_final_morning(self):
+        mutated = copy.deepcopy(self.data)
+        transfer = next(leg for leg in mutated["legs"] if leg["leg_id"] == "T_A_1009_YOSE_SF")
+        transfer["date"] = "10/10"
+        report = validate_route_truth(mutated, self.roles, self.schedule)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(any("conceptual Yosemite → SF transfer after the 10/9 morning" in failure for failure in report["failures"]))
 
     def test_wrong_role_bucket_is_rejected(self):
         mutated = copy.deepcopy(self.schedule)
@@ -46,7 +68,7 @@ class RouteTruthTests(unittest.TestCase):
     def test_skip_schedule_and_post_departure_monterey_are_rejected(self):
         mutated = copy.deepcopy(self.schedule)
         mutated["routes"]["A"]["days"]["10/6"]["conditional"].append("bixby")
-        mutated["routes"]["E"]["days"]["10/11"]["conditional"].append("monterey_wharf")
+        mutated["routes"]["A"]["days"]["10/11"]["conditional"].append("monterey_wharf")
         report = validate_route_truth(self.data, self.roles, mutated)
         self.assertEqual(report["status"], "FAIL")
         self.assertTrue(any("schedules Skip place bixby" in failure for failure in report["failures"]))
@@ -94,6 +116,13 @@ class RouteTruthTests(unittest.TestCase):
         self.assertIn("yosemite", report["daily_regions"]["A"]["10/9"])
         self.assertIn("sf", report["daily_regions"]["A"]["10/9"])
         self.assertEqual(report["lodging"]["yosemite"], ["10/7–10/9"])
+
+    def test_stale_route_id_outside_canonical_set_is_rejected(self):
+        mutated = copy.deepcopy(self.schedule)
+        mutated["routes"]["B"] = copy.deepcopy(mutated["routes"]["A"])
+        report = validate_route_truth(self.data, self.roles, mutated)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(any("schedule route IDs must exactly match" in failure for failure in report["failures"]))
 
 
 if __name__ == "__main__":

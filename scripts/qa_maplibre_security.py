@@ -139,7 +139,7 @@ def run_browser_regression(root: Path = ROOT) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--revision")
-    parser.add_argument("--output", type=Path, default=ROOT / "QA/release/maplibre_security.json")
+    parser.add_argument("--output", type=Path, default=ROOT / "QA/CHG-188/release/maplibre_security.json")
     args = parser.parse_args()
     result = {"status": "FAIL", "candidate_head": args.revision, "static": static_contract_checks(ROOT)}
     try:

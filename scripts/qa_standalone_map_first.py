@@ -8,12 +8,13 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 from qa_config import STANDALONE_PATH
+from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "map_first"
+OUT = ROOT / "QA" / "CHG-188" / "standalone"
 OUT.mkdir(parents=True, exist_ok=True)
-ROUTES = ("A", "B", "C", "D", "E")
+ROUTES = tuple(sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"]))
 REGIONS = ("overall", "sf", "monterey", "yosemite")
 DAYS = ("all", "10/3", "10/6", "10/8", "10/11")
 
@@ -37,7 +38,7 @@ def exercise(page):
                 probe = page.evaluate(
                     """async ({route,region,date}) => {
                       const a=window.__tripApp;
-                      a.state.routes=new Set([route]); a.state.primaryRoute=route; a.state.compareRoutes=new Set();
+                      a.state.routes=new Set([route]); a.state.primaryRoute=route;
                       a.state.date=date; a.state.region=region; a.state.selected=null; a.setMode('day');
                       await a.drawMap(false); await a.whenIdle();
                       const snap=a.runtimeSnapshot();
@@ -50,7 +51,6 @@ def exercise(page):
                 probes.append(probe)
 
     for _ in range(3):
-        page.locator("#routeLegendToggle").click(); page.locator("#routeLegendToggle").click()
         page.locator("#mapOptionsToggle").click(); page.locator("#mapOptionsToggle").click()
         page.locator('[data-mode="place"]').click(); page.locator('[data-mode="day"]').click(); page.locator('[data-mode="decide"]').click()
         page.locator('[data-sheet="compact"]').click(); page.locator("#workbenchToggle").click(); page.locator('[data-sheet="full"]').click(); page.locator("#workbenchToggle").click(); page.locator("#workbenchToggle").click()
@@ -65,7 +65,7 @@ def exercise(page):
     page.wait_for_timeout(3300)
     recovery = page.evaluate("window.__tripApp.runtimeSnapshot()")
     page.mouse.wheel(0, -900); page.mouse.wheel(0, 900)
-    page.evaluate("async()=>{const a=window.__tripApp;a.state.routes=new Set(['E']);a.state.primaryRoute='E';a.state.region='yosemite';a.state.date='10/8';await a.drawMap(false);await a.whenIdle()}")
+    page.evaluate("async(route)=>{const a=window.__tripApp;a.state.routes=new Set([route]);a.state.primaryRoute=route;a.state.region='yosemite';a.state.date='10/8';await a.drawMap(false);await a.whenIdle()}", ROUTES[0])
     continued = page.evaluate("window.__tripApp.runtimeSnapshot()")
     page.unroute("https://server.arcgisonline.com/**")
     final = page.evaluate("window.__tripApp.runtimeSnapshot()")
@@ -76,7 +76,7 @@ def exercise(page):
         "initial": initial, "probes": probes, "recovery": recovery, "continued": continued, "final": final,
         "page_errors": errors, "console_errors": console_errors, "failed_requests": failed_requests,
         "assertions": {
-            "five_routes_exercised": len({row["route"] for row in probes}) == 5,
+            "all_active_routes_exercised": set(row["route"] for row in probes) == set(ROUTES),
             "all_regions_exercised": len({row["region"] for row in probes}) == 4,
             "all_probes_use_smart": all(row["provider"] == "vector" and row["localAssets"] == "ready" and row["canvas"] == 1 for row in probes),
             "spatial_content_remains_useful_or_explicit_sparse": all(row["useful"] or (row["markers"] == 0 and row["features"] == 0) for row in probes),
@@ -121,7 +121,8 @@ with sync_playwright() as playwright:
     browser.close()
 
 negative = negative_control()
-report = {"status": "PASS" if positive["status"] == "PASS" and negative["status"] == "PASS" else "FAIL", "positive": positive, "negative_control": negative}
+report = {"schema_version": 2, "status": "PASS" if positive["status"] == "PASS" and negative["status"] == "PASS" else "FAIL", "candidate": candidate_identity()["sha"], "candidate_tree": candidate_identity()["tree"], "positive": positive, "negative_control": negative}
+bind_report(report, candidate_identity())
 (OUT / "standalone.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "positive": positive["status"], "negative_control": negative["status"], "probes": len(positive.get("probes", []))}, ensure_ascii=False, indent=2))
 raise SystemExit(0 if report["status"] == "PASS" else 1)

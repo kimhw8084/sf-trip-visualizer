@@ -8,6 +8,8 @@ timeline links, and leg route arrays) so compatibility fields cannot drift.
 
 from __future__ import annotations
 
+raise SystemExit("DEPRECATED LEGACY ENTRY POINT: frozen predecessor multi-route generator; use the canonical map-first source and pipeline")
+
 import copy
 import csv
 import json

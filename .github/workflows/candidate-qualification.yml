@@ -41,16 +41,16 @@ jobs:
 
       - name: Run exact-revision full qualification under the shared hosted Linux contract
         run: |
-          mkdir -p QA/release
+          mkdir -p QA/CHG-188/release
           set -o pipefail
-          python3 scripts/hosted_linux_pipeline.py qualify --revision "$GITHUB_SHA" 2>&1 | tee QA/release/qualification.log
+          python3 scripts/hosted_linux_pipeline.py qualify --revision "$GITHUB_SHA" 2>&1 | tee QA/CHG-188/release/qualification.log
 
       - name: Run repository unit and contract checks
         if: always()
         run: |
-          mkdir -p QA/release
+          mkdir -p QA/CHG-188/release
           set -o pipefail
-          python3 -m unittest discover -s tests -p 'test_*.py' 2>&1 | tee QA/release/unit-tests.log
+          python3 -m unittest discover -s tests -p 'test_*.py' 2>&1 | tee QA/CHG-188/release/unit-tests.log
 
       - name: Check out a clean exact revision for the Pages release-path exercise
         if: success()
@@ -66,10 +66,10 @@ jobs:
         if: success()
         working-directory: release-path-checkout
         run: |
-          mkdir -p QA/release
+          mkdir -p QA/CHG-188/release
           set -o pipefail
-          python3 scripts/hosted_linux_pipeline.py release --revision "$GITHUB_SHA" 2>&1 | tee QA/release/pages-release.log
-          python3 scripts/pipeline.py verify-public --revision "$GITHUB_SHA" 2>&1 | tee QA/release/pages-verify-public.log
+          python3 scripts/hosted_linux_pipeline.py release --revision "$GITHUB_SHA" 2>&1 | tee QA/CHG-188/release/pages-release.log
+          python3 scripts/pipeline.py verify-public --revision "$GITHUB_SHA" 2>&1 | tee QA/CHG-188/release/pages-verify-public.log
 
       - name: Upload candidate qualification evidence
         if: always()
@@ -79,21 +79,9 @@ jobs:
           name: candidate-qualification-${{ github.sha }}
           if-no-files-found: warn
           path: |
-            QA/release/*.json
-            QA/release/*.log
-            QA/map_first/**/*.json
-            QA/map_first/screenshots/**
-            QA/photo_integrity.json
-            QA/route_panel/**/*.json
-            QA/project_os_verify/ui_revamp_r4/**
-            QA/project_os_verify/ui_revamp_r5/**
-            QA/project_os_verify/gate5_r2/**
+            QA/CHG-188/**/*.json
+            QA/CHG-188/**/*.log
             .public-site/.release-provenance.json
-            release-path-checkout/QA/release/*.json
-            release-path-checkout/QA/release/*.log
-            release-path-checkout/QA/map_first/**/*.json
-            release-path-checkout/QA/map_first/screenshots/**
-            release-path-checkout/QA/project_os_verify/ui_revamp_r4/**
-            release-path-checkout/QA/project_os_verify/ui_revamp_r5/**
-            release-path-checkout/QA/project_os_verify/gate5_r2/**
+            release-path-checkout/QA/CHG-188/**/*.json
+            release-path-checkout/QA/CHG-188/**/*.log
             release-path-checkout/.public-site/.release-provenance.json

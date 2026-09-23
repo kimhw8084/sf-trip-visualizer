@@ -441,7 +441,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             feedback_visible = bool(feedback_message) and "Smart" in feedback_message
             feedback_truthful = feedback_visible and "failed" not in feedback_message.lower() and "Satellite" in feedback_action
             feedback_dismissible = bool(deterministic_page.locator("#mapErrorDismiss").count()) and deterministic_page.locator("#mapErrorDismiss").is_visible()
-            screenshot_path = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5" / "satellite_failure_recovery_1440x900.png"
+            screenshot_path = ROOT / "QA" / "CHG-188" / "screenshots" / "satellite_failure_recovery_1440x900.png"
             screenshot_path.parent.mkdir(parents=True, exist_ok=True)
             deterministic_page.screenshot(path=str(screenshot_path))
             retry_before = recovered["runtime"]["providerStats"]["satellite"]["healthProbes"]
@@ -557,6 +557,7 @@ def main() -> int:
     if not output.is_absolute():
         output = ROOT / output
     output.parent.mkdir(parents=True, exist_ok=True)
+    output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"status": report["status"], "candidate_head": report["candidate_head"], "mode": report["test_mode"], "failures": report.get("failures", [])}, ensure_ascii=False))
     return 0 if report["status"] == "PASS" else 1
@@ -564,4 +565,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

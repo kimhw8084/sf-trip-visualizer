@@ -9,8 +9,9 @@ from qa_config import MODULAR_URL
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "map_first"
+OUT = ROOT / "QA" / "CHG-188" / "map_first_p0"
 OUT.mkdir(parents=True, exist_ok=True)
+ACTIVE_ROUTE_IDS = sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"])
 report = {"status": "FAIL", "checks": {}, "detail_reviews": [], "errors": [], "remote_photo_requests": []}
 local_origin = MODULAR_URL.rsplit("/", 1)[0] + "/"
 
@@ -41,7 +42,7 @@ with sync_playwright() as playwright:
     check("physical_marker_objects", page.locator(".photo-marker").count(), expected_places)
     check("marker_place_keys_unique", page.locator(".photo-marker").evaluate_all("xs=>new Set(xs.map(x=>x.dataset.placeKey)).size"), expected_places)
     check("all_marker_hero_thumbs_decode", page.locator(".photo-marker img").evaluate_all("xs=>xs.every(x=>x.complete&&x.naturalWidth>0)"), True)
-    check("route_layers_present", page.evaluate("()=>['A','B','C','D','E'].every(r=>!!window.__tripApp.map().getLayer('trip-local-'+r))"), True)
+    check("configured_route_layers_present", page.evaluate("ids=>ids.every(r=>!!window.__tripApp.map().getLayer('trip-local-'+r))", ACTIVE_ROUTE_IDS), True)
     check("provider_controls_are_single_owner", page.locator("#providerControls [data-provider]").count(), 2)
     check("date_control_is_single_owner", page.locator("#dateSelect").count(), 1)
     check("legacy_surface_absence", page.locator("#dateRibbon,#mapSchedule,#mapFocus,#routeTip,#mobileDate,#mobileProvider,#previewCard,#detailsPane").count(), 0)

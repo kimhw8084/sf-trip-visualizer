@@ -53,13 +53,6 @@
             </div>
           </div>
         </div>
-        <div id="mapLegend" class="map-chrome map-bottom-left" aria-label="Map legend">
-          <div class="route-key-bar">
-            <span id="routeLegendCurrent" class="route-legend-current"></span>
-            <button id="routeLegendToggle" class="route-key-toggle" type="button" aria-controls="routeLegendPanel" aria-expanded="false" data-i18n="routeKey">경로 키</button>
-          </div>
-          <div id="routeLegendPanel" class="route-legend-panel map-chrome" role="region" aria-label="Route key" hidden></div>
-        </div>
         <div id="mapError" class="map-error" role="alert" aria-live="assertive" hidden>
           <div class="map-error-message"></div>
           <button id="smartRetry" type="button" data-i18n="retrySmart">Smart 지도 다시 시도</button>
@@ -94,13 +87,8 @@
             </div>
             <div id="recommendation" class="recommendation-card"></div>
             <section class="route-section" aria-labelledby="routeSectionHeading">
-              <div class="section-heading"><div><p class="eyebrow">THE FIELD SET</p><h3 id="routeSectionHeading">Route strategies</h3></div><span id="routeCount" class="count-badge"></span></div>
+              <div class="section-heading"><div><p class="eyebrow">THE FIELD PLAN</p><h3 id="routeSectionHeading">Route strategy</h3></div></div>
               <div id="routeCards" class="route-cards"></div>
-            </section>
-            <section class="compare-section" aria-labelledby="compareHeading">
-              <div class="section-heading"><div><p class="eyebrow">COMPARE</p><h3 id="compareHeading" data-i18n="compare">두 안 비교</h3></div><span id="compareCount" class="count-badge"></span></div>
-              <p class="section-hint" data-i18n="compareHint">두 경로를 고르면 공통 뼈대와 갈라지는 선택이 보입니다.</p>
-              <div id="comparePanel" class="compare-panel"></div>
             </section>
             <div id="decideComplete" class="completion-card"><strong data-i18n="completeDecide">결정을 설명할 수 있나요?</strong><span data-i18n="completeDecideText">추천 이유, 다른 안이 주는 것과 치르는 것, 전환 조건을 확인했습니다.</span></div>
           </section>

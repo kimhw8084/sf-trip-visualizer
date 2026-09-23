@@ -131,9 +131,8 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertIn("actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02", workflow)
         self.assertNotIn("pip install --upgrade", workflow)
         self.assertIn("candidate-qualification-${{ github.sha }}", workflow)
-        self.assertIn("QA/release/*.json", workflow)
-        self.assertIn("QA/map_first/**/*.json", workflow)
-        self.assertIn("QA/map_first/screenshots/**", workflow)
+        self.assertIn("QA/CHG-188/**/*.json", workflow)
+        self.assertIn("QA/CHG-188/**/*.log", workflow)
 
     def test_public_assembly_is_exact_sha_gated(self):
         public = (ROOT / "scripts/prepare_public_site.py").read_text()

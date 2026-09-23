@@ -14,11 +14,7 @@ provider manifests are derived projections/evidence. `manifests/trip_freshness.j
 is the one source/recheck authority for time-varying decision facts and is not an
 alternate itinerary source. `scripts/validate_trip_data.py` enforces these boundaries.
 
-Normal build/check commands never write authored data. `data/translations.json`, `data/route_geometry_cache.json`, `data/route_geometry_manifest.json`, and the provider/photo manifests are derived inputs or evidence. The location-gap mutation is an explicit source-generation operation only:
-
-```bash
-python3 scripts/apply_location_gap_audit.py --write
-```
+Normal build/check commands never write authored data. `data/translations.json`, `data/route_geometry_cache.json`, `data/route_geometry_manifest.json`, and the provider/photo manifests are derived inputs or evidence. Superseded route-family/location-gap generators are classified as historical lineage and must not be run against the current trip; they can restore retired route IDs and prior schedules.
 
 Gate 3 refresh and validation use the canonical pipeline:
 
@@ -49,7 +45,7 @@ Without safe external retrieval, the workflow stays fail-closed as
   are either one physical `place_key` or an explicit `endpoint_anchors` entry such
   as a ferry embarkation or regional transfer anchor.
 
-The maintained invariants are 39 markers, 67 timeline cards, 45 typed connectors, five routes (A–E), nine dates, three non-overall regions, and exactly the `vector` and `satellite` providers. `manifests/asset_manifest.json` supplies 117 place/roles as 117 total real local photographs: HERO, EXPERIENCE, and SCALE_CONTEXT for every place.
+The configured 2026 trip currently has 36 markers, 51 timeline cards, 36 typed connectors, one active route, nine dates, three non-overall regions, and exactly the `vector` and `satellite` providers. Route identifiers come from the canonical role/schedule source; the renderer accepts any non-empty route set, including a one-route trip. `manifests/asset_manifest.json` supplies 108 place/roles as 108 total real local photographs: HERO, EXPERIENCE, and SCALE_CONTEXT for every active place.
 
 ## Route semantics
 
@@ -77,7 +73,7 @@ python3 scripts/pipeline.py qualify
 python3 scripts/pipeline.py package
 ```
 
-`fast` validates source/schema/integrity/build invariants, protects authored-input hashes, and compares a repeat build. `qualify` runs the existing decisive map-first smoke/full/P0/location-gap/interaction/route-panel/route-continuity suites, photo integrity, 600-state exhaustive rendering, standalone, responsive/cross-browser, and focused visual evidence. It writes a current report to `QA/release/qualification.json` and never rewrites historical P0 evidence.
+`fast` validates source/schema/integrity/build invariants, protects authored-input hashes, and compares a repeat build. `qualify` runs the decisive map-first, single-route, place-role, geometry, standalone, responsive/cross-browser, and focused visual suites. It writes current exact-candidate evidence to `QA/CHG-188/` and never rewrites historical evidence.
 
 Qualification components have a 300-second default timeout. A timeout is machine-recorded as `UNVERIFIED` and blocks release; `TRIP_QUALIFICATION_TIMEOUT_SECONDS` is available only to shorten local diagnostic runs.
 
@@ -95,7 +91,7 @@ assets are a qualification failure or a visible Smart-map failure; they never
 authorize a remote substitute. Satellite is optional network behavior. Its
 health probes, tile failures, bounded fallback, state preservation, and any
 unverified external-provider success are recorded by
-`scripts/qa_gate4_resilience.py` in `QA/release/gate4*.json`.
+`scripts/qa_gate4_resilience.py` in `QA/CHG-188/release/gate4*.json`.
 
 Gate 4 evidence is run by `scripts/pipeline.py fast` and `qualify`; public and
 package hashes are added by the existing canonical assembly/package commands.

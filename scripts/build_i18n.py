@@ -1,4 +1,6 @@
-"""Freeze locally generated translations with editorial corrections and place subtitles."""
+"""DEPRECATED LEGACY ENTRY POINT: frozen predecessor translation generator."""
+
+raise SystemExit("DEPRECATED LEGACY ENTRY POINT: use the canonical map-first translations source and pipeline")
 
 import json
 import re

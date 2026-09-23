@@ -28,8 +28,8 @@ from qa_evidence import candidate_identity
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = MODULAR_URL
-OUTPUT = ROOT / "QA/project_os_verify/ui_revamp_r5/browser_summary.json"
-SHOTS = ROOT / "QA/project_os_verify/ui_revamp_r5/screenshots"
+OUTPUT = ROOT / "QA/CHG-188/browser_summary.json"
+SHOTS = ROOT / "QA/CHG-188/browser_screenshots"
 CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "60"))
 TERM_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_TERM_GRACE_SECONDS", "2"))
 KILL_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_KILL_GRACE_SECONDS", "2"))
@@ -429,14 +429,8 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
         page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden")
         page.wait_for_function("document.activeElement?.id === 'mapOptionsToggle'", timeout=5000)
         row["map_options_close_focus_return"] = page.evaluate("document.querySelector('#mapOptionsPanel')?.hidden && document.activeElement?.id === 'mapOptionsToggle' && !document.activeElement?.closest('#mapOptionsPanel')")
-        page.locator("#routeLegendToggle").click()
-        page.wait_for_function("!document.querySelector('#routeLegendPanel')?.hidden")
-        row["route_key_open"] = page.evaluate("!document.querySelector('#routeLegendPanel')?.hidden")
-        row["route_key_open_geometry"] = page.evaluate("window.__tripApp.mapGeometrySnapshot()")
-        page.keyboard.press("Escape")
-        page.wait_for_function("document.querySelector('#routeLegendPanel')?.hidden")
-        page.wait_for_function("document.activeElement?.id === 'routeLegendToggle'", timeout=5000)
-        row["route_key_close_focus_return"] = page.evaluate("document.querySelector('#routeLegendPanel')?.hidden && document.activeElement?.id === 'routeLegendToggle'")
+        row["active_route_ids"] = page.evaluate("Object.keys(window.__tripApp.DATA.routes)")
+        row["single_route_ui_no_compare"] = page.evaluate("()=>Object.keys(window.__tripApp.DATA.routes).length===1&&document.querySelectorAll('#routeCards .route-card').length===1&&document.querySelectorAll('#routeLegendToggle,#routeLegendPanel,[data-compare-route],#comparePanel,.route-compare,.route-membership,.membership-cell').length===0")
         page.locator("#mapOptionsToggle").click()
         page.locator("#regionControls [data-region='yosemite']").click()
         page.locator("#dateSelect").select_option("10/7")
@@ -464,8 +458,7 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
             and row["inspector_photos"] == 3
             and row["map_options_open"]
             and row["map_options_close_focus_return"]
-            and row["route_key_open"]
-            and row["route_key_close_focus_return"]
+            and row["single_route_ui_no_compare"]
             and row["marker_activation"] == "cooks"
             and not any(marker.get("intersects_obstacle") for marker in row["geometry"].get("markers", []))
             and not row["page_errors"]

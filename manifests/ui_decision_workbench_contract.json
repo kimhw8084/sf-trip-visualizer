@@ -7,7 +7,6 @@
   "task_state": {
     "domain": {
       "primary_route": {"owner": "Decide mode", "persist": true, "preserve_on": ["resize", "orientation", "provider_change", "peek_close", "workbench_collapse"]},
-      "compare_routes": {"owner": "Decide mode", "persist": true, "max": 2, "reset_on": ["mode_exit_if_not_used"]},
       "date": {"owner": "Day mode", "persist": true, "preserve_on": ["resize", "orientation", "provider_change", "place_close"]},
       "region": {"owner": "Map presentation controls", "persist": true, "preserve_on": ["resize", "orientation", "provider_change"]},
       "selected_place": {"owner": "shared occurrence selection", "persist": true, "discard_on": ["filtered_out", "missing_canonical_place"], "preserve_on": ["resize", "orientation", "provider_change", "mode_change"]},
@@ -34,7 +33,7 @@
     {"id": "map_controls", "kind": "provider_region_fit", "scroll_owner": "none", "focus_owner": "map_controls"},
     {"id": "peek", "kind": "contextual_place_preview", "scroll_owner": "peek_content", "escape_owner": "peek", "focus_return": "invoker_or_map"},
     {"id": "workbench", "kind": "single_task_workbench", "scroll_owner": "workbench-scroll", "escape_owner": "place_then_sheet", "focus_owner": "mode_navigation"},
-    {"id": "decide", "kind": "route_decision", "owner": "workbench", "critical_tasks": ["recommended_route", "compare_two_routes", "switch_rule"]},
+    {"id": "decide", "kind": "route_decision", "owner": "workbench", "critical_tasks": ["recommended_route", "switch_rule"]},
     {"id": "day", "kind": "daily_execution", "owner": "workbench", "critical_tasks": ["choose_date", "identify_must_optional_swap_recovery", "bidirectional_selection"]},
     {"id": "place", "kind": "place_inspector", "owner": "workbench", "critical_tasks": ["why_now", "photo_roles", "timing", "replan_rules", "directions", "return_to_prior_context"]}
   ],
@@ -47,13 +46,12 @@
   },
   "overlay_contract": {"one_contextual_map_overlay": true, "peek_to_inspector_only": true, "escape_order": ["Peek", "Place Inspector", "full_sheet_to_expanded"], "hidden_is_inert": true},
   "task_oracles": [
-    {"id": "decide_recommendation", "precondition": "mode=decide", "input": "read recommended card", "oracle": "A is explicitly labeled recommended; human promise, best-for, trade-off, switch rule and regret guard are visible"},
-    {"id": "decide_compare", "precondition": "mode=decide", "input": "select a second route for compare", "oracle": "two-route panel shows shared spine and divergence with both route narratives"},
-    {"id": "decide_switch", "precondition": "mode=decide", "input": "read switch rule", "oracle": "route switch condition is visible in recommended card and route comparison"},
+    {"id": "decide_recommendation", "precondition": "mode=decide", "input": "read recommended card", "oracle": "the configured route is explicitly recommended; human promise, best-for, trade-off, switch rule and regret guard are visible"},
+    {"id": "decide_switch", "precondition": "mode=decide", "input": "read switch rule", "oracle": "the recommended single-route plan exposes its decision rules, conditions, and recovery fallbacks"},
     {"id": "day_semantics", "precondition": "mode=day and date selected", "input": "inspect plan", "oracle": "must/core/swap/conditional/bonus/recovery/choice are labeled and non-spatial plan items remain first class"},
     {"id": "place_round_trip", "precondition": "map or Day place available", "input": "open Peek then Inspector then Back", "oracle": "authentic photos, why-now, occurrence context and replan rules are visible; prior mode/date/selection context returns"},
     {"id": "satellite_recovery", "precondition": "Smart map ready", "input": "choose Satellite then induce failure", "oracle": "provider failure stays adjacent, Smart identity is explicit, task/date/place state remains intact"}
   ],
   "legacy_surfaces_removed": ["dateRibbon", "mapSchedule", "mapFocus", "desktop/mobile duplicate date controls", "desktop/mobile duplicate provider controls", "Details tab as a second task authority", "full map-focus mini-detail"],
-  "preservation": {"maplibre_sha256": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675", "trip_vector_sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d", "canonical_counts": {"places": 39, "photos": 117, "timeline_cards": 67, "route_legs": 45, "routes": 5, "dates": 9, "regions": 3}}
+  "preservation": {"maplibre_sha256": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675", "trip_vector_sha256": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d", "canonical_counts": {"places": 36, "photos": 108, "timeline_cards": 51, "route_legs": 36, "routes": 1, "dates": 9, "regions": 3}}
 }

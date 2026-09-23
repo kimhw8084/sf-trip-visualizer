@@ -41,44 +41,6 @@
       }
     },
     {
-      "fact_id": "exploratorium_hours_and_closures",
-      "scope": {
-        "date_range": [
-          "10/3",
-          "10/11"
-        ],
-        "region": "sf",
-        "place_keys": [
-          "exploratorium"
-        ]
-      },
-      "claim": "Exploratorium hours and closure status support the scheduled visit.",
-      "source": {
-        "publisher": "Exploratorium",
-        "source_urls": [
-          "https://www.exploratorium.edu/hours",
-          "https://www.exploratorium.edu/visit"
-        ],
-        "primary_or_official": true
-      },
-      "observed_on": "2026-09-21",
-      "status": "RECHECK_REQUIRED",
-      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
-      "recheck": {
-        "trigger": "hours, closure, or special-event change",
-        "window": "T-48H"
-      },
-      "product_claim_refs": [
-        "markers.exploratorium.occurrences[*]",
-        "timeline[*] where spatial_keys includes exploratorium"
-      ],
-      "last_observation": {
-        "source_url": "https://www.exploratorium.edu/hours",
-        "checked_at": "2026-09-21",
-        "research_ledger": "data/route_research_ledger.json"
-      }
-    },
-    {
       "fact_id": "muir_woods_reservation_access",
       "scope": {
         "date": "10/4",
@@ -175,7 +137,8 @@
       },
       "product_claim_refs": [
         "markers.cable_car.decision_rules",
-        "legs.GAP_1005_CABLE_01/02"
+        "legs.GAP_1005_CABLE_01",
+        "legs.GAP_1005_CABLE_02"
       ],
       "last_observation": {
         "source_url": "https://www.sfmta.com/routes/powell-hyde-cable-car",
@@ -213,40 +176,6 @@
       ],
       "last_observation": {
         "source_url": "https://www.parks.ca.gov/?page_id=571",
-        "checked_at": "2026-09-21",
-        "research_ledger": "data/route_research_ledger.json"
-      }
-    },
-    {
-      "fact_id": "highway_1_bixby_access",
-      "scope": {
-        "date": "10/6",
-        "region": "monterey",
-        "place_keys": [
-          "bixby"
-        ]
-      },
-      "claim": "Highway 1 and the Bixby access/viewpoint conditions support the conditional southbound swap.",
-      "source": {
-        "publisher": "Caltrans District 5",
-        "source_urls": [
-          "https://dot.ca.gov/caltrans-near-me/district-5"
-        ],
-        "primary_or_official": true
-      },
-      "observed_on": "2026-09-21",
-      "status": "RECHECK_REQUIRED",
-      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
-      "recheck": {
-        "trigger": "closure, construction, incident, or coastal access change",
-        "window": "T-24H and departure morning"
-      },
-      "product_claim_refs": [
-        "markers.bixby.decision_rules",
-        "legs.GAP_1006_SWAP_01/02"
-      ],
-      "last_observation": {
-        "source_url": "https://dot.ca.gov/caltrans-near-me/district-5",
         "checked_at": "2026-09-21",
         "research_ledger": "data/route_research_ledger.json"
       }
@@ -290,7 +219,7 @@
       "scope": {
         "date_range": [
           "10/7",
-          "10/10"
+          "10/9"
         ],
         "region": "yosemite",
         "place_keys": [
@@ -303,7 +232,7 @@
           "el_capitan"
         ]
       },
-      "claim": "Current Yosemite road, trail, weather, and access conditions support the selected viewpoint or recovery branch.",
+      "claim": "Current Yosemite fire, smoke, road, trail, weather, visibility, and access conditions support the selected viewpoint or the safer open 10/9 corridor to San Francisco.",
       "source": {
         "publisher": "National Park Service",
         "source_urls": [
@@ -317,15 +246,18 @@
       "status": "RECHECK_REQUIRED",
       "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
       "recheck": {
-        "trigger": "road closure, weather, shuttle, trail, or reservation change",
+        "trigger": "fire, smoke, road closure, weather, visibility, shuttle, trail, or reservation change",
         "window": "T-24H and each departure morning"
       },
       "product_claim_refs": [
         "markers.glacier.decision_rules",
         "markers.mariposa.occurrences[*].reason",
+        "legs.T_A_1009_YOSE_SF",
+        "legs.T_1007_MONTEREY_YOSE",
         "legs.C_1008_01",
-        "legs.UX_1008_OUT/RETURN",
-        "legs.A1_1009_MARIPOSA"
+        "legs.GAP_1007_02",
+        "legs.GAP_1007_03",
+        "legs.C_1007_COOKS_MARIPOSA"
       ],
       "last_observation": {
         "source_url": "https://www.nps.gov/yose/planyourvisit/conditions.htm",
@@ -358,8 +290,7 @@
         "window": "T-24H and departure morning"
       },
       "product_claim_refs": [
-        "markers.mariposa.occurrences[*]",
-        "legs.A1_1009_MARIPOSA"
+        "markers.mariposa.occurrences[*]"
       ],
       "last_observation": {
         "source_url": "https://www.nps.gov/yose/planyourvisit/mg.htm",
@@ -378,7 +309,6 @@
         "place_keys": [
           "ferry",
           "bay_lights",
-          "academy",
           "botanical",
           "painted",
           "twin_peaks"
@@ -624,6 +554,35 @@
       },
       "product_claim_refs": [
         "data.route_research_ledger.records[tea_garden_carrier]"
+      ]
+    },
+    {
+      "fact_id": "monterey_wharf_hours_and_dinner_access",
+      "scope": {
+        "date": "10/6",
+        "region": "monterey",
+        "place_keys": [
+          "monterey_wharf"
+        ]
+      },
+      "claim": "Old Fisherman's Wharf operating hours and pedestrian access support the natural Monterey evening and dinner layer.",
+      "source": {
+        "publisher": "Old Fisherman's Wharf Monterey",
+        "source_urls": [
+          "https://www.montereywharf.com/"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": null,
+      "status": "RECHECK_REQUIRED",
+      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "recheck": {
+        "trigger": "hours, weather, access, or business/operator change",
+        "window": "T-24H and arrival evening"
+      },
+      "product_claim_refs": [
+        "markers.monterey_wharf.occurrences[*]",
+        "timeline[*] where spatial_keys includes monterey_wharf"
       ]
     }
   ],

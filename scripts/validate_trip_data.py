@@ -24,6 +24,8 @@ TRANSLATIONS = ROOT / "data" / "translations.json"
 GEOMETRY = ROOT / "data" / "route_geometry_cache.json"
 GEOMETRY_MANIFEST = ROOT / "data" / "route_geometry_manifest.json"
 ROLE_MATRIX = ROOT / "data" / "route_role_matrix.json"
+ROUTE_SCHEDULE = ROOT / "data" / "route_schedules.json"
+RESEARCH_LEDGER = ROOT / "data" / "route_research_ledger.json"
 ASSETS = ROOT / "manifests" / "asset_manifest.json"
 REFERENCE_FILES = {
     "routes": ROOT / "data" / "routes.json",
@@ -37,8 +39,10 @@ REFERENCE_FILES = {
 KO = re.compile(r"[가-힣]")
 DATE = re.compile(r"^(\d{1,2}/\d{1,2})")
 BRANCH_KINDS = {"main", "conditional", "swap", "bonus", "recovery", "choice"}
-GEOMETRY_STATUSES = {"routed_osm", "conceptual_ferry", "conceptual_transfer"}
+GEOMETRY_STATUSES = {"routed_osm", "conceptual_ferry", "conceptual_transfer", "conceptual_connector"}
 REGIONS = {"sf", "monterey", "yosemite"}
+RETIRED_ACTIVE_PLACE_KEYS = {"exploratorium", "musee", "academy"}
+RETIRED_ACTIVE_COPY = ("exploratorium", "musée mécanique", "musee mécanique", "california academy")
 
 
 def load(path: Path) -> Any:
@@ -57,6 +61,16 @@ def has_text(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
 
+def active_route_contract_failures(runtime_ids: set[str], role_ids: set[str], expected_ids: set[str], referenced_ids: set[str] = frozenset()) -> list[str]:
+    """Enforce the configured route set while allowing any non-empty cardinality."""
+    failures = []
+    if not expected_ids or runtime_ids != expected_ids or role_ids != expected_ids:
+        failures.append("active route IDs do not exactly match the configured canonical set")
+    if not referenced_ids <= expected_ids:
+        failures.append("route references escape the configured canonical set")
+    return failures
+
+
 def date_key(value: Any) -> str | None:
     match = DATE.match(str(value or ""))
     return match.group(1) if match else None
@@ -71,6 +85,8 @@ def validate_trip_data() -> dict[str, Any]:
     assets = load(ASSETS)
     freshness = load(FRESHNESS)
     role_doc = load(ROLE_MATRIX)
+    route_schedule = load(ROUTE_SCHEDULE)
+    research_ledger = load(RESEARCH_LEDGER)
     route_role_matrix = role_doc.get("places", {})
     canonical_route_ids = role_doc.get("route_ids", [])
     references = {name: load(path) for name, path in REFERENCE_FILES.items()}
@@ -102,12 +118,27 @@ def validate_trip_data() -> dict[str, Any]:
 
     check("physical_place_keys_unique", len(marker_keys) == len(marker_set) and all(has_text(key) for key in marker_keys))
     expected = manifest.get("invariants", {})
-    check("place_count", len(markers) == expected.get("places") == len(route_role_matrix) == 39)
+    check("place_count", len(markers) == expected.get("places") == len(route_role_matrix))
     check("timeline_count", len(data.get("timeline", [])) == expected.get("timeline_cards"))
     check("leg_count", len(data.get("legs", [])) == expected.get("route_legs"))
-    check("route_count", sorted(route_ids) == sorted(canonical_route_ids) == ["A", "B", "C", "D", "E"])
+    active_route_ids = expected.get("active_route_ids", canonical_route_ids)
+    route_contract_failures = active_route_contract_failures(route_ids, set(canonical_route_ids), set(active_route_ids))
+    check("route_count", not route_contract_failures)
     recommended_routes = [route for route, meta in routes.items() if meta.get("recommended") is True]
-    check("recommended_route_is_explicit", recommended_routes == ["A"])
+    check("recommended_route_is_explicit", len(recommended_routes) == 1 and set(recommended_routes) <= route_ids)
+    check("route_day_models_match_active_routes", set(data.get("route_day_models", {})) == route_ids)
+    all_runtime_route_refs = set()
+    all_runtime_route_refs.update(route for marker in markers for route in marker.get("routes", []))
+    all_runtime_route_refs.update(occurrence.get("route") for marker in markers for occurrence in marker.get("occurrences", []))
+    all_runtime_route_refs.update(route for item in data.get("timeline", []) for route in item.get("routes", []))
+    all_runtime_route_refs.update(route for leg in data.get("legs", []) for route in leg.get("routes", []))
+    route_ref_failures = active_route_contract_failures(route_ids, set(canonical_route_ids), set(active_route_ids), all_runtime_route_refs)
+    check("route_ids_do_not_escape_canonical_active_set", not route_ref_failures)
+    check("route_role_projection_matches_source", data.get("route_roles") == route_role_matrix)
+    check("runtime_schedule_projection_matches_source", data.get("route_day_models") == route_schedule.get("routes"))
+    check("retired_attraction_identities_absent_from_active_catalog", not (RETIRED_ACTIVE_PLACE_KEYS & marker_set) and not (RETIRED_ACTIVE_PLACE_KEYS & set(route_role_matrix)))
+    runtime_copy = json.dumps({"data": data, "translations": translations, "research": research_ledger}, ensure_ascii=False).lower()
+    check("retired_attractions_absent_from_active_runtime_copy", not any(term in runtime_copy for term in RETIRED_ACTIVE_COPY))
     check("date_count", len(dates) == expected.get("dates") and len(date_set) == len(dates))
     check("region_count", set(place_region.values()) == REGIONS and set(data.get("region_cfg", {})) == REGIONS | {"overall"})
     check("provider_keys", sorted(data.get("providers", {})) == ["satellite", "vector"])
@@ -118,7 +149,8 @@ def validate_trip_data() -> dict[str, Any]:
         key = marker.get("place_key")
         path = f"markers[{key}]"
         routes_for_marker = marker.get("routes", [])
-        check(f"{path}.routes_valid", bool(routes_for_marker) and set(routes_for_marker) <= route_ids and marker.get("route_count") == len(routes_for_marker))
+        expected_marker_routes = {route for route in canonical_route_ids if route_role_matrix.get(key, {}).get(route) != "Skip"}
+        check(f"{path}.routes_valid", isinstance(routes_for_marker, list) and set(routes_for_marker) == expected_marker_routes and marker.get("route_count") == len(routes_for_marker))
         roles = route_role_matrix.get(key, {})
         check(f"{path}.role_matrix", set(roles) == set(canonical_route_ids) and all(roles[route] in {"Core", "Strong", "Conditional", "Skip"} for route in canonical_route_ids))
         check(f"{path}.routes_derived_from_roles", set(routes_for_marker) == {route for route in canonical_route_ids if roles.get(route) != "Skip"})
@@ -174,6 +206,8 @@ def validate_trip_data() -> dict[str, Any]:
     legs = data.get("legs", [])
     leg_ids = [leg.get("leg_id") for leg in legs]
     check("leg_ids_unique", len(leg_ids) == len(set(leg_ids)))
+    yosemite_sf_transfers = [leg for leg in legs if leg.get("date") == "10/9" and leg.get("from") == "yosemite_valley" and leg.get("to") == "sf_center" and leg.get("render_style") == "transfer_dots"]
+    check("oct9_yosemite_morning_then_sf_transfer", len(yosemite_sf_transfers) == 1 and set(yosemite_sf_transfers[0].get("routes", [])) == route_ids if yosemite_sf_transfers else False)
     for leg in legs:
         prefix = f"leg[{leg.get('leg_id')}]"
         from_ref, from_name = resolve_endpoint(leg.get("from"))
@@ -212,7 +246,9 @@ def validate_trip_data() -> dict[str, Any]:
     coordinate_audit = references["coordinate_audit"]
     coordinate_keys = [row.get("place_key") for row in coordinate_audit]
     check("coordinate_audit_unique", len(coordinate_keys) == len(set(coordinate_keys)))
-    check("coordinate_audit_covers_places", set(coordinate_keys) == marker_set)
+    # Reference audits can retain retired historical places; every active place
+    # must be covered, while reference-only identities do not drive the build.
+    check("coordinate_audit_covers_places", marker_set <= set(coordinate_keys))
     for row in coordinate_audit:
         key = row.get("place_key")
         marker = next((marker for marker in markers if marker.get("place_key") == key), None)
@@ -224,9 +260,10 @@ def validate_trip_data() -> dict[str, Any]:
     canonical_places = references["canonical_places"]
     canonical_place_keys = [row.get("place_key") for row in canonical_places]
     check("canonical_places_unique", len(canonical_place_keys) == len(set(canonical_place_keys)))
-    check("canonical_places_covers_places", set(canonical_place_keys) == marker_set)
+    check("canonical_places_covers_places", marker_set <= set(canonical_place_keys))
     location_result = references["location_coverage"].get("result", {})
-    check("location_audit_count", location_result.get("total_places", location_result.get("final_map_places")) == len(markers))
+    historical_audit_count = location_result.get("total_places", location_result.get("final_map_places"))
+    check("location_audit_is_historical_coverage", isinstance(historical_audit_count, int) and historical_audit_count >= len(markers))
 
     source_manifest = references["source_manifest"]
     check("source_manifest_classifies_snapshots", source_manifest.get("reference_role") == "locked_reference_evidence" or source_manifest.get("evidence_role") == "reference_only")
@@ -234,8 +271,8 @@ def validate_trip_data() -> dict[str, Any]:
     check("source_manifest_does_not_override_runtime", "never override" in policy or "never overrides" in policy)
     route_snapshot = references["routes"].get("routes", {})
     itinerary_snapshot = references["itineraries"].get("plans", {})
-    check("route_snapshot_reconciles", set(route_snapshot) == route_ids)
-    check("itinerary_snapshot_reconciles", set(itinerary_snapshot) == route_ids)
+    check("route_snapshot_covers_active_routes", route_ids <= set(route_snapshot))
+    check("itinerary_snapshot_covers_active_routes", route_ids <= set(itinerary_snapshot))
 
     asset_items = assets.get("assets", [])
     asset_ids = [(asset.get("place_key"), asset.get("role")) for asset in asset_items]
@@ -282,6 +319,8 @@ def validate_trip_data() -> dict[str, Any]:
     geometry_ids = set(geometry)
     check("geometry_covers_legs", geometry_ids == set(leg_ids))
     check("geometry_manifest_covers_legs", {item.get("leg_id") for item in geometry_manifest.get("legs", [])} == set(leg_ids))
+    check("cross_day_suppression_references_active_legs", set(geometry_manifest.get("cross_day_suppressed_legs", [])) <= set(leg_ids))
+    geometry_manifest_legs = {item.get("leg_id"): item for item in geometry_manifest.get("legs", [])}
     for leg in legs:
         entry = geometry.get(leg["leg_id"], {})
         prefix = f"geometry[{leg['leg_id']}]"
@@ -289,6 +328,8 @@ def validate_trip_data() -> dict[str, Any]:
         check(f"{prefix}.status", status in GEOMETRY_STATUSES)
         check(f"{prefix}.provenance", has_text(entry.get("source")) and isinstance(entry.get("endpoint_signature"), list))
         check(f"{prefix}.coordinates", isinstance(entry.get("coordinates"), list) and len(entry.get("coordinates", [])) >= 2)
+        check(f"{prefix}.active_routes", set(leg.get("routes", [])) == route_ids)
+        check(f"{prefix}.manifest_routes", set(geometry_manifest_legs.get(leg["leg_id"], {}).get("routes", [])) == set(leg.get("routes", [])))
         if leg.get("mode") == "ferry":
             check(f"{prefix}.ferry_status", status == "conceptual_ferry")
         if leg.get("render_style") == "transfer_dots":
@@ -296,6 +337,9 @@ def validate_trip_data() -> dict[str, Any]:
             check(f"{prefix}.transfer_source_limit", "not a verified road track" in str(geometry_manifest.get("legs", [])[leg_ids.index(leg["leg_id"])].get("source_limitation", "")))
         if status == "routed_osm":
             check(f"{prefix}.road_reference_limit", "verify live closures" in str(entry.get("endpoint_note", "")) or "not live" in str(geometry_manifest.get("legs", [])[leg_ids.index(leg["leg_id"])].get("source_limitation", "")))
+        if status == "conceptual_connector":
+            limit = str(entry.get("endpoint_note", "")).lower()
+            check(f"{prefix}.conceptual_connector_limit", "does not claim" in limit or "not a" in limit)
 
     records = freshness.get("records", [])
     fact_ids = [record.get("fact_id") for record in records]
@@ -307,6 +351,7 @@ def validate_trip_data() -> dict[str, Any]:
         prefix = f"freshness[{record.get('fact_id')}]"
         source = record.get("source", {})
         recheck = record.get("recheck", {})
+        claim_refs = record.get("product_claim_refs", [])
         check(f"{prefix}.scope", isinstance(record.get("scope"), dict) and bool(record.get("scope")))
         check(f"{prefix}.source", bool(source.get("source_urls")) and all(urlparse(url).scheme in {"http", "https"} for url in source.get("source_urls", [])))
         check(f"{prefix}.metadata", record.get("status") in allowed_status and has_text(record.get("certainty")) and has_text(recheck.get("trigger")) and has_text(recheck.get("window")))
@@ -317,7 +362,9 @@ def validate_trip_data() -> dict[str, Any]:
             check(f"{prefix}.verified_requires_observation", observed is not None)
         if observed is None:
             check(f"{prefix}.null_date_is_fail_closed", record.get("status") in {"UNVERIFIED", "RECHECK_REQUIRED", "STALE"})
-        check(f"{prefix}.claim_coverage", bool(record.get("product_claim_refs")))
+        check(f"{prefix}.claim_coverage", bool(claim_refs))
+        referenced_legs = [ref.removeprefix("legs.") for ref in claim_refs if isinstance(ref, str) and ref.startswith("legs.")]
+        check(f"{prefix}.active_leg_claim_refs", all(leg_id in set(leg_ids) for leg_id in referenced_legs))
 
     report = {
         "status": "PASS" if not failures else "FAIL",

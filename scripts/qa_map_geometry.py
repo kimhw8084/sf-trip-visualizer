@@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5" / "map_geometry.json"
+OUT = ROOT / "QA" / "CHG-188" / "map_geometry.json"
 
 
 def wait_ready(page) -> None:
@@ -70,12 +70,9 @@ def main() -> int:
             page.keyboard.press("Escape")
             page.wait_for_timeout(120)
             report["states"].append(geometry(page, viewport, "map-options-closed-after-escape"))
-            page.locator("#routeLegendToggle").click()
-            page.wait_for_timeout(120)
-            report["states"].append(geometry(page, viewport, "route-key-open"))
-            page.keyboard.press("Escape")
-            page.wait_for_timeout(120)
-            report["states"].append(geometry(page, viewport, "route-key-closed-after-escape"))
+            route_chrome = page.locator("#routeLegendToggle,#routeLegendPanel,[data-compare-route],#comparePanel,.route-membership,.membership-cell").count()
+            if route_chrome:
+                errors.append(f"{viewport[0]}x{viewport[1]} leaked route comparison/key chrome: {route_chrome}")
             page.locator("#mapOptionsToggle").click()
             page.locator("#regionControls [data-region='yosemite']").click()
             page.locator("#modeNav [data-mode='day']").click()

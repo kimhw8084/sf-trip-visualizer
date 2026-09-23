@@ -1,50 +1,14 @@
 {
   "version": "2.0-map-first",
-  "generated": "2026-09-16",
+  "generated": "2026-09-23",
   "routing_service_status": "OSM_REFERENCE_GEOMETRY_CACHED_LOCALLY",
-  "acceptance_strategy": "35 legs retain cached OSM reference geometry; 2 ferry links and 4 inter-region transfer corridors remain explicit non-track relationships. App runtime performs no routing requests.",
-  "exact_routed_legs": 35,
-  "conceptual_legs": 6,
-  "renderable_conceptual_legs": 6,
-  "cross_day_suppressed_legs": [
-    "A_1009_MARIPOSA",
-    "B1_1009_ACADEMY",
-    "B2_1011_GGP"
-  ],
-  "display_policy": "Day and active-route membership gate every leg. Every route remains visible from zoom 0–24. Main lines are solid; swap, conditional, bonus, recovery-gap, and choice links retain route colors with distinct matching casing/dash patterns. Ferry links are explicitly conceptual.",
+  "acceptance_strategy": "18 legs retain cached OSM reference geometry; 2 ferry links, 10 inter-region transfers, and 6 other conceptual connectors remain explicit non-track relationships. App runtime performs no routing requests.",
+  "exact_routed_legs": 18,
+  "conceptual_legs": 18,
+  "renderable_conceptual_legs": 18,
+  "cross_day_suppressed_legs": [],
+  "display_policy": "Day and active-route membership gate every leg. Geometry is a cached reference or a visibly conceptual relationship; no live routing is used. Main lines are solid; alternate, conditional, bonus, recovery-gap, and choice links retain typed route semantics. Ferry links are explicitly conceptual.",
   "legs": [
-    {
-      "leg_id": "C_1003_01",
-      "date": "10/3",
-      "from": "ferry",
-      "to": "exploratorium",
-      "from_latlon": [
-        37.79554,
-        -122.39343
-      ],
-      "to_latlon": [
-        37.801389,
-        -122.397611
-      ],
-      "mode": "walk",
-      "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.39343,37.79554;-122.397611,37.801389?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Ferry Building → Exploratorium",
-      "note": "Conceptual itinerary connector; explicitly not road geometry.",
-      "show_overall": true,
-      "geometry_point_count": 36,
-      "distance_km": 0.88,
-      "reference_duration_min": 11.7,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
-    },
     {
       "leg_id": "C_1004_01",
       "date": "10/4",
@@ -60,11 +24,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.475,37.8078;-122.572465,37.892848?overview=full&geometries=geojson&steps=false",
@@ -92,10 +52,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.572465,37.892848;-122.48187,37.82802?overview=full&geometries=geojson&steps=false",
@@ -123,11 +80,7 @@
       ],
       "mode": "walk",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.448414,37.802897;-122.451188,37.805578?overview=full&geometries=geojson&steps=false",
@@ -155,11 +108,7 @@
       ],
       "mode": "ferry",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "conceptual_ferry",
       "geometry_source": "authoritative dock/island endpoints",
@@ -187,11 +136,7 @@
       ],
       "mode": "walk",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.410111,37.800918;-122.40735,37.7957?overview=full&geometries=geojson&steps=false",
@@ -219,11 +164,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.966266,36.569476;-121.902,36.617833?overview=full&geometries=geojson&steps=false",
@@ -251,11 +192,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.572666,37.720307;-119.573,37.730806?overview=full&geometries=geojson&steps=false",
@@ -284,11 +221,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "conceptual_transfer",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.4194,37.7749;-121.93711,36.51599?overview=full&geometries=geojson&steps=false",
@@ -316,11 +249,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "conceptual_transfer",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.8947,36.6002;-119.58982,37.74648?overview=full&geometries=geojson&steps=false",
@@ -334,37 +263,7 @@
       "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
-      "leg_id": "T_A_1010_YOSE_SF",
-      "date": "10/10",
-      "from": "yosemite_valley",
-      "to": "sf_center",
-      "from_latlon": [
-        37.7456,
-        -119.5936
-      ],
-      "to_latlon": [
-        37.7749,
-        -122.4194
-      ],
-      "mode": "drive",
-      "routes": [
-        "A",
-        "B",
-        "E"
-      ],
-      "geometry_kind": "conceptual_transfer",
-      "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.5936,37.7456;-122.4194,37.7749?overview=full&geometries=geojson&steps=false",
-      "render_style": "transfer_dots",
-      "label": "Yosemite → SF · 3-night plans",
-      "note": "Fleet Week avoidance transfer; dotted corridor only.",
-      "show_overall": true,
-      "geometry_point_count": 6288,
-      "distance_km": 301.78,
-      "reference_duration_min": 271.5,
-      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
-    },
-    {
-      "leg_id": "T_B_1009_YOSE_SF",
+      "leg_id": "T_A_1009_YOSE_SF",
       "date": "10/9",
       "from": "yosemite_valley",
       "to": "sf_center",
@@ -378,18 +277,17 @@
       ],
       "mode": "drive",
       "routes": [
-        "C",
-        "D"
+        "A"
       ],
       "geometry_kind": "conceptual_transfer",
-      "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.5936,37.7456;-122.4194,37.7749?overview=full&geometries=geojson&steps=false",
+      "geometry_source": "Authored endpoint-only Yosemite-to-San-Francisco relationship; no road route is asserted",
       "render_style": "transfer_dots",
-      "label": "Yosemite → SF · 2-night plans",
-      "note": "Return day differs from A plans; dotted corridor only.",
+      "label": "Yosemite → SF · after final morning",
+      "note": "After the Yosemite morning, recheck fire, smoke, road, and access conditions and choose the safer open corridor; this is an endpoint-only conceptual transfer, not route guidance.",
       "show_overall": true,
-      "geometry_point_count": 6288,
-      "distance_km": 301.78,
-      "reference_duration_min": 271.5,
+      "geometry_point_count": 2,
+      "distance_km": null,
+      "reference_duration_min": null,
       "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
@@ -407,11 +305,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.46172,37.80296;-122.448414,37.802897?overview=full&geometries=geojson&steps=false",
@@ -423,66 +317,6 @@
       "geometry_point_count": 187,
       "distance_km": 1.98,
       "reference_duration_min": 4.3,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
-    },
-    {
-      "leg_id": "GAP_1005_COIT_01",
-      "date": "10/5",
-      "from": "fortune",
-      "to": "coit",
-      "from_latlon": [
-        37.7957,
-        -122.40735
-      ],
-      "to_latlon": [
-        37.8024,
-        -122.40584
-      ],
-      "mode": "walk",
-      "routes": [
-        "A",
-        "B",
-        "D"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.40735,37.7957;-122.40584,37.8024?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Chinatown → Coit 선택",
-      "note": "Coit/Lombard/Cable Car 중 하나만 선택한다.",
-      "show_overall": true,
-      "branch_kind": "swap",
-      "geometry_point_count": 86,
-      "distance_km": 1.02,
-      "reference_duration_min": 13.5,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
-    },
-    {
-      "leg_id": "GAP_1005_COIT_02",
-      "date": "10/5",
-      "from": "coit",
-      "to": "pier39",
-      "from_latlon": [
-        37.8024,
-        -122.40584
-      ],
-      "to_latlon": [
-        37.81004,
-        -122.41038
-      ],
-      "mode": "walk",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.40584,37.8024;-122.41038,37.81004?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Coit → PIER 39 Sea Lions",
-      "note": "Coit 선택 뒤 K-도크로 이어진다.",
-      "show_overall": true,
-      "branch_kind": "swap",
-      "geometry_point_count": 93,
-      "distance_km": 1.3,
-      "reference_duration_min": 17.5,
       "source_limitation": "Reference OSM routing, not live closure/traffic advice"
     },
     {
@@ -500,18 +334,15 @@
       ],
       "mode": "walk",
       "routes": [
-        "A",
-        "B",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.40735,37.7957;-122.419619,37.802003?overview=full&geometries=geojson&steps=false",
       "render_style": "cached_osm_reference_line",
       "label": "Chinatown → Lombard 선택",
-      "note": "Coit/Lombard/Cable Car 중 하나만 선택한다.",
+      "note": "Chinatown에서 Lombard Street까지 이어지는 개념적 보행 연결이다. Coit 방문이나 주차 우회를 뜻하지 않는다.",
       "show_overall": true,
-      "branch_kind": "swap",
+      "branch_kind": "main",
       "geometry_point_count": 117,
       "distance_km": 1.6,
       "reference_duration_min": 21.4,
@@ -540,7 +371,7 @@
       "label": "Lombard → PIER 39 Sea Lions",
       "note": "Lombard 선택 뒤 K-도크로 이어진다.",
       "show_overall": true,
-      "branch_kind": "swap",
+      "branch_kind": "main",
       "geometry_point_count": 95,
       "distance_km": 1.68,
       "reference_duration_min": 22.5,
@@ -561,19 +392,15 @@
       ],
       "mode": "walk",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.40735,37.7957;-122.42067,37.80518?overview=full&geometries=geojson&steps=false",
       "render_style": "cached_osm_reference_line",
       "label": "Chinatown → Powell–Hyde 선택",
-      "note": "케이블카 선택은 Coit/Lombard를 대체한다.",
+      "note": "Chinatown에서 Powell–Hyde 탑승 지점까지의 개념적 보행 연결이다. Lombard Street는 케이블카와 효율적으로 결합될 때 별도 필수 정차로 유지한다.",
       "show_overall": true,
-      "branch_kind": "swap",
+      "branch_kind": "main",
       "geometry_point_count": 107,
       "distance_km": 1.81,
       "reference_duration_min": 24.2,
@@ -602,68 +429,10 @@
       "label": "Cable Car → PIER 39 Sea Lions",
       "note": "Hyde & Beach 하차 뒤 워터프런트를 따라 K-도크로 걷는다.",
       "show_overall": true,
-      "branch_kind": "swap",
+      "branch_kind": "main",
       "geometry_point_count": 73,
       "distance_km": 1.37,
       "reference_duration_min": 18.3,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
-    },
-    {
-      "leg_id": "GAP_1005_MAIN_01",
-      "date": "10/5",
-      "from": "pier39",
-      "to": "musee",
-      "from_latlon": [
-        37.81004,
-        -122.41038
-      ],
-      "to_latlon": [
-        37.80925,
-        -122.41579
-      ],
-      "mode": "walk",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.41038,37.81004;-122.41579,37.80925?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "PIER 39 → Musée Mécanique",
-      "note": "같은 워터프런트의 확정 짧은 연결.",
-      "show_overall": true,
-      "branch_kind": "main",
-      "geometry_point_count": 44,
-      "distance_km": 0.7,
-      "reference_duration_min": 9.3,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
-    },
-    {
-      "leg_id": "GAP_1005_BONUS_01",
-      "date": "10/5",
-      "from": "musee",
-      "to": "ghirardelli",
-      "from_latlon": [
-        37.80925,
-        -122.41579
-      ],
-      "to_latlon": [
-        37.80582,
-        -122.42294
-      ],
-      "mode": "walk",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.41579,37.80925;-122.42294,37.80582?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Musée → Ghirardelli 보너스",
-      "note": "가족 에너지가 6/10 이상일 때만 실행.",
-      "show_overall": true,
-      "branch_kind": "bonus",
-      "geometry_point_count": 64,
-      "distance_km": 0.92,
-      "reference_duration_min": 12.3,
       "source_limitation": "Reference OSM routing, not live closure/traffic advice"
     },
     {
@@ -681,11 +450,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.93711,36.51599;-121.92331,36.55531?overview=full&geometries=geojson&steps=false",
@@ -714,11 +479,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.92331,36.55531;-121.966266,36.569476?overview=full&geometries=geojson&steps=false",
@@ -730,68 +491,6 @@
       "geometry_point_count": 387,
       "distance_km": 6.11,
       "reference_duration_min": 7.8,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
-    },
-    {
-      "leg_id": "GAP_1006_SWAP_01",
-      "date": "10/6",
-      "from": "point_lobos",
-      "to": "bixby",
-      "from_latlon": [
-        36.51599,
-        -121.93711
-      ],
-      "to_latlon": [
-        36.37149,
-        -121.90173
-      ],
-      "mode": "drive",
-      "routes": [
-        "B",
-        "D",
-        "E"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.93711,36.51599;-121.90173,36.37149?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Point Lobos → Bixby 대체",
-      "note": "Bixby 선택 시 Carmel과 17-Mile Drive를 삭제한다.",
-      "show_overall": true,
-      "branch_kind": "swap",
-      "geometry_point_count": 326,
-      "distance_km": 17.73,
-      "reference_duration_min": 16.6,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
-    },
-    {
-      "leg_id": "GAP_1006_SWAP_02",
-      "date": "10/6",
-      "from": "bixby",
-      "to": "aquarium",
-      "from_latlon": [
-        36.37149,
-        -121.90173
-      ],
-      "to_latlon": [
-        36.617833,
-        -121.902
-      ],
-      "mode": "drive",
-      "routes": [
-        "B",
-        "D",
-        "E"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.90173,36.37149;-121.902,36.617833?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Bixby → Monterey Aquarium",
-      "note": "도로 상태를 당일 재확인하는 대체 연결.",
-      "show_overall": true,
-      "branch_kind": "swap",
-      "geometry_point_count": 873,
-      "distance_km": 31.26,
-      "reference_duration_min": 31.1,
       "source_limitation": "Reference OSM routing, not live closure/traffic advice"
     },
     {
@@ -809,18 +508,15 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-121.902,36.617833;-121.89304,36.60393?overview=full&geometries=geojson&steps=false",
       "render_style": "cached_osm_reference_line",
-      "label": "Aquarium → Old Fisherman’s Wharf",
-      "note": "Aquarium 뒤 에너지가 남을 때만 실행.",
+      "label": "Monterey Bay Aquarium → Old Fisherman’s Wharf",
+      "note": "Owner-must short evening / dinner layer after the late Aquarium window; recheck current access and hours.",
       "show_overall": true,
-      "branch_kind": "bonus",
+      "branch_kind": "main",
       "geometry_point_count": 140,
       "distance_km": 2.31,
       "reference_duration_min": 4.0,
@@ -841,11 +537,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.58982,37.74648;-119.63312,37.72752?overview=full&geometries=geojson&steps=false",
@@ -874,11 +566,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.63312,37.72752;-119.67693,37.71559?overview=full&geometries=geojson&steps=false",
@@ -907,11 +595,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-119.63312,37.72752;-119.6621,37.7172?overview=full&geometries=geojson&steps=false",
@@ -923,39 +607,6 @@
       "geometry_point_count": 108,
       "distance_km": 3.25,
       "reference_duration_min": 4.4,
-      "source_limitation": "Reference OSM routing, not live closure/traffic advice"
-    },
-    {
-      "leg_id": "UX_1003_EVENING",
-      "date": "10/3",
-      "from": "exploratorium",
-      "to": "bay_lights",
-      "from_latlon": [
-        37.801389,
-        -122.397611
-      ],
-      "to_latlon": [
-        37.791583,
-        -122.39
-      ],
-      "mode": "walk",
-      "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
-      ],
-      "geometry_kind": "routed_osm",
-      "geometry_source": "https://routing.openstreetmap.de/routed-foot/route/v1/driving/-122.397611,37.801389;-122.39,37.791583?overview=full&geometries=geojson&steps=false",
-      "render_style": "cached_osm_reference_line",
-      "label": "Exploratorium → Bay Lights evening return",
-      "note": "중간 회복 시간을 보낸 뒤 같은 워터프런트로 돌아오는 저녁 동선이다.",
-      "show_overall": true,
-      "branch_kind": "recovery",
-      "geometry_point_count": 56,
-      "distance_km": 1.39,
-      "reference_duration_min": 17.7,
       "source_limitation": "Reference OSM routing, not live closure/traffic advice"
     },
     {
@@ -973,10 +624,7 @@
       ],
       "mode": "drive",
       "routes": [
-        "A",
-        "B",
-        "D",
-        "E"
+        "A"
       ],
       "geometry_kind": "routed_osm",
       "geometry_source": "https://routing.openstreetmap.de/routed-car/route/v1/driving/-122.48187,37.82802;-122.46172,37.80296?overview=full&geometries=geojson&steps=false",
@@ -1021,173 +669,382 @@
     },
     {
       "leg_id": "C_1004_GGB_MUIR",
-      "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+      "date": "10/4",
+      "from": "ggb",
+      "to": "muir",
+      "from_latlon": [
+        37.8078,
+        -122.475
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
-      "geometry_kind": "conceptual_transfer",
-      "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
-    },
-    {
-      "leg_id": "C_1004_MUIR_TUNNEL",
-      "routes": [
-        "C"
+      "to_latlon": [
+        37.892848,
+        -122.572465
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
+      "mode": "walk",
+      "routes": [
+        "A"
+      ],
       "geometry_kind": "conceptual_transfer",
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "render_style": "transfer_dots",
+      "label": "Golden Gate Bridge + south-side overlook experience → Muir Woods National Monument",
+      "note": "Conceptual itinerary connector between scheduled place identities; not a verified road track.",
+      "show_overall": true,
+      "branch_kind": "main",
       "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
       "leg_id": "C_1005_ALCATRAZ_CABLE",
-      "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+      "date": "10/5",
+      "from": "alcatraz",
+      "to": "cable_car",
+      "from_latlon": [
+        37.826762,
+        -122.423021
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
+      "to_latlon": [
+        37.80518,
+        -122.42067
+      ],
+      "mode": "walk",
+      "routes": [
+        "A"
+      ],
       "geometry_kind": "conceptual_transfer",
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "render_style": "transfer_dots",
+      "label": "Alcatraz Island → Powell–Hyde Cable Car",
+      "note": "Conceptual itinerary connector between scheduled place identities; not a verified road track.",
+      "show_overall": true,
+      "branch_kind": "main",
       "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
       "leg_id": "C_1005_FORTUNE_CHINATOWN",
-      "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+      "date": "10/5",
+      "from": "fortune",
+      "to": "chinatown",
+      "from_latlon": [
+        37.7957,
+        -122.40735
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
+      "to_latlon": [
+        37.7946,
+        -122.4079
+      ],
+      "mode": "walk",
+      "routes": [
+        "A"
+      ],
       "geometry_kind": "conceptual_transfer",
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "render_style": "transfer_dots",
+      "label": "Golden Gate Fortune Cookie Factory — watch folding + make a custom fortune → Chinatown San Francisco",
+      "note": "Conceptual itinerary connector between scheduled place identities; not a verified road track.",
+      "show_overall": true,
+      "branch_kind": "main",
       "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
       "leg_id": "C_1005_CHINATOWN_NORTH",
-      "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+      "date": "10/5",
+      "from": "chinatown",
+      "to": "north_beach",
+      "from_latlon": [
+        37.7946,
+        -122.4079
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
-      "geometry_kind": "conceptual_transfer",
-      "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
-    },
-    {
-      "leg_id": "C_1005_NORTH_GHIRARDELLI",
-      "routes": [
-        "D"
+      "to_latlon": [
+        37.800918,
+        -122.410111
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
+      "mode": "walk",
+      "routes": [
+        "A"
+      ],
       "geometry_kind": "conceptual_transfer",
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "render_style": "transfer_dots",
+      "label": "Chinatown San Francisco → North Beach — Washington Square / Columbus / Grant",
+      "note": "Conceptual itinerary connector between scheduled place identities; not a verified road track.",
+      "show_overall": true,
+      "branch_kind": "main",
       "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
       "leg_id": "C_1007_TUNNEL_BRIDALVEIL",
-      "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+      "date": "10/7",
+      "from": "tunnel_view",
+      "to": "bridalveil",
+      "from_latlon": [
+        37.71559,
+        -119.67693
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
+      "to_latlon": [
+        37.7157,
+        -119.6376
+      ],
+      "mode": "walk",
+      "routes": [
+        "A"
+      ],
       "geometry_kind": "conceptual_transfer",
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "render_style": "transfer_dots",
+      "label": "Tunnel View → Bridalveil Fall",
+      "note": "Conceptual itinerary connector between scheduled place identities; not a verified road track.",
+      "show_overall": true,
+      "branch_kind": "main",
       "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
       "leg_id": "C_1007_BRIDALVEIL_COOKS",
-      "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+      "date": "10/7",
+      "from": "bridalveil",
+      "to": "cooks",
+      "from_latlon": [
+        37.7157,
+        -119.6376
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
-      "geometry_kind": "conceptual_transfer",
-      "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
-    },
-    {
-      "leg_id": "C_1010_TEA_ACADEMY",
-      "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+      "to_latlon": [
+        37.74648,
+        -119.58982
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
+      "mode": "walk",
+      "routes": [
+        "A"
+      ],
       "geometry_kind": "conceptual_transfer",
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "render_style": "transfer_dots",
+      "label": "Bridalveil Fall → Cook's Meadow Loop",
+      "note": "Conceptual itinerary connector between scheduled place identities; not a verified road track.",
+      "show_overall": true,
+      "branch_kind": "main",
       "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
       "leg_id": "C_1007_COOKS_MARIPOSA",
-      "routes": [
-        "A",
-        "B",
-        "E"
+      "date": "10/7",
+      "from": "cooks",
+      "to": "mariposa",
+      "from_latlon": [
+        37.74648,
+        -119.58982
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
+      "to_latlon": [
+        37.50662,
+        -119.62925
+      ],
+      "mode": "walk",
+      "routes": [
+        "A"
+      ],
       "geometry_kind": "conceptual_transfer",
+      "geometry_source": "local conceptual connector derived from the authored day model",
+      "render_style": "transfer_dots",
+      "label": "Cook's Meadow Loop → Mariposa Grove of Giant Sequoias",
+      "note": "Conceptual itinerary connector between scheduled place identities; not a verified road track.",
+      "show_overall": true,
+      "branch_kind": "main",
       "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Regional transfer corridor, not a verified road track or live navigation"
     },
     {
-      "leg_id": "C_1010_ACADEMY_BOTANICAL",
-      "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+      "leg_id": "CHG188_1003_FERRY_LIGHTS",
+      "date": "10/3",
+      "from": "ferry",
+      "to": "bay_lights",
+      "from_latlon": [
+        37.79554,
+        -122.39343
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
-      "geometry_kind": "conceptual_transfer",
+      "to_latlon": [
+        37.791583,
+        -122.39
+      ],
+      "mode": "walk",
+      "routes": [
+        "A"
+      ],
+      "geometry_kind": "conceptual_connector",
+      "geometry_source": "authored itinerary relationship; no router or live-routing dependency",
+      "render_style": "conceptual_dots",
+      "label": "Ferry Building → Bay Lights (after recovery)",
+      "note": "Conceptual evening return after hotel recovery; only if family energy supports it.",
+      "show_overall": true,
+      "branch_kind": "recovery",
       "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Authored itinerary relationship only; not a measured road or walking track"
     },
     {
-      "leg_id": "C_1010_BOTANICAL_TWIN_PEAKS",
-      "routes": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
+      "leg_id": "CHG188_1005_PIERC39_GHIRARDELLI",
+      "date": "10/5",
+      "from": "pier39",
+      "to": "ghirardelli",
+      "from_latlon": [
+        37.81004,
+        -122.41038
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
-      "geometry_kind": "conceptual_transfer",
+      "to_latlon": [
+        37.80582,
+        -122.42294
+      ],
+      "mode": "walk",
+      "routes": [
+        "A"
+      ],
+      "geometry_kind": "conceptual_connector",
+      "geometry_source": "authored itinerary relationship; no router or live-routing dependency",
+      "render_style": "conceptual_dots",
+      "label": "PIER 39 Sea Lions → Ghirardelli Square + Aquatic Park",
+      "note": "Short conceptual waterfront link; no street-level route or extra detour is asserted.",
+      "show_overall": true,
+      "branch_kind": "main",
       "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Authored itinerary relationship only; not a measured road or walking track"
     },
     {
-      "leg_id": "C_1011_COIT_LANDS_END",
-      "routes": [
-        "E"
+      "leg_id": "CHG188_1009_COOKS_VALLEY",
+      "date": "10/9",
+      "from": "cooks",
+      "to": "valley_view",
+      "from_latlon": [
+        37.74648,
+        -119.58982
       ],
-      "geometry_source": "local conceptual connector derived from the authored day model",
-      "geometry_kind": "conceptual_transfer",
+      "to_latlon": [
+        37.7172,
+        -119.6621
+      ],
+      "mode": "drive",
+      "routes": [
+        "A"
+      ],
+      "geometry_kind": "conceptual_connector",
+      "geometry_source": "authored itinerary relationship; no router or live-routing dependency",
+      "render_style": "conceptual_dots",
+      "label": "Cook’s Meadow → Valley View",
+      "note": "Optional short Yosemite morning connector; drop before delaying the SF recovery arrival.",
+      "show_overall": true,
+      "branch_kind": "conditional",
       "geometry_point_count": 2,
-      "source_limitation": "Conceptual connector only; not a verified road track."
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Authored itinerary relationship only; not a measured road or walking track"
+    },
+    {
+      "leg_id": "CHG188_1010_TEA_BOTANICAL",
+      "date": "10/10",
+      "from": "tea_garden",
+      "to": "botanical",
+      "from_latlon": [
+        37.7701,
+        -122.4709
+      ],
+      "to_latlon": [
+        37.766943,
+        -122.466823
+      ],
+      "mode": "walk",
+      "routes": [
+        "A"
+      ],
+      "geometry_kind": "conceptual_connector",
+      "geometry_source": "authored itinerary relationship; no router or live-routing dependency",
+      "render_style": "conceptual_dots",
+      "label": "Japanese Tea Garden → San Francisco Botanical Garden",
+      "note": "Short same-park conceptual connector; preserve the open recovery block afterward.",
+      "show_overall": true,
+      "branch_kind": "main",
+      "geometry_point_count": 2,
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Authored itinerary relationship only; not a measured road or walking track"
+    },
+    {
+      "leg_id": "CHG188_1011_LANDS_PAINTED",
+      "date": "10/11",
+      "from": "lands_end",
+      "to": "painted",
+      "from_latlon": [
+        37.78084,
+        -122.5119
+      ],
+      "to_latlon": [
+        37.776956,
+        -122.434945
+      ],
+      "mode": "drive",
+      "routes": [
+        "A"
+      ],
+      "geometry_kind": "conceptual_connector",
+      "geometry_source": "authored itinerary relationship; no router or live-routing dependency",
+      "render_style": "conceptual_dots",
+      "label": "Lands End → Painted Ladies / Alamo Square",
+      "note": "Conceptual cross-neighborhood relationship; not a verified street path or live routing.",
+      "show_overall": true,
+      "branch_kind": "recovery",
+      "geometry_point_count": 2,
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Authored itinerary relationship only; not a measured road or walking track"
+    },
+    {
+      "leg_id": "CHG188_1011_PAINTED_TWIN",
+      "date": "10/11",
+      "from": "painted",
+      "to": "twin_peaks",
+      "from_latlon": [
+        37.776956,
+        -122.434945
+      ],
+      "to_latlon": [
+        37.75493,
+        -122.44664
+      ],
+      "mode": "drive",
+      "routes": [
+        "A"
+      ],
+      "geometry_kind": "conceptual_connector",
+      "geometry_source": "authored itinerary relationship; no router or live-routing dependency",
+      "render_style": "conceptual_dots",
+      "label": "Painted Ladies / Alamo Square → Twin Peaks",
+      "note": "Move Twin Peaks within Oct 10–11 to a clear safe visibility window; connector is conceptual only.",
+      "show_overall": true,
+      "branch_kind": "conditional",
+      "geometry_point_count": 2,
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source_limitation": "Authored itinerary relationship only; not a measured road or walking track"
     }
   ],
   "geometry_cache_path": "data/route_geometry_cache.json",
-  "geometry_cache_sha256": "03ebb160fb0fc79ca429033e1e95edea477673ffb95c05bad294ff3ed13c45fc"
+  "geometry_cache_sha256": "d195c8eced1b3fc7bfa1e21a7ac15a496bd592b00d1f8340460121c241267b80"
 }

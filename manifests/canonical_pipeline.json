@@ -29,8 +29,8 @@
       "providers"
     ],
     "parallel_file_policy": "Reference snapshots and audits may corroborate or reconcile the canonical source, but never override it and never drive the runtime build.",
-    "validator": "scripts/validate_trip_data.py"
-    ,"route_schedule_validator": "scripts/validate_route_truth.py"
+    "validator": "scripts/validate_trip_data.py",
+    "route_schedule_validator": "scripts/validate_route_truth.py"
   },
   "authored_inputs": [
     "data/phase7_app_data.json",
@@ -82,9 +82,7 @@
     ".build/",
     ".public-site/",
     ".release/",
-    "QA/release/",
-    "QA/map_first/",
-    "QA/map_first/screenshots/"
+    "QA/CHG-188/"
   ],
   "historical_or_legacy": [
     "index.html",
@@ -106,7 +104,10 @@
     "scripts/package_final.py",
     "scripts/run_acceptance.py",
     "scripts/run_live_providers.py",
-    "scripts/expand_photo_manifest.py"
+    "scripts/expand_photo_manifest.py",
+    "scripts/apply_location_gap_audit.py",
+    "scripts/build_i18n.py",
+    "scripts/rebuild_five_route_data.py"
   ],
   "supported_commands": {
     "fast": "python3 scripts/pipeline.py fast",
@@ -116,47 +117,57 @@
     "release": "python3 scripts/pipeline.py release --revision <exact-git-sha>"
   },
   "invariants": {
-    "places": 39,
-    "photos": 117,
-    "timeline_cards": 67,
-    "route_legs": 45,
-    "route_strategies": 5,
+    "places": 36,
+    "photos": 108,
+    "timeline_cards": 51,
+    "route_legs": 36,
+    "route_strategies": 1,
+    "active_route_ids": [
+      "A"
+    ],
     "dates": 9,
     "regions": 3,
-    "providers": ["vector", "satellite"],
-    "photo_roles": ["HERO", "EXPERIENCE", "SCALE_CONTEXT"]
+    "providers": [
+      "vector",
+      "satellite"
+    ],
+    "photo_roles": [
+      "HERO",
+      "EXPERIENCE",
+      "SCALE_CONTEXT"
+    ]
   },
   "qualification_evidence": [
-    "QA/map_first/canonical_truth.json",
-    "QA/photo_integrity.json",
-    "QA/map_first/smoke.json",
-    "QA/project_os_verify/ui_revamp_r5/task_oracles.json",
-    "QA/project_os_verify/ui_revamp_r5/accessibility.json",
-    "QA/project_os_verify/ui_revamp_r5/place_list_membership.json",
-    "QA/map_first/full_acceptance.json",
-    "QA/map_first/p0_independent.json",
-    "QA/map_first/standalone.json",
-    "QA/map_first/location_gap_visuals.json",
-    "QA/map_first/interaction_dynamics.json",
-    "QA/map_first/route_continuity.json",
-    "QA/route_panel/route_explanations_panel.json",
-    "QA/map_first/exhaustive_states.json",
-    "QA/map_first/cross_browser.json",
-    "QA/map_first/visual_spots.json",
-    "QA/release/fast.json",
-    "QA/release/qualification.json",
-    "QA/release/gate4_static.json",
-    "QA/release/gate4_runtime.json",
-    "QA/release/gate4.json",
-    "QA/release/public_asset_rights.json",
-    "QA/release/public_asset_rights_package.json",
-    "QA/release/security_privacy.json",
-    "QA/release/route_truth.json",
-    "QA/project_os_verify/gate5_r2/candidate.json",
-    "QA/project_os_verify/gate5_r2/baseline.json",
-    "QA/project_os_verify/gate5_r2/paired_comparison.json",
-    "QA/project_os_verify/gate5_r2/performance_summary.log",
-    "QA/project_os_verify/gate5_r2/finding_matrix.json",
-    "QA/project_os_verify/gate5_r2/review_pack_index.json"
+    "QA/CHG-188/canonical_truth.json",
+    "QA/CHG-188/photo_integrity.json",
+    "QA/CHG-188/map_first_smoke/smoke.json",
+    "QA/CHG-188/decision_workbench/task_oracles.json",
+    "QA/CHG-188/accessibility.json",
+    "QA/CHG-188/place_list_roles.json",
+    "QA/CHG-188/map_first_full/full_acceptance.json",
+    "QA/CHG-188/map_first_p0/p0_independent.json",
+    "QA/CHG-188/standalone/standalone.json",
+    "QA/CHG-188/location_gap/location_gap_visuals.json",
+    "QA/CHG-188/interaction_dynamics/interaction_dynamics.json",
+    "QA/CHG-188/release/route_continuity.json",
+    "QA/CHG-188/route_surface.json",
+    "QA/CHG-188/exhaustive_states.json",
+    "QA/CHG-188/browser_summary.json",
+    "QA/CHG-188/visual/visual_index.json",
+    "QA/CHG-188/release/fast.json",
+    "QA/CHG-188/release/qualification.json",
+    "QA/CHG-188/release/gate4_static.json",
+    "QA/CHG-188/release/gate4_runtime.json",
+    "QA/CHG-188/release/gate4.json",
+    "QA/CHG-188/release/public_asset_rights.json",
+    "QA/CHG-188/release/public_asset_rights_package.json",
+    "QA/CHG-188/release/security_privacy.json",
+    "QA/CHG-188/release/route_truth.json",
+    "QA/CHG-188/gate5/candidate.json",
+    "QA/CHG-188/gate5/baseline.json",
+    "QA/CHG-188/gate5/paired_comparison.json",
+    "QA/CHG-188/gate5/performance_summary.log",
+    "QA/CHG-188/gate5/finding_matrix.json",
+    "QA/CHG-188/gate5/review_pack_index.json"
   ]
 }

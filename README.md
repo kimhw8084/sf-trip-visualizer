@@ -2,7 +2,7 @@
 
 This repository’s product is the Smart Minority family-trip decision system. The map renderer is reusable infrastructure; decision quality, resilient replanning, truthful route/geographic semantics, local-first Smart-map behavior, one physical-place identity, three real local photo roles, Korean/English, and touch/keyboard/responsive behavior are the product contract.
 
-The maintained product currently contains exactly 39 physical places, 117 real local photographs, 67 itinerary cards, 45 typed route connectors, five equal-quality route strategies (A–E), nine sightseeing dates, three regions, Korean/English, light/dark, a local Smart map, optional Satellite + labels fallback, modular output, and standalone output.
+The configured 2026 trip currently contains 36 physical places, 108 real local photographs, 51 timeline cards, 36 typed route connectors, and one active route: Route A — Temporal Arbitrage Master. It covers nine sightseeing dates and three regions, with Korean/English, light/dark, a local Smart map, optional Satellite + labels fallback, modular output, and standalone output. The renderer and source schema remain data-driven and support one or more configured routes.
 
 ## One supported path
 
@@ -27,7 +27,7 @@ Install QA dependencies once with `python3 -m pip install -r requirements-qa.txt
 - Qualified package: `python3 scripts/pipeline.py package`
 - Exact-revision release assembly: `python3 scripts/pipeline.py release --revision <git-sha>`
 
-`qualify` writes machine-readable current evidence to `QA/release/qualification.json` and does not rewrite `P0_PROOF_REPORT.md` or the old `QA/final_*` evidence. Browser- or environment-specific failures remain failed/unverified gates; they are not converted into smoke-test success.
+`qualify` writes machine-readable current evidence under `QA/CHG-188/` and does not rewrite `P0_PROOF_REPORT.md` or prior change evidence. Browser- or environment-specific failures remain failed/unverified gates; they are not converted into smoke-test success.
 
 Each component has a 300-second bound by default. For local diagnostics only, `TRIP_QUALIFICATION_TIMEOUT_SECONDS` may shorten that bound; a timeout is recorded as `UNVERIFIED` and blocks release.
 
@@ -35,7 +35,7 @@ Each component has a 300-second bound by default. For local diagnostics only, `T
 
 The complete authority map is [manifests/canonical_pipeline.json](manifests/canonical_pipeline.json). In particular, `data/phase7_app_data.json` is the current authored product dataset despite its historical filename. The current authored renderer inputs are `src/map_shell_template.html`, `src/app_phase7.js`, `src/app_phase7.css`, `src/map_first.css`, `src/vector_entry.js`, local vendor/runtime assets, the local vector/relief assets, and the audited source/selection inputs listed in the manifest.
 
-Derived inputs are `data/translations.json`, `data/route_geometry_cache.json`, `data/route_geometry_manifest.json`, and the generated/provenance manifests. The explicit source-generation step `python3 scripts/apply_location_gap_audit.py --write` is allowed to update authored audit data; normal build, fast checks, qualification, packaging, and release never run it. The canonical build only reads authored inputs and derived inputs and writes `.build/`.
+Derived inputs are `data/translations.json`, `data/route_geometry_cache.json`, `data/route_geometry_manifest.json`, and the generated/provenance manifests. Earlier route-family and location-gap source generators are retained as historical lineage only; they can emit superseded route IDs and must not be run against the current trip. `scripts/build_map_first.py` and `scripts/pipeline.py` are the only supported product build and qualification authorities. The canonical build reads authored inputs and derived inputs and writes `.build/`.
 
 Generated locations are:
 
@@ -43,9 +43,9 @@ Generated locations are:
 - `.build/standalone/SF_Smart_Minority_Map_First_Standalone.html`;
 - `.public-site/`, including `.release-provenance.json`;
 - `.release/` package output; and
-- current machine-readable QA under `QA/release/` and `QA/map_first/`.
+- current machine-readable QA under `QA/CHG-188/`.
 
-The build is reproducible enough for Project OS use: fast validation snapshots authored-input hashes, emits the build manifest, rebuilds into a temporary directory, and compares every generated output. It also checks the 39/117/67/45 product counts, the canonical A–E role matrix and day models, route/date/region/provider contracts, exact photo roles, semantic route links, and duplicate physical-place keys.
+The build is reproducible enough for Project OS use: fast validation snapshots authored-input hashes, emits the build manifest, rebuilds into a temporary directory, and compares every generated output. It checks active route IDs, the 36/108/51/36 product counts, the canonical role matrix and day models, route/date/region/provider contracts, exact photo roles, semantic route links, and duplicate physical-place keys.
 
 ## Local development and product behavior
 
@@ -53,7 +53,7 @@ Run `pipeline.py fast`, then serve with `pipeline.py serve`. Do not open the mod
 
 The map has exactly two user-facing choices: Smart map and Satellite + labels. Smart map is the bundled Protomaps/OSM vector extract and never silently changes to a raster provider. In standalone/file-origin mode its PMTiles, fonts, sprites, and other local assets are decoded from embedded bytes; missing integrity-bound assets fail explicitly. Satellite uses Esri imagery with the same local labels and returns to Smart map if its tiles fail. Runtime routing is not performed: 45 typed connectors use cached OSM reference geometry or explicitly labeled conceptual connectors/ferry links.
 
-`data/route_role_matrix.json` is the single authored A–E Core/Strong/Conditional/Skip authority for all 39 places. `data/route_schedules.json` is the authored per-route day model with hard anchors, recovery, conditions, fallbacks, and drop-first logic. `data/route_research_ledger.json` records the 2026-09-21 official-source refresh and 72-hour/morning-of recheck boundaries. The place list renders the full A–E role matrix inline; it is not hidden behind a detail panel or color-only encoding.
+`data/route_role_matrix.json` is the single authored Core/Strong/Conditional/Skip authority for the configured route and all active places. `data/route_schedules.json` is the authored per-route day model with hard anchors, recovery, conditions, fallbacks, and drop-first logic. `data/route_research_ledger.json` records source observations while `manifests/trip_freshness.json` preserves fail-closed recheck boundaries. The place list and details show the current route role in visible text.
 
 Dates, regions, route controls, markers, timeline cards, route legs, providers, photo status, and replanning rules are data-driven. A marker is one physical place even when several routes share it. Each place has exactly HERO, EXPERIENCE, and SCALE_CONTEXT local photo roles. The renderer displays English primary names with Korean subtitles in Korean mode, route-colored semantics, exact route/date timing, and explicit recovery/choice/conditional labels.
 
@@ -61,7 +61,7 @@ Dates, regions, route controls, markers, timeline cards, route legs, providers, 
 
 Root `index.html`, `index_map_first.html`, and `index_phase7.html`, `SF_Smart_Minority_P0_Candidate.html`, the old `QA/final_*`/phase evidence, `P0_PROOF_REPORT.*`, and the old final/provider-era build scripts are historical snapshots or deprecated entry points. They remain in Git for audit/history and are not current authority. `build_final.py`, `package_final.py`, `run_acceptance.py`, `run_live_providers.py`, and the 84-photo expansion script fail closed with a deprecation message. No supported workflow references them.
 
-Historical P0 evidence records the revision and product state it originally tested. It is not rewritten to certify this change or any future revision. Current exact-revision qualification is recorded separately under `QA/release/`.
+Historical P0 and prior change evidence records the revision and product state it originally tested. It is not rewritten to certify this change or any future revision. Current exact-revision qualification is recorded separately under `QA/CHG-188/`.
 
 ## Public release
 

@@ -5,34 +5,44 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from qa_place_list_membership import collect_rows_from_fixture, validate_membership_rows  # noqa: E402
+from qa_place_list_membership import collect_rows_from_fixture, validate_place_rows  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class PlaceListMembershipTests(unittest.TestCase):
+class ActivePlaceRoleTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.matrix = json.loads((ROOT / "data/route_role_matrix.json").read_text())["places"]
+        document = json.loads((ROOT / "data/route_role_matrix.json").read_text())
+        cls.roles = document["places"]
+        cls.route_ids = document["route_ids"]
 
-    def test_complete_fixture_matches_canonical_matrix(self):
-        report = validate_membership_rows(collect_rows_from_fixture(self.matrix), self.matrix)
+    def test_complete_fixture_matches_single_route_roles(self):
+        report = validate_place_rows(collect_rows_from_fixture(self.roles, self.route_ids), self.roles, self.route_ids, len(self.roles))
         self.assertEqual(report["status"], "PASS", report["failures"])
-        self.assertEqual(report["places"], 39)
+        self.assertEqual(report["places"], 36)
+        self.assertEqual(self.route_ids, ["A"])
 
     def test_rendered_role_mutation_is_rejected(self):
-        rows = copy.deepcopy(collect_rows_from_fixture(self.matrix))
-        rows[0]["cells"][0]["role"] = "Skip"
-        report = validate_membership_rows(rows, self.matrix)
+        rows = copy.deepcopy(collect_rows_from_fixture(self.roles, self.route_ids))
+        rows[0]["role"] = "Skip" if rows[0]["role"] != "Skip" else "Core"
+        report = validate_place_rows(rows, self.roles, self.route_ids, len(self.roles))
         self.assertEqual(report["status"], "FAIL")
         self.assertTrue(any("canonical role" in failure for failure in report["failures"]))
 
-    def test_skip_has_non_color_symbol_and_text(self):
-        rows = collect_rows_from_fixture(self.matrix)
-        skip_cells = [cell for row in rows for cell in row["cells"] if cell["role"] == "Skip"]
-        self.assertTrue(skip_cells)
-        self.assertTrue(all(cell["symbol"] == "—" and cell["label"] for cell in skip_cells))
+    def test_route_membership_cells_are_rejected(self):
+        rows = collect_rows_from_fixture(self.roles, self.route_ids)
+        rows[0]["route_cells"] = [{"route": "B", "role": "Core"}]
+        report = validate_place_rows(rows, self.roles, self.route_ids, len(self.roles))
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(any("comparison membership cells" in failure for failure in report["failures"]))
+
+    def test_skip_is_visible_text_not_color_only(self):
+        rows = collect_rows_from_fixture(self.roles, self.route_ids)
+        skips = [row for row in rows if row["role"] == "Skip"]
+        self.assertEqual({row["place_key"] for row in skips}, {"bixby", "coit"})
+        self.assertTrue(all(row["label"] == "Skip" for row in skips))
 
 
 if __name__ == "__main__":
