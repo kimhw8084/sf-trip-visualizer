@@ -1,0 +1,2177 @@
+{
+  "accepted_at": "2026-09-23T21:16:45Z",
+  "changed_files": [
+    {
+      "additions": 11,
+      "deletions": 23,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 6,
+      "path": ".github/workflows/deploy-pages.yml",
+      "status": "M"
+    },
+    {
+      "additions": 34,
+      "deletions": 0,
+      "path": "QA/CHG-188/accessibility.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/browser_screenshots/firefox_1280_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/browser_screenshots/firefox_390_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/browser_screenshots/webkit_1280_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/browser_screenshots/webkit_390_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": 978,
+      "deletions": 0,
+      "path": "QA/CHG-188/browser_summary.json",
+      "status": "A"
+    },
+    {
+      "additions": 2438,
+      "deletions": 0,
+      "path": "QA/CHG-188/canonical_truth.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/decision_workbench/day_1008_desktop.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/decision_workbench/decide_default_desktop.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/decision_workbench/place_inspector_desktop.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/decision_workbench/place_mobile_expanded.png",
+      "status": "A"
+    },
+    {
+      "additions": 148,
+      "deletions": 0,
+      "path": "QA/CHG-188/decision_workbench/task_oracles.json",
+      "status": "A"
+    },
+    {
+      "additions": 335,
+      "deletions": 0,
+      "path": "QA/CHG-188/exhaustive_states.json",
+      "status": "A"
+    },
+    {
+      "additions": 118,
+      "deletions": 0,
+      "path": "QA/CHG-188/gate5/baseline.json",
+      "status": "A"
+    },
+    {
+      "additions": 2023,
+      "deletions": 0,
+      "path": "QA/CHG-188/gate5/candidate.json",
+      "status": "A"
+    },
+    {
+      "additions": 1590,
+      "deletions": 0,
+      "path": "QA/CHG-188/gate5/finding_matrix.json",
+      "status": "A"
+    },
+    {
+      "additions": 415,
+      "deletions": 0,
+      "path": "QA/CHG-188/gate5/paired_comparison.json",
+      "status": "A"
+    },
+    {
+      "additions": 8,
+      "deletions": 0,
+      "path": "QA/CHG-188/gate5/performance_summary.log",
+      "status": "A"
+    },
+    {
+      "additions": 83,
+      "deletions": 0,
+      "path": "QA/CHG-188/gate5/review_pack_index.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/interaction_dynamics/dynamics_1440_route_peek.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/interaction_dynamics/dynamics_390_field_sheet.png",
+      "status": "A"
+    },
+    {
+      "additions": 140,
+      "deletions": 0,
+      "path": "QA/CHG-188/interaction_dynamics/interaction_dynamics.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/location_gap/gap_1440_pier39_inspector.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/location_gap/gap_1440_sf_decision_surface.png",
+      "status": "A"
+    },
+    {
+      "additions": 52,
+      "deletions": 0,
+      "path": "QA/CHG-188/location_gap/location_gap_visuals.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/map_first_full/day_1008_1440.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/map_first_full/default_1440_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/map_first_full/english_dark_1440.png",
+      "status": "A"
+    },
+    {
+      "additions": 238,
+      "deletions": 0,
+      "path": "QA/CHG-188/map_first_full/full_acceptance.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/map_first_full/mobile_expanded_390.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/map_first_full/place_inspector_1440.png",
+      "status": "A"
+    },
+    {
+      "additions": 492,
+      "deletions": 0,
+      "path": "QA/CHG-188/map_first_p0/p0_independent.json",
+      "status": "A"
+    },
+    {
+      "additions": 32,
+      "deletions": 0,
+      "path": "QA/CHG-188/map_first_smoke/smoke.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/map_first_smoke/smoke_1440.png",
+      "status": "A"
+    },
+    {
+      "additions": 1943,
+      "deletions": 0,
+      "path": "QA/CHG-188/map_geometry.json",
+      "status": "A"
+    },
+    {
+      "additions": 14,
+      "deletions": 0,
+      "path": "QA/CHG-188/photo_integrity.json",
+      "status": "A"
+    },
+    {
+      "additions": 200,
+      "deletions": 0,
+      "path": "QA/CHG-188/place_list_roles.json",
+      "status": "A"
+    },
+    {
+      "additions": 96,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/fast.json",
+      "status": "A"
+    },
+    {
+      "additions": 1306,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/gate4.json",
+      "status": "A"
+    },
+    {
+      "additions": 3947,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/gate4_runtime.json",
+      "status": "A"
+    },
+    {
+      "additions": 3299,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/gate4_static.json",
+      "status": "A"
+    },
+    {
+      "additions": 44,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/maplibre_security.json",
+      "status": "A"
+    },
+    {
+      "additions": 7,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/package_assembly.json",
+      "status": "A"
+    },
+    {
+      "additions": 1239,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/package_verification.json",
+      "status": "A"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/public_assembly.json",
+      "status": "A"
+    },
+    {
+      "additions": 18,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/public_asset_rights.json",
+      "status": "A"
+    },
+    {
+      "additions": 43,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/public_asset_rights_package.json",
+      "status": "A"
+    },
+    {
+      "additions": 369,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/qualification.json",
+      "status": "A"
+    },
+    {
+      "additions": 194,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/route_continuity.json",
+      "status": "A"
+    },
+    {
+      "additions": 59,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/route_truth.json",
+      "status": "A"
+    },
+    {
+      "additions": 1220,
+      "deletions": 0,
+      "path": "QA/CHG-188/release/security_privacy.json",
+      "status": "A"
+    },
+    {
+      "additions": 792,
+      "deletions": 0,
+      "path": "QA/CHG-188/route_key_camera.json",
+      "status": "A"
+    },
+    {
+      "additions": 129,
+      "deletions": 0,
+      "path": "QA/CHG-188/route_surface.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/map_controls_390x844_single_route.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/map_controls_414x896_single_route.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_1440x900_ko_light_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_1440x900_ko_light_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_360x800_stress_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_360x800_stress_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_375x812_stress_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_375x812_stress_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_390x844_en_dark_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_390x844_en_dark_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/satellite_failure_recovery_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/single_route_day_1005_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/single_route_decide_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/screenshots/single_route_place_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": 1986,
+      "deletions": 0,
+      "path": "QA/CHG-188/sheet_geometry.json",
+      "status": "A"
+    },
+    {
+      "additions": 8770,
+      "deletions": 0,
+      "path": "QA/CHG-188/standalone/standalone.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/standalone/standalone_file_origin_final.png",
+      "status": "A"
+    },
+    {
+      "additions": 369,
+      "deletions": 0,
+      "path": "QA/CHG-188/verify-r2/attempt-1/release/qualification.json",
+      "status": "A"
+    },
+    {
+      "additions": 24,
+      "deletions": 0,
+      "path": "QA/CHG-188/verify-r2/attempt-1/release/qualification.log",
+      "status": "A"
+    },
+    {
+      "additions": 6,
+      "deletions": 0,
+      "path": "QA/CHG-188/verify-r2/attempt-1/release/unit-tests.log",
+      "status": "A"
+    },
+    {
+      "additions": 795,
+      "deletions": 0,
+      "path": "QA/CHG-188/verify-r2/attempt-1/route_key_camera.json",
+      "status": "A"
+    },
+    {
+      "additions": 369,
+      "deletions": 0,
+      "path": "QA/CHG-188/verify-r2/attempt-2/release/qualification.json",
+      "status": "A"
+    },
+    {
+      "additions": 24,
+      "deletions": 0,
+      "path": "QA/CHG-188/verify-r2/attempt-2/release/qualification.log",
+      "status": "A"
+    },
+    {
+      "additions": 6,
+      "deletions": 0,
+      "path": "QA/CHG-188/verify-r2/attempt-2/release/unit-tests.log",
+      "status": "A"
+    },
+    {
+      "additions": 794,
+      "deletions": 0,
+      "path": "QA/CHG-188/verify-r2/attempt-2/route_key_camera.json",
+      "status": "A"
+    },
+    {
+      "additions": 235,
+      "deletions": 0,
+      "path": "QA/CHG-188/verify-r2/verification_summary.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/canonical_day_dense_recovery_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/canonical_day_sparse_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/canonical_decide_default_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/canonical_en_dark_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/canonical_no_results_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/canonical_peek_cooks_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/canonical_place_inspector_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/canonical_workbench_compact_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/canonical_workbench_expanded_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/canonical_workbench_full_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/compact_map_options_open_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/compact_map_region_yosemite_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_compact_360x800.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_compact_375x812.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_compact_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_compact_414x896.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_compact_map_options_360x800.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_compact_map_options_375x812.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_compact_map_options_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_compact_map_options_414x896.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_expanded_360x800.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_expanded_375x812.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_expanded_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_expanded_414x896.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_full_360x800.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_full_375x812.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_full_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_full_414x896.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_keyboard_peek_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/mobile_touch_peek_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/satellite_failure_recovery_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/single_route_plan_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/smart_failure_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/startup_immediate_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/stress_decide_1366x768.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/stress_decide_1536x864.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/stress_decide_1600x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/stress_decide_1920x1080.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/stress_decide_360x800.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/stress_decide_375x812.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/stress_decide_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/stress_decide_414x896.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-188/visual/screenshots/stress_decide_844x390.png",
+      "status": "A"
+    },
+    {
+      "additions": 634,
+      "deletions": 0,
+      "path": "QA/CHG-188/visual/visual_index.json",
+      "status": "A"
+    },
+    {
+      "additions": 8,
+      "deletions": 8,
+      "path": "README.md",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 8,
+      "path": "TRIP_VISUALIZER_SCHEMA.md",
+      "status": "M"
+    },
+    {
+      "additions": 1461,
+      "deletions": 6760,
+      "path": "data/phase7_app_data.json",
+      "status": "M"
+    },
+    {
+      "additions": 27207,
+      "deletions": 83954,
+      "path": "data/route_geometry_cache.json",
+      "status": "M"
+    },
+    {
+      "additions": 377,
+      "deletions": 491,
+      "path": "data/route_geometry_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 182,
+      "deletions": 14,
+      "path": "data/route_research_ledger.json",
+      "status": "M"
+    },
+    {
+      "additions": 112,
+      "deletions": 41,
+      "path": "data/route_role_matrix.json",
+      "status": "M"
+    },
+    {
+      "additions": 46,
+      "deletions": 865,
+      "path": "data/route_schedules.json",
+      "status": "M"
+    },
+    {
+      "additions": 223,
+      "deletions": 520,
+      "path": "data/translations.json",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 370,
+      "path": "manifests/asset_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 55,
+      "deletions": 44,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "M"
+    },
+    {
+      "additions": 9,
+      "deletions": 9,
+      "path": "manifests/gate5_field_quality_contract.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "manifests/map_first_basemap_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 14,
+      "deletions": 338,
+      "path": "manifests/public_asset_rights.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "manifests/runtime_resilience_contract.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "manifests/security_privacy_contract.json",
+      "status": "M"
+    },
+    {
+      "additions": 41,
+      "deletions": 81,
+      "path": "manifests/trip_freshness.json",
+      "status": "M"
+    },
+    {
+      "additions": 275,
+      "deletions": 34,
+      "path": "manifests/ui_decision_workbench_contract.json",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/apply_location_gap_audit.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/audit_route_continuity.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "scripts/build_i18n.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 1,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 1,
+      "path": "scripts/check_photo_integrity.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "scripts/package_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 54,
+      "deletions": 42,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "scripts/prepare_public_site.py",
+      "status": "M"
+    },
+    {
+      "additions": 5,
+      "deletions": 2,
+      "path": "scripts/qa_accessibility_reflow.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_canonical_truth.py",
+      "status": "M"
+    },
+    {
+      "additions": 9,
+      "deletions": 12,
+      "path": "scripts/qa_decision_workbench.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "scripts/qa_gate4_resilience.py",
+      "status": "M"
+    },
+    {
+      "additions": 10,
+      "deletions": 10,
+      "path": "scripts/qa_gate5_field_quality.py",
+      "status": "M"
+    },
+    {
+      "additions": 12,
+      "deletions": 9,
+      "path": "scripts/qa_interaction_dynamics.py",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 5,
+      "path": "scripts/qa_location_gap_visuals.py",
+      "status": "M"
+    },
+    {
+      "additions": 12,
+      "deletions": 5,
+      "path": "scripts/qa_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 10,
+      "deletions": 13,
+      "path": "scripts/qa_map_first_full.py",
+      "status": "M"
+    },
+    {
+      "additions": 6,
+      "deletions": 4,
+      "path": "scripts/qa_map_first_p0.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 7,
+      "path": "scripts/qa_map_geometry.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_maplibre_security.py",
+      "status": "M"
+    },
+    {
+      "additions": 67,
+      "deletions": 87,
+      "path": "scripts/qa_place_list_membership.py",
+      "status": "M"
+    },
+    {
+      "additions": 73,
+      "deletions": 32,
+      "path": "scripts/qa_route_explanations_panel.py",
+      "status": "M"
+    },
+    {
+      "additions": 63,
+      "deletions": 286,
+      "path": "scripts/qa_route_key_camera.py",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 11,
+      "path": "scripts/qa_sheet_geometry.py",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 7,
+      "path": "scripts/qa_standalone_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "scripts/rebuild_five_route_data.py",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 4,
+      "path": "scripts/refresh_map_first_manifests.py",
+      "status": "M"
+    },
+    {
+      "additions": 9,
+      "deletions": 15,
+      "path": "scripts/run_cross_browser.py",
+      "status": "M"
+    },
+    {
+      "additions": 16,
+      "deletions": 14,
+      "path": "scripts/run_exhaustive_states.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 10,
+      "path": "scripts/run_visual_spots.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/security_privacy.py",
+      "status": "M"
+    },
+    {
+      "additions": 66,
+      "deletions": 12,
+      "path": "scripts/validate_route_truth.py",
+      "status": "M"
+    },
+    {
+      "additions": 58,
+      "deletions": 11,
+      "path": "scripts/validate_trip_data.py",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 47,
+      "path": "src/app_phase7.css",
+      "status": "M"
+    },
+    {
+      "additions": 34,
+      "deletions": 64,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    },
+    {
+      "additions": 9,
+      "deletions": 17,
+      "path": "src/atlas_messages.js",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 5,
+      "path": "src/atlas_state.js",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 13,
+      "path": "src/map_shell_template.html",
+      "status": "M"
+    },
+    {
+      "additions": 12,
+      "deletions": 3,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 24,
+      "deletions": 14,
+      "path": "tests/test_place_list_membership.py",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 5,
+      "path": "tests/test_public_asset_rights.py",
+      "status": "M"
+    },
+    {
+      "additions": 36,
+      "deletions": 7,
+      "path": "tests/test_route_truth.py",
+      "status": "M"
+    },
+    {
+      "additions": 28,
+      "deletions": 0,
+      "path": "tests/test_single_route_contract.py",
+      "status": "A"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"pwd && rg --files -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!vendor'\"' | head -80 && git status --short --branch && git rev-parse HEAD && git log --oneline --decorate -12\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat /Users/haewonkim/.codex/RTK.md && cat /Users/haewonkim/.codex/law.md && git cat-file -t 3783b2178d087ed5c4f58fd9ae7c56c0215191c9 && git cat-file -t 32437a27722e7dc7e4b97e2b0dff467ecead4857 && git show --no-patch --pretty=raw 3783b2178d087ed5c4f58fd9ae7c56c0215191c9 && git show --no-patch --pretty=raw 7d5d8727b1772642e87311d91d087e211656f6e4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch -avv && rtk git merge-base --is-ancestor 7d5d8727b1772642e87311d91d087e211656f6e4 3783b2178d087ed5c4f58fd9ae7c56c0215191c9; rtk git show --stat --oneline 3783b2178d087ed5c4f58fd9ae7c56c0215191c9; rtk git diff --stat 32437a27722e7dc7e4b97e2b0dff467ecead4857 3783b2178d087ed5c4f58fd9ae7c56c0215191c9; rtk git log --oneline --graph --decorate --all --boundary -35; rtk ls'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge-base --is-ancestor 7d5d8727b1772642e87311d91d087e211656f6e4 3783b2178d087ed5c4f58fd9ae7c56c0215191c9 && rtk git merge --ff-only 3783b2178d087ed5c4f58fd9ae7c56c0215191c9 && rtk git status --short --branch && rtk git rev-parse HEAD HEAD''^{tree} && rtk git log --oneline --decorate -6'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git diff --name-status 32437a27722e7dc7e4b97e2b0dff467ecead4857 3783b2178d087ed5c4f58fd9ae7c56c0215191c9 && rtk rg --files scripts .github tests QA/CHG-188 | rg '(route.key|camera|qualif|gate5|playwright|provider|map)' | head -180 && rtk rg -n \\\"route_key_camera|style_loaded|style\\\\.load|isStyleLoaded|load.*style|setStyle|MapLibre\\\" scripts src tests .github\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,220p' scripts/qa_route_key_camera.py && rtk sed -n '560,710p' src/app_phase7.js && rtk sed -n '180,290p' scripts/run_cross_browser.py && rtk sed -n '1,260p' .github/workflows/candidate-qualification.yml && rtk sed -n '1,180p' scripts/pipeline.py && rtk rg -n \\\"route_key_camera|CHG-188|workflow_dispatch|pull_request|push:\\\" .github/workflows\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' scripts/hosted_linux_pipeline.py && rtk sed -n '1,120p' QA/CHG-188/route_key_camera.json && rtk rg -n \\\"function setProvider|setProvider\\\\(|switchProvider|providerStyle|mapVisualReady|mapStatus|renderTheme|drawMap\\\\(\\\" src/app_phase7.js\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk uname -a && rtk which docker && rtk which gh && rtk gh auth status && rtk git remote -v && rtk gh run list --limit 8 --json databaseId,headSha,headBranch,status,conclusion,name,createdAt'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35908126346 --json jobs,headSha,event,workflowName,conclusion,runNumber,createdAt,updatedAt,url && rtk gh run download 35908126346 --dir /tmp/chg188-r1-run-35908126346 && rtk rg --files /tmp/chg188-r1-run-35908126346 | head -50'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35908126346 --json jobs,headSha,event,workflowName,conclusion,number,createdAt,updatedAt,url && rtk gh run download 35908126346 --dir /tmp/chg188-r1-run-35908126346 && rtk rg --files /tmp/chg188-r1-run-35908126346 | head -50'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"route_key_camera|375x812|414x896|Ran [0-9]+ tests|''^OK$|FAIL\" /tmp/chg188-r1-run-35908126346/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188/release/qualification.log /tmp/chg188-r1-run-35908126346/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188/release/unit-tests.log && rtk python3 -c '\"'import json,pathlib; p=pathlib.Path(\\\"/tmp/chg188-r1-run-35908126346/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188/route_key_camera.json\\\"); d=json.loads(p.read_text()); print(json.dumps({\\\"status\\\":d.get(\\\"status\\\"),\\\"failures\\\":d.get(\\\"failures\\\"),\\\"errors\\\":d.get(\\\"errors\\\"),\\\"viewports\\\":{k:{\\\"pass\\\":v.get(\\\"pass\\\"),\\\"baseline_style\\\":v.get(\\\"baseline_context\\\",{}).get(\\\"style_loaded\\\"),\\\"fit_style\\\":v.get(\\\"fit_context\\\",{}).get(\\\"style_loaded\\\"),\\\"path_style\\\":{n:{\\\"open\\\":x.get(\\\"opened\\\",{}).get(\\\"style_loaded\\\"),\\\"closed\\\":x.get(\\\"closed\\\",{}).get(\\\"style_loaded\\\")} for n,x in v.get(\\\"paths\\\",{}).items()},\\\"task_preserved\\\":v.get(\\\"task_after_controls\\\")==v.get(\\\"baseline_task\\\"),\\\"canvas\\\":v.get(\\\"baseline_context\\\",{}).get(\\\"canvas_count\\\"),\\\"markers\\\":v.get(\\\"baseline_context\\\",{}).get(\\\"visible_markers\\\"),\\\"route_features\\\":v.get(\\\"baseline_context\\\",{}).get(\\\"route_features\\\"),\\\"spatial\\\":v.get(\\\"baseline_context\\\",{}).get(\\\"spatial\\\",{}).get(\\\"useful\\\")} for k,v in d.get(\\\"viewports\\\",{}).items()}},indent=2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cat /tmp/chg188-r1-run-35908126346/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188/release/qualification.log && rtk cat /tmp/chg188-r1-run-35908126346/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188/gate5/candidate.json && rtk cat /tmp/chg188-r1-run-35908126346/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188/release/qualification.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run rerun 35908126346 && rtk gh run view 35908126346 --json attempt,status,headSha,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"function installRouteLayers|installRouteLayers\\\\(|function fitVisibleMap|function mapSpatialSnapshot|function map\\\\(\\\\)|mapVisualReady|function setMapOptionsOpen|setMapOptionsOpen\\\" src/app_phase7.js && rtk rg -l \\\"isStyleLoaded\\\" vendor | head -30 && rtk sed -n '1,130p' scripts/qa_config.py && rtk sed -n '1,120p' scripts/serve_map.py && rtk sed -n '1,50p' requirements-qa.txt && rtk docker info\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '320,390p' src/app_phase7.js && rtk sed -n '490,540p' src/app_phase7.js && rtk sed -n '725,750p' src/app_phase7.js && rtk python3 -c 'from pathlib import Path; s=Path(\\\"vendor/maplibre-gl.js\\\").read_text(); needle=\\\"isStyleLoaded()\\\"; p=0; n=0\nwhile True:\n p=s.find(needle,p)\n if p<0 or n==8: break\n print(\\\"---\\\",p,\\\"---\\\"); print(s[max(0,p-180):p+430]); p+=len(needle); n+=1'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35908126346 --json attempt,status,headSha,jobs,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"await map\\\\.once|map\\\\.once\\\\('load'|map\\\\.once\\\\('idle'|isStyleLoaded\\\\(\\\\)|mapStatus = 'ready'|mapVisualReady = true|mapStatus = 'loading'|mapVisualReady = false\\\" src/app_phase7.js scripts/qa_route_key_camera.py && rtk rg -n \\\"function loaded\\\\(|loaded\\\\(\\\\)\\\\{return|_loaded &&|_loaded\\\\|\\\\|\\\" vendor/maplibre-gl.js | head -10\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'from pathlib import Path; s=Path(\\\"vendor/maplibre-gl.js\\\").read_text(); needles=[\\\"loaded(){return this._loaded\\\",\\\"loaded(){return this.loaded\\\", \\\"loaded(){let t\\\", \\\"loaded(){return \"'!\", \"loaded(){return this._changes\"]\nfor needle in needles:\n p=s.find(needle)\n print(needle,p)\n if p>=0: print(s[max(0,p-180):p+550])'\"'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35908126346 --json attempt,status,jobs,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def release|def verify_public|verify-public|def qualify|build_public|public parity|standalone\\\" scripts/pipeline.py scripts/hosted_linux_pipeline.py && rtk sed -n '600,760p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35908126346 --json attempt,status,jobs,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35908126346 --json attempt,status,jobs,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run download --help'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view --help && rtk gh run rerun --help'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import json,pathlib; root=pathlib.Path(\\\"/tmp/chg188-r1-run-35908126346/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188\\\"); q=json.loads((root/\\\"release/qualification.json\\\").read_text()); rt=json.loads((root/\\\"release/route_truth.json\\\").read_text()); c=q.get(\\\"fast\\\",{}).get(\\\"source\\\",{}); print(json.dumps({\\\"candidate\\\":q.get(\\\"candidate_head\\\"),\\\"tree\\\":json.loads((root/\\\"gate5/candidate.json\\\").read_text()).get(\\\"candidate_tree\\\"),\\\"qualification\\\":q.get(\\\"status\\\"),\\\"truth_status\\\":c.get(\\\"truth_validation\\\",{}).get(\\\"status\\\"),\\\"truth_counts\\\":c.get(\\\"truth_validation\\\",{}).get(\\\"counts\\\"),\\\"route_truth_status\\\":rt.get(\\\"status\\\"),\\\"route_truth_counts\\\":rt.get(\\\"counts\\\"),\\\"route_truth_keys\\\":list(rt)},indent=2))' && rtk rg -n 'Bixby|Coit|Lombard|Battery Spencer|17-Mile|PIER 39|Exploratorium|Musée|Academy of Sciences|lodging|Yosemite morning' /tmp/chg188-r1-run-35908126346/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188/release/route_truth.json /tmp/chg188-r1-run-35908126346/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188/canonical_truth.json\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35908126346 --json attempt,status,jobs,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import json,pathlib; root=pathlib.Path(\\\"QA/CHG-188/release\\\");\nfor name in [\\\"public_assembly.json\\\",\\\"package_assembly.json\\\",\\\"package_verification.json\\\",\\\"public_asset_rights_package.json\\\",\\\"qualification.json\\\"]:\n p=root/name\n if not p.exists(): print(name,\\\"MISSING\\\"); continue\n d=json.loads(p.read_text()); print(name,json.dumps({k:d.get(k) for k in [\\\"status\\\",\\\"candidate_head\\\",\\\"candidate\\\",\\\"revision\\\",\\\"tested_sha\\\",\\\"qualification_sha256\\\",\\\"artifact_sha256\\\",\\\"package_sha256\\\",\\\"checks\\\",\\\"failures\\\",\\\"errors\\\"] if k in d},sort_keys=True))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '755,825p' scripts/pipeline.py && rtk sed -n '1,240p' scripts/prepare_public_site.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35908126346 --json attempt,status,jobs,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35908126346 --json attempt,status,jobs,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 35908126346 --json attempt,status,jobs,url && rtk gh run download 35908126346 --dir /tmp/chg188-r2-attempt2'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files /tmp/chg188-r2-attempt2 | rg '(route_key_camera|qualification\\\\.log|unit-tests\\\\.log|qualification\\\\.json)\"'$'\"' && rtk python3 -c 'import json,pathlib; p=next(pathlib.Path(\\\"/tmp/chg188-r2-attempt2\\\").rglob(\\\"route_key_camera.json\\\")); d=json.loads(p.read_text()); print(json.dumps({\\\"path\\\":str(p),\\\"candidate\\\":d.get(\\\"candidate\\\"),\\\"tree\\\":d.get(\\\"candidate_tree\\\"),\\\"status\\\":d.get(\\\"status\\\"),\\\"failures\\\":d.get(\\\"failures\\\"),\\\"viewports\\\":{k:{\\\"pass\\\":v.get(\\\"pass\\\"),\\\"baseline\\\":v.get(\\\"baseline_context\\\",{}).get(\\\"style_loaded\\\"),\\\"fit\\\":v.get(\\\"fit_context\\\",{}).get(\\\"style_loaded\\\"),\\\"opened\\\":{n:x.get(\\\"opened\\\",{}).get(\\\"style_loaded\\\") for n,x in v.get(\\\"paths\\\",{}).items()},\\\"closed\\\":{n:x.get(\\\"closed\\\",{}).get(\\\"style_loaded\\\") for n,x in v.get(\\\"paths\\\",{}).items()},\\\"task_preserved\\\":v.get(\\\"task_after_controls\\\")==v.get(\\\"baseline_task\\\"),\\\"canvas\\\":v.get(\\\"baseline_context\\\",{}).get(\\\"canvas_count\\\"),\\\"markers\\\":v.get(\\\"baseline_context\\\",{}).get(\\\"visible_markers\\\"),\\\"route_features\\\":v.get(\\\"baseline_context\\\",{}).get(\\\"route_features\\\"),\\\"spatial\\\":v.get(\\\"baseline_context\\\",{}).get(\\\"spatial\\\",{}).get(\\\"useful\\\")} for k,v in d.get(\\\"viewports\\\",{}).items()}},indent=2))' && rtk rg -n \\\"Ran [0-9]+ tests|\"'^OK$|''^FAILED|route_key_camera|status is '\"'FAIL'\\\" /tmp/chg188-r2-attempt2\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh api repos/kimhw8084/sf-trip-visualizer/actions/runs/35908126346/artifacts --jq '.artifacts[] | {id,name,created_at,expired,size_in_bytes}' && rtk python3 -c 'import json,pathlib; p=pathlib.Path(\\\"/tmp/chg188-r2-attempt2/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188/release/qualification.json\\\"); q=json.loads(p.read_text()); print(json.dumps({\\\"status\\\":q.get(\\\"status\\\"),\\\"candidate_head\\\":q.get(\\\"candidate_head\\\"),\\\"candidate_tree\\\":q.get(\\\"candidate_tree\\\"),\\\"tests\\\":{x[\\\"name\\\"]:x[\\\"status\\\"] for x in q.get(\\\"tests\\\",[])},\\\"errors\\\":q.get(\\\"errors\\\"),\\\"external_verify_required\\\":q.get(\\\"external_verify_required\\\")},indent=2))' && rtk git status --short --branch && rtk git rev-parse HEAD HEAD\"'^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import json,pathlib; roots=[pathlib.Path(\\\"/tmp/chg188-r1-run-35908126346/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188\\\"),pathlib.Path(\\\"/tmp/chg188-r2-attempt2/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9/QA/CHG-188\\\")];\nfor i,root in enumerate(roots,1):\n d=json.loads((root/\\\"route_key_camera.json\\\").read_text()); q=json.loads((root/\\\"release/qualification.json\\\").read_text()); print(\\\"RUN\\\",i,\\\"candidate\\\",d.get(\\\"candidate\\\"),\\\"tree\\\",d.get(\\\"candidate_tree\\\"),\\\"status\\\",d.get(\\\"status\\\"),\\\"failures\\\",d.get(\\\"failures\\\"));\n for viewport,row in d[\\\"viewports\\\"].items():\n  bad=[]\n  if row[\\\"baseline_context\\\"][\\\"style_loaded\\\"] is False: bad.append((\\\"baseline\\\",row[\\\"baseline_context\\\"]))\n  if row[\\\"fit_context\\\"][\\\"style_loaded\\\"] is False: bad.append((\\\"fit\\\",row[\\\"fit_context\\\"]))\n  for path,detail in row.get(\\\"paths\\\",{}).items():\n   for state in (\\\"opened\\\",\\\"closed\\\"):\n    if detail[state][\\\"style_loaded\\\"] is False: bad.append((path+\\\".\\\"+state,detail[state]))\n  print(viewport,\\\"pass\\\",row.get(\\\"pass\\\"),\\\"bad\\\",[(k,{\\\"style_loaded\\\":v[\\\"style_loaded\\\"],\\\"canvas\\\":v[\\\"canvas_count\\\"],\\\"markers\\\":v[\\\"visible_markers\\\"],\\\"routes\\\":v[\\\"route_features\\\"],\\\"spatial\\\":v[\\\"spatial\\\"].get(\\\"useful\\\"),\\\"markers_in_view\\\":v[\\\"spatial\\\"].get(\\\"markers_in_viewport\\\"),\\\"route_features_in_view\\\":v[\\\"spatial\\\"].get(\\\"route_features_in_viewport\\\")}) for k,v in bad],\\\"task_preserved\\\",row[\\\"baseline_task\\\"]==row[\\\"task_after_controls\\\"],\\\"chrome\\\",row.get(\\\"comparison_chrome_count\\\"),\\\"focus_panel\\\",{n:(x.get(\\\"focus_returned\\\"),x.get(\\\"panel_closed\\\")) for n,x in row.get(\\\"paths\\\",{}).items()});\n print(\\\"unit\\\",next((line.strip() for line in (root/\\\"release/unit-tests.log\\\").read_text().splitlines() if line.startswith(\\\"Ran \\\")),\\\"not available\\\")); print(\\\"qual\\\",q.get(\\\"status\\\"),{x[\\\"name\\\"]:x[\\\"status\\\"] for x in q.get(\\\"tests\\\",[])})'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh api repos/kimhw8084/sf-trip-visualizer/actions/runs/35908126346/attempts/1/artifacts --jq '.artifacts[] | {id,name,created_at,expired,size_in_bytes}' && rtk gh api repos/kimhw8084/sf-trip-visualizer/actions/runs/35908126346/attempts/2/artifacts --jq '.artifacts[] | {id,name,created_at,expired,size_in_bytes}' && rtk rtk --version\"",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nfrom __future__ import annotations\nimport json\nimport shutil\nfrom pathlib import Path\n\nrepo = Path.cwd()\nout = repo / \\\"QA/CHG-188/verify-r2\\\"\nout.mkdir(parents=True, exist_ok=True)\nsource_roots = {\n    \\\"attempt-1\\\": Path(\\\"/tmp/chg188-r1-run-35908126346/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9\\\"),\n    \\\"attempt-2\\\": Path(\\\"/tmp/chg188-r2-attempt2/candidate-qualification-3783b2178d087ed5c4f58fd9ae7c56c0215191c9\\\"),\n}\ncopy_paths = [\n    \\\"QA/CHG-188/route_key_camera.json\\\",\n    \\\"QA/CHG-188/release/qualification.json\\\",\n    \\\"QA/CHG-188/release/qualification.log\\\",\n    \\\"QA/CHG-188/release/unit-tests.log\\\",\n]\nrows = {}\nfor name, root in source_roots.items():\n    target = out / name\n    for relative in copy_paths:\n        source = root / relative\n        if not source.is_file():\n            raise SystemExit(f\\\"missing artifact: {source}\\\")\n        dest = target / Path(relative).relative_to(\\\"QA/CHG-188\\\")\n        dest.parent.mkdir(parents=True, exist_ok=True)\n        shutil.copy2(source, dest)\n    route = json.loads((target / \\\"route_key_camera.json\\\").read_text())\n    qualification = json.loads((target / \\\"release/qualification.json\\\").read_text())\n    false_samples = {}\n    for viewport, row in route[\\\"viewports\\\"].items():\n        samples = {\\\"baseline\\\": row.get(\\\"baseline_context\\\"), \\\"fit\\\": row.get(\\\"fit_context\\\")}\n        for path_name, path_row in row.get(\\\"paths\\\", {}).items():\n            samples[f\\\"{path_name}.opened\\\"] = path_row.get(\\\"opened\\\")\n            samples[f\\\"{path_name}.closed\\\"] = path_row.get(\\\"closed\\\")\n        false_samples[viewport] = [\n            sample_name for sample_name, context in samples.items()\n            if isinstance(context, dict) and context.get(\\\"style_loaded\\\") is False\n        ]\n    unit_text = (target / \\\"release/unit-tests.log\\\").read_text()\n    unit_count = next((line.strip() for line in unit_text.splitlines() if line.startswith(\\\"Ran \\\")), \\\"unknown\\\")\n    rows[name] = {\n        \\\"run_id\\\": 35908126346,\n        \\\"attempt\\\": 1 if name == \\\"attempt-1\\\" else 2,\n        \\\"job_id\\\": 107340834864 if name == \\\"attempt-1\\\" else 107387726069,\n        \\\"candidate_head\\\": route.get(\\\"candidate\\\"),\n        \\\"candidate_tree\\\": route.get(\\\"candidate_tree\\\"),\n        \\\"workflow_status\\\": qualification.get(\\\"status\\\"),\n        \\\"route_key_camera_status\\\": route.get(\\\"status\\\"),\n        \\\"route_key_camera_failures\\\": route.get(\\\"failures\\\", []),\n        \\\"false_style_loaded_samples_by_viewport\\\": false_samples,\n        \\\"comparison_chrome_count_by_viewport\\\": {v: r.get(\\\"comparison_chrome_count\\\") for v, r in route.get(\\\"viewports\\\", {}).items()},\n        \\\"task_preserved_by_viewport\\\": {v: r.get(\\\"baseline_task\\\") == r.get(\\\"task_after_controls\\\") for v, r in route.get(\\\"viewports\\\", {}).items()},\n        \\\"negative_control_viewports_pass\\\": {v: route.get(\\\"viewports\\\", {}).get(v, {}).get(\\\"pass\\\") for v in (\\\"360x800\\\", \\\"390x844\\\")},\n        \\\"repository_tests\\\": {\\\"result\\\": \\\"PASS\\\" if \\\"\\\\nOK\\\\n\\\" in unit_text else \\\"FAIL\\\", \\\"count_line\\\": unit_count},\n        \\\"qualification_component_statuses\\\": {item[\\\"name\\\"]: item[\\\"status\\\"] for item in qualification.get(\\\"tests\\\", [])},\n        \\\"evidence_directory\\\": f\\\"QA/CHG-188/verify-r2/{name}\\\",\n    }\n\nsummary = {\n    \\\"schema_version\\\": 1,\n    \\\"change\\\": \\\"CHG-188 exact-candidate verification R2\\\",\n    \\\"terminal_classification\\\": \\\"FIX_REQUIRED\\\",\n    \\\"classification_reason\\\": \\\"Hosted evidence establishes a QA timing-classification defect: transient isStyleLoaded=false snapshots at 375x812/414x896 fail the current instantaneous oracle while the route/marker state is valid and later reaches style-ready in the same viewport. No product defect is established.\\\",\n    \\\"target_base\\\": {\\\"commit\\\": \\\"7d5d8727b1772642e87311d91d087e211656f6e4\\\", \\\"tree\\\": \\\"ede888516de0dc9c8554036435ae9f8034aaea4f\\\"},\n    \\\"tested_candidate\\\": {\\\"commit\\\": \\\"3783b2178d087ed5c4f58fd9ae7c56c0215191c9\\\", \\\"tree\\\": \\\"05198dc7e990fc2d4170b2b092156d9919e1edc2\\\", \\\"stable_product_parent\\\": \\\"32437a27722e7dc7e4b97e2b0dff467ecead4857\\\", \\\"stable_product_tree\\\": \\\"0f35fca435e96cf50575c25f39af52403ba1da21\\\"},\n    \\\"focused_conclusion\\\": {\n        \\\"environment\\\": \\\"GitHub Actions ubuntu-latest; exact-revision hosted Linux contract; fresh Chromium browser process per run; exact checked-out SHA asserted by workflow\\\",\n        \\\"reproduction\\\": \\\"Same false style-loaded observation recurred at 414x896 across two fresh attempts, but at different checkpoints; 375x812 baseline failure occurred only in attempt 1 and was absent in attempt 2.\\\",\n        \\\"valid_state_at_every_false_sample\\\": {\\\"canvas_count\\\": 1, \\\"visible_markers\\\": 3, \\\"route_features\\\": 2, \\\"markers_in_viewport\\\": 3, \\\"route_features_in_viewport\\\": 2, \\\"spatial_useful\\\": True, \\\"task_state_preserved\\\": True, \\\"comparison_chrome_count\\\": 0},\n        \\\"recovery\\\": \\\"At each failing viewport in each run, subsequent fit or close/path samples reported style_loaded=true; map interactions also retained focus return and panel-close behavior.\\\",\n        \\\"negative_controls\\\": \\\"360x800 and 390x844 passed all route-camera samples in both attempts; comparison_chrome_count was zero at all viewports.\\\",\n        \\\"oracle_root_cause\\\": \\\"scripts/qa_route_key_camera.py snapshots style_loaded at baseline without a bounded readiness wait, and after control-path readiness waits it sleeps 160 ms before the acceptance snapshot. context_passes requires style_loaded=true on each instantaneous snapshot, with no transient-versus-stale distinction.\\\",\n        \\\"bounded_repair_needed\\\": \\\"Change QA only: retain the 5-second fail-closed style-ready bound; when a sample is not style-ready, verify route/date/region plus canvas/marker/route/spatial invariants and wait for isStyleLoaded() && \"'!isMoving() within that bound. Record a transient recovery as such; fail if the expected state is absent or readiness does not return by the bound. Do not change product source or acceptance scope.\",\n    },\n    \"product_source_changed\": False,\n    \"qa_source_changed\": False,\n    \"qualification\": {\n        \"both_attempts_unit_contract_tests\": \"81 passed\",\n        \"non_camera_components\": \"PASS in both attempts, including canonical truth, accessibility/reflow, mobile controls, Smart/Satellite recovery, standalone parity, Chromium/Firefox/WebKit, and Gate 4 runtime.\",\n        \"route_key_camera\": \"FAIL in both runs due to the transient snapshots above; Gate 5 correctly remains fail-closed on the contradictory current oracle report.\",\n        \"pages_release_path\": \"SKIPPED by existing workflow because full qualification was not PASS; no deployment was run.\",\n        \"external_verification_boundaries\": [\"Native Safari automation unavailable; Playwright WebKit is not native Safari.\", \"No verifiably real iPhone or iPad available.\", \"Independent candidate-bound multimodal visual/usability review not supplied.\"],\n    },\n    \"runs\": rows,\n    \"review_locators\": {\n        \"hosted_action_run\": \"https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35908126346\",\n        \"attempt_2_artifact_id\": 10777972029,\n        \"attempt_2_artifact_url\": \"https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35908126346/artifacts/10777972029\",\n        \"candidate_bound_screenshots\": [\n            \"QA/CHG-188/screenshots/map_controls_414x896_single_route.png\",\n            \"QA/CHG-188/visual/screenshots/mobile_compact_map_options_414x896.png\",\n            \"QA/CHG-188/visual/screenshots/mobile_expanded_414x896.png\",\n            \"QA/CHG-188/visual/screenshots/mobile_compact_map_options_375x812.png\",\n            \"QA/CHG-188/visual/screenshots/mobile_expanded_375x812.png\",\n        ],\n    },\n}\n(out / \"verification_summary.json\").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + \"'\"\\\\n\\\")\nPY\nrtk python3 -m json.tool QA/CHG-188/verify-r2/verification_summary.json >/dev/null && rtk git status --short && rtk git diff --stat\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import json,pathlib; p=pathlib.Path(\\\"QA/CHG-188/route_key_camera.json\\\"); d=json.loads(p.read_text()); print(json.dumps({\\\"candidate\\\":d.get(\\\"candidate\\\"),\\\"candidate_tree\\\":d.get(\\\"candidate_tree\\\"),\\\"binding\\\":d.get(\\\"candidate_binding\\\"),\\\"screenshots\\\":d.get(\\\"screenshots\\\")},indent=2)); s=pathlib.Path(\\\"QA/CHG-188/route_key_camera.json\\\"); print(\\\"exists\\\",s.exists())' && rtk rg --files QA/CHG-188 | rg '(map_controls_414x896|mobile_(compact|expanded)_map_options_(375|414)x896|mobile_(compact|expanded)_(375|414)x896)'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git log --first-parent --reverse --format='%H %s' 7d5d8727b1772642e87311d91d087e211656f6e4..3783b2178d087ed5c4f58fd9ae7c56c0215191c9 && rtk git rev-parse 32437a27722e7dc7e4b97e2b0dff467ecead4857\"'^{tree} 3783b2178d087ed5c4f58fd9ae7c56c0215191c9''^{tree} && rtk git diff --name-only 32437a27722e7dc7e4b97e2b0dff467ecead4857 3783b2178d087ed5c4f58fd9ae7c56c0215191c9'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\np = Path(\\\"QA/CHG-188/verify-r2/verification_summary.json\\\")\nd = json.loads(p.read_text())\nd[\\\"verification_branch\\\"] = \\\"codex/sf-trip-visualizer-single-canonical-route-a-verify-r2\\\"\nd[\\\"first_parent_ancestry\\\"] = [\n    {\\\"commit\\\": \\\"7d5d8727b1772642e87311d91d087e211656f6e4\\\", \\\"role\\\": \\\"requested fresh target base\\\"},\n    {\\\"commit\\\": \\\"b813effc4459dc5273c2e94fc649e3312180fe3a\\\", \\\"subject\\\": \\\"Implement CHG-188 single-route SF itinerary\\\"},\n    {\\\"commit\\\": \\\"65585731d55e892bf0822c5faa58e0ed6a83a410\\\", \\\"subject\\\": \\\"Fix CHG-188 map and route qualification\\\"},\n    {\\\"commit\\\": \\\"32437a27722e7dc7e4b97e2b0dff467ecead4857\\\", \\\"role\\\": \\\"stable product source\\\", \\\"tree\\\": \\\"0f35fca435e96cf50575c25f39af52403ba1da21\\\"},\n    {\\\"commit\\\": \\\"3783b2178d087ed5c4f58fd9ae7c56c0215191c9\\\", \\\"role\\\": \\\"exact R1 final work head and tested candidate\\\", \\\"tree\\\": \\\"05198dc7e990fc2d4170b2b092156d9919e1edc2\\\"},\n]\nd[\\\"stable_product_source_screenshots\\\"] = {\n    \\\"bound_commit\\\": \\\"32437a27722e7dc7e4b97e2b0dff467ecead4857\\\",\n    \\\"bound_tree\\\": \\\"0f35fca435e96cf50575c25f39af52403ba1da21\\\",\n    \\\"paths\\\": d[\\\"review_locators\\\"].pop(\\\"candidate_bound_screenshots\\\"),\n}\np.write_text(json.dumps(d, ensure_ascii=False, indent=2) + \\\"\\\\n\\\")\nPY\nrtk python3 -m json.tool QA/CHG-188/verify-r2/verification_summary.json >/dev/null && rtk git diff --stat -- QA/CHG-188/verify-r2\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk nl -ba scripts/qa_route_key_camera.py && rtk nl -ba src/app_phase7.js | rtk sed -n '600,625p' && rtk du -sh QA/CHG-188/verify-r2 && rtk git status --short --branch\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '140,285p' tests/test_cross_browser_runner.py && rtk rg -n \\\"is_style_loaded|style_loaded|never.*ready|unready|map_ready\\\" tests\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 - <<'PY'\nimport json\nfrom pathlib import Path\np = Path(\\\"QA/CHG-188/verify-r2/verification_summary.json\\\")\nd = json.loads(p.read_text())\nd[\\\"focused_conclusion\\\"][\\\"negative_controls\\\"] = {\n    \\\"viewport_controls\\\": \\\"360x800 and 390x844 passed every route-camera sample in both attempts; comparison_chrome_count was zero at all four widths.\\\",\n    \\\"never_ready_map_control\\\": {\n        \\\"test\\\": \\\"tests/test_cross_browser_runner.py::test_failure_diagnostics_are_persisted_before_teardown\\\",\n        \\\"result\\\": \\\"PASS within the 81-test hosted suite\\\",\n        \\\"state\\\": \\\"Map object present but provider remains loading; is_style_loaded=false; canvas_count=1; current_marker_count=0 versus expected_marker_count=36; diagnostics remain UNVERIFIED and are not promoted to PASS.\\\",\n        \\\"purpose\\\": \\\"Confirms a genuinely unusable map remains fail-closed while the 375/414 route-camera cases have valid visible Route A context and recover to style-ready.\\\",\n    },\n}\np.write_text(json.dumps(d, ensure_ascii=False, indent=2) + \\\"\\\\n\\\")\nPY\nrtk python3 -m json.tool QA/CHG-188/verify-r2/verification_summary.json >/dev/null && rtk nl -ba tests/test_cross_browser_runner.py | rtk sed -n '160,195p'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add QA/CHG-188/verify-r2 && rtk git diff --cached --stat && rtk git commit -m \"qa: record CHG-188 R2 verification disposition\" && rtk git status --short --branch && rtk git rev-parse HEAD HEAD''^{tree} && rtk git log --oneline --decorate -4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show --no-patch --pretty=raw HEAD && rtk git diff --name-only HEAD''^ HEAD && rtk git merge-base --is-ancestor 7d5d8727b1772642e87311d91d087e211656f6e4 HEAD && rtk git status --short --branch && rtk python3 -c '\"'import json,pathlib; p=pathlib.Path(\\\"QA/CHG-188/verify-r2/verification_summary.json\\\"); d=json.loads(p.read_text()); print(json.dumps({\\\"classification\\\":d[\\\"terminal_classification\\\"],\\\"tested_candidate\\\":d[\\\"tested_candidate\\\"],\\\"runs\\\":{k:{\\\"camera\\\":v[\\\"route_key_camera_status\\\"],\\\"qual\\\":v[\\\"workflow_status\\\"],\\\"unit\\\":v[\\\"repository_tests\\\"]} for k,v in d[\\\"runs\\\"].items()},\\\"bound_screenshots\\\":d[\\\"stable_product_source_screenshots\\\"]},indent=2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.155.1",
+    "configured_model": "gpt-6-luna",
+    "event_count": 101,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 96.86,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 5150208,
+      "fresh_input_tokens": 166794,
+      "input_tokens": 5317002,
+      "non_reasoning_output_tokens": 14113,
+      "output_tokens": 54609,
+      "reasoning_output_tokens": 40496,
+      "total_processed_tokens": 5371611
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "2545984d509d947bc75d8b4f0cfa3d420e9a4d71",
+      "subject": "qa: record CHG-188 R2 verification disposition"
+    },
+    {
+      "sha": "3783b2178d087ed5c4f58fd9ae7c56c0215191c9",
+      "subject": "Record CHG-188 exact candidate evidence"
+    },
+    {
+      "sha": "32437a27722e7dc7e4b97e2b0dff467ecead4857",
+      "subject": "Fix CHG-188 exact packaging evidence paths"
+    },
+    {
+      "sha": "65585731d55e892bf0822c5faa58e0ed6a83a410",
+      "subject": "Fix CHG-188 map and route qualification"
+    },
+    {
+      "sha": "b813effc4459dc5273c2e94fc649e3312180fe3a",
+      "subject": "Implement CHG-188 single-route SF itinerary"
+    }
+  ],
+  "diff": {
+    "additions": 68786,
+    "changed_files": 186,
+    "commit_count": 5,
+    "deletions": 94360
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 142,
+    "items": [
+      {
+        "bytes": 789,
+        "path": "QA/CHG-188/accessibility.json",
+        "sha256": "2d5792fbb717064f6c0c2d181d36c393411988e86c9db34edda7a5c4099f338e"
+      },
+      {
+        "bytes": 849112,
+        "path": "QA/CHG-188/browser_screenshots/firefox_1280_detail.png",
+        "sha256": "6fe8fcf005afbd6be46f612610b086be4e706542fd73a521c44f7d18f5bdbd0a"
+      },
+      {
+        "bytes": 283152,
+        "path": "QA/CHG-188/browser_screenshots/firefox_390_detail.png",
+        "sha256": "8bcca93d01c9021b52ea89f0e0a8dc862fa6ef46d89da1fc6736d43b49f874df"
+      },
+      {
+        "bytes": 956964,
+        "path": "QA/CHG-188/browser_screenshots/webkit_1280_detail.png",
+        "sha256": "0b64f1a06f6e0f2a7870d5d72c198cc54fb1d5020060ff5c9f66dd65adf2dcc4"
+      },
+      {
+        "bytes": 315200,
+        "path": "QA/CHG-188/browser_screenshots/webkit_390_detail.png",
+        "sha256": "dddf6fc8099e85f500839f219a0ee1d6d00920c145ad2862ee706e691840d696"
+      },
+      {
+        "bytes": 27642,
+        "path": "QA/CHG-188/browser_summary.json",
+        "sha256": "24f992320e71191bacfa6a8e2a798867402ef22867645e8cf78aa569b805a9b5"
+      },
+      {
+        "bytes": 136635,
+        "path": "QA/CHG-188/canonical_truth.json",
+        "sha256": "1a95907602f55b83f42072259b7802aba745b39a99db1c875c21f9746c7a6aae"
+      },
+      {
+        "bytes": 651406,
+        "path": "QA/CHG-188/decision_workbench/day_1008_desktop.png",
+        "sha256": "00b250718f660a3c51b9fa29f5c1b328bcf880e044ccb7899d3708fe1a52236a"
+      },
+      {
+        "bytes": 493160,
+        "path": "QA/CHG-188/decision_workbench/decide_default_desktop.png",
+        "sha256": "83d21bf7bf48ebcdf014e4c9eb614d9c608440c140826cba4d28a3acd3b71ebb"
+      },
+      {
+        "bytes": 651768,
+        "path": "QA/CHG-188/decision_workbench/place_inspector_desktop.png",
+        "sha256": "29b0c488d1b6153abfa722ab548d040a844fe5459fd41f7eb2ab8295554a880d"
+      },
+      {
+        "bytes": 202354,
+        "path": "QA/CHG-188/decision_workbench/place_mobile_expanded.png",
+        "sha256": "6a96ad63e1e1d727f3c6fe794eb16cd63f7f2a408f781de971c6346b66ed5b31"
+      },
+      {
+        "bytes": 3771,
+        "path": "QA/CHG-188/decision_workbench/task_oracles.json",
+        "sha256": "15509b3ed11d22fccd2069229b3e3145a48ebc800b5c93c29fac00db243ab440"
+      },
+      {
+        "bytes": 6004,
+        "path": "QA/CHG-188/exhaustive_states.json",
+        "sha256": "efc6c9a0f9299b3ce35adbfe9fe28ffcd53f79cbe5bea0198d35f9063c0c3c35"
+      },
+      {
+        "bytes": 2974,
+        "path": "QA/CHG-188/gate5/baseline.json",
+        "sha256": "c459b53f936d3723eabf610916a204ba1b97b8466c08242bbb5b1eb76a8c594f"
+      },
+      {
+        "bytes": 62141,
+        "path": "QA/CHG-188/gate5/candidate.json",
+        "sha256": "97080f59d148cbc2d3f52f5d8cb50c960915d1c018567463136d84363b4d6704"
+      },
+      {
+        "bytes": 50811,
+        "path": "QA/CHG-188/gate5/finding_matrix.json",
+        "sha256": "27f14e4eeeabf33dfeb9a4b5bc15abc8965e26ab3fae5b680836b8351710066f"
+      },
+      {
+        "bytes": 10466,
+        "path": "QA/CHG-188/gate5/paired_comparison.json",
+        "sha256": "1d6cf1e31c6161562ad1206803e15dc0ead122d6daca5b9a20cc6ef2cf972142"
+      },
+      {
+        "bytes": 1856,
+        "path": "QA/CHG-188/gate5/performance_summary.log",
+        "sha256": "f60c07cbca4fec9a589dab8a8a34859f3e3ae66dcc62bbb42cbd3d0bd9013e6d"
+      },
+      {
+        "bytes": 5298,
+        "path": "QA/CHG-188/gate5/review_pack_index.json",
+        "sha256": "2e7a7173f2750301df67da9fca273c2a4b542f359cf100c01f72eda28d5cf8b0"
+      },
+      {
+        "bytes": 465784,
+        "path": "QA/CHG-188/interaction_dynamics/dynamics_1440_route_peek.png",
+        "sha256": "27cb7f8b853989b0ce5699b432eb0c02f3cd881c7c5f58dfbcaaf07fb59b698f"
+      },
+      {
+        "bytes": 188882,
+        "path": "QA/CHG-188/interaction_dynamics/dynamics_390_field_sheet.png",
+        "sha256": "7d8fa659b9f21dbaa4abf1344695081b770227fe75d38cb3682c1ec5b080a739"
+      },
+      {
+        "bytes": 2366,
+        "path": "QA/CHG-188/interaction_dynamics/interaction_dynamics.json",
+        "sha256": "409baf2aed77a573c741e696b8f97b6101226e2ed81882b676f3572965847021"
+      },
+      {
+        "bytes": 520967,
+        "path": "QA/CHG-188/location_gap/gap_1440_pier39_inspector.png",
+        "sha256": "d88b07d3e0550d624e96a64a516005b2a6c380e05fa533f6cd4ab6e18c607999"
+      },
+      {
+        "bytes": 161008,
+        "path": "QA/CHG-188/location_gap/gap_1440_sf_decision_surface.png",
+        "sha256": "7eef309174f2e680e5986790cc240f530f5a800b977b0d72c5d15bdd42bbe612"
+      },
+      {
+        "bytes": 1128,
+        "path": "QA/CHG-188/location_gap/location_gap_visuals.json",
+        "sha256": "8893785b9ead93885ca3fa083dcff97cf389221c767f2fbed28e9133b785d061"
+      },
+      {
+        "bytes": 651413,
+        "path": "QA/CHG-188/map_first_full/day_1008_1440.png",
+        "sha256": "dc7a7a37fc1eb5065c5a60188b2241bee44c2bdae6b06123d2d5df23525facc3"
+      },
+      {
+        "bytes": 490742,
+        "path": "QA/CHG-188/map_first_full/default_1440_ko_light.png",
+        "sha256": "d695a7f0fc07b885ddc72042658ea023551915232b7abba232be22361cf3d00b"
+      },
+      {
+        "bytes": 195697,
+        "path": "QA/CHG-188/map_first_full/english_dark_1440.png",
+        "sha256": "55c194cc32c306f1c5b69e7a994f735b19c52c680e23b213f269548ccf5ab8e4"
+      },
+      {
+        "bytes": 4744,
+        "path": "QA/CHG-188/map_first_full/full_acceptance.json",
+        "sha256": "dcadc52da52e1787a97bcab7ebf79965287a1c9c2f1d5fea302a3176a3bce358"
+      },
+      {
+        "bytes": 140023,
+        "path": "QA/CHG-188/map_first_full/mobile_expanded_390.png",
+        "sha256": "877c25a518b8a981f8d7dcc00e933bfb20d127523314a5096d5758106ee9e062"
+      },
+      {
+        "bytes": 651768,
+        "path": "QA/CHG-188/map_first_full/place_inspector_1440.png",
+        "sha256": "29b0c488d1b6153abfa722ab548d040a844fe5459fd41f7eb2ab8295554a880d"
+      },
+      {
+        "bytes": 10221,
+        "path": "QA/CHG-188/map_first_p0/p0_independent.json",
+        "sha256": "1221365834c6e52f27c4d6797baeb68c1bf1f4e91c4212655ddedf98bca2d8af"
+      },
+      {
+        "bytes": 939,
+        "path": "QA/CHG-188/map_first_smoke/smoke.json",
+        "sha256": "b7bec28f0fa41f72d1033dec67a3cb355f55887bfad7517859deaa721dbf6957"
+      },
+      {
+        "bytes": 317216,
+        "path": "QA/CHG-188/map_first_smoke/smoke_1440.png",
+        "sha256": "c758b6b88f2ad99b6122064c881db6a2c89aef9b660c051774861d47ba3c3595"
+      },
+      {
+        "bytes": 52967,
+        "path": "QA/CHG-188/map_geometry.json",
+        "sha256": "1d9753b58719fb572f7ca56ab999e604fb3cb2208c26aa0f59bea18f6f2796c5"
+      },
+      {
+        "bytes": 424,
+        "path": "QA/CHG-188/photo_integrity.json",
+        "sha256": "cfaf317b278606352c06b41084c5d8a51474c8b6b7abced4ab2b24a01d5d01f9"
+      },
+      {
+        "bytes": 5115,
+        "path": "QA/CHG-188/place_list_roles.json",
+        "sha256": "e6029aca72a73e4d2bc8b7e74fa0b32e2825b7702f015d98d901de2f53aa4728"
+      },
+      {
+        "bytes": 2751,
+        "path": "QA/CHG-188/release/fast.json",
+        "sha256": "7334163b9bdfaf6a91818180243bed8765f04e6a656092120750ec85e980422d"
+      },
+      {
+        "bytes": 50374,
+        "path": "QA/CHG-188/release/gate4.json",
+        "sha256": "2d841ea19adc5df91dcbfd7871809c1b9a1dd823ba846aec81cff55ddde0c89a"
+      },
+      {
+        "bytes": 102842,
+        "path": "QA/CHG-188/release/gate4_runtime.json",
+        "sha256": "72d6fe26fbdc8fb4ffb76cd65c70ba5b4fb9f92ad1ad6efedbb783e23a276e98"
+      },
+      {
+        "bytes": 103603,
+        "path": "QA/CHG-188/release/gate4_static.json",
+        "sha256": "41b24ff7a89a49fb8dab637ebd47fe3ebf5ce55f0f48d4f50c1e22bf53c07eef"
+      },
+      {
+        "bytes": 1428,
+        "path": "QA/CHG-188/release/maplibre_security.json",
+        "sha256": "6bf8f5fa5b3c3c0a19d8c63ce8e08599c37fa37ba3c6b6536a45d131cbf09e62"
+      },
+      {
+        "bytes": 366,
+        "path": "QA/CHG-188/release/package_assembly.json",
+        "sha256": "fc27d6bf81382a62d8bfaec8a2bc01b513085a95bea2a2f3d8e973b900c8f79b"
+      },
+      {
+        "bytes": 45675,
+        "path": "QA/CHG-188/release/package_verification.json",
+        "sha256": "6f0b9fff1d98e5ce41ee751eb2ee647c8f76bc04cfa6ab8c56d8f2623433daba"
+      },
+      {
+        "bytes": 34268,
+        "path": "QA/CHG-188/release/public_assembly.json",
+        "sha256": "a238883877438cf95478abfe939451ffc703d356537835ff9ae9818ea94f4afd"
+      },
+      {
+        "bytes": 414,
+        "path": "QA/CHG-188/release/public_asset_rights.json",
+        "sha256": "b1f0d47776c4c4ceb3e18e5a760314c6cdd78231822977e06a9be42cb39650b2"
+      },
+      {
+        "bytes": 1141,
+        "path": "QA/CHG-188/release/public_asset_rights_package.json",
+        "sha256": "b5152d771f0a1d0ebc4ee9b6aed739f1608a7d23ca204eced81ec3ffbc9d140e"
+      },
+      {
+        "bytes": 27450,
+        "path": "QA/CHG-188/release/qualification.json",
+        "sha256": "18c917966057e40740675e9f198454a8fb651ce0826c40a4215156d9aa96bcbd"
+      },
+      {
+        "bytes": 4007,
+        "path": "QA/CHG-188/release/route_continuity.json",
+        "sha256": "3f61382ca489d04cc561dbb22f9ad2ffaf9efc8111cb18d45e4c4b44bee09895"
+      },
+      {
+        "bytes": 853,
+        "path": "QA/CHG-188/release/route_truth.json",
+        "sha256": "34c008471882a6ac26d0a44313b17ff066c20ea4f6c52ba79bc3cc6b05b00f71"
+      },
+      {
+        "bytes": 42634,
+        "path": "QA/CHG-188/release/security_privacy.json",
+        "sha256": "56c65a8be98cc5155bcfe6109d36a7e9ecd4a755202d8266265b57f4d2dbab13"
+      },
+      {
+        "bytes": 23284,
+        "path": "QA/CHG-188/route_key_camera.json",
+        "sha256": "35e3a5dda096f426ac8622aa121b7228dfa565920d9b2c869d87ac84ec71ae17"
+      },
+      {
+        "bytes": 3531,
+        "path": "QA/CHG-188/route_surface.json",
+        "sha256": "e0dd6c9e11d153f7bc0145135f2667a6574875671309e38efaa96119096c9257"
+      },
+      {
+        "bytes": 217028,
+        "path": "QA/CHG-188/screenshots/map_controls_390x844_single_route.png",
+        "sha256": "b589936ad6b967fd717a3ce75edbdd35710611313ccf8595e9a5918436847b5b"
+      },
+      {
+        "bytes": 233935,
+        "path": "QA/CHG-188/screenshots/map_controls_414x896_single_route.png",
+        "sha256": "929b09a0e9989a67b5557cb2c75a15c6a09d09e62853e96241fb6bcdd006342d"
+      },
+      {
+        "bytes": 468815,
+        "path": "QA/CHG-188/screenshots/place_list/place_roles_1440x900_ko_light_scrolled.png",
+        "sha256": "cacc8efcf0d692384585deccbc323fc1b87ec9f15d6a99c46330433ae7a5cc4f"
+      },
+      {
+        "bytes": 151673,
+        "path": "QA/CHG-188/screenshots/place_list/place_roles_1440x900_ko_light_top.png",
+        "sha256": "800823eecae07ae0f418b1053124bf2ed422da8cb5070adba2087bd17fcf8cc1"
+      },
+      {
+        "bytes": 147864,
+        "path": "QA/CHG-188/screenshots/place_list/place_roles_360x800_stress_scrolled.png",
+        "sha256": "d2a4e57d6cb5388753d2f36ab5a59cf89944e9b83853154177e7b93b7f6618e5"
+      },
+      {
+        "bytes": 58019,
+        "path": "QA/CHG-188/screenshots/place_list/place_roles_360x800_stress_top.png",
+        "sha256": "517c2f505932144ad7d2e78ec9333d41fbe8d3ac57ed0e262a9ea1ed20d23c8f"
+      },
+      {
+        "bytes": 151923,
+        "path": "QA/CHG-188/screenshots/place_list/place_roles_375x812_stress_scrolled.png",
+        "sha256": "4af782f6860d32fba1837d0f6e51d229b233405a64bfccb680fdd2e1163af067"
+      },
+      {
+        "bytes": 58390,
+        "path": "QA/CHG-188/screenshots/place_list/place_roles_375x812_stress_top.png",
+        "sha256": "f289b8971aa57a80c7a2e157358eda5e8d9926393e1a098eb64ecf038bfc6eb4"
+      },
+      {
+        "bytes": 153102,
+        "path": "QA/CHG-188/screenshots/place_list/place_roles_390x844_en_dark_scrolled.png",
+        "sha256": "dae01b772f8f82df766f8bf5181aaaf4a18eda97cb6aa474f632ee135b71a271"
+      },
+      {
+        "bytes": 125032,
+        "path": "QA/CHG-188/screenshots/place_list/place_roles_390x844_en_dark_top.png",
+        "sha256": "6db766204f4664bc30982405d3d6a74439dbeafda23edb56003a1fb1ff530d49"
+      },
+      {
+        "bytes": 580971,
+        "path": "QA/CHG-188/screenshots/satellite_failure_recovery_1440x900.png",
+        "sha256": "f6bb0ad2a9a7ccf268e31b9f4931233c64d29c42c5c3aeeed06896d960114074"
+      },
+      {
+        "bytes": 366633,
+        "path": "QA/CHG-188/screenshots/single_route_day_1005_1440x900.png",
+        "sha256": "3783973956191dd15a0e1e220dcbffe1d896a2218756a55ff77c237312fcf745"
+      },
+      {
+        "bytes": 490742,
+        "path": "QA/CHG-188/screenshots/single_route_decide_1440x900.png",
+        "sha256": "d695a7f0fc07b885ddc72042658ea023551915232b7abba232be22361cf3d00b"
+      },
+      {
+        "bytes": 170537,
+        "path": "QA/CHG-188/screenshots/single_route_place_390x844.png",
+        "sha256": "5ff20e0d003a4e8621f24762818c4fcb78a08f75d5988f651320edd829bd96ad"
+      },
+      {
+        "bytes": 52773,
+        "path": "QA/CHG-188/sheet_geometry.json",
+        "sha256": "49a70de062bcaad44edb0d918c106da44dae045c6695e77c06f1b7c8c84efe5a"
+      },
+      {
+        "bytes": 222323,
+        "path": "QA/CHG-188/standalone/standalone.json",
+        "sha256": "5e80b7e25aa41df559a840e65bf1589a48828adcaece3e63b6818ec1427ff26a"
+      },
+      {
+        "bytes": 512552,
+        "path": "QA/CHG-188/standalone/standalone_file_origin_final.png",
+        "sha256": "8aead35f022e374004bfbc78d03380b4889b905028830765db637e5c3fbd7db0"
+      },
+      {
+        "bytes": 27796,
+        "path": "QA/CHG-188/verify-r2/attempt-1/release/qualification.json",
+        "sha256": "55c98e06aecc01275050c1e099d85eca80f63155f5cfa01a03b4b1baf4881ce7"
+      },
+      {
+        "bytes": 3875,
+        "path": "QA/CHG-188/verify-r2/attempt-1/release/qualification.log",
+        "sha256": "41e5a918ddcb7bc96790738e02b7fe285bb0ec7ce0effd07729298a5ad9d04d9"
+      },
+      {
+        "bytes": 263,
+        "path": "QA/CHG-188/verify-r2/attempt-1/release/unit-tests.log",
+        "sha256": "af7a5e422de2e3f47e59628bc6da05c9ad0a35b2635c57f5e9af573cf747e50c"
+      },
+      {
+        "bytes": 23496,
+        "path": "QA/CHG-188/verify-r2/attempt-1/route_key_camera.json",
+        "sha256": "98b10f40e9f3bac7005ca3ac7a7a9813beac5d6ddf7673090cb683b3de63f4de"
+      },
+      {
+        "bytes": 27696,
+        "path": "QA/CHG-188/verify-r2/attempt-2/release/qualification.json",
+        "sha256": "29f364e0adb0dfea0f438347b8cd22cf1e78342e861ca5c9487b249d2434c94e"
+      },
+      {
+        "bytes": 3875,
+        "path": "QA/CHG-188/verify-r2/attempt-2/release/qualification.log",
+        "sha256": "41e5a918ddcb7bc96790738e02b7fe285bb0ec7ce0effd07729298a5ad9d04d9"
+      },
+      {
+        "bytes": 263,
+        "path": "QA/CHG-188/verify-r2/attempt-2/release/unit-tests.log",
+        "sha256": "d5a37532ff4441560d4e8d0b03cef29ba9cab65e4cf1ee1870f53ba939d1c6c4"
+      },
+      {
+        "bytes": 23390,
+        "path": "QA/CHG-188/verify-r2/attempt-2/route_key_camera.json",
+        "sha256": "4748f13f6b292d4d6a1b2fa5dd80a4df599cff76635c90af3ea3f1d680ddacdd"
+      },
+      {
+        "bytes": 10330,
+        "path": "QA/CHG-188/verify-r2/verification_summary.json",
+        "sha256": "2e640998d04802ef8de0ca4287b7654a7705404fb17837026b0af8b2743ad88f"
+      },
+      {
+        "bytes": 535535,
+        "path": "QA/CHG-188/visual/screenshots/canonical_day_dense_recovery_1440x900.png",
+        "sha256": "6b046d5bd36b9f3d156b58a31a9a592379b968501f02efdfeaf371a74c3c210e"
+      },
+      {
+        "bytes": 595111,
+        "path": "QA/CHG-188/visual/screenshots/canonical_day_sparse_1440x900.png",
+        "sha256": "f6880ac2074d2d10ec0c1a8b0ae6c8c008d37589065d8fa1d866e2e4f17da552"
+      },
+      {
+        "bytes": 411554,
+        "path": "QA/CHG-188/visual/screenshots/canonical_decide_default_1440x900.png",
+        "sha256": "9d015906db235b53889e2afa07e3802dfbf2840c9800db2030a3813d9fba5086"
+      },
+      {
+        "bytes": 120738,
+        "path": "QA/CHG-188/visual/screenshots/canonical_en_dark_1440x900.png",
+        "sha256": "81db76efb1b30c2a930880d459cca5613f9665a83f4d5b7eb6cc9360998437f3"
+      },
+      {
+        "bytes": 583369,
+        "path": "QA/CHG-188/visual/screenshots/canonical_no_results_1440x900.png",
+        "sha256": "0b783dbb1f75a7b79f22ed84bf8b325f06771ef1d3370d50caa740462ed13ddb"
+      },
+      {
+        "bytes": 812279,
+        "path": "QA/CHG-188/visual/screenshots/canonical_peek_cooks_1440x900.png",
+        "sha256": "470de368a614cac45f1007980e71d2edc0e73b43718e02fc3a170d92bebf661b"
+      },
+      {
+        "bytes": 941986,
+        "path": "QA/CHG-188/visual/screenshots/canonical_place_inspector_1440x900.png",
+        "sha256": "c5ed303ab12dcfc7d91031ee2108b85de64d0d890a97f402abf8a499403ce5cf"
+      },
+      {
+        "bytes": 636241,
+        "path": "QA/CHG-188/visual/screenshots/canonical_workbench_compact_1440x900.png",
+        "sha256": "35d3d0157e42d4408ffa5b5dfe58d3712acb7e2b90b46b2d33706616e5d1d39b"
+      },
+      {
+        "bytes": 503305,
+        "path": "QA/CHG-188/visual/screenshots/canonical_workbench_expanded_1440x900.png",
+        "sha256": "8ba16b837a97b7e5ca82fa6e05fa597bfad78cab9bc33200c3142694f2e80fee"
+      },
+      {
+        "bytes": 502407,
+        "path": "QA/CHG-188/visual/screenshots/canonical_workbench_full_1440x900.png",
+        "sha256": "987108b19434b4d38ecd3cc15e6a0587fa293f618fb3b366b487c575a8fc7128"
+      },
+      {
+        "bytes": 422721,
+        "path": "QA/CHG-188/visual/screenshots/compact_map_options_open_1440x900.png",
+        "sha256": "fb1444ffe8c0380d3e0526fb79d0f3689dae197f1d7baf17a0ae596cec6609de"
+      },
+      {
+        "bytes": 409141,
+        "path": "QA/CHG-188/visual/screenshots/compact_map_region_yosemite_1440x900.png",
+        "sha256": "dc6a81dddc7259d1ae6bf85ec002e59550740609379f7790ae24e0e5a5e72a52"
+      },
+      {
+        "bytes": 149745,
+        "path": "QA/CHG-188/visual/screenshots/mobile_compact_360x800.png",
+        "sha256": "c5cb69feafd29ccf8bb723fe66be1dd7af77e58c9319c7d5d4747eaae464cd92"
+      },
+      {
+        "bytes": 155215,
+        "path": "QA/CHG-188/visual/screenshots/mobile_compact_375x812.png",
+        "sha256": "77daa58e07b31dd769a98ff9658eb1cff87069c4516e002de4cf0be350d404ad"
+      },
+      {
+        "bytes": 161992,
+        "path": "QA/CHG-188/visual/screenshots/mobile_compact_390x844.png",
+        "sha256": "a7a30752f8904443a10277763bbfbde8bc1e667dbdaa9552e9e66a23653f0720"
+      },
+      {
+        "bytes": 172773,
+        "path": "QA/CHG-188/visual/screenshots/mobile_compact_414x896.png",
+        "sha256": "56a413eb8c6d340933ff4b2b0e34458024da12d1a7ecdbb7aeb89268564b338a"
+      },
+      {
+        "bytes": 43961,
+        "path": "QA/CHG-188/visual/screenshots/mobile_compact_map_options_360x800.png",
+        "sha256": "c9f30f20ef1c84624589b3247b4bdaaadde8934497b26fc0295be86367aa88ce"
+      },
+      {
+        "bytes": 44120,
+        "path": "QA/CHG-188/visual/screenshots/mobile_compact_map_options_375x812.png",
+        "sha256": "f00e26ec45061d27b21301678ecd157f0697b8a21ef018630957df9951ab5ad4"
+      },
+      {
+        "bytes": 44434,
+        "path": "QA/CHG-188/visual/screenshots/mobile_compact_map_options_390x844.png",
+        "sha256": "b49f77da94ae9d8cd2cf9003385c6bd1e66d36fcad6115817efb1fe6814f7dc1"
+      },
+      {
+        "bytes": 57745,
+        "path": "QA/CHG-188/visual/screenshots/mobile_compact_map_options_414x896.png",
+        "sha256": "8119684fb438f15c53daf4f708c3823886768b03f41b5875568ebec3634d920b"
+      },
+      {
+        "bytes": 138405,
+        "path": "QA/CHG-188/visual/screenshots/mobile_expanded_360x800.png",
+        "sha256": "e548690ab7f013d8ca650b53ba7fc859024adff04e042e8b163ad15a319b29d3"
+      },
+      {
+        "bytes": 155342,
+        "path": "QA/CHG-188/visual/screenshots/mobile_expanded_375x812.png",
+        "sha256": "19500be5fd2d88fc00ea1aed82ef904cfe8c34edf0eab1f8fb56c44c488e8c74"
+      },
+      {
+        "bytes": 161844,
+        "path": "QA/CHG-188/visual/screenshots/mobile_expanded_390x844.png",
+        "sha256": "151872da4481ed32619bbffe2c67d41cf316e092722b851a569fd43104bb35ee"
+      },
+      {
+        "bytes": 178289,
+        "path": "QA/CHG-188/visual/screenshots/mobile_expanded_414x896.png",
+        "sha256": "1db1092e88bdbd0e4f13108fed3609bd1946f81e5949bb5d8b251b7879ceb316"
+      },
+      {
+        "bytes": 119920,
+        "path": "QA/CHG-188/visual/screenshots/mobile_full_360x800.png",
+        "sha256": "e30cee5f0e0f56fafe7177d5f4a4343badcb5c364a67bfd835ec976192b7f463"
+      },
+      {
+        "bytes": 125121,
+        "path": "QA/CHG-188/visual/screenshots/mobile_full_375x812.png",
+        "sha256": "165ac0a4c3eb8c68b81c76fc2d79204abb36b403b785d568c09cdba2fe346a52"
+      },
+      {
+        "bytes": 130107,
+        "path": "QA/CHG-188/visual/screenshots/mobile_full_390x844.png",
+        "sha256": "0219437f796f87d2d63f072a775f7d332b237bea02f4a8c390cbb878953076df"
+      },
+      {
+        "bytes": 141333,
+        "path": "QA/CHG-188/visual/screenshots/mobile_full_414x896.png",
+        "sha256": "e829da3ab45be332603efee955db86233772e655f60c9689a553cdcceaa9e7b6"
+      },
+      {
+        "bytes": 199041,
+        "path": "QA/CHG-188/visual/screenshots/mobile_keyboard_peek_390x844.png",
+        "sha256": "4247de9add5e7a52ed34cbc7b20c31feaf740a5cc91aa4fa4ef32cf74dc9baea"
+      },
+      {
+        "bytes": 199230,
+        "path": "QA/CHG-188/visual/screenshots/mobile_touch_peek_390x844.png",
+        "sha256": "036ade7d13759e03239cd8384f39d1c849bc7c4922f42e3e52a61a99c2b4b8a3"
+      },
+      {
+        "bytes": 490106,
+        "path": "QA/CHG-188/visual/screenshots/satellite_failure_recovery_1440x900.png",
+        "sha256": "39c76f4f6c6202914eb22b5cc110f36b62b38f0d156a7b691387de442c405c60"
+      },
+      {
+        "bytes": 410701,
+        "path": "QA/CHG-188/visual/screenshots/single_route_plan_1440x900.png",
+        "sha256": "63ff5afdc4201cf31984c55f777981cb8b953893430b86023a4df73058a66abc"
+      },
+      {
+        "bytes": 197685,
+        "path": "QA/CHG-188/visual/screenshots/smart_failure_1440x900.png",
+        "sha256": "dc843fe039bee63e30c819db743039ae8699981510ed3240387c33a6853c71b7"
+      },
+      {
+        "bytes": 186751,
+        "path": "QA/CHG-188/visual/screenshots/startup_immediate_1440x900.png",
+        "sha256": "cb8ae4e65bffb68358f81cf0f5368d77073adcc342eb93f8f74407ea59264905"
+      },
+      {
+        "bytes": 337129,
+        "path": "QA/CHG-188/visual/screenshots/stress_decide_1366x768.png",
+        "sha256": "d6e557cdc09eb210f9293b6c11700e391f87120befdd0daf0a4eb2ca9807053e"
+      },
+      {
+        "bytes": 318794,
+        "path": "QA/CHG-188/visual/screenshots/stress_decide_1536x864.png",
+        "sha256": "7e82fc1e1823730019c57ba25e38203122b629c9d535571150e142abd71b2729"
+      },
+      {
+        "bytes": 521180,
+        "path": "QA/CHG-188/visual/screenshots/stress_decide_1600x900.png",
+        "sha256": "a128e1544c8be1e7e0c106075d583767918d23672feef7ad95bc6bf98711866d"
+      },
+      {
+        "bytes": 651321,
+        "path": "QA/CHG-188/visual/screenshots/stress_decide_1920x1080.png",
+        "sha256": "4cc67b9cdb03f6fee5a7272b53b0ea902c016161ce5f50572123894e1cec5e4e"
+      },
+      {
+        "bytes": 145966,
+        "path": "QA/CHG-188/visual/screenshots/stress_decide_360x800.png",
+        "sha256": "9b501ff1d8e26b21e70d21a8bef4a187a71e7ac3e4c1fe0980c6e87d72ea7076"
+      },
+      {
+        "bytes": 163606,
+        "path": "QA/CHG-188/visual/screenshots/stress_decide_375x812.png",
+        "sha256": "d5c87b242d3ebd5c8c846da05c258414d3e1e65eea8c525769976896484dd6ac"
+      },
+      {
+        "bytes": 170733,
+        "path": "QA/CHG-188/visual/screenshots/stress_decide_390x844.png",
+        "sha256": "45bd29385c66ffc863ab37c10cab6975589d541d2a9b48f7e3e249ff953d7e3b"
+      },
+      {
+        "bytes": 185690,
+        "path": "QA/CHG-188/visual/screenshots/stress_decide_414x896.png",
+        "sha256": "8dd8acb13c659b0636c19a4aadb2540870ac8dd7093017f6528196a1b3009b51"
+      },
+      {
+        "bytes": 118729,
+        "path": "QA/CHG-188/visual/screenshots/stress_decide_844x390.png",
+        "sha256": "d0956fa44c5fd55056d325b3a706b93a0ec322a5d980a24dc436800d612e66f0"
+      },
+      {
+        "bytes": 23271,
+        "path": "QA/CHG-188/visual/visual_index.json",
+        "sha256": "efe10711fb6d67ea23304eeeff4434bd48a0ab800ce12410649d5f89c5f778a6"
+      },
+      {
+        "bytes": 9393,
+        "path": "README.md",
+        "sha256": "3faebdc6cbecc0309a91e13bba3f2146c178a7cba02c366ef3557a5f59568cf2"
+      },
+      {
+        "bytes": 7021,
+        "path": "TRIP_VISUALIZER_SCHEMA.md",
+        "sha256": "b532b7519049c54307adda9f1ec7d757fef8bda7c7d56dba5a9f9cb31a715cf0"
+      },
+      {
+        "bytes": 168568,
+        "path": "data/phase7_app_data.json",
+        "sha256": "3df1885492fc42d37b57410cd05c00329760dfb6e5b009cbc0267714bf687130"
+      },
+      {
+        "bytes": 967091,
+        "path": "data/route_geometry_cache.json",
+        "sha256": "7077f32b2c66c5b18ab6ca0bed04e5e99cd6ad8a34a45b8415b91d9bdf9ae536"
+      },
+      {
+        "bytes": 36051,
+        "path": "data/route_geometry_manifest.json",
+        "sha256": "76b4e2fe00fa9005f4b894533517b196226c25e678ceadc7271a20fb415bf571"
+      },
+      {
+        "bytes": 11439,
+        "path": "data/route_research_ledger.json",
+        "sha256": "53277a43097d62afbcfd2e18b401dccf166f35d2489194a1769aba2f0293fa3b"
+      },
+      {
+        "bytes": 2191,
+        "path": "data/route_role_matrix.json",
+        "sha256": "de3ebfc45c44b6923370cbd071c81444416a7126d8244ebbf02dd403c8b59e9c"
+      },
+      {
+        "bytes": 7360,
+        "path": "data/route_schedules.json",
+        "sha256": "f830b5dcb1a621f6614c3a2dc28948751f5abb197f800408b145e6d2bc2a41f9"
+      },
+      {
+        "bytes": 50481,
+        "path": "data/translations.json",
+        "sha256": "58260e67ee252e1934477c9c7f3ebf65ecff6aadd58cd12141884e286f148bc6"
+      },
+      {
+        "bytes": 269897,
+        "path": "manifests/asset_manifest.json",
+        "sha256": "b519468160a3b5dcc2ec7a82d0ca02f0f918bcfe77eb086d363837ae048da554"
+      },
+      {
+        "bytes": 6141,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "8f1655aa093021f9c488a01b04fffff22d50abe77e6436e0bbc01684c4b3678d"
+      },
+      {
+        "bytes": 3853,
+        "path": "manifests/gate5_field_quality_contract.json",
+        "sha256": "fdada7f2f91ab089233c7eae9b3504b80a0e43a0830db1ddaa960152b7bc333c"
+      },
+      {
+        "bytes": 4704,
+        "path": "manifests/map_first_basemap_manifest.json",
+        "sha256": "c762314ce478be2edf6cf72ccead1d99c4154fb4cbda93a77b6f49860e0102a8"
+      },
+      {
+        "bytes": 560508,
+        "path": "manifests/public_asset_rights.json",
+        "sha256": "19a78020ac655b0f4ce809af3540c570dc69dab61820f3c6d09860b6fe38bc62"
+      },
+      {
+        "bytes": 3922,
+        "path": "manifests/runtime_resilience_contract.json",
+        "sha256": "eff2f38377f24e643d590a6b05e639070d8f4aa577e9fd422ab7a1e773b6867c"
+      },
+      {
+        "bytes": 37707,
+        "path": "manifests/security_privacy_contract.json",
+        "sha256": "fb21d2104cdad3b7908922f81c2e94b9daefdc92c0f02078bda2f1d3bbcdfa98"
+      },
+      {
+        "bytes": 19876,
+        "path": "manifests/trip_freshness.json",
+        "sha256": "a1ce4c3eaa18b2e76e0f5f5ad099c9fc1d3b4d55b657b28c8d3db939d0ef4f3f"
+      },
+      {
+        "bytes": 7842,
+        "path": "manifests/ui_decision_workbench_contract.json",
+        "sha256": "c72ed0840e835e67eedc27148f7fa31252823c0bc85d7b0e9f74ce3894075ef4"
+      },
+      {
+        "bytes": 7970,
+        "path": "src/map_shell_template.html",
+        "sha256": "157a95c3967db011257286a129b6172628a7485d247ac658ea11f40c84e8b766"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-23T21:38:23Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "7d5d8727b1772642e87311d91d087e211656f6e4",
+    "branch": "codex/sf-trip-visualizer-single-canonical-route-a-verify-r2",
+    "detached_verify": false,
+    "head_sha": "2545984d509d947bc75d8b4f0cfa3d420e9a4d71",
+    "remote_exact_head": true,
+    "remote_head_sha": "2545984d509d947bc75d8b4f0cfa3d420e9a4d71",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "7d5d8727b1772642e87311d91d087e211656f6e4",
+    "work_branch": "codex/sf-trip-visualizer-single-canonical-route-a-verify-r2",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-94d2bc1f6f534a16beab6641",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/single-canonical-route-a-verify-r2",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/single-canonical-route-a-verify-r2"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "single-canonical-route-a-verify-r2",
+  "schema_version": 1,
+  "started_at": "2026-09-23T21:16:46Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1297,
+    "queue_seconds": 1,
+    "total_seconds": 1298
+  },
+  "transport": {
+    "bytes": 6157,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 5803,
+    "prompt_sha256": "b7912e03f3e41711328176552c189f7af751766cd96091192bf568641c511912",
+    "sha256": "94d2bc1f6f534a16beab66415c159d03cd55eeb8ea83fa54eaba5914ec636650"
+  }
+}
