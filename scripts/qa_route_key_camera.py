@@ -331,7 +331,7 @@ def main() -> int:
     report["negative_control"]["route_comparison_ui_absent"] = all(row.get("comparison_chrome_count") == 0 for row in report["viewports"].values()) and len(report["viewports"]) == len(viewports)
     report["status"] = "PASS" if not report["failures"] and not report["errors"] and len(report["viewports"]) == len(viewports) else "FAIL"
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
-    print(json.dumps({"status": report["status"], "viewports": len(report["viewports"]), "failures": report["failures"], "errors": report["errors"], "output": str(args.output)}, ensure_ascii=False))
+    print(json.dumps({"status": report["status"], "viewports": len(report["viewports"]), "failures": report["failures"], "errors": report["errors"]}, ensure_ascii=False))
     return 0 if report["status"] == "PASS" else 1
 
 
