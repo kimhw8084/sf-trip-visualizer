@@ -201,18 +201,22 @@ def main() -> int:
                     cooks.tap(timeout=5000)
                     if page.locator("#peek.show").count() != 1:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: Cook's Meadow Peek did not open in compact")
-                    orientation["after_marker_touch"] = snapshot(page)["task"]
+                    after_marker_touch = snapshot(page)
+                    orientation["after_marker_touch"] = after_marker_touch["task"]
+                    if after_marker_touch["task"]["selected"] != "cooks":
+                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: Cook's Meadow touch did not select its place")
                     page.keyboard.press("Escape")
                     page.wait_for_function("!document.querySelector('#peek.show')", timeout=5000)
                     orientation["before_orientation_change"] = snapshot(page)["task"]
+                    orientation_expected = orientation["before_orientation_change"]
 
                     page.set_viewport_size({"width": 844, "height": 390})
                     page.wait_for_timeout(120)
                     landscape = snapshot(page)
                     orientation["landscape"] = landscape["task"]
                     orientation["landscape_sheet"] = landscape["sheet"]
-                    if landscape["task"] != prepared["task"]:
-                        changed = {key: {"expected": prepared["task"].get(key), "actual": landscape["task"].get(key)} for key in prepared["task"] if prepared["task"].get(key) != landscape["task"].get(key)}
+                    if landscape["task"] != orientation_expected:
+                        changed = {key: {"expected": orientation_expected.get(key), "actual": landscape["task"].get(key)} for key in orientation_expected if orientation_expected.get(key) != landscape["task"].get(key)}
                         orientation["landscape_task_differences"] = changed
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: orientation changed task state")
                     if landscape["sheet"] != "compact":
@@ -222,8 +226,8 @@ def main() -> int:
                     restored = snapshot(page)
                     orientation["restored"] = restored["task"]
                     orientation["restored_sheet"] = restored["sheet"]
-                    if restored["task"] != prepared["task"] or restored["sheet"] != "compact":
-                        changed = {key: {"expected": prepared["task"].get(key), "actual": restored["task"].get(key)} for key in prepared["task"] if prepared["task"].get(key) != restored["task"].get(key)}
+                    if restored["task"] != orientation_expected or restored["sheet"] != "compact":
+                        changed = {key: {"expected": orientation_expected.get(key), "actual": restored["task"].get(key)} for key in orientation_expected if orientation_expected.get(key) != restored["task"].get(key)}
                         orientation["restored_task_differences"] = changed
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: portrait recomposition failed to restore state")
 
