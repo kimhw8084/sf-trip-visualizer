@@ -171,6 +171,8 @@ def main() -> int:
 
                     activate(page, "expanded", "pointer")
                     prepared = prepare_context(page)
+                    orientation = report.setdefault("orientation_checkpoints", {}).setdefault(f"{viewport[0]}x{viewport[1]}", {})
+                    orientation["prepared"] = prepared["task"]
                     rows, failures = transition_rows(page, "keyboard")
                     report["transition_rows"].extend(rows)
                     report["failures"].extend(f"{viewport[0]}x{viewport[1]}: {failure}" for failure in failures)
@@ -179,7 +181,9 @@ def main() -> int:
                     rows, failures = transition_rows(page, "touch" if viewport[0] < 500 else "pointer")
                     report["transition_rows"].extend(rows)
                     report["failures"].extend(f"{viewport[0]}x{viewport[1]}: {failure}" for failure in failures)
-                    if snapshot(page)["task"] != prepared["task"]:
+                    after_transitions = snapshot(page)
+                    orientation["after_transitions"] = after_transitions["task"]
+                    if after_transitions["task"] != prepared["task"]:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: task state failed transition preservation")
 
                     activate(page, "compact", "pointer")
@@ -197,20 +201,30 @@ def main() -> int:
                     cooks.tap(timeout=5000)
                     if page.locator("#peek.show").count() != 1:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: Cook's Meadow Peek did not open in compact")
+                    orientation["after_marker_touch"] = snapshot(page)["task"]
                     page.keyboard.press("Escape")
                     page.wait_for_function("!document.querySelector('#peek.show')", timeout=5000)
+                    orientation["before_orientation_change"] = snapshot(page)["task"]
 
                     page.set_viewport_size({"width": 844, "height": 390})
                     page.wait_for_timeout(120)
                     landscape = snapshot(page)
+                    orientation["landscape"] = landscape["task"]
+                    orientation["landscape_sheet"] = landscape["sheet"]
                     if landscape["task"] != prepared["task"]:
+                        changed = {key: {"expected": prepared["task"].get(key), "actual": landscape["task"].get(key)} for key in prepared["task"] if prepared["task"].get(key) != landscape["task"].get(key)}
+                        orientation["landscape_task_differences"] = changed
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: orientation changed task state")
                     if landscape["sheet"] != "compact":
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: orientation changed explicit sheet state")
                     page.set_viewport_size({"width": viewport[0], "height": viewport[1]})
                     page.wait_for_timeout(120)
                     restored = snapshot(page)
+                    orientation["restored"] = restored["task"]
+                    orientation["restored_sheet"] = restored["sheet"]
                     if restored["task"] != prepared["task"] or restored["sheet"] != "compact":
+                        changed = {key: {"expected": prepared["task"].get(key), "actual": restored["task"].get(key)} for key in prepared["task"] if prepared["task"].get(key) != restored["task"].get(key)}
+                        orientation["restored_task_differences"] = changed
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: portrait recomposition failed to restore state")
 
                     page.evaluate("document.documentElement.style.fontSize='200%'")
