@@ -183,11 +183,16 @@ def main() -> int:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: task state failed transition preservation")
 
                     activate(page, "compact", "pointer")
+                    page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
+                    page.wait_for_function("!document.querySelector('#peek.show')", timeout=5000)
                     page.locator("#mapOptionsToggle").click()
                     page.wait_for_timeout(40)
                     if page.locator("#mapOptionsPanel").is_hidden():
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: map options unreachable in compact")
                     page.keyboard.press("Escape")
+                    page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden", timeout=5000)
+                    page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
+                    page.wait_for_function("!document.querySelector('#peek.show')", timeout=5000)
                     cooks = page.locator(".photo-marker[data-place-key='cooks']")
                     cooks.click(timeout=5000)
                     if page.locator("#peek.show").count() != 1:
