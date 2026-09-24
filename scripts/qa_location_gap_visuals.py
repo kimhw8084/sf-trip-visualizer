@@ -112,7 +112,21 @@ report["checks"]["language_theme_state"] = "Cost and readiness" in english["head
 report["checks"]["readiness_state_survives_theme"] = report["checks"]["state_after_theme"] == {"theme": "dark", "booked": "user_marked_booked", "scenario": "us_resident_annual_pass"}
 report["checks"]["escape_returns_focus"] = report["checks"]["focus_return"] == "openCostCockpit"
 report["checks"]["mobile_reflow"] = mobile["overflow"] == 0 and mobile["visible"] and mobile["dialogWidth"] <= mobile["viewport"] + 1 and mobile["bottom"] <= 2
-report["status"] = "PASS" if not report["errors"] and all(value is True for value in report["checks"].values()) else "FAIL"
+required_boolean_checks = (
+    "visible_ui_privacy_cost_readiness_1440_ko_light_day",
+    "visible_ui_privacy_cost_readiness_390_en_dark_mobile",
+    "all_routes_and_places",
+    "final_day_content",
+    "analysis_scenario_only",
+    "freshness_is_recheck_gated",
+    "resident_lower_bound",
+    "local_user_checklist",
+    "language_theme_state",
+    "readiness_state_survives_theme",
+    "escape_returns_focus",
+    "mobile_reflow",
+)
+report["status"] = "PASS" if not report["errors"] and all(report["checks"].get(name) is True for name in required_boolean_checks) else "FAIL"
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / "location_gap_visuals.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "checks": report["checks"], "errors": report["errors"]}, ensure_ascii=False, indent=2))

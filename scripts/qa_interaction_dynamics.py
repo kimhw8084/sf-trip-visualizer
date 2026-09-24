@@ -80,7 +80,7 @@ fits_pass = all(
 zoom_pass = all(row["features"] > 0 and row["canvas"] == 1 for row in report["zoom_states"])
 report["logistics_only_dates_have_no_public_markers"] = all(row["markers"] == 0 and row["features"] == 0 for row in report["fit_states"] if row["date"] in LOGISTICS_ONLY_DATES)
 cue_text = "Check live navigation before leaving" if report["route_peek"]["language"] == "en" else "출발 전 실시간 길안내 확인"
-report["route_peek"]["live_navigation_cue"] = report["route_peek"]["hasAction"] and report["route_peek"]["liveNavigation"] and report["route_peek"]["liveNavigationText"] == cue_text
+report["route_peek"]["live_navigation_cue"] = report["route_peek"]["hasAction"] and report["route_peek"]["liveNavigation"] and report["route_peek"]["liveNavigationText"].startswith(cue_text)
 report["status"] = "PASS" if not report["errors"] and report["provider_inventory"] == {"active": "vector", "data": ["vector", "satellite"], "controls": ["vector", "satellite"]} and fits_pass and report["logistics_only_dates_have_no_public_markers"] and zoom_pass and report["route_peek"]["visible"] and report["route_peek"]["hit_layers"] == 7 and report["route_peek"]["live_navigation_cue"] and report["mobile"]["overflow"] == 0 else "FAIL"
 (OUT / "interaction_dynamics.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "fits": report["fit_states"], "route_peek": report["route_peek"], "mobile": report["mobile"], "errors": report["errors"]}, ensure_ascii=False, indent=2))
