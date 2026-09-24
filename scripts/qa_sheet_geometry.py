@@ -86,7 +86,7 @@ def prepare_context(page) -> dict:
     page.locator("#modeNav [data-mode='day']").click()
     page.locator("#dateSelect").select_option("10/7")
     page.wait_for_function("document.querySelector('.photo-marker[data-place-key=\"cooks\"]')?.getBoundingClientRect().width > 0")
-    page.locator(".photo-marker[data-place-key='cooks']").click()
+    page.locator(".photo-marker[data-place-key='cooks']").tap()
     page.locator("#langToggle").click()
     page.locator("#themeToggle").click()
     page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
