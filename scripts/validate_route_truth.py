@@ -30,6 +30,7 @@ ROLES = {"Core", "Strong", "Conditional", "Skip"}
 DROP_FIRST_ROLES = {"Strong", "Conditional"}
 KO_WEEKDAYS = ("월", "화", "수", "목", "금", "토", "일")
 REGION_ALLOWANCE = {
+    "10/2": set(),
     "10/3": {"sf"},
     "10/4": {"sf"},
     "10/5": {"sf"},
@@ -40,17 +41,18 @@ REGION_ALLOWANCE = {
     "10/9": {"yosemite", "sf"},
     "10/10": {"sf"},
     "10/11": {"sf"},
+    "10/12": set(),
 }
 EXPECTED_LODGING = {
-    "sf": ["10/2–10/6", "10/9–10/12"],
+    "mill_valley": ["10/2–10/6"],
     "monterey": ["10/6–10/7"],
     "yosemite": ["10/7–10/9"],
+    "foster_city": ["10/9–10/12"],
 }
 OWNER_MUST_DAYS = {
     "ferry": "10/3",
     "ggb": "10/4",
     "muir": "10/4",
-    "battery": "10/4",
     "alcatraz": "10/5",
     "chinatown": "10/5",
     "pier39": "10/5",
@@ -61,7 +63,6 @@ OWNER_MUST_DAYS = {
     "carmel": "10/6",
     "aquarium": "10/6",
     "lone_cypress": "10/6",
-    "monterey_wharf": "10/6",
     "tunnel_view": "10/7",
     "bridalveil": "10/7",
     "cooks": "10/7",
@@ -69,7 +70,9 @@ OWNER_MUST_DAYS = {
     "tea_garden": "10/10",
     "lands_end": "10/11",
     "painted": "10/11",
-    "twin_peaks": "10/11",
+    "botanical": "10/10",
+    "cantor_arts": "10/10",
+    "baker_beach": "10/11",
 }
 
 
@@ -266,32 +269,20 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
         yosemite_to_sf = [leg for leg in data.get("legs", []) if route in leg.get("routes", []) and leg.get("date") == "10/9" and leg.get("from") == "yosemite_valley" and leg.get("to") == "sf_center" and leg.get("render_style") == "transfer_dots"]
         _check(failures, len(yosemite_to_sf) == 1, f"{route} must have exactly one conceptual Yosemite → SF transfer after the 10/9 morning")
 
-        for day_key, day in days.items():
-            if "bixby" not in day.get("hard_anchors", []) + day.get("strong", []) + day.get("conditional", []):
-                continue
-            _check(failures, day_key == "10/6", f"{route} Bixby must remain on the Monterey sightseeing day")
-            text = " ".join(str(day.get(key, "")) for key in ("decisions", "recovery", "drop_first"))
-            _check(failures, "drive-through" in text or "drive through" in text, f"{route} Bixby lacks drive-through-only language")
-            unsafe = None
-            for match in re.finditer(r"\b(parking|shoulder|u-?turn)\b", text.lower()):
-                prefix = text.lower()[max(0, match.start() - 50):match.start()]
-                if "no " not in prefix:
-                    unsafe = match
-                    break
-            _check(failures, unsafe is None, f"{route} Bixby contains unsafe stop language")
-
         for place, required_day in OWNER_MUST_DAYS.items():
             day = days.get(required_day, {})
             _check(failures, roles.get(place, {}).get(route) == "Core", f"{route} {place} must remain an owner-approved Core place")
             _check(failures, place in day.get("hard_anchors", []), f"{route} {place} must remain scheduled as a hard anchor on {required_day}")
-        _check(failures, roles.get("bixby", {}).get(route) == "Skip", f"{route} Bixby must remain Skip")
-        _check(failures, roles.get("botanical", {}).get(route) == "Strong" and "botanical" in days.get("10/10", {}).get("strong", []), f"{route} San Francisco Botanical Garden must remain Strong on 10/10")
-        _check(failures, all(key not in day.get(field, []) for day in days.values() for field in (*ROLE_FIELDS.keys(),) for key in ("exploratorium", "musee", "academy", "coit", "bixby")), f"{route} schedules a removed attraction, paid Coit visit, or Bixby stop")
-        _check(failures, "glacier" in days.get("10/8", {}).get("hard_anchors", []) and "Washburn Point and Valley View yield before Glacier Point" in " ".join(days.get("10/8", {}).get("recovery", [])), f"{route} Glacier Point or recovery priority drifted")
-        _check(failures, "Yosemite morning" in " ".join(days.get("10/9", {}).get("recovery", [])) and "SF hotel" in " ".join(days.get("10/9", {}).get("recovery", [])) and "Do not add an SF photo stop" in " ".join(days.get("10/9", {}).get("recovery", [])), f"{route} 10/9 Yosemite morning → SF recovery semantics drifted")
+        retired = {"bay_lights", "exploratorium", "musee", "academy", "coit", "bixby", "mariposa"}
+        _check(failures, not (retired & set(roles)), f"{route} active role matrix contains retired places: {sorted(retired & set(roles))}")
+        _check(failures, all(not (retired & set(day.get(field, []))) for day in days.values() for field in ROLE_FIELDS), f"{route} schedule contains a retired attraction")
+        twin_rows = [row for row in markers.get("twin_peaks", {}).get("occurrences", []) if row.get("route") == route]
+        _check(failures, len(twin_rows) == 1 and twin_rows[0].get("date_key") == "10/4" and roles.get("twin_peaks", {}).get(route) == "Conditional" and bool(twin_rows[0].get("condition")), f"{route} Twin Peaks must be one conditional visibility flex on 10/4")
+        _check(failures, "glacier" in days.get("10/8", {}).get("hard_anchors", []) and "13:00–15:00" in str(data.get("operating_days", {}).get("10/8", {}).get("nap_en", "")), f"{route} Glacier Point or protected lodging nap drifted")
+        _check(failures, any("Foster City lodging" in str(x) and "recovery only" in str(x).lower() for x in days.get("10/9", {}).get("recovery", [])), f"{route} 10/9 transfer must end in Foster City recovery only")
 
     lodging = schedule.get("lodging")
-    _check(failures, lodging == "SF 10/2–10/6 → Monterey exactly one night 10/6–10/7 → Yosemite exactly two nights 10/7–10/9 → SF 10/9–10/12", "lodging skeleton text drifted")
+    _check(failures, lodging == data.get("routes", {}).get(route_ids[0], {}).get("lodging"), "public-safe lodging skeleton differs from canonical route")
     _check(failures, data.get("trip", {}).get("lodging_nights") == EXPECTED_LODGING, "canonical lodging nights drifted")
 
     occurrence_count = 0

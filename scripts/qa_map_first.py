@@ -10,7 +10,7 @@ from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "CHG-188" / "map_first_smoke"
+OUT = ROOT / "QA" / "CHG-204" / "map_first_smoke"
 OUT.mkdir(parents=True, exist_ok=True)
 identity = candidate_identity()
 SOURCE_DATA = json.loads((ROOT / "data/phase7_app_data.json").read_text())

@@ -93,7 +93,7 @@ def main(runtime_only: bool = False) -> None:
         "failures": failures,
         "status": "PASS" if not failures else "FAIL",
     }
-    out = ROOT / "QA" / "CHG-188" / "photo_integrity.json"
+    out = ROOT / "QA" / "CHG-204" / "photo_integrity.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2))
     if not runtime_only:

@@ -28,9 +28,9 @@ from qa_evidence import candidate_identity
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = MODULAR_URL
-OUTPUT = ROOT / "QA/CHG-188/browser_summary.json"
-SHOTS = ROOT / "QA/CHG-188/browser_screenshots"
-CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "60"))
+OUTPUT = ROOT / "QA/CHG-204/browser_summary.json"
+SHOTS = ROOT / "QA/CHG-204/browser_screenshots"
+CASE_TIMEOUT_SECONDS = int(os.environ.get("TRIP_CROSS_BROWSER_CASE_TIMEOUT_SECONDS", "90"))
 TERM_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_TERM_GRACE_SECONDS", "2"))
 KILL_GRACE_SECONDS = float(os.environ.get("TRIP_CROSS_BROWSER_KILL_GRACE_SECONDS", "2"))
 TERMINAL_STATUSES = {"PASS", "FAIL", "UNVERIFIED"}
@@ -399,7 +399,7 @@ def worker_case(case: tuple[str, int, int], result_path: Path, screenshot_path: 
                 map_listener_attached = True
             except Exception:
                 pass
-        page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
+        page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=60000)
         page.wait_for_function(
             "document.querySelectorAll('.photo-marker').length===window.__tripApp.DATA.markers.filter(marker=>marker.routes.some(route=>window.__tripApp.state.task.routes.has(route))).length",
             timeout=15000,

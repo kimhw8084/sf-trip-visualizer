@@ -11,9 +11,9 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "CHG-188" / "place_list_roles.json"
-SCREENSHOTS = ROOT / "QA" / "CHG-188" / "screenshots" / "place_list"
-RETIRED_KEYS = {"exploratorium", "musee", "academy"}
+OUT = ROOT / "QA" / "CHG-204" / "place_list_roles.json"
+SCREENSHOTS = ROOT / "QA" / "CHG-204" / "screenshots" / "place_list"
+RETIRED_KEYS = {"bay_lights", "exploratorium", "musee", "academy", "coit", "bixby", "mariposa"}
 
 
 def validate_place_rows(rows: list[dict], roles: dict[str, dict[str, str]], route_ids: list[str], expected_places: int | None = None) -> dict:

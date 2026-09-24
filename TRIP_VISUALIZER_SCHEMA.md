@@ -6,7 +6,9 @@ The machine-readable authority map is `manifests/canonical_pipeline.json`. The c
 
 `data/phase7_app_data.json` is the sole authored trip-truth source. Its `routes`,
 `dates`, `region_cfg`, `markers`, `place_region`, `timeline`, `legs`,
-`endpoint_anchors`, `replan_rules`, and `providers` fields drive the client. The
+`endpoint_anchors`, `replan_rules`, `providers`, `trip_identity`, `operating_days`,
+`travel_ranges`, `readiness_items`, `cost_cockpit`, and
+`non_photo_itinerary_identities` fields drive the client. The
 locked route/itinerary snapshots, canonical-place export, coordinate audits, and
 location-gap audit are reference evidence; they corroborate the source but never
 override it or drive a build. `data/translations.json`, route geometry, and asset
@@ -43,9 +45,66 @@ Without safe external retrieval, the workflow stays fail-closed as
 - `timeline`: itinerary cards whose `spatial_keys` point to marker keys; and
 - `legs`: date- and route-scoped typed relationships between endpoints. Endpoints
   are either one physical `place_key` or an explicit `endpoint_anchors` entry such
-  as a ferry embarkation or regional transfer anchor.
+  as a ferry embarkation or regional transfer anchor;
+- `operating_days`: owner-authored day summaries for departure, recovery/nap,
+  preparation, and plan invalidators;
+- `travel_ranges`: static schedule-derived planning windows with reference
+  duration and schedule buffer represented separately;
+- `readiness_items` and `cost_cockpit`: sourced prerequisites, dynamic fee
+  semantics, lower-bound scenarios, and optional cost categories; and
+- `non_photo_itinerary_identities`: physical activities that remain in the
+  itinerary without a public map marker when the photo-rights contract is unmet.
 
-The configured 2026 trip currently has 36 markers, 51 timeline cards, 37 typed connectors, one active route, nine dates, three non-overall regions, and exactly the `vector` and `satellite` providers. Route identifiers come from the canonical role/schedule source; the renderer accepts any non-empty route set, including a one-route trip. `manifests/asset_manifest.json` supplies 108 place/roles as 108 total real local photographs: HERO, EXPERIENCE, and SCALE_CONTEXT for every active place.
+The configured 2026 trip has one active itinerary (`A`), 39 photo-backed place
+identities, 77 timeline cards, 32 typed connectors, and 11 dates (October 2–12).
+It keeps the existing three non-overall regions and the `vector` / `satellite`
+providers. Route identifiers come from the canonical role/schedule source; the
+renderer supports a one-route trip without a comparison surface.
+`manifests/asset_manifest.json` supplies 117 real local photographs: HERO,
+EXPERIENCE, and SCALE_CONTEXT for every active marker. Historical route evidence
+stays outside configured runtime.
+
+## Final itinerary, recovery, and privacy
+
+Recovery, transfers, and naps are itinerary semantics rather than attraction
+dwell. `operating_days` carries each day's leave time, first/second nap or
+protected lodging recovery, preparation, and invalidators. Material driving
+departure cards show a live-navigation recheck. `travel_ranges` must identify
+static planning ranges, keep reference/baseline duration separate from the
+schedule window and its buffer, and never imply live traffic, turn-by-turn
+authority, or Google routing.
+
+The active dataset may identify public-safe lodging only as Mill Valley lodging
+(Oct 2–6), Stage Coach Lodge, Monterey (Oct 6–7), Yosemite West lodging
+(Oct 7–9), and Foster City lodging (Oct 9–12), with authored check-in/out and
+designated parking facts. Private residential lodging street addresses,
+residential coordinates, and private future occupancy details must not appear in
+source, generated outputs, Pages, packages, standalone HTML, route endpoints,
+labels, screenshots, fixtures, logs, or evidence. A lodging is not a sightseeing
+marker or photo identity. `scripts/security_privacy.py` scans text across source,
+QA/evidence, and generated artifacts with redacted findings; it separately
+rejects residential place labels, private location fields, and residential route
+endpoints.
+
+## Readiness and costs
+
+Each applicable `readiness_items` record carries official source URLs, research
+date, confidence, recheck timing, prerequisite severity (`required`,
+`strongly_recommended`, `optional`, `recheck_only`), fee semantics (`fixed`,
+`starting`, `estimated`, `variable`, `conditional`, `included`, `free`), generic
+parking guidance, baby/mobility guidance, and a place, active leg, or
+logistics-only identity link. Dynamic and starting prices stay explicitly
+unfinalized.
+
+`cost_cockpit.scenarios` contains four user-selected analysis scenarios as lower
+bounds, never quotations or an inferred residency choice.
+`variable_checkout_required` and `optional_convenience` keep unresolved fees and
+optional parking separate. Scenario lines are unique and their cent amounts
+must sum to `lower_bound_cents`. Food, fuel, lodging, and base rental rate stay
+excluded. Checklist values (`prepared`, `user_marked_booked`,
+`user_marked_paid`) are local state scoped to `trip_identity`; they do not claim
+an external booking or payment. Cost and readiness copy must be complete in
+Korean and English.
 
 ## Route semantics
 
@@ -73,7 +132,7 @@ python3 scripts/pipeline.py qualify
 python3 scripts/pipeline.py package
 ```
 
-`fast` validates source/schema/integrity/build invariants, protects authored-input hashes, and compares a repeat build. `qualify` runs the decisive map-first, single-route, place-role, geometry, standalone, responsive/cross-browser, and focused visual suites. It writes current exact-candidate evidence to `QA/CHG-188/` and never rewrites historical evidence.
+`fast` validates source/schema/integrity/build invariants, protects authored-input hashes, and compares a repeat build. `qualify` runs the decisive map-first, single-route, place-role, geometry, standalone, responsive/cross-browser, and focused visual suites. It writes current exact-candidate evidence to `QA/CHG-204/` and never rewrites historical evidence.
 
 Qualification components have a 300-second default timeout. A timeout is machine-recorded as `UNVERIFIED` and blocks release; `TRIP_QUALIFICATION_TIMEOUT_SECONDS` is available only to shorten local diagnostic runs.
 
@@ -91,7 +150,7 @@ assets are a qualification failure or a visible Smart-map failure; they never
 authorize a remote substitute. Satellite is optional network behavior. Its
 health probes, tile failures, bounded fallback, state preservation, and any
 unverified external-provider success are recorded by
-`scripts/qa_gate4_resilience.py` in `QA/CHG-188/release/gate4*.json`.
+`scripts/qa_gate4_resilience.py` in `QA/CHG-204/release/gate4*.json`.
 
 Gate 4 evidence is run by `scripts/pipeline.py fast` and `qualify`; public and
 package hashes are added by the existing canonical assembly/package commands.

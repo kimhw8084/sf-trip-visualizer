@@ -21,7 +21,7 @@ class ActivePlaceRoleTests(unittest.TestCase):
     def test_complete_fixture_matches_single_route_roles(self):
         report = validate_place_rows(collect_rows_from_fixture(self.roles, self.route_ids), self.roles, self.route_ids, len(self.roles))
         self.assertEqual(report["status"], "PASS", report["failures"])
-        self.assertEqual(report["places"], 36)
+        self.assertEqual(report["places"], 39)
         self.assertEqual(self.route_ids, ["A"])
 
     def test_rendered_role_mutation_is_rejected(self):
@@ -41,7 +41,7 @@ class ActivePlaceRoleTests(unittest.TestCase):
     def test_skip_is_visible_text_not_color_only(self):
         rows = collect_rows_from_fixture(self.roles, self.route_ids)
         skips = [row for row in rows if row["role"] == "Skip"]
-        self.assertEqual({row["place_key"] for row in skips}, {"bixby", "coit"})
+        self.assertEqual(skips, [])
         self.assertTrue(all(row["label"] == "Skip" for row in skips))
 
 

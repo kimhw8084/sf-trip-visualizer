@@ -11,14 +11,20 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "CHG-188" / "map_geometry.json"
+OUT = ROOT / "QA" / "CHG-204" / "map_geometry.json"
 
 
 def wait_ready(page) -> None:
     page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
     page.wait_for_function("document.querySelectorAll('.photo-marker').length > 0", timeout=15000)
-    page.wait_for_timeout(200)
+    settle_geometry(page)
+
+
+def settle_geometry(page) -> None:
+    page.evaluate("window.__tripApp.whenIdle()")
+    page.wait_for_function("window.__tripApp?.map()?.loaded() && !window.__tripApp.map().isMoving()", timeout=10000)
+    page.evaluate("new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))")
 
 
 def geometry(page, viewport: tuple[int, int], state: str) -> dict:
@@ -65,10 +71,10 @@ def main() -> int:
             wait_ready(page)
             report["states"].append(geometry(page, viewport, "overall-default-unselected"))
             page.locator("#mapOptionsToggle").click()
-            page.wait_for_timeout(120)
+            settle_geometry(page)
             report["states"].append(geometry(page, viewport, "map-options-open"))
             page.keyboard.press("Escape")
-            page.wait_for_timeout(120)
+            settle_geometry(page)
             report["states"].append(geometry(page, viewport, "map-options-closed-after-escape"))
             route_chrome = page.locator("#routeLegendToggle,#routeLegendPanel,[data-compare-route],#comparePanel,.route-membership,.membership-cell").count()
             if route_chrome:
@@ -77,10 +83,10 @@ def main() -> int:
             page.locator("#regionControls [data-region='yosemite']").click()
             page.locator("#modeNav [data-mode='day']").click()
             page.locator("#dateSelect").select_option("10/8")
-            page.wait_for_timeout(250)
+            settle_geometry(page)
             report["states"].append(geometry(page, viewport, "yosemite-10/8-clustered-unselected"))
             page.locator("#dateSelect").select_option("10/7")
-            page.wait_for_timeout(250)
+            settle_geometry(page)
             report["states"].append(geometry(page, viewport, "yosemite-10/7-unclustered-unselected"))
             cooks = page.locator(".photo-marker[data-place-key='cooks']")
             try:
@@ -88,14 +94,17 @@ def main() -> int:
                 report["states"][-1]["real_pointer_activation"] = "PASS"
                 page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
                 page.wait_for_function("!document.querySelector('#peek.show')")
+                settle_geometry(page)
                 report["states"].append(geometry(page, viewport, "yosemite-10/7-selected-cooks"))
             except Exception as error:
                 report["states"][-1]["real_pointer_activation"] = "FAIL"
                 errors.append(f"{viewport[0]}x{viewport[1]} cooks pointer activation: {type(error).__name__}: {error}")
             if viewport[0] < 500:
                 page.locator("#workbench [data-sheet='compact']").click()
+                settle_geometry(page)
                 report["states"].append(geometry(page, viewport, "mobile-compact-sheet"))
                 page.locator("#workbench [data-sheet='expanded']").click()
+                settle_geometry(page)
                 report["states"].append(geometry(page, viewport, "mobile-expanded-sheet"))
             errors.extend(page_errors)
             page.close()

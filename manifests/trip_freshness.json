@@ -2,592 +2,671 @@
   "schema_version": 1,
   "project": "sf-trip-visualizer",
   "authority_role": "Only freshness/source/recheck authority for decision-relevant facts in the configured trip. It never supplies route, place, timeline, or provider truth.",
-  "observation_policy": "Research observations are recorded at checked_at but remain RECHECK_REQUIRED until trip-date operational checks. The linked route research ledger carries the detailed hours, access, family-friction, best-time, and recheck fields.",
+  "observation_policy": "Observed research is not live verification. Every time-sensitive claim remains RECHECK_REQUIRED until trip-date operational check.",
   "default_status": "RECHECK_REQUIRED",
   "default_certainty": "NOT_CURRENTLY_VERIFIED",
   "records": [
     {
-      "fact_id": "ferry_plaza_event_2026_10_03",
+      "fact_id": "sfo_rental_car_24h",
       "scope": {
-        "date": "10/3",
-        "region": "sf",
+        "dates": [
+          "10/2",
+          "10/12"
+        ],
+        "place_keys": []
+      },
+      "claim": "Blue Line runs 24h; Hertz Level 1, 780 N. McDonnell Rd, 24h.",
+      "source": {
+        "publisher": "Official operator / agency",
+        "source_urls": [
+          "https://www.flysfo.com/passengers/ground-transportation/rental-cars"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2026-09-24",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
+      "recheck": {
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "Arrival/departure day-of"
+      },
+      "product_claim_refs": [
+        "timeline items on ['10/2', '10/12']",
+        "readiness_items.hertz_pickup"
+      ],
+      "last_observation": {
+        "source_url": "https://www.flysfo.com/passengers/ground-transportation/rental-cars",
+        "checked_at": "2026-09-24",
+        "research_ledger": "data/route_research_ledger.json"
+      }
+    },
+    {
+      "fact_id": "ferry_plaza_market_and_event",
+      "scope": {
+        "dates": [
+          "10/3"
+        ],
         "place_keys": [
           "ferry"
         ]
       },
-      "claim": "The planned Ferry Plaza / Latine Makers event is available on the configured date.",
+      "claim": "Saturday market 08:00–14:00; Oct 3 Latine Makers 09:00–14:00, free.",
       "source": {
-        "publisher": "Foodwise",
+        "publisher": "Official operator / agency",
         "source_urls": [
-          "https://foodwise.org/articles/more-ferry-plaza-farmers-market-layout-changes-start-this-saturday/"
+          "https://foodwise.org/?location=ferry-plaza",
+          "https://foodwise.org/events/pop-ups-on-the-plaza-celebrating-latine-makers/"
         ],
         "primary_or_official": true
       },
-      "observed_on": "2026-09-21",
+      "observed_on": "2026-09-24",
       "status": "RECHECK_REQUIRED",
       "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
       "recheck": {
-        "trigger": "event date, schedule change, or source change",
-        "window": "T-48H"
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "T-48H and event morning"
       },
       "product_claim_refs": [
-        "markers.ferry.occurrences[*].reason",
-        "timeline[*].title/reason where date_key=10/3"
+        "timeline items on ['10/3']",
+        "readiness_items.ferry_market"
       ],
       "last_observation": {
-        "source_url": "https://foodwise.org/articles/more-ferry-plaza-farmers-market-layout-changes-start-this-saturday/",
-        "checked_at": "2026-09-21",
+        "source_url": "https://foodwise.org/?location=ferry-plaza",
+        "checked_at": "2026-09-24",
         "research_ledger": "data/route_research_ledger.json"
       }
     },
     {
-      "fact_id": "muir_woods_reservation_access",
+      "fact_id": "muir_reservation_hours_fees",
       "scope": {
-        "date": "10/4",
-        "region": "sf",
+        "dates": [
+          "10/4"
+        ],
         "place_keys": [
           "muir"
         ]
       },
-      "claim": "Muir Woods entry and parking/reservation requirements support the opening-slot plan.",
+      "claim": "Fall hours 08:00–18:00; advance parking reservation required; $10 vehicle with 30-minute window; $15/adult entry unless qualifying pass.",
       "source": {
-        "publisher": "National Park Service",
+        "publisher": "Official operator / agency",
         "source_urls": [
-          "https://www.nps.gov/muwo/planyourvisit/index.htm",
-          "https://www.nps.gov/planyourvisit/event-details.htm?id=67960439-C5F8-15BC-C3CAFDE611FBB2F1"
+          "https://home.nps.gov/muwo/planyourvisit/basicinfo.htm",
+          "https://home.nps.gov/muwo/planyourvisit/fees.htm",
+          "https://gomuirwoods.com/muir/parkingInfo"
         ],
         "primary_or_official": true
       },
-      "observed_on": "2026-09-21",
+      "observed_on": "2026-09-24",
       "status": "RECHECK_REQUIRED",
       "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
       "recheck": {
-        "trigger": "reservation, parking, shuttle, or access-rule change",
-        "window": "T-72H"
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "At booking and T-72H"
       },
       "product_claim_refs": [
-        "markers.muir.occurrences[*].reason/stop_reason",
-        "markers.muir.decision_rules"
+        "timeline items on ['10/4']",
+        "readiness_items.muir_parking",
+        "readiness_items.muir_entry"
       ],
       "last_observation": {
-        "source_url": "https://www.nps.gov/muwo/planyourvisit/index.htm",
-        "checked_at": "2026-09-21",
+        "source_url": "https://home.nps.gov/muwo/planyourvisit/basicinfo.htm",
+        "checked_at": "2026-09-24",
         "research_ledger": "data/route_research_ledger.json"
       }
     },
     {
-      "fact_id": "alcatraz_ticket_and_ferry_schedule",
+      "fact_id": "golden_gate_parking_and_tolls",
       "scope": {
-        "date": "10/5",
-        "region": "sf",
+        "dates": [
+          "10/3",
+          "10/4",
+          "10/5",
+          "10/10",
+          "10/11"
+        ],
+        "place_keys": [
+          "ggb"
+        ]
+      },
+      "claim": "South-east visitor lot $5/hour max 3h; 2026 southbound 2-axle toll $10.50; final plan has five southbound crossings ($52.50 direct-payment lower bound). Weekend/holiday lot closure is a separate date-scoped recheck.",
+      "source": {
+        "publisher": "Official operator / agency",
+        "source_urls": [
+          "https://www.goldengate.org/-weekend--holiday-parking-lot-closures/",
+          "https://www.goldengate.org/bridge/visiting-the-bridge/directions-parking/",
+          "https://www.goldengate.org/bridge/tolls-payment/",
+          "https://www.goldengate.org/bridge/tolls-payment/rental-vehicles/rental-toll-programs/"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2026-09-24",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
+      "recheck": {
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "At rental pickup and each travel day"
+      },
+      "product_claim_refs": [
+        "timeline items on ['10/3', '10/4', '10/5', '10/10', '10/11']",
+        "readiness_items.ggb_parking",
+        "readiness_items.ggb_toll"
+      ],
+      "last_observation": {
+        "source_url": "https://www.goldengate.org/-weekend--holiday-parking-lot-closures/",
+        "checked_at": "2026-09-24",
+        "research_ledger": "data/route_research_ledger.json"
+      }
+    },
+    {
+      "fact_id": "rental_platepass_terms",
+      "scope": {
+        "dates": [
+          "10/3",
+          "10/4",
+          "10/5",
+          "10/10",
+          "10/11"
+        ],
+        "place_keys": [
+          "ggb"
+        ]
+      },
+      "claim": "PlatePass pricing is a convenience path; direct One-Time/LPA may be lower; verify rental contract/plate at pickup.",
+      "source": {
+        "publisher": "Official operator / agency",
+        "source_urls": [
+          "https://www.goldengate.org/-weekend--holiday-parking-lot-closures/",
+          "https://www.goldengate.org/bridge/visiting-the-bridge/directions-parking/",
+          "https://www.goldengate.org/bridge/tolls-payment/",
+          "https://www.goldengate.org/bridge/tolls-payment/rental-vehicles/rental-toll-programs/"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2026-09-24",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
+      "recheck": {
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "Rental pickup"
+      },
+      "product_claim_refs": [
+        "timeline items on ['10/3', '10/4', '10/5', '10/10', '10/11']",
+        "readiness_items.rental_toll_terms"
+      ],
+      "last_observation": {
+        "source_url": "https://www.goldengate.org/-weekend--holiday-parking-lot-closures/",
+        "checked_at": "2026-09-24",
+        "research_ledger": "data/route_research_ledger.json"
+      }
+    },
+    {
+      "fact_id": "alcatraz_first_departure",
+      "scope": {
+        "dates": [
+          "10/5"
+        ],
         "place_keys": [
           "alcatraz"
         ]
       },
-      "claim": "The Alcatraz reservation and ferry schedule support the planned crossing and return block.",
+      "claim": "Official operator Alcatraz City Cruises; adult Day Tour starts $47.95; first departure is dynamic, current 08:40 corroboration not guaranteed; return ferry flexible.",
       "source": {
-        "publisher": "National Park Service / Recreation.gov",
+        "publisher": "Official operator / agency",
         "source_urls": [
-          "https://www.recreation.gov/gateways/2558",
-          "https://www.nps.gov/alca/planyourvisit/index.htm"
+          "https://alcatrazcitycruises.com/tickets/alcatraz-day-tour",
+          "https://alcatrazcitycruises.com/plan-your-visit/schedule/",
+          "https://alcatrazcitycruises.com/faq"
         ],
         "primary_or_official": true
       },
-      "observed_on": "2026-09-21",
+      "observed_on": "2026-09-24",
       "status": "RECHECK_REQUIRED",
       "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
       "recheck": {
-        "trigger": "ticket availability, operator schedule, or boarding-rule change",
-        "window": "T-72H and reservation confirmation"
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "At booking and T-72H"
       },
       "product_claim_refs": [
-        "markers.alcatraz.occurrences[*]",
-        "legs.C_1005_FERRY",
-        "legs.UX_1005_RETURN"
+        "timeline items on ['10/5']",
+        "readiness_items.alcatraz"
       ],
       "last_observation": {
-        "source_url": "https://www.recreation.gov/gateways/2558",
-        "checked_at": "2026-09-21",
+        "source_url": "https://alcatrazcitycruises.com/tickets/alcatraz-day-tour",
+        "checked_at": "2026-09-24",
         "research_ledger": "data/route_research_ledger.json"
       }
     },
     {
-      "fact_id": "cable_car_service_and_stroller_rules",
+      "fact_id": "powell_hyde_fare",
       "scope": {
-        "date": "10/5",
-        "region": "sf",
+        "dates": [
+          "10/5"
+        ],
         "place_keys": [
           "cable_car"
         ]
       },
-      "claim": "Powell–Hyde service, queue conditions, and stroller boarding rules support the swap option.",
+      "claim": "Single ride $9/adult; youth 4 and under free; pay before terminal boarding 08:00–17:00.",
       "source": {
-        "publisher": "San Francisco Municipal Transportation Agency",
+        "publisher": "Official operator / agency",
         "source_urls": [
-          "https://www.sfmta.com/routes/powell-hyde-cable-car"
+          "https://www.sfmta.com/getting-around/muni/fares"
         ],
         "primary_or_official": true
       },
-      "observed_on": "2026-09-21",
+      "observed_on": "2026-09-24",
       "status": "RECHECK_REQUIRED",
       "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
       "recheck": {
-        "trigger": "service disruption, queue, accessibility, or stroller-rule change",
-        "window": "T-24H and at decision time"
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "Before boarding"
       },
       "product_claim_refs": [
-        "markers.cable_car.decision_rules",
-        "legs.GAP_1005_CABLE_01",
-        "legs.GAP_1005_CABLE_02"
+        "timeline items on ['10/5']",
+        "readiness_items.cable_car"
       ],
       "last_observation": {
-        "source_url": "https://www.sfmta.com/routes/powell-hyde-cable-car",
-        "checked_at": "2026-09-21",
+        "source_url": "https://www.sfmta.com/getting-around/muni/fares",
+        "checked_at": "2026-09-24",
         "research_ledger": "data/route_research_ledger.json"
       }
     },
     {
-      "fact_id": "point_lobos_access_and_parking",
+      "fact_id": "fortune_cookie_deadline",
       "scope": {
-        "date": "10/6",
-        "region": "monterey",
+        "dates": [
+          "10/5"
+        ],
         "place_keys": [
-          "point_lobos"
+          "fortune"
         ]
       },
-      "claim": "Point Lobos access, opening conditions, and parking capacity support the early arrival plan.",
+      "claim": "Weekday visit deadline roughly 18:30.",
       "source": {
-        "publisher": "California State Parks",
+        "publisher": "Official operator / agency",
         "source_urls": [
-          "https://www.parks.ca.gov/?page_id=571"
+          "https://www.goldengatefortunecookies.com/visit"
         ],
         "primary_or_official": true
       },
-      "observed_on": "2026-09-21",
+      "observed_on": "2026-09-24",
       "status": "RECHECK_REQUIRED",
       "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
       "recheck": {
-        "trigger": "park closure, access, parking, or hours change",
-        "window": "T-24H and departure morning"
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "Day-of"
       },
       "product_claim_refs": [
-        "markers.point_lobos.occurrences[*].reason/stop_reason",
-        "timeline[*] where spatial_keys includes point_lobos"
+        "timeline items on ['10/5']",
+        "readiness_items.fortune"
       ],
       "last_observation": {
-        "source_url": "https://www.parks.ca.gov/?page_id=571",
-        "checked_at": "2026-09-21",
+        "source_url": "https://www.goldengatefortunecookies.com/visit",
+        "checked_at": "2026-09-24",
         "research_ledger": "data/route_research_ledger.json"
       }
     },
     {
-      "fact_id": "monterey_aquarium_hours",
+      "fact_id": "point_lobos_carmel_17mile",
       "scope": {
-        "date": "10/6",
-        "region": "monterey",
+        "dates": [
+          "10/6"
+        ],
+        "place_keys": [
+          "point_lobos",
+          "carmel",
+          "carmel_beach",
+          "lone_cypress"
+        ]
+      },
+      "claim": "Point Lobos $10/vehicle, 08:00–19:00, last entry 18:30; Carmel free parking options; 17-Mile Drive $12.50.",
+      "source": {
+        "publisher": "Official operator / agency",
+        "source_urls": [
+          "https://parks.ca.gov/?page_id=571"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2026-09-24",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
+      "recheck": {
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "Day-of"
+      },
+      "product_claim_refs": [
+        "timeline items on ['10/6']",
+        "readiness_items.point_lobos",
+        "readiness_items.carmel",
+        "readiness_items.drive17"
+      ],
+      "last_observation": {
+        "source_url": "https://parks.ca.gov/?page_id=571",
+        "checked_at": "2026-09-24",
+        "research_ledger": "data/route_research_ledger.json"
+      }
+    },
+    {
+      "fact_id": "aquarium_oct6_close",
+      "scope": {
+        "dates": [
+          "10/6"
+        ],
         "place_keys": [
           "aquarium"
         ]
       },
-      "claim": "Aquarium operating hours support the afternoon/evening schedule.",
+      "claim": "Recheck exact Oct 6 close 72h before; last entry one hour before close.",
       "source": {
-        "publisher": "Monterey Bay Aquarium",
+        "publisher": "Official operator / agency",
         "source_urls": [
-          "https://www.montereybayaquarium.org/visit/hours"
+          "https://www.montereybayaquarium.org/visit/admission-tickets",
+          "https://www.montereybayaquarium.org/visit/directions-parking",
+          "https://www.montereybayaquarium.org/visit/visitor-faqs"
         ],
         "primary_or_official": true
       },
-      "observed_on": "2026-09-21",
+      "observed_on": "2026-09-24",
       "status": "RECHECK_REQUIRED",
       "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
       "recheck": {
-        "trigger": "hours, timed-entry, or closure change",
-        "window": "T-48H"
-      },
-      "product_claim_refs": [
-        "markers.aquarium.occurrences[*]",
-        "legs.GAP_1006_BONUS_01"
-      ],
-      "last_observation": {
-        "source_url": "https://www.montereybayaquarium.org/visit/hours",
-        "checked_at": "2026-09-21",
-        "research_ledger": "data/route_research_ledger.json"
-      }
-    },
-    {
-      "fact_id": "yosemite_access_and_weather_constraints",
-      "scope": {
-        "date_range": [
-          "10/7",
-          "10/9"
-        ],
-        "region": "yosemite",
-        "place_keys": [
-          "cooks",
-          "tunnel_view",
-          "valley_view",
-          "washburn",
-          "glacier",
-          "mariposa",
-          "el_capitan"
-        ]
-      },
-      "claim": "Current Yosemite fire, smoke, road, trail, weather, visibility, and access conditions support the selected viewpoint or the safer open 10/9 corridor to San Francisco.",
-      "source": {
-        "publisher": "National Park Service",
-        "source_urls": [
-          "https://www.nps.gov/yose/planyourvisit/conditions.htm",
-          "https://www.nps.gov/yose/planyourvisit/roadconditions.htm",
-          "https://www.nps.gov/yose/planyourvisit/weather.htm"
-        ],
-        "primary_or_official": true
-      },
-      "observed_on": "2026-09-21",
-      "status": "RECHECK_REQUIRED",
-      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
-      "recheck": {
-        "trigger": "fire, smoke, road closure, weather, visibility, shuttle, trail, or reservation change",
-        "window": "T-24H and each departure morning"
-      },
-      "product_claim_refs": [
-        "markers.glacier.decision_rules",
-        "markers.mariposa.occurrences[*].reason",
-        "legs.T_A_1009_YOSE_SF",
-        "legs.T_1007_MONTEREY_YOSE",
-        "legs.C_1008_01",
-        "legs.GAP_1007_02",
-        "legs.GAP_1007_03",
-        "legs.C_1007_COOKS_MARIPOSA",
-        "legs.GAP_1008_02"
-      ],
-      "last_observation": {
-        "source_url": "https://www.nps.gov/yose/planyourvisit/conditions.htm",
-        "checked_at": "2026-09-21",
-        "research_ledger": "data/route_research_ledger.json"
-      }
-    },
-    {
-      "fact_id": "mariposa_grove_parking_and_shuttle",
-      "scope": {
-        "date": "10/9",
-        "region": "yosemite",
-        "place_keys": [
-          "mariposa"
-        ]
-      },
-      "claim": "Mariposa Grove Welcome Plaza parking and shuttle/access conditions support the optional visit.",
-      "source": {
-        "publisher": "National Park Service",
-        "source_urls": [
-          "https://www.nps.gov/yose/planyourvisit/mg.htm"
-        ],
-        "primary_or_official": true
-      },
-      "observed_on": "2026-09-21",
-      "status": "RECHECK_REQUIRED",
-      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
-      "recheck": {
-        "trigger": "shuttle, parking, road, or grove access change",
-        "window": "T-24H and departure morning"
-      },
-      "product_claim_refs": [
-        "markers.mariposa.occurrences[*]"
-      ],
-      "last_observation": {
-        "source_url": "https://www.nps.gov/yose/planyourvisit/mg.htm",
-        "checked_at": "2026-09-21",
-        "research_ledger": "data/route_research_ledger.json"
-      }
-    },
-    {
-      "fact_id": "fleet_week_event_schedule_and_access",
-      "scope": {
-        "date_range": [
-          "10/3",
-          "10/11"
-        ],
-        "region": "sf",
-        "place_keys": [
-          "ferry",
-          "bay_lights",
-          "botanical",
-          "painted",
-          "twin_peaks"
-        ]
-      },
-      "claim": "Fleet Week event timing, crowd/access restrictions, and related waterfront conditions support the route strategy.",
-      "source": {
-        "publisher": "San Francisco Fleet Week",
-        "source_urls": [
-          "https://fleetweeksf.org/"
-        ],
-        "primary_or_official": true
-      },
-      "observed_on": "2026-09-21",
-      "status": "RECHECK_REQUIRED",
-      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
-      "recheck": {
-        "trigger": "event schedule, air-show, road closure, parking, or crowd-control change",
-        "window": "T-72H and each affected morning"
-      },
-      "product_claim_refs": [
-        "routes.*.explanation.*",
-        "timeline[*].reason",
-        "markers.*.occurrences[*].reason where text mentions Fleet Week"
-      ],
-      "last_observation": {
-        "source_url": "https://fleetweeksf.org/",
-        "checked_at": "2026-09-21",
-        "research_ledger": "data/route_research_ledger.json"
-      }
-    },
-    {
-      "fact_id": "sf_viewpoint_visibility_and_parking",
-      "scope": {
-        "date_range": [
-          "10/3",
-          "10/11"
-        ],
-        "region": "sf",
-        "place_keys": [
-          "battery",
-          "twin_peaks",
-          "painted",
-          "ggb"
-        ]
-      },
-      "claim": "Weather visibility, wind, and parking/access conditions support optional viewpoint decisions.",
-      "source": {
-        "publisher": "National Weather Service / site operators",
-        "source_urls": [
-          "https://www.weather.gov/"
-        ],
-        "primary_or_official": true
-      },
-      "observed_on": "2026-09-21",
-      "status": "RECHECK_REQUIRED",
-      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
-      "recheck": {
-        "trigger": "fog, wind, visibility, parking, or access change",
-        "window": "T-6H and at decision time"
-      },
-      "product_claim_refs": [
-        "markers.battery.decision_rules",
-        "markers.twin_peaks.decision_rules",
-        "markers.*.occurrences[*].reason where text mentions weather/visibility"
-      ],
-      "last_observation": {
-        "source_url": "https://www.weather.gov/",
-        "checked_at": "2026-09-21",
-        "research_ledger": "data/route_research_ledger.json"
-      }
-    },
-    {
-      "fact_id": "sunrise_sunset_and_light_windows",
-      "scope": {
-        "date_range": [
-          "10/3",
-          "10/11"
-        ],
-        "region": "sf/monterey/yosemite",
-        "place_keys": [
-          "ggb",
-          "bay_lights",
-          "glacier",
-          "twin_peaks"
-        ]
-      },
-      "claim": "The displayed light-window planning assumptions remain suitable for the configured dates.",
-      "source": {
-        "publisher": "U.S. Naval Observatory",
-        "source_urls": [
-          "https://aa.usno.navy.mil/data/docs/RS_OneYear.php"
-        ],
-        "primary_or_official": true
-      },
-      "observed_on": "2026-09-21",
-      "status": "RECHECK_REQUIRED",
-      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
-      "recheck": {
-        "trigger": "date/time-zone or astronomical calculation change",
+        "trigger": "trip date, booking, operating change, or condition change",
         "window": "T-72H"
       },
       "product_claim_refs": [
-        "markers.*.occurrences[*].reason where text mentions sunrise/sunset/light"
+        "timeline items on ['10/6']",
+        "readiness_items.aquarium"
       ],
       "last_observation": {
-        "source_url": "https://aa.usno.navy.mil/data/docs/RS_OneYear.php",
-        "checked_at": "2026-09-21",
+        "source_url": "https://www.montereybayaquarium.org/visit/admission-tickets",
+        "checked_at": "2026-09-24",
         "research_ledger": "data/route_research_ledger.json"
       }
     },
     {
-      "fact_id": "17_mile_rules",
+      "fact_id": "yosemite_entry_2026",
       "scope": {
-        "date": "10/6",
-        "region": "monterey",
+        "dates": [
+          "10/7",
+          "10/8"
+        ],
         "place_keys": [
-          "lone_cypress"
+          "glacier"
         ]
       },
-      "claim": "Pebble Beach 17-Mile Drive visitor information supports the route decision for the configured trip window.",
+      "claim": "No timed entry reservation in 2026; standard vehicle $35/7d; annual passes US resident $80/nonresident $250; nonresident visitor charge subject to official eligibility.",
       "source": {
-        "publisher": "Pebble Beach 17-Mile Drive visitor information",
+        "publisher": "Official operator / agency",
         "source_urls": [
-          "https://www.pebblebeach.com/17-mile-drive/"
+          "https://www.nps.gov/yose/planyourvisit/fees.htm",
+          "https://www.nps.gov/yose/planyourvisit/permitsandreservations.htm",
+          "https://www.nps.gov/yose/planyourvisit/driving.htm",
+          "https://www.nps.gov/yose/learn/news/instagram-links.htm",
+          "https://www.nps.gov/yose/planyourvisit/conditions.htm"
         ],
         "primary_or_official": true
       },
-      "observed_on": "2026-09-21",
+      "observed_on": "2026-09-24",
       "status": "RECHECK_REQUIRED",
       "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
       "recheck": {
-        "trigger": "T-24H and departure morning",
-        "window": "T-72H and entry morning"
-      },
-      "last_observation": {
-        "source_url": "https://www.pebblebeach.com/17-mile-drive/",
-        "checked_at": "2026-09-21",
-        "research_ledger": "data/route_research_ledger.json"
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "Purchase time"
       },
       "product_claim_refs": [
-        "data.route_research_ledger.records[17_mile_rules]"
-      ]
+        "timeline items on ['10/7', '10/8']",
+        "readiness_items.yosemite"
+      ],
+      "last_observation": {
+        "source_url": "https://www.nps.gov/yose/planyourvisit/fees.htm",
+        "checked_at": "2026-09-24",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
-      "fact_id": "glacier_point_access",
+      "fact_id": "glacier_point_fire_road",
       "scope": {
-        "date_range": [
-          "10/8",
-          "10/9"
+        "dates": [
+          "10/7",
+          "10/8"
         ],
-        "region": "yosemite",
         "place_keys": [
-          "glacier",
-          "washburn"
+          "glacier"
         ]
       },
-      "claim": "NPS Glacier Point planning supports the route decision for the configured trip window.",
+      "claim": "Sep 23 NPS bulletin: Glacier Point Road temporarily closed at 18:00 due smoke/firefighting; reopen when conditions allow; not seasonal.",
       "source": {
-        "publisher": "NPS Glacier Point planning",
+        "publisher": "Official operator / agency",
         "source_urls": [
-          "https://www.nps.gov/yose/planyourvisit/glacierpoint.htm"
+          "https://www.nps.gov/yose/planyourvisit/fees.htm",
+          "https://www.nps.gov/yose/planyourvisit/permitsandreservations.htm",
+          "https://www.nps.gov/yose/planyourvisit/driving.htm",
+          "https://www.nps.gov/yose/learn/news/instagram-links.htm",
+          "https://www.nps.gov/yose/planyourvisit/conditions.htm"
         ],
         "primary_or_official": true
       },
-      "observed_on": "2026-09-21",
+      "observed_on": "2026-09-24",
       "status": "RECHECK_REQUIRED",
       "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
       "recheck": {
-        "trigger": "T-72H and morning-of",
-        "window": "T-24H and departure morning"
-      },
-      "last_observation": {
-        "source_url": "https://www.nps.gov/yose/planyourvisit/glacierpoint.htm",
-        "checked_at": "2026-09-21",
-        "research_ledger": "data/route_research_ledger.json"
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "T-72H Oct 7, evening Oct 7, morning Oct 8"
       },
       "product_claim_refs": [
-        "data.route_research_ledger.records[glacier_point_access]"
-      ]
+        "timeline items on ['10/7', '10/8']",
+        "readiness_items.glacier"
+      ],
+      "last_observation": {
+        "source_url": "https://www.nps.gov/yose/planyourvisit/fees.htm",
+        "checked_at": "2026-09-24",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
-      "fact_id": "bridalveil_access",
+      "fact_id": "garden_and_tea_entry",
       "scope": {
-        "date": "10/7",
-        "region": "yosemite",
-        "place_keys": [
-          "bridalveil"
-        ]
-      },
-      "claim": "NPS Bridalveil Fall planning supports the route decision for the configured trip window.",
-      "source": {
-        "publisher": "NPS Bridalveil Fall planning",
-        "source_urls": [
-          "https://www.nps.gov/yose/planyourvisit/bridalveil-fall.htm"
+        "dates": [
+          "10/10"
         ],
-        "primary_or_official": true
-      },
-      "observed_on": "2026-09-21",
-      "status": "RECHECK_REQUIRED",
-      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
-      "recheck": {
-        "trigger": "T-72H and morning-of",
-        "window": "T-24H and arrival corridor"
-      },
-      "last_observation": {
-        "source_url": "https://www.nps.gov/yose/planyourvisit/bridalveil-fall.htm",
-        "checked_at": "2026-09-21",
-        "research_ledger": "data/route_research_ledger.json"
-      },
-      "product_claim_refs": [
-        "data.route_research_ledger.records[bridalveil_access]"
-      ]
-    },
-    {
-      "fact_id": "tea_garden_carrier",
-      "scope": {
-        "date": "10/10",
-        "region": "sf",
         "place_keys": [
+          "botanical",
           "tea_garden"
         ]
       },
-      "claim": "Japanese Tea Garden San Francisco visit information supports the route decision for the configured trip window.",
+      "claim": "Botanical Garden free 07:30–09:00; Japanese Tea Garden timed entry at 09:00, Saturday not free, variable pricing.",
       "source": {
-        "publisher": "Japanese Tea Garden San Francisco visit information",
+        "publisher": "Official operator / agency",
         "source_urls": [
-          "https://japaneseteagardensf.com/visit/"
+          "https://gggp.org/visit/admissions-hours/",
+          "https://gggp.org/tickets/",
+          "https://gggp.org/visit/getting-here/"
         ],
         "primary_or_official": true
       },
-      "observed_on": "2026-09-21",
+      "observed_on": "2026-09-24",
       "status": "RECHECK_REQUIRED",
       "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
       "recheck": {
-        "trigger": "T-48H and morning-of",
-        "window": "T-48H and opening morning"
-      },
-      "last_observation": {
-        "source_url": "https://japaneseteagardensf.com/visit/",
-        "checked_at": "2026-09-21",
-        "research_ledger": "data/route_research_ledger.json"
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "Official purchase and Oct 10"
       },
       "product_claim_refs": [
-        "data.route_research_ledger.records[tea_garden_carrier]"
-      ]
+        "timeline items on ['10/10']",
+        "readiness_items.botanical",
+        "readiness_items.tea_garden"
+      ],
+      "last_observation": {
+        "source_url": "https://gggp.org/visit/admissions-hours/",
+        "checked_at": "2026-09-24",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     },
     {
-      "fact_id": "monterey_wharf_hours_and_dinner_access",
+      "fact_id": "cantor_weekend_hours_parking",
       "scope": {
-        "date": "10/6",
-        "region": "monterey",
+        "dates": [
+          "10/10"
+        ],
         "place_keys": [
-          "monterey_wharf"
+          "cantor_arts",
+          "rodin_garden",
+          "stanford_quad"
         ]
       },
-      "claim": "Old Fisherman's Wharf operating hours and pedestrian access support the natural Monterey evening and dinner layer.",
+      "claim": "Cantor free; Sat/Sun 10:00–17:00; weekend hourly parking enforcement off.",
       "source": {
-        "publisher": "Old Fisherman's Wharf Monterey",
+        "publisher": "Official operator / agency",
         "source_urls": [
-          "https://www.montereywharf.com/"
+          "https://museum.stanford.edu/visitor-guidelines",
+          "https://museum.stanford.edu/visit"
         ],
         "primary_or_official": true
       },
-      "observed_on": null,
+      "observed_on": "2026-09-24",
       "status": "RECHECK_REQUIRED",
-      "certainty": "NOT_CURRENTLY_VERIFIED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
       "recheck": {
-        "trigger": "hours, weather, access, or business/operator change",
-        "window": "T-24H and arrival evening"
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "Day-of"
       },
       "product_claim_refs": [
-        "markers.monterey_wharf.occurrences[*]",
-        "timeline[*] where spatial_keys includes monterey_wharf"
-      ]
+        "timeline items on ['10/10']",
+        "readiness_items.cantor"
+      ],
+      "last_observation": {
+        "source_url": "https://museum.stanford.edu/visitor-guidelines",
+        "checked_at": "2026-09-24",
+        "research_ledger": "data/route_research_ledger.json"
+      }
+    },
+    {
+      "fact_id": "baker_beach_safety_parking",
+      "scope": {
+        "dates": [
+          "10/11"
+        ],
+        "place_keys": [
+          "baker_beach"
+        ]
+      },
+      "claim": "Baker Beach lots free and close one hour after sundown; surf/rip-current risk, not for swimming.",
+      "source": {
+        "publisher": "Official operator / agency",
+        "source_urls": [
+          "https://presidio.gov/visit/getting-to-and-around-the-park/how-to-pay-for-parking",
+          "https://presidio.gov/explore/attractions/presidio-tunnel-tops",
+          "https://presidio.gov/explore/attractions/baker-beach-2",
+          "https://presidio.gov/explore/blog/know-before-you-go-fleet-week-in-the-presidio"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2026-09-24",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "high",
+      "recheck": {
+        "trigger": "trip date, booking, operating change, or condition change",
+        "window": "Day-of weather/access"
+      },
+      "product_claim_refs": [
+        "timeline items on ['10/11']",
+        "readiness_items.lands_baker"
+      ],
+      "last_observation": {
+        "source_url": "https://presidio.gov/visit/getting-to-and-around-the-park/how-to-pay-for-parking",
+        "checked_at": "2026-09-24",
+        "research_ledger": "data/route_research_ledger.json"
+      }
+    },
+    {
+      "fact_id": "battery_spencer_access_weather",
+      "scope": {
+        "dates": [
+          "10/4"
+        ],
+        "place_keys": [
+          "battery"
+        ]
+      },
+      "claim": "Run only when access, legal immediate parking, wind, and visibility are workable; do not circle when full or unsafe.",
+      "source": {
+        "publisher": "Official operator / agency",
+        "source_urls": [
+          "https://www.goldengate.org/bridge/visiting-the-bridge/directions-parking/"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2026-09-24",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "medium",
+      "recheck": {
+        "trigger": "trip date, reservation/booking, operating change, or condition change",
+        "window": "Day-of access, wind, visibility, and immediate parking check"
+      },
+      "product_claim_refs": [
+        "readiness_items.battery"
+      ],
+      "last_observation": {
+        "source_url": "https://www.goldengate.org/bridge/visiting-the-bridge/directions-parking/",
+        "checked_at": "2026-09-24",
+        "research_ledger": "data/route_research_ledger.json"
+      }
+    },
+    {
+      "fact_id": "presidio_fleet_week_parking",
+      "scope": {
+        "dates": [
+          "10/10",
+          "10/11"
+        ],
+        "place_keys": [
+          "baker_beach"
+        ]
+      },
+      "claim": "Oct 10–11 special-event Presidio parking is $9/hour or $45/day; some entrances close at noon.",
+      "source": {
+        "publisher": "Official operator / agency",
+        "source_urls": [
+          "https://presidio.gov/explore/blog/know-before-you-go-fleet-week-in-the-presidio",
+          "https://presidio.gov/visit/getting-to-and-around-the-park/how-to-pay-for-parking"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2026-09-24",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "medium",
+      "recheck": {
+        "trigger": "trip date, reservation/booking, operating change, or condition change",
+        "window": "T-72H and before entering the Presidio during Fleet Week"
+      },
+      "product_claim_refs": [
+        "readiness_items.fleet_week"
+      ],
+      "last_observation": {
+        "source_url": "https://presidio.gov/explore/blog/know-before-you-go-fleet-week-in-the-presidio",
+        "checked_at": "2026-09-24",
+        "research_ledger": "data/route_research_ledger.json"
+      }
     }
   ],
-  "last_reviewed_at": "2026-09-21",
+  "last_reviewed_at": "2026-09-24",
   "reviewed_research_ledger": "data/route_research_ledger.json",
-  "reviewed_research_record_count": 14
+  "reviewed_research_record_count": 15
 }

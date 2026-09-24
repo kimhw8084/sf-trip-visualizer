@@ -1,6 +1,6 @@
 {
   "version": "2026-09-21",
-  "scope": "SF / Monterey / Yosemite family trip",
+  "scope": "Current CHG-204 configured one-route public-place coverage",
   "workbook": "SF_Trip_FINAL_SELECTION_50Criteria_2026-09-13.xlsx",
   "workbook_rows": 230,
   "workbook_status_counts": {
@@ -12,24 +12,26 @@
   },
   "reconciliation": {
     "selected_concrete_rows": 39,
-    "already_mapped": 28,
+    "already_mapped": 39,
     "broad_areas_merged_into_existing_stops": [
-      "Golden Gate Park",
-      "Chinatown Local-Life Route"
+      "Yosemite Valley Loop as unpinned walk activity"
     ],
-    "selected_rows_missing_from_map_before_audit": [
-      "Presidio Tunnel Tops",
-      "Bixby Creek Bridge"
-    ],
-    "critical_source_list_blind_spot": "PIER 39 and Sea Lions were absent from the workbook (0 matching rows).",
+    "selected_rows_missing_from_map_before_audit": [],
+    "critical_source_list_blind_spot": null,
     "final_map_places": 39
   },
   "result": {
-    "original_map_places": 28,
-    "audited_additions": 8,
+    "original_map_places": 32,
+    "audited_additions": 7,
     "final_map_places": 39,
     "photo_assets": 117,
-    "total_places": 39
+    "total_places": 39,
+    "non_photo_itinerary_identities": [
+      "gabrielson_park",
+      "outpost",
+      "valley_loop_walk",
+      "sentinel_beach"
+    ]
   },
   "additions": [
     {
@@ -184,5 +186,5 @@
       "place_key": "bridalveil"
     }
   ],
-  "guardrail": "The audit adds representative gaps, not every popular attraction. Swap and bonus tiers remain visible without silently overloading the day. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39. Final canonical map place count: 39."
+  "guardrail": "Non-photo outing identities remain schedule activities only and do not claim fabricated images or public markers."
 }

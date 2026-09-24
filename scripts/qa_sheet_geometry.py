@@ -12,7 +12,7 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "CHG-188" / "sheet_geometry.json"
+OUT = ROOT / "QA" / "CHG-204" / "sheet_geometry.json"
 VIEWPORTS = ((360, 800), (390, 844), (414, 896), (844, 390), (375, 812), (1600, 900))
 MOBILE_PORTRAITS = {(360, 800), (390, 844), (414, 896), (375, 812)}
 
@@ -86,7 +86,7 @@ def prepare_context(page) -> dict:
     page.locator("#modeNav [data-mode='day']").click()
     page.locator("#dateSelect").select_option("10/7")
     page.wait_for_function("document.querySelector('.photo-marker[data-place-key=\"cooks\"]')?.getBoundingClientRect().width > 0")
-    page.locator(".photo-marker[data-place-key='cooks']").click()
+    page.locator(".photo-marker[data-place-key='cooks']").tap()
     page.locator("#langToggle").click()
     page.locator("#themeToggle").click()
     page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
@@ -125,7 +125,7 @@ def main() -> int:
     identity = candidate_identity()
     report = {
         "schema_version": 1,
-        "change": "CHG-188 single-route mobile compact-sheet geometry regression",
+        "change": "CHG-204 single-route mobile compact-sheet geometry regression",
         "status": "FAIL",
         "viewports": {},
         "transition_rows": [],
@@ -133,7 +133,7 @@ def main() -> int:
         "orientation_rule": "The explicit sheet state is preserved across orientation changes. If compact becomes desktop-invalid at width >800px, the workbench adapts to the desktop collapsed presentation and the app-bar workbench toggle owns focus; returning to mobile restores the compact bottom sheet without resetting task state.",
         "notes": [
             "Geometry is read from rendered DOM rectangles after the coalesced MapLibre resize/refit settles.",
-            "Cook's Meadow activation uses Playwright locator pointer input; no programmatic click is used.",
+            "Cook's Meadow activation uses Playwright locator touch input; no programmatic click is used.",
             "Independent Project OS pixel review, native Safari, physical-device behavior, and human field review remain external boundaries.",
         ],
     }
@@ -171,6 +171,8 @@ def main() -> int:
 
                     activate(page, "expanded", "pointer")
                     prepared = prepare_context(page)
+                    orientation = report.setdefault("orientation_checkpoints", {}).setdefault(f"{viewport[0]}x{viewport[1]}", {})
+                    orientation["prepared"] = prepared["task"]
                     rows, failures = transition_rows(page, "keyboard")
                     report["transition_rows"].extend(rows)
                     report["failures"].extend(f"{viewport[0]}x{viewport[1]}: {failure}" for failure in failures)
@@ -179,32 +181,54 @@ def main() -> int:
                     rows, failures = transition_rows(page, "touch" if viewport[0] < 500 else "pointer")
                     report["transition_rows"].extend(rows)
                     report["failures"].extend(f"{viewport[0]}x{viewport[1]}: {failure}" for failure in failures)
-                    if snapshot(page)["task"] != prepared["task"]:
+                    after_transitions = snapshot(page)
+                    orientation["after_transitions"] = after_transitions["task"]
+                    if after_transitions["task"] != prepared["task"]:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: task state failed transition preservation")
 
                     activate(page, "compact", "pointer")
+                    page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
+                    page.wait_for_function("!document.querySelector('#peek.show')", timeout=5000)
                     page.locator("#mapOptionsToggle").click()
                     page.wait_for_timeout(40)
                     if page.locator("#mapOptionsPanel").is_hidden():
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: map options unreachable in compact")
                     page.keyboard.press("Escape")
+                    page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden", timeout=5000)
+                    page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
+                    page.wait_for_function("!document.querySelector('#peek.show')", timeout=5000)
                     cooks = page.locator(".photo-marker[data-place-key='cooks']")
-                    cooks.click(timeout=5000)
+                    cooks.tap(timeout=5000)
                     if page.locator("#peek.show").count() != 1:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: Cook's Meadow Peek did not open in compact")
+                    after_marker_touch = snapshot(page)
+                    orientation["after_marker_touch"] = after_marker_touch["task"]
+                    if after_marker_touch["task"]["selected"] != "cooks":
+                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: Cook's Meadow touch did not select its place")
                     page.keyboard.press("Escape")
+                    page.wait_for_function("!document.querySelector('#peek.show')", timeout=5000)
+                    orientation["before_orientation_change"] = snapshot(page)["task"]
+                    orientation_expected = orientation["before_orientation_change"]
 
                     page.set_viewport_size({"width": 844, "height": 390})
                     page.wait_for_timeout(120)
                     landscape = snapshot(page)
-                    if landscape["task"] != prepared["task"]:
+                    orientation["landscape"] = landscape["task"]
+                    orientation["landscape_sheet"] = landscape["sheet"]
+                    if landscape["task"] != orientation_expected:
+                        changed = {key: {"expected": orientation_expected.get(key), "actual": landscape["task"].get(key)} for key in orientation_expected if orientation_expected.get(key) != landscape["task"].get(key)}
+                        orientation["landscape_task_differences"] = changed
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: orientation changed task state")
                     if landscape["sheet"] != "compact":
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: orientation changed explicit sheet state")
                     page.set_viewport_size({"width": viewport[0], "height": viewport[1]})
                     page.wait_for_timeout(120)
                     restored = snapshot(page)
-                    if restored["task"] != prepared["task"] or restored["sheet"] != "compact":
+                    orientation["restored"] = restored["task"]
+                    orientation["restored_sheet"] = restored["sheet"]
+                    if restored["task"] != orientation_expected or restored["sheet"] != "compact":
+                        changed = {key: {"expected": orientation_expected.get(key), "actual": restored["task"].get(key)} for key in orientation_expected if orientation_expected.get(key) != restored["task"].get(key)}
+                        orientation["restored_task_differences"] = changed
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: portrait recomposition failed to restore state")
 
                     page.evaluate("document.documentElement.style.fontSize='200%'")

@@ -63,7 +63,7 @@ result = {
     "semantic_links": [{key: leg[key] for key in ("leg_id", "date", "from", "to", "routes", "branch_kind", "label", "note")} for leg in semantic_links],
     "states": states,
 }
-output = ROOT / "QA/CHG-188/release/route_continuity.json"
+output = ROOT / "QA/CHG-204/release/route_continuity.json"
 output.parent.mkdir(parents=True, exist_ok=True)
 output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({key: result[key] for key in ("status", "states_tested", "connected_multi_marker_states", "failures")}, ensure_ascii=False, indent=2))

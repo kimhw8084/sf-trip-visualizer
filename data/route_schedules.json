@@ -1,121 +1,141 @@
 {
-  "schema_version": 1,
-  "trip_window": "2026-10-03/2026-10-11",
-  "lodging": "SF 10/2–10/6 → Monterey exactly one night 10/6–10/7 → Yosemite exactly two nights 10/7–10/9 → SF 10/9–10/12",
+  "schema_version": 2,
+  "trip_window": "2026-10-02/2026-10-12",
+  "lodging": "Mill Valley lodging 10/2–10/6 → Stage Coach Lodge 10/6–10/7 → Yosemite West lodging 10/7–10/9 → Foster City lodging 10/9–10/12",
   "routes": {
     "A": {
-      "title": "Temporal Arbitrage Master",
-      "ko_title": "시간 차익거래 마스터",
-      "operating_architecture": "Protect scarce openings and first-trip anchors, then spend optional budget only after recovery is funded.",
+      "title": "Route A — Final Family Itinerary",
+      "ko_title": "최종 가족 일정",
+      "operating_architecture": "Optimize memorable impact × comfort ÷ fatigue; protect infant/toddler recovery and freshness-gated rechecks.",
       "days": {
+        "10/2": {
+          "hard_anchors": [],
+          "strong": [],
+          "conditional": [],
+          "recovery": [
+            "SFO landing, baggage, AirTrain Blue Line, Hertz Rental Car Center",
+            "Mill Valley lodging · recovery only"
+          ],
+          "drop_first": [],
+          "decisions": [
+            "Protect nap, dynamic rechecks, and the normal ~19:30 return ceiling."
+          ]
+        },
         "10/3": {
           "hard_anchors": [
             "ferry"
           ],
-          "strong": [
-            "bay_lights"
-          ],
+          "strong": [],
           "conditional": [],
           "recovery": [
-            "Long hotel recovery before evening. Salesforce Park is only a free stroller-friendly recovery layer if already geographically useful; never detour for it."
+            "Mill Valley lodging → Ferry Building",
+            "Ferry waterfront · stroller / first-nap opportunity after 09:00",
+            "Lunch · seated reset",
+            "Mill Valley lodging · protected nap 13:30–15:30",
+            "Mill Valley lodging → Gabrielson Park / Sausalito",
+            "Gabrielson Park / Sausalito waterfront · dinner/takeout",
+            "Sausalito → Mill Valley lodging"
           ],
-          "drop_first": [
-            "bay_lights"
-          ],
+          "drop_first": [],
           "decisions": [
-            "Protect Ferry Building, Ferry Plaza Farmers Market, and the Oct 3 Latine Makers opening window. Keep Salesforce Park contextual and on-route only. Bay Lights stays energy-dependent."
+            "Protect nap, dynamic rechecks, and the normal ~19:30 return ceiling."
           ]
         },
         "10/4": {
           "hard_anchors": [
-            "ggb",
             "muir",
-            "battery"
+            "ggb"
           ],
           "strong": [
-            "tunnel_tops",
             "palace",
-            "crissy"
+            "crissy",
+            "tunnel_tops"
           ],
-          "conditional": [],
+          "conditional": [
+            "battery",
+            "twin_peaks"
+          ],
           "recovery": [
-            "Substantial midday hotel recovery; keep the afternoon Presidio / Crissy cluster compact."
+            "Mill Valley lodging · lunch and protected nap",
+            "Outpost Playground"
           ],
           "drop_first": [
-            "tunnel_tops",
             "palace",
-            "crissy"
+            "crissy",
+            "tunnel_tops",
+            "battery",
+            "twin_peaks"
           ],
           "decisions": [
-            "Use the first practical Muir Woods reservation. Keep the weekend Golden Gate parking timing advantage. Battery Spencer is a must-see only when safe legal parking is immediately workable, wind is manageable, visibility is useful, and current access recheck passes."
+            "Protect nap, dynamic rechecks, and the normal ~19:30 return ceiling."
           ]
         },
         "10/5": {
           "hard_anchors": [
             "alcatraz",
-            "chinatown",
-            "fortune",
-            "lombard",
             "pier39",
-            "ghirardelli"
+            "ghirardelli",
+            "aquatic_park",
+            "cable_car",
+            "lombard",
+            "fortune",
+            "chinatown"
           ],
           "strong": [
-            "north_beach",
-            "cable_car"
+            "north_beach"
           ],
           "conditional": [],
           "recovery": [
-            "Keep the North Beach lunch and family reset. Run the Wharf / Hyde corridor as a compact sequence; drop optional dwell before cutting recovery."
+            "Mill Valley → Pier 33 commercial garage/lot",
+            "Lunch · quick reset",
+            "Mill Valley lodging · protected nap",
+            "Chinatown → Mill Valley lodging"
           ],
           "drop_first": [
-            "north_beach",
-            "cable_car"
+            "north_beach"
           ],
           "decisions": [
-            "Protect Alcatraz and Chinatown. Fortune Cookie Factory is a short Chinatown micro-stop / snack. Keep PIER 39 sea lions and Ghirardelli Square + Aquatic Park as real must-see stops. Use Powell–Hyde as transport and experience; make Lombard a first-visit stop when the corridor is efficient. No paid Coit observation deck."
+            "Protect nap, dynamic rechecks, and the normal ~19:30 return ceiling."
           ]
         },
         "10/6": {
           "hard_anchors": [
             "point_lobos",
             "carmel",
+            "carmel_beach",
             "lone_cypress",
-            "aquarium",
+            "aquarium"
+          ],
+          "strong": [
             "monterey_wharf"
           ],
-          "strong": [],
           "conditional": [],
           "recovery": [
-            "Protect a food / bathroom reset before the Aquarium. Keep Monterey exactly one night."
+            "Mill Valley → Point Lobos · first car nap"
           ],
-          "drop_first": [],
+          "drop_first": [
+            "monterey_wharf"
+          ],
           "decisions": [
-            "Run Point Lobos, Carmel-by-the-Sea / Carmel Beach, 17-Mile Drive + Lone Cypress, and the late Aquarium window. Old Fisherman’s Wharf is the natural evening / dinner layer. Bixby Creek Bridge remains Skip; do not detour south."
+            "Protect nap, dynamic rechecks, and the normal ~19:30 return ceiling."
           ]
         },
         "10/7": {
           "hard_anchors": [
-            "tunnel_view",
+            "cooks",
             "bridalveil",
-            "cooks"
+            "tunnel_view"
           ],
-          "strong": [
-            "el_capitan",
-            "valley_view"
-          ],
-          "conditional": [
-            "mariposa"
-          ],
+          "strong": [],
+          "conditional": [],
           "recovery": [
-            "Arrival-day recovery is protected after the Monterey → Yosemite transfer; no checklist marathon."
+            "Monterey → Yosemite · awake lunch/reset between car naps",
+            "Yosemite West lodging · check-in/reset",
+            "Yosemite West lodging"
           ],
-          "drop_first": [
-            "mariposa",
-            "el_capitan",
-            "valley_view"
-          ],
+          "drop_first": [],
           "decisions": [
-            "Use the safest current corridor after checking fire, smoke, road, and access conditions. Tunnel View, Bridalveil Fall, and Cook’s Meadow are the protected reveal. Mariposa Grove is substitution-only; it never displaces Valley / Glacier priorities and is skipped when access or recovery is uncertain."
+            "Protect nap, dynamic rechecks, and the normal ~19:30 return ceiling."
           ]
         },
         "10/8": {
@@ -124,70 +144,95 @@
           ],
           "strong": [
             "washburn",
+            "el_capitan",
             "valley_view"
           ],
           "conditional": [],
           "recovery": [
-            "Substantial afternoon Valley recovery; Washburn Point and Valley View yield before Glacier Point."
+            "Yosemite West lodging · genuine protected nap",
+            "Short Valley Loop Trail out-and-back",
+            "Sentinel Beach Picnic Area · river picnic / early dinner",
+            "Yosemite West lodging"
           ],
           "drop_first": [
             "washburn",
+            "el_capitan",
             "valley_view"
           ],
           "decisions": [
-            "Glacier Point is protected when Glacier Point Road, weather, and visibility permit. If road or view conditions are poor, use the safe open Yosemite Valley fallback and preserve the afternoon recovery."
+            "Protect nap, dynamic rechecks, and the normal ~19:30 return ceiling."
           ]
         },
         "10/9": {
           "hard_anchors": [
             "cooks"
           ],
-          "strong": [
-            "valley_view"
-          ],
+          "strong": [],
           "conditional": [],
           "recovery": [
-            "Keep the final Yosemite morning, then take the easy Yosemite → SF transfer and recover at the SF hotel. Do not add an SF photo stop."
+            "Yosemite West checkout",
+            "Yosemite Valley → Foster City · transfer",
+            "Foster City lodging · recovery only"
           ],
-          "drop_first": [
-            "valley_view"
-          ],
+          "drop_first": [],
           "decisions": [
-            "Protect a short Yosemite morning before the SF transfer. Family recovery and an easy arrival take priority over every SF photo opportunity."
+            "Protect nap, dynamic rechecks, and the normal ~19:30 return ceiling."
           ]
         },
         "10/10": {
           "hard_anchors": [
-            "tea_garden"
+            "botanical",
+            "tea_garden",
+            "cantor_arts"
           ],
           "strong": [
-            "botanical"
+            "rodin_garden",
+            "stanford_quad"
           ],
           "conditional": [],
           "recovery": [
-            "Leave the afternoon open for SF recovery. JFK Promenade / central Golden Gate Park is a free, stroller-friendly, car-free outdoor layer only if the family wants a low-commitment same-cluster outing."
+            "JFK Promenade · optional same-cluster",
+            "Lunch",
+            "Foster City lodging · protected nap",
+            "Foster City lodging return"
           ],
           "drop_first": [
-            "botanical"
+            "rodin_garden",
+            "stanford_quad"
           ],
           "decisions": [
-            "Protect Japanese Tea Garden and preserve San Francisco Botanical Garden. Keep recovery time open; JFK Promenade is optional same-cluster outdoor context, not a replacement checklist."
+            "Protect nap, dynamic rechecks, and the normal ~19:30 return ceiling."
           ]
         },
         "10/11": {
           "hard_anchors": [
             "lands_end",
             "painted",
-            "twin_peaks"
+            "alamo_square",
+            "baker_beach"
           ],
           "strong": [],
           "conditional": [],
           "recovery": [
-            "Keep a generous packing and recovery buffer after the scenic finale."
+            "Lunch",
+            "Foster City lodging · protected nap",
+            "Baker Beach → Foster City lodging"
           ],
           "drop_first": [],
           "decisions": [
-            "Lands End and Painted Ladies / Alamo Square are protected first-visit stops. Twin Peaks / Christmas Tree Point is a must when the view is worthwhile; move it within the SF window to the clearest safe visibility window, or skip without treating fog as an itinerary failure. Do not add another paid attraction."
+            "Protect nap, dynamic rechecks, and the normal ~19:30 return ceiling."
+          ]
+        },
+        "10/12": {
+          "hard_anchors": [],
+          "strong": [],
+          "conditional": [],
+          "recovery": [
+            "Foster City → Hertz Rental Car Center → AirTrain/terminal"
+          ],
+          "drop_first": [],
+          "decisions": [
+            "Protect nap, dynamic rechecks, and the normal ~19:30 return ceiling."
           ]
         }
       }

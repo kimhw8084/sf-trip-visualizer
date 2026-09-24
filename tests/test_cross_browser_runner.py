@@ -57,7 +57,7 @@ class DiagnosticPage:
         if "isStyleLoaded" in script:
             return False
         if "current:" in script:
-            return {"current": 0, "expected": 36}
+            return {"current": 0, "expected": 39}
         raise AssertionError(f"unexpected diagnostic expression: {script}")
 
     def locator(self, selector):
@@ -188,7 +188,7 @@ class CrossBrowserRunnerTests(unittest.TestCase):
         self.assertFalse(diagnostics["is_style_loaded"])
         self.assertEqual(diagnostics["canvas_count"], 1)
         self.assertEqual(diagnostics["current_marker_count"], 0)
-        self.assertEqual(diagnostics["expected_marker_count"], 36)
+        self.assertEqual(diagnostics["expected_marker_count"], 39)
         self.assertTrue(diagnostics["map_error_events"])
         self.assertEqual(diagnostics["failure_screenshot"], str(screenshot_path))
 
@@ -262,7 +262,7 @@ class CrossBrowserRunnerTests(unittest.TestCase):
             {
                 "status": "UNVERIFIED",
                 "completed": False,
-                "diagnostics": {"is_style_loaded": False, "current_marker_count": 0, "expected_marker_count": 36},
+                "diagnostics": {"is_style_loaded": False, "current_marker_count": 0, "expected_marker_count": 39},
             }
         )
         evidence = run_cross_browser.finalize_evidence(run_cross_browser.parent_evidence(), rows)

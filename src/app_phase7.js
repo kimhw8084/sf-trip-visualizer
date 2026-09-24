@@ -16,6 +16,7 @@
   const state = model.state;
   const routeMeta = DATA.routes;
   const markerByKey = Object.fromEntries((DATA.markers || []).map(item => [item.place_key, item]));
+  const travelRangeById = Object.fromEntries((DATA.travel_ranges || []).map(item => [item.id, item]));
   const SAFE_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
   const SATELLITE_TILE_TEMPLATE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
   const SATELLITE_HEALTH_PROBE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655';
@@ -53,6 +54,14 @@
     const text = String(value ?? '');
     return state.presentation.lang === 'en' ? (I18N.ko_to_en[text] || text) : (I18N.en_to_ko[text] || text);
   };
+  const tx = (record, field) => record?.[`${field}_${state.presentation.lang}`] || tr(record?.[field] ?? '');
+  const travelWindowLabel = (window, side) => {
+    if (window?.status === 'OWNER_APPROVED_WINDOW') return window.detail || '—';
+    if (window?.status === 'SCHEDULE_BOUNDARY_DERIVED') return m(side === 'departure' ? 'travelAfterPrevious' : 'travelBeforeNext');
+    if (window?.status === 'DYNAMIC_NIGHT_BEFORE') return m('travelWindowDynamic');
+    return m('travelWindowUnspecified');
+  };
+  const formatMoney = cents => new Intl.NumberFormat(state.presentation.lang === 'ko' ? 'ko-KR' : 'en-US', { style: 'currency', currency: 'USD' }).format((Number(cents) || 0) / 100);
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
   const isMobile = () => window.matchMedia('(max-width:800px)').matches;
   const safeColor = value => /^#[0-9a-f]{6}$/i.test(String(value ?? '')) ? String(value) : '#72857b';
@@ -129,6 +138,13 @@
       if (url.hostname === 'server.arcgisonline.com' && url.pathname.startsWith('/ArcGIS/rest/services/World_Imagery/MapServer/tile/')) return url.href;
       if (url.hostname === 'www.google.com' && url.pathname === '/maps/search/' && url.searchParams.get('api') === '1' && url.searchParams.get('query') && [...url.searchParams.keys()].every(key => key === 'api' || key === 'query')) return url.href;
       return '';
+    } catch { return ''; }
+  }
+  function safeOfficialSourceUrl(value) {
+    try {
+      const url = new URL(String(value ?? ''));
+      const hosts = new Set(['flysfo.com', 'foodwise.org', 'home.nps.gov', 'www.nps.gov', 'nps.gov', 'gomuirwoods.com', 'www.goldengate.org', 'goldengate.org', 'alcatrazcitycruises.com', 'www.sfmta.com', 'sfmta.com', 'www.goldengatefortunecookies.com', 'parks.ca.gov', 'ci.carmel.ca.us', 'www.pebblebeach.com', 'www.montereybayaquarium.org', 'gggp.org', 'www.gggp.org', 'museum.stanford.edu', 'presidio.gov']);
+      return url.protocol === 'https:' && !url.username && !url.password && !url.port && !url.hash && hosts.has(url.hostname) ? url.href : '';
     } catch { return ''; }
   }
   function safeProviderConfig() {
@@ -397,8 +413,22 @@
   function showRoutePeek(properties, event) {
     const card = document.getElementById('peek');
     state.presentation.peek = { route: properties.route, invoker: document.activeElement };
-    const action = ROUTES.length > 1 ? `<button class="peek-action" type="button" data-route-use>${m('chooseRoute')} ${esc(properties.route)} ↗</button>` : '';
-    card.innerHTML = `<div class="peek-body"><div class="eyebrow">${esc(properties.route)} · ${esc(dateLabel(properties.date))}</div><h3 id="peekTitle" class="peek-title">${esc(tr(properties.label || ''))}</h3><p id="peekDescription" class="peek-why"><strong>${esc(tierLabel(properties.branch === 'main' ? 'main' : properties.branch))}</strong> · ${esc(modeLabel(properties.mode))}${properties.time ? ` · ${esc(properties.time)}` : ''}<br>${esc(tr(properties.note || ''))}</p><p class="peek-sub">${properties.status === 'routed_osm' ? m('recheck') : m('mapLegend')}</p>${action}</div>`;
+    const leg = (DATA.legs || []).find(item => item.leg_id === properties.leg_id);
+    const travelRange = travelRangeById[leg?.travel_range_id], travelWindow = travelRange?.planned_schedule_window, travelDuration = travelRange?.planning_duration_range;
+    const travelEstimate = travelDuration?.status === 'SCHEDULE_DERIVED'
+      ? `${m('travelElapsed')}: ${travelDuration.minutes_min}–${travelDuration.minutes_max} ${m('minutes')} · ${m('travelLowConfidence')}`
+      : m('travelDurationUnknown');
+    const travelProvenance = travelRange
+      ? `<p class="peek-sub"><b>${esc(m('staticTravelPlan'))}:</b> ${esc(m('travelDepart'))}: ${esc(travelWindowLabel(travelWindow?.departure, 'departure'))} · ${esc(m('travelArrive'))}: ${esc(travelWindowLabel(travelWindow?.arrival, 'arrival'))}<br>${esc(travelEstimate)} · ${esc(m('travelNoBaseline'))}<br>${esc(m('checkLiveNavigation'))}</p>`
+      : '';
+    const from = leg && markerByKey[leg.from], to = leg && markerByKey[leg.to];
+    const liveNavigation = leg?.mode === 'drive' && from && to
+      ? `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(placeName(leg.from))}&destination=${encodeURIComponent(placeName(leg.to))}`
+      : '';
+    const action = ROUTES.length > 1
+      ? `<button class="peek-action" type="button" data-route-use>${m('chooseRoute')} ${esc(properties.route)} ↗</button>`
+      : liveNavigation ? `<a class="peek-action" data-live-navigation href="${esc(liveNavigation)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${esc(m('checkLiveNavigation'))} ↗</a>` : '';
+    card.innerHTML = `<div class="peek-body"><div class="eyebrow">${esc(properties.route)} · ${esc(dateLabel(properties.date))}</div><h3 id="peekTitle" class="peek-title">${esc(tr(properties.label || ''))}</h3><p id="peekDescription" class="peek-why"><strong>${esc(tierLabel(properties.branch === 'main' ? 'main' : properties.branch))}</strong> · ${esc(modeLabel(properties.mode))}${properties.time ? ` · ${esc(properties.time)}` : ''}<br>${esc(tr(properties.note || ''))}</p>${travelProvenance}<p class="peek-sub">${properties.status === 'routed_osm' ? m('recheck') : m('mapLegend')}</p>${action}</div>`;
     card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card); card.querySelector('[data-route-use]')?.addEventListener('click', () => choosePrimaryRoute(properties.route));
   }
   function mapObstacleRects() {
@@ -693,14 +723,57 @@
   function renderDatePicker() {
     const select = document.getElementById('dateSelect'); select.innerHTML = `<option value="all">${m('allDates')}</option>${DATA.dates.map(date => `<option value="${esc(date.key)}">${esc(dateLabel(date.key))}</option>`).join('')}`; select.value = state.task.date;
   }
+  function feeLabel(semantic) {
+    return m(({ fixed: 'feeFixed', starting: 'feeStarting', estimated: 'feeEstimated', variable: 'feeVariable', conditional: 'feeConditional', included: 'feeIncluded', free: 'feeFree' })[semantic] || 'feeVariable');
+  }
+  function prerequisiteLabel(level) {
+    return m(({ required: 'prereqRequired', strongly_recommended: 'prereqStrong', optional: 'prereqOptional', recheck_only: 'prereqRecheck' })[level] || 'prereqOptional');
+  }
+  function confidenceLabel(confidence) {
+    return m(({ high_source_review: 'confidenceHigh', medium_source_review: 'confidenceMedium' })[confidence] || 'confidenceMedium');
+  }
+  function freshnessFacts(item) {
+    const records = window.TRIP_FRESHNESS?.records || [], ids = new Set(item.freshness_fact_ids || []);
+    return records.filter(record => ids.has(record.fact_id));
+  }
+  function freshnessLabel(status) {
+    return m(({ VERIFIED: 'freshnessVerified', STALE: 'freshnessStale', UNVERIFIED: 'freshnessUnverified', RECHECK_REQUIRED: 'freshnessRecheck', NOT_APPLICABLE: 'freshnessNA' })[status] || 'freshnessUnverified');
+  }
+  function renderCostCockpit() {
+    const content = document.getElementById('costCockpitContent'), dialog = document.getElementById('costCockpit');
+    if (!content || !dialog) return;
+    document.getElementById('costCockpitHeading').textContent = m('costHeading');
+    document.getElementById('costCockpitIntro').textContent = m('costIntro');
+    document.getElementById('costCockpitClose').textContent = m('costClose');
+    const model = DATA.cost_cockpit || {}, scenarios = model.scenarios || [], selected = scenarios.find(item => item.id === state.user.costScenario), allRows = DATA.readiness_items || [];
+    const rows = allRows.filter(item => state.task.date === 'all' || (item.applies_dates || []).includes(state.task.date));
+    const excluded = state.presentation.lang === 'ko' ? (model.analysis_scenario?.excluded_ko || []) : (model.analysis_scenario?.excluded || []);
+    const fmtLine = line => { const href = (line.source || []).map(safeOfficialSourceUrl).find(Boolean); return `<li class="cost-line"><span>${esc(tx(line, 'label'))}<small class="fee-chip">${esc(feeLabel(line.fee_semantic))}</small>${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${esc(m('source'))} ↗</a>` : ''}</span><strong>${formatMoney(line.amount_cents)}</strong></li>`; };
+    const otherLines = (items, detailField = null) => items.map(item => {
+      const href = (item.source || []).map(safeOfficialSourceUrl).find(Boolean);
+      return `<li class="cockpit-detail"><strong>${esc(tx(item, 'label'))}</strong><span class="fee-chip">${esc(feeLabel(item.fee_semantic))}</span>${detailField ? `<p>${esc(tx(item, detailField))}</p>` : ''}${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${m('source')} ↗</a>` : ''}</li>`;
+    }).join('');
+    content.innerHTML = `<section class="cost-scenario"><label for="costScenarioSelect">${esc(m('chooseScenario'))}</label><select id="costScenarioSelect" class="day-picker"><option value="">${esc(m('chooseScenario'))}</option>${scenarios.map(item => `<option value="${esc(item.id)}" ${item.id === state.user.costScenario ? 'selected' : ''}>${esc(tx(item, 'label'))}</option>`).join('')}</select><p class="analysis-note">${esc(m('analysisOnly'))} · ${esc(tx(model.analysis_scenario || {}, 'label'))}</p>${selected ? `<h3>${esc(formatMoney(selected.lower_bound_cents))} <small>${esc(m('lowerBound'))}</small></h3><ul class="cost-lines">${selected.lines.map(fmtLine).join('')}</ul>` : `<p class="scenario-empty">${esc(m('chooseScenario'))}</p>`}</section><section class="cockpit-section"><h3>${esc(m('variableCosts'))}</h3><ul>${otherLines(model.variable_checkout_required || [])}</ul></section><section class="cockpit-section"><h3>${esc(m('optionalCosts'))}</h3><ul>${otherLines(model.optional_convenience || [], 'details')}</ul></section><section class="cockpit-section"><h3>${esc(m('excludedCosts'))}</h3><p>${esc(excluded.join(', '))}</p><p>${esc(tx(model, 'double_count_rule'))}</p></section><section class="cockpit-section readiness-section"><h3>${esc(m('readiness'))}</h3><p class="local-only">${esc(m('localOnly'))}</p>${rows.length ? rows.map(item => { const hrefs = (item.source || []).map(safeOfficialSourceUrl).filter(Boolean), facts = freshnessFacts(item), status = facts.length ? facts.map(fact => fact.status).sort((a, b) => ({ STALE: 0, UNVERIFIED: 1, RECHECK_REQUIRED: 2, VERIFIED: 3, NOT_APPLICABLE: 4 }[a] - ({ STALE: 0, UNVERIFIED: 1, RECHECK_REQUIRED: 2, VERIFIED: 3, NOT_APPLICABLE: 4 }[b])))[0] : 'UNVERIFIED', windows = facts.map(fact => fact.recheck?.window).filter(Boolean), value = state.user.readiness[item.id] || ''; return `<article class="readiness-card"><header><div><h4>${esc(tx(item, 'label'))}</h4><span class="fee-chip">${esc(feeLabel(item.fee_semantic))}</span> <span class="recheck-chip" data-freshness-status="${esc(status)}">${esc(freshnessLabel(status))}</span></div><label class="readiness-status" for="ready-${esc(item.id)}"><span>${esc(m('statusFor'))}: ${esc(tx(item, 'label'))}</span><select id="ready-${esc(item.id)}" data-readiness-status="${esc(item.id)}"><option value="">${esc(m('statusUnmarked'))}</option><option value="prepared" ${value === 'prepared' ? 'selected' : ''}>${esc(m('statusPrepared'))}</option><option value="user_marked_booked" ${value === 'user_marked_booked' ? 'selected' : ''}>${esc(m('statusBooked'))}</option><option value="user_marked_paid" ${value === 'user_marked_paid' ? 'selected' : ''}>${esc(m('statusPaid'))}</option></select></label></header><p><b>${esc(m('prerequisite'))}:</b> ${esc(prerequisiteLabel(item.prerequisite_severity))} · <b>${esc(m('confidence'))}:</b> ${esc(confidenceLabel(item.confidence))} · <b>${esc(m('researched'))}:</b> ${esc(item.researched_on)} · <b>${esc(m('recheckWhen'))}:</b> ${esc([tx(item, 'recheck_timing'), ...windows].filter(Boolean).join(' · '))}</p><p><b>${esc(m('parkingGuidance'))}:</b> ${esc(tx(item, 'parking_guidance'))}</p><p><b>${esc(m('babyGuidance'))}:</b> ${esc(tx(item, 'baby_mobility'))}</p>${hrefs.map(href => `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${esc(m('source'))} ↗</a>`).join(' ')}</article>`; }).join('') : `<p class="empty-state">${esc(m('noActiveReadiness'))}</p>`}</section>`;
+    const select = content.querySelector('#costScenarioSelect');
+    select.onchange = () => { state.user.costScenario = scenarios.some(item => item.id === select.value) ? select.value : null; persist(); renderCostCockpit(); };
+    content.querySelectorAll('[data-readiness-status]').forEach(input => { input.onchange = () => { if (input.value) state.user.readiness[input.dataset.readinessStatus] = input.value; else delete state.user.readiness[input.dataset.readinessStatus]; persist(); }; });
+  }
   function renderDay() {
     renderDatePicker(); const items = DATA.timeline.filter(timelineVisible), header = document.getElementById('dayHeader'), plan = document.getElementById('dayPlan');
-    if (state.task.date === 'all') { header.innerHTML = `<h3>${m('chooseDay')}</h3><p>${DATA.dates.length} ${m('day').toLowerCase()} · ${state.task.primaryRoute} · ${esc(m('recheck'))}</p>`; plan.innerHTML = DATA.dates.map(date => { const rows = DATA.timeline.filter(item => item.date_key === date.key && routeIntersects(item.routes)); const mapped = rows.find(item => item.spatial_keys?.length); return `<button type="button" class="day-item" data-day-choice="${esc(date.key)}" style="--tier-color:var(--accent)"><span class="day-time">${esc(dateLabel(date.key))}</span><span class="day-item-main"><span class="day-item-title">${esc(mapped ? placeName(mapped.spatial_keys[0]) : tr(rows[0]?.title || '—'))}</span><span class="day-item-reason">${rows.length} ${m('stop')} · ${esc(dayIntensity(rows))}</span><span class="day-item-tags"><span class="semantic-tag">${rows.length} items</span><span class="semantic-tag">${esc(DATA.region_cfg[rows[0]?.regions?.[0] || 'overall']?.label || m('overall'))}</span></span></span></button>`; }).join(''); plan.querySelectorAll('[data-day-choice]').forEach(button => { button.onclick = () => { state.task.date = button.dataset.dayChoice; renderAll(); persist(); drawMap(false); }; }); return; }
-    const dayMeta = DATA.dates.find(date => date.key === state.task.date), regions = [...new Set(items.flatMap(item => item.regions || []))].map(region => DATA.region_cfg[region]?.[state.presentation.lang === 'ko' ? 'label' : 'label_en'] || m(region)).join(' · '), recovery = items.filter(item => ['recovery', 'bonus'].includes(item.schedule_tier)).length, decisions = items.filter(item => ['swap', 'conditional', 'choice'].includes(item.schedule_tier)).length;
-    header.innerHTML = `<h3>${esc(dateLabel(dayMeta?.key || state.task.date))}</h3><p>${esc(regions || m('overall'))} · ${esc(state.task.primaryRoute)} · ${esc(m('recheck'))}</p><div class="day-metrics"><span class="day-metric">${m('intensity')}: ${esc(dayIntensity(items))}</span><span class="day-metric">${m('decisions')}: ${decisions}</span><span class="day-metric">${m('calm')}: ${recovery}</span></div>`;
+    const cockpitButton = `<button type="button" id="openCostCockpit" class="secondary-action cost-open" aria-haspopup="dialog" aria-controls="costCockpit" aria-expanded="${document.getElementById('costCockpit')?.open ? 'true' : 'false'}">${esc(m('costReadiness'))}</button>`;
+    if (state.task.date === 'all') {
+      header.innerHTML = `<h3>${m('chooseDay')}</h3><p>${DATA.dates.length} ${m('day').toLowerCase()} · ${esc(state.task.primaryRoute)} · ${esc(m('recheck'))}</p>${cockpitButton}`;
+      plan.innerHTML = DATA.dates.map(date => { const dayRows = DATA.timeline.filter(item => item.date_key === date.key && routeIntersects(item.routes)); const mapped = dayRows.find(item => item.spatial_keys?.length); const op = DATA.operating_days?.[date.key]; return `<button type="button" class="day-item" data-day-choice="${esc(date.key)}" style="--tier-color:var(--accent)"><span class="day-time">${esc(dateLabel(date.key))}</span><span class="day-item-main"><span class="day-item-title">${esc(mapped ? placeName(mapped.spatial_keys[0]) : tx(dayRows[0], 'title'))}</span><span class="day-item-reason">${esc(tx(op, 'leave'))} · ${esc(tx(op, 'nap'))}</span><span class="day-item-tags"><span class="semantic-tag">${dayRows.length} ${esc(m('stop'))}</span><span class="semantic-tag">${esc(dayIntensity(dayRows))}</span></span></span></button>`; }).join('');
+      plan.querySelectorAll('[data-day-choice]').forEach(button => { button.onclick = () => { state.task.date = button.dataset.dayChoice; renderAll(); persist(); drawMap(false); }; });
+      document.getElementById('openCostCockpit').onclick = event => { const dialog = document.getElementById('costCockpit'); renderCostCockpit(); dialog.showModal(); event.currentTarget.setAttribute('aria-expanded', 'true'); document.getElementById('costCockpitClose').focus(); };
+      return;
+    }
+    const dayMeta = DATA.dates.find(date => date.key === state.task.date), op = DATA.operating_days?.[state.task.date], regions = [...new Set(items.flatMap(item => item.regions || []))].map(region => DATA.region_cfg[region]?.[state.presentation.lang === 'ko' ? 'label_ko' : 'label'] || m(region)).join(' · '), recovery = items.filter(item => ['recovery', 'bonus'].includes(item.schedule_tier)).length, decisions = items.filter(item => ['swap', 'conditional', 'choice'].includes(item.schedule_tier)).length;
+    header.innerHTML = `<h3>${esc(dateLabel(dayMeta?.key || state.task.date))}</h3><p>${esc(regions || m('overall'))} · ${esc(state.task.primaryRoute)}</p><div class="day-facts"><p><b>${esc(m('leaveBy'))}:</b> ${esc(tx(op, 'leave'))}</p><p><b>${esc(m('napWindow'))}:</b> ${esc(tx(op, 'nap'))}</p><p><b>${esc(m('recoveryPlan'))}:</b> ${esc(tx(op, 'recovery'))}</p><p><b>${esc(m('prepareBefore'))}:</b> ${esc(tx(op, 'prepare'))}</p><p><b>${esc(m('couldInvalidate'))}:</b> ${esc(tx(op, 'invalidator'))}</p></div><div class="day-metrics"><span class="day-metric">${m('intensity')}: ${esc(dayIntensity(items))}</span><span class="day-metric">${m('decisions')}: ${decisions}</span><span class="day-metric">${m('calm')}: ${recovery}</span></div>${cockpitButton}`;
     if (!items.length) { plan.innerHTML = `<div class="empty-state">${m('noSlots')}</div>`; return; }
-    plan.innerHTML = `<p class="day-story">${esc(tr(items[0]?.reason || ''))}</p>${items.map(item => { const mapped = item.spatial_keys?.length, tier = item.schedule_tier || 'main', color = tier === 'must' ? '#a94335' : tier === 'swap' ? '#a76a42' : tier === 'recovery' ? '#72857b' : 'var(--accent)'; return mapped ? `<button type="button" class="day-item ${item.spatial_keys.includes(state.task.selected) ? 'selected' : ''}" data-day-place="${esc(item.spatial_keys[0])}" style="--tier-color:${color}"><span class="day-time">${esc(tr(item.time || '—'))}</span><span class="day-item-main"><span class="day-item-title">${esc(item.spatial_keys.length === 1 ? placeName(item.spatial_keys[0]) : tr(item.title))}</span><span class="day-item-reason"><strong>${esc(m('whyNow'))}:</strong> ${esc(tr(item.reason || ''))}</span><span class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${ROUTES.length > 1 ? (item.route_specific ? `<span class="semantic-tag">${m('specific')}</span>` : `<span class="semantic-tag">${m('shared')}</span>`) : ''}${routeMini(item.routes, item.spatial_keys[0])}</span></span></button>` : `<article class="plan-card" style="--tier-color:${color}"><strong>${esc(tr(item.time || '—'))} · ${esc(tr(item.title))}</strong><p>${esc(tr(item.reason || item.advantage || ''))} · ${m('noMapped')}</p><div class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${routeMini(item.routes)}</div></article>`; }).join('')}`;
+    plan.innerHTML = `<p class="day-story">${esc(tx(items[0], 'reason'))}</p>${items.map(item => { const mapped = item.spatial_keys?.length, tier = item.schedule_tier || 'main', color = tier === 'must' ? '#a94335' : tier === 'swap' ? '#a76a42' : tier === 'recovery' ? '#72857b' : 'var(--accent)', identity = item.itinerary_identity, range = travelRangeById[item.travel_range_id], duration = range?.planning_duration_range, schedule = range?.planned_schedule_window, elapsed = duration?.status === 'SCHEDULE_DERIVED' ? `${esc(m('travelElapsed'))}: ${duration.minutes_min}–${duration.minutes_max} ${esc(m('minutes'))} · ${esc(m('travelLowConfidence'))}` : esc(m('travelDurationUnknown')), cue = item.travel_navigation_cue ? (range ? `<p class="travel-cue travel-provenance"><b>${esc(m('staticTravelPlan'))}:</b> ${esc(m('travelDepart'))}: ${esc(travelWindowLabel(schedule?.departure, 'departure'))} · ${esc(m('travelArrive'))}: ${esc(travelWindowLabel(schedule?.arrival, 'arrival'))}<br>${elapsed} · ${esc(m('travelNoBaseline'))}<br>${esc(m('checkLiveNavigation'))}</p>` : `<p class="travel-cue">${esc(m('liveNavCue'))}</p>`) : '', cueInline = item.travel_navigation_cue ? `<span class="travel-cue">${esc(m('liveNavCue'))}</span>` : '', blocker = identity?.photo_blocker ? `<p class="photo-blocker"><b>${esc(m('photoBlocked'))}:</b> ${esc(tx(identity, 'photo_blocker'))}</p>` : '', title = tx(item, 'title'), reason = tx(item, 'reason'), noMapSuffix = ['travel', 'logistics'].includes(item.kind) ? '' : ` · ${esc(m('unpinnedActivity'))}`; return mapped ? `<button type="button" class="day-item ${item.spatial_keys.includes(state.task.selected) ? 'selected' : ''}" data-day-place="${esc(item.spatial_keys[0])}" style="--tier-color:${color}"><span class="day-time">${esc(tr(item.time || '—'))}</span><span class="day-item-main"><span class="day-item-title">${esc(title)}</span><span class="day-item-reason"><strong>${esc(m('whyNow'))}:</strong> ${esc(reason)}</span>${cueInline}<span class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${ROUTES.length > 1 ? (item.route_specific ? `<span class="semantic-tag">${m('specific')}</span>` : `<span class="semantic-tag">${m('shared')}</span>`) : ''}${routeMini(item.routes, item.spatial_keys[0])}</span></span></button>` : `<article class="plan-card" style="--tier-color:${color}"><strong>${esc(tr(item.time || '—'))} · ${esc(title)}</strong><p>${esc(reason)}${noMapSuffix}</p>${blocker}${cue}<div class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${routeMini(item.routes)}</div></article>`; }).join('')}`;
     plan.querySelectorAll('[data-day-place]').forEach(button => { button.onclick = () => { selectPlace(button.dataset.dayPlace, { focus: true, open: false, invoker: button }); showPeek(button.dataset.dayPlace, { invoker: button }); }; });
+    document.getElementById('openCostCockpit').onclick = event => { const dialog = document.getElementById('costCockpit'); renderCostCockpit(); dialog.showModal(); event.currentTarget.setAttribute('aria-expanded', 'true'); document.getElementById('costCockpitClose').focus(); };
   }
 
   /* ----- Place mode: browser, Peek -> Inspector, and return ----- */
@@ -799,11 +872,13 @@
   function renderModes() {
     const mode = state.presentation.mode, workbench = document.getElementById('workbench'); workbench.dataset.mode = mode; document.querySelectorAll('[data-mode]').forEach(button => { const active = button.dataset.mode === mode; button.classList.toggle('active', active); if (active) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current'); }); document.querySelectorAll('.mode-view').forEach(view => { const active = view.dataset.view === mode; view.hidden = !active; view.classList.toggle('active', active); });
   }
-  function renderAll() { applyTranslations(); renderMapControls(); renderModes(); renderShellStatus(); renderDecide(); if (state.presentation.mode === 'day') renderDay(); if (state.presentation.mode === 'place') renderPlace(); }
+  function renderAll() { applyTranslations(); renderMapControls(); renderModes(); renderShellStatus(); renderDecide(); if (state.presentation.mode === 'day') renderDay(); if (state.presentation.mode === 'place') renderPlace(); if (document.getElementById('costCockpit')?.open) renderCostCockpit(); }
   function bindShell() {
     document.querySelectorAll('[data-mode]').forEach(button => { button.onclick = () => setMode(button.dataset.mode); });
     document.querySelectorAll('[data-sheet]').forEach(button => { if (button.classList.contains('icon-button')) button.onclick = () => setSheet(button.dataset.sheet); });
     document.getElementById('workbenchToggle').onclick = () => setSheet(state.presentation.sheet === 'compact' ? 'expanded' : 'compact');
+    document.getElementById('costCockpitClose').onclick = () => document.getElementById('costCockpit').close();
+    document.getElementById('costCockpit').addEventListener('close', () => requestAnimationFrame(() => { const button = document.getElementById('openCostCockpit'); if (button) { button.setAttribute('aria-expanded', 'false'); button.focus({ preventScroll: true }); } }));
     document.getElementById('mapOptionsToggle').onclick = () => setMapOptionsOpen(!state.presentation.mapOptionsOpen);
     document.getElementById('mapOptionsClose').onclick = () => setMapOptionsOpen(false);
     document.getElementById('langToggle').onclick = () => { state.presentation.lang = state.presentation.lang === 'ko' ? 'en' : 'ko'; hidePeek({ returnFocus: false }); renderAll(); persist(); drawMap(true); };
@@ -816,7 +891,7 @@
       document.getElementById('mapError').hidden = true; state.runtime.provider = 'vector'; state.runtime.providerHealth.vector = 'loading'; state.runtime.localAssets.status = 'checking'; renderProviderState(); try { await setupVector(); await drawMap(true); } catch (error) { showMapFailure(error, 'retry'); }
     };
     document.getElementById('dateSelect').onchange = event => { state.task.date = event.target.value; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; state.presentation.mode = 'day'; renderAll(); persist(); drawMap(false); };
-    const handleEscape = event => { if (event.key !== 'Escape') return; if (state.presentation.mapOptionsOpen) { setMapOptionsOpen(false); event.preventDefault(); return; } if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };
+    const handleEscape = event => { if (event.key !== 'Escape') return; if (document.getElementById('costCockpit')?.open) return; if (state.presentation.mapOptionsOpen) { setMapOptionsOpen(false); event.preventDefault(); return; } if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };
     document.onkeydown = handleEscape;
     document.body?.addEventListener('keydown', handleEscape);
     document.addEventListener('pointerdown', event => { if (state.presentation.mapOptionsOpen && !event.target.closest('#mapControlSurface')) setMapOptionsOpen(false); });
