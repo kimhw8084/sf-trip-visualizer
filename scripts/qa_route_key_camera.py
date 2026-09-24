@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import time
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
@@ -17,6 +18,7 @@ SCREENSHOTS = ROOT / "QA" / "CHG-188" / "screenshots"
 VIEWPORTS = ((360, 800), (375, 812), (390, 844), (414, 896))
 PATHS = ("pointer", "keyboard", "touch")
 ROUTES = sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"])
+STYLE_READY_TIMEOUT_MS = 5000
 
 
 def task_state(page) -> dict:
@@ -24,10 +26,106 @@ def task_state(page) -> dict:
 
 
 def map_context(page) -> dict:
-    return page.evaluate("""() => {const a=window.__tripApp,m=a.map(),g=a.mapGeometrySnapshot();return {canvas_count:document.querySelectorAll('.maplibregl-canvas').length,style_loaded:m.isStyleLoaded(),visible_markers:a.DATA.markers.filter(x=>a.markerVisible(x,{map:true})).length,route_features:a.visibleRouteFeatures().length,spatial:a.mapSpatialSnapshot(),map_obstacles:g.obstacles.length}}""")
+    return page.evaluate("""() => {
+      const a=window.__tripApp,m=a?.map?.(),r=a?.state?.runtime;
+      const canvas_count=document.querySelectorAll('.maplibregl-canvas').length;
+      if(!a||!m)return {map_present:false,provider:r?.provider??null,app_ready:r?.mapStatus==='ready',map_visual_ready:r?.mapVisualReady===true,canvas_count,style_loaded:false,map_moving:null,visible_markers:0,route_features:0,spatial:null,map_obstacles:null};
+      const g=a.mapGeometrySnapshot();
+      return {map_present:true,provider:r?.provider??null,app_ready:r?.mapStatus==='ready',map_visual_ready:r?.mapVisualReady===true,canvas_count,style_loaded:m.isStyleLoaded(),map_moving:m.isMoving(),visible_markers:a.DATA.markers.filter(x=>a.markerVisible(x,{map:true})).length,route_features:a.visibleRouteFeatures().length,spatial:a.mapSpatialSnapshot(),map_obstacles:g.obstacles.length};
+    }""")
 
 
-def control_path(page, path: str) -> dict:
+def context_issues(context: dict, expected_counts: dict | None = None) -> list[str]:
+    issues = []
+    if context.get("map_present") is not True:
+        issues.append("map/provider state is missing")
+    if not context.get("provider") or context.get("app_ready") is not True or context.get("map_visual_ready") is not True:
+        issues.append("map/provider is not operational")
+    if context.get("canvas_count") != 1:
+        issues.append("map canvas is missing or duplicated")
+    visible_markers = context.get("visible_markers", 0)
+    route_features = context.get("route_features", 0)
+    if visible_markers <= 0:
+        issues.append("expected visible markers are missing")
+    if route_features <= 0:
+        issues.append("expected route features are missing")
+    if expected_counts:
+        if visible_markers != expected_counts["visible_markers"]:
+            issues.append("expected visible marker count changed")
+        if route_features != expected_counts["route_features"]:
+            issues.append("expected route feature count changed")
+    spatial = context.get("spatial")
+    if not isinstance(spatial, dict) or spatial.get("useful") is not True:
+        issues.append("map spatial context is unusable")
+    else:
+        if spatial.get("visible_markers") != visible_markers or spatial.get("markers_in_viewport") != visible_markers:
+            issues.append("expected markers are not all in the viewport")
+        if spatial.get("route_features") != route_features or spatial.get("route_features_in_viewport") != route_features:
+            issues.append("expected route features are not all in the viewport")
+        if spatial.get("route_points_in_viewport", 0) <= 0:
+            issues.append("route geometry is outside the viewport")
+    return issues
+
+
+def acceptance_snapshot(page, expected_task: dict, expected_counts: dict | None = None) -> dict:
+    task = task_state(page)
+    initial_context = map_context(page)
+    initial_chrome = page.locator("#routeLegendToggle,#routeLegendPanel,[data-compare-route],#comparePanel,.route-compare,.route-membership,.membership-cell").count()
+    initial_issues = context_issues(initial_context, expected_counts)
+    if task != expected_task:
+        initial_issues.append("route/date/region task state changed")
+    if initial_chrome:
+        initial_issues.append("route-comparison chrome leaked")
+
+    initial_ready = initial_context.get("style_loaded") is True and initial_context.get("map_moving") is False
+    final_context = initial_context
+    final_task = task
+    final_chrome = initial_chrome
+    wait_ms = 0
+    wait_error = None
+    if not initial_issues and not initial_ready:
+        started = time.monotonic()
+        try:
+            page.wait_for_function(
+                """() => {const m=window.__tripApp?.map?.();return !!m&&m.isStyleLoaded()&&!m.isMoving()}""",
+                timeout=STYLE_READY_TIMEOUT_MS,
+            )
+        except Exception as error:
+            wait_error = f"{type(error).__name__}: {error}"
+        wait_ms = round((time.monotonic() - started) * 1000)
+        final_context = map_context(page)
+        final_task = task_state(page)
+        final_chrome = page.locator("#routeLegendToggle,#routeLegendPanel,[data-compare-route],#comparePanel,.route-compare,.route-membership,.membership-cell").count()
+
+    failures = context_issues(final_context, expected_counts)
+    if final_task != expected_task:
+        failures.append("route/date/region task state changed")
+    if final_chrome:
+        failures.append("route-comparison chrome leaked")
+    if final_context.get("style_loaded") is not True or final_context.get("map_moving") is not False:
+        failures.append("map style did not become ready and stationary within the bounded window")
+    if wait_error:
+        failures.append("map style readiness wait timed out or errored")
+    return {
+        **final_context,
+        "task": final_task,
+        "comparison_chrome_count": final_chrome,
+        "style_readiness": {
+            "initial_style_loaded": initial_context.get("style_loaded") is True,
+            "initial_map_moving": initial_context.get("map_moving"),
+            "transient_recovery": initial_context.get("style_loaded") is False and not wait_error and final_context.get("style_loaded") is True and final_context.get("map_moving") is False,
+            "readiness_recovered": not initial_ready and not wait_error and final_context.get("style_loaded") is True and final_context.get("map_moving") is False,
+            "wait_ms": wait_ms,
+            "timeout_ms": STYLE_READY_TIMEOUT_MS,
+            "wait_error": wait_error,
+        },
+        "initial_failures": initial_issues,
+        "failures": list(dict.fromkeys(failures)),
+        "valid": not initial_issues and not failures,
+    }
+
+
+def control_path(page, path: str, expected_task: dict, expected_counts: dict) -> dict:
     button = page.locator("#mapOptionsToggle")
     if path == "keyboard":
         button.focus()
@@ -37,24 +135,21 @@ def control_path(page, path: str) -> dict:
     else:
         button.click()
     page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === false")
-    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded() && !window.__tripApp.map().isMoving()", timeout=5000)
     page.wait_for_timeout(160)
-    opened = map_context(page)
-    open_state = task_state(page)
+    opened = acceptance_snapshot(page, expected_task, expected_counts)
     if path == "keyboard":
         page.keyboard.press("Escape")
     else:
         page.keyboard.press("Escape")
     page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === true")
     page.wait_for_function("document.activeElement?.id === 'mapOptionsToggle'")
-    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded() && !window.__tripApp.map().isMoving()", timeout=5000)
     page.wait_for_timeout(160)
-    closed = map_context(page)
-    return {"path": path, "opened": opened, "closed": closed, "task_preserved": task_state(page) == open_state, "focus_returned": page.evaluate("document.activeElement?.id === 'mapOptionsToggle'"), "panel_closed": page.locator("#mapOptionsPanel").is_hidden()}
+    closed = acceptance_snapshot(page, expected_task, expected_counts)
+    return {"path": path, "opened": opened, "closed": closed, "task_preserved": opened["task"] == expected_task and closed["task"] == expected_task, "focus_returned": page.evaluate("document.activeElement?.id === 'mapOptionsToggle'"), "panel_closed": page.locator("#mapOptionsPanel").is_hidden()}
 
 
 def context_passes(context: dict) -> bool:
-    return context["canvas_count"] == 1 and context["style_loaded"] and context["visible_markers"] > 0 and context["route_features"] > 0 and context["spatial"].get("useful") is True
+    return context.get("valid") is True
 
 
 def main() -> int:
@@ -79,12 +174,13 @@ def main() -> int:
                 page.evaluate("window.__tripApp.fitVisibleMap()")
                 page.wait_for_timeout(180)
                 baseline_task = task_state(page)
-                baseline_context = map_context(page)
-                chrome = page.locator("#routeLegendToggle,#routeLegendPanel,[data-compare-route],#comparePanel,.route-compare,.route-membership,.membership-cell").count()
-                paths = {path: control_path(page, path) for path in PATHS}
+                baseline_acceptance = acceptance_snapshot(page, baseline_task)
+                expected_counts = {"visible_markers": baseline_acceptance["visible_markers"], "route_features": baseline_acceptance["route_features"]}
+                task_matches_scenario = baseline_task["routes"] == ROUTES == ["A"] and baseline_task["primary_route"] == "A" and baseline_task["date"] == "10/8" and baseline_task["region"] == "yosemite"
+                paths = {path: control_path(page, path, baseline_task, expected_counts) for path in PATHS}
                 page.locator("#fitMap").click()
                 page.wait_for_timeout(100)
-                fit_context = map_context(page)
+                fit_context = acceptance_snapshot(page, baseline_task, expected_counts)
                 screenshots = []
                 if width in (390, 414):
                     target = SCREENSHOTS / f"map_controls_{key}_single_route.png"
@@ -92,8 +188,11 @@ def main() -> int:
                     page.screenshot(path=str(target), full_page=True)
                     screenshots.append(str(target.relative_to(ROOT)))
                     report["screenshots"].append({"path": screenshots[-1], "candidate": identity["sha"], "candidate_tree": identity["tree"], "browser": "chromium", "viewport": key, "state": "single-route Yosemite map controls"})
-                row = {"baseline_task": baseline_task, "task_after_controls": task_state(page), "baseline_context": baseline_context, "fit_context": fit_context, "comparison_chrome_count": chrome, "paths": paths, "screenshots": screenshots, "page_errors": page_errors}
-                row["pass"] = baseline_task["routes"] == ROUTES and baseline_task["date"] == "10/8" and baseline_task["region"] == "yosemite" and row["task_after_controls"] == baseline_task and chrome == 0 and context_passes(baseline_context) and context_passes(fit_context) and all(control["task_preserved"] and control["focus_returned"] and control["panel_closed"] and context_passes(control["opened"]) and context_passes(control["closed"]) for control in paths.values()) and not page_errors
+                task_after_controls = task_state(page)
+                all_acceptances = [baseline_acceptance, fit_context] + [sample for control in paths.values() for sample in (control["opened"], control["closed"])]
+                comparison_chrome_count = baseline_acceptance["comparison_chrome_count"]
+                row = {"baseline_task": baseline_task, "task_after_controls": task_after_controls, "baseline_context": baseline_acceptance, "fit_context": fit_context, "comparison_chrome_count": comparison_chrome_count, "comparison_chrome_counts": [sample["comparison_chrome_count"] for sample in all_acceptances], "expected_counts": expected_counts, "paths": paths, "screenshots": screenshots, "page_errors": page_errors}
+                row["pass"] = task_matches_scenario and task_after_controls == baseline_task and all(sample["comparison_chrome_count"] == 0 and context_passes(sample) for sample in all_acceptances) and all(control["task_preserved"] and control["focus_returned"] and control["panel_closed"] for control in paths.values()) and not page_errors
                 if not row["pass"]:
                     report["failures"].append(f"{key}: map controls changed task state, lost map context, or exposed route comparison chrome")
                 report["viewports"][key] = row
@@ -102,7 +201,7 @@ def main() -> int:
             page.close()
             context.close()
         browser.close()
-    report["negative_control"]["route_comparison_ui_absent"] = all(row.get("comparison_chrome_count") == 0 for row in report["viewports"].values()) and len(report["viewports"]) == len(VIEWPORTS)
+    report["negative_control"]["route_comparison_ui_absent"] = all(all(count == 0 for count in row.get("comparison_chrome_counts", [])) for row in report["viewports"].values()) and len(report["viewports"]) == len(VIEWPORTS)
     report["status"] = "PASS" if not report["failures"] and not report["errors"] and len(report["viewports"]) == len(VIEWPORTS) else "FAIL"
     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"status": report["status"], "viewports": len(report["viewports"]), "failures": report["failures"], "errors": report["errors"]}, ensure_ascii=False))
