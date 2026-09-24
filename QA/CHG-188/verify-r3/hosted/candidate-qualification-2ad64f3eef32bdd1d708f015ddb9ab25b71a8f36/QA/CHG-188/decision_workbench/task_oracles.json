@@ -1,0 +1,148 @@
+{
+  "schema_version": 2,
+  "change": "CHG-188",
+  "status": "PASS",
+  "base": "7d5d8727b1772642e87311d91d087e211656f6e4",
+  "results": [
+    {
+      "id": "decide_recommendation",
+      "status": "PASS"
+    },
+    {
+      "id": "single_authority_controls",
+      "status": "PASS"
+    },
+    {
+      "id": "compact_map_options_focus_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "compact_map_options_provider_region_selection",
+      "status": "PASS"
+    },
+    {
+      "id": "legacy_surface_removed",
+      "status": "PASS"
+    },
+    {
+      "id": "single_route_compare_chrome_absent",
+      "status": "PASS"
+    },
+    {
+      "id": "route_code_matches_active_runtime",
+      "status": "PASS"
+    },
+    {
+      "id": "day_semantic_items",
+      "status": "PASS",
+      "detail": {
+        "non_spatial_10_9": 2
+      }
+    },
+    {
+      "id": "day_single_date_authority",
+      "status": "PASS"
+    },
+    {
+      "id": "place_peek",
+      "status": "PASS"
+    },
+    {
+      "id": "place_inspector",
+      "status": "PASS"
+    },
+    {
+      "id": "place_return_context",
+      "status": "PASS"
+    },
+    {
+      "id": "cooks_real_pointer_activation",
+      "status": "PASS"
+    },
+    {
+      "id": "satellite_failure_recovery",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile_sheet_reflow",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile_compact_non_drag",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile_expanded_non_drag",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile_mode_identity",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile_200_percent_reflow",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    {
+      "path": "QA/CHG-188/decision_workbench/decide_default_desktop.png",
+      "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+      "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+      "browser": "chromium",
+      "viewport": "1440x900",
+      "language": "ko",
+      "theme": "light",
+      "mode": "decide",
+      "state": "recommended_default",
+      "purpose": "decide_default_desktop"
+    },
+    {
+      "path": "QA/CHG-188/decision_workbench/day_1008_desktop.png",
+      "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+      "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+      "browser": "chromium",
+      "viewport": "1440x900",
+      "language": "ko",
+      "theme": "light",
+      "mode": "day",
+      "state": "10/8_dense_recovery",
+      "purpose": "day_1008_desktop"
+    },
+    {
+      "path": "QA/CHG-188/decision_workbench/place_inspector_desktop.png",
+      "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+      "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+      "browser": "chromium",
+      "viewport": "1440x900",
+      "language": "ko",
+      "theme": "light",
+      "mode": "place",
+      "state": "inspector_after_peek",
+      "purpose": "place_inspector_desktop"
+    },
+    {
+      "path": "QA/CHG-188/decision_workbench/place_mobile_expanded.png",
+      "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+      "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+      "browser": "chromium",
+      "viewport": "390x844",
+      "language": "ko",
+      "theme": "light",
+      "mode": "place",
+      "state": "expanded_sheet",
+      "purpose": "place_mobile_expanded"
+    }
+  ],
+  "reserved_holdouts": [
+    "1536x864 desktop",
+    "414x896 mobile"
+  ],
+  "notes": [
+    "Candidate-bound Chromium evidence; native Safari, physical-device and independent-human evidence remain external."
+  ],
+  "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+  "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+  "candidate_binding": "exact-clean-checkout"
+}

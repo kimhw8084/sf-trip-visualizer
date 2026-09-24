@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "change": "CHG-188 exact-candidate verification R2",
+  "terminal_classification": "FIX_REQUIRED",
+  "classification_reason": "Hosted evidence establishes a QA timing-classification defect: transient isStyleLoaded=false snapshots at 375x812/414x896 fail the current instantaneous oracle while the route/marker state is valid and later reaches style-ready in the same viewport. No product defect is established.",
+  "target_base": {
+    "commit": "7d5d8727b1772642e87311d91d087e211656f6e4",
+    "tree": "ede888516de0dc9c8554036435ae9f8034aaea4f"
+  },
+  "tested_candidate": {
+    "commit": "3783b2178d087ed5c4f58fd9ae7c56c0215191c9",
+    "tree": "05198dc7e990fc2d4170b2b092156d9919e1edc2",
+    "stable_product_parent": "32437a27722e7dc7e4b97e2b0dff467ecead4857",
+    "stable_product_tree": "0f35fca435e96cf50575c25f39af52403ba1da21"
+  },
+  "focused_conclusion": {
+    "environment": "GitHub Actions ubuntu-latest; exact-revision hosted Linux contract; fresh Chromium browser process per run; exact checked-out SHA asserted by workflow",
+    "reproduction": "Same false style-loaded observation recurred at 414x896 across two fresh attempts, but at different checkpoints; 375x812 baseline failure occurred only in attempt 1 and was absent in attempt 2.",
+    "valid_state_at_every_false_sample": {
+      "canvas_count": 1,
+      "visible_markers": 3,
+      "route_features": 2,
+      "markers_in_viewport": 3,
+      "route_features_in_viewport": 2,
+      "spatial_useful": true,
+      "task_state_preserved": true,
+      "comparison_chrome_count": 0
+    },
+    "recovery": "At each failing viewport in each run, subsequent fit or close/path samples reported style_loaded=true; map interactions also retained focus return and panel-close behavior.",
+    "negative_controls": {
+      "viewport_controls": "360x800 and 390x844 passed every route-camera sample in both attempts; comparison_chrome_count was zero at all four widths.",
+      "never_ready_map_control": {
+        "test": "tests/test_cross_browser_runner.py::test_failure_diagnostics_are_persisted_before_teardown",
+        "result": "PASS within the 81-test hosted suite",
+        "state": "Map object present but provider remains loading; is_style_loaded=false; canvas_count=1; current_marker_count=0 versus expected_marker_count=36; diagnostics remain UNVERIFIED and are not promoted to PASS.",
+        "purpose": "Confirms a genuinely unusable map remains fail-closed while the 375/414 route-camera cases have valid visible Route A context and recover to style-ready."
+      }
+    },
+    "oracle_root_cause": "scripts/qa_route_key_camera.py snapshots style_loaded at baseline without a bounded readiness wait, and after control-path readiness waits it sleeps 160 ms before the acceptance snapshot. context_passes requires style_loaded=true on each instantaneous snapshot, with no transient-versus-stale distinction.",
+    "bounded_repair_needed": "Change QA only: retain the 5-second fail-closed style-ready bound; when a sample is not style-ready, verify route/date/region plus canvas/marker/route/spatial invariants and wait for isStyleLoaded() && !isMoving() within that bound. Record a transient recovery as such; fail if the expected state is absent or readiness does not return by the bound. Do not change product source or acceptance scope."
+  },
+  "product_source_changed": false,
+  "qa_source_changed": false,
+  "qualification": {
+    "both_attempts_unit_contract_tests": "81 passed",
+    "non_camera_components": "PASS in both attempts, including canonical truth, accessibility/reflow, mobile controls, Smart/Satellite recovery, standalone parity, Chromium/Firefox/WebKit, and Gate 4 runtime.",
+    "route_key_camera": "FAIL in both runs due to the transient snapshots above; Gate 5 correctly remains fail-closed on the contradictory current oracle report.",
+    "pages_release_path": "SKIPPED by existing workflow because full qualification was not PASS; no deployment was run.",
+    "external_verification_boundaries": [
+      "Native Safari automation unavailable; Playwright WebKit is not native Safari.",
+      "No verifiably real iPhone or iPad available.",
+      "Independent candidate-bound multimodal visual/usability review not supplied."
+    ]
+  },
+  "runs": {
+    "attempt-1": {
+      "run_id": 35908126346,
+      "attempt": 1,
+      "job_id": 107340834864,
+      "candidate_head": "3783b2178d087ed5c4f58fd9ae7c56c0215191c9",
+      "candidate_tree": "05198dc7e990fc2d4170b2b092156d9919e1edc2",
+      "workflow_status": "FAIL",
+      "route_key_camera_status": "FAIL",
+      "route_key_camera_failures": [
+        "375x812: map controls changed task state, lost map context, or exposed route comparison chrome",
+        "414x896: map controls changed task state, lost map context, or exposed route comparison chrome"
+      ],
+      "false_style_loaded_samples_by_viewport": {
+        "360x800": [],
+        "375x812": [
+          "baseline"
+        ],
+        "390x844": [],
+        "414x896": [
+          "pointer.opened",
+          "keyboard.opened",
+          "touch.opened"
+        ]
+      },
+      "comparison_chrome_count_by_viewport": {
+        "360x800": 0,
+        "375x812": 0,
+        "390x844": 0,
+        "414x896": 0
+      },
+      "task_preserved_by_viewport": {
+        "360x800": true,
+        "375x812": true,
+        "390x844": true,
+        "414x896": true
+      },
+      "negative_control_viewports_pass": {
+        "360x800": true,
+        "390x844": true
+      },
+      "repository_tests": {
+        "result": "PASS",
+        "count_line": "Ran 81 tests in 38.196s"
+      },
+      "qualification_component_statuses": {
+        "public_asset_rights": "PASS",
+        "canonical_truth": "PASS",
+        "photo_integrity": "PASS",
+        "maplibre_security": "PASS",
+        "map_first_smoke": "PASS",
+        "decision_workbench": "PASS",
+        "accessibility_reflow": "PASS",
+        "map_geometry": "PASS",
+        "sheet_geometry": "PASS",
+        "route_key_camera": "FAIL",
+        "map_first_full": "PASS",
+        "map_first_p0": "PASS",
+        "standalone": "PASS",
+        "location_gap": "PASS",
+        "interaction_dynamics": "PASS",
+        "route_continuity": "PASS",
+        "route_panel": "PASS",
+        "place_list_membership": "PASS",
+        "exhaustive_states": "PASS",
+        "cross_browser": "PASS",
+        "visual_spots": "PASS",
+        "gate4_runtime": "PASS",
+        "gate5_field_quality": "FAIL"
+      },
+      "evidence_directory": "QA/CHG-188/verify-r2/attempt-1"
+    },
+    "attempt-2": {
+      "run_id": 35908126346,
+      "attempt": 2,
+      "job_id": 107387726069,
+      "candidate_head": "3783b2178d087ed5c4f58fd9ae7c56c0215191c9",
+      "candidate_tree": "05198dc7e990fc2d4170b2b092156d9919e1edc2",
+      "workflow_status": "FAIL",
+      "route_key_camera_status": "FAIL",
+      "route_key_camera_failures": [
+        "414x896: map controls changed task state, lost map context, or exposed route comparison chrome"
+      ],
+      "false_style_loaded_samples_by_viewport": {
+        "360x800": [],
+        "375x812": [],
+        "390x844": [],
+        "414x896": [
+          "baseline"
+        ]
+      },
+      "comparison_chrome_count_by_viewport": {
+        "360x800": 0,
+        "375x812": 0,
+        "390x844": 0,
+        "414x896": 0
+      },
+      "task_preserved_by_viewport": {
+        "360x800": true,
+        "375x812": true,
+        "390x844": true,
+        "414x896": true
+      },
+      "negative_control_viewports_pass": {
+        "360x800": true,
+        "390x844": true
+      },
+      "repository_tests": {
+        "result": "PASS",
+        "count_line": "Ran 81 tests in 30.305s"
+      },
+      "qualification_component_statuses": {
+        "public_asset_rights": "PASS",
+        "canonical_truth": "PASS",
+        "photo_integrity": "PASS",
+        "maplibre_security": "PASS",
+        "map_first_smoke": "PASS",
+        "decision_workbench": "PASS",
+        "accessibility_reflow": "PASS",
+        "map_geometry": "PASS",
+        "sheet_geometry": "PASS",
+        "route_key_camera": "FAIL",
+        "map_first_full": "PASS",
+        "map_first_p0": "PASS",
+        "standalone": "PASS",
+        "location_gap": "PASS",
+        "interaction_dynamics": "PASS",
+        "route_continuity": "PASS",
+        "route_panel": "PASS",
+        "place_list_membership": "PASS",
+        "exhaustive_states": "PASS",
+        "cross_browser": "PASS",
+        "visual_spots": "PASS",
+        "gate4_runtime": "PASS",
+        "gate5_field_quality": "FAIL"
+      },
+      "evidence_directory": "QA/CHG-188/verify-r2/attempt-2"
+    }
+  },
+  "review_locators": {
+    "hosted_action_run": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35908126346",
+    "attempt_2_artifact_id": 10777972029,
+    "attempt_2_artifact_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35908126346/artifacts/10777972029"
+  },
+  "verification_branch": "codex/sf-trip-visualizer-single-canonical-route-a-verify-r2",
+  "first_parent_ancestry": [
+    {
+      "commit": "7d5d8727b1772642e87311d91d087e211656f6e4",
+      "role": "requested fresh target base"
+    },
+    {
+      "commit": "b813effc4459dc5273c2e94fc649e3312180fe3a",
+      "subject": "Implement CHG-188 single-route SF itinerary"
+    },
+    {
+      "commit": "65585731d55e892bf0822c5faa58e0ed6a83a410",
+      "subject": "Fix CHG-188 map and route qualification"
+    },
+    {
+      "commit": "32437a27722e7dc7e4b97e2b0dff467ecead4857",
+      "role": "stable product source",
+      "tree": "0f35fca435e96cf50575c25f39af52403ba1da21"
+    },
+    {
+      "commit": "3783b2178d087ed5c4f58fd9ae7c56c0215191c9",
+      "role": "exact R1 final work head and tested candidate",
+      "tree": "05198dc7e990fc2d4170b2b092156d9919e1edc2"
+    }
+  ],
+  "stable_product_source_screenshots": {
+    "bound_commit": "32437a27722e7dc7e4b97e2b0dff467ecead4857",
+    "bound_tree": "0f35fca435e96cf50575c25f39af52403ba1da21",
+    "paths": [
+      "QA/CHG-188/screenshots/map_controls_414x896_single_route.png",
+      "QA/CHG-188/visual/screenshots/mobile_compact_map_options_414x896.png",
+      "QA/CHG-188/visual/screenshots/mobile_expanded_414x896.png",
+      "QA/CHG-188/visual/screenshots/mobile_compact_map_options_375x812.png",
+      "QA/CHG-188/visual/screenshots/mobile_expanded_375x812.png"
+    ]
+  }
+}

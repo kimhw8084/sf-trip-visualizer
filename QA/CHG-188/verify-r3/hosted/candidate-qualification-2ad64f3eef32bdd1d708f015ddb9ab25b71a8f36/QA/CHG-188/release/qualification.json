@@ -1,0 +1,369 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "project": "sf-trip-visualizer",
+  "candidate_head": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+  "working_tree_clean": true,
+  "canonical": {
+    "manifest": "manifests/canonical_pipeline.json",
+    "build": "scripts/build_map_first.py",
+    "data": "data/phase7_app_data.json"
+  },
+  "component_timeout_seconds": 300,
+  "gate5_timeout_seconds": 900,
+  "timeout_policy": {
+    "gate5": {
+      "seconds": 900,
+      "rationale": "Gate 5 runs the integrated Golden UI evidence aggregation and current-lineage performance sample. It has a dedicated finite 900s budget; ordinary qualification components retain the 300s bound."
+    }
+  },
+  "tests": [
+    {
+      "name": "public_asset_rights",
+      "command": "candidate-tree audit via scripts/public_asset_rights.py",
+      "evidence": "QA/CHG-188/release/public_asset_rights.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300
+    },
+    {
+      "name": "canonical_truth",
+      "command": "python3 scripts/qa_canonical_truth.py",
+      "evidence": "QA/CHG-188/canonical_truth.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"failure_count\": 0,\n  \"offline_recheck_idempotent\": true\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "photo_integrity",
+      "command": "python3 scripts/check_photo_integrity.py --runtime-only",
+      "evidence": "QA/CHG-188/photo_integrity.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"required\": 108,\n  \"present_decodable_originals\": 0,\n  \"present_decodable_thumbnails\": 108,\n  \"present_decodable_medium\": 108,\n  \"places_with_exact_roles\": 36,\n  \"unique_original_hashes\": 108,\n  \"near_duplicate_review_queue\": [],\n  \"runtime_only\": true,\n  \"originals_unavailable_locally\": 108,\n  \"original_verification\": \"separate source/rights gate; manifest provenance retained\",\n  \"failures\": [],\n  \"status\": \"PASS\"\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "maplibre_security",
+      "command": "python3 scripts/qa_maplibre_security.py --revision 2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36 --output QA/CHG-188/release/maplibre_security.json",
+      "evidence": "QA/CHG-188/release/maplibre_security.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\"status\": \"PASS\", \"candidate_head\": \"2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36\", \"failures\": []}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "map_first_smoke",
+      "command": "python3 scripts/qa_map_first.py",
+      "evidence": "QA/CHG-188/map_first_smoke/smoke.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"errors\": [],\n  \"failed_requests\": [],\n  \"candidate\": \"2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36\",\n  \"candidate_tree\": \"7245106a522c791370b70af14a8a5cedcc6b541c\",\n  \"candidate_binding\": \"exact-clean-checkout\",\n  \"state\": {\n    \"app\": true,\n    \"routes\": [\n      \"A\"\n    ],\n    \"provider\": \"vector\",\n    \"health\": {\n      \"vector\": \"ready\",\n      \"satellite\": \"untested\"\n    },\n    \"theme\": \"light\",\n    \"lang\": \"ko\",\n    \"canvas\": 1,\n    \"markers\": 34,\n    \"places\": 36,\n    \"features\": 37,\n    \"recommendation\": \"추천 기본안 · A\\nRoute A — Temporal Arbitrage Master\\n\\nOwner-approved default · protect scarce openings, first-visit anchors, and recovery\\n\\n이 안이 맞는 경우\\n희소한 시간과 첫 방문의 기억을 지키는 가족 일정\\n감수할 것\\n장소\",\n    \"date_controls\": 1,\n    \"legacy\": 0\n  },\n  \"expected_counts\": {\n    \"active_route_markers\": 34,\n    \"catalog_places\": 36\n  }\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "decision_workbench",
+      "command": "python3 scripts/qa_decision_workbench.py",
+      "evidence": "QA/CHG-188/decision_workbench/task_oracles.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"passed\": 19,\n  \"total\": 19,\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "accessibility_reflow",
+      "command": "python3 scripts/qa_accessibility_reflow.py",
+      "evidence": "QA/CHG-188/accessibility.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"checks\": {\n    \"focusable_controls_have_visible_focus\": {\n      \"status\": \"PASS\",\n      \"detail\": null\n    },\n    \"escape_closes_peek\": {\n      \"status\": \"PASS\",\n      \"detail\": null\n    },\n    \"escape_preserves_day_context\": {\n      \"status\": \"PASS\",\n      \"detail\": null\n    },\n    \"200_percent_reflow\": {\n      \"status\": \"PASS\",\n      \"detail\": null\n    },\n    \"reduced_motion_media_applied\": {\n      \"status\": \"PASS\",\n      \"detail\": null\n    },\n    \"forced_colors_surface_remains_operable\": {\n      \"status\": \"PASS\",\n      \"detail\": null\n    }\n  },\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "map_geometry",
+      "command": "python3 scripts/qa_map_geometry.py",
+      "evidence": "QA/CHG-188/map_geometry.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\"status\": \"PASS\", \"states\": 14, \"failures\": []}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "sheet_geometry",
+      "command": "python3 scripts/qa_sheet_geometry.py",
+      "evidence": "QA/CHG-188/sheet_geometry.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\"status\": \"PASS\", \"viewports\": 6, \"transitions\": 40, \"failures\": [], \"errors\": []}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "route_key_camera",
+      "command": "python3 scripts/qa_route_key_camera.py",
+      "evidence": "QA/CHG-188/route_key_camera.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\"status\": \"PASS\", \"viewports\": 4, \"failures\": [], \"errors\": []}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "map_first_full",
+      "command": "python3 scripts/qa_map_first_full.py",
+      "evidence": "QA/CHG-188/map_first_full/full_acceptance.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"checks\": {\n    \"shell_ready\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"no_artificial_splash\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"initial_recommendation\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"configured_route_cards\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"single_route_has_no_comparison_chrome\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"day_semantics_and_nonspatial_content\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"single_date_authority\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"peek_single_overlay\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"place_inspector_three_roles\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"place_returns_to_day\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"english_critical_surface\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"dark_tokens_applied\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"satellite_failure_preserves_plan\": {\n      \"pass\": true,\n      \"detail\": {\n        \"provider\": \"vector\",\n        \"date\": \"10/8\",\n        \"mode\": \"day\",\n        \"error\": true,\n        \"smart\": \"ready\"\n      }\n    },\n    \"mobile_reflow\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"mobile_compact_reachable\": {\n      \"pass\": true,\n      \"detail\": null\n    },\n    \"mobile_expanded_reachable\": {\n      \"pass\": true,\n      \"detail\": null\n    }\n  },\n  \"matrix_states\": 12,\n  \"matrix_failures\": 0,\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "map_first_p0",
+      "command": "python3 scripts/qa_map_first_p0.py",
+      "evidence": "QA/CHG-188/map_first_p0/p0_independent.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"passed\": 17,\n  \"total\": 17,\n  \"details\": 36,\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "standalone",
+      "command": "python3 scripts/qa_standalone_map_first.py",
+      "evidence": "QA/CHG-188/standalone/standalone.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"positive\": \"PASS\",\n  \"negative_control\": \"PASS\",\n  \"probes\": 20\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "location_gap",
+      "command": "python3 scripts/qa_location_gap_visuals.py",
+      "evidence": "QA/CHG-188/location_gap/location_gap_visuals.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"checks\": {\n    \"data\": {\n      \"places\": 36,\n      \"timeline\": 51,\n      \"legs\": 37,\n      \"missing\": [],\n      \"photoStatus\": [\n        \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n        \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n        \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n        \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n        \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n        \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n        \"LOCAL_3_REAL_PHOTOS_VERIFIED\",\n        \"LOCAL_3_REAL_PHOTOS_VERIFIED\"\n      ],\n      \"choiceGroups\": []\n    },\n    \"sf_branches\": {\n      \"pier39\": true,\n      \"kinds\": [\n        \"local\",\n        \"recovery\"\n      ]\n    },\n    \"pier_inspector\": {\n      \"photos\": 3,\n      \"why\": true,\n      \"rules\": 1\n    },\n    \"english_inspector\": {\n      \"hangul\": []\n    },\n    \"monterey_branches\": {\n      \"bixby_visible\": false,\n      \"bixby_role\": \"Skip\",\n      \"features\": 4,\n      \"wharf\": true\n    },\n    \"mobile\": {\n      \"overflow\": 0,\n      \"canvas\": 1\n    }\n  },\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "interaction_dynamics",
+      "command": "python3 scripts/qa_interaction_dynamics.py",
+      "evidence": "QA/CHG-188/interaction_dynamics/interaction_dynamics.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"fits\": [\n    {\n      \"route\": \"A\",\n      \"date\": \"10/3\",\n      \"markers\": 2,\n      \"features\": 1,\n      \"zoom\": 12.8,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/4\",\n      \"markers\": 6,\n      \"features\": 6,\n      \"zoom\": 11.58,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/5\",\n      \"markers\": 8,\n      \"features\": 11,\n      \"zoom\": 12.8,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/6\",\n      \"markers\": 5,\n      \"features\": 5,\n      \"zoom\": 11.91,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/7\",\n      \"markers\": 6,\n      \"features\": 7,\n      \"zoom\": 10.65,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/8\",\n      \"markers\": 3,\n      \"features\": 2,\n      \"zoom\": 12.06,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/9\",\n      \"markers\": 2,\n      \"features\": 2,\n      \"zoom\": 12.37,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/10\",\n      \"markers\": 2,\n      \"features\": 1,\n      \"zoom\": 12.8,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/11\",\n      \"markers\": 3,\n      \"features\": 2,\n      \"zoom\": 12.28,\n      \"inside\": true,\n      \"canvas\": 1\n    }\n  ],\n  \"route_peek\": {\n    \"visible\": true,\n    \"hasAction\": false,\n    \"hit_layers\": 7\n  },\n  \"mobile\": {\n    \"overflow\": 0,\n    \"canvas\": 1,\n    \"mode\": \"decide\",\n    \"sheet\": \"expanded\"\n  },\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "route_continuity",
+      "command": "python3 scripts/audit_route_continuity.py",
+      "evidence": "QA/CHG-188/release/route_continuity.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"states_tested\": 9,\n  \"connected_multi_marker_states\": 9,\n  \"failures\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "route_panel",
+      "command": "python3 scripts/qa_route_explanations_panel.py",
+      "evidence": "QA/CHG-188/route_surface.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"checks\": {\n    \"configured_single_route\": true,\n    \"decision_surface_has_no_compare_chrome\": true,\n    \"day_place_must_items_visible\": true,\n    \"mobile_place_roles_and_reflow\": true,\n    \"no_active_route_leakage\": true,\n    \"stale_data_and_ui_negative_controls_rejected\": true,\n    \"candidate_screenshots_bound\": true\n  },\n  \"screenshots\": [\n    {\n      \"path\": \"QA/CHG-188/screenshots/single_route_decide_1440x900.png\",\n      \"candidate\": \"2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36\",\n      \"candidate_tree\": \"7245106a522c791370b70af14a8a5cedcc6b541c\",\n      \"browser\": \"chromium\",\n      \"viewport\": \"1440x900\",\n      \"language\": \"ko\",\n      \"theme\": \"light\",\n      \"state\": \"single_route_decide_1440x900\"\n    },\n    {\n      \"path\": \"QA/CHG-188/screenshots/single_route_day_1005_1440x900.png\",\n      \"candidate\": \"2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36\",\n      \"candidate_tree\": \"7245106a522c791370b70af14a8a5cedcc6b541c\",\n      \"browser\": \"chromium\",\n      \"viewport\": \"1440x900\",\n      \"language\": \"ko\",\n      \"theme\": \"light\",\n      \"state\": \"single_route_day_1005_1440x900\"\n    },\n    {\n      \"path\": \"QA/CHG-188/screenshots/single_route_place_390x844.png\",\n      \"candidate\": \"2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36\",\n      \"candidate_tree\": \"7245106a522c791370b70af14a8a5cedcc6b541c\",\n      \"browser\": \"chromium\",\n      \"viewport\": \"390x844\",\n      \"language\": \"ko\",\n      \"theme\": \"light\",\n      \"state\": \"single_route_place_390x844\"\n    }\n  ],\n  \"errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "place_list_membership",
+      "command": "python3 scripts/qa_place_list_membership.py",
+      "evidence": "QA/CHG-188/place_list_roles.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\"status\": \"PASS\", \"checks\": {\"complete_active_place_list\": true, \"comparison_matrix_absent\": true, \"negative_route_cell_rejected\": true, \"candidate_screenshots_present\": true}, \"screenshots\": 8, \"errors\": []}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "exhaustive_states",
+      "command": "python3 scripts/run_exhaustive_states.py",
+      "evidence": "QA/CHG-188/exhaustive_states.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "Rendered A 40 states\n{\n  \"status\": \"PASS\",\n  \"rendered_states\": 40,\n  \"failed_states\": [],\n  \"page_errors\": []\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "cross_browser",
+      "command": "python3 scripts/run_cross_browser.py",
+      "evidence": "QA/CHG-188/browser_summary.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "-chrome map-top-left\",\n            \"left\": 8,\n            \"top\": 8,\n            \"right\": 215.609375,\n            \"bottom\": 75.390625,\n            \"width\": 207.609375,\n            \"height\": 67.390625\n          },\n          {\n            \"selector\": \"map-options-panel map-chrome\",\n            \"left\": 8,\n            \"top\": 81.390625,\n            \"right\": 328,\n            \"bottom\": 264.984375,\n            \"width\": 320,\n            \"height\": 183.59375\n          }\n        ],\n        \"persistent_opaque_chrome\": {\n          \"area_px\": 13990.925537109375,\n          \"ratio\": 0.0807863038285606,\n          \"rectangles\": [\n            {\n              \"selector\": \"map-chrome map-top-left\",\n              \"left\": 8,\n              \"top\": 8,\n              \"right\": 215.609375,\n              \"bottom\": 75.390625,\n              \"width\": 207.609375,\n              \"height\": 67.390625,\n              \"shellWidth\": 390\n            }\n          ]\n        },\n        \"unobstructed_interior\": {\n          \"area_px\": 159193.44946289062,\n          \"ratio\": 0.9192136961714394\n        },\n        \"markers\": [\n          {\n            \"key\": \"Map marker\",\n            \"rect\": {\n              \"left\": 342,\n              \"top\": 239,\n              \"right\": 384,\n              \"bottom\": 281,\n              \"width\": 42,\n              \"height\": 42\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-cluster maplibregl-marker maplibregl-marker-anchor-center\",\n            \"center\": {\n              \"x\": 363,\n              \"y\": 260\n            }\n          }\n        ]\n      },\n      \"map_options_close_focus_return\": true,\n      \"active_route_ids\": [\n        \"A\"\n      ],\n      \"single_route_ui_no_compare\": true,\n      \"marker_activation\": \"cooks\",\n      \"inspector_photos\": 3,\n      \"geometry\": {\n        \"shell\": {\n          \"width\": 390,\n          \"height\": 444.0625,\n          \"area_px\": 173184.375\n        },\n        \"sheet_geometry\": {\n          \"viewport_height\": 844,\n          \"appbar_height\": 51,\n          \"map_height\": 444.0625,\n          \"workbench_height\": 348.90625,\n          \"useful_map_ratio\": 0.9070170132874105,\n          \"sheet\": \"expanded\"\n        },\n        \"safe_padding\": {\n          \"top\": 91.390625,\n          \"right\": 16,\n          \"bottom\": 16,\n          \"left\": 16\n        },\n        \"obstacles\": [\n          {\n            \"selector\": \"map-chrome map-top-left\",\n            \"left\": 8,\n            \"top\": 8,\n            \"right\": 246.953125,\n            \"bottom\": 75.390625,\n            \"width\": 238.953125,\n            \"height\": 67.390625\n          }\n        ],\n        \"persistent_opaque_chrome\": {\n          \"area_px\": 16103.200439453125,\n          \"ratio\": 0.09298298671258955,\n          \"rectangles\": [\n            {\n              \"selector\": \"map-chrome map-top-left\",\n              \"left\": 8,\n              \"top\": 8,\n              \"right\": 246.953125,\n              \"bottom\": 75.390625,\n              \"width\": 238.953125,\n              \"height\": 67.390625,\n              \"shellWidth\": 390\n            }\n          ]\n        },\n        \"unobstructed_interior\": {\n          \"area_px\": 157081.17456054688,\n          \"ratio\": 0.9070170132874105\n        },\n        \"markers\": [\n          {\n            \"key\": \"cooks\",\n            \"rect\": {\n              \"left\": 228,\n              \"top\": 77,\n              \"right\": 258,\n              \"bottom\": 107,\n              \"width\": 30,\n              \"height\": 30\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-marker maplibregl-marker maplibregl-marker-anchor-center selected\",\n            \"center\": {\n              \"x\": 243,\n              \"y\": 92\n            }\n          },\n          {\n            \"key\": \"mariposa\",\n            \"rect\": {\n              \"left\": 185,\n              \"top\": 413,\n              \"right\": 215,\n              \"bottom\": 443,\n              \"width\": 30,\n              \"height\": 30\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-marker maplibregl-marker maplibregl-marker-anchor-center\",\n            \"center\": {\n              \"x\": 200,\n              \"y\": 428\n            }\n          },\n          {\n            \"key\": \"Map marker\",\n            \"rect\": {\n              \"left\": 153,\n              \"top\": 109,\n              \"right\": 195,\n              \"bottom\": 151,\n              \"width\": 42,\n              \"height\": 42\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-cluster maplibregl-marker maplibregl-marker-anchor-center\",\n            \"center\": {\n              \"x\": 174,\n              \"y\": 130\n            }\n          }\n        ]\n      },\n      \"map_error_listener_attached\": true,\n      \"screenshot\": \"QA/CHG-188/browser_screenshots/webkit_390_detail.png\"\n    }\n  ],\n  \"cleanup_warnings\": [],\n  \"errors\": [],\n  \"candidate\": \"2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36\",\n  \"candidate_tree\": \"7245106a522c791370b70af14a8a5cedcc6b541c\",\n  \"candidate_binding\": \"exact-clean-checkout\"\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "visual_spots",
+      "command": "python3 scripts/run_visual_spots.py",
+      "evidence": "QA/CHG-188/visual/visual_index.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\"status\": \"PASS\", \"screenshots\": 43, \"errors\": []}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "gate4_runtime",
+      "command": "python3 scripts/qa_gate4_resilience.py --mode browser --output QA/CHG-188/release/gate4_runtime.json",
+      "evidence": "QA/CHG-188/release/gate4_runtime.json",
+      "status": "PASS",
+      "returncode": 0,
+      "timeout_seconds": 300,
+      "stdout_tail": "{\"status\": \"PASS\", \"candidate_head\": \"2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36\", \"mode\": \"browser\", \"failures\": []}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "gate5_field_quality",
+      "command": "python3 scripts/qa_gate5_field_quality.py --expected-revision 2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36 --output QA/CHG-188/gate5/candidate.json",
+      "evidence": "QA/CHG-188/gate5/candidate.json",
+      "status": "VERIFY_REQUIRED",
+      "returncode": 0,
+      "timeout_seconds": 900,
+      "stdout_tail": "{\"status\": \"VERIFY_REQUIRED\", \"candidate_head\": \"2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36\", \"failures\": [], \"verify_required\": [\"native Safari remote automation is unavailable; Playwright WebKit is not a native Safari substitute\", \"no verifiably real iPhone or iPad is available in this execution environment\", \"independent candidate-bound multimodal visual/usability review is not supplied\"]}\n",
+      "stderr_tail": "",
+      "process_completed": true,
+      "acceptance_status": "VERIFY_REQUIRED",
+      "execution_status": "COMPLETED",
+      "status_reason": "Gate 5 subprocess exited 0 and produced a fresh exact-candidate-bound report.",
+      "duration_seconds": 28.875
+    }
+  ],
+  "errors": [],
+  "external_verify_required": [
+    "gate5_field_quality"
+  ],
+  "historical_evidence_excluded": [
+    "QA/final_acceptance.json",
+    "QA/final_cross_browser.json",
+    "QA/final_live_providers.json",
+    "P0_PROOF_REPORT.md"
+  ],
+  "fast": {
+    "schema_version": 1,
+    "status": "PASS",
+    "candidate_head": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+    "working_tree_clean": true,
+    "errors": [],
+    "source": {
+      "checks": {
+        "places": true,
+        "photos": true,
+        "timeline_cards": true,
+        "route_legs": true,
+        "route_strategies": true,
+        "dates": true,
+        "regions": true,
+        "providers": true,
+        "place_region": true,
+        "photo_roles": true,
+        "photo_status": true,
+        "semantic_links": true,
+        "photo_files": true,
+        "vector_bundle": true
+      },
+      "truth_validation": {
+        "status": "PASS",
+        "counts": {
+          "places": 36,
+          "timeline_cards": 51,
+          "legs": 37,
+          "routes": 1,
+          "dates": 9,
+          "freshness_records": 16,
+          "geometry_entries": 37
+        }
+      },
+      "route_truth": {
+        "status": "PASS",
+        "counts": {
+          "routes": 1,
+          "matrix_places": 36,
+          "scheduled_rows": 37,
+          "drop_first_references": 13,
+          "drop_first_days": 9,
+          "occurrences": 37,
+          "dates": 9
+        }
+      },
+      "counts": {
+        "places": 36,
+        "photos": 108,
+        "timeline_cards": 51,
+        "route_legs": 37
+      },
+      "providers": [
+        "satellite",
+        "vector"
+      ]
+    },
+    "authored_inputs_unchanged": true,
+    "reproducible": true,
+    "build": {
+      "root": ".build",
+      "manifest_sha256": "d58765696b59e5b6f23644c5217ee05807ff090af6935e1992569b2b05bafab7",
+      "modular_index_sha256": "904afc68954391fb304d85c1b3cc230349098a216e03b1988cce44299063fde6",
+      "standalone_sha256": "ba6c958ad3663ddf935baf6a9d5d49d30b49e7f9a30714c43d6a9189a406dfa0",
+      "file_count": 262
+    },
+    "gate4_static": {
+      "status": "PASS",
+      "evidence": "QA/CHG-188/release/gate4_static.json"
+    },
+    "public_asset_rights": {
+      "status": "PASS",
+      "evidence": "QA/CHG-188/release/public_asset_rights.json",
+      "candidate_file_count": 266,
+      "approved_file_counts_by_class": {
+        "first-party-runtime": 6,
+        "font-glyph-data": 6,
+        "generated-release-file": 6,
+        "generated-third-party-bundle": 1,
+        "government-relief-data": 1,
+        "map-data": 1,
+        "map-sprite-data": 8,
+        "photo-derivative": 234,
+        "third-party-software": 3
+      }
+    },
+    "security_privacy": {
+      "status": "PASS",
+      "evidence": "QA/CHG-188/release/security_privacy.json",
+      "verify_required": [
+        "Authoritative advisory coverage for the exact embedded fflate/PMTiles/@protomaps/basemaps versions is VERIFY_REQUIRED because the bundle does not embed semver and no lockfile is present.",
+        "Playwright browser archives are platform-provided by the exact package release; browser archive provenance is VERIFY_REQUIRED beyond the package pin."
+      ]
+    }
+  },
+  "authored_inputs_unchanged": true,
+  "build": {
+    "root": ".build",
+    "manifest_sha256": "d58765696b59e5b6f23644c5217ee05807ff090af6935e1992569b2b05bafab7",
+    "modular_index_sha256": "904afc68954391fb304d85c1b3cc230349098a216e03b1988cce44299063fde6",
+    "standalone_sha256": "ba6c958ad3663ddf935baf6a9d5d49d30b49e7f9a30714c43d6a9189a406dfa0",
+    "file_count": 262
+  }
+}

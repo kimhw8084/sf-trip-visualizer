@@ -1,0 +1,129 @@
+{
+  "schema_version": 2,
+  "status": "PASS",
+  "route_ids": [
+    "A"
+  ],
+  "screenshots": [
+    {
+      "path": "QA/CHG-188/screenshots/single_route_decide_1440x900.png",
+      "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+      "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+      "browser": "chromium",
+      "viewport": "1440x900",
+      "language": "ko",
+      "theme": "light",
+      "state": "single_route_decide_1440x900"
+    },
+    {
+      "path": "QA/CHG-188/screenshots/single_route_day_1005_1440x900.png",
+      "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+      "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+      "browser": "chromium",
+      "viewport": "1440x900",
+      "language": "ko",
+      "theme": "light",
+      "state": "single_route_day_1005_1440x900"
+    },
+    {
+      "path": "QA/CHG-188/screenshots/single_route_place_390x844.png",
+      "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+      "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+      "browser": "chromium",
+      "viewport": "390x844",
+      "language": "ko",
+      "theme": "light",
+      "state": "single_route_place_390x844"
+    }
+  ],
+  "desktop": {
+    "decide": {
+      "title_visible": true,
+      "route_card_count": 1,
+      "decision_cells": 4,
+      "route_code": "추천 기본안 · A",
+      "comparison_chrome": 0
+    },
+    "day": {
+      "visible": true,
+      "contains_pier39": true,
+      "contains_fortune": true,
+      "contains_ghirardelli": true,
+      "contains_recovery": true
+    }
+  },
+  "mobile": {
+    "overflow": 0,
+    "role_badges": 36,
+    "matrix_chrome": 0
+  },
+  "negative_controls": {
+    "stale_route_data": {
+      "B": [
+        "active route IDs do not exactly match the configured canonical set",
+        "route references escape the configured canonical set"
+      ],
+      "C": [
+        "active route IDs do not exactly match the configured canonical set",
+        "route references escape the configured canonical set"
+      ],
+      "D": [
+        "active route IDs do not exactly match the configured canonical set",
+        "route references escape the configured canonical set"
+      ],
+      "E": [
+        "active route IDs do not exactly match the configured canonical set",
+        "route references escape the configured canonical set"
+      ]
+    },
+    "route_ui_leaks": {
+      "B": {
+        "attrs": true,
+        "labels": true,
+        "failed": true
+      },
+      "C": {
+        "attrs": true,
+        "labels": true,
+        "failed": true
+      },
+      "D": {
+        "attrs": true,
+        "labels": true,
+        "failed": true
+      },
+      "E": {
+        "attrs": true,
+        "labels": true,
+        "failed": true
+      }
+    }
+  },
+  "errors": [],
+  "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+  "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+  "candidate_binding": "exact-clean-checkout",
+  "dom_audit": {
+    "dataRoutes": [
+      "A"
+    ],
+    "routeAttrs": [],
+    "routeReferences": [
+      "A"
+    ],
+    "stale": [],
+    "legacyRouteLabels": [],
+    "comparisonCount": 0,
+    "routeCards": 1,
+    "routeControls": 0
+  },
+  "checks": {
+    "configured_single_route": true,
+    "decision_surface_has_no_compare_chrome": true,
+    "day_place_must_items_visible": true,
+    "mobile_place_roles_and_reflow": true,
+    "no_active_route_leakage": true,
+    "stale_data_and_ui_negative_controls_rejected": true,
+    "candidate_screenshots_bound": true
+  }
+}

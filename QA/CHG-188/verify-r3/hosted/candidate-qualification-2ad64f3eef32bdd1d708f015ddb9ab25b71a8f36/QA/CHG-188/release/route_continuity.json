@@ -1,0 +1,194 @@
+{
+  "status": "PASS",
+  "states_tested": 9,
+  "connected_multi_marker_states": 9,
+  "failures": [],
+  "semantic_links": [
+    {
+      "leg_id": "UX_1004_RESET",
+      "date": "10/4",
+      "from": "battery",
+      "to": "tunnel_tops",
+      "routes": [
+        "A"
+      ],
+      "branch_kind": "recovery",
+      "label": "Battery Spencer → afternoon recovery → Tunnel Tops",
+      "note": "11:15–15:00의 점심·낮잠·세탁 회복 간격을 포함한다. 연속 관광을 뜻하지 않는다."
+    },
+    {
+      "leg_id": "UX_1005_RETURN",
+      "date": "10/5",
+      "from": "alcatraz",
+      "to": "pier39",
+      "routes": [
+        "A"
+      ],
+      "branch_kind": "recovery",
+      "label": "Alcatraz return ferry → Pier 33 / waterfront",
+      "note": "실제 페리는 Pier 33으로 돌아온다. 선은 가까운 PIER 39 일정 마커까지의 개념 연결이며 선박 항적이 아니다."
+    },
+    {
+      "leg_id": "CHG188_1003_FERRY_LIGHTS",
+      "date": "10/3",
+      "from": "ferry",
+      "to": "bay_lights",
+      "routes": [
+        "A"
+      ],
+      "branch_kind": "recovery",
+      "label": "Ferry Building → Bay Lights (after recovery)",
+      "note": "Conceptual evening return after hotel recovery; only if family energy supports it."
+    },
+    {
+      "leg_id": "CHG188_1011_LANDS_PAINTED",
+      "date": "10/11",
+      "from": "lands_end",
+      "to": "painted",
+      "routes": [
+        "A"
+      ],
+      "branch_kind": "recovery",
+      "label": "Lands End → Painted Ladies / Alamo Square",
+      "note": "Conceptual cross-neighborhood relationship; not a verified street path or live routing."
+    }
+  ],
+  "states": [
+    {
+      "date": "10/3",
+      "route": "A",
+      "markers": 2,
+      "edges": 1,
+      "components": [
+        [
+          "bay_lights",
+          "ferry"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/4",
+      "route": "A",
+      "markers": 6,
+      "edges": 6,
+      "components": [
+        [
+          "battery",
+          "crissy",
+          "ggb",
+          "muir",
+          "palace",
+          "tunnel_tops"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/5",
+      "route": "A",
+      "markers": 8,
+      "edges": 10,
+      "components": [
+        [
+          "alcatraz",
+          "cable_car",
+          "chinatown",
+          "fortune",
+          "ghirardelli",
+          "lombard",
+          "north_beach",
+          "pier39"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/6",
+      "route": "A",
+      "markers": 5,
+      "edges": 4,
+      "components": [
+        [
+          "aquarium",
+          "carmel",
+          "lone_cypress",
+          "monterey_wharf",
+          "point_lobos"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/7",
+      "route": "A",
+      "markers": 6,
+      "edges": 6,
+      "components": [
+        [
+          "bridalveil",
+          "cooks",
+          "el_capitan",
+          "mariposa",
+          "tunnel_view",
+          "valley_view"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/8",
+      "route": "A",
+      "markers": 3,
+      "edges": 2,
+      "components": [
+        [
+          "glacier",
+          "valley_view",
+          "washburn"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/9",
+      "route": "A",
+      "markers": 2,
+      "edges": 1,
+      "components": [
+        [
+          "cooks",
+          "valley_view"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/10",
+      "route": "A",
+      "markers": 2,
+      "edges": 1,
+      "components": [
+        [
+          "botanical",
+          "tea_garden"
+        ]
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/11",
+      "route": "A",
+      "markers": 3,
+      "edges": 2,
+      "components": [
+        [
+          "lands_end",
+          "painted",
+          "twin_peaks"
+        ]
+      ],
+      "status": "PASS"
+    }
+  ]
+}

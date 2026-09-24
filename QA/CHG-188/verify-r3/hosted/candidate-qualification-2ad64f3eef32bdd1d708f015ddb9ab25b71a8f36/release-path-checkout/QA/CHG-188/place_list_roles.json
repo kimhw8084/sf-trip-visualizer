@@ -1,0 +1,200 @@
+{
+  "schema_version": 2,
+  "status": "PASS",
+  "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+  "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+  "screenshots": [
+    {
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_1440x900_ko_light_top.png",
+      "viewport": "1440x900",
+      "language": "ko",
+      "theme": "light",
+      "state": "top of complete active-place list"
+    },
+    {
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_1440x900_ko_light_scrolled.png",
+      "viewport": "1440x900",
+      "language": "ko",
+      "theme": "light",
+      "state": "scrolled active list and restored focus"
+    },
+    {
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_390x844_en_dark_top.png",
+      "viewport": "390x844",
+      "language": "en",
+      "theme": "dark",
+      "state": "top of complete active-place list"
+    },
+    {
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_390x844_en_dark_scrolled.png",
+      "viewport": "390x844",
+      "language": "en",
+      "theme": "dark",
+      "state": "scrolled active list and restored focus"
+    },
+    {
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_375x812_stress_top.png",
+      "viewport": "375x812",
+      "language": "ko",
+      "theme": "light",
+      "state": "top of complete active-place list"
+    },
+    {
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_375x812_stress_scrolled.png",
+      "viewport": "375x812",
+      "language": "ko",
+      "theme": "light",
+      "state": "scrolled active list and restored focus"
+    },
+    {
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_360x800_stress_top.png",
+      "viewport": "360x800",
+      "language": "ko",
+      "theme": "light",
+      "state": "top of complete active-place list"
+    },
+    {
+      "path": "QA/CHG-188/screenshots/place_list/place_roles_360x800_stress_scrolled.png",
+      "viewport": "360x800",
+      "language": "ko",
+      "theme": "light",
+      "state": "scrolled active list and restored focus"
+    }
+  ],
+  "viewports": {
+    "desktop_ko_light": {
+      "viewport": "1440x900",
+      "no_selected_place": true,
+      "rows": {
+        "status": "PASS",
+        "failures": [],
+        "places": 36,
+        "rows": 36,
+        "route_id": "A"
+      },
+      "inspector": {
+        "status": "PASS",
+        "failures": [],
+        "places": 1,
+        "rows": 1,
+        "route_id": "A"
+      },
+      "layout": {
+        "status": "PASS",
+        "failures": []
+      },
+      "no_route_matrix": true,
+      "restored_scroll": true,
+      "restored_focus": "bridalveil",
+      "200_percent_reflow": {
+        "status": "PASS",
+        "failures": []
+      },
+      "page_errors": []
+    },
+    "mobile_en_dark": {
+      "viewport": "390x844",
+      "no_selected_place": true,
+      "rows": {
+        "status": "PASS",
+        "failures": [],
+        "places": 36,
+        "rows": 36,
+        "route_id": "A"
+      },
+      "inspector": {
+        "status": "PASS",
+        "failures": [],
+        "places": 1,
+        "rows": 1,
+        "route_id": "A"
+      },
+      "layout": {
+        "status": "PASS",
+        "failures": []
+      },
+      "no_route_matrix": true,
+      "restored_scroll": true,
+      "restored_focus": "bridalveil",
+      "200_percent_reflow": {
+        "status": "PASS",
+        "failures": []
+      },
+      "page_errors": []
+    },
+    "stress_375": {
+      "viewport": "375x812",
+      "no_selected_place": true,
+      "rows": {
+        "status": "PASS",
+        "failures": [],
+        "places": 36,
+        "rows": 36,
+        "route_id": "A"
+      },
+      "inspector": {
+        "status": "PASS",
+        "failures": [],
+        "places": 1,
+        "rows": 1,
+        "route_id": "A"
+      },
+      "layout": {
+        "status": "PASS",
+        "failures": []
+      },
+      "no_route_matrix": true,
+      "restored_scroll": true,
+      "restored_focus": "bridalveil",
+      "200_percent_reflow": {
+        "status": "PASS",
+        "failures": []
+      },
+      "page_errors": []
+    },
+    "stress_360": {
+      "viewport": "360x800",
+      "no_selected_place": true,
+      "rows": {
+        "status": "PASS",
+        "failures": [],
+        "places": 36,
+        "rows": 36,
+        "route_id": "A"
+      },
+      "inspector": {
+        "status": "PASS",
+        "failures": [],
+        "places": 1,
+        "rows": 1,
+        "route_id": "A"
+      },
+      "layout": {
+        "status": "PASS",
+        "failures": []
+      },
+      "no_route_matrix": true,
+      "restored_scroll": true,
+      "restored_focus": "bridalveil",
+      "200_percent_reflow": {
+        "status": "PASS",
+        "failures": []
+      },
+      "page_errors": []
+    }
+  },
+  "errors": [],
+  "negative_control": {
+    "status": "FAIL",
+    "failures": [
+      "ferry exposes route-comparison membership cells"
+    ]
+  },
+  "checks": {
+    "complete_active_place_list": true,
+    "comparison_matrix_absent": true,
+    "negative_route_cell_rejected": true,
+    "candidate_screenshots_present": true
+  },
+  "candidate_binding": "exact-clean-checkout"
+}

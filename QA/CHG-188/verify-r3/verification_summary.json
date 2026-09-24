@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "change": "CHG-188 R3 QA-oracle repair",
+  "status": "PASS",
+  "ancestry": [
+    {
+      "commit": "7d5d8727b1772642e87311d91d087e211656f6e4",
+      "role": "fresh target base"
+    },
+    {
+      "commit": "b813effc4459dc5273c2e94fc649e3312180fe3a",
+      "role": "R1 single-route implementation"
+    },
+    {
+      "commit": "65585731d55e892bf0822c5faa58e0ed6a83a410",
+      "role": "R1 route/map qualification"
+    },
+    {
+      "commit": "32437a27722e7dc7e4b97e2b0dff467ecead4857",
+      "role": "stable product source",
+      "tree": "0f35fca435e96cf50575c25f39af52403ba1da21"
+    },
+    {
+      "commit": "3783b2178d087ed5c4f58fd9ae7c56c0215191c9",
+      "role": "exact R1 candidate evidence"
+    },
+    {
+      "commit": "2545984d509d947bc75d8b4f0cfa3d420e9a4d71",
+      "role": "exact carried-forward R2 head"
+    },
+    {
+      "commit": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+      "role": "R3 QA-oracle repair final head",
+      "tree": "7245106a522c791370b70af14a8a5cedcc6b541c"
+    }
+  ],
+  "changed_files": [
+    "scripts/qa_route_key_camera.py",
+    "tests/test_route_key_camera.py"
+  ],
+  "product_source_or_route_data_changed": false,
+  "mobile_camera_repeats": {
+    "local": [
+      {
+        "path": "QA/CHG-188/verify-r3/attempt-1/route_key_camera.json",
+        "status": "PASS",
+        "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+        "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+        "viewport_pass": {
+          "360x800": true,
+          "375x812": true,
+          "390x844": true,
+          "414x896": true
+        }
+      },
+      {
+        "path": "QA/CHG-188/verify-r3/attempt-2/route_key_camera.json",
+        "status": "PASS",
+        "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+        "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+        "viewport_pass": {
+          "360x800": true,
+          "375x812": true,
+          "390x844": true,
+          "414x896": true
+        }
+      }
+    ],
+    "hosted_qualification": {
+      "path": "QA/CHG-188/route_key_camera.json",
+      "status": "PASS",
+      "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+      "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+      "viewport_pass": {
+        "360x800": true,
+        "375x812": true,
+        "390x844": true,
+        "414x896": true
+      }
+    },
+    "hosted_no_deploy_release_path": {
+      "path": "release-path-checkout/QA/CHG-188/route_key_camera.json",
+      "status": "PASS",
+      "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+      "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+      "viewport_pass": {
+        "360x800": true,
+        "375x812": true,
+        "390x844": true,
+        "414x896": true
+      }
+    },
+    "transient_recoveries_observed": 0
+  },
+  "focused_negative_controls": {
+    "status": "PASS",
+    "count": 5,
+    "log": "QA/CHG-188/verify-r3/negative-controls.log",
+    "cases": [
+      "false-to-ready recovery within 5000 ms",
+      "permanently never-ready map fails closed",
+      "missing markers or route features fail",
+      "route/date/region mutation fails",
+      "route-comparison leakage fails"
+    ]
+  },
+  "repository_unit_contract_tests": {
+    "status": "PASS",
+    "count": 86,
+    "log": "QA/CHG-188/verify-r3/hosted/candidate-qualification-2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36/QA/CHG-188/release/unit-tests.log"
+  },
+  "hosted_qualification": {
+    "status": "PASS",
+    "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+    "component_statuses": {
+      "public_asset_rights": "PASS",
+      "canonical_truth": "PASS",
+      "photo_integrity": "PASS",
+      "maplibre_security": "PASS",
+      "map_first_smoke": "PASS",
+      "decision_workbench": "PASS",
+      "accessibility_reflow": "PASS",
+      "map_geometry": "PASS",
+      "sheet_geometry": "PASS",
+      "route_key_camera": "PASS",
+      "map_first_full": "PASS",
+      "map_first_p0": "PASS",
+      "standalone": "PASS",
+      "location_gap": "PASS",
+      "interaction_dynamics": "PASS",
+      "route_continuity": "PASS",
+      "route_panel": "PASS",
+      "place_list_membership": "PASS",
+      "exhaustive_states": "PASS",
+      "cross_browser": "PASS",
+      "visual_spots": "PASS",
+      "gate4_runtime": "PASS",
+      "gate5_field_quality": "VERIFY_REQUIRED"
+    },
+    "external_verify_required": [
+      "gate5_field_quality"
+    ],
+    "run_id": 35942073812,
+    "run_url": "https://github.com/kimhw8084/sf-trip-visualizer/actions/runs/35942073812",
+    "artifact_id": 10785404464,
+    "artifact_name": "candidate-qualification-2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+    "artifact_digest": "sha256:0e06705b5dfbe859b72f0aef5b63cd6fb0efb792e1b99c3e8c5570d387078854",
+    "artifact_expires_at": "2026-12-23T01:14:53Z",
+    "no_deploy_pages_release_path": "PASS"
+  },
+  "external_review_verify_notes": [
+    "Native Safari remote automation is unavailable; Playwright WebKit is not a native Safari substitute.",
+    "No verifiably real iPhone or iPad was available in this execution environment.",
+    "Independent candidate-bound multimodal visual/usability review was not supplied."
+  ]
+}

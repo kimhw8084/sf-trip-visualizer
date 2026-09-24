@@ -1,0 +1,238 @@
+{
+  "status": "PASS",
+  "checks": {
+    "shell_ready": {
+      "pass": true,
+      "detail": null
+    },
+    "no_artificial_splash": {
+      "pass": true,
+      "detail": null
+    },
+    "initial_recommendation": {
+      "pass": true,
+      "detail": null
+    },
+    "configured_route_cards": {
+      "pass": true,
+      "detail": null
+    },
+    "single_route_has_no_comparison_chrome": {
+      "pass": true,
+      "detail": null
+    },
+    "day_semantics_and_nonspatial_content": {
+      "pass": true,
+      "detail": null
+    },
+    "single_date_authority": {
+      "pass": true,
+      "detail": null
+    },
+    "peek_single_overlay": {
+      "pass": true,
+      "detail": null
+    },
+    "place_inspector_three_roles": {
+      "pass": true,
+      "detail": null
+    },
+    "place_returns_to_day": {
+      "pass": true,
+      "detail": null
+    },
+    "english_critical_surface": {
+      "pass": true,
+      "detail": null
+    },
+    "dark_tokens_applied": {
+      "pass": true,
+      "detail": null
+    },
+    "satellite_failure_preserves_plan": {
+      "pass": true,
+      "detail": {
+        "provider": "vector",
+        "date": "10/8",
+        "mode": "day",
+        "error": true,
+        "smart": "ready"
+      }
+    },
+    "mobile_reflow": {
+      "pass": true,
+      "detail": null
+    },
+    "mobile_compact_reachable": {
+      "pass": true,
+      "detail": null
+    },
+    "mobile_expanded_reachable": {
+      "pass": true,
+      "detail": null
+    }
+  },
+  "matrix": [
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "all",
+      "region": "overall",
+      "markers": 34,
+      "expected": 34,
+      "features": 37,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "all",
+      "region": "sf",
+      "markers": 21,
+      "expected": 21,
+      "features": 21,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "all",
+      "region": "monterey",
+      "markers": 5,
+      "expected": 5,
+      "features": 4,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "all",
+      "region": "yosemite",
+      "markers": 8,
+      "expected": 8,
+      "features": 9,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/8",
+      "region": "overall",
+      "markers": 3,
+      "expected": 3,
+      "features": 2,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/8",
+      "region": "sf",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/8",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/8",
+      "region": "yosemite",
+      "markers": 3,
+      "expected": 3,
+      "features": 2,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/9",
+      "region": "overall",
+      "markers": 2,
+      "expected": 2,
+      "features": 2,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/9",
+      "region": "sf",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/9",
+      "region": "monterey",
+      "markers": 0,
+      "expected": 0,
+      "features": 0,
+      "failures": []
+    },
+    {
+      "routes": [
+        "A"
+      ],
+      "date": "10/9",
+      "region": "yosemite",
+      "markers": 2,
+      "expected": 2,
+      "features": 1,
+      "failures": []
+    }
+  ],
+  "screenshots": [
+    "QA/CHG-188/map_first_full/default_1440_ko_light.png",
+    "QA/CHG-188/map_first_full/day_1008_1440.png",
+    "QA/CHG-188/map_first_full/place_inspector_1440.png",
+    "QA/CHG-188/map_first_full/english_dark_1440.png",
+    "QA/CHG-188/map_first_full/mobile_expanded_390.png"
+  ],
+  "errors": [],
+  "console_errors": [
+    "Failed to load resource: net::ERR_FAILED"
+  ],
+  "failed_requests": [
+    {
+      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1",
+      "failure": "net::ERR_FAILED"
+    }
+  ],
+  "candidate": "2ad64f3eef32bdd1d708f015ddb9ab25b71a8f36",
+  "candidate_tree": "7245106a522c791370b70af14a8a5cedcc6b541c",
+  "candidate_binding": "exact-clean-checkout",
+  "matrix_failures": [],
+  "expected_network_events": [
+    {
+      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1",
+      "failure": "net::ERR_FAILED"
+    }
+  ],
+  "unexpected_network_events": [],
+  "unexpected_console_errors": []
+}
