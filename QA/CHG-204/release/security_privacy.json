@@ -4,8 +4,8 @@
   "gate": "production_readiness_gate_7",
   "change": "CHG-67",
   "status": "PASS",
-  "candidate_head": "bd47e7671375f26b6f86b49b8f6008d08fd46602",
-  "requested_revision": "bd47e7671375f26b6f86b49b8f6008d08fd46602",
+  "candidate_head": "00aa2e6d7398334544a5ae94f839e0d47bb8fc3b",
+  "requested_revision": "00aa2e6d7398334544a5ae94f839e0d47bb8fc3b",
   "exact_candidate_bound": true,
   "checks": {
     "candidate_binding": true,
@@ -24,14 +24,14 @@
   },
   "candidate_binding": {
     "status": "PASS",
-    "candidate_head": "bd47e7671375f26b6f86b49b8f6008d08fd46602",
-    "requested_revision": "bd47e7671375f26b6f86b49b8f6008d08fd46602",
+    "candidate_head": "00aa2e6d7398334544a5ae94f839e0d47bb8fc3b",
+    "requested_revision": "00aa2e6d7398334544a5ae94f839e0d47bb8fc3b",
     "exact_candidate_bound": true,
     "source_hashes": {
       ".github/workflows/candidate-qualification.yml": "d95c47080f3d9ba7989e4224ab2169b0cdcf01959c5a861c8db2c33162cc6ab3",
       ".github/workflows/deploy-pages.yml": "5b8907232fcde5375651267fcc333087676b54139f2baa70865daf2237c0370e",
       "assets/vector/sf_trip.pmtiles": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6",
-      "manifests/canonical_pipeline.json": "376f658bab387b9ffed54fe65358a4c06a3268d67679a8bab501baf6a5141668",
+      "manifests/canonical_pipeline.json": "706832a5d136355fddf134b26bdc1ed79606289a18b8b088e1eeb3064c0de4f0",
       "manifests/security_privacy_contract.json": "026b4924b9782c8a7d7dc5cc6abd998d9a58fd342b64a218b1c6a9410a744c42",
       "requirements-qa.txt": "e56176ea7b47040608aeae86322fd8d3d4c1ad7a31555cae699111f11f5904ea",
       "scripts/build_map_first.py": "415d9ce9fd43e44de47c36f6213a077bc8b2bb8c5eec19e889879278fe5f4055",
@@ -42,7 +42,7 @@
       "scripts/public_asset_rights.py": "96d1cbfee34c260f2a84223afc1f30e047ae59bad8fe4cf9462413a8e1f2af94",
       "scripts/qa_maplibre_security.py": "2ebdda36a6ce2df159d0792ac438fd47875438b0a593f27698ee84a380204acc",
       "scripts/security_privacy.py": "16c3a91bae1f2256e8310819f2d9aa4d903daae23c3c69ebe07273213e086c1e",
-      "src/app_phase7.js": "d9c49d1bb37a67acf5e7bcbf4c9113008d7738881116690203e2d4cba2beb22f",
+      "src/app_phase7.js": "31b5fec3ab1e332dfbea5b9fe07bf29fa867e3c44c623ffaab414d79ee2d234f",
       "src/map_shell_template.html": "442b501fae20e616b029be5dd3a77a993ecb5c02f07fde94ef8fc5fb7b49809f",
       "tests/test_maplibre_security.py": "cf34aa557f04346cfc4ff718ba11ae2057a60e2c1a06c38fe6bfe8322cc7aecb",
       "vendor/maplibre-gl.css": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9",
@@ -55,7 +55,7 @@
   "secret_scan": {
     "production_inputs": {
       "status": "PASS",
-      "scanned_files": 305,
+      "scanned_files": 284,
       "findings": []
     },
     "generated_artifacts": {
@@ -742,7 +742,7 @@
     "address_scan": {
       "source_and_evidence": {
         "status": "PASS",
-        "scanned_files": 255,
+        "scanned_files": 256,
         "findings": []
       },
       "generated_artifacts": {
