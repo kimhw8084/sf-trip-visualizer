@@ -14,6 +14,7 @@ import security_privacy
 
 OUT = ROOT / "QA" / "CHG-204" / "location_gap"
 OUT.mkdir(parents=True, exist_ok=True)
+CANONICAL_DATA = json.loads((ROOT / "data" / "phase7_app_data.json").read_text())
 report = bind_report({"status": "FAIL", "checks": {}, "screenshots": [], "errors": []}, candidate_identity())
 
 
@@ -29,6 +30,14 @@ def capture(page, name):
     report["screenshots"].append(str(path.relative_to(ROOT)))
 
 
+def render_day(page, date_key):
+    page.evaluate(
+        """async date=>{const a=window.__tripApp;a.state.task.date=date;a.state.task.region='overall';a.state.task.selected=null;a.setMode('day');await a.drawMap(false)}""",
+        date_key,
+    )
+    return page.locator("#dayPlan").inner_text()
+
+
 with sync_playwright() as playwright:
     browser = playwright.chromium.launch(headless=True)
     context = browser.new_context(viewport={"width": 1440, "height": 900})
@@ -42,12 +51,64 @@ with sync_playwright() as playwright:
     )
     report["checks"]["runtime_contract"] = page.evaluate(
         """()=>{const a=window.__tripApp,d=a.DATA,removed=new Set(['bay_lights','exploratorium','musee','academy','coit','bixby','mariposa']);
-          return {routes:Object.keys(d.routes),places:d.markers.length,timeline:d.timeline.length,legs:d.legs.length,dates:d.dates.map(x=>x.key),removed:[...removed].filter(k=>d.markers.some(m=>m.place_key===k)),newPhysical:['cantor_arts','rodin_garden','stanford_quad','baker_beach','aquatic_park','alamo_square','carmel_beach'].filter(k=>!d.markers.some(m=>m.place_key===k)),nonphoto:(d.non_photo_itinerary_identities||[]).map(x=>x.key),dayFacts:document.querySelector('#dayHeader').innerText}}"""
+          return {routes:Object.keys(d.routes),places:d.markers.length,timeline:d.timeline.length,legs:d.legs.length,travelRanges:(d.travel_ranges||[]).length,dates:d.dates.map(x=>x.key),removed:[...removed].filter(k=>d.markers.some(m=>m.place_key===k)),newPhysical:['cantor_arts','rodin_garden','stanford_quad','baker_beach','aquatic_park','alamo_square','carmel_beach'].filter(k=>!d.markers.some(m=>m.place_key===k)),nonphoto:(d.non_photo_itinerary_identities||[]).map(x=>x.key),dayFacts:document.querySelector('#dayHeader').innerText}}"""
     )
     report["checks"]["oct5_order"] = page.evaluate(
         """()=>{const keys=[...document.querySelectorAll('#dayPlan [data-day-place]')].map(x=>x.dataset.dayPlace);const order=['alcatraz','pier39','ghirardelli','aquatic_park','cable_car','lombard','north_beach','fortune','chinatown'];return {keys,ordered:order.every((k,i)=>keys.indexOf(k)>=0&&(i===0||keys.indexOf(order[i-1])<keys.indexOf(k))),facts:document.querySelector('#dayHeader').innerText}}"""
     )
     capture(page, "cost_readiness_1440_ko_light_day")
+
+    page.locator("#langToggle").click()
+    page.wait_for_function("document.documentElement.lang==='en'")
+    day_contracts = {}
+    for date_key in ("10/4", "10/6"):
+        day_text = render_day(page, date_key)
+        travel_rows = [
+            item for item in CANONICAL_DATA["timeline"]
+            if item.get("date_key") == date_key and item.get("kind") == "travel"
+        ]
+        expected_cues = len(travel_rows)
+        actual_cues = day_text.count("Static schedule plan:")
+        actual_rechecks = day_text.count("Check live navigation before leaving")
+        day_contracts[date_key] = {
+            "travel_rows": expected_cues,
+            "static_plan_cues": actual_cues,
+            "live_navigation_cues": actual_rechecks,
+            "provenance_visible": actual_cues == expected_cues and actual_rechecks >= expected_cues,
+        }
+        if date_key == "10/4":
+            start = day_text.find("Golden Gate Bridge south-side overlook")
+            end = day_text.find("Mill Valley lodging", start + 1)
+            day_contracts[date_key]["return_row_visible_and_ordered"] = start >= 0 and end > start
+            report["checks"]["oct4_return_row"] = day_contracts[date_key]["return_row_visible_and_ordered"]
+            capture(page, "oct4_day_1440_en_light")
+        else:
+            sequence = (
+                "Monterey Bay Aquarium → Stage Coach Lodge",
+                "Stage Coach Lodge check-in and reset",
+                "Stage Coach Lodge → Old Fisherman’s Wharf",
+                "Old Fisherman's Wharf",
+                "Old Fisherman’s Wharf → Stage Coach Lodge",
+            )
+            positions = [day_text.find(label) for label in sequence]
+            day_contracts[date_key]["separate_places_and_movements_in_order"] = all(
+                position >= 0 for position in positions
+            ) and positions == sorted(positions)
+            report["checks"]["oct6_place_sequence"] = day_contracts[date_key]["separate_places_and_movements_in_order"]
+            capture(page, "oct6_day_1440_en_light")
+        page.locator(".workbench-scroll").evaluate("e=>e.scrollTop=e.scrollHeight")
+        page.wait_for_timeout(100)
+        scrolled_to_end = page.locator(".workbench-scroll").evaluate(
+            "e=>Math.ceil(e.scrollTop+e.clientHeight)>=e.scrollHeight"
+        )
+        date_id = f"10{int(date_key.split('/')[1]):02d}"
+        report["checks"][f"{date_id}_desktop_rows_scrolled_into_view"] = scrolled_to_end
+        capture(page, f"oct{date_key.split('/')[1]}_day_rows_1440_en_light")
+        page.locator(".workbench-scroll").evaluate("e=>e.scrollTop=0")
+        date_id = f"10{int(date_key.split('/')[1]):02d}"
+        report["checks"][f"{date_id}_day_provenance"] = day_contracts[date_key]["provenance_visible"]
+    report["checks"]["rendered_day_contracts"] = day_contracts
+    render_day(page, "10/5")
 
     page.locator("#openCostCockpit").click()
     page.wait_for_function("document.querySelector('#costCockpit')?.open")
@@ -67,8 +128,9 @@ with sync_playwright() as playwright:
         """()=>{const v=JSON.parse(localStorage.getItem(window.TRIP_ATLAS_STATE.storageKey)||'{}');return {status:v.readiness?.alcatraz||null,identity:v.tripIdentity||null,scenario:v.costScenario||null}}"""
     )
     page.locator("#costCockpitClose").click()
-    page.locator("#langToggle").click()
-    page.wait_for_function("document.documentElement.lang==='en'")
+    if page.locator("html").get_attribute("lang") != "en":
+        page.locator("#langToggle").click()
+        page.wait_for_function("document.documentElement.lang==='en'")
     page.locator("#openCostCockpit").click()
     page.wait_for_function("document.querySelector('#costCockpit')?.open && document.querySelector('#costScenarioSelect')?.value==='us_resident_annual_pass'")
     report["checks"]["english_and_state"] = page.evaluate(
@@ -94,6 +156,30 @@ with sync_playwright() as playwright:
         """()=>{const d=document.querySelector('#costCockpit'),r=d.getBoundingClientRect(),s=d.querySelector('.cost-cockpit-panel');return {overflow:document.documentElement.scrollWidth-innerWidth,bottom:Math.abs(r.bottom-innerHeight),visible:s.clientHeight>0,dialogWidth:r.width,viewport:innerWidth}}"""
     )
     capture(page, "cost_readiness_390_en_dark_mobile")
+    page.locator("#costCockpitClose").click()
+    page.wait_for_function("!document.querySelector('#costCockpit').open")
+    for date_key in ("10/4", "10/6"):
+        day_text = render_day(page, date_key)
+        travel_rows = [
+            item for item in CANONICAL_DATA["timeline"]
+            if item.get("date_key") == date_key and item.get("kind") == "travel"
+        ]
+        expected_cues = len(travel_rows)
+        actual_cues = day_text.count("Static schedule plan:")
+        actual_rechecks = day_text.count("Check live navigation before leaving")
+        date_id = f"10{int(date_key.split('/')[1]):02d}"
+        report["checks"][f"{date_id}_mobile_day_contract"] = (
+            actual_cues == expected_cues and actual_rechecks >= expected_cues
+        )
+        capture(page, f"oct{date_key.split('/')[1]}_day_390_en_dark_mobile")
+        page.locator(".workbench-scroll").evaluate("e=>e.scrollTop=e.scrollHeight")
+        page.wait_for_timeout(100)
+        scrolled_to_end = page.locator(".workbench-scroll").evaluate(
+            "e=>Math.ceil(e.scrollTop+e.clientHeight)>=e.scrollHeight"
+        )
+        report["checks"][f"{date_id}_mobile_rows_scrolled_into_view"] = scrolled_to_end
+        capture(page, f"oct{date_key.split('/')[1]}_day_rows_390_en_dark_mobile")
+        page.locator(".workbench-scroll").evaluate("e=>e.scrollTop=0")
     browser.close()
 
 data = report["checks"]["runtime_contract"]
@@ -102,7 +188,18 @@ initial = report["checks"]["cost_starts_unselected"]
 status = report["checks"]["local_status_storage"]
 english = report["checks"]["english_and_state"]
 mobile = report["checks"]["mobile_sheet"]
-report["checks"]["all_routes_and_places"] = data["routes"] == ["A"] and data["places"] == 39 and data["timeline"] == 77 and data["legs"] == 32 and len(data["dates"]) == 11 and not data["removed"] and not data["newPhysical"] and {"gabrielson_park", "outpost", "valley_loop_walk", "sentinel_beach"} <= set(data["nonphoto"])
+report["checks"]["all_routes_and_places"] = (
+    data["routes"] == list(CANONICAL_DATA["routes"])
+    and data["routes"] == ["A"]
+    and data["places"] == len(CANONICAL_DATA["markers"])
+    and data["timeline"] == len(CANONICAL_DATA["timeline"])
+    and data["legs"] == len(CANONICAL_DATA["legs"])
+    and data["travelRanges"] == len(CANONICAL_DATA["travel_ranges"])
+    and len(data["dates"]) == len(CANONICAL_DATA["dates"])
+    and not data["removed"]
+    and not data["newPhysical"]
+    and {"gabrielson_park", "outpost", "valley_loop_walk", "sentinel_beach"} <= set(data["nonphoto"])
+)
 report["checks"]["final_day_content"] = order["ordered"] and "07:15" in order["facts"] and "13:45" in order["facts"]
 report["checks"]["analysis_scenario_only"] = initial["scenario"] == "" and initial["lowerBound"] == "" and initial["localOnly"] and initial["alcatraz"]
 report["checks"]["freshness_is_recheck_gated"] = report["checks"]["freshness_default"] == {"status": "RECHECK_REQUIRED", "rendered": "RECHECK_REQUIRED"} and report["checks"]["stale_fact_visible"] == "STALE"
@@ -115,8 +212,26 @@ report["checks"]["mobile_reflow"] = mobile["overflow"] == 0 and mobile["visible"
 required_boolean_checks = (
     "visible_ui_privacy_cost_readiness_1440_ko_light_day",
     "visible_ui_privacy_cost_readiness_390_en_dark_mobile",
+    "visible_ui_privacy_oct4_day_1440_en_light",
+    "visible_ui_privacy_oct6_day_1440_en_light",
+    "visible_ui_privacy_oct4_day_390_en_dark_mobile",
+    "visible_ui_privacy_oct6_day_390_en_dark_mobile",
+    "visible_ui_privacy_oct4_day_rows_1440_en_light",
+    "visible_ui_privacy_oct6_day_rows_1440_en_light",
+    "visible_ui_privacy_oct4_day_rows_390_en_dark_mobile",
+    "visible_ui_privacy_oct6_day_rows_390_en_dark_mobile",
     "all_routes_and_places",
     "final_day_content",
+    "oct4_return_row",
+    "oct6_place_sequence",
+    "1004_day_provenance",
+    "1006_day_provenance",
+    "1004_mobile_day_contract",
+    "1006_mobile_day_contract",
+    "1004_desktop_rows_scrolled_into_view",
+    "1006_desktop_rows_scrolled_into_view",
+    "1004_mobile_rows_scrolled_into_view",
+    "1006_mobile_rows_scrolled_into_view",
     "analysis_scenario_only",
     "freshness_is_recheck_gated",
     "resident_lower_bound",

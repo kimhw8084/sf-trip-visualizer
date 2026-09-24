@@ -15,6 +15,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
+from travel_contract import validate_travel_contract
+
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "manifests" / "canonical_pipeline.json"
@@ -100,6 +102,9 @@ def validate_trip_data() -> dict[str, Any]:
         checks[name] = passed
         if not passed:
             failures.append(f"{name}{': ' + detail if detail else ''}")
+
+    travel_contract = validate_travel_contract(data)
+    check("travel_provenance_completeness", travel_contract["status"] == "PASS", "; ".join(travel_contract["failures"][:8]))
 
     truth = manifest.get("truth_authority", {})
     check("truth_authority_source", truth.get("authored_source") == "data/phase7_app_data.json")
@@ -434,15 +439,6 @@ def validate_trip_data() -> dict[str, Any]:
     variable_lines = cockpit.get("variable_checkout_required", []) + cockpit.get("optional_convenience", [])
     check("cost_starting_classification", bool(starting_lines) and all(line.get("category") == "starting" for line in starting_lines))
     check("cost_variable_and_optional_classification", bool(variable_lines) and all(line.get("fee_semantic") in {"starting", "variable", "estimated", "conditional"} for line in variable_lines))
-    for row in data.get("travel_ranges", []):
-        prefix = f"travel_range[{row.get('id')}]"
-        reference = row.get("baseline_reference", {})
-        window = row.get("planned_schedule_window", {})
-        check(f"{prefix}.planning_range", isinstance(row.get("planning_range_minutes_min"), int) and isinstance(row.get("planning_range_minutes_max"), int) and row["planning_range_minutes_min"] <= row["planning_range_minutes_max"])
-        check(f"{prefix}.baseline_separated", reference.get("status") in {"NOT_RESEARCHED", "REFERENCE_AVAILABLE"} and ((reference.get("minutes_min") is None and reference.get("minutes_max") is None) or isinstance(reference.get("minutes_min"), int) and isinstance(reference.get("minutes_max"), int)))
-        check(f"{prefix}.schedule_buffer_separated", "departure" in window and "arrival" in window and "buffer_minutes" in window and has_text(window.get("buffer_note")))
-        check(f"{prefix}.not_live_traffic", "static planning" in str(row.get("basis", "")).lower() and "live navigation" in str(row.get("live_navigation_cue", "")).lower() and "google" not in json.dumps(row).lower())
-
     report = {
         "status": "PASS" if not failures else "FAIL",
         "checks": checks,
@@ -457,6 +453,7 @@ def validate_trip_data() -> dict[str, Any]:
             "freshness_records": len(records),
             "geometry_entries": len(geometry),
         },
+        "travel_contract": travel_contract,
         "roles": {row["place_key"]: row["coordinate_type"] for row in coordinate_audit},
         "geometry_statuses": {status: sum(entry.get("status") == status for entry in geometry.values()) for status in sorted(GEOMETRY_STATUSES)},
         "freshness_statuses": {status: sum(record.get("status") == status for record in records) for status in sorted(allowed_status)},

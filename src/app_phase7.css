@@ -185,6 +185,8 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .day-item-title { display: block; font-size: 12px; font-weight: 800; line-height: 1.3; }
 .day-item-reason { display: block; margin-top: 4px; color: var(--text-muted); font-size: 10px; line-height: 1.4; }
 .day-item .travel-cue { display: block; margin-top: 5px; color: var(--accent-strong); font-size: 10px; font-weight: 750; line-height: 1.35; }
+.day-item .travel-provenance { overflow-wrap: anywhere; font-weight: 600; }
+.day-item .travel-provenance b { font-weight: 850; }
 .day-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 7px; }
 .semantic-tag, .tier-chip { border: 1px solid var(--border); border-radius: 999px; padding: 3px 6px; color: var(--text-muted); font-size: 9px; font-weight: 800; }
 .tier-chip { border-color: color-mix(in srgb, var(--tier-color, var(--accent)) 45%, var(--border)); color: var(--tier-color, var(--accent-strong)); }
@@ -192,6 +194,8 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .plan-card strong { display: block; font-size: 11px; }
 .plan-card p { margin: 4px 0 0; color: var(--text-muted); font-size: 10px; line-height: 1.4; }
 .plan-card .travel-cue { color: var(--accent-strong); font-weight: 750; }
+.plan-card .travel-provenance { overflow-wrap: anywhere; font-weight: 600; }
+.plan-card .travel-provenance b { font-weight: 850; }
 .plan-card .photo-blocker { color: var(--text-muted); }
 .cost-cockpit { width: min(760px, calc(100vw - 24px)); max-width: 760px; max-height: min(88dvh, 980px); padding: 0; border: 1px solid var(--border-strong); border-radius: 16px; background: var(--surface-raised); color: var(--text); box-shadow: 0 22px 72px #001c1b55; }
 .cost-cockpit::backdrop { background: #07191ac0; }

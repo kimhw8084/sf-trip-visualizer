@@ -6,6 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import security_privacy  # noqa: E402
+from travel_contract import validate_travel_contract  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -52,20 +53,86 @@ class CHG204OperationalContractTests(unittest.TestCase):
         self.assertIn("13:30–15:00", days["10/9"]["nap_en"])
         self.assertIn("recovery only", days["10/9"]["recovery_en"].lower())
         self.assertTrue(any("19:30" in str(value) for value in days["10/11"].values()))
-        self.assertTrue(self.data["travel_ranges"])
-        for row in self.data["travel_ranges"]:
-            self.assertIn("static planning", row["basis"].lower())
-            self.assertIn("Check live navigation before leaving", row["live_navigation_cue"])
-            self.assertIn("confidence", row)
-            self.assertIn("planning_range_minutes_min", row)
-            self.assertIn("planning_range_minutes_max", row)
-            self.assertEqual(row["baseline_reference"]["status"], "NOT_RESEARCHED")
-            self.assertIsNone(row["planned_schedule_window"]["buffer_minutes"])
-            self.assertNotIn("google", json.dumps(row).lower())
         material_departures = [item for item in self.data["timeline"] if item.get("travel_navigation_cue")]
         self.assertGreaterEqual(len(material_departures), 8)
         for day in days.values():
             self.assertTrue(day["recovery_en"] and day["recovery_ko"])
+
+    def test_travel_range_coverage_is_complete_and_fails_a_missing_binding(self):
+        report = validate_travel_contract(self.data)
+        self.assertEqual(report["status"], "PASS", report["failures"])
+        self.assertEqual(report["counts"]["material_timeline_movements"], report["counts"]["linked_timeline_movements"])
+        self.assertEqual(report["counts"]["material_route_connectors"], report["counts"]["linked_route_connectors"])
+        ranges = {item["id"]: item for item in self.data["travel_ranges"]}
+        self.assertEqual(len(ranges), len(self.data["travel_ranges"]))
+        self.assertTrue(all(item["baseline_reference"]["status"] == "UNAVAILABLE_NO_INDEPENDENT_SOURCE" for item in ranges.values()))
+        self.assertTrue(all(item["baseline_reference"]["minutes_min"] is None and item["baseline_reference"]["minutes_max"] is None for item in ranges.values()))
+        self.assertTrue(all("static planning" in item["basis"].lower() for item in ranges.values()))
+        self.assertTrue(all("Check live navigation before leaving" in item["live_navigation_cue"] for item in ranges.values()))
+        self.assertFalse(any("NOT_RESEARCHED" in json.dumps(item) for item in ranges.values()))
+
+        fixture = json.loads(json.dumps(self.data))
+        required_row = next(item for item in fixture["timeline"] if item["id"] == "chg204_104_ggb_lodging")
+        required_row.pop("travel_range_id")
+        mutated = validate_travel_contract(fixture)
+        self.assertEqual(mutated["status"], "FAIL")
+        self.assertTrue(any("chg204_104_ggb_lodging has no travel_range_id" in failure for failure in mutated["failures"]))
+
+        conflated = json.loads(json.dumps(self.data))
+        conflated["travel_ranges"][0]["baseline_reference"]["departure"] = "08:00"
+        self.assertEqual(validate_travel_contract(conflated)["status"], "FAIL")
+
+        address_fixture = json.loads(json.dumps(self.data))
+        address_fixture["travel_ranges"][0]["to_identity"] = " ".join(("123", "Example", "Street"))
+        address_report = validate_travel_contract(address_fixture)
+        self.assertEqual(address_report["status"], "FAIL")
+        self.assertTrue(any("street-address-shaped endpoint" in failure for failure in address_report["failures"]))
+
+        coordinate_fixture = json.loads(json.dumps(self.data))
+        coordinate_fixture["travel_ranges"][0]["private_endpoint_metadata"] = {"coordinates": ["redacted-test-value"]}
+        coordinate_report = validate_travel_contract(coordinate_fixture)
+        self.assertEqual(coordinate_report["status"], "FAIL")
+        self.assertTrue(any("contains a coordinate" in failure for failure in coordinate_report["failures"]))
+
+    def test_october_6_place_rows_and_october_4_return_are_explicit(self):
+        oct6 = [item for item in self.data["timeline"] if item["date_key"] == "10/6"]
+        ids = [item["id"] for item in oct6]
+        sequence = [
+            "chg204_106_aquarium",
+            "chg204_106_aquarium_stagecoach",
+            "chg204_106_checkin_reset",
+            "chg204_106_stagecoach_wharf",
+            "chg204_106_wharf",
+            "chg204_106_wharf_stagecoach",
+        ]
+        self.assertEqual([ids.index(item) for item in sequence], sorted(ids.index(item) for item in sequence))
+        by_id = {item["id"]: item for item in oct6}
+        self.assertEqual(by_id["chg204_106_checkin_reset"]["kind"], "logistics")
+        self.assertNotIn("Old Fisherman", by_id["chg204_106_checkin_reset"]["title_en"])
+        self.assertEqual(by_id["chg204_106_wharf"]["kind"], "place")
+        self.assertEqual(by_id["chg204_106_wharf"]["title_en"], "Old Fisherman's Wharf")
+        self.assertEqual(by_id["chg204_106_wharf_stagecoach"]["travel_range_id"], "travel_106_wharf_stagecoach")
+
+        oct4_return = next(item for item in self.data["timeline"] if item["id"] == "chg204_104_ggb_lodging")
+        self.assertEqual(oct4_return["kind"], "travel")
+        self.assertEqual(oct4_return["title_en"], "Golden Gate Bridge south-side overlook → Mill Valley lodging")
+        self.assertTrue(oct4_return["travel_range_id"])
+
+    def test_daily_return_semantics_have_timeline_movement_bindings(self):
+        timeline = {item["id"]: item for item in self.data["timeline"]}
+        for date_key, operation in self.data["operating_days"].items():
+            contract = operation["travel_contract"]
+            self.assertIn(contract["start_movement_id"], timeline, date_key)
+            for movement_id in contract["nap_return_movement_ids"]:
+                self.assertEqual(timeline[movement_id]["travel_role"], "protected_nap_return", date_key)
+            end_id = contract["end_movement_id"]
+            recovery = operation["recovery_en"].lower()
+            return_is_stated = any(term in recovery for term in ("back by", "lodging by", "lodging ~", "return", "back ~"))
+            if return_is_stated:
+                self.assertTrue(end_id, date_key)
+            if end_id:
+                self.assertEqual(timeline[end_id]["kind"], "travel", date_key)
+                self.assertTrue(timeline[end_id].get("travel_range_id"), date_key)
 
     def test_cost_scenarios_reproduce_lower_bounds_without_duplicate_lines(self):
         model = self.data["cost_cockpit"]
