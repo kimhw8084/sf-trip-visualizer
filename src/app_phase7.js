@@ -406,7 +406,14 @@
   function showRoutePeek(properties, event) {
     const card = document.getElementById('peek');
     state.presentation.peek = { route: properties.route, invoker: document.activeElement };
-    const action = ROUTES.length > 1 ? `<button class="peek-action" type="button" data-route-use>${m('chooseRoute')} ${esc(properties.route)} ↗</button>` : '';
+    const leg = (DATA.legs || []).find(item => item.leg_id === properties.leg_id);
+    const from = leg && markerByKey[leg.from], to = leg && markerByKey[leg.to];
+    const liveNavigation = leg?.mode === 'drive' && from && to
+      ? `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(placeName(leg.from))}&destination=${encodeURIComponent(placeName(leg.to))}`
+      : '';
+    const action = ROUTES.length > 1
+      ? `<button class="peek-action" type="button" data-route-use>${m('chooseRoute')} ${esc(properties.route)} ↗</button>`
+      : liveNavigation ? `<a class="peek-action" data-live-navigation href="${esc(liveNavigation)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${esc(m('checkLiveNavigation'))} ↗</a>` : '';
     card.innerHTML = `<div class="peek-body"><div class="eyebrow">${esc(properties.route)} · ${esc(dateLabel(properties.date))}</div><h3 id="peekTitle" class="peek-title">${esc(tr(properties.label || ''))}</h3><p id="peekDescription" class="peek-why"><strong>${esc(tierLabel(properties.branch === 'main' ? 'main' : properties.branch))}</strong> · ${esc(modeLabel(properties.mode))}${properties.time ? ` · ${esc(properties.time)}` : ''}<br>${esc(tr(properties.note || ''))}</p><p class="peek-sub">${properties.status === 'routed_osm' ? m('recheck') : m('mapLegend')}</p>${action}</div>`;
     card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card); card.querySelector('[data-route-use]')?.addEventListener('click', () => choosePrimaryRoute(properties.route));
   }

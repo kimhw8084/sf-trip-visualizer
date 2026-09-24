@@ -14,6 +14,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 report = {"status": "FAIL", "fit_states": [], "zoom_states": [], "errors": [], "screenshots": []}
 ROUTE_IDS = sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"])
 DATE_KEYS = [item["key"] for item in json.loads((ROOT / "data/phase7_app_data.json").read_text())["dates"]]
+LOGISTICS_ONLY_DATES = {"10/2", "10/12"}
 
 
 def capture(page, name):
@@ -59,7 +60,7 @@ with sync_playwright() as playwright:
     if not page.locator("#peek.show").count():
         page.evaluate("()=>window.__tripApp.showRoutePeek(window.__tripApp.visibleRouteFeatures()[0].properties)")
     hit_layers = page.evaluate("()=>window.__tripApp.map().getStyle().layers.filter(x=>x.id.endsWith('-hit')).length")
-    report["route_peek"] = page.evaluate("()=>({visible:document.getElementById('peek').classList.contains('show'),hasAction:!!document.querySelector('#peek [data-route-use]')||!!document.querySelector('#peek [data-peek-open]')})")
+    report["route_peek"] = page.evaluate("""()=>{const action=document.querySelector('#peek [data-live-navigation]');return {visible:document.getElementById('peek').classList.contains('show'),hasAction:!!document.querySelector('#peek [data-route-use]')||!!document.querySelector('#peek [data-peek-open]')||!!action,liveNavigation:!!action&&action.tagName==='A'&&action.href.startsWith('https://www.google.com/maps/dir/?api=1&'),liveNavigationText:action?.textContent.trim()||'',language:document.documentElement.lang}}""")
     report["route_peek"]["hit_layers"] = hit_layers
     capture(page, "dynamics_1440_route_peek")
 
@@ -69,9 +70,18 @@ with sync_playwright() as playwright:
     capture(page, "dynamics_390_field_sheet")
     browser.close()
 
-fits_pass = all(row["inside"] and row["markers"] >= 1 and row["canvas"] == 1 for row in report["fit_states"])
+fits_pass = all(
+    row["inside"] and row["canvas"] == 1 and (
+        row["date"] in LOGISTICS_ONLY_DATES and row["markers"] == 0 and row["features"] == 0
+        or row["date"] not in LOGISTICS_ONLY_DATES and row["markers"] >= 1
+    )
+    for row in report["fit_states"]
+)
 zoom_pass = all(row["features"] > 0 and row["canvas"] == 1 for row in report["zoom_states"])
-report["status"] = "PASS" if not report["errors"] and report["provider_inventory"] == {"active": "vector", "data": ["vector", "satellite"], "controls": ["vector", "satellite"]} and fits_pass and zoom_pass and report["route_peek"]["visible"] and report["route_peek"]["hit_layers"] == 7 and report["mobile"]["overflow"] == 0 else "FAIL"
+report["logistics_only_dates_have_no_public_markers"] = all(row["markers"] == 0 and row["features"] == 0 for row in report["fit_states"] if row["date"] in LOGISTICS_ONLY_DATES)
+cue_text = "Check live navigation before leaving" if report["route_peek"]["language"] == "en" else "출발 전 실시간 길안내 확인"
+report["route_peek"]["live_navigation_cue"] = report["route_peek"]["hasAction"] and report["route_peek"]["liveNavigation"] and report["route_peek"]["liveNavigationText"] == cue_text
+report["status"] = "PASS" if not report["errors"] and report["provider_inventory"] == {"active": "vector", "data": ["vector", "satellite"], "controls": ["vector", "satellite"]} and fits_pass and report["logistics_only_dates_have_no_public_markers"] and zoom_pass and report["route_peek"]["visible"] and report["route_peek"]["hit_layers"] == 7 and report["route_peek"]["live_navigation_cue"] and report["mobile"]["overflow"] == 0 else "FAIL"
 (OUT / "interaction_dynamics.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "fits": report["fit_states"], "route_peek": report["route_peek"], "mobile": report["mobile"], "errors": report["errors"]}, ensure_ascii=False, indent=2))
 raise SystemExit(0 if report["status"] == "PASS" else 1)

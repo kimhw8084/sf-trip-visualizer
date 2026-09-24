@@ -66,14 +66,22 @@ with sync_playwright() as playwright:
     report["checks"]["local_status_storage"] = page.evaluate(
         """()=>{const v=JSON.parse(localStorage.getItem(window.TRIP_ATLAS_STATE.storageKey)||'{}');return {status:v.readiness?.alcatraz||null,identity:v.tripIdentity||null,scenario:v.costScenario||null}}"""
     )
+    page.locator("#costCockpitClose").click()
     page.locator("#langToggle").click()
     page.wait_for_function("document.documentElement.lang==='en'")
+    page.locator("#openCostCockpit").click()
     page.wait_for_function("document.querySelector('#costCockpit')?.open && document.querySelector('#costScenarioSelect')?.value==='us_resident_annual_pass'")
     report["checks"]["english_and_state"] = page.evaluate(
         """()=>({heading:document.querySelector('#costCockpitHeading').innerText,lowerBound:document.querySelector('.cost-scenario h3').innerText,booked:document.querySelector('[data-readiness-status="alcatraz"]').value,hangul:(document.querySelector('#costCockpitContent').innerText.match(/[가-힣]/g)||[]).length})"""
     )
+    page.locator("#costCockpitClose").click()
     page.locator("#themeToggle").click()
     page.wait_for_function("document.documentElement.dataset.theme==='dark'")
+    page.locator("#openCostCockpit").click()
+    page.wait_for_function("document.querySelector('#costCockpit')?.open && document.querySelector('#costScenarioSelect')?.value==='us_resident_annual_pass'")
+    report["checks"]["state_after_theme"] = page.evaluate(
+        """()=>({theme:document.documentElement.dataset.theme,booked:document.querySelector('[data-readiness-status="alcatraz"]').value,scenario:document.querySelector('#costScenarioSelect').value})"""
+    )
     report["checks"]["keyboard_close"] = page.evaluate("""()=>{document.querySelector('#costCockpitClose').focus();return document.activeElement.id}""")
     page.keyboard.press("Escape")
     page.wait_for_function("!document.querySelector('#costCockpit').open")
@@ -101,6 +109,7 @@ report["checks"]["freshness_is_recheck_gated"] = report["checks"]["freshness_def
 report["checks"]["resident_lower_bound"] = "$652.80" in report["checks"]["scenario"]
 report["checks"]["local_user_checklist"] = status["status"] == "user_marked_booked" and status["identity"] == "sf-family-2026-final" and status["scenario"] == "us_resident_annual_pass"
 report["checks"]["language_theme_state"] = "Cost and readiness" in english["heading"] and "$652.80" in english["lowerBound"] and english["booked"] == "user_marked_booked" and english["hangul"] == 0
+report["checks"]["readiness_state_survives_theme"] = report["checks"]["state_after_theme"] == {"theme": "dark", "booked": "user_marked_booked", "scenario": "us_resident_annual_pass"}
 report["checks"]["escape_returns_focus"] = report["checks"]["focus_return"] == "openCostCockpit"
 report["checks"]["mobile_reflow"] = mobile["overflow"] == 0 and mobile["visible"] and mobile["dialogWidth"] <= mobile["viewport"] + 1 and mobile["bottom"] <= 2
 report["status"] = "PASS" if not report["errors"] and all(value is True for value in report["checks"].values()) else "FAIL"
