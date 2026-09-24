@@ -20,7 +20,7 @@ from urllib.parse import parse_qs, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = ROOT / "manifests" / "security_privacy_contract.json"
-EVIDENCE_PATH = ROOT / "QA" / "CHG-188" / "release" / "security_privacy.json"
+EVIDENCE_PATH = ROOT / "QA" / "CHG-204" / "release" / "security_privacy.json"
 REQUIREMENTS_PATH = ROOT / "requirements-qa.txt"
 WORKFLOWS = {
     "candidate": ROOT / ".github" / "workflows" / "candidate-qualification.yml",
@@ -50,6 +50,12 @@ SECRET_PATTERNS = (
     ),
     ("absolute_user_path", re.compile(r"(?:file://)?/(?:Users|home)/[A-Za-z0-9._-]+/")),
     ("windows_user_path", re.compile(r"\b[A-Za-z]:\\Users\\[A-Za-z0-9._-]+\\")),
+)
+RESIDENTIAL_ADDRESS = re.compile(
+    r"(?<![A-Za-z0-9-])\d{1,5}\s+(?:(?:N|S|E|W)\.?\s+)?[A-Z0-9][A-Za-z0-9.'-]*(?:\s+[A-Z0-9][A-Za-z0-9.'-]*){0,3}\s+"
+    r"(?:Street|St\.?|Avenue|Ave\.?|Road|Rd\.?|Drive|Dr\.?|Lane|Ln\.?|Court|Ct\.?|Way|Place|Pl\.?|"
+    r"Boulevard|Blvd\.?|Circle|Cir\.?|Terrace|Ter\.?|Trail|Trl\.?)\b",
+    re.IGNORECASE,
 )
 FORBIDDEN_ARTIFACT_COMPONENTS = {
     ".aws",
@@ -83,6 +89,66 @@ def git_revision(root: Path = ROOT) -> str | None:
         return None
 
 
+def _address_findings(line: str, relative_path: str, line_number: int, context: str | None = None) -> list[dict]:
+    findings: list[dict] = []
+    context = context or line
+    for match in RESIDENTIAL_ADDRESS.finditer(line):
+        # The sole street address deliberately carried by this family tool is
+        # SFO's public, commercial Hertz Rental Car Center.
+        allowed_sfo = bool(
+            re.fullmatch(r"780\s+N\.?\s+McDonnell\s+Rd\.?", match.group(0), re.IGNORECASE)
+            and re.search(r"SFO|Hertz|Rental Car Center|McDonnell", context, re.IGNORECASE)
+        )
+        allowed_drive_name = bool(re.fullmatch(r"17[ -]Mile\s+Drive", match.group(0), re.IGNORECASE))
+        allowed_place_count = bool(re.fullmatch(r"\d+\s+photo-backed\s+place", match.group(0), re.IGNORECASE))
+        residential_context = bool(re.search(r"lodging|hotel|residen(?:ce|tial)|cabin|guesthouse|home|house|accommodation|private\s+(?:home|address|residence)|숙소|호텔", context, re.IGNORECASE))
+        suffix = re.search(r"(Street|St\.?|Avenue|Ave\.?|Road|Rd\.?|Drive|Dr\.?|Lane|Ln\.?|Court|Ct\.?|Way|Place|Pl\.?|Boulevard|Blvd\.?|Circle|Cir\.?|Terrace|Ter\.?|Trail|Trl\.?)$", match.group(0), re.IGNORECASE)
+        following = line[match.end():].lstrip()
+        address_punctuation = not following or following.startswith((",", ";", ".", "#")) or re.match(r"(?:Apt\.?|Apartment|Unit|Suite)\b", following, re.IGNORECASE)
+        structured_place_context = bool(re.search(r"photo|marker|place\s+(?:key|identit|count)|itinerary|map\s+place|route\s+plan", context, re.IGNORECASE))
+        place_word_false_positive = bool(suffix and suffix.group(1).lower().rstrip(".") in {"place", "pl"} and structured_place_context and not residential_context)
+        plausible_address = address_punctuation or residential_context
+        if not allowed_sfo and not allowed_drive_name and not allowed_place_count and plausible_address and not place_word_false_positive:
+            findings.append(
+                {
+                    "path": relative_path,
+                    "line": line_number,
+                    "classification": "possible_residential_street_address",
+                    "redacted_match": "<redacted:possible_residential_street_address>",
+                }
+            )
+    return findings
+
+
+def _embedded_json_spans(line: str) -> list[tuple[int, int, str, object]]:
+    """Parse inline runtime JSON so adjacent fields cannot create address matches."""
+    decoder = json.JSONDecoder()
+    spans = []
+    for assignment in re.finditer(r"window\.([A-Z0-9_]+)=", line):
+        start = assignment.end()
+        try:
+            value, consumed = decoder.raw_decode(line[start:])
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(value, (dict, list)):
+            continue
+        spans.append((start, start + consumed, assignment.group(1), value))
+    return spans
+
+
+def _embedded_string_findings(value: object, relative_path: str, line_number: int, trail: str) -> list[dict]:
+    findings: list[dict] = []
+    if isinstance(value, str):
+        findings.extend(_address_findings(value, relative_path, line_number, f"{trail} {value}"))
+    elif isinstance(value, dict):
+        for key, child in value.items():
+            findings.extend(_embedded_string_findings(child, relative_path, line_number, f"{trail}.{key}"))
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            findings.extend(_embedded_string_findings(child, relative_path, line_number, f"{trail}[{index}]"))
+    return findings
+
+
 def scan_text(text: str, relative_path: str) -> list[dict]:
     """Return classification-only findings; never return a matched value."""
     findings: list[dict] = []
@@ -97,7 +163,59 @@ def scan_text(text: str, relative_path: str) -> list[dict]:
                         "redacted_match": f"<redacted:{classification}>",
                     }
                 )
+        embedded = _embedded_json_spans(line) if relative_path.lower().endswith(".html") else []
+        if embedded:
+            cursor = 0
+            for start, end, name, value in embedded:
+                findings.extend(_address_findings(line[cursor:start], relative_path, line_number))
+                findings.extend(_embedded_string_findings(value, relative_path, line_number, f"window.{name}"))
+                cursor = end
+            findings.extend(_address_findings(line[cursor:], relative_path, line_number))
+        else:
+            findings.extend(_address_findings(line, relative_path, line_number))
     return findings
+
+
+def active_trip_location_privacy_report(data: dict) -> dict:
+    """Reject residential lodging identities and address-shaped active records."""
+    failures: list[dict] = []
+    private_identity = re.compile(r"lodging|hotel|residence|residential|cabin|guesthouse|home|house|숙소|호텔", re.IGNORECASE)
+    sensitive_field = re.compile(r"^(?:address|street_address|(?:private|residential|home|residence|lodging).*(?:address|street|coord|lat|lon).*|occupancy.*|occupied_(?:from|to))$", re.IGNORECASE)
+    coordinate_pair = re.compile(r"-?\d{1,2}\.\d{3,}\s*[,/]\s*-?\d{1,3}\.\d{3,}")
+
+    for marker in data.get("markers", []):
+        label = " ".join(str(marker.get(field, "")) for field in ("place_key", "title", "title_en", "title_ko", "cluster"))
+        if private_identity.search(label):
+            failures.append({"path": "data/phase7_app_data.json", "classification": "residential_lodging_as_public_place", "identity": "<redacted:place-key>"})
+
+    def inspect(value: object, trail: str) -> None:
+        if isinstance(value, dict):
+            for key, child in value.items():
+                next_trail = f"{trail}.{key}" if trail else str(key)
+                if sensitive_field.fullmatch(str(key)) and child not in (None, "", [], {}):
+                    failures.append({"path": "data/phase7_app_data.json", "classification": "private_address_or_occupancy_field", "field": "<redacted:field>"})
+                private_context = bool(private_identity.search(next_trail) or isinstance(child, str) and private_identity.search(child))
+                coordinate_key = re.fullmatch(r"(?:lat|lon|latitude|longitude|coordinates?|coordinate_pair)", str(key), re.IGNORECASE)
+                coordinate_pair_value = isinstance(child, str) and bool(coordinate_pair.search(child))
+                coordinate_array_value = isinstance(child, list) and len(child) >= 2 and all(isinstance(item, (int, float)) for item in child[:2])
+                if private_context and (coordinate_key or coordinate_pair_value or coordinate_array_value) and child not in (None, "", [], {}):
+                    failures.append({"path": "data/phase7_app_data.json", "classification": "private_residential_coordinate_field", "field": "<redacted:field>"})
+                inspect(child, next_trail)
+        elif isinstance(value, list):
+            for child in value:
+                inspect(child, trail)
+
+    inspect(data, "")
+    for leg in data.get("legs", []):
+        if private_identity.search(f"{leg.get('from', '')} {leg.get('to', '')}"):
+            failures.append({"path": "data/phase7_app_data.json", "classification": "residential_lodging_route_endpoint", "identity": "<redacted:endpoint>"})
+    return {"status": "PASS" if not failures else "FAIL", "checks": ["active_place_labels", "lodging_fields", "route_endpoints"], "failures": failures}
+
+
+def check_active_trip_location_privacy(root: Path = ROOT) -> dict:
+    path = root / "data" / "phase7_app_data.json"
+    data = load_json(path) if path.is_file() else {}
+    return active_trip_location_privacy_report(data)
 
 
 def read_text_if_safe(path: Path) -> str | None:
@@ -163,6 +281,28 @@ def artifact_paths(root: Path, extra_roots: list[Path]) -> list[Path]:
     paths = [root / ".build", root / ".public-site", root / ".release" / "package"]
     paths.extend(extra_roots)
     return [path for path in paths if path.exists()]
+
+
+def privacy_source_paths(root: Path = ROOT) -> list[Path]:
+    """Enumerate tracked and untracked text sources/evidence for address scanning."""
+    try:
+        rows = subprocess.check_output(
+            ["git", "-C", str(root), "ls-files", "-co", "--exclude-standard", "-z"],
+            text=True,
+        ).split("\0")
+    except (OSError, subprocess.CalledProcessError):
+        rows = []
+    paths = [root / relative for relative in rows if relative and (root / relative).suffix.lower() in TEXT_SUFFIXES]
+    paths.extend(root / relative for relative in ("TRIP_VISUALIZER_SCHEMA.md", "LOCATION_COVERAGE_AUDIT.md") if (root / relative).is_file())
+    if (root / "QA").is_dir():
+        paths.append(root / "QA")
+    return sorted(set(path for path in paths if path.is_file()))
+
+
+def address_scan_paths(paths: list[Path], root: Path = ROOT) -> dict:
+    report = scan_paths(paths, root)
+    findings = [row for row in report["findings"] if row.get("classification") == "possible_residential_street_address"]
+    return {"status": "PASS" if not findings else "FAIL", "scanned_files": report["scanned_files"], "findings": findings}
 
 
 def check_artifact_paths(paths: list[Path], root: Path = ROOT) -> dict:
@@ -636,6 +776,8 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
     production = scan_paths(production_paths(root, contract), root)
     artifacts = artifact_paths(root, extra_roots or [])
     artifact_scan = check_artifact_paths(artifacts, root)
+    residential_source_scan = address_scan_paths(privacy_source_paths(root), root)
+    residential_artifact_scan = address_scan_paths(artifacts, root)
     vendor = check_vendor_inventory(root, contract)
     maplibre = check_maplibre_dependency(root, contract)
     requirements = check_requirements(root, contract)
@@ -643,6 +785,7 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
     origins = check_origins(root)
     storage = check_local_storage(root, contract)
     controls = check_static_controls(root)
+    location_privacy = check_active_trip_location_privacy(root)
     binding = check_artifact_binding(artifacts, root, revision, source["source_hashes"])
     checks = {
         "candidate_binding": source["status"] == "PASS",
@@ -655,13 +798,15 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
         "external_origins": origins["status"] == "PASS",
         "local_storage": storage["status"] == "PASS",
         "static_controls": controls["status"] == "PASS",
+        "residential_address_scan": residential_source_scan["status"] == "PASS" and residential_artifact_scan["status"] == "PASS",
+        "active_lodging_identity_guard": location_privacy["status"] == "PASS",
         "artifact_binding": binding["status"] == "PASS",
     }
     failures: list[str] = []
     for name, passed in checks.items():
         if not passed:
             failures.append(name)
-    for report in (production, artifact_scan, vendor, maplibre, requirements, workflows, origins, storage, controls, binding):
+    for report in (production, artifact_scan, residential_source_scan, residential_artifact_scan, vendor, maplibre, requirements, workflows, origins, storage, controls, location_privacy, binding):
         failures.extend(report.get("failures", []))
     verify_required = contract.get("advisory_review", {}).get("verify_required", [])
     return {
@@ -681,6 +826,7 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
         "requirements": requirements,
         "workflows": workflows,
         "runtime": {"external_origins": origins, "local_storage": storage, "static_controls": controls},
+        "residential_privacy": {"address_scan": {"source_and_evidence": residential_source_scan, "generated_artifacts": residential_artifact_scan}, "active_location_structure": location_privacy},
         "artifact_binding": binding,
         "advisory_review": contract.get("advisory_review", {}),
         "verify_required": verify_required,

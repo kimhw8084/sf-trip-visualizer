@@ -9,6 +9,12 @@
     const saved = readJson(STORAGE_KEY);
     const legacy = readJson(legacyKey);
     const restored = Object.keys(saved).length ? saved : legacy;
+    const tripIdentity = String(data.trip_identity || 'unbound-trip');
+    const sameTrip = restored.tripIdentity === tripIdentity;
+    const checklistValues = ['prepared', 'user_marked_booked', 'user_marked_paid'];
+    const savedChecklist = sameTrip && restored.readiness && typeof restored.readiness === 'object' ? restored.readiness : {};
+    const readiness = Object.fromEntries(Object.entries(savedChecklist).filter(([, value]) => checklistValues.includes(value)));
+    const scenarioIds = new Set((data.cost_cockpit?.scenarios || []).map(item => item.id));
     const routeKeys = Object.keys(data.routes || {});
     const dates = new Set(['all', ...(data.dates || []).map(item => item.key)]);
     const regions = new Set(Object.keys(data.region_cfg || {}));
@@ -43,6 +49,11 @@
         drawRequests: 0, providerSwitches: 0, events: [],
         providerStats: { vector: { healthProbes: 0, viewportProbes: 0, tileErrors: 0, fallbacks: 0 }, satellite: { healthProbes: 0, viewportProbes: 0, tileErrors: 0, fallbacks: 0 } },
       },
+      user: {
+        tripIdentity,
+        readiness,
+        costScenario: sameTrip && scenarioIds.has(restored.costScenario) ? restored.costScenario : null,
+      },
     };
 
     /* Compatibility aliases are read-through only; ownership remains nested. */
@@ -60,7 +71,7 @@
     });
     return { state, storageKey: STORAGE_KEY, persist() {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 2, primaryRoute: state.task.primaryRoute, routes: [...state.task.routes].sort(), date: state.task.date, region: state.task.region, selected: state.task.selected, selectedOccurrence: state.task.selectedOccurrence, mode: state.presentation.mode, sheet: state.presentation.sheet, lang: state.presentation.lang, theme: state.presentation.theme }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 3, tripIdentity: state.user.tripIdentity, primaryRoute: state.task.primaryRoute, routes: [...state.task.routes].sort(), date: state.task.date, region: state.task.region, selected: state.task.selected, selectedOccurrence: state.task.selectedOccurrence, mode: state.presentation.mode, sheet: state.presentation.sheet, lang: state.presentation.lang, theme: state.presentation.theme, readiness: { ...state.user.readiness }, costScenario: state.user.costScenario }));
       } catch { /* local-first persistence is best effort */ }
     } };
   }

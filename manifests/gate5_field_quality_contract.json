@@ -7,7 +7,7 @@
     "canonical_pipeline": "scripts/pipeline.py",
     "canonical_build": "scripts/build_map_first.py",
     "canonical_data": "data/phase7_app_data.json",
-    "golden_ui_evidence": "QA/CHG-188/",
+    "golden_ui_evidence": "QA/CHG-204/",
     "freshness": "manifests/trip_freshness.json",
     "gate4_contract": "manifests/runtime_resilience_contract.json"
   },
@@ -54,13 +54,13 @@
   },
   "evidence": {
     "runner": "scripts/qa_gate5_field_quality.py",
-    "candidate": "QA/CHG-188/gate5/candidate.json",
-    "baseline": "QA/CHG-188/gate5/baseline.json",
-    "paired_comparison": "QA/CHG-188/gate5/paired_comparison.json",
-    "performance_summary": "QA/CHG-188/gate5/performance_summary.log",
-    "screenshots": "QA/CHG-188/",
-    "finding_matrix": "QA/CHG-188/gate5/finding_matrix.json",
-    "review_pack_index": "QA/CHG-188/gate5/review_pack_index.json"
+    "candidate": "QA/CHG-204/gate5/candidate.json",
+    "baseline": "QA/CHG-204/gate5/baseline.json",
+    "paired_comparison": "QA/CHG-204/gate5/paired_comparison.json",
+    "performance_summary": "QA/CHG-204/gate5/performance_summary.log",
+    "screenshots": "QA/CHG-204/",
+    "finding_matrix": "QA/CHG-204/gate5/finding_matrix.json",
+    "review_pack_index": "QA/CHG-204/gate5/review_pack_index.json"
   },
   "acceptance_boundaries": {
     "implementation_status": "PASS means objective Gate 5 checks passed for the exact candidate; it is not a production-readiness claim.",

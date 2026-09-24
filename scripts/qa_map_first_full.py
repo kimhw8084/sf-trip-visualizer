@@ -11,10 +11,10 @@ from qa_config import MODULAR_URL
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "CHG-188" / "map_first_full"
+OUT = ROOT / "QA" / "CHG-204" / "map_first_full"
 OUT.mkdir(parents=True, exist_ok=True)
 ROUTES = tuple(sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"]))
-DATES = ("all", "10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11")
+DATES = ("all", "10/2", "10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11", "10/12")
 REGIONS = ("overall", "sf", "monterey", "yosemite")
 report = bind_report(
     {"status": "FAIL", "checks": {}, "matrix": [], "screenshots": [], "errors": [], "console_errors": [], "failed_requests": []},

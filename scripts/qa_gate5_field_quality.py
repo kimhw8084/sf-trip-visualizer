@@ -26,14 +26,14 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = ROOT / "manifests" / "gate5_field_quality_contract.json"
-EVIDENCE_ROOT = ROOT / "QA" / "CHG-188" / "gate5"
+EVIDENCE_ROOT = ROOT / "QA" / "CHG-204" / "gate5"
 DEFAULT_OUTPUT = EVIDENCE_ROOT / "candidate.json"
 BASELINE_OUTPUT = EVIDENCE_ROOT / "baseline.json"
 PAIRED_OUTPUT = EVIDENCE_ROOT / "paired_comparison.json"
 SUMMARY_OUTPUT = EVIDENCE_ROOT / "performance_summary.log"
 FINDING_MATRIX = EVIDENCE_ROOT / "finding_matrix.json"
 REVIEW_INDEX = EVIDENCE_ROOT / "review_pack_index.json"
-UI_ROOT = ROOT / "QA" / "CHG-188"
+UI_ROOT = ROOT / "QA" / "CHG-204"
 CURRENT_EVIDENCE = {
     "decision_workbench": UI_ROOT / "decision_workbench" / "task_oracles.json",
     "accessibility_reflow": UI_ROOT / "accessibility.json",
@@ -43,7 +43,7 @@ CURRENT_EVIDENCE = {
     "cross_browser": UI_ROOT / "browser_summary.json",
     "visual_evidence": UI_ROOT / "visual" / "visual_index.json",
     "place_list_membership": UI_ROOT / "place_list_roles.json",
-    "provider_recovery": ROOT / "QA" / "CHG-188" / "release" / "gate4_runtime.json",
+    "provider_recovery": ROOT / "QA" / "CHG-204" / "release" / "gate4_runtime.json",
 }
 SOURCE_EXCLUDED_PREFIXES = ("QA/", ".build/", ".release/", ".public-site/")
 REQUIRED_PAIRED_BASELINE_REVISION = "7d5d8727b1772642e87311d91d087e211656f6e4"
@@ -232,7 +232,7 @@ def write_auxiliary(report: dict, performance: dict) -> None:
     PAIRED_OUTPUT.write_text(json.dumps({"schema_version": 1, "status": performance.get("comparison_status", "VERIFY_REQUIRED"), "candidate_revision": report["candidate_head"], "performance": performance}, ensure_ascii=False, indent=2) + "\n")
     FINDING_MATRIX.write_text(json.dumps({"schema_version": 1, "candidate_revision": report["candidate_head"], "suites": report["evidence"], "external_boundaries": report["verify_required"], "status": report["status"]}, ensure_ascii=False, indent=2) + "\n")
     screenshot_paths = [str(path.relative_to(ROOT)) for path in sorted(UI_ROOT.rglob("*.png"))]
-    REVIEW_INDEX.write_text(json.dumps({"schema_version": 1, "candidate_revision": report["candidate_head"], "source": "CHG-188 current single-route qualification", "screenshots": screenshot_paths}, ensure_ascii=False, indent=2) + "\n")
+    REVIEW_INDEX.write_text(json.dumps({"schema_version": 1, "candidate_revision": report["candidate_head"], "source": "CHG-204 current single-route qualification", "screenshots": screenshot_paths}, ensure_ascii=False, indent=2) + "\n")
     lines = ["gate5_performance_summary schema=1", f"candidate_revision={report['candidate_head']}", f"candidate_tree={report['candidate_tree']}", f"environment={json.dumps(performance.get('environment', {}), sort_keys=True)}"]
     for metric, values in performance.get("metrics", {}).items():
         lines.append(f"metric={metric} distribution={json.dumps(values, sort_keys=True)}")

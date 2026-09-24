@@ -36,6 +36,24 @@ class SecurityPrivacyContractTests(unittest.TestCase):
         self.assertNotIn(private_key, serialized)
         self.assertEqual({item["classification"] for item in report}, {"github_token", "private_key"})
 
+    def test_embedded_runtime_json_keeps_address_context_field_scoped(self):
+        compact = (
+            '<script>window.TRIP_DATA={'
+            '"coordinate_provenance":"141 Main Avenue from a public map source",'
+            '"recovery_note":"Protected lodging rest follows"'
+            '};</script>'
+        )
+        self.assertEqual(security_privacy.scan_text(compact, "candidate.html"), [])
+
+    def test_embedded_runtime_json_still_detects_residential_address_leaks(self):
+        sample_street = " ".join(("123", "Example", "Road"))
+        private_data = f'<script>window.TRIP_DATA={{"lodging":{{"street_address":"{sample_street}"}}}};</script>'
+        private_report = security_privacy.scan_text(private_data, "candidate.html")
+        self.assertEqual([item["classification"] for item in private_report], ["possible_residential_street_address"])
+        visible_address = f'<p>{sample_street}.</p><script>window.TRIP_DATA={{}};</script>'
+        visible_report = security_privacy.scan_text(visible_address, "candidate.html")
+        self.assertEqual([item["classification"] for item in visible_report], ["possible_residential_street_address"])
+
     def test_vendor_inventory_passes_and_drift_fails(self):
         report = security_privacy.check_vendor_inventory(ROOT, self.contract)
         self.assertEqual(report["status"], "PASS", report["failures"])

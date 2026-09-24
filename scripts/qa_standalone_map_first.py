@@ -12,11 +12,11 @@ from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "CHG-188" / "standalone"
+OUT = ROOT / "QA" / "CHG-204" / "standalone"
 OUT.mkdir(parents=True, exist_ok=True)
 ROUTES = tuple(sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"]))
 REGIONS = ("overall", "sf", "monterey", "yosemite")
-DAYS = ("all", "10/3", "10/6", "10/8", "10/11")
+DAYS = ("all", "10/2", "10/3", "10/6", "10/8", "10/11", "10/12")
 
 
 def exercise(page):

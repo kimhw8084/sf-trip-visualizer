@@ -170,6 +170,10 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .day-header { display: grid; gap: 8px; margin: 0 0 15px; padding: 13px; border: 1px solid var(--border); border-radius: 11px; background: var(--surface-raised); }
 .day-header h3 { margin: 0; font-size: 17px; }
 .day-header p { margin: 0; color: var(--text-muted); font-size: 11px; line-height: 1.4; }
+.day-facts { display: grid; gap: 4px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 7px 0; }
+.day-facts p { font-size: 11px; line-height: 1.45; overflow-wrap: anywhere; }
+.day-facts b { color: var(--text); }
+.cost-open { justify-self: start; min-height: 40px; }
 .day-metrics { display: flex; flex-wrap: wrap; gap: 5px; }
 .day-metric { border-radius: 999px; background: var(--accent-soft); color: var(--accent-strong); padding: 4px 7px; font-size: 9px; font-weight: 800; }
 .day-story { margin: 0 0 11px; color: var(--text-muted); font-size: 11px; line-height: 1.45; }
@@ -180,12 +184,48 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .day-item-main { min-width: 0; }
 .day-item-title { display: block; font-size: 12px; font-weight: 800; line-height: 1.3; }
 .day-item-reason { display: block; margin-top: 4px; color: var(--text-muted); font-size: 10px; line-height: 1.4; }
+.day-item .travel-cue { display: block; margin-top: 5px; color: var(--accent-strong); font-size: 10px; font-weight: 750; line-height: 1.35; }
 .day-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 7px; }
 .semantic-tag, .tier-chip { border: 1px solid var(--border); border-radius: 999px; padding: 3px 6px; color: var(--text-muted); font-size: 9px; font-weight: 800; }
 .tier-chip { border-color: color-mix(in srgb, var(--tier-color, var(--accent)) 45%, var(--border)); color: var(--tier-color, var(--accent-strong)); }
 .plan-card { margin: 0 0 8px; padding: 10px; border: 1px dashed var(--border-strong); border-radius: 10px; background: var(--surface-muted); }
 .plan-card strong { display: block; font-size: 11px; }
 .plan-card p { margin: 4px 0 0; color: var(--text-muted); font-size: 10px; line-height: 1.4; }
+.plan-card .travel-cue { color: var(--accent-strong); font-weight: 750; }
+.plan-card .photo-blocker { color: var(--text-muted); }
+.cost-cockpit { width: min(760px, calc(100vw - 24px)); max-width: 760px; max-height: min(88dvh, 980px); padding: 0; border: 1px solid var(--border-strong); border-radius: 16px; background: var(--surface-raised); color: var(--text); box-shadow: 0 22px 72px #001c1b55; }
+.cost-cockpit::backdrop { background: #07191ac0; }
+.cost-cockpit-panel { max-height: min(88dvh, 980px); overflow: auto; padding: clamp(16px, 3vw, 24px); }
+.cost-cockpit-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+.cost-cockpit-head h2 { margin: 0; font-size: 22px; }
+.cost-cockpit-head p:not(.eyebrow) { margin: 5px 0 0; color: var(--text-muted); font-size: 13px; line-height: 1.45; }
+.cost-cockpit-content { display: grid; gap: 14px; padding-top: 12px; }
+.cost-scenario, .cockpit-section { min-width: 0; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-muted); }
+.cost-scenario > label { display: block; margin-bottom: 6px; font-weight: 750; font-size: 13px; }
+.cost-scenario h3 { margin: 12px 0 4px; font-size: 24px; }
+.cost-scenario h3 small { display: block; color: var(--text-muted); font-size: 12px; font-weight: 650; }
+.analysis-note, .scenario-empty, .local-only { color: var(--text-muted); font-size: 12px; line-height: 1.45; }
+.cost-lines, .cockpit-section ul { display: grid; gap: 5px; margin: 9px 0 0; padding: 0; list-style: none; }
+.cost-line { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px; line-height: 1.4; }
+.cost-line:last-child { border-bottom: 0; }
+.cost-line > span { min-width: 0; display: grid; gap: 5px; }
+.cost-line strong { flex: 0 0 auto; white-space: nowrap; }
+.fee-chip, .recheck-chip { display: inline-block; width: fit-content; margin: 3px 4px 0 0; padding: 3px 7px; border: 1px solid var(--border-strong); border-radius: 999px; color: var(--accent-strong); font-size: 10px; font-weight: 750; }
+.recheck-chip { border-color: #a76a42; color: #87451f; }
+.recheck-chip[data-freshness-status="STALE"] { border-color: #a94335; color: #8b3027; }
+.recheck-chip[data-freshness-status="UNVERIFIED"] { border-style: dashed; }
+.cockpit-section h3 { margin: 0 0 8px; font-size: 15px; }
+.cockpit-detail { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 5px 9px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.cockpit-detail:last-child { border-bottom: 0; }
+.cockpit-detail p, .cockpit-section p { grid-column: 1 / -1; margin: 0; color: var(--text-muted); font-size: 12px; line-height: 1.45; overflow-wrap: anywhere; }
+.cost-line a, .cockpit-detail a, .readiness-card a { width: fit-content; color: var(--accent-strong); font-size: 12px; font-weight: 750; }
+.readiness-section > .local-only { margin: -3px 0 10px; }
+.readiness-card { margin: 8px 0; padding: 11px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-raised); }
+.readiness-card header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.readiness-card h4 { display: inline; margin: 0 6px 0 0; font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+.readiness-card > p { margin: 9px 0 0; color: var(--text-muted); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.readiness-status { display: grid; flex: 0 0 min(210px, 40%); gap: 4px; color: var(--text-muted); font-size: 10px; }
+.readiness-status select, .cost-scenario select { width: 100%; min-width: 0; min-height: 40px; padding: 7px 9px; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--surface-raised); color: var(--text); font: inherit; }
 .empty-state { padding: 24px 12px; border: 1px dashed var(--border-strong); border-radius: 10px; color: var(--text-muted); font-size: 11px; line-height: 1.5; text-align: center; }
 .place-inspector { min-height: 120px; }
 .place-browser { display: grid; gap: 7px; }
@@ -268,6 +308,12 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
   .photo-grid { grid-template-columns: 1fr 1fr; }
   .photo-slot:first-child { grid-column: 1 / -1; grid-row: auto; min-height: 165px; }
   .photo-slot:not(:first-child) { min-height: 100px; }
+}
+@media (max-width: 800px) {
+  .cost-cockpit { position: fixed; inset: auto 0 0; width: 100%; max-width: none; max-height: 92dvh; margin: 0; border-radius: 16px 16px 0 0; border-bottom: 0; }
+  .cost-cockpit-panel { max-height: 92dvh; padding-bottom: max(20px, env(safe-area-inset-bottom)); }
+  .readiness-card header { flex-direction: column; }
+  .readiness-status { flex-basis: auto; width: 100%; }
 }
 @media (max-width: 390px) {
   .brand { font-size: 14px; }

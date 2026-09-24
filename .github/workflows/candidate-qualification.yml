@@ -41,16 +41,16 @@ jobs:
 
       - name: Run exact-revision full qualification under the shared hosted Linux contract
         run: |
-          mkdir -p QA/CHG-188/release
+          mkdir -p QA/CHG-204/release
           set -o pipefail
-          python3 scripts/hosted_linux_pipeline.py qualify --revision "$GITHUB_SHA" 2>&1 | tee QA/CHG-188/release/qualification.log
+          python3 scripts/hosted_linux_pipeline.py qualify --revision "$GITHUB_SHA" 2>&1 | tee QA/CHG-204/release/qualification.log
 
       - name: Run repository unit and contract checks
         if: always()
         run: |
-          mkdir -p QA/CHG-188/release
+          mkdir -p QA/CHG-204/release
           set -o pipefail
-          python3 -m unittest discover -s tests -p 'test_*.py' 2>&1 | tee QA/CHG-188/release/unit-tests.log
+          python3 -m unittest discover -s tests -p 'test_*.py' 2>&1 | tee QA/CHG-204/release/unit-tests.log
 
       - name: Check out a clean exact revision for the Pages release-path exercise
         if: success()
@@ -66,10 +66,10 @@ jobs:
         if: success()
         working-directory: release-path-checkout
         run: |
-          mkdir -p QA/CHG-188/release
+          mkdir -p QA/CHG-204/release
           set -o pipefail
-          python3 scripts/hosted_linux_pipeline.py release --revision "$GITHUB_SHA" 2>&1 | tee QA/CHG-188/release/pages-release.log
-          python3 scripts/pipeline.py verify-public --revision "$GITHUB_SHA" 2>&1 | tee QA/CHG-188/release/pages-verify-public.log
+          python3 scripts/hosted_linux_pipeline.py release --revision "$GITHUB_SHA" 2>&1 | tee QA/CHG-204/release/pages-release.log
+          python3 scripts/pipeline.py verify-public --revision "$GITHUB_SHA" 2>&1 | tee QA/CHG-204/release/pages-verify-public.log
 
       - name: Upload candidate qualification evidence
         if: always()
@@ -79,9 +79,9 @@ jobs:
           name: candidate-qualification-${{ github.sha }}
           if-no-files-found: warn
           path: |
-            QA/CHG-188/**/*.json
-            QA/CHG-188/**/*.log
+            QA/CHG-204/**/*.json
+            QA/CHG-204/**/*.log
             .public-site/.release-provenance.json
-            release-path-checkout/QA/CHG-188/**/*.json
-            release-path-checkout/QA/CHG-188/**/*.log
+            release-path-checkout/QA/CHG-204/**/*.json
+            release-path-checkout/QA/CHG-204/**/*.log
             release-path-checkout/.public-site/.release-provenance.json

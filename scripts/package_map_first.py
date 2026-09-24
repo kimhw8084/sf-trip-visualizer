@@ -17,7 +17,7 @@ from public_asset_rights import audit_tree, load_contract, load_json
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / ".build"
 PUBLIC = ROOT / ".public-site"
-QUALIFICATION = ROOT / "QA" / "CHG-188" / "release" / "qualification.json"
+QUALIFICATION = ROOT / "QA" / "CHG-204" / "release" / "qualification.json"
 DEFAULT_DESTINATION = ROOT / ".release" / "package"
 DEFAULT_ARCHIVE = ROOT / ".release" / "package.zip"
 
@@ -81,7 +81,7 @@ def main() -> None:
     copy_tree(BUILD / "modular", destination / "artifacts/modular")
     copy_tree(BUILD / "standalone", destination / "artifacts/standalone")
     copy_tree(PUBLIC, destination / "artifacts/public")
-    for relative in ("QA/CHG-188/photo_integrity.json", "QA/CHG-188/map_first_full", "QA/CHG-188/route_surface.json", "QA/CHG-188/release"):
+    for relative in ("QA/CHG-204/photo_integrity.json", "QA/CHG-204/map_first_full", "QA/CHG-204/route_surface.json", "QA/CHG-204/release"):
         source = ROOT / relative
         if source.is_dir():
             target = destination / relative
@@ -101,7 +101,7 @@ def main() -> None:
     photo_manifest = load_json(ROOT / "manifests" / "asset_manifest.json")
     public_audit = audit_tree(destination / "artifacts/public", contract=contract, manifest=photo_manifest, mode="pages")
     package_audit = audit_tree(destination, contract=contract, manifest=photo_manifest, mode="public-package")
-    package_rights_report = ROOT / "QA" / "CHG-188" / "release" / "public_asset_rights_package.json"
+    package_rights_report = ROOT / "QA" / "CHG-204" / "release" / "public_asset_rights_package.json"
     package_rights_report.parent.mkdir(parents=True, exist_ok=True)
     package_rights_report.write_text(json.dumps({"public_tree": public_audit, "package_tree": package_audit}, ensure_ascii=False, indent=2) + "\n")
     if public_audit["status"] != "PASS" or package_audit["status"] != "PASS":

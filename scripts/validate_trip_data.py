@@ -41,8 +41,11 @@ DATE = re.compile(r"^(\d{1,2}/\d{1,2})")
 BRANCH_KINDS = {"main", "conditional", "swap", "bonus", "recovery", "choice"}
 GEOMETRY_STATUSES = {"routed_osm", "conceptual_ferry", "conceptual_transfer", "conceptual_connector"}
 REGIONS = {"sf", "monterey", "yosemite"}
-RETIRED_ACTIVE_PLACE_KEYS = {"exploratorium", "musee", "academy"}
-RETIRED_ACTIVE_COPY = ("exploratorium", "musée mécanique", "musee mécanique", "california academy")
+RETIRED_ACTIVE_PLACE_KEYS = {"exploratorium", "musee", "academy", "bay_lights", "coit", "bixby", "mariposa"}
+RETIRED_ACTIVE_COPY = (
+    "exploratorium", "musée mécanique", "musee mécanique", "california academy",
+    "bay lights", "coit tower", "coit", "bixby creek bridge", "bixby", "mariposa grove", "mariposa",
+)
 
 
 def load(path: Path) -> Any:
@@ -140,6 +143,14 @@ def validate_trip_data() -> dict[str, Any]:
     runtime_copy = json.dumps({"data": data, "translations": translations, "research": research_ledger}, ensure_ascii=False).lower()
     check("retired_attractions_absent_from_active_runtime_copy", not any(term in runtime_copy for term in RETIRED_ACTIVE_COPY))
     check("date_count", len(dates) == expected.get("dates") and len(date_set) == len(dates))
+    check("trip_identity_present", has_text(data.get("trip_identity")))
+    operating_days = data.get("operating_days", {})
+    check("operating_days_cover_dates", set(operating_days) == date_set)
+    for day_key, operation in operating_days.items():
+        for field in ("leave", "nap", "recovery", "prepare", "invalidator"):
+            check(f"operating_day[{day_key}].{field}_bilingual", has_text(operation.get(f"{field}_en")) and has_text(operation.get(f"{field}_ko") or (operation.get(field) if KO.search(str(operation.get(field, ""))) else None)))
+    for key in ("10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11"):
+        check(f"operating_day[{key}].first_nap_after_0900", "09:00" in str(operating_days.get(key, {}).get("nap_en", "")) or "after ~09:00" in str(operating_days.get(key, {}).get("nap_en", "")) or "after ~9" in str(operating_days.get(key, {}).get("nap_en", "")).lower())
     check("region_count", set(place_region.values()) == REGIONS and set(data.get("region_cfg", {})) == REGIONS | {"overall"})
     check("provider_keys", sorted(data.get("providers", {})) == ["satellite", "vector"])
     check("provider_configuration", all(has_text(data["providers"].get(key, {}).get("label")) for key in ("vector", "satellite")))
@@ -365,6 +376,72 @@ def validate_trip_data() -> dict[str, Any]:
         check(f"{prefix}.claim_coverage", bool(claim_refs))
         referenced_legs = [ref.removeprefix("legs.") for ref in claim_refs if isinstance(ref, str) and ref.startswith("legs.")]
         check(f"{prefix}.active_leg_claim_refs", all(leg_id in set(leg_ids) for leg_id in referenced_legs))
+
+    freshness_ids_set = set(fact_ids)
+    readiness_items = data.get("readiness_items", [])
+    readiness_ids = [item.get("id") for item in readiness_items]
+    check("readiness_ids_unique", len(readiness_ids) == len(set(readiness_ids)) and all(has_text(value) for value in readiness_ids))
+    prerequisite_levels = {"required", "strongly_recommended", "optional", "recheck_only"}
+    fee_semantics = {"fixed", "starting", "estimated", "variable", "conditional", "included", "free"}
+    for item in readiness_items:
+        prefix = f"readiness[{item.get('id')}]"
+        urls = item.get("source", [])
+        check(f"{prefix}.source", bool(urls) and all(urlparse(url).scheme == "https" and bool(urlparse(url).netloc) for url in urls))
+        check(f"{prefix}.research", item.get("researched_on") == "2026-09-24" and has_text(item.get("confidence")))
+        check(f"{prefix}.recheck", has_text(item.get("recheck_timing")))
+        check(f"{prefix}.severity", item.get("prerequisite_severity") in prerequisite_levels)
+        check(f"{prefix}.fee_semantic", item.get("fee_semantic") in fee_semantics)
+        check(f"{prefix}.parking_and_mobility", has_text(item.get("parking_guidance_en")) and has_text(item.get("parking_guidance_ko")) and has_text(item.get("baby_mobility_en")) and has_text(item.get("baby_mobility_ko")))
+        check(f"{prefix}.date_scope", bool(item.get("applies_dates")) and set(item.get("applies_dates", [])) <= date_set)
+        check(f"{prefix}.local_state_scope", item.get("status_scope") == "local_user_only")
+        check(f"{prefix}.freshness_refs", bool(item.get("freshness_fact_ids")) and set(item.get("freshness_fact_ids", [])) <= freshness_ids_set)
+        linked = False
+        place = item.get("place_key")
+        if place:
+            marker = next((marker for marker in markers if marker.get("place_key") == place), None)
+            linked = bool(marker) and any(date_key(row.get("date")) in item.get("applies_dates", []) for row in marker.get("occurrences", []))
+        leg_id = item.get("leg_id")
+        if leg_id:
+            linked = linked or any(leg.get("leg_id") == leg_id and leg.get("date") in item.get("applies_dates", []) for leg in legs)
+        if item.get("logistics_key"):
+            linked = True
+        check(f"{prefix}.place_leg_or_logistics_link", linked)
+        if item.get("fee_semantic") in {"estimated", "variable"}:
+            check(f"{prefix}.dynamic_fee_not_frozen", item.get("fee_amount_cents") is None)
+
+    cockpit = data.get("cost_cockpit", {})
+    scenarios = cockpit.get("scenarios", [])
+    scenario_amounts = {
+        "us_resident_annual_pass": 65280,
+        "us_resident_a_la_carte": 66780,
+        "nonresident_annual_pass": 82280,
+        "nonresident_a_la_carte": 106780,
+    }
+    scenario_by_id = {scenario.get("id"): scenario for scenario in scenarios}
+    check("cost_scenario_set", set(scenario_by_id) == set(scenario_amounts))
+    for scenario_id, expected_cents in scenario_amounts.items():
+        scenario = scenario_by_id.get(scenario_id, {})
+        lines = scenario.get("lines", [])
+        line_ids = [line.get("id") for line in lines]
+        check(f"cost[{scenario_id}].unique_lines", len(line_ids) == len(set(line_ids)))
+        check(f"cost[{scenario_id}].arithmetic", all(isinstance(line.get("amount_cents"), int) and line.get("amount_cents") >= 0 for line in lines) and sum(line.get("amount_cents", 0) for line in lines) == scenario.get("lower_bound_cents") == expected_cents)
+        check(f"cost[{scenario_id}].sources", all(bool(line.get("source")) and all(urlparse(url).scheme == "https" for url in line.get("source", [])) for line in lines))
+        check(f"cost[{scenario_id}].no_toll_double_count", sum(line.get("id") == "ggb_tolls" for line in lines) == 1)
+    analysis = cockpit.get("analysis_scenario", {})
+    check("cost_residency_not_inferred", "Never inferred" in str(analysis.get("residency", "")))
+    check("cost_exclusions_explicit", set(analysis.get("excluded", [])) == {"food", "gas", "lodging", "base rental rate"})
+    starting_lines = [line for scenario in scenarios for line in scenario.get("lines", []) if line.get("fee_semantic") == "starting"]
+    variable_lines = cockpit.get("variable_checkout_required", []) + cockpit.get("optional_convenience", [])
+    check("cost_starting_classification", bool(starting_lines) and all(line.get("category") == "starting" for line in starting_lines))
+    check("cost_variable_and_optional_classification", bool(variable_lines) and all(line.get("fee_semantic") in {"starting", "variable", "estimated", "conditional"} for line in variable_lines))
+    for row in data.get("travel_ranges", []):
+        prefix = f"travel_range[{row.get('id')}]"
+        reference = row.get("baseline_reference", {})
+        window = row.get("planned_schedule_window", {})
+        check(f"{prefix}.planning_range", isinstance(row.get("planning_range_minutes_min"), int) and isinstance(row.get("planning_range_minutes_max"), int) and row["planning_range_minutes_min"] <= row["planning_range_minutes_max"])
+        check(f"{prefix}.baseline_separated", reference.get("status") in {"NOT_RESEARCHED", "REFERENCE_AVAILABLE"} and ((reference.get("minutes_min") is None and reference.get("minutes_max") is None) or isinstance(reference.get("minutes_min"), int) and isinstance(reference.get("minutes_max"), int)))
+        check(f"{prefix}.schedule_buffer_separated", "departure" in window and "arrival" in window and "buffer_minutes" in window and has_text(window.get("buffer_note")))
+        check(f"{prefix}.not_live_traffic", "static planning" in str(row.get("basis", "")).lower() and "live navigation" in str(row.get("live_navigation_cue", "")).lower() and "google" not in json.dumps(row).lower())
 
     report = {
         "status": "PASS" if not failures else "FAIL",

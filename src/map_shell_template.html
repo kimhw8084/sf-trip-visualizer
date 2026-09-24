@@ -118,6 +118,15 @@
         </div>
       </aside>
     </main>
+    <dialog id="costCockpit" class="cost-cockpit" aria-labelledby="costCockpitHeading" aria-describedby="costCockpitIntro">
+      <section class="cost-cockpit-panel">
+        <header class="cost-cockpit-head">
+          <div><p class="eyebrow">FIELD TOOL</p><h2 id="costCockpitHeading">Cost and readiness</h2><p id="costCockpitIntro"></p></div>
+          <button id="costCockpitClose" class="secondary-action" type="button">Close</button>
+        </header>
+        <div id="costCockpitContent" class="cost-cockpit-content"></div>
+      </section>
+    </dialog>
     <div id="startupStatus" class="sr-only" role="status" aria-live="polite"></div>
   </div>
   <script id="tripData">window.TRIP_DATA={};</script>

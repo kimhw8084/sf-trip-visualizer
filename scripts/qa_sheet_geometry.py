@@ -12,7 +12,7 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "CHG-188" / "sheet_geometry.json"
+OUT = ROOT / "QA" / "CHG-204" / "sheet_geometry.json"
 VIEWPORTS = ((360, 800), (390, 844), (414, 896), (844, 390), (375, 812), (1600, 900))
 MOBILE_PORTRAITS = {(360, 800), (390, 844), (414, 896), (375, 812)}
 
@@ -125,7 +125,7 @@ def main() -> int:
     identity = candidate_identity()
     report = {
         "schema_version": 1,
-        "change": "CHG-188 single-route mobile compact-sheet geometry regression",
+        "change": "CHG-204 single-route mobile compact-sheet geometry regression",
         "status": "FAIL",
         "viewports": {},
         "transition_rows": [],

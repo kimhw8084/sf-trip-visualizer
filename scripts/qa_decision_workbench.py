@@ -13,7 +13,7 @@ from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "CHG-188" / "decision_workbench"
+OUT = ROOT / "QA" / "CHG-204" / "decision_workbench"
 OUT.mkdir(parents=True, exist_ok=True)
 IDENTITY = candidate_identity()
 ROUTE_IDS = sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"])
@@ -123,7 +123,7 @@ with sync_playwright() as playwright:
     results.append(oracle("mobile_200_percent_reflow", page.evaluate("document.documentElement.scrollWidth <= innerWidth") and page.locator("#workbench").is_visible() and page.locator("[data-place-back]").is_visible()))
     browser.close()
 
-report = {"schema_version": 2, "change": "CHG-188", "status": "PASS" if not errors and all(row["status"] == "PASS" for row in results) else "FAIL", "base": "7d5d8727b1772642e87311d91d087e211656f6e4", "results": results, "errors": errors, "screenshots": screenshots, "reserved_holdouts": ["1536x864 desktop", "414x896 mobile"], "notes": ["Candidate-bound Chromium evidence; native Safari, physical-device and independent-human evidence remain external."]}
+report = {"schema_version": 2, "change": "CHG-204", "status": "PASS" if not errors and all(row["status"] == "PASS" for row in results) else "FAIL", "base": "7d5d8727b1772642e87311d91d087e211656f6e4", "results": results, "errors": errors, "screenshots": screenshots, "reserved_holdouts": ["1536x864 desktop", "414x896 mobile"], "notes": ["Candidate-bound Chromium evidence; native Safari, physical-device and independent-human evidence remain external."]}
 bind_report(report, IDENTITY)
 (OUT / "task_oracles.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "passed": sum(row["status"] == "PASS" for row in results), "total": len(results), "errors": errors}, ensure_ascii=False, indent=2))

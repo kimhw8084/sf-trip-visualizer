@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import argparse
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -136,19 +137,28 @@ def localize(entry: dict, candidate: dict, download_url: str, index: int) -> dic
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--only", nargs="*", help="localize these reviewed places without rewriting other assets")
+    args = parser.parse_args()
     selection = json.loads((ROOT / "manifests" / "photo_selection.json").read_text())["choices"]
     candidates = json.loads((ROOT / "QA" / "photo_candidates" / "candidates.json").read_text())
     manifest_path = ROOT / "manifests" / "asset_manifest.json"
     manifest = json.loads(manifest_path.read_text())
     entries = {(x["place_key"], x["role"]): x for x in manifest["assets"]}
     jobs = []
-    for place, indexes in selection.items():
+    selected_places = args.only or list(selection)
+    for place in selected_places:
+        indexes = selection.get(place)
+        if not indexes:
+            raise ValueError(f"No reviewed three-photo selection for {place}")
         if len(indexes) != 3 or len(set(indexes)) != 3:
             raise ValueError(f"Selection must contain three distinct photos: {place}")
         for role, index in zip(ROLES, indexes):
             jobs.append((entries[(place, role)], candidates[place][index], index))
     expected = manifest["required_assets"]
-    if len(jobs) != expected:
+    if args.only and len(jobs) != len(args.only) * len(ROLES):
+        raise ValueError(f"Expected three reviewed assets per selected place, got {len(jobs)}")
+    if not args.only and len(jobs) != expected:
         raise ValueError(f"Expected {expected} jobs, got {len(jobs)}")
     titles = [candidate["title"] for _, candidate, _ in jobs if candidate["title"].startswith("File:")]
     commons_urls = scaled_commons_urls(titles)
@@ -168,12 +178,13 @@ def main() -> None:
             except Exception as exc:
                 errors.append(f"{place} {role}: {exc}")
                 print("FAILED", errors[-1], flush=True)
-    manifest["localized_originals"] = len(results)
-    manifest["localized_thumbnails"] = len(results)
-    manifest["localized_medium"] = len(results)
-    manifest["decodable_originals"] = len(results)
-    manifest["deduped_assets"] = len({x["sha256"] for x in results})
-    manifest["status"] = f"LOCALIZED_{len(results)}_PENDING_INTEGRITY_CHECK" if not errors else "LOCALIZATION_INCOMPLETE"
+    localized = [item for item in manifest["assets"] if item.get("localization_status") == "LOCALIZED_AND_DECODED"]
+    manifest["localized_originals"] = len(localized)
+    manifest["localized_thumbnails"] = len(localized)
+    manifest["localized_medium"] = len(localized)
+    manifest["decodable_originals"] = len(localized)
+    manifest["deduped_assets"] = len({x["sha256"] for x in localized})
+    manifest["status"] = f"LOCALIZED_{len(localized)}_PENDING_INTEGRITY_CHECK" if not errors else "LOCALIZATION_INCOMPLETE"
     manifest["blocking_condition"] = None if not errors else errors
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2))
     print(json.dumps({"localized": len(results), "unique_hashes": manifest["deduped_assets"], "errors": errors}, ensure_ascii=False), flush=True)

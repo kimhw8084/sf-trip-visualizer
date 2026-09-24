@@ -1,21 +1,18 @@
 {
-  "schema_version": 1,
-  "authority": "Owner-approved active trip route-role source; route IDs are the configured active set.",
+  "schema_version": 2,
+  "authority": "CHG-204 final one-route place-role authority",
   "route_ids": [
     "A"
   ],
   "role_definitions": {
-    "Core": "Scheduled first-trip anchor. A defined external blocker must name the fallback.",
-    "Strong": "High-value scheduled stop with a clear drop-first position under fatigue or friction.",
-    "Conditional": "Eligible only when its named operating, weather, light, crowd, or energy condition is true.",
-    "Skip": "Intentionally omitted from this route; never rendered as a mandatory stop."
+    "Core": "Scheduled anchor with safe fallback.",
+    "Strong": "High-value stop dropped before recovery.",
+    "Conditional": "Run only when named conditions pass.",
+    "Skip": "Absent from active runtime."
   },
   "places": {
     "ferry": {
       "A": "Core"
-    },
-    "bay_lights": {
-      "A": "Strong"
     },
     "ggb": {
       "A": "Core"
@@ -24,7 +21,7 @@
       "A": "Core"
     },
     "battery": {
-      "A": "Core"
+      "A": "Conditional"
     },
     "palace": {
       "A": "Strong"
@@ -44,12 +41,6 @@
     "fortune": {
       "A": "Core"
     },
-    "cable_car": {
-      "A": "Strong"
-    },
-    "coit": {
-      "A": "Skip"
-    },
     "lombard": {
       "A": "Core"
     },
@@ -59,14 +50,20 @@
     "ghirardelli": {
       "A": "Core"
     },
+    "aquatic_park": {
+      "A": "Core"
+    },
+    "cable_car": {
+      "A": "Core"
+    },
     "point_lobos": {
       "A": "Core"
     },
     "carmel": {
       "A": "Core"
     },
-    "bixby": {
-      "A": "Skip"
+    "carmel_beach": {
+      "A": "Core"
     },
     "lone_cypress": {
       "A": "Core"
@@ -75,7 +72,7 @@
       "A": "Core"
     },
     "monterey_wharf": {
-      "A": "Core"
+      "A": "Strong"
     },
     "cooks": {
       "A": "Core"
@@ -95,17 +92,14 @@
     "glacier": {
       "A": "Core"
     },
-    "mariposa": {
-      "A": "Conditional"
-    },
     "painted": {
       "A": "Core"
     },
     "twin_peaks": {
-      "A": "Core"
+      "A": "Conditional"
     },
     "botanical": {
-      "A": "Strong"
+      "A": "Core"
     },
     "lands_end": {
       "A": "Core"
@@ -117,6 +111,21 @@
       "A": "Core"
     },
     "bridalveil": {
+      "A": "Core"
+    },
+    "alamo_square": {
+      "A": "Core"
+    },
+    "cantor_arts": {
+      "A": "Core"
+    },
+    "rodin_garden": {
+      "A": "Strong"
+    },
+    "stanford_quad": {
+      "A": "Strong"
+    },
+    "baker_beach": {
       "A": "Core"
     }
   }
