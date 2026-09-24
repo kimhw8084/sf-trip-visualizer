@@ -42,6 +42,12 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertEqual(len(data["dates"]), expected["dates"])
         self.assertEqual(set(data["place_region"]), {marker["place_key"] for marker in data["markers"]})
 
+    def test_generated_evidence_does_not_make_exact_source_checkout_dirty(self):
+        with patch.object(pipeline.subprocess, "check_output", return_value="?? QA/CHG-188/current.json\n?? .build/modular/index.html\n"):
+            self.assertTrue(pipeline.working_tree_clean())
+        with patch.object(pipeline.subprocess, "check_output", return_value="?? QA/CHG-188/current.json\n M src/app_phase7.js\n"):
+            self.assertFalse(pipeline.working_tree_clean())
+
     def test_build_does_not_mutate_authored_data(self):
         authored = ROOT / "data/phase7_app_data.json"
         before = sha256(authored)
@@ -131,9 +137,8 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertIn("actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02", workflow)
         self.assertNotIn("pip install --upgrade", workflow)
         self.assertIn("candidate-qualification-${{ github.sha }}", workflow)
-        self.assertIn("QA/release/*.json", workflow)
-        self.assertIn("QA/map_first/**/*.json", workflow)
-        self.assertIn("QA/map_first/screenshots/**", workflow)
+        self.assertIn("QA/CHG-188/**/*.json", workflow)
+        self.assertIn("QA/CHG-188/**/*.log", workflow)
 
     def test_public_assembly_is_exact_sha_gated(self):
         public = (ROOT / "scripts/prepare_public_site.py").read_text()
@@ -143,6 +148,10 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertIn("build manifest changed after qualification", public)
         source_generation = (ROOT / "scripts/apply_location_gap_audit.py").read_text()
         self.assertIn("Explicit source-generation step required", source_generation)
+        package = (ROOT / "scripts/package_map_first.py").read_text()
+        self.assertIn('"CHG-188" / "release" / "qualification.json"', package)
+        self.assertIn('"QA/CHG-188/release"', package)
+        self.assertNotIn('"QA" / "release"', package)
 
     def test_smart_map_asset_is_materialized_not_an_lfs_pointer(self):
         vector = ROOT / "assets/vector/sf_trip.pmtiles"

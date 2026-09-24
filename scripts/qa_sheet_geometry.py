@@ -12,7 +12,7 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5" / "sheet_geometry.json"
+OUT = ROOT / "QA" / "CHG-188" / "sheet_geometry.json"
 VIEWPORTS = ((360, 800), (390, 844), (414, 896), (844, 390), (375, 812), (1600, 900))
 MOBILE_PORTRAITS = {(360, 800), (390, 844), (414, 896), (375, 812)}
 
@@ -36,7 +36,6 @@ def snapshot(page) -> dict:
             sheet: app.state.presentation.sheet,
             task: {
               primary_route: app.state.task.primaryRoute,
-              compare_routes: [...app.state.task.compareRoutes].sort(),
               date: app.state.task.date,
               region: app.state.task.region,
               selected: app.state.task.selected,
@@ -126,7 +125,7 @@ def main() -> int:
     identity = candidate_identity()
     report = {
         "schema_version": 1,
-        "change": "CHG-157 R5 mobile compact-sheet geometry regression",
+        "change": "CHG-188 single-route mobile compact-sheet geometry regression",
         "status": "FAIL",
         "viewports": {},
         "transition_rows": [],
@@ -184,14 +183,11 @@ def main() -> int:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: task state failed transition preservation")
 
                     activate(page, "compact", "pointer")
-                    for control in ("#mapOptionsToggle", "#routeLegendToggle"):
-                        page.locator(control).click()
-                        page.wait_for_timeout(40)
-                        if control == "#mapOptionsToggle" and page.locator("#mapOptionsPanel").is_hidden():
-                            report["failures"].append(f"{viewport[0]}x{viewport[1]}: map options unreachable in compact")
-                        if control == "#routeLegendToggle" and page.locator("#routeLegendPanel").is_hidden():
-                            report["failures"].append(f"{viewport[0]}x{viewport[1]}: route key unreachable in compact")
-                        page.keyboard.press("Escape")
+                    page.locator("#mapOptionsToggle").click()
+                    page.wait_for_timeout(40)
+                    if page.locator("#mapOptionsPanel").is_hidden():
+                        report["failures"].append(f"{viewport[0]}x{viewport[1]}: map options unreachable in compact")
+                    page.keyboard.press("Escape")
                     cooks = page.locator(".photo-marker[data-place-key='cooks']")
                     cooks.click(timeout=5000)
                     if page.locator("#peek.show").count() != 1:

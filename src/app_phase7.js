@@ -34,7 +34,6 @@
   let peekHideTimer = null;
   let suppressPeekFocusKey = null;
   let mapOptionsInvoker = null;
-  let routeLegendInvoker = null;
   let geometryFrame = 0;
   let geometryNeedsRefit = false;
   let geometryWaiters = [];
@@ -56,7 +55,6 @@
   };
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
   const isMobile = () => window.matchMedia('(max-width:800px)').matches;
-  const compactRouteLegendCameraNeutral = () => isMobile() && state.presentation.sheet === 'compact';
   const safeColor = value => /^#[0-9a-f]{6}$/i.test(String(value ?? '')) ? String(value) : '#72857b';
   const photoPath = (key, role, variant) => /^[a-z0-9]+(?:_[a-z0-9]+)*$/i.test(String(key ?? '')) && SAFE_PHOTO_ROLES.has(role) && SAFE_PHOTO_VARIANTS.has(variant) ? `assets/photos/${variant}/${key}__${role}.webp` : SAFE_PIXEL;
   const photoSrc = path => window.EMBEDDED_PHOTOS?.[path] || path;
@@ -65,8 +63,9 @@
   const roleFor = (key, route) => DATA.route_roles?.[key]?.[route] || (markerByKey[key]?.routes?.includes(route) ? 'Strong' : 'Skip');
   const roleShort = role => ({ Core: 'C', Strong: 'S', Conditional: '△', Skip: '—' }[role] || '—');
   const roleLabel = role => m({ Core: 'roleCore', Strong: 'roleStrong', Conditional: 'roleConditional', Skip: 'roleSkip' }[role] || 'roleSkip');
-  function routeMembershipMarkup(key) {
-    return `<div class="route-membership" role="group" aria-label="${esc(m('routeMembership'))}">${ROUTES.map(route => { const role = roleFor(key, route); return `<span class="membership-cell role-${role.toLowerCase()}" data-route="${esc(route)}" data-role="${esc(role)}" aria-label="${esc(`Route ${route} — ${roleLabel(role)}`)}"><b>${esc(route)}</b><i aria-hidden="true">${roleShort(role)}</i><small>${esc(roleLabel(role))}</small></span>`; }).join('')}</div>`;
+  function placeRoleMarkup(key, route = state.task.primaryRoute) {
+    const role = roleFor(key, route);
+    return `<span class="place-role role-${role.toLowerCase()}" data-role="${esc(role)}">${esc(roleLabel(role))}</span>`;
   }
   const dateLabel = value => {
     const key = String(value || '').match(/^\d+\/\d+/)?.[0];
@@ -84,8 +83,8 @@
   /* ----- Task state projection and persistence ----- */
   function activeRoutes({ map = false } = {}) {
     if (state.task.routes.size === 1) return new Set(state.task.routes);
-    if (map && state.presentation.mode === 'decide' && !state.task.compareRoutes.size) return new Set(ROUTES);
-    if (state.task.compareRoutes.size && state.presentation.mode === 'decide') return new Set([state.task.primaryRoute, ...state.task.compareRoutes]);
+    if (map && state.presentation.mode === 'decide') return new Set(ROUTES);
+    if (state.task.routes.size) return new Set(state.task.routes);
     return new Set([state.task.primaryRoute]);
   }
   function routeIntersects(routes, options) { return (routes || []).some(route => activeRoutes(options).has(route)); }
@@ -323,7 +322,7 @@
     return features;
   }
   function cameraTaskContext() {
-    return { routes: [...state.task.routes].sort(), primary_route: state.task.primaryRoute, compare_routes: [...state.task.compareRoutes].sort(), date: state.task.date, region: state.task.region };
+    return { routes: [...state.task.routes].sort(), primary_route: state.task.primaryRoute, date: state.task.date, region: state.task.region };
   }
   function sameCameraTask(a, b) {
     return !!a && !!b && JSON.stringify(a) === JSON.stringify(b);
@@ -398,8 +397,9 @@
   function showRoutePeek(properties, event) {
     const card = document.getElementById('peek');
     state.presentation.peek = { route: properties.route, invoker: document.activeElement };
-    card.innerHTML = `<div class="peek-body"><div class="eyebrow">${esc(properties.route)} · ${esc(dateLabel(properties.date))}</div><h3 id="peekTitle" class="peek-title">${esc(tr(properties.label || ''))}</h3><p id="peekDescription" class="peek-why"><strong>${esc(tierLabel(properties.branch === 'main' ? 'main' : properties.branch))}</strong> · ${esc(modeLabel(properties.mode))}${properties.time ? ` · ${esc(properties.time)}` : ''}<br>${esc(tr(properties.note || ''))}</p><p class="peek-sub">${properties.status === 'routed_osm' ? m('recheck') : m('mapLegend')}</p><button class="peek-action" type="button" data-route-use>${m('chooseRoute')} ${esc(properties.route)} ↗</button></div>`;
-    card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card); card.querySelector('[data-route-use]').onclick = () => choosePrimaryRoute(properties.route);
+    const action = ROUTES.length > 1 ? `<button class="peek-action" type="button" data-route-use>${m('chooseRoute')} ${esc(properties.route)} ↗</button>` : '';
+    card.innerHTML = `<div class="peek-body"><div class="eyebrow">${esc(properties.route)} · ${esc(dateLabel(properties.date))}</div><h3 id="peekTitle" class="peek-title">${esc(tr(properties.label || ''))}</h3><p id="peekDescription" class="peek-why"><strong>${esc(tierLabel(properties.branch === 'main' ? 'main' : properties.branch))}</strong> · ${esc(modeLabel(properties.mode))}${properties.time ? ` · ${esc(properties.time)}` : ''}<br>${esc(tr(properties.note || ''))}</p><p class="peek-sub">${properties.status === 'routed_osm' ? m('recheck') : m('mapLegend')}</p>${action}</div>`;
+    card.classList.add('show'); card.setAttribute('aria-hidden', 'false'); positionPeek(event, card); card.querySelector('[data-route-use]')?.addEventListener('click', () => choosePrimaryRoute(properties.route));
   }
   function mapObstacleRects() {
     const shell = document.querySelector('.map-shell');
@@ -431,7 +431,6 @@
     if (!map || !shell) return isMobile() ? { top: 118, right: 30, bottom: 112, left: 30 } : { top: 170, right: 60, bottom: 100, left: 60 };
     const shellRect = shell.getBoundingClientRect(), padding = { top: MAP_SAFE_MARGIN, right: MAP_SAFE_MARGIN, bottom: MAP_SAFE_MARGIN, left: MAP_SAFE_MARGIN };
     for (const obstacle of mapObstacleRects()) {
-      if (compactRouteLegendCameraNeutral() && obstacle.selector.includes('route-legend-panel')) continue;
       const touchesLeft = obstacle.left <= MAP_SAFE_MARGIN && obstacle.right > 0;
       const touchesRight = obstacle.right >= shellRect.width - MAP_SAFE_MARGIN && obstacle.left < shellRect.width;
       const touchesTop = obstacle.top <= MAP_SAFE_MARGIN && obstacle.bottom > 0;
@@ -479,7 +478,7 @@
       const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
       return { key: element.dataset.placeKey || element.getAttribute('aria-label') || element.className, rect: effective, intersects_obstacle: obstacles.filter(obstacle => intersects(effective, obstacle)).map(obstacle => obstacle.selector), center_hit: hit?.closest?.('.photo-marker, .photo-cluster, .route-leg-label')?.className || hit?.className || null, center: center };
     });
-    const persistent = obstacles.filter(obstacle => !/(map-options-panel|route-legend-panel)/.test(obstacle.selector)).map(obstacle => ({ ...obstacle, shellWidth: shellRect.width }));
+    const persistent = obstacles.filter(obstacle => !/map-options-panel/.test(obstacle.selector)).map(obstacle => ({ ...obstacle, shellWidth: shellRect.width }));
     const shellArea = shellRect.width * shellRect.height, persistentArea = unionArea(persistent);
     const appbarRect = document.querySelector('.appbar')?.getBoundingClientRect();
     const workbenchRect = document.querySelector('.workbench')?.getBoundingClientRect();
@@ -525,7 +524,6 @@
         map.resize();
         if (shouldRefit && state.runtime.mapVisualReady) fitVisibleMap(map);
         if (state.presentation.mapOptionsOpen) positionMapOptions();
-        if (state.presentation.routeLegendOpen) positionRouteLegend();
         markStartup('map_geometry_recomposed', { reason, refit: shouldRefit });
       }
       const waiters = geometryWaiters;
@@ -609,7 +607,7 @@
       const previous = photoMap, same = previous && renderedProvider === state.runtime.provider && renderedTheme === state.presentation.theme;
       clusterMarkers.forEach(marker => marker.remove()); clusterMarkers = []; photoMarkers.forEach(marker => marker.remove()); photoMarkers = []; legMarkers.forEach(marker => marker.remove()); legMarkers = [];
       if (same && state.runtime.localAssets.status === 'ready') {
-        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); renderMapLegend(); if (!preserve || mapGeometrySnapshot().markers.some(marker => marker.intersects_obstacle.length)) fitVisibleMap(previous); rememberSmartCamera(previous); return true;
+        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); if (!preserve || mapGeometrySnapshot().markers.some(marker => marker.intersects_obstacle.length)) fitVisibleMap(previous); rememberSmartCamera(previous); return true;
       }
       const view = viewForDraw(preserve, previous);
       if (previous) { previous.__tripCleanup?.(); previous.remove(); state.runtime.mapRemovals += 1; }
@@ -619,7 +617,7 @@
         state.runtime.mapStatus = 'loading'; state.runtime.mapVisualReady = false;
         map = new maplibregl.Map({ container: 'map', style: providerStyle(state.runtime.provider), center: [region.center.lon, region.center.lat], zoom: region.zoom, attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 18 });
         photoMap = map; renderedProvider = state.runtime.provider; renderedTheme = state.presentation.theme; state.runtime.mapCreations += 1; state.runtime.mapStatus = 'loading'; renderProviderState(); markStartup('map_created');
-        map.on('load', () => { markStartup('map_style_ready'); installRouteLayers(map); installPhotoMarkers(map, { deferClusters: true }); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); updatePhotoClusters(); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; if (state.runtime.provider === 'vector') rememberSmartCamera(map); renderProviderState(); renderMapLegend(); renderShellStatus(); markStartup('map_visual_ready', { markers: photoMarkers.length, layers: map.getStyle()?.layers?.length || 0 }); });
+        map.on('load', () => { markStartup('map_style_ready'); installRouteLayers(map); installPhotoMarkers(map, { deferClusters: true }); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); updatePhotoClusters(); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; if (state.runtime.provider === 'vector') rememberSmartCamera(map); renderProviderState(); renderShellStatus(); markStartup('map_visual_ready', { markers: photoMarkers.length, layers: map.getStyle()?.layers?.length || 0 }); });
         map.on('moveend', () => { if (state.runtime.provider === 'vector' && renderedProvider === 'vector') rememberSmartCamera(map); });
         map.on('click', () => hidePeek({ returnFocus: false }));
         map.on('error', event => { if (isSatelliteRasterError(event, map)) { void returnToSmart('satellite', 'tile_error', { source_id: event.sourceId, message: String(event?.error?.message || event?.message || event?.error || 'raster tile request failed') }); return; } if (localMapError(event)) showMapFailure(event.error || event.message, 'map_runtime'); });
@@ -669,29 +667,28 @@
 
   /* ----- Decide mode ----- */
   function routeProfile(route) {
-    const meta = routeMeta[route], narrative = routeNarrative(route), scores = Object.entries(meta.score || {});
-    return `<article class="route-card ${route === state.task.primaryRoute ? 'primary' : ''}" style="--route-color:${safeColor(meta.color)}"><div class="route-card-head"><div class="route-card-title"><strong>${esc(tr(meta.title))}</strong><small>${esc(tr(meta.subtitle || ''))}</small></div><span class="route-code-pill" aria-label="${m('routeCode')}">${esc(route)}</span></div><p class="route-architecture">${esc(tr(meta.operating_architecture || ''))}</p><div class="score-line" aria-label="${m('routeScore')}">${scores.slice(0, 4).map(([key, value]) => `<span>${esc(state.presentation.lang === 'en' ? messages.scoreLabels[key] || key : key)} ${esc(value)}/10</span>`).join('')}</div><div class="route-card-actions"><button type="button" class="route-use" data-route="${esc(route)}" aria-pressed="${route === state.task.primaryRoute}">${route === state.task.primaryRoute ? m('currentRoute') : m('chooseRoute')}</button><button type="button" class="route-compare" data-compare-route="${esc(route)}" aria-pressed="${state.task.compareRoutes.has(route)}">${state.task.compareRoutes.has(route) ? m('compareRemove') : m('compareSelect')}</button></div></article>`;
+    const meta = routeMeta[route], scores = Object.entries(meta.score || {});
+    const selector = ROUTES.length > 1 ? `<div class="route-card-actions"><button type="button" class="route-use" data-route="${esc(route)}" aria-pressed="${route === state.task.primaryRoute}">${route === state.task.primaryRoute ? m('currentRoute') : m('chooseRoute')}</button></div>` : '';
+    return `<article class="route-card ${route === state.task.primaryRoute ? 'primary' : ''}" style="--route-color:${safeColor(meta.color)}"><div class="route-card-head"><div class="route-card-title"><strong>${esc(tr(meta.title))}</strong><small>${esc(tr(meta.subtitle || ''))}</small></div><span class="route-code-pill" aria-label="${m('routeCode')}">${esc(route)}</span></div><p class="route-architecture">${esc(tr(meta.operating_architecture || ''))}</p><div class="score-line" aria-label="${m('routeScore')}">${scores.slice(0, 4).map(([key, value]) => `<span>${esc(state.presentation.lang === 'en' ? messages.scoreLabels[key] || key : key)} ${esc(value)}/10</span>`).join('')}</div>${selector}</article>`;
   }
   function renderDecide() {
     const meta = routeMeta[recommendedRoute], narrative = routeNarrative(recommendedRoute), recommendation = document.getElementById('recommendation');
-    recommendation.innerHTML = `<div class="route-code">${m('recommended')} · ${esc(recommendedRoute)}</div><h3>${esc(tr(meta.title))}</h3><p class="promise">${esc(tr(meta.subtitle || ''))}</p><div class="recommendation-grid"><div class="decision-cell"><strong>${m('bestFor')}</strong><span>${esc(narrative.best_for)}</span></div><div class="decision-cell"><strong>${m('tradeoff')}</strong><span>${esc(narrative.tradeoff)}</span></div><div class="decision-cell"><strong>${m('switchRule')}</strong><span>${esc(narrative.decision_rule)}</span></div><div class="decision-cell"><strong>${m('regretGuard')}</strong><span>${esc(narrative.regret_guard)}</span></div></div><div class="recommendation-footer"><span class="route-code">${m('routeCode')}: ${esc(recommendedRoute)} · ${esc(tr(meta.lodging || ''))}</span><button class="primary-action" type="button" data-route="${esc(recommendedRoute)}" data-recommendation-use>${state.task.primaryRoute === recommendedRoute ? m('currentRoute') : m('chooseRoute')}</button></div>`;
-    document.getElementById('routeCards').innerHTML = ROUTES.map(routeProfile).join(''); document.getElementById('routeCount').textContent = `${ROUTES.length} ${m('route')}`; document.getElementById('compareCount').textContent = `${state.task.compareRoutes.size}/2`;
-    recommendation.querySelector('[data-recommendation-use]').onclick = () => choosePrimaryRoute(recommendedRoute);
+    const selector = ROUTES.length > 1 ? `<button class="primary-action" type="button" data-route="${esc(recommendedRoute)}" data-recommendation-use>${state.task.primaryRoute === recommendedRoute ? m('currentRoute') : m('chooseRoute')}</button>` : '';
+    recommendation.innerHTML = `<div class="route-code">${m('recommended')} · ${esc(recommendedRoute)}</div><h3>${esc(tr(meta.title))}</h3><p class="promise">${esc(tr(meta.subtitle || ''))}</p><div class="recommendation-grid"><div class="decision-cell"><strong>${m('bestFor')}</strong><span>${esc(narrative.best_for)}</span></div><div class="decision-cell"><strong>${m('tradeoff')}</strong><span>${esc(narrative.tradeoff)}</span></div><div class="decision-cell"><strong>${m('switchRule')}</strong><span>${esc(narrative.decision_rule)}</span></div><div class="decision-cell"><strong>${m('regretGuard')}</strong><span>${esc(narrative.regret_guard)}</span></div></div><div class="recommendation-footer"><span class="route-code">${m('routeCode')}: ${esc(recommendedRoute)} · ${esc(tr(meta.lodging || ''))}</span>${selector}</div>`;
+    document.getElementById('routeCards').innerHTML = ROUTES.map(routeProfile).join('');
     document.querySelectorAll('[data-route]').forEach(button => { button.onclick = () => choosePrimaryRoute(button.dataset.route); });
-    document.querySelectorAll('[data-compare-route]').forEach(button => { button.onclick = () => toggleCompare(button.dataset.compareRoute); });
-    renderCompare();
   }
-  function choosePrimaryRoute(route) { if (!ROUTES.includes(route)) return; state.task.primaryRoute = route; if (state.task.compareRoutes.has(route)) state.task.compareRoutes.delete(route); renderAll(); persist(); drawMap(true); }
-  function toggleCompare(route) { if (state.task.compareRoutes.has(route)) state.task.compareRoutes.delete(route); else if (route !== state.task.primaryRoute && state.task.compareRoutes.size < 2) state.task.compareRoutes.add(route); renderDecide(); renderMapLegend(); persist(); drawMap(true); }
-  function renderCompare() {
-    const routes = [state.task.primaryRoute, ...state.task.compareRoutes].filter((route, index, all) => route && all.indexOf(route) === index).slice(0, 2), panel = document.getElementById('comparePanel');
-    if (routes.length < 2) { panel.innerHTML = `<div class="compare-empty">${m('compareNeed')}<br>${m('compareHint')}</div>`; return; }
-    const [first, second] = routes, a = routeMeta[first], b = routeMeta[second], an = routeNarrative(first), bn = routeNarrative(second), shared = DATA.legs.filter(leg => leg.routes.includes(first) && leg.routes.includes(second)).length, divergent = DATA.legs.filter(leg => leg.routes.includes(first) !== leg.routes.includes(second)).slice(0, 3).map(leg => tr(leg.label)).join(' · ');
-    panel.innerHTML = `<div class="compare-head"><strong>${esc(first)} × ${esc(second)}</strong><span>${shared} ${m('sharedStructure').toLowerCase()} legs</span></div><div class="compare-grid"><article><strong>${esc(first)} · ${esc(tr(a.title))}</strong><p>${esc(an.best_for)}</p></article><article><strong>${esc(second)} · ${esc(tr(b.title))}</strong><p>${esc(bn.best_for)}</p></article></div><div class="compare-rows"><div class="compare-row"><b>${m('tradeoff')}</b><span>${esc(an.tradeoff)}<br><strong>${esc(second)}:</strong> ${esc(bn.tradeoff)}</span></div><div class="compare-row"><b>${m('switchRule')}</b><span>${esc(an.decision_rule)}<br><strong>${esc(second)}:</strong> ${esc(bn.decision_rule)}</span></div><div class="compare-row"><b>${m('divergentStructure')}</b><span>${esc(divergent || m('noSlots'))}</span></div></div>`;
+  function choosePrimaryRoute(route) {
+    if (!ROUTES.includes(route)) return;
+    state.task.primaryRoute = route;
+    state.task.routes = new Set([route]);
+    renderAll(); persist(); drawMap(true);
   }
 
   /* ----- Day mode ----- */
-  function routeMini(routes, key) { return routes.filter(route => activeRoutes().has(route)).map(route => { const role = key ? roleFor(key, route) : ''; return `<span class="semantic-tag" style="border-color:${safeColor(routeMeta[route].color)};color:${safeColor(routeMeta[route].color)}">${esc(route)}${role ? ` · ${esc(roleShort(role))}` : ''}</span>`; }).join(''); }
+  function routeMini(routes, key) {
+    return ROUTES.length > 1 ? routes.filter(route => activeRoutes().has(route)).map(route => `<span class="semantic-tag" style="border-color:${safeColor(routeMeta[route].color)};color:${safeColor(routeMeta[route].color)}">${esc(route)}${key ? ` · ${esc(roleShort(roleFor(key, route)))}` : ''}</span>`).join('') : '';
+  }
   function dayIntensity(items) { const tiers = items.map(item => item.schedule_tier || 'main'); if (tiers.filter(tier => tier === 'recovery').length >= 2) return m('calm'); if (tiers.includes('must') && items.length >= 8) return m('full'); return m('steady'); }
   function renderDatePicker() {
     const select = document.getElementById('dateSelect'); select.innerHTML = `<option value="all">${m('allDates')}</option>${DATA.dates.map(date => `<option value="${esc(date.key)}">${esc(dateLabel(date.key))}</option>`).join('')}`; select.value = state.task.date;
@@ -702,24 +699,21 @@
     const dayMeta = DATA.dates.find(date => date.key === state.task.date), regions = [...new Set(items.flatMap(item => item.regions || []))].map(region => DATA.region_cfg[region]?.[state.presentation.lang === 'ko' ? 'label' : 'label_en'] || m(region)).join(' · '), recovery = items.filter(item => ['recovery', 'bonus'].includes(item.schedule_tier)).length, decisions = items.filter(item => ['swap', 'conditional', 'choice'].includes(item.schedule_tier)).length;
     header.innerHTML = `<h3>${esc(dateLabel(dayMeta?.key || state.task.date))}</h3><p>${esc(regions || m('overall'))} · ${esc(state.task.primaryRoute)} · ${esc(m('recheck'))}</p><div class="day-metrics"><span class="day-metric">${m('intensity')}: ${esc(dayIntensity(items))}</span><span class="day-metric">${m('decisions')}: ${decisions}</span><span class="day-metric">${m('calm')}: ${recovery}</span></div>`;
     if (!items.length) { plan.innerHTML = `<div class="empty-state">${m('noSlots')}</div>`; return; }
-    plan.innerHTML = `<p class="day-story">${esc(tr(items[0]?.reason || ''))}</p>${items.map(item => { const mapped = item.spatial_keys?.length, tier = item.schedule_tier || 'main', color = tier === 'must' ? '#a94335' : tier === 'swap' ? '#a76a42' : tier === 'recovery' ? '#72857b' : 'var(--accent)'; return mapped ? `<button type="button" class="day-item ${item.spatial_keys.includes(state.task.selected) ? 'selected' : ''}" data-day-place="${esc(item.spatial_keys[0])}" style="--tier-color:${color}"><span class="day-time">${esc(tr(item.time || '—'))}</span><span class="day-item-main"><span class="day-item-title">${esc(item.spatial_keys.length === 1 ? placeName(item.spatial_keys[0]) : tr(item.title))}</span><span class="day-item-reason"><strong>${esc(m('whyNow'))}:</strong> ${esc(tr(item.reason || ''))}</span><span class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${item.route_specific ? `<span class="semantic-tag">${m('specific')}</span>` : `<span class="semantic-tag">${m('shared')}</span>`}${routeMini(item.routes, item.spatial_keys[0])}</span></span></button>` : `<article class="plan-card" style="--tier-color:${color}"><strong>${esc(tr(item.time || '—'))} · ${esc(tr(item.title))}</strong><p>${esc(tr(item.reason || item.advantage || ''))} · ${m('noMapped')}</p><div class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${routeMini(item.routes)}</div></article>`; }).join('')}`;
+    plan.innerHTML = `<p class="day-story">${esc(tr(items[0]?.reason || ''))}</p>${items.map(item => { const mapped = item.spatial_keys?.length, tier = item.schedule_tier || 'main', color = tier === 'must' ? '#a94335' : tier === 'swap' ? '#a76a42' : tier === 'recovery' ? '#72857b' : 'var(--accent)'; return mapped ? `<button type="button" class="day-item ${item.spatial_keys.includes(state.task.selected) ? 'selected' : ''}" data-day-place="${esc(item.spatial_keys[0])}" style="--tier-color:${color}"><span class="day-time">${esc(tr(item.time || '—'))}</span><span class="day-item-main"><span class="day-item-title">${esc(item.spatial_keys.length === 1 ? placeName(item.spatial_keys[0]) : tr(item.title))}</span><span class="day-item-reason"><strong>${esc(m('whyNow'))}:</strong> ${esc(tr(item.reason || ''))}</span><span class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${ROUTES.length > 1 ? (item.route_specific ? `<span class="semantic-tag">${m('specific')}</span>` : `<span class="semantic-tag">${m('shared')}</span>`) : ''}${routeMini(item.routes, item.spatial_keys[0])}</span></span></button>` : `<article class="plan-card" style="--tier-color:${color}"><strong>${esc(tr(item.time || '—'))} · ${esc(tr(item.title))}</strong><p>${esc(tr(item.reason || item.advantage || ''))} · ${m('noMapped')}</p><div class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${routeMini(item.routes)}</div></article>`; }).join('')}`;
     plan.querySelectorAll('[data-day-place]').forEach(button => { button.onclick = () => { selectPlace(button.dataset.dayPlace, { focus: true, open: false, invoker: button }); showPeek(button.dataset.dayPlace, { invoker: button }); }; });
   }
 
   /* ----- Place mode: browser, Peek -> Inspector, and return ----- */
   function renderPlaceBrowser() {
-    const regionMatches = marker => state.task.region === 'overall' || marker.regions?.includes(state.task.region);
+    const regionMatches = marker => state.task.region === 'overall' || DATA.place_region[marker.place_key] === state.task.region;
     const visible = DATA.markers.filter(marker => regionMatches(marker) && (state.task.date === 'all' || markerVisible(marker)));
-    const matrixLegend = `<div class="membership-legend" role="note"><strong>${m('routeMembershipLegend')}</strong><span><b>C</b> ${m('roleCore')}</span><span><b>S</b> ${m('roleStrong')}</span><span><b>△</b> ${m('roleConditional')}</span><span><b>—</b> ${m('roleSkip')}</span></div>`;
-    const html = `<div class="place-browser"><p class="place-browser-intro">${m('placeListComplete')} ${visible.length}/${DATA.markers.length} ${m('stop')} · ${esc(state.task.primaryRoute)}</p>${matrixLegend}<div class="place-list">${visible.map(marker => { const occurrence = preferredOccurrence(marker); return `<button type="button" class="place-list-item" data-place-choice="${esc(marker.place_key)}"><img src="${photoSrc(photoPath(marker.place_key, 'hero', 'thumb'))}" alt=""><span class="place-list-copy"><strong>${esc(placeName(marker.place_key))}</strong>${state.presentation.lang === 'ko' ? `<small>${esc(placeKo(marker.place_key))}</small>` : ''}<small>${esc(dateLabel(occurrence?.date_key || occurrence?.date || ''))} · ${esc(tr(occurrence?.time || '—'))}</small><em>${esc(tr(occurrence?.reason || marker.why))}</em>${routeMembershipMarkup(marker.place_key)}</span></button>`; }).join('')}</div></div>`;
+    const html = `<div class="place-browser"><p class="place-browser-intro">${m('placeListComplete')} ${visible.length}/${DATA.markers.length} ${m('stop')}</p><div class="place-list">${visible.map(marker => { const occurrence = preferredOccurrence(marker); return `<button type="button" class="place-list-item" data-place-choice="${esc(marker.place_key)}"><img src="${photoSrc(photoPath(marker.place_key, 'hero', 'thumb'))}" alt=""><span class="place-list-copy"><strong>${esc(placeName(marker.place_key))}</strong>${state.presentation.lang === 'ko' ? `<small>${esc(placeKo(marker.place_key))}</small>` : ''}<small>${esc(dateLabel(occurrence?.date_key || occurrence?.date || ''))} · ${esc(tr(occurrence?.time || '—'))}</small><em>${esc(tr(occurrence?.reason || marker.why))}</em>${placeRoleMarkup(marker.place_key)}</span></button>`; }).join('')}</div></div>`;
     const panel = document.getElementById('placeInspector'); panel.innerHTML = html;
     panel.querySelectorAll('[data-place-choice]').forEach(button => { button.onclick = () => openPlace(button.dataset.placeChoice, button); });
   }
   function renderPlaceInspector(marker) {
     const panel = document.getElementById('placeInspector'), occurrences = groupOccurrences(marker), now = preferredOccurrence(marker), tier = tierFor(marker), photos = [[m('hero'), 'hero'], [m('experiencePhoto'), 'experience'], [m('scale'), 'scale_context']], mapsHref = safeExternalUrl(marker.maps_url);
-    panel.innerHTML = `<button type="button" class="secondary-action place-back" data-place-back>← ${m('closePlace')}</button><div class="place-title-row"><div><h3>${esc(placeName(marker.place_key))}</h3>${state.presentation.lang === 'ko' ? `<p>${esc(placeKo(marker.place_key))}</p>` : ''}</div><span class="place-score">${esc(marker.score)}/100</span></div><div class="place-meta"><span>${esc(tr(marker.cluster))}</span><span>${esc(tierLabel(tier))}</span><span>${marker.routes.filter(route => activeRoutes().has(route)).join(' · ')}</span></div><div class="place-glance"><strong>${esc(tr(now?.status || m('status')))} · ${esc(dateLabel(now?.date_key || now?.date || ''))} · ${esc(tr(now?.time || '—'))}</strong><div><b>${m('whyNow')}</b> ${esc(tr(now?.reason || marker.why))}</div>${now?.advantage ? `<em>${m('advantage')}: ${esc(tr(now.advantage))}</em>` : ''}</div><div class="photo-grid">${photos.map(([label, role]) => `<figure class="photo-slot"><img src="${photoSrc(photoPath(marker.place_key, role, 'medium'))}" alt="${esc(placeName(marker.place_key))} — ${esc(label)}" loading="lazy"><figcaption>${esc(label)}</figcaption></figure>`).join('')}</div><div class="place-fact"><strong>${m('placeWhy')}</strong>${esc(tr(marker.why))}</div><div class="place-fact"><strong>${m('experience')}</strong>${esc(tr(marker.summary))}</div><div class="place-fact"><strong>${m('exactTiming')}</strong>${occurrences.length ? occurrences.map(item => `<div class="occurrence"><b>${esc(tr(item.title))}</b><small>${esc(item.routes.join(' · '))} · ${esc(dateLabel(item.date_key || item.date))} · ${esc(tr(item.time || '—'))} · ${esc(tr(item.status || ''))}</small><small>${m('whyNow')}: ${esc(tr(item.reason || ''))}</small></div>`).join('') : `<span class="muted">${m('noSlots')}</span>`}</div>${marker.decision_rules?.length ? `<div class="place-fact"><strong>${m('switchRule')}</strong>${marker.decision_rules.map(rule => `<div class="decision-rule"><b>${esc(decisionLabel(rule.key))}</b>${esc(tr(rule.text))}</div>`).join('')}</div>` : ''}<div class="place-fact"><strong>${m('freshness')}</strong><span>${esc(m('recheck'))}</span></div><div class="place-fact directions"><span>${marker.lat.toFixed(5)}, ${marker.lon.toFixed(5)}</span>${mapsHref ? `<a href="${esc(mapsHref)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${m('directions')} ↗</a>` : `<span>${m('unavailableDirections')}</span>`}</div>`;
-    const glance = panel.querySelector('.place-glance');
-    glance?.insertAdjacentHTML('afterend', `<div class="place-fact inspector-membership"><strong>${m('routeMembership')}</strong>${routeMembershipMarkup(marker.place_key)}</div>`);
+    panel.innerHTML = `<button type="button" class="secondary-action place-back" data-place-back>← ${m('closePlace')}</button><div class="place-title-row"><div><h3>${esc(placeName(marker.place_key))}</h3>${state.presentation.lang === 'ko' ? `<p>${esc(placeKo(marker.place_key))}</p>` : ''}</div><span class="place-score">${esc(marker.score)}/100</span></div><div class="place-meta"><span>${esc(tr(marker.cluster))}</span><span>${esc(tierLabel(tier))}</span></div><div class="place-role-line">${placeRoleMarkup(marker.place_key)}</div><div class="place-glance"><strong>${esc(tr(now?.status || tierLabel(tier)))} · ${esc(dateLabel(now?.date_key || now?.date || ''))} · ${esc(tr(now?.time || '—'))}</strong><div><b>${m('whyNow')}</b> ${esc(tr(now?.reason || marker.why))}</div>${now?.advantage ? `<em>${m('advantage')}: ${esc(tr(now.advantage))}</em>` : ''}</div><div class="photo-grid">${photos.map(([label, role]) => `<figure class="photo-slot"><img src="${photoSrc(photoPath(marker.place_key, role, 'medium'))}" alt="${esc(placeName(marker.place_key))} — ${esc(label)}" loading="lazy"><figcaption>${esc(label)}</figcaption></figure>`).join('')}</div><div class="place-fact"><strong>${m('placeWhy')}</strong>${esc(tr(marker.why))}</div><div class="place-fact"><strong>${m('experience')}</strong>${esc(tr(marker.summary))}</div><div class="place-fact"><strong>${m('exactTiming')}</strong>${occurrences.length ? occurrences.map(item => `<div class="occurrence"><b>${esc(tr(item.title))}</b><small>${esc(dateLabel(item.date_key || item.date))} · ${esc(tr(item.time || '—'))} · ${esc(tr(item.status || ''))}</small><small>${m('whyNow')}: ${esc(tr(item.reason || ''))}</small></div>`).join('') : `<span class="muted">${m('noSlots')}</span>`}</div>${marker.decision_rules?.length ? `<div class="place-fact"><strong>${m('switchRule')}</strong>${marker.decision_rules.map(rule => `<div class="decision-rule"><b>${esc(decisionLabel(rule.key))}</b>${esc(tr(rule.text))}</div>`).join('')}</div>` : ''}<div class="place-fact"><strong>${m('freshness')}</strong><span>${esc(m('recheck'))}</span></div><div class="place-fact directions"><span>${marker.lat.toFixed(5)}, ${marker.lon.toFixed(5)}</span>${mapsHref ? `<a href="${esc(mapsHref)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${m('directions')} ↗</a>` : `<span>${m('unavailableDirections')}</span>`}</div>`;
     bindLocalImageFailures(panel); panel.querySelector('[data-place-back]').onclick = closePlace;
   }
   function renderPlace() { const marker = markerByKey[state.task.selected]; if (state.presentation.mode === 'place' && marker) renderPlaceInspector(marker); else if (state.presentation.mode === 'place') renderPlaceBrowser(); }
@@ -749,21 +743,6 @@
       mapOptionsInvoker = null;
     }
   }
-  function positionRouteLegend() {
-    const shell = document.querySelector('.map-shell'), surface = document.getElementById('mapLegend'), panel = document.getElementById('routeLegendPanel');
-    if (!shell || !surface || !panel || panel.hidden) return;
-    const shellRect = shell.getBoundingClientRect(); panel.classList.remove('open-down');
-    if (panel.getBoundingClientRect().top < shellRect.top + 8) panel.classList.add('open-down');
-  }
-  function setRouteLegendOpen(open, { returnFocus = true } = {}) {
-    const toggle = document.getElementById('routeLegendToggle'), panel = document.getElementById('routeLegendPanel');
-    if (!toggle || !panel) return;
-    state.presentation.routeLegendOpen = open;
-    if (open) routeLegendInvoker = toggle;
-    panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open));
-    if (open) requestAnimationFrame(() => { positionRouteLegend(); if (!compactRouteLegendCameraNeutral()) fitVisibleMap(); });
-    else { panel.classList.remove('open-down'); const restore = returnFocus && routeLegendInvoker?.focus && document.contains(routeLegendInvoker) ? routeLegendInvoker : null; requestAnimationFrame(() => { if (!compactRouteLegendCameraNeutral()) fitVisibleMap(); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); }); routeLegendInvoker = null; }
-  }
   function renderMapControls() {
     const provider = document.getElementById('providerControls'), region = document.getElementById('regionControls');
     provider.innerHTML = ['vector', 'satellite'].map(key => `<button type="button" class="segment" data-provider="${key}" aria-pressed="${state.runtime.provider === key}">${key === 'vector' ? m('smartMap') : m('satellite')}</button>`).join('');
@@ -774,13 +753,6 @@
     region.querySelectorAll('[data-region]').forEach(button => { button.onclick = () => { setMapOptionsOpen(false); state.task.region = button.dataset.region; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; renderAll(); persist(); drawMap(false); }; });
     renderProviderState();
   }
-  function renderMapLegend() {
-    const current = state.task.primaryRoute, meta = routeMeta[current], currentLabel = document.getElementById('routeLegendCurrent'), panel = document.getElementById('routeLegendPanel'), toggle = document.getElementById('routeLegendToggle');
-    if (!currentLabel || !panel || !toggle) return;
-    currentLabel.textContent = `${m('current')}: ${current} · ${tr(meta.title)}`;
-    panel.innerHTML = ROUTES.map(route => { const item = routeMeta[route], pattern = ['solid', 'dash', 'dot', 'dashdot'].includes(item.pattern) ? item.pattern : 'solid', narrative = routeNarrative(route); return `<div class="route-legend-item"><i class="route-legend-swatch ${pattern}" style="--route-color:${safeColor(item.color)}" aria-hidden="true"></i><span><strong>${esc(route)} · ${esc(tr(item.title))}</strong><small>${esc(tr(narrative.best_for || item.core_reason || ''))}</small></span></div>`; }).join('');
-    panel.hidden = !state.presentation.routeLegendOpen; toggle.setAttribute('aria-expanded', String(state.presentation.routeLegendOpen));
-  }
   function renderShellStatus() {
     const status = document.getElementById('workbenchStatus'); if (!status) return; const mode = state.presentation.mode === 'decide' ? m('decide') : state.presentation.mode === 'day' ? m('day') : m('place'); const context = state.presentation.mode === 'day' && state.task.date !== 'all' ? dateLabel(state.task.date) : state.task.primaryRoute; status.textContent = `${mode} · ${context}`;
   }
@@ -790,7 +762,6 @@
     document.querySelector('.brand').textContent = m('brand'); document.querySelector('.sub').textContent = m('subtitle');
     const fieldSet = document.querySelector('.route-section .eyebrow'); if (fieldSet) fieldSet.textContent = m('fieldSet');
     const routeHeading = document.getElementById('routeSectionHeading'); if (routeHeading) routeHeading.textContent = m('routeStrategies');
-    const compareKicker = document.querySelector('.compare-section .eyebrow'); if (compareKicker) compareKicker.textContent = m('compareKicker');
     document.getElementById('langToggle').textContent = state.presentation.lang === 'ko' ? 'EN' : '한국어'; document.getElementById('themeToggle').textContent = state.presentation.theme === 'dark' ? `☀ ${m('light')}` : `☾ ${m('dark')}`;
     document.getElementById('workbenchToggle').textContent = state.presentation.sheet === 'compact' ? m('expand') : m('collapse');
     const smartRetry = document.getElementById('smartRetry'); if (smartRetry) smartRetry.textContent = m(smartRetry.dataset.retryProvider === 'satellite' ? 'retrySatellite' : 'retrySmart');
@@ -828,14 +799,13 @@
   function renderModes() {
     const mode = state.presentation.mode, workbench = document.getElementById('workbench'); workbench.dataset.mode = mode; document.querySelectorAll('[data-mode]').forEach(button => { const active = button.dataset.mode === mode; button.classList.toggle('active', active); if (active) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current'); }); document.querySelectorAll('.mode-view').forEach(view => { const active = view.dataset.view === mode; view.hidden = !active; view.classList.toggle('active', active); });
   }
-  function renderAll() { applyTranslations(); renderMapControls(); renderModes(); renderShellStatus(); renderDecide(); if (state.presentation.mode === 'day') renderDay(); if (state.presentation.mode === 'place') renderPlace(); renderMapLegend(); }
+  function renderAll() { applyTranslations(); renderMapControls(); renderModes(); renderShellStatus(); renderDecide(); if (state.presentation.mode === 'day') renderDay(); if (state.presentation.mode === 'place') renderPlace(); }
   function bindShell() {
     document.querySelectorAll('[data-mode]').forEach(button => { button.onclick = () => setMode(button.dataset.mode); });
     document.querySelectorAll('[data-sheet]').forEach(button => { if (button.classList.contains('icon-button')) button.onclick = () => setSheet(button.dataset.sheet); });
     document.getElementById('workbenchToggle').onclick = () => setSheet(state.presentation.sheet === 'compact' ? 'expanded' : 'compact');
     document.getElementById('mapOptionsToggle').onclick = () => setMapOptionsOpen(!state.presentation.mapOptionsOpen);
     document.getElementById('mapOptionsClose').onclick = () => setMapOptionsOpen(false);
-    document.getElementById('routeLegendToggle').onclick = () => setRouteLegendOpen(!state.presentation.routeLegendOpen);
     document.getElementById('langToggle').onclick = () => { state.presentation.lang = state.presentation.lang === 'ko' ? 'en' : 'ko'; hidePeek({ returnFocus: false }); renderAll(); persist(); drawMap(true); };
     document.getElementById('themeToggle').onclick = () => { state.presentation.theme = state.presentation.theme === 'dark' ? 'light' : 'dark'; renderAll(); persist(); drawMap(true); };
     document.getElementById('fitMap').onclick = () => fitVisibleMap();
@@ -846,10 +816,10 @@
       document.getElementById('mapError').hidden = true; state.runtime.provider = 'vector'; state.runtime.providerHealth.vector = 'loading'; state.runtime.localAssets.status = 'checking'; renderProviderState(); try { await setupVector(); await drawMap(true); } catch (error) { showMapFailure(error, 'retry'); }
     };
     document.getElementById('dateSelect').onchange = event => { state.task.date = event.target.value; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; state.presentation.mode = 'day'; renderAll(); persist(); drawMap(false); };
-    const handleEscape = event => { if (event.key !== 'Escape') return; if (state.presentation.mapOptionsOpen) { setMapOptionsOpen(false); event.preventDefault(); return; } if (state.presentation.routeLegendOpen) { setRouteLegendOpen(false); event.preventDefault(); return; } if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };
+    const handleEscape = event => { if (event.key !== 'Escape') return; if (state.presentation.mapOptionsOpen) { setMapOptionsOpen(false); event.preventDefault(); return; } if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };
     document.onkeydown = handleEscape;
     document.body?.addEventListener('keydown', handleEscape);
-    document.addEventListener('pointerdown', event => { if (state.presentation.mapOptionsOpen && !event.target.closest('#mapControlSurface')) setMapOptionsOpen(false); if (state.presentation.routeLegendOpen && !event.target.closest('#mapLegend')) setRouteLegendOpen(false); });
+    document.addEventListener('pointerdown', event => { if (state.presentation.mapOptionsOpen && !event.target.closest('#mapControlSurface')) setMapOptionsOpen(false); });
     const handleViewportChange = () => {
       syncSheetPresentation();
       renderModes();
@@ -870,7 +840,7 @@
 
   /* ----- QA instrumentation and compatibility surface ----- */
   function runtimeSnapshot() {
-    return { provider: state.runtime.provider, provider_identity: state.runtime.providerIdentity, provider_health: { ...state.runtime.providerHealth }, app_ready: state.runtime.mapStatus === 'ready', map_visual_ready: state.runtime.mapVisualReady, planning_state: { routes: [...activeRoutes()], primary_route: state.task.primaryRoute, compare_routes: [...state.task.compareRoutes], date: state.task.date, region: state.task.region, selected: state.task.selected, mode: state.presentation.mode, sheet: state.presentation.sheet, lang: state.presentation.lang, theme: state.presentation.theme }, provider_events: state.runtime.providerEvents.slice(), local_assets: { status: state.runtime.localAssets.status, failures: state.runtime.localAssets.failures.slice() }, startup: { marks: [...(window.__tripStartupMarks || [])] }, runtime: { ...state.runtime, events: state.runtime.events.slice() }, smart_camera: validSmartCamera(), map: { canvas_count: document.querySelectorAll('.maplibregl-canvas').length, photo_markers: document.querySelectorAll('.photo-marker').length, photo_marker_keys: [...document.querySelectorAll('.photo-marker')].map(element => element.dataset.placeKey), clusters: document.querySelectorAll('.photo-cluster').length, leg_markers: document.querySelectorAll('.route-leg-label').length, layers: photoMap?.getStyle?.()?.layers?.length || 0, camera: cameraView(), spatial: mapSpatialSnapshot() } };
+    return { provider: state.runtime.provider, provider_identity: state.runtime.providerIdentity, provider_health: { ...state.runtime.providerHealth }, app_ready: state.runtime.mapStatus === 'ready', map_visual_ready: state.runtime.mapVisualReady, planning_state: { routes: [...activeRoutes()], primary_route: state.task.primaryRoute, date: state.task.date, region: state.task.region, selected: state.task.selected, mode: state.presentation.mode, sheet: state.presentation.sheet, lang: state.presentation.lang, theme: state.presentation.theme }, provider_events: state.runtime.providerEvents.slice(), local_assets: { status: state.runtime.localAssets.status, failures: state.runtime.localAssets.failures.slice() }, startup: { marks: [...(window.__tripStartupMarks || [])] }, runtime: { ...state.runtime, events: state.runtime.events.slice() }, smart_camera: validSmartCamera(), map: { canvas_count: document.querySelectorAll('.maplibregl-canvas').length, photo_markers: document.querySelectorAll('.photo-marker').length, photo_marker_keys: [...document.querySelectorAll('.photo-marker')].map(element => element.dataset.placeKey), clusters: document.querySelectorAll('.photo-cluster').length, leg_markers: document.querySelectorAll('.route-leg-label').length, layers: photoMap?.getStyle?.()?.layers?.length || 0, camera: cameraView(), spatial: mapSpatialSnapshot() } };
   }
   function renderFixture(value) {
     const marker = DATA.markers[0], saved = marker ? JSON.parse(JSON.stringify(marker)) : null;

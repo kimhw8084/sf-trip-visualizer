@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Fail-closed validation and deterministic projection for route truth.
 
-The owner-approved 39x5 role matrix is the only role authority.  The day
-model supplies dates and chronology; it may not contradict the matrix.
+The owner-approved role matrix is the only role authority. The configured route
+set is data-driven and may contain one or more strategies.
 """
 
 from __future__ import annotations
@@ -20,7 +20,6 @@ ROLE_PATH = ROOT / "data" / "route_role_matrix.json"
 SCHEDULE_PATH = ROOT / "data" / "route_schedules.json"
 DATA_PATH = ROOT / "data" / "phase7_app_data.json"
 
-ROUTES = ["A", "B", "C", "D", "E"]
 ROLE_BUCKETS = {
     "hard_anchors": "Core",
     "strong": "Strong",
@@ -46,6 +45,31 @@ EXPECTED_LODGING = {
     "sf": ["10/2–10/6", "10/9–10/12"],
     "monterey": ["10/6–10/7"],
     "yosemite": ["10/7–10/9"],
+}
+OWNER_MUST_DAYS = {
+    "ferry": "10/3",
+    "ggb": "10/4",
+    "muir": "10/4",
+    "battery": "10/4",
+    "alcatraz": "10/5",
+    "chinatown": "10/5",
+    "pier39": "10/5",
+    "fortune": "10/5",
+    "ghirardelli": "10/5",
+    "lombard": "10/5",
+    "point_lobos": "10/6",
+    "carmel": "10/6",
+    "aquarium": "10/6",
+    "lone_cypress": "10/6",
+    "monterey_wharf": "10/6",
+    "tunnel_view": "10/7",
+    "bridalveil": "10/7",
+    "cooks": "10/7",
+    "glacier": "10/8",
+    "tea_garden": "10/10",
+    "lands_end": "10/11",
+    "painted": "10/11",
+    "twin_peaks": "10/11",
 }
 
 
@@ -91,7 +115,7 @@ def canonicalize_schedule(schedule: dict, roles: dict[str, dict[str, str]], plac
 
     projected = copy.deepcopy(schedule)
     place_region = place_region or {}
-    for route in ROUTES:
+    for route in projected.get("routes", {}):
         route_doc = projected.get("routes", {}).get(route, {})
         for day_key, day in route_doc.get("days", {}).items():
             buckets = {"Core": [], "Strong": [], "Conditional": []}
@@ -128,21 +152,27 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
     failures: list[str] = []
     roles = roles_doc.get("places", {})
     route_ids = roles_doc.get("route_ids", [])
+    routes = schedule.get("routes", {})
     labels = date_labels(data)
     date_keys = list(labels)
     place_region = data.get("place_region", {})
     markers = {marker.get("place_key"): marker for marker in data.get("markers", [])}
 
-    _check(failures, route_ids == ROUTES, f"role matrix route_ids must be exactly {ROUTES}")
-    _check(failures, len(roles) == 39, f"role matrix must contain 39 places, found {len(roles)}")
+    _check(failures, isinstance(route_ids, list) and bool(route_ids), "role matrix route_ids must be a non-empty list")
+    _check(failures, len(route_ids) == len(set(route_ids)), "role matrix route_ids must be unique")
+    _check(failures, set(routes) == set(route_ids), "schedule route IDs must exactly match the canonical active route set")
+    _check(failures, set(data.get("routes", {})) == set(route_ids), "runtime route IDs must exactly match the canonical active route set")
+    _check(failures, all(set(row) == set(route_ids) for row in roles.values()), "every place role row must exactly match the canonical active route set")
+    _check(failures, bool(markers) and len(markers) == len(set(markers)), "canonical marker identities must be non-empty and unique")
+    _check(failures, len(roles) == len(markers), f"role matrix must cover every canonical place; found {len(roles)} roles for {len(markers)} places")
     _check(failures, set(roles) == set(markers), "role matrix and canonical marker place identities differ")
-    _check(failures, set(place_region) == set(markers), "place-region authority does not cover exactly the 39 places")
+    _check(failures, set(place_region) == set(markers), "place-region authority does not cover exactly the canonical places")
 
     scheduled_rows = 0
     drop_first_references = 0
     drop_first_days = 0
-    daily_regions: dict[str, dict[str, list[str]]] = {route: {} for route in ROUTES}
-    for route in ROUTES:
+    daily_regions: dict[str, dict[str, list[str]]] = {route: {} for route in route_ids}
+    for route in route_ids:
         days = schedule.get("routes", {}).get(route, {}).get("days", {})
         _check(failures, route in schedule.get("routes", {}), f"missing schedule route {route}")
         _check(failures, set(days) == set(date_keys), f"{route} schedule must cover exactly the canonical sightseeing dates")
@@ -193,7 +223,7 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
                         failures.append(f"{prefix} is duplicated")
                     seen_drop_first.add(place)
                     if place not in roles:
-                        failures.append(f"{prefix} references a place outside the canonical 39-place matrix")
+                        failures.append(f"{prefix} references a place outside the canonical place matrix")
                         continue
                     canonical_role = roles[place].get(route)
                     if canonical_role == "Skip":
@@ -210,6 +240,18 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
                     elif live_roles[0] != canonical_role:
                         failures.append(f"{prefix} is scheduled as {live_roles[0]}, canonical role is {canonical_role}")
 
+        anchors = data.get("endpoint_anchors", {})
+        for leg in data.get("legs", []):
+            if route not in leg.get("routes", []) or leg.get("date") not in daily_regions[route] or leg.get("render_style") != "transfer_dots":
+                continue
+            endpoint_regions = [place_region.get(endpoint) or anchors.get(endpoint, {}).get("region") for endpoint in (leg.get("from"), leg.get("to"))]
+            regions = daily_regions[route][leg["date"]]
+            origin_region, destination_region = endpoint_regions
+            if origin_region and origin_region not in regions:
+                regions.insert(0, origin_region)
+            if destination_region and destination_region not in regions:
+                regions.append(destination_region)
+
         _check(failures, set(days) <= set(date_keys), f"{route} schedule dates are outside the canonical sightseeing window")
         ordered_regions: list[str] = []
         for day_key in date_keys:
@@ -221,6 +263,8 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
             ordered_regions == ["sf", "monterey", "yosemite", "sf"] or ordered_regions == ["sf", "monterey", "yosemite"],
             f"{route} region chronology is implausible: {ordered_regions}",
         )
+        yosemite_to_sf = [leg for leg in data.get("legs", []) if route in leg.get("routes", []) and leg.get("date") == "10/9" and leg.get("from") == "yosemite_valley" and leg.get("to") == "sf_center" and leg.get("render_style") == "transfer_dots"]
+        _check(failures, len(yosemite_to_sf) == 1, f"{route} must have exactly one conceptual Yosemite → SF transfer after the 10/9 morning")
 
         for day_key, day in days.items():
             if "bixby" not in day.get("hard_anchors", []) + day.get("strong", []) + day.get("conditional", []):
@@ -236,6 +280,16 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
                     break
             _check(failures, unsafe is None, f"{route} Bixby contains unsafe stop language")
 
+        for place, required_day in OWNER_MUST_DAYS.items():
+            day = days.get(required_day, {})
+            _check(failures, roles.get(place, {}).get(route) == "Core", f"{route} {place} must remain an owner-approved Core place")
+            _check(failures, place in day.get("hard_anchors", []), f"{route} {place} must remain scheduled as a hard anchor on {required_day}")
+        _check(failures, roles.get("bixby", {}).get(route) == "Skip", f"{route} Bixby must remain Skip")
+        _check(failures, roles.get("botanical", {}).get(route) == "Strong" and "botanical" in days.get("10/10", {}).get("strong", []), f"{route} San Francisco Botanical Garden must remain Strong on 10/10")
+        _check(failures, all(key not in day.get(field, []) for day in days.values() for field in (*ROLE_FIELDS.keys(),) for key in ("exploratorium", "musee", "academy", "coit", "bixby")), f"{route} schedules a removed attraction, paid Coit visit, or Bixby stop")
+        _check(failures, "glacier" in days.get("10/8", {}).get("hard_anchors", []) and "Washburn Point and Valley View yield before Glacier Point" in " ".join(days.get("10/8", {}).get("recovery", [])), f"{route} Glacier Point or recovery priority drifted")
+        _check(failures, "Yosemite morning" in " ".join(days.get("10/9", {}).get("recovery", [])) and "SF hotel" in " ".join(days.get("10/9", {}).get("recovery", [])) and "Do not add an SF photo stop" in " ".join(days.get("10/9", {}).get("recovery", [])), f"{route} 10/9 Yosemite morning → SF recovery semantics drifted")
+
     lodging = schedule.get("lodging")
     _check(failures, lodging == "SF 10/2–10/6 → Monterey exactly one night 10/6–10/7 → Yosemite exactly two nights 10/7–10/9 → SF 10/9–10/12", "lodging skeleton text drifted")
     _check(failures, data.get("trip", {}).get("lodging_nights") == EXPECTED_LODGING, "canonical lodging nights drifted")
@@ -249,7 +303,7 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
             route = occurrence.get("route")
             prefix = f"occurrence {place}[{index}]"
             key = occurrence.get("date_key") or date_key(occurrence.get("date"))
-            _check(failures, route in ROUTES, f"{prefix} has invalid route {route}")
+            _check(failures, route in route_ids, f"{prefix} has invalid route {route}")
             _check(failures, key in labels, f"{prefix} has invalid date_key {key}")
             if key in labels:
                 _check(failures, occurrence.get("date") == labels[key]["ko"], f"{prefix} has stale Korean weekday/date label")
@@ -258,7 +312,7 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
                 ko_weekday, en_weekday = actual_weekdays(key)
                 _check(failures, labels[key]["ko"].endswith(ko_weekday), f"date authority Korean weekday is wrong for {key}")
                 _check(failures, labels[key]["en"].endswith(en_weekday), f"date authority English weekday is wrong for {key}")
-            if route in ROUTES and place in roles:
+            if route in route_ids and place in roles:
                 _check(failures, roles[place].get(route) != "Skip", f"{prefix} schedules a Skip role")
                 _check(failures, occurrence.get("role") == roles[place].get(route), f"{prefix} role disagrees with canonical matrix")
     if occurrence_failures_before == len(failures) and occurrence_count == 0:

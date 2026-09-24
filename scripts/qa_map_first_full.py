@@ -11,9 +11,9 @@ from qa_config import MODULAR_URL
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "map_first"
+OUT = ROOT / "QA" / "CHG-188" / "map_first_full"
 OUT.mkdir(parents=True, exist_ok=True)
-ROUTES = ("A", "B", "C", "D", "E")
+ROUTES = tuple(sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"]))
 DATES = ("all", "10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11")
 REGIONS = ("overall", "sf", "monterey", "yosemite")
 report = bind_report(
@@ -41,18 +41,14 @@ with sync_playwright() as playwright:
     page.on("requestfailed", lambda request: report["failed_requests"].append({"url": request.url, "failure": request.failure}))
     page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    page.wait_for_function("document.querySelectorAll('.photo-marker').length===window.__tripApp.DATA.markers.length", timeout=15000)
+    page.wait_for_function("document.querySelectorAll('.photo-marker').length===window.__tripApp.DATA.markers.filter(window.__tripApp.markerVisible).length", timeout=15000)
 
     check("shell_ready", page.locator("#workbench").count() == 1 and page.locator("#map").count() == 1)
     check("no_artificial_splash", page.locator("#loadingScreen").count() == 0)
-    check("initial_recommendation", "A" in page.locator("#recommendation").inner_text() and page.locator("#recommendation .decision-cell").count() == 4)
-    check("all_five_route_strategies", page.locator("#routeCards .route-card").count() == 5)
+    check("initial_recommendation", ROUTES[0] in page.locator("#recommendation").inner_text() and page.locator("#recommendation .decision-cell").count() == 4)
+    check("configured_route_cards", page.locator("#routeCards .route-card").count() == len(ROUTES))
+    check("single_route_has_no_comparison_chrome", page.locator("[data-compare-route],#comparePanel,.route-compare,.route-membership,.membership-cell").count() == 0)
     capture(page, "default_1440_ko_light")
-
-    page.locator('[data-compare-route="B"]').click()
-    compare = page.locator("#comparePanel").inner_text()
-    check("two_route_compare", all(value in compare for value in ("A", "B", "공통", "갈라지는")))
-    capture(page, "compare_a1_a2_1440")
 
     page.locator('[data-mode="day"]').click()
     page.locator("#dateSelect").select_option("10/8")
@@ -75,9 +71,10 @@ with sync_playwright() as playwright:
     capture(page, "place_inspector_1440")
 
     # Exercise nonempty state combinations without retaining the old duplicate UI.
-    for routes, date, region in itertools.product((ROUTES, ("A",), ("B", "D")), ("all", "10/8", "10/9"), ("overall", "sf", "monterey", "yosemite")):
+    route_sets = tuple(dict.fromkeys((ROUTES, *((route,) for route in ROUTES))))
+    for routes, date, region in itertools.product(route_sets, ("all", "10/8", "10/9"), ("overall", "sf", "monterey", "yosemite")):
         result = page.evaluate(
-            """async ({routes,date,region})=>{const a=window.__tripApp,s=a.state.task;s.routes=new Set(routes);s.primaryRoute=routes[0];s.compareRoutes=new Set();s.date=date;s.region=region;s.selected=null;a.setMode('day');await a.drawMap(false);const expected=a.DATA.markers.filter(a.markerVisible).length,actual=document.querySelectorAll('.photo-marker').length,features=a.visibleRouteFeatures(),fail=[];if(actual!==expected)fail.push('markers');if(document.querySelectorAll('.maplibregl-canvas').length!==1)fail.push('canvas');if(document.documentElement.scrollWidth>innerWidth)fail.push('overflow');if(date!=='all'&&features.some(f=>f.properties.date!==date))fail.push('cross_date_route');return {routes,date,region,markers:actual,expected,features:features.length,failures:fail}}""",
+            """async ({routes,date,region})=>{const a=window.__tripApp,s=a.state.task;s.routes=new Set(routes);s.primaryRoute=routes[0];s.date=date;s.region=region;s.selected=null;a.setMode('day');await a.drawMap(false);const expected=a.DATA.markers.filter(a.markerVisible).length,actual=document.querySelectorAll('.photo-marker').length,features=a.visibleRouteFeatures(),fail=[];if(actual!==expected)fail.push('markers');if(document.querySelectorAll('.maplibregl-canvas').length!==1)fail.push('canvas');if(document.documentElement.scrollWidth>innerWidth)fail.push('overflow');if(date!=='all'&&features.some(f=>f.properties.date!==date))fail.push('cross_date_route');if([...s.routes].some(route=>!Object.keys(a.DATA.routes).includes(route)))fail.push('route_set');return {routes,date,region,markers:actual,expected,features:features.length,failures:fail}}""",
             {"routes": routes, "date": date, "region": region},
         )
         report["matrix"].append(result)
@@ -85,7 +82,7 @@ with sync_playwright() as playwright:
     page.locator("#langToggle").click()
     page.wait_for_function("document.documentElement.lang==='en'")
     page.locator('[data-mode="decide"]').click()
-    check("english_critical_surface", all(text in page.locator("body").inner_text() for text in ("Decide", "Day", "Place", "Route strategies")))
+    check("english_critical_surface", all(text in page.locator("body").inner_text() for text in ("Decide", "Day", "Place", "Route strategy")))
     page.locator("#themeToggle").click()
     check("dark_tokens_applied", page.evaluate("document.documentElement.dataset.theme==='dark'"))
     capture(page, "english_dark_1440")

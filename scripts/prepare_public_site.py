@@ -16,9 +16,9 @@ from public_asset_rights import audit_tree, load_contract, load_json, write_noti
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SOURCE = ROOT / ".build" / "modular"
 DEFAULT_OUTPUT = ROOT / ".public-site"
-QUALIFICATION = ROOT / "QA" / "release" / "qualification.json"
+QUALIFICATION = ROOT / "QA" / "CHG-188" / "release" / "qualification.json"
 PROVENANCE = ".release-provenance.json"
-RIGHTS_REPORT = ROOT / "QA" / "release" / "public_asset_rights.json"
+RIGHTS_REPORT = ROOT / "QA" / "CHG-188" / "release" / "public_asset_rights.json"
 
 
 def digest(path: Path) -> str:
@@ -65,7 +65,7 @@ def main() -> None:
     if not source.is_dir() or not (source / "index.html").is_file():
         raise SystemExit(f"Canonical modular build is missing: {source}")
     if not QUALIFICATION.is_file():
-        raise SystemExit("No QA/release/qualification.json; public assembly is gated on full qualification.")
+        raise SystemExit("No QA/CHG-188/release/qualification.json; public assembly is gated on full qualification.")
     qualification = json.loads(QUALIFICATION.read_text())
     head = current_revision()
     if qualification.get("status") != "PASS":

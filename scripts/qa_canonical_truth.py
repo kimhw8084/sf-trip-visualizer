@@ -10,7 +10,7 @@ from validate_trip_data import validate_trip_data
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "QA" / "map_first" / "canonical_truth.json"
+OUTPUT = ROOT / "QA" / "CHG-188" / "canonical_truth.json"
 
 
 def main() -> int:

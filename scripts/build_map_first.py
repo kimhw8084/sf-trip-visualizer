@@ -77,6 +77,8 @@ def build(output_root: Path) -> dict:
         raise SystemExit("Canonical place/photo invariant failed before build; refusing to emit artifacts.")
     if sorted(data.get("routes", {})) != sorted(role_matrix.get("route_ids", [])) or data.get("route_roles") != role_matrix.get("places"):
         raise SystemExit("Canonical route-role projection is stale; refusing to emit artifacts.")
+    if not data.get("routes") or any(set(roles) != set(data["routes"]) for roles in role_matrix.get("places", {}).values()):
+        raise SystemExit("Canonical route-role source must define at least one route and one role per route/place.")
     if sorted(data.get("route_day_models", {})) != sorted(route_schedules.get("routes", {})):
         raise SystemExit("Canonical route-day projection is stale; refusing to emit artifacts.")
     if sorted(data["providers"]) != ["satellite", "vector"]:
@@ -177,7 +179,7 @@ def build(output_root: Path) -> dict:
         "schema_version": 2,
         "canonical_data": str(DATA_PATH.relative_to(ROOT)),
         "runtime_contract": str(RUNTIME_CONTRACT_PATH.relative_to(ROOT)),
-        "counts": {"places": place_count, "photos": photo_count, "timeline_cards": len(data["timeline"]), "route_legs": len(data["legs"])},
+        "counts": {"places": place_count, "photos": photo_count, "timeline_cards": len(data["timeline"]), "route_legs": len(data["legs"]), "routes": len(data["routes"]), "active_route_ids": sorted(data["routes"])},
         "modular": {"path": str((modular_dir / "index.html").relative_to(output_root)), "sha256": digest(modular_dir / "index.html")},
         "standalone": {"path": str(standalone_path.relative_to(output_root)), "sha256": digest(standalone_path)},
         "files": tree_hashes(output_root),

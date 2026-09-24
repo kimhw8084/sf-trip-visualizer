@@ -74,17 +74,19 @@ app_data = json.loads((ROOT / "data/phase7_app_data.json").read_text())
 exact_count = sum(entry["status"] == "routed_osm" for entry in cache.values())
 conceptual_ferry_count = sum(entry["status"] == "conceptual_ferry" for entry in cache.values())
 conceptual_transfer_count = sum(entry["status"] == "conceptual_transfer" for entry in cache.values())
-conceptual_count = conceptual_ferry_count + conceptual_transfer_count
+conceptual_connector_count = sum(entry["status"] == "conceptual_connector" for entry in cache.values())
+conceptual_count = conceptual_ferry_count + conceptual_transfer_count + conceptual_connector_count
 manifest.update({
     "version": "2.0-map-first", "generated": str(date.today()),
     "routing_service_status": "OSM_REFERENCE_GEOMETRY_CACHED_LOCALLY",
-    "acceptance_strategy": f"{exact_count} legs retain cached OSM reference geometry; {conceptual_ferry_count} ferry links and {conceptual_transfer_count} inter-region transfer corridors remain explicit non-track relationships. App runtime performs no routing requests.",
+    "acceptance_strategy": f"{exact_count} legs retain cached OSM reference geometry; {conceptual_ferry_count} ferry links, {conceptual_transfer_count} inter-region transfers, and {conceptual_connector_count} other conceptual connectors remain explicit non-track relationships. App runtime performs no routing requests.",
     "exact_routed_legs": exact_count,
     "conceptual_legs": conceptual_count,
     "renderable_conceptual_legs": conceptual_count,
-    "display_policy": "Day and active-route membership gate every leg. Every route remains visible from zoom 0–24. Main lines are solid; swap, conditional, bonus, recovery-gap, and choice links retain route colors with distinct matching casing/dash patterns. Ferry links are explicitly conceptual.",
+    "display_policy": "Day and active-route membership gate every leg. Geometry is a cached reference or a visibly conceptual relationship; no live routing is used. Main lines are solid; alternate, conditional, bonus, recovery-gap, and choice links retain typed route semantics. Ferry links are explicitly conceptual.",
     "geometry_cache_path": "data/route_geometry_cache.json",
     "geometry_cache_sha256": digest(ROOT / "data/route_geometry_cache.json"),
+    "cross_day_suppressed_legs": [leg["leg_id"] for leg in app_data.get("legs", []) if leg.get("relationship_scope") == "cross_date_scenario"],
 })
 manifest["legs"] = []
 for source_leg in app_data["legs"]:
@@ -95,11 +97,12 @@ for source_leg in app_data["legs"]:
     leg["geometry_point_count"] = len(entry["coordinates"])
     leg["distance_km"] = entry.get("distance_km")
     leg["reference_duration_min"] = entry.get("duration_min_reference")
-    leg["render_style"] = {"conceptual_ferry": "conceptual_ferry_dots", "conceptual_transfer": "transfer_dots"}.get(entry["status"], "cached_osm_reference_line")
+    leg["render_style"] = {"conceptual_ferry": "conceptual_ferry_dots", "conceptual_transfer": "transfer_dots", "conceptual_connector": "conceptual_dots"}.get(entry["status"], "cached_osm_reference_line")
     leg["source_limitation"] = {
         "routed_osm": "Reference OSM routing, not live closure/traffic advice",
         "conceptual_ferry": "Direct ferry relationship, not a surveyed boat track",
         "conceptual_transfer": "Regional transfer corridor, not a verified road track or live navigation",
+        "conceptual_connector": "Authored itinerary relationship only; not a measured road or walking track",
     }.get(entry["status"], "Geometry status requires review")
     manifest["legs"].append(leg)
 manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")

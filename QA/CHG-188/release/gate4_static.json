@@ -1,0 +1,3299 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "candidate_head": "32437a27722e7dc7e4b97e2b0dff467ecead4857",
+  "test_mode": "static",
+  "contract": "manifests/runtime_resilience_contract.json",
+  "checks": {
+    "contract_project": true,
+    "contract_gate": true,
+    "canonical_authority": true,
+    "freshness_authority": true,
+    "provider_manifest_authority": true,
+    "providers_exact": true,
+    "smart_is_local_and_critical": true,
+    "smart_has_no_fallback": true,
+    "no_runtime_routing": true,
+    "no_runtime_remote_photos": true
+  },
+  "assets": {
+    "basemap": [
+      {
+        "path": "assets/vector/sf_trip.pmtiles",
+        "expected_sha256": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6",
+        "expected_bytes": 149832867,
+        "exists": true,
+        "bytes": 149832867,
+        "sha256": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/yosemite_hillshade_source.png",
+        "expected_sha256": "2f3e31d1fd0eb8fb3cac30b603196865e651af4a3631550b6d8808b4a22f31ce",
+        "expected_bytes": 2806581,
+        "exists": true,
+        "bytes": 2806581,
+        "sha256": "2f3e31d1fd0eb8fb3cac30b603196865e651af4a3631550b6d8808b4a22f31ce",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": {
+          "format": "PNG",
+          "width": 2048,
+          "height": 2048
+        }
+      },
+      {
+        "path": "assets/vector/yosemite_hillshade_shadow.webp",
+        "expected_sha256": "801f29d1c305a44f191acf3070a194ad7ff10f6846bef75b21a920a1ceee4903",
+        "expected_bytes": 1758602,
+        "exists": true,
+        "bytes": 1758602,
+        "sha256": "801f29d1c305a44f191acf3070a194ad7ff10f6846bef75b21a920a1ceee4903",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": {
+          "format": "WEBP",
+          "width": 2048,
+          "height": 2048
+        }
+      },
+      {
+        "path": "assets/vector/fonts/Noto Sans Italic/0-255.pbf",
+        "expected_sha256": "43edfca91c285ba1226f09d5e74d68e1473a088c517f02a5212ff6ccb10037dc",
+        "expected_bytes": 79344,
+        "exists": true,
+        "bytes": 79344,
+        "sha256": "43edfca91c285ba1226f09d5e74d68e1473a088c517f02a5212ff6ccb10037dc",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/fonts/Noto Sans Italic/256-511.pbf",
+        "expected_sha256": "a6f9f6574c86a4a28aba630ca1017857ceadd2370ed32a1293c35f819ab9bd60",
+        "expected_bytes": 132976,
+        "exists": true,
+        "bytes": 132976,
+        "sha256": "a6f9f6574c86a4a28aba630ca1017857ceadd2370ed32a1293c35f819ab9bd60",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/fonts/Noto Sans Medium/0-255.pbf",
+        "expected_sha256": "ba2f0118dd024e3041b158e5f9eb49bc0a658019f53f458e9f5c0b8efcd79b91",
+        "expected_bytes": 77628,
+        "exists": true,
+        "bytes": 77628,
+        "sha256": "ba2f0118dd024e3041b158e5f9eb49bc0a658019f53f458e9f5c0b8efcd79b91",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/fonts/Noto Sans Medium/256-511.pbf",
+        "expected_sha256": "d5e801a1a5b1d409d3298c3a1e1ca76328e2314a751078833a618620e8e66e4d",
+        "expected_bytes": 129635,
+        "exists": true,
+        "bytes": 129635,
+        "sha256": "d5e801a1a5b1d409d3298c3a1e1ca76328e2314a751078833a618620e8e66e4d",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/fonts/Noto Sans Regular/0-255.pbf",
+        "expected_sha256": "62c6d49b15fa836eb6aa45e259c7ca6762f44b011b09e47776efbe4a6db1b397",
+        "expected_bytes": 76044,
+        "exists": true,
+        "bytes": 76044,
+        "sha256": "62c6d49b15fa836eb6aa45e259c7ca6762f44b011b09e47776efbe4a6db1b397",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/fonts/Noto Sans Regular/256-511.pbf",
+        "expected_sha256": "2eca7561f9f566bcacfda5dd04fb5880baec1328ec0f5484678289a13994de8a",
+        "expected_bytes": 127726,
+        "exists": true,
+        "bytes": 127726,
+        "sha256": "2eca7561f9f566bcacfda5dd04fb5880baec1328ec0f5484678289a13994de8a",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/sprites/dark.json",
+        "expected_sha256": "bfac76cf7ed5c2aa2992695904056a1c6b07785b7fd20e6c640cb44fd6244a2e",
+        "expected_bytes": 3549,
+        "exists": true,
+        "bytes": 3549,
+        "sha256": "bfac76cf7ed5c2aa2992695904056a1c6b07785b7fd20e6c640cb44fd6244a2e",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/sprites/dark.png",
+        "expected_sha256": "8920f68e8f9f7a4188da43e62a81bbc426532579fff7b5f27aad09e130f4246e",
+        "expected_bytes": 16054,
+        "exists": true,
+        "bytes": 16054,
+        "sha256": "8920f68e8f9f7a4188da43e62a81bbc426532579fff7b5f27aad09e130f4246e",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": {
+          "format": "PNG",
+          "width": 256,
+          "height": 114
+        }
+      },
+      {
+        "path": "assets/vector/sprites/dark@2x.json",
+        "expected_sha256": "1fb5b123fbe35d2e1f6ac171513ce01df89e671273a417ee89c44886a4c132f0",
+        "expected_bytes": 3579,
+        "exists": true,
+        "bytes": 3579,
+        "sha256": "1fb5b123fbe35d2e1f6ac171513ce01df89e671273a417ee89c44886a4c132f0",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/sprites/dark@2x.png",
+        "expected_sha256": "6e01b4e366d304f27bbd55390511a3d4e39aa1d03eb3e82f873f7ea32e74cbe4",
+        "expected_bytes": 28407,
+        "exists": true,
+        "bytes": 28407,
+        "sha256": "6e01b4e366d304f27bbd55390511a3d4e39aa1d03eb3e82f873f7ea32e74cbe4",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": {
+          "format": "PNG",
+          "width": 512,
+          "height": 228
+        }
+      },
+      {
+        "path": "assets/vector/sprites/light.json",
+        "expected_sha256": "bfac76cf7ed5c2aa2992695904056a1c6b07785b7fd20e6c640cb44fd6244a2e",
+        "expected_bytes": 3549,
+        "exists": true,
+        "bytes": 3549,
+        "sha256": "bfac76cf7ed5c2aa2992695904056a1c6b07785b7fd20e6c640cb44fd6244a2e",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/sprites/light.png",
+        "expected_sha256": "b6a34640917bdc57d0bd080836db33376371a3312ebe7b849045268015de3481",
+        "expected_bytes": 16174,
+        "exists": true,
+        "bytes": 16174,
+        "sha256": "b6a34640917bdc57d0bd080836db33376371a3312ebe7b849045268015de3481",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": {
+          "format": "PNG",
+          "width": 256,
+          "height": 114
+        }
+      },
+      {
+        "path": "assets/vector/sprites/light@2x.json",
+        "expected_sha256": "1fb5b123fbe35d2e1f6ac171513ce01df89e671273a417ee89c44886a4c132f0",
+        "expected_bytes": 3579,
+        "exists": true,
+        "bytes": 3579,
+        "sha256": "1fb5b123fbe35d2e1f6ac171513ce01df89e671273a417ee89c44886a4c132f0",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/sprites/light@2x.png",
+        "expected_sha256": "23f6e9df27c2e9a14385763980a24e3608966bfc8192a106058bc2ca959ab563",
+        "expected_bytes": 28852,
+        "exists": true,
+        "bytes": 28852,
+        "sha256": "23f6e9df27c2e9a14385763980a24e3608966bfc8192a106058bc2ca959ab563",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": {
+          "format": "PNG",
+          "width": 512,
+          "height": 228
+        }
+      }
+    ],
+    "photos": [
+      {
+        "place_key": "alcatraz",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/alcatraz__experience.webp",
+            "exists": true,
+            "sha256": "6a4477b3989c78a30257c94ecc5b266d9029ba9801faeec1caa346a4bc81e467",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/alcatraz__experience.webp",
+            "exists": true,
+            "sha256": "aae5beabc37e604a5c572dffdb875df841e070ec6da794139bc59eee1da282f3",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "alcatraz",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/alcatraz__hero.webp",
+            "exists": true,
+            "sha256": "bd677ab4278bdc6575f90f278b725be79c09ff9f423a1d4b065f6d881920175a",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/alcatraz__hero.webp",
+            "exists": true,
+            "sha256": "5e2aac153681a74318c4f41dd06132c52f2f4c385bc49a599007641ba310f58f",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 656
+            }
+          }
+        }
+      },
+      {
+        "place_key": "alcatraz",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/alcatraz__scale_context.webp",
+            "exists": true,
+            "sha256": "3a3a0f489b5b2e959269c1f049731097c5b85d28f6f9b7f12ae778dc8c614780",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/alcatraz__scale_context.webp",
+            "exists": true,
+            "sha256": "c86de1e46451dfcbd8e50e488b55466a6f9f4a3893b35c219cb797f86d976d88",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "aquarium",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/aquarium__experience.webp",
+            "exists": true,
+            "sha256": "a6891c169af4528f160ab14a7d66fb9f84cd28db30035ae23da5dda2a895f8fc",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/aquarium__experience.webp",
+            "exists": true,
+            "sha256": "60003416b2e09b3d5add799ebf84bc625d2328eb740037eb3f509669bc6b2d65",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "aquarium",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/aquarium__hero.webp",
+            "exists": true,
+            "sha256": "06b8ce576ef429fe1842c83d3b1249fd02e63625d2457af333b2e18b6a0b55ff",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/aquarium__hero.webp",
+            "exists": true,
+            "sha256": "efa7f13adfa7a8ee7b60f46fd81f80271e8a8d56d0ddf85a8089d02c05941d3f",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "aquarium",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/aquarium__scale_context.webp",
+            "exists": true,
+            "sha256": "c6762388f07d9b4afd1c02b9f008219d44f97bc69ce4ec8e342c0204de28b850",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/aquarium__scale_context.webp",
+            "exists": true,
+            "sha256": "418aaa143745ce8fd5f495fea5a20a5b03f6db4163e249e9a24e3efe371e1e2e",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "battery",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/battery__experience.webp",
+            "exists": true,
+            "sha256": "b042f320fe15d930240e03b67af5b418aed8ea11d8a9fa6f48f5af186c9b7cb3",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/battery__experience.webp",
+            "exists": true,
+            "sha256": "cdc2f4f9e888a18e47dd5090cfb314d90a5fb57117561220938670f6902e869e",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 675
+            }
+          }
+        }
+      },
+      {
+        "place_key": "battery",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/battery__hero.webp",
+            "exists": true,
+            "sha256": "059cddd9c9c38b6def0310a5e840c39b4e3fc56d4f4628f6f01a3e2d9de0e8ab",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/battery__hero.webp",
+            "exists": true,
+            "sha256": "4cb07cabb7d7a63484fedf5136e9638d21033829fb4e4b6abf7df1bec9800040",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 675
+            }
+          }
+        }
+      },
+      {
+        "place_key": "battery",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/battery__scale_context.webp",
+            "exists": true,
+            "sha256": "42fb23e5d9f3b7ddca71a0925be50a5b250b19804ea5c8db13c396a1efe31e36",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/battery__scale_context.webp",
+            "exists": true,
+            "sha256": "119732b2f7215bcbe02711160960cc9bd64a48a0b8ddf79bb8f24f8a218dec21",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "bay_lights",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/bay_lights__experience.webp",
+            "exists": true,
+            "sha256": "c051e280d4abeed230e3b77416e6dcd091c83ac5932687413f839b7880d81fc4",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/bay_lights__experience.webp",
+            "exists": true,
+            "sha256": "d1f6bc00c9478aaa66d8ded9a97f3eaa96393d06eb78ca3c8dd53de7a42c8c70",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "bay_lights",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/bay_lights__hero.webp",
+            "exists": true,
+            "sha256": "e1781d7fe71151bb5d736caf216933ab8eb65b45e27fad80f06b4d5849e89706",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/bay_lights__hero.webp",
+            "exists": true,
+            "sha256": "bddde84b5768e5807517e851f7f81d14ca11bdf525b484b1ea973e496a2364a5",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 675
+            }
+          }
+        }
+      },
+      {
+        "place_key": "bay_lights",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/bay_lights__scale_context.webp",
+            "exists": true,
+            "sha256": "337a2b952a946bab91ae345c6ff0a56c72bc34c11877fb88df914db94b884943",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/bay_lights__scale_context.webp",
+            "exists": true,
+            "sha256": "1f6ac99439fa9bd50b23901e1d51358cd16ae1b4b986ec6e24e4c4875cd6734c",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 804
+            }
+          }
+        }
+      },
+      {
+        "place_key": "bixby",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/bixby__experience.webp",
+            "exists": true,
+            "sha256": "1faf9a3ebb5874c18d33af5a04334786528a9d738ac087900799f0f4e7db97a8",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/bixby__experience.webp",
+            "exists": true,
+            "sha256": "065ed16f1621182a8a811f998ec1b2c547252c90056abb7d7e52ff9bbbf8e59b",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 675,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "bixby",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/bixby__hero.webp",
+            "exists": true,
+            "sha256": "249fd58b277573d81081b1b7663a64669a3c094033a48e53dec9d2c0e7343d1a",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/bixby__hero.webp",
+            "exists": true,
+            "sha256": "e911df9810ebbf6582ac28a3f074ca6f97db60daefcdf6a154fd59d51f6adb60",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 594
+            }
+          }
+        }
+      },
+      {
+        "place_key": "bixby",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/bixby__scale_context.webp",
+            "exists": true,
+            "sha256": "c37eb009d74264920e8474105e1472973f89574bc79a3f16d59a056d97b349a3",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/bixby__scale_context.webp",
+            "exists": true,
+            "sha256": "b74dcfc89b70d2af0092f1e618054ba63182f384bdca524f013a1e460b633ac6",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 400
+            }
+          }
+        }
+      },
+      {
+        "place_key": "botanical",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/botanical__experience.webp",
+            "exists": true,
+            "sha256": "95ac5e4921bf21672dc54dffda2e9540a10b693b3572d863617a6e206b34b93d",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/botanical__experience.webp",
+            "exists": true,
+            "sha256": "cda6ebb2a96b9aae864e74bd752a38b610d072c92c2bfe13e55fee108869131c",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 675,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "botanical",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/botanical__hero.webp",
+            "exists": true,
+            "sha256": "75a896150ec026b03aea6d4494345f342d9128c175dd01f5a5866e12a61657be",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/botanical__hero.webp",
+            "exists": true,
+            "sha256": "68fec22a024f13622b134033181dace7da7649bbd1559f673acb2424955374d1",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "botanical",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/botanical__scale_context.webp",
+            "exists": true,
+            "sha256": "07df255b050adf7a1d9c12509811958ecd5a37fbfa0ffff896d9117701022e99",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/botanical__scale_context.webp",
+            "exists": true,
+            "sha256": "ab53c410f3f28e190db7642cf402f3b502e1bab323c242571f6dfa92478f7a3b",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 598,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "bridalveil",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/bridalveil__experience.webp",
+            "exists": true,
+            "sha256": "aa5f2faaf8184dc7d63e302eda00ab9b125668ef7f42f2b59b649a062466dcd2",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/bridalveil__experience.webp",
+            "exists": true,
+            "sha256": "1e0d474379483548cf3938cb81b5783d4bbbaef97d64271f9f1539872cd81f48",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1600,
+              "height": 1200
+            }
+          }
+        }
+      },
+      {
+        "place_key": "bridalveil",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/bridalveil__hero.webp",
+            "exists": true,
+            "sha256": "deabc9234cfa393afbb3c6ddbaaa0c552cb376f535703a44fbaba7d702fb2d0f",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/bridalveil__hero.webp",
+            "exists": true,
+            "sha256": "3c2e956676706e4f2b9ab44bd46c79f131c7b6149c1823c02a2c1038c2913ba2",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1600,
+              "height": 1043
+            }
+          }
+        }
+      },
+      {
+        "place_key": "bridalveil",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/bridalveil__scale_context.webp",
+            "exists": true,
+            "sha256": "83dfeaeb0673c55db64b9ba8d8b71cb44cda1ab361730ed7b12871803f6bc725",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/bridalveil__scale_context.webp",
+            "exists": true,
+            "sha256": "8f4ffd1324b7d7cca096e47fc0a07614c59c168fedeb3dbfd67124a7acdc6341",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1079,
+              "height": 1600
+            }
+          }
+        }
+      },
+      {
+        "place_key": "cable_car",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/cable_car__experience.webp",
+            "exists": true,
+            "sha256": "6707b0c81c99f8467948a10a12595711efe3dd452f38ff3bcabc35bf193d8a3b",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/cable_car__experience.webp",
+            "exists": true,
+            "sha256": "0d569168226640406be486c03ef2ec901eef89ed4ee24cff8f185fdfd2e3dabd",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "cable_car",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/cable_car__hero.webp",
+            "exists": true,
+            "sha256": "4c1302a0610d4bd170a27b6c98add673b92e22512c138a26f2bbc57a4865293d",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/cable_car__hero.webp",
+            "exists": true,
+            "sha256": "8bed603ed9a3b030871a51cdff5519c8631ce883cdf00f018481a9aeb0d73536",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 675
+            }
+          }
+        }
+      },
+      {
+        "place_key": "cable_car",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/cable_car__scale_context.webp",
+            "exists": true,
+            "sha256": "0a8071bc773b81ff41b45e0846074ea6f3f7e4f36f1cc4aa6715ae9ed1690dff",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/cable_car__scale_context.webp",
+            "exists": true,
+            "sha256": "2554c4f8181dd3739e820dd13fde7e1a0f2e57763fb8f13721894e1d992072a1",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 829
+            }
+          }
+        }
+      },
+      {
+        "place_key": "carmel",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/carmel__experience.webp",
+            "exists": true,
+            "sha256": "55e1935e3751a4ddcf015f176c008f59958011e80e6ad36e1d50b6a28237a565",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/carmel__experience.webp",
+            "exists": true,
+            "sha256": "0b4ef388473e037645dad1d1ffaaff9c9e4feaf4240ee51ebd33e2b641f91233",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 675,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "carmel",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/carmel__hero.webp",
+            "exists": true,
+            "sha256": "e1252be44452e461a0750e6fabbe5dd73058fce431cca15858c36c8425d2a6ee",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/carmel__hero.webp",
+            "exists": true,
+            "sha256": "f457eb984e3c00d02e66028302fc27f91eb9606320a9f04daaac0a807d4665c9",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 675
+            }
+          }
+        }
+      },
+      {
+        "place_key": "carmel",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/carmel__scale_context.webp",
+            "exists": true,
+            "sha256": "598cd0d1cadca3079c41df679b369e9ba87829692513fc4148c28b411aae8db9",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/carmel__scale_context.webp",
+            "exists": true,
+            "sha256": "7d91ec1a59b52bb952342dfbff771b72828cd9e88d4cfd63da40b0dcd56575d4",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 787
+            }
+          }
+        }
+      },
+      {
+        "place_key": "chinatown",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/chinatown__experience.webp",
+            "exists": true,
+            "sha256": "db01735c29a01d424144fbce07dc7857dce7e0917bbec3ccb2b03980596fd689",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/chinatown__experience.webp",
+            "exists": true,
+            "sha256": "545262ade103636f6537ddcca6fee99ec99b175d05e25873db67617c8074d64b",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1236,
+              "height": 927
+            }
+          }
+        }
+      },
+      {
+        "place_key": "chinatown",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/chinatown__hero.webp",
+            "exists": true,
+            "sha256": "d0a2bc68722bca90edcf3c92dd3d4d369f96068c6ebe971f1f95809be61b09e8",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/chinatown__hero.webp",
+            "exists": true,
+            "sha256": "5b4e0c0d553b0705fccb444dcee73794be6c6bd4f4535db9d59101a75bbe9610",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1600,
+              "height": 1063
+            }
+          }
+        }
+      },
+      {
+        "place_key": "chinatown",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/chinatown__scale_context.webp",
+            "exists": true,
+            "sha256": "e6c617ed3204b33262211f045001991df33d7768fe7818b4cc81211c20b0fabd",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/chinatown__scale_context.webp",
+            "exists": true,
+            "sha256": "ce2b9ffe2bf8d9cc5265f82852c0314a70b595f38e903411061670cde058efd3",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1600,
+              "height": 1200
+            }
+          }
+        }
+      },
+      {
+        "place_key": "coit",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/coit__experience.webp",
+            "exists": true,
+            "sha256": "337a619bb0e9b9d3a097782bb8b7fa4533162dc66fdefaf49682b21483cfa7cb",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/coit__experience.webp",
+            "exists": true,
+            "sha256": "f012a82c61b9d11aa58e462fff802297d936287998232d43a35c985955f8520a",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "coit",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/coit__hero.webp",
+            "exists": true,
+            "sha256": "e0fdf1cc233a5e785200bc172c9fcfc3edd40633a48776e7989cebec636376d7",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/coit__hero.webp",
+            "exists": true,
+            "sha256": "8f7457f5a16bfa2bc5fbdb19f90ce5b141bb4aacec70c180bf3fad2b858efe3a",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 675,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "coit",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/coit__scale_context.webp",
+            "exists": true,
+            "sha256": "3434d3b7481379ce84730f0a635dda2d75841bb6ef5276ce3a91670158844d86",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/coit__scale_context.webp",
+            "exists": true,
+            "sha256": "f8054dec1b9f06d25d18d6a01ec2e6816387817a11b0e6daec8b487ed059606f",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 798
+            }
+          }
+        }
+      },
+      {
+        "place_key": "cooks",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/cooks__experience.webp",
+            "exists": true,
+            "sha256": "8f45e21e7ef1ee9c84b0b39ce23e5fdf93709f281616b7885e18c5397e0d5b93",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/cooks__experience.webp",
+            "exists": true,
+            "sha256": "73d851d9cad4c3d2369f12c8836ce7fdab92614446a5d75f8ab8f403467e3224",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "cooks",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/cooks__hero.webp",
+            "exists": true,
+            "sha256": "33198c7ca5c07a62aa27ec84ba361924bfd3e6b81e06408c252e62e135a1cd13",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/cooks__hero.webp",
+            "exists": true,
+            "sha256": "789e29fd663445c4047f2314c25346e67afdb86f79a1fffe883a4f92a69591ac",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "cooks",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/cooks__scale_context.webp",
+            "exists": true,
+            "sha256": "90b0598e4a4eacb0518bf739b2701b7b446e44bd57dc81d4af60d4e6279c5adf",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/cooks__scale_context.webp",
+            "exists": true,
+            "sha256": "98dea09eda4341d9afdab93e7c90ce4f09e2ee8d2d79245b2e0e56acf8fa8ed9",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 758
+            }
+          }
+        }
+      },
+      {
+        "place_key": "crissy",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/crissy__experience.webp",
+            "exists": true,
+            "sha256": "ec89e6eff314f977966d237d32e0c126730d479bcb34de1daf202fa1d7d16125",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/crissy__experience.webp",
+            "exists": true,
+            "sha256": "31222b79e4b2bd4145cb2129fd6e87813e905e11d23debeb64a892dd2501e92c",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "crissy",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/crissy__hero.webp",
+            "exists": true,
+            "sha256": "c0b0b44d588612bb1d82ba9ec4f4ac330793193b1263db2a11c4bc61082a756b",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/crissy__hero.webp",
+            "exists": true,
+            "sha256": "3ffcd20129e4c3ba8f519cc1c18e8956a9917594490b226ae7abaf0b5ed704e1",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "crissy",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/crissy__scale_context.webp",
+            "exists": true,
+            "sha256": "77bd3aa1c97b3fb6dbc2c3a613f03bebaa974cf67693f3c3515f29ea3037534b",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/crissy__scale_context.webp",
+            "exists": true,
+            "sha256": "e25cb7410a70254eb54ad02685360082edff0e379a6a951242238e5c10aa9c83",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 337
+            }
+          }
+        }
+      },
+      {
+        "place_key": "el_capitan",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/el_capitan__experience.webp",
+            "exists": true,
+            "sha256": "5db6faef0de901ef39f467493eb438455cdd654521c8d11026969c14887028ce",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/el_capitan__experience.webp",
+            "exists": true,
+            "sha256": "8c71ff1f4068e77bcbb90b9e9a593570c3e96cdceead9b66d2090db05f721101",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 656
+            }
+          }
+        }
+      },
+      {
+        "place_key": "el_capitan",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/el_capitan__hero.webp",
+            "exists": true,
+            "sha256": "09b6c43fe0218a43f1e4567f03174ac3bed910892d9b9a9984bec7c21a945842",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/el_capitan__hero.webp",
+            "exists": true,
+            "sha256": "583bf05849787d04e5a256381ea80f4d2bcff26f39f1c17b99396a5db9c25379",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1195,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "el_capitan",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/el_capitan__scale_context.webp",
+            "exists": true,
+            "sha256": "6a10f91239e4a6dce4e1b87c93af29554505616a7aa70f9e7bb5de9a07fa098b",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/el_capitan__scale_context.webp",
+            "exists": true,
+            "sha256": "3a7d5409e8ff7cfcf5c9e464a324b3dc45e8c8f34e16d91a9c8c39fbb8c11b48",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 793
+            }
+          }
+        }
+      },
+      {
+        "place_key": "ferry",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/ferry__experience.webp",
+            "exists": true,
+            "sha256": "0679a31dbd36cb5e33a91c6fbe468585a33669e5a8989f3d433b8a1dca1abb94",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/ferry__experience.webp",
+            "exists": true,
+            "sha256": "963dfcd0208dc2f751d131bafb91fff1b603dbb21000ed5c433a1eec14ff24b2",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "ferry",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/ferry__hero.webp",
+            "exists": true,
+            "sha256": "d84ab345a5d825c33dbc31149dfd3f5ef89374d25dd14834d519fe130c2e94bc",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/ferry__hero.webp",
+            "exists": true,
+            "sha256": "93cc11a38daac010a2e54ea1aed5a5dc3b3dbfa0fee167ab8e98dfd2730e8b46",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "ferry",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/ferry__scale_context.webp",
+            "exists": true,
+            "sha256": "3f744a6f219794b0994d7a80e17cc56092202f7a7273737311ea9f23fb1e0fff",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/ferry__scale_context.webp",
+            "exists": true,
+            "sha256": "afda97ff4b810ac15f918fc4c1f3831fd3872bba227a8199eca14b5bfb59d721",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "fortune",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/fortune__experience.webp",
+            "exists": true,
+            "sha256": "655708ff0d3430d010544fac1a93b31d3d46e0b39c2695ecf2ed2ab4b9e141e4",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/fortune__experience.webp",
+            "exists": true,
+            "sha256": "1df9cf72ff78f00d07fe9da854519c87a74df2ff43eaa90d981ae93bbbae96a9",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "fortune",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/fortune__hero.webp",
+            "exists": true,
+            "sha256": "3c0db41fd6cf7825f22c023df63c1b7c678d586dd3cbd27f903863be95557d4c",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/fortune__hero.webp",
+            "exists": true,
+            "sha256": "395a7419b92ca7e07670960446f13fb09341ec593cbf741a1cb56da52888cbae",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 675,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "fortune",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/fortune__scale_context.webp",
+            "exists": true,
+            "sha256": "429dc23bdbcbd4a2b7e76735501c4ab1ee9cb12fc2b2d532fc083a4e21dfcffc",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/fortune__scale_context.webp",
+            "exists": true,
+            "sha256": "e4d18da8aa4fb39e411184686222020e03977bbb58ece82f20448c495d395a9b",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 872
+            }
+          }
+        }
+      },
+      {
+        "place_key": "ggb",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/ggb__experience.webp",
+            "exists": true,
+            "sha256": "0fe3d076af6cf98a12e6434e0399412239d67df0110cd726d73bb8c76769fd3d",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/ggb__experience.webp",
+            "exists": true,
+            "sha256": "cc2da9956f322e4d743fe621d4f2098090b1cb1f48eeb1960cd831cc5b483767",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 797
+            }
+          }
+        }
+      },
+      {
+        "place_key": "ggb",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/ggb__hero.webp",
+            "exists": true,
+            "sha256": "246f798ad22827ef04d7f7bc3c8e1d05870d961d8ab57df215dc6a362919ce87",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/ggb__hero.webp",
+            "exists": true,
+            "sha256": "b3932b9a3d64fec3810ab974ccfb4ee3150d5799f1623a09b74131d8d24e9919",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "ggb",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/ggb__scale_context.webp",
+            "exists": true,
+            "sha256": "facc3650b9b04bcd2c4a6d22fba408352182e0f85089bc90312dc641159944b8",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/ggb__scale_context.webp",
+            "exists": true,
+            "sha256": "3b2711bb93ecf03d1e54eb4a550df0680ee97e298d0eb660bc953b774e1763c8",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "ghirardelli",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/ghirardelli__experience.webp",
+            "exists": true,
+            "sha256": "0ba4572f18c380d0418a842aa2973df1a2e8880af7ac671b876da4793c808ed4",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/ghirardelli__experience.webp",
+            "exists": true,
+            "sha256": "c6ca866a635692e620563df0cc83f61b497cfdb8d44b056c3bde90dd45c60b71",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 795
+            }
+          }
+        }
+      },
+      {
+        "place_key": "ghirardelli",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/ghirardelli__hero.webp",
+            "exists": true,
+            "sha256": "c9691fedf1fa9c43ac733371c49a0987d7870222731be45242f623fda5124b90",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/ghirardelli__hero.webp",
+            "exists": true,
+            "sha256": "bb875dc4097933456dfaa7cd6f9907fc28ac22ebcee684b9df47bc53a49d3870",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "ghirardelli",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/ghirardelli__scale_context.webp",
+            "exists": true,
+            "sha256": "6fd92bf9ae971f2734c550be3c29d4a5f571fb2bbaa1f73fa53a46d458a70850",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/ghirardelli__scale_context.webp",
+            "exists": true,
+            "sha256": "e82c2f210937dfb6b1f1a19df34a0ff498b08dd5d710f4494abce63df1336336",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 899
+            }
+          }
+        }
+      },
+      {
+        "place_key": "glacier",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/glacier__experience.webp",
+            "exists": true,
+            "sha256": "4428df82a06a660d550c61c2f787a31e562d0f1596be1cb332080320a4168dd1",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/glacier__experience.webp",
+            "exists": true,
+            "sha256": "4410f91e2c406125a29d80f72836eb7093ba169a6ce888ecf405e7b14c1816b6",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 706
+            }
+          }
+        }
+      },
+      {
+        "place_key": "glacier",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/glacier__hero.webp",
+            "exists": true,
+            "sha256": "a54a1f02041e0da7050a253de3d9ee06e6302b13e6ce9530d6b0ef7cdb290f08",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/glacier__hero.webp",
+            "exists": true,
+            "sha256": "3a93729d24805bf402fc2c4c7957951ad1c7b11c440c1d555fc4dc47b57d9e79",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 531
+            }
+          }
+        }
+      },
+      {
+        "place_key": "glacier",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/glacier__scale_context.webp",
+            "exists": true,
+            "sha256": "f5c76fa2b64de66f416b6ef348e4f23ce0f65bcc25a004e276390c759fcef600",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/glacier__scale_context.webp",
+            "exists": true,
+            "sha256": "1f9fe13063dc91b074583b2ef63e080eb6877eab7b8b798570e5a14109f4646a",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 529
+            }
+          }
+        }
+      },
+      {
+        "place_key": "lands_end",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/lands_end__experience.webp",
+            "exists": true,
+            "sha256": "45c3d3a6621b0a52504588c006731407330876732eb03e430415dd3031fbd6ce",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/lands_end__experience.webp",
+            "exists": true,
+            "sha256": "0cd0ffd0499316c65772f4ade69ff8b549d96417ad1e001763a825da9ffbede2",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "lands_end",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/lands_end__hero.webp",
+            "exists": true,
+            "sha256": "0ed064d4e66438bd4323dee8e888b691b36899ea30347e2d3529aeb616e97ea8",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/lands_end__hero.webp",
+            "exists": true,
+            "sha256": "6e28c496145bd77fdaa20ab7324b91a4e0939dbe29697c471aeeccea12c7253b",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "lands_end",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/lands_end__scale_context.webp",
+            "exists": true,
+            "sha256": "3a2194b12ec8fc2ef8c4cfa5e8511dfc4756d496a2a42945c6ca5fcc30d37f1a",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/lands_end__scale_context.webp",
+            "exists": true,
+            "sha256": "3178b55eed099fac863ca70bf9c659500e525094e66d2a0e90bbb32a821a3315",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "lombard",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/lombard__experience.webp",
+            "exists": true,
+            "sha256": "35971adce52715fe2be4c53d00f9889242e37efc6053631e5148c30be68194b1",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/lombard__experience.webp",
+            "exists": true,
+            "sha256": "a9be38848ee6ffb5892a11d958b16e1ab26878b7066f93c2b047a23fa692c609",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "lombard",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/lombard__hero.webp",
+            "exists": true,
+            "sha256": "852eeeb9fb65344439b1acc1bf3a372dffb3dc4c9ebfe735503cf19a36d2d363",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/lombard__hero.webp",
+            "exists": true,
+            "sha256": "4b2e830ff5c4031d93005a3d906ea8e204eff9bd16ce9d75455c5c18023c66e4",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "lombard",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/lombard__scale_context.webp",
+            "exists": true,
+            "sha256": "98c35f2b6f0016c238d0d53d611f41eeb245be8b8ebc2060a1714d3e3a456a34",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/lombard__scale_context.webp",
+            "exists": true,
+            "sha256": "259c5d3d0fec72c16d1c8cc42efb658796a5fba04b9598ce5775b0367ffcefd8",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 834
+            }
+          }
+        }
+      },
+      {
+        "place_key": "lone_cypress",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/lone_cypress__experience.webp",
+            "exists": true,
+            "sha256": "8d7380e79ff1b3bf6ec84a37b845e1ae520235648f78fa6439800b35647143aa",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/lone_cypress__experience.webp",
+            "exists": true,
+            "sha256": "01e216c0aeaab1855933dd37b7e1ec8b76212a8a67a896780af55d15dbff9994",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 812
+            }
+          }
+        }
+      },
+      {
+        "place_key": "lone_cypress",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/lone_cypress__hero.webp",
+            "exists": true,
+            "sha256": "3cb8cbbb109924393c8172eadb3b4b6f71bddb2cf5dda1fa418ce8b944d1e646",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/lone_cypress__hero.webp",
+            "exists": true,
+            "sha256": "a37e938ab63e99b1209665dd72f3865212077c5fda740d311d827965756442f8",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 675,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "lone_cypress",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/lone_cypress__scale_context.webp",
+            "exists": true,
+            "sha256": "f820b6bdcdd444de3fdf05d778a624904a40b9369116d6de3c65b3a3e9a6ecc5",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/lone_cypress__scale_context.webp",
+            "exists": true,
+            "sha256": "e1ddd5d692065d90f8963600cb6dd737a116cc5ed5a2025dcfaeb67bacf86c68",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "mariposa",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/mariposa__experience.webp",
+            "exists": true,
+            "sha256": "b207675167a554e69c87187a3ca2cd7c7b301004389e19d50fd6db0831c15fb6",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/mariposa__experience.webp",
+            "exists": true,
+            "sha256": "253808bb3b89a246044007ec0afa6a05b3cda517a03bdbda29305b2d21205036",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 600,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "mariposa",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/mariposa__hero.webp",
+            "exists": true,
+            "sha256": "e4ab7197d88c1b77aaf13ae43e61af34b03a371f932b8cd8cf423f1750efe14f",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/mariposa__hero.webp",
+            "exists": true,
+            "sha256": "0db3bddf1078574bad284203af79ba738b446f62d93d1ab11e4582fbabf2d798",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "mariposa",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/mariposa__scale_context.webp",
+            "exists": true,
+            "sha256": "9b98698f58e717c7d8698f51f942a77aa82e2277d5f691e0fa14815865547ab4",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/mariposa__scale_context.webp",
+            "exists": true,
+            "sha256": "a6c302cba56f307b9a889bbe633dd353a7acab495acb717658eea51b20570ae4",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "monterey_wharf",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/monterey_wharf__experience.webp",
+            "exists": true,
+            "sha256": "03157398a1a68019aa72cb9e919161798620c2b8f2926b56afc6aeb1236f0dfb",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/monterey_wharf__experience.webp",
+            "exists": true,
+            "sha256": "d4184603ed243119f3e95ff328925be880e09ce3ed4e4346f70f65d0b1cb8f33",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 750
+            }
+          }
+        }
+      },
+      {
+        "place_key": "monterey_wharf",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/monterey_wharf__hero.webp",
+            "exists": true,
+            "sha256": "58ceedff6e98fead7f95876d63191c7756b4b97e0cce7f329b8f68124fca4c37",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/monterey_wharf__hero.webp",
+            "exists": true,
+            "sha256": "ba9127443b325c6709b8fe4831286541b8c28395fe563ea4ae4c40c7c0eaf2ab",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "monterey_wharf",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/monterey_wharf__scale_context.webp",
+            "exists": true,
+            "sha256": "5f75209ee47bd3001abcaae5d3e6e44deeeb328ed35a6df0aea527805f0ac7c4",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/monterey_wharf__scale_context.webp",
+            "exists": true,
+            "sha256": "7dbfff6c87ac4b0cf545258790012b308e437e85948b9a17bb34a195300a830d",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 750
+            }
+          }
+        }
+      },
+      {
+        "place_key": "muir",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/muir__experience.webp",
+            "exists": true,
+            "sha256": "b3583c61dba0651e74bb73899d06a9d905816b85c2330bc765a3ec497f4c7f29",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/muir__experience.webp",
+            "exists": true,
+            "sha256": "cf8078d9acec7c7e7e23cfb206291c5d25f244d2206b3508b729a133d13da0e2",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 600,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "muir",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/muir__hero.webp",
+            "exists": true,
+            "sha256": "82191c0ea20b0ad55ff2f284d5202f7c0554cae6d6ecc32559718c118c81feb8",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/muir__hero.webp",
+            "exists": true,
+            "sha256": "bbba94c2cc76ae7da085c8e23c78b3a48067414f2406c8a152bca42a14d199ec",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "muir",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/muir__scale_context.webp",
+            "exists": true,
+            "sha256": "8ff488c322a324bad1a44953762000ed81d5de1887fde6bd2a1dbc7d88ab753e",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/muir__scale_context.webp",
+            "exists": true,
+            "sha256": "d735c7a0fd0b1834689e7f3d8737ee9adf00d60dd4fe1ffaa64aa22adbdc96e3",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "north_beach",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/north_beach__experience.webp",
+            "exists": true,
+            "sha256": "12a5e9cb9889771b7cfce4275acdf6c5244f213a6336052bf0daac48e5e51313",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/north_beach__experience.webp",
+            "exists": true,
+            "sha256": "c83146b3de602dd1108f640b53a35fbc7ed38e3750bb6b2571fd27aa8ee31880",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 676
+            }
+          }
+        }
+      },
+      {
+        "place_key": "north_beach",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/north_beach__hero.webp",
+            "exists": true,
+            "sha256": "c3047f66a7cdc35ed4d1ce904f16aaa3b7bb99271cf64e8ddeca91e8c683c700",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/north_beach__hero.webp",
+            "exists": true,
+            "sha256": "dd2f3342c0ee66fad00b2dc53bbb534b7d46ec332f94bdd472bb066675c14010",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 797
+            }
+          }
+        }
+      },
+      {
+        "place_key": "north_beach",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/north_beach__scale_context.webp",
+            "exists": true,
+            "sha256": "c0002b50d1e6a971a3e2b3b45d214df206d684ef5e62638d23ded84390411d85",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/north_beach__scale_context.webp",
+            "exists": true,
+            "sha256": "f57752d6acf21393931f51ed4859f7fe47049c757f9f1dba3506c7acc1641a6e",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 799
+            }
+          }
+        }
+      },
+      {
+        "place_key": "painted",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/painted__experience.webp",
+            "exists": true,
+            "sha256": "38a0f94f3e9f637d3b477a999352cc04c2cd881da211a30d8a49872f03151d23",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/painted__experience.webp",
+            "exists": true,
+            "sha256": "3104eb3d84bd2fff83a76fd5243ae3d1020f67e374d6170ba8a17644bbede11a",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "painted",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/painted__hero.webp",
+            "exists": true,
+            "sha256": "fc5f52f962a3f0c356848ccaac3f11967d2a9d7865a07797249f8af1923c59c9",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/painted__hero.webp",
+            "exists": true,
+            "sha256": "774f96fcdabe940d8178c809257dd258d7497c68d4858fa5adace791076f4e1d",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 480
+            }
+          }
+        }
+      },
+      {
+        "place_key": "painted",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/painted__scale_context.webp",
+            "exists": true,
+            "sha256": "b61d802af4a6f4fefb68791f46a65dc27315a522afff0ae00323144c63450e15",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/painted__scale_context.webp",
+            "exists": true,
+            "sha256": "10aea96df4a2dc3c71ef9716e8c3ec3e061a095ee6d5eb96b9f896dd9c4cb87d",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 779
+            }
+          }
+        }
+      },
+      {
+        "place_key": "palace",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/palace__experience.webp",
+            "exists": true,
+            "sha256": "9c6558534172e5ba34c86f7955350f69c5ddb5b8eddef1ae5b6c35db4f84d524",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/palace__experience.webp",
+            "exists": true,
+            "sha256": "ea35829a5bb10aa9d54ecbaa3fd298fe30f9778ea4417a95f659a8ee94b57f0f",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 739
+            }
+          }
+        }
+      },
+      {
+        "place_key": "palace",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/palace__hero.webp",
+            "exists": true,
+            "sha256": "d05188e3f80932f32fce10e68ff2be97fa4c5872198ae16903aeb41a7d954cfa",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/palace__hero.webp",
+            "exists": true,
+            "sha256": "50701b3d58999dea67b522f498cc31f8a4f4a838dda206734f3f5367c9be6520",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 750
+            }
+          }
+        }
+      },
+      {
+        "place_key": "palace",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/palace__scale_context.webp",
+            "exists": true,
+            "sha256": "b46969341da6ee91f311835b89e068a9b63864b42768eac47c9970d68f92b8bf",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/palace__scale_context.webp",
+            "exists": true,
+            "sha256": "b350af87ee9bc8cbba1fe8bc3d83cce6d7c44204437ee8eeb4acf80ef307db90",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "pier39",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/pier39__experience.webp",
+            "exists": true,
+            "sha256": "733a19f80dae6514d5bfaf4e771738d5bdd015f82cfa682c829a04fae3313597",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/pier39__experience.webp",
+            "exists": true,
+            "sha256": "4f9e619eda3e73a1ca710cc2057abc3e634340261a426e8da11e554dc5b630a8",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "pier39",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/pier39__hero.webp",
+            "exists": true,
+            "sha256": "04d050c7a3a51a0d71e0c56eccdc8e04dbd33e4db5e1301382f0010a51cdadc0",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/pier39__hero.webp",
+            "exists": true,
+            "sha256": "f995719f833dbedd99b655787b7da252c4b1046a07d4c5b1be7972f18213ae76",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "pier39",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/pier39__scale_context.webp",
+            "exists": true,
+            "sha256": "437fb53a94695586fd3f1b1ffeb9a4f2fd39e34fb2b2e34ab9faf1f38ad5f146",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/pier39__scale_context.webp",
+            "exists": true,
+            "sha256": "9b3812086b3083077a549aff3b82e33322c27c17d2dc7e505367f06d51b88012",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 349
+            }
+          }
+        }
+      },
+      {
+        "place_key": "point_lobos",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/point_lobos__experience.webp",
+            "exists": true,
+            "sha256": "28d960efcb300bf54cccb0289977f3bf4ec7170a31bbdee1dc7a9d52c6cdaa81",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/point_lobos__experience.webp",
+            "exists": true,
+            "sha256": "b83dd9b594c1e4594d5e0662940893b6278082040739be32365583bd3e1d841c",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "point_lobos",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/point_lobos__hero.webp",
+            "exists": true,
+            "sha256": "7fcf2e2c0c8b06fab33bd29b9536b298a395b5b0640a72e155def4f360115365",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/point_lobos__hero.webp",
+            "exists": true,
+            "sha256": "b47fbd4cced4a8b8754e6d9e36b900184135dc17392eade0f521adcdd3d07322",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "point_lobos",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/point_lobos__scale_context.webp",
+            "exists": true,
+            "sha256": "8fc4eae8d4803704136dd80caddbf6b3fe6500690c548f72ab1c3c3d12e39b9c",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/point_lobos__scale_context.webp",
+            "exists": true,
+            "sha256": "542f66ee13e05123d7ecbeb2c3f6af30bc45d2762246870951737e1185ba48b3",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 720
+            }
+          }
+        }
+      },
+      {
+        "place_key": "tea_garden",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/tea_garden__experience.webp",
+            "exists": true,
+            "sha256": "7041827287b771c349cb57c9078a5bc9cf6a17c59582383d3213d2f521569f2c",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/tea_garden__experience.webp",
+            "exists": true,
+            "sha256": "9d2353362e8a5b0f863226829c4b1678bd2e2c60e9532f2eb4702ed9d23d4b7e",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1600,
+              "height": 1067
+            }
+          }
+        }
+      },
+      {
+        "place_key": "tea_garden",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/tea_garden__hero.webp",
+            "exists": true,
+            "sha256": "795a6734086fde9d73b7d0082e115f0d1cd3dcfa13d840ec505a27a41821958b",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/tea_garden__hero.webp",
+            "exists": true,
+            "sha256": "f96ab90c406dc8d579a63782e3c9e1c54ab79156b987a45cbd675950019b37c9",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1600,
+              "height": 1068
+            }
+          }
+        }
+      },
+      {
+        "place_key": "tea_garden",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/tea_garden__scale_context.webp",
+            "exists": true,
+            "sha256": "75fb1df515e36b244fa684a2198c9e0a285867f7c2aa418a0d3ce06757ca3743",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/tea_garden__scale_context.webp",
+            "exists": true,
+            "sha256": "5067dbdb9e1de807d94f5b700fcf6b7647934c0826c3b5af21dbc6bd1389638d",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1600,
+              "height": 1068
+            }
+          }
+        }
+      },
+      {
+        "place_key": "tunnel_tops",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/tunnel_tops__experience.webp",
+            "exists": true,
+            "sha256": "bae78555e14c57c0bf786fd418230e99043cb3ef4f804d4534323b97a7f6aaf7",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/tunnel_tops__experience.webp",
+            "exists": true,
+            "sha256": "b70b2b41d15640e2b98e66418dfa5c14a30a9afd7b117a6daa51c1c1f964112a",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 820
+            }
+          }
+        }
+      },
+      {
+        "place_key": "tunnel_tops",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/tunnel_tops__hero.webp",
+            "exists": true,
+            "sha256": "b602f7f58f84f4e086f16b955a7cfc4fbf08be2094ccaf1f0923dcac8f55b135",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/tunnel_tops__hero.webp",
+            "exists": true,
+            "sha256": "140e88c48bf09e80787b70b725fc4653f5d12def8b0205fdab0c83fef2921b0f",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 665
+            }
+          }
+        }
+      },
+      {
+        "place_key": "tunnel_tops",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/tunnel_tops__scale_context.webp",
+            "exists": true,
+            "sha256": "1a30b205a0305c2eb49a6044d1997bb5b541ced0ab774d9927957fa5d9b7267d",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/tunnel_tops__scale_context.webp",
+            "exists": true,
+            "sha256": "4b9bfd23a1dc3a7a7fbc833f86102eab0b322d3602f4da472a14ae8cebf98737",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 750
+            }
+          }
+        }
+      },
+      {
+        "place_key": "tunnel_view",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/tunnel_view__experience.webp",
+            "exists": true,
+            "sha256": "fb0d7ad34ddf503e476d82f10ca13b744aa1916e01aa3117f7e03a87a7f35746",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/tunnel_view__experience.webp",
+            "exists": true,
+            "sha256": "6fbe3b4cf86ba78b7a2ece08b1c3f1358ba03f3814c12c2d5e3cee8cdec1c3da",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 728
+            }
+          }
+        }
+      },
+      {
+        "place_key": "tunnel_view",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/tunnel_view__hero.webp",
+            "exists": true,
+            "sha256": "e69cdf4555c5533ac41f4f3d39e3eb791bb9919fa507121935e1ebf8b0c3cfd0",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/tunnel_view__hero.webp",
+            "exists": true,
+            "sha256": "130f654bdbdb71cd90fad88c4e295dd83380fd37c34d402449ed7215cc59d71d",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 795
+            }
+          }
+        }
+      },
+      {
+        "place_key": "tunnel_view",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/tunnel_view__scale_context.webp",
+            "exists": true,
+            "sha256": "3220e35044d2cbcf80a26dd8d06bc4c4b33b95667e412557cf41c33affae31cc",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/tunnel_view__scale_context.webp",
+            "exists": true,
+            "sha256": "097424f1761e33811875c449083a6a609cb5b669eccc8c1d81453f7f6e6a926a",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "twin_peaks",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/twin_peaks__experience.webp",
+            "exists": true,
+            "sha256": "54ffcae1da2f06091740ac2beed67042d895e8df44e42ccaf1c017f656fca558",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/twin_peaks__experience.webp",
+            "exists": true,
+            "sha256": "3d6748ba9db495675e92705057477648f8279746ea4f192f5bd72c8fe47210a9",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 675,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "twin_peaks",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/twin_peaks__hero.webp",
+            "exists": true,
+            "sha256": "c6a83e7c9dbaee82de4f3b47b21f0f358d4edf713dff32496ab4fadc35a2f429",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/twin_peaks__hero.webp",
+            "exists": true,
+            "sha256": "bbaec9a228dbd6a24ce71ae16251c2e25c0572623b1c75995cfc666efceb459d",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 318
+            }
+          }
+        }
+      },
+      {
+        "place_key": "twin_peaks",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/twin_peaks__scale_context.webp",
+            "exists": true,
+            "sha256": "56f52eac899d1451530ae3ef4447d60ebe745c537c8888666e7e2908fee36aed",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/twin_peaks__scale_context.webp",
+            "exists": true,
+            "sha256": "aace8fee7665ff84cb9363567b74cab367004fad9d65879857d9d17d9634c3c6",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 798
+            }
+          }
+        }
+      },
+      {
+        "place_key": "valley_view",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/valley_view__experience.webp",
+            "exists": true,
+            "sha256": "59293df9c0d3931d6868fd5b282b0241a1b5d74fe9e20372df9cc7118c911bb0",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/valley_view__experience.webp",
+            "exists": true,
+            "sha256": "5c2c90401fc4bec41b665a9768c4eaea949b335457a8010143c75dc6810a3db0",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 644
+            }
+          }
+        }
+      },
+      {
+        "place_key": "valley_view",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/valley_view__hero.webp",
+            "exists": true,
+            "sha256": "a2d09885c4c5f2402604840fff9eac7f9957b5d03950f9dec0dbe1c75e7eaa7e",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/valley_view__hero.webp",
+            "exists": true,
+            "sha256": "8a189c3487d20a7863c78d5d2cf5bfcf93726180d5edbd2a42b747b150163dc9",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 800
+            }
+          }
+        }
+      },
+      {
+        "place_key": "valley_view",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/valley_view__scale_context.webp",
+            "exists": true,
+            "sha256": "8ef90574dbddd42240318da919a172f0c2b6e9bbd8ea46562fb90204d0c9baef",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/valley_view__scale_context.webp",
+            "exists": true,
+            "sha256": "73a3e280e8aefe0bcb50839d54fd8a30b0ad9d36800b27e8f3c56f9034f8c235",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 795
+            }
+          }
+        }
+      },
+      {
+        "place_key": "washburn",
+        "role": "EXPERIENCE",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/washburn__experience.webp",
+            "exists": true,
+            "sha256": "cf7cfbeba433b978fbea43aabc209b7cbce5f157da69c84383d487d3da95a9a2",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/washburn__experience.webp",
+            "exists": true,
+            "sha256": "6b120a18118432fa0617bc5f4e22568639e955c6136b83a9bc964d9d24ea6346",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 438
+            }
+          }
+        }
+      },
+      {
+        "place_key": "washburn",
+        "role": "HERO",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/washburn__hero.webp",
+            "exists": true,
+            "sha256": "7d0d24e6a81260e8b9b155297882643a40a66facfa4a0bac84ec72294b8b8701",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/washburn__hero.webp",
+            "exists": true,
+            "sha256": "a97a77e9f61ab2c6f970ee9b05b58ca0612f238e63e7595880ba39ad3ae2a76a",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 900
+            }
+          }
+        }
+      },
+      {
+        "place_key": "washburn",
+        "role": "SCALE_CONTEXT",
+        "variants": {
+          "thumb": {
+            "path": "assets/photos/thumb/washburn__scale_context.webp",
+            "exists": true,
+            "sha256": "cbb42c2746caa0673c488def9d57ec5077d527353a146fdf197a23e2e0161702",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 128,
+              "height": 128
+            }
+          },
+          "medium": {
+            "path": "assets/photos/medium/washburn__scale_context.webp",
+            "exists": true,
+            "sha256": "14266dd2a3ff2778805223c7531348e11094be2d5c86bd389e84ca871d944f1b",
+            "hash_match": true,
+            "decode": {
+              "format": "WEBP",
+              "width": 1200,
+              "height": 296
+            }
+          }
+        }
+      }
+    ]
+  },
+  "artifacts": {
+    "build": {
+      "present": true,
+      "modular": true,
+      "standalone": true
+    },
+    "forms": [
+      {
+        "path": ".build/modular/index.html",
+        "present": true,
+        "contract_embedded": true,
+        "truth_digest": "2bdb96c2e7c6d057a0c1473b0e6d76b305ac890d43189f6e1108af980b65db75",
+        "canonical_truth": true,
+        "freshness_embedded": true,
+        "bilingual_embedded": true,
+        "local_photo_paths_present": true,
+        "no_remote_photo_urls": true
+      },
+      {
+        "path": ".build/standalone/SF_Smart_Minority_Map_First_Standalone.html",
+        "present": true,
+        "contract_embedded": true,
+        "truth_digest": "2bdb96c2e7c6d057a0c1473b0e6d76b305ac890d43189f6e1108af980b65db75",
+        "canonical_truth": true,
+        "freshness_embedded": true,
+        "bilingual_embedded": true,
+        "local_photo_paths_present": true,
+        "no_remote_photo_urls": true
+      }
+    ]
+  },
+  "negative_failure_contract": {
+    "missing_pmtiles": "static hash/presence failure or visible smart_failure",
+    "corrupt_pmtiles": "PMTiles header/decode failure or visible smart_failure",
+    "missing_font_sprite_terrain": "static hash/presence failure or visible smart_failure",
+    "missing_required_photo": "static hash/presence/decode failure or visible smart_failure",
+    "remote_substitution": "forbidden; provider identity must remain smart-local-vector"
+  },
+  "failures": []
+}

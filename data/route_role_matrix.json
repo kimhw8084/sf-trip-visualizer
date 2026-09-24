@@ -1,7 +1,9 @@
 {
   "schema_version": 1,
-  "authority": "owner-approved canonical route-role source",
-  "route_ids": ["A", "B", "C", "D", "E"],
+  "authority": "Owner-approved active trip route-role source; route IDs are the configured active set.",
+  "route_ids": [
+    "A"
+  ],
   "role_definitions": {
     "Core": "Scheduled first-trip anchor. A defined external blocker must name the fallback.",
     "Strong": "High-value scheduled stop with a clear drop-first position under fatigue or friction.",
@@ -9,44 +11,113 @@
     "Skip": "Intentionally omitted from this route; never rendered as a mandatory stop."
   },
   "places": {
-    "ferry": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "exploratorium": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "bay_lights": {"A":"Strong","B":"Strong","C":"Conditional","D":"Strong","E":"Strong"},
-    "ggb": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "muir": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "battery": {"A":"Conditional","B":"Strong","C":"Skip","D":"Conditional","E":"Conditional"},
-    "palace": {"A":"Strong","B":"Strong","C":"Strong","D":"Strong","E":"Conditional"},
-    "crissy": {"A":"Strong","B":"Strong","C":"Strong","D":"Strong","E":"Strong"},
-    "tunnel_tops": {"A":"Strong","B":"Conditional","C":"Strong","D":"Strong","E":"Strong"},
-    "alcatraz": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "north_beach": {"A":"Strong","B":"Strong","C":"Strong","D":"Core","E":"Strong"},
-    "fortune": {"A":"Strong","B":"Conditional","C":"Strong","D":"Strong","E":"Strong"},
-    "cable_car": {"A":"Strong","B":"Strong","C":"Strong","D":"Strong","E":"Strong"},
-    "coit": {"A":"Conditional","B":"Strong","C":"Skip","D":"Strong","E":"Conditional"},
-    "lombard": {"A":"Conditional","B":"Conditional","C":"Skip","D":"Conditional","E":"Conditional"},
-    "pier39": {"A":"Strong","B":"Skip","C":"Skip","D":"Skip","E":"Skip"},
-    "musee": {"A":"Strong","B":"Skip","C":"Skip","D":"Skip","E":"Skip"},
-    "ghirardelli": {"A":"Conditional","B":"Skip","C":"Skip","D":"Conditional","E":"Skip"},
-    "painted": {"A":"Conditional","B":"Strong","C":"Conditional","D":"Strong","E":"Strong"},
-    "twin_peaks": {"A":"Conditional","B":"Strong","C":"Conditional","D":"Conditional","E":"Conditional"},
-    "botanical": {"A":"Strong","B":"Conditional","C":"Strong","D":"Strong","E":"Strong"},
-    "academy": {"A":"Strong","B":"Strong","C":"Strong","D":"Strong","E":"Strong"},
-    "lands_end": {"A":"Strong","B":"Strong","C":"Strong","D":"Strong","E":"Conditional"},
-    "chinatown": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "tea_garden": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "point_lobos": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "carmel": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "bixby": {"A":"Skip","B":"Strong","C":"Skip","D":"Conditional","E":"Conditional"},
-    "lone_cypress": {"A":"Strong","B":"Strong","C":"Strong","D":"Strong","E":"Strong"},
-    "aquarium": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "monterey_wharf": {"A":"Conditional","B":"Skip","C":"Strong","D":"Strong","E":"Conditional"},
-    "cooks": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "el_capitan": {"A":"Strong","B":"Strong","C":"Strong","D":"Strong","E":"Strong"},
-    "tunnel_view": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "valley_view": {"A":"Strong","B":"Strong","C":"Strong","D":"Strong","E":"Strong"},
-    "washburn": {"A":"Strong","B":"Strong","C":"Conditional","D":"Strong","E":"Strong"},
-    "glacier": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"},
-    "mariposa": {"A":"Conditional","B":"Conditional","C":"Skip","D":"Skip","E":"Conditional"},
-    "bridalveil": {"A":"Core","B":"Core","C":"Core","D":"Core","E":"Core"}
+    "ferry": {
+      "A": "Core"
+    },
+    "bay_lights": {
+      "A": "Strong"
+    },
+    "ggb": {
+      "A": "Core"
+    },
+    "muir": {
+      "A": "Core"
+    },
+    "battery": {
+      "A": "Core"
+    },
+    "palace": {
+      "A": "Strong"
+    },
+    "crissy": {
+      "A": "Strong"
+    },
+    "tunnel_tops": {
+      "A": "Strong"
+    },
+    "alcatraz": {
+      "A": "Core"
+    },
+    "north_beach": {
+      "A": "Strong"
+    },
+    "fortune": {
+      "A": "Core"
+    },
+    "cable_car": {
+      "A": "Strong"
+    },
+    "coit": {
+      "A": "Skip"
+    },
+    "lombard": {
+      "A": "Core"
+    },
+    "pier39": {
+      "A": "Core"
+    },
+    "ghirardelli": {
+      "A": "Core"
+    },
+    "point_lobos": {
+      "A": "Core"
+    },
+    "carmel": {
+      "A": "Core"
+    },
+    "bixby": {
+      "A": "Skip"
+    },
+    "lone_cypress": {
+      "A": "Core"
+    },
+    "aquarium": {
+      "A": "Core"
+    },
+    "monterey_wharf": {
+      "A": "Core"
+    },
+    "cooks": {
+      "A": "Core"
+    },
+    "el_capitan": {
+      "A": "Strong"
+    },
+    "tunnel_view": {
+      "A": "Core"
+    },
+    "valley_view": {
+      "A": "Strong"
+    },
+    "washburn": {
+      "A": "Strong"
+    },
+    "glacier": {
+      "A": "Core"
+    },
+    "mariposa": {
+      "A": "Conditional"
+    },
+    "painted": {
+      "A": "Core"
+    },
+    "twin_peaks": {
+      "A": "Core"
+    },
+    "botanical": {
+      "A": "Strong"
+    },
+    "lands_end": {
+      "A": "Core"
+    },
+    "chinatown": {
+      "A": "Core"
+    },
+    "tea_garden": {
+      "A": "Core"
+    },
+    "bridalveil": {
+      "A": "Core"
+    }
   }
 }

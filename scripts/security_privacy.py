@@ -20,7 +20,7 @@ from urllib.parse import parse_qs, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = ROOT / "manifests" / "security_privacy_contract.json"
-EVIDENCE_PATH = ROOT / "QA" / "release" / "security_privacy.json"
+EVIDENCE_PATH = ROOT / "QA" / "CHG-188" / "release" / "security_privacy.json"
 REQUIREMENTS_PATH = ROOT / "requirements-qa.txt"
 WORKFLOWS = {
     "candidate": ROOT / ".github" / "workflows" / "candidate-qualification.yml",

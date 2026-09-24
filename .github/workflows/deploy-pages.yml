@@ -42,9 +42,9 @@ jobs:
 
       - name: Run exact-revision qualification and assemble Pages under the shared hosted Linux contract
         run: |
-          mkdir -p QA/release
+          mkdir -p QA/CHG-188/release
           set -o pipefail
-          python3 scripts/hosted_linux_pipeline.py release --revision "$GITHUB_SHA" 2>&1 | tee QA/release/qualification.log
+          python3 scripts/hosted_linux_pipeline.py release --revision "$GITHUB_SHA" 2>&1 | tee QA/CHG-188/release/qualification.log
 
       - name: Upload exact-main release qualification diagnostics
         if: always()
@@ -54,10 +54,8 @@ jobs:
           name: pages-release-diagnostics-${{ github.sha }}
           if-no-files-found: warn
           path: |
-            QA/release/*.json
-            QA/release/*.log
-            QA/map_first/**/*.json
-            QA/map_first/screenshots/**
+            QA/CHG-188/**/*.json
+            QA/CHG-188/**/*.log
 
       - name: Verify uploaded artifact provenance before upload
         run: python3 scripts/pipeline.py verify-public --revision "$GITHUB_SHA"

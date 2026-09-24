@@ -1,8 +1,9 @@
-"""Direct R5 compact-mobile route-key camera and visual-context oracle."""
+"""Touch/keyboard map-control and one-route camera-context oracle."""
 
 from __future__ import annotations
 
 import json
+import time
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
@@ -12,322 +13,197 @@ from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5"
+OUT = ROOT / "QA" / "CHG-188" / "route_key_camera.json"
+SCREENSHOTS = ROOT / "QA" / "CHG-188" / "screenshots"
 VIEWPORTS = ((360, 800), (375, 812), (390, 844), (414, 896))
 PATHS = ("pointer", "keyboard", "touch")
+ROUTES = sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"])
+STYLE_READY_TIMEOUT_MS = 5000
 
 
-def snapshot(page) -> dict:
-    return page.evaluate(
-        """() => {
-          const state = window.__tripApp.state;
-          return {
-            task: {
-              primary_route: state.task.primaryRoute,
-              compare_routes: [...state.task.compareRoutes].sort(),
-              routes: [...state.task.routes].sort(),
-              date: state.task.date,
-              region: state.task.region,
-              selected: state.task.selected,
-              selected_occurrence: state.task.selectedOccurrence,
-            },
-            presentation: {
-              mode: state.presentation.mode,
-              sheet: state.presentation.sheet,
-              lang: state.presentation.lang,
-              theme: state.presentation.theme,
-              map_options_open: state.presentation.mapOptionsOpen,
-              peek_open: Boolean(state.presentation.peek),
-            },
-          };
-        }"""
-    )
+def task_state(page) -> dict:
+    return page.evaluate("""() => {const s=window.__tripApp.state.task;return {routes:[...s.routes].sort(),primary_route:s.primaryRoute,date:s.date,region:s.region,selected:s.selected}}""")
 
 
-def camera(page) -> dict:
-    return page.evaluate(
-        """() => {
-          const map = window.__tripApp.map();
-          const center = map.getCenter();
-          return {
-            center: {lng: center.lng, lat: center.lat},
-            zoom: map.getZoom(),
-            bearing: map.getBearing(),
-            pitch: map.getPitch(),
-          };
-        }"""
-    )
+def map_context(page) -> dict:
+    return page.evaluate("""() => {
+      const a=window.__tripApp,m=a?.map?.(),r=a?.state?.runtime;
+      const canvas_count=document.querySelectorAll('.maplibregl-canvas').length;
+      if(!a||!m)return {map_present:false,provider:r?.provider??null,app_ready:r?.mapStatus==='ready',map_visual_ready:r?.mapVisualReady===true,canvas_count,style_loaded:false,map_moving:null,visible_markers:0,route_features:0,spatial:null,map_obstacles:null};
+      const g=a.mapGeometrySnapshot();
+      return {map_present:true,provider:r?.provider??null,app_ready:r?.mapStatus==='ready',map_visual_ready:r?.mapVisualReady===true,canvas_count,style_loaded:m.isStyleLoaded(),map_moving:m.isMoving(),visible_markers:a.DATA.markers.filter(x=>a.markerVisible(x,{map:true})).length,route_features:a.visibleRouteFeatures().length,spatial:a.mapSpatialSnapshot(),map_obstacles:g.obstacles.length};
+    }""")
 
 
-def spatial_context(page) -> dict:
-    return page.evaluate(
-        """() => {
-          const app = window.__tripApp;
-          const map = app.map();
-          const canvas = map.getCanvas();
-          const width = canvas.clientWidth;
-          const height = canvas.clientHeight;
-          const markers = app.DATA.markers.filter(marker => app.markerVisible(marker, {map: true}));
-          const routeCoordinates = app.visibleRouteFeatures()
-            .filter(feature => feature.properties.kind !== 'transfer')
-            .flatMap(feature => feature.geometry.coordinates);
-          const markerCoordinates = markers.map(marker => [marker.lon, marker.lat]);
-          const project = coordinate => map.project(coordinate);
-          const points = [...markerCoordinates, ...routeCoordinates].map(project);
-          const inFrame = point => point.x >= 0 && point.x <= width && point.y >= 0 && point.y <= height;
-          const visiblePoints = points.filter(inFrame);
-          const xs = visiblePoints.map(point => point.x);
-          const ys = visiblePoints.map(point => point.y);
-          const markerElements = [...document.querySelectorAll('.photo-marker, .photo-cluster, .route-leg-label')]
-            .filter(element => {
-              const style = getComputedStyle(element);
-              const rect = element.getBoundingClientRect();
-              return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0;
-            });
-          const markerHits = markerElements.map(element => {
-            const rect = element.getBoundingClientRect();
-            const target = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
-            return {
-              key: element.dataset.placeKey || element.className,
-              hit: target?.closest?.('.photo-marker, .photo-cluster, .route-leg-label')?.className || target?.className || null,
-              intercepted_by_route_panel: Boolean(target?.closest?.('#routeLegendPanel')),
-            };
-          });
-          return {
-            canvas_count: document.querySelectorAll('.maplibregl-canvas').length,
-            style_loaded: map.isStyleLoaded(),
-            canvas: {width, height},
-            marker_count: markers.length,
-            rendered_marker_count: markerElements.length,
-            route_feature_count: app.visibleRouteFeatures().length,
-            point_count: points.length,
-            points_in_frame: visiblePoints.length,
-            route_points_in_frame: routeCoordinates.map(project).filter(inFrame).length,
-            marker_points_in_frame: markerCoordinates.map(project).filter(inFrame).length,
-            occupied_width_ratio: width ? (Math.max(...xs, 0) - Math.min(...xs, width)) / width : 0,
-            occupied_height_ratio: height ? (Math.max(...ys, 0) - Math.min(...ys, height)) / height : 0,
-            marker_hits: markerHits,
-          };
-        }"""
-    )
+def context_issues(context: dict, expected_counts: dict | None = None) -> list[str]:
+    issues = []
+    if context.get("map_present") is not True:
+        issues.append("map/provider state is missing")
+    if not context.get("provider") or context.get("app_ready") is not True or context.get("map_visual_ready") is not True:
+        issues.append("map/provider is not operational")
+    if context.get("canvas_count") != 1:
+        issues.append("map canvas is missing or duplicated")
+    visible_markers = context.get("visible_markers", 0)
+    route_features = context.get("route_features", 0)
+    if visible_markers <= 0:
+        issues.append("expected visible markers are missing")
+    if route_features <= 0:
+        issues.append("expected route features are missing")
+    if expected_counts:
+        if visible_markers != expected_counts["visible_markers"]:
+            issues.append("expected visible marker count changed")
+        if route_features != expected_counts["route_features"]:
+            issues.append("expected route feature count changed")
+    spatial = context.get("spatial")
+    if not isinstance(spatial, dict) or spatial.get("useful") is not True:
+        issues.append("map spatial context is unusable")
+    else:
+        if spatial.get("visible_markers") != visible_markers or spatial.get("markers_in_viewport") != visible_markers:
+            issues.append("expected markers are not all in the viewport")
+        if spatial.get("route_features") != route_features or spatial.get("route_features_in_viewport") != route_features:
+            issues.append("expected route features are not all in the viewport")
+        if spatial.get("route_points_in_viewport", 0) <= 0:
+            issues.append("route geometry is outside the viewport")
+    return issues
 
 
-def camera_delta(before: dict, after: dict) -> dict:
+def acceptance_snapshot(page, expected_task: dict, expected_counts: dict | None = None) -> dict:
+    task = task_state(page)
+    initial_context = map_context(page)
+    initial_chrome = page.locator("#routeLegendToggle,#routeLegendPanel,[data-compare-route],#comparePanel,.route-compare,.route-membership,.membership-cell").count()
+    initial_issues = context_issues(initial_context, expected_counts)
+    if task != expected_task:
+        initial_issues.append("route/date/region task state changed")
+    if initial_chrome:
+        initial_issues.append("route-comparison chrome leaked")
+
+    initial_ready = initial_context.get("style_loaded") is True and initial_context.get("map_moving") is False
+    final_context = initial_context
+    final_task = task
+    final_chrome = initial_chrome
+    wait_ms = 0
+    wait_error = None
+    if not initial_issues and not initial_ready:
+        started = time.monotonic()
+        try:
+            page.wait_for_function(
+                """() => {const m=window.__tripApp?.map?.();return !!m&&m.isStyleLoaded()&&!m.isMoving()}""",
+                timeout=STYLE_READY_TIMEOUT_MS,
+            )
+        except Exception as error:
+            wait_error = f"{type(error).__name__}: {error}"
+        wait_ms = round((time.monotonic() - started) * 1000)
+        final_context = map_context(page)
+        final_task = task_state(page)
+        final_chrome = page.locator("#routeLegendToggle,#routeLegendPanel,[data-compare-route],#comparePanel,.route-compare,.route-membership,.membership-cell").count()
+
+    failures = context_issues(final_context, expected_counts)
+    if final_task != expected_task:
+        failures.append("route/date/region task state changed")
+    if final_chrome:
+        failures.append("route-comparison chrome leaked")
+    if final_context.get("style_loaded") is not True or final_context.get("map_moving") is not False:
+        failures.append("map style did not become ready and stationary within the bounded window")
+    if wait_error:
+        failures.append("map style readiness wait timed out or errored")
     return {
-        "center_lng": abs(after["center"]["lng"] - before["center"]["lng"]),
-        "center_lat": abs(after["center"]["lat"] - before["center"]["lat"]),
-        "zoom": abs(after["zoom"] - before["zoom"]),
-        "bearing": abs(after["bearing"] - before["bearing"]),
-        "pitch": abs(after["pitch"] - before["pitch"]),
+        **final_context,
+        "task": final_task,
+        "comparison_chrome_count": final_chrome,
+        "style_readiness": {
+            "initial_style_loaded": initial_context.get("style_loaded") is True,
+            "initial_map_moving": initial_context.get("map_moving"),
+            "transient_recovery": initial_context.get("style_loaded") is False and not wait_error and final_context.get("style_loaded") is True and final_context.get("map_moving") is False,
+            "readiness_recovered": not initial_ready and not wait_error and final_context.get("style_loaded") is True and final_context.get("map_moving") is False,
+            "wait_ms": wait_ms,
+            "timeout_ms": STYLE_READY_TIMEOUT_MS,
+            "wait_error": wait_error,
+        },
+        "initial_failures": initial_issues,
+        "failures": list(dict.fromkeys(failures)),
+        "valid": not initial_issues and not failures,
     }
 
 
-def camera_neutral(delta: dict) -> bool:
-    return max(delta.values()) <= 0.002
+def control_path(page, path: str, expected_task: dict, expected_counts: dict) -> dict:
+    button = page.locator("#mapOptionsToggle")
+    if path == "keyboard":
+        button.focus()
+        page.keyboard.press("Enter")
+    elif path == "touch":
+        button.tap()
+    else:
+        button.click()
+    page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === false")
+    page.wait_for_timeout(160)
+    opened = acceptance_snapshot(page, expected_task, expected_counts)
+    if path == "keyboard":
+        page.keyboard.press("Escape")
+    else:
+        page.keyboard.press("Escape")
+    page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === true")
+    page.wait_for_function("document.activeElement?.id === 'mapOptionsToggle'")
+    page.wait_for_timeout(160)
+    closed = acceptance_snapshot(page, expected_task, expected_counts)
+    return {"path": path, "opened": opened, "closed": closed, "task_preserved": opened["task"] == expected_task and closed["task"] == expected_task, "focus_returned": page.evaluate("document.activeElement?.id === 'mapOptionsToggle'"), "panel_closed": page.locator("#mapOptionsPanel").is_hidden()}
 
 
 def context_passes(context: dict) -> bool:
-    if context["canvas_count"] != 1 or not context["style_loaded"]:
-        return False
-    if context["canvas"]["width"] <= 0 or context["canvas"]["height"] <= 0:
-        return False
-    if context["route_feature_count"] <= 0 or context["point_count"] <= 0:
-        return False
-    if context["points_in_frame"] < context["point_count"] * 0.9:
-        return False
-    if context["occupied_width_ratio"] < 0.18 or context["occupied_height_ratio"] < 0.08:
-        return False
-    return all(
-        not row["intercepted_by_route_panel"]
-        and any(token in str(row["hit"] or "") for token in ("photo-marker", "photo-cluster", "route-leg-label"))
-        for row in context["marker_hits"]
-    )
-
-
-def activate(page, path: str) -> None:
-    toggle = page.locator("#routeLegendToggle")
-    if path == "pointer":
-        toggle.click()
-    elif path == "keyboard":
-        toggle.focus()
-        page.keyboard.press("Enter")
-    else:
-        toggle.tap()
-    page.wait_for_function("document.querySelector('#routeLegendPanel')?.hidden === false")
-
-
-def close_with_escape(page) -> None:
-    page.keyboard.press("Escape")
-    page.wait_for_function("document.querySelector('#routeLegendPanel')?.hidden === true")
+    return context.get("valid") is True
 
 
 def main() -> int:
-    OUT.mkdir(parents=True, exist_ok=True)
     identity = candidate_identity()
-    report = {
-        "schema_version": 1,
-        "change": "CHG-157 R5 compact-mobile route-key camera safety",
-        "status": "FAIL",
-        "camera_contract": "Compact-mobile route-key disclosure is camera-neutral within renderer noise; Fit-map remains an explicit action.",
-        "viewports": {},
-        "failures": [],
-        "errors": [],
-        "screenshots": [],
-        "fresh_holdout": {"viewport": "414x896", "used_for_tuning": False},
-        "notes": [
-            "All disclosure paths use real Playwright pointer, keyboard, or touch input.",
-            "Spatial context is measured from projected route and marker coordinates, not only DOM rectangle intersection.",
-            "Native Safari, physical-device behavior, and independent pixel review remain external evidence boundaries.",
-        ],
-    }
-
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    report = bind_report({"schema_version": 2, "change": "CHG-188 single-route map controls and camera context", "status": "FAIL", "route_ids": ROUTES, "viewports": {}, "failures": [], "errors": [], "screenshots": [], "negative_control": {"route_comparison_ui_absent": True}}, identity)
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         for width, height in VIEWPORTS:
-            viewport_key = f"{width}x{height}"
-            viewport_report = {"paths": {}, "screenshots": []}
-            context = browser.new_context(
-                viewport={"width": width, "height": height},
-                has_touch=True,
-                is_mobile=True,
-            )
+            key = f"{width}x{height}"
+            context = browser.new_context(viewport={"width": width, "height": height}, has_touch=True, is_mobile=True)
             page = context.new_page()
-            page_errors: list[str] = []
+            page_errors = []
             page.on("pageerror", lambda error: page_errors.append(str(error)))
             try:
                 page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
                 page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
-                page.wait_for_selector("#routeLegendToggle", state="visible", timeout=15000)
-                page.locator('[data-sheet="compact"]').click()
-                page.wait_for_function("window.__tripApp.state.presentation.sheet === 'compact' && document.querySelector('#app[data-sheet=compact]')")
-                page.wait_for_timeout(120)
-                baseline_state = snapshot(page)
-                baseline_camera = camera(page)
-                baseline_context = spatial_context(page)
-                pointer_done = False
-                for path in PATHS:
-                    if path != "pointer":
-                        if page.locator("#routeLegendPanel").is_visible():
-                            close_with_escape(page)
-                        if page.evaluate("document.activeElement?.id") != "routeLegendToggle":
-                            page.locator("#routeLegendToggle").focus()
-                    activate(page, path)
-                    page.wait_for_timeout(120)
-                    open_state = snapshot(page)
-                    open_camera = camera(page)
-                    open_context = spatial_context(page)
-                    panel_items = page.locator("#routeLegendPanel .route-legend-item").count()
-                    route_labels = page.locator("#routeLegendPanel .route-legend-item strong").all_inner_texts()
-                    open_focus = page.evaluate("document.activeElement?.id || document.activeElement?.className || null")
-                    open_row = {
-                        "path": path,
-                        "focus_on_open": open_focus,
-                        "aria_expanded": page.locator("#routeLegendToggle").get_attribute("aria-expanded"),
-                        "panel_visible": page.locator("#routeLegendPanel").is_visible(),
-                        "panel_items": panel_items,
-                        "route_labels": route_labels,
-                        "state_preserved_on_open": open_state == baseline_state,
-                        "camera_before": baseline_camera,
-                        "camera_open": open_camera,
-                        "camera_delta_open": camera_delta(baseline_camera, open_camera),
-                        "spatial_context_open": open_context,
-                    }
-                    open_row["open_pass"] = bool(
-                        open_row["panel_visible"]
-                        and open_row["aria_expanded"] == "true"
-                        and panel_items == len(baseline_state["task"]["routes"])
-                        and len(route_labels) == panel_items
-                        and camera_neutral(open_row["camera_delta_open"])
-                        and context_passes(open_context)
-                    )
-                    close_with_escape(page)
-                    closed_state = snapshot(page)
-                    closed_camera = camera(page)
-                    closed_context = spatial_context(page)
-                    closed_focus = page.evaluate("document.activeElement?.id || document.activeElement?.className || null")
-                    open_row.update(
-                        {
-                            "focus_after_escape": closed_focus,
-                            "panel_hidden_after_escape": page.locator("#routeLegendPanel").is_hidden(),
-                            "state_preserved_on_close": closed_state == baseline_state,
-                            "camera_closed": closed_camera,
-                            "camera_delta_close": camera_delta(baseline_camera, closed_camera),
-                            "spatial_context_closed": closed_context,
-                        }
-                    )
-                    open_row["close_pass"] = bool(
-                        open_row["panel_hidden_after_escape"]
-                        and closed_focus == "routeLegendToggle"
-                        and open_row["state_preserved_on_close"]
-                        and camera_neutral(open_row["camera_delta_close"])
-                        and context_passes(closed_context)
-                    )
-                    viewport_report["paths"][path] = open_row
-                    if not open_row["open_pass"]:
-                        report["failures"].append(f"{viewport_key}:{path}: route-key open contract failed")
-                    if not open_row["close_pass"]:
-                        report["failures"].append(f"{viewport_key}:{path}: route-key Escape close contract failed")
-                    if path == "pointer":
-                        pointer_done = True
-                        for state_name in ("open", "closed"):
-                            filename = f"route_key_{state_name}_{viewport_key}.png"
-                            path_out = OUT / filename
-                            if state_name == "open":
-                                activate(page, "pointer")
-                                page.wait_for_timeout(80)
-                            else:
-                                close_with_escape(page)
-                            page.screenshot(path=str(path_out), full_page=True)
-                            screenshot = {
-                                "path": str(path_out.relative_to(ROOT)),
-                                "candidate": identity["sha"],
-                                "candidate_tree": identity["tree"],
-                                "browser": "chromium",
-                                "viewport": viewport_key,
-                                "state": state_name,
-                                "route_key_path": "pointer",
-                            }
-                            viewport_report["screenshots"].append(screenshot)
-                            report["screenshots"].append(screenshot)
-                if not pointer_done:
-                    report["failures"].append(f"{viewport_key}: pointer path did not run")
-                activate(page, "pointer")
-                page.wait_for_timeout(80)
+                page.locator("#mapOptionsToggle").click()
+                page.locator("#regionControls [data-region='yosemite']").click()
+                page.locator('[data-mode="day"]').click()
+                page.locator("#dateSelect").select_option("10/8")
                 page.evaluate("window.__tripApp.fitVisibleMap()")
-                page.wait_for_timeout(120)
-                fit_context = spatial_context(page)
-                fit_row = {
-                    "panel_visible_during_fit": page.locator("#routeLegendPanel").is_visible(),
-                    "camera": camera(page),
-                    "spatial_context": fit_context,
-                    "pass": page.locator("#routeLegendPanel").is_visible() and context_passes(fit_context),
-                }
-                viewport_report["fit_map_while_open"] = fit_row
-                if not fit_row["pass"]:
-                    report["failures"].append(f"{viewport_key}: Fit-map while route key open lost useful spatial context")
-                close_with_escape(page)
+                page.wait_for_timeout(180)
+                baseline_task = task_state(page)
+                baseline_acceptance = acceptance_snapshot(page, baseline_task)
+                expected_counts = {"visible_markers": baseline_acceptance["visible_markers"], "route_features": baseline_acceptance["route_features"]}
+                task_matches_scenario = baseline_task["routes"] == ROUTES == ["A"] and baseline_task["primary_route"] == "A" and baseline_task["date"] == "10/8" and baseline_task["region"] == "yosemite"
+                paths = {path: control_path(page, path, baseline_task, expected_counts) for path in PATHS}
                 page.locator("#fitMap").click()
-                page.wait_for_timeout(120)
-                button_fit_context = spatial_context(page)
-                viewport_report["fit_map_button_closed_state"] = {
-                    "panel_hidden": page.locator("#routeLegendPanel").is_hidden(),
-                    "spatial_context": button_fit_context,
-                    "pass": page.locator("#routeLegendPanel").is_hidden() and context_passes(button_fit_context),
-                }
-                if not viewport_report["fit_map_button_closed_state"]["pass"]:
-                    report["failures"].append(f"{viewport_key}: visible Fit-map action lost useful spatial context")
+                page.wait_for_timeout(100)
+                fit_context = acceptance_snapshot(page, baseline_task, expected_counts)
+                screenshots = []
+                if width in (390, 414):
+                    target = SCREENSHOTS / f"map_controls_{key}_single_route.png"
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    page.screenshot(path=str(target), full_page=True)
+                    screenshots.append(str(target.relative_to(ROOT)))
+                    report["screenshots"].append({"path": screenshots[-1], "candidate": identity["sha"], "candidate_tree": identity["tree"], "browser": "chromium", "viewport": key, "state": "single-route Yosemite map controls"})
+                task_after_controls = task_state(page)
+                all_acceptances = [baseline_acceptance, fit_context] + [sample for control in paths.values() for sample in (control["opened"], control["closed"])]
+                comparison_chrome_count = baseline_acceptance["comparison_chrome_count"]
+                row = {"baseline_task": baseline_task, "task_after_controls": task_after_controls, "baseline_context": baseline_acceptance, "fit_context": fit_context, "comparison_chrome_count": comparison_chrome_count, "comparison_chrome_counts": [sample["comparison_chrome_count"] for sample in all_acceptances], "expected_counts": expected_counts, "paths": paths, "screenshots": screenshots, "page_errors": page_errors}
+                row["pass"] = task_matches_scenario and task_after_controls == baseline_task and all(sample["comparison_chrome_count"] == 0 and context_passes(sample) for sample in all_acceptances) and all(control["task_preserved"] and control["focus_returned"] and control["panel_closed"] for control in paths.values()) and not page_errors
+                if not row["pass"]:
+                    report["failures"].append(f"{key}: map controls changed task state, lost map context, or exposed route comparison chrome")
+                report["viewports"][key] = row
             except Exception as error:
-                report["errors"].append(f"{viewport_key}: {type(error).__name__}: {error}")
-            if page_errors:
-                report["errors"].extend(f"{viewport_key}: pageerror: {error}" for error in page_errors)
-            report["viewports"][viewport_key] = viewport_report
+                report["errors"].append(f"{key}: {type(error).__name__}: {error}")
             page.close()
             context.close()
         browser.close()
-
+    report["negative_control"]["route_comparison_ui_absent"] = all(all(count == 0 for count in row.get("comparison_chrome_counts", [])) for row in report["viewports"].values()) and len(report["viewports"]) == len(VIEWPORTS)
     report["status"] = "PASS" if not report["failures"] and not report["errors"] and len(report["viewports"]) == len(VIEWPORTS) else "FAIL"
-    bind_report(report, identity)
-    (OUT / "route_key_camera.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"status": report["status"], "viewports": len(report["viewports"]), "failures": report["failures"], "errors": report["errors"]}, ensure_ascii=False))
     return 0 if report["status"] == "PASS" else 1
 

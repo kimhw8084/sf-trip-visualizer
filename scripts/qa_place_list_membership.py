@@ -1,4 +1,4 @@
-"""Exact-candidate browser oracle for the complete scrolling Place list."""
+"""Candidate-bound browser oracle for current place roles and the full Place list."""
 
 from __future__ import annotations
 
@@ -11,44 +11,42 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5" / "place_list_membership.json"
-SCREENSHOTS = ROOT / "QA" / "project_os_verify" / "ui_revamp_r5"
-ROLE_SYMBOLS = {"Core": "C", "Strong": "S", "Conditional": "△", "Skip": "—"}
+OUT = ROOT / "QA" / "CHG-188" / "place_list_roles.json"
+SCREENSHOTS = ROOT / "QA" / "CHG-188" / "screenshots" / "place_list"
+RETIRED_KEYS = {"exploratorium", "musee", "academy"}
 
 
-def validate_membership_rows(rows: list[dict], matrix: dict[str, dict[str, str]], expected_places: int = 39) -> dict:
-    """Validate rendered route cells; intentionally usable as a mutation oracle."""
+def validate_place_rows(rows: list[dict], roles: dict[str, dict[str, str]], route_ids: list[str], expected_places: int | None = None) -> dict:
+    """Check one visible role per place and reject route-matrix payloads."""
     failures: list[str] = []
-    seen_places: set[str] = set()
+    seen: set[str] = set()
+    if len(route_ids) != 1:
+        failures.append(f"configured single-route UI oracle received {len(route_ids)} route IDs")
+    route = route_ids[0] if len(route_ids) == 1 else None
     for row in rows:
         place = row.get("place_key")
-        if place in seen_places:
+        if place in seen:
             failures.append(f"duplicate rendered place identity: {place}")
-        seen_places.add(place)
-        expected = matrix.get(place)
-        if expected is None:
+        seen.add(place)
+        if place not in roles:
             failures.append(f"unknown rendered place identity: {place}")
             continue
-        cells = row.get("cells", [])
-        if len(cells) != 5:
-            failures.append(f"{place} exposes {len(cells)} route cells instead of exactly five")
-        routes = [cell.get("route") for cell in cells]
-        if routes != ["A", "B", "C", "D", "E"]:
-            failures.append(f"{place} route cells are not ordered A/B/C/D/E: {routes}")
-        for cell in cells:
-            route = cell.get("route")
-            role = cell.get("role")
-            if role != expected.get(route):
-                failures.append(f"{place}/{route} renders {role!r}; canonical role is {expected.get(route)!r}")
-            if cell.get("symbol") != ROLE_SYMBOLS.get(expected.get(route)):
-                failures.append(f"{place}/{route} symbol does not represent {expected.get(route)}")
-            if not str(cell.get("label", "")).strip():
-                failures.append(f"{place}/{route} has no visible role text")
-            if expected.get(route) == "Skip" and cell.get("symbol") == "":
-                failures.append(f"{place}/{route} Skip is not distinguishable without color")
-    if len(seen_places) != expected_places:
-        failures.append(f"rendered place identity count is {len(seen_places)}, expected {expected_places}")
-    return {"status": "PASS" if not failures else "FAIL", "failures": failures, "places": len(seen_places), "rows": len(rows)}
+        if row.get("route_id") not in (None, route):
+            failures.append(f"{place} renders a role for stale route {row.get('route_id')}")
+        if row.get("cells") or row.get("route_cells") or row.get("membership") or row.get("comparison_cells", 0):
+            failures.append(f"{place} exposes route-comparison membership cells")
+        role = row.get("role")
+        if role != roles[place].get(route):
+            failures.append(f"{place} renders {role!r}; canonical role is {roles[place].get(route)!r}")
+        if role not in {"Core", "Strong", "Conditional", "Skip"}:
+            failures.append(f"{place} has invalid visible role {role!r}")
+        if not str(row.get("label", "")).strip():
+            failures.append(f"{place} has no visible text role")
+    if expected_places is not None and len(seen) != expected_places:
+        failures.append(f"rendered place identity count is {len(seen)}, expected {expected_places}")
+    if RETIRED_KEYS & seen:
+        failures.append(f"retired attractions appear in the active Place list: {sorted(RETIRED_KEYS & seen)}")
+    return {"status": "PASS" if not failures else "FAIL", "failures": failures, "places": len(seen), "rows": len(rows), "route_id": route}
 
 
 def collect_rows(page, selector: str = ".place-list-item") -> list[dict]:
@@ -56,12 +54,9 @@ def collect_rows(page, selector: str = ".place-list-item") -> list[dict]:
         """rows => rows.map(row => ({
           place_key: row.dataset.placeChoice,
           name: row.querySelector('.place-list-copy strong')?.textContent || '',
-          cells: [...row.querySelectorAll('.route-membership .membership-cell')].map(cell => ({
-            route: cell.dataset.route,
-            role: cell.dataset.role,
-            symbol: cell.querySelector('i')?.textContent || '',
-            label: cell.querySelector('small')?.textContent || ''
-          }))
+          role: row.querySelector('.place-role')?.dataset.role || '',
+          label: row.querySelector('.place-role')?.textContent || '',
+          comparison_cells: row.querySelectorAll('.membership-cell,[data-compare-route]').length
         }))"""
     )
 
@@ -70,28 +65,29 @@ def geometry_oracle(page) -> dict:
     return page.evaluate(
         """() => {
           const failures = [];
-          if (document.documentElement.scrollWidth > innerWidth + 1) failures.push(`horizontal overflow ${document.documentElement.scrollWidth - innerWidth}px`);
+          if (document.documentElement.scrollWidth > innerWidth + 1) failures.push(`horizontal overflow ${document.documentElement.scrollWidth-innerWidth}px`);
           for (const row of document.querySelectorAll('.place-list-item')) {
-            const rect = row.getBoundingClientRect();
-            if (rect.right > innerWidth + 1 || rect.left < -1) failures.push(`row outside viewport: ${row.dataset.placeChoice}`);
-            const name = row.querySelector('.place-list-copy strong');
+            const rect=row.getBoundingClientRect(), name=row.querySelector('.place-list-copy strong'), role=row.querySelector('.place-role');
+            if (rect.right > innerWidth+1 || rect.left < -1) failures.push(`row outside viewport: ${row.dataset.placeChoice}`);
             if (!name || !name.textContent.trim() || name.getBoundingClientRect().width < 1) failures.push(`place name is clipped or missing: ${row.dataset.placeChoice}`);
-            const cells = [...row.querySelectorAll('.membership-cell')];
-            for (let index = 1; index < cells.length; index += 1) {
-              const previous = cells[index - 1].getBoundingClientRect();
-              const current = cells[index].getBoundingClientRect();
-              if (current.left < previous.right - 0.5 || current.width < 8 || current.height < 8) failures.push(`crushed/overlapping route cells: ${row.dataset.placeChoice}`);
-            }
+            if (!role || role.getBoundingClientRect().width < 24 || role.getBoundingClientRect().height < 18) failures.push(`role label is crushed or missing: ${row.dataset.placeChoice}`);
           }
-          return {status: failures.length ? 'FAIL' : 'PASS', failures};
+          return {status:failures.length?'FAIL':'PASS',failures};
         }"""
     )
 
 
+def collect_rows_from_fixture(roles: dict[str, dict[str, str]], route_ids: list[str]) -> list[dict]:
+    route = route_ids[0]
+    return [{"place_key": place, "role": row[route], "label": row[route]} for place, row in roles.items()]
+
+
 def main() -> int:
     identity = candidate_identity()
-    matrix = json.loads((ROOT / "data/route_role_matrix.json").read_text())["places"]
-    report = {"schema_version": 1, "status": "FAIL", "candidate": identity["sha"], "candidate_tree": identity["tree"], "screenshots": [], "viewports": {}, "errors": [], "negative_control": {}, "checks": {}}
+    role_doc = json.loads((ROOT / "data/route_role_matrix.json").read_text())
+    roles, route_ids = role_doc["places"], role_doc["route_ids"]
+    expected_places = len(roles)
+    report = {"schema_version": 2, "status": "FAIL", "candidate": identity["sha"], "candidate_tree": identity["tree"], "screenshots": [], "viewports": {}, "errors": [], "negative_control": {}, "checks": {}}
     SCREENSHOTS.mkdir(parents=True, exist_ok=True)
 
     with sync_playwright() as playwright:
@@ -104,79 +100,63 @@ def main() -> int:
             page.on("pageerror", lambda error: page_errors.append(str(error)))
             page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
             page.locator("#modeNav [data-mode='place']").click()
-            page.wait_for_function("document.querySelectorAll('#placeView:not([hidden]) .place-list-item').length === 39")
+            page.wait_for_function("n => document.querySelectorAll('#placeView:not([hidden]) .place-list-item').length === n", arg=expected_places)
             if english_dark:
                 page.locator("#langToggle").click()
                 page.locator("#themeToggle").click()
                 page.wait_for_function("document.documentElement.lang === 'en' && document.documentElement.dataset.theme === 'dark'")
             rows = collect_rows(page)
-            row_oracle = validate_membership_rows(rows, matrix)
+            row_oracle = validate_place_rows(rows, roles, route_ids, expected_places)
             layout = geometry_oracle(page)
             no_selection = page.evaluate("window.__tripApp.state.task.selected === null")
+            no_matrix = page.locator(".route-membership,.membership-cell,.inspector-membership,[data-compare-route],#comparePanel").count() == 0
             scroll = page.locator(".workbench-scroll")
-            top_before = scroll.evaluate("element => element.scrollTop")
             if screenshot_prefix:
                 top_path = SCREENSHOTS / f"{screenshot_prefix}_top.png"
                 page.screenshot(path=str(top_path), full_page=False)
-                report["screenshots"].append({"path": str(top_path.relative_to(ROOT)), "viewport": f"{viewport[0]}x{viewport[1]}", "language": page.evaluate("document.documentElement.lang"), "theme": page.evaluate("document.documentElement.dataset.theme"), "state": "top of complete scrolling list"})
+                report["screenshots"].append({"path": str(top_path.relative_to(ROOT)), "viewport": f"{viewport[0]}x{viewport[1]}", "language": page.evaluate("document.documentElement.lang"), "theme": page.evaluate("document.documentElement.dataset.theme"), "state": "top of complete active-place list"})
             scroll.evaluate("element => element.scrollTop = element.scrollHeight")
             page.wait_for_timeout(120)
-            bottom_before = scroll.evaluate("element => element.scrollTop")
+            bottom = scroll.evaluate("element => element.scrollTop")
             last_key = rows[-1]["place_key"]
             page.locator("[data-place-choice]").last.click()
-            page.wait_for_selector("#placeView:not([hidden]) .place-inspector .inspector-membership")
-            inspector_cells = page.locator("#placeInspector .inspector-membership .membership-cell").evaluate_all(
-                """cells => cells.map(cell => ({
-                  route: cell.dataset.route,
-                  role: cell.dataset.role,
-                  symbol: cell.querySelector('i')?.textContent || '',
-                  label: cell.querySelector('small')?.textContent || ''
-                }))"""
-            )
-            inspector_row = [{"place_key": last_key, "cells": inspector_cells}]
-            inspector_oracle = validate_membership_rows(inspector_row, matrix, expected_places=1)
+            page.wait_for_selector("#placeView:not([hidden]) .place-inspector .place-role")
+            inspector_row = [{"place_key": last_key, **page.locator("#placeInspector .place-role").evaluate("node => ({role:node.dataset.role,label:node.textContent})")}]
+            inspector_oracle = validate_place_rows(inspector_row, roles, route_ids, expected_places=1)
+            no_matrix = no_matrix and page.locator(".route-membership,.membership-cell,.inspector-membership,[data-compare-route],#comparePanel").count() == 0
             page.locator("[data-place-back]").click()
             page.wait_for_timeout(100)
             restored_scroll = scroll.evaluate("element => element.scrollTop")
             restored_focus = page.evaluate("document.activeElement?.dataset?.placeChoice || null")
-            restored = abs(restored_scroll - bottom_before) <= 3 and restored_focus == last_key
+            restored = abs(restored_scroll - bottom) <= 3 and restored_focus == last_key
             if screenshot_prefix:
                 bottom_path = SCREENSHOTS / f"{screenshot_prefix}_scrolled.png"
                 page.screenshot(path=str(bottom_path), full_page=False)
-                report["screenshots"].append({"path": str(bottom_path.relative_to(ROOT)), "viewport": f"{viewport[0]}x{viewport[1]}", "language": page.evaluate("document.documentElement.lang"), "theme": page.evaluate("document.documentElement.dataset.theme"), "state": "scrolled list and restored focus"})
+                report["screenshots"].append({"path": str(bottom_path.relative_to(ROOT)), "viewport": f"{viewport[0]}x{viewport[1]}", "language": page.evaluate("document.documentElement.lang"), "theme": page.evaluate("document.documentElement.dataset.theme"), "state": "scrolled active list and restored focus"})
             page.evaluate("document.documentElement.style.fontSize = '200%'")
             page.wait_for_timeout(100)
             reflow = geometry_oracle(page)
-            page_errors.extend([])
-            report["viewports"][name] = {"viewport": f"{viewport[0]}x{viewport[1]}", "no_selected_place": no_selection, "rows": row_oracle, "inspector": inspector_oracle, "layout": layout, "restored_scroll": restored, "restored_scroll_top": restored_scroll, "restored_focus": restored_focus, "200_percent_reflow": reflow, "page_errors": page_errors}
+            report["viewports"][name] = {"viewport": f"{viewport[0]}x{viewport[1]}", "no_selected_place": no_selection, "rows": row_oracle, "inspector": inspector_oracle, "layout": layout, "no_route_matrix": no_matrix, "restored_scroll": restored, "restored_focus": restored_focus, "200_percent_reflow": reflow, "page_errors": page_errors}
             context.close()
 
-        run_viewport("desktop_ko_light", (1440, 900), screenshot_prefix="place_list_membership_1440x900_ko_light")
-        run_viewport("mobile_en_dark", (390, 844), english_dark=True, screenshot_prefix="place_list_membership_390x844_en_dark")
-        run_viewport("stress_375", (375, 812), screenshot_prefix="place_list_membership_375x812_stress")
-        run_viewport("stress_360", (360, 800), screenshot_prefix="place_list_membership_360x800_stress")
+        run_viewport("desktop_ko_light", (1440, 900), screenshot_prefix="place_roles_1440x900_ko_light")
+        run_viewport("mobile_en_dark", (390, 844), english_dark=True, screenshot_prefix="place_roles_390x844_en_dark")
+        run_viewport("stress_375", (375, 812), screenshot_prefix="place_roles_375x812_stress")
+        run_viewport("stress_360", (360, 800), screenshot_prefix="place_roles_360x800_stress")
         browser.close()
 
-    negative_rows = collect_rows_from_fixture(matrix)
-    negative_rows[0]["cells"][0]["role"] = "Skip" if negative_rows[0]["cells"][0]["role"] != "Skip" else "Core"
-    negative = validate_membership_rows(negative_rows, matrix)
+    fixture = collect_rows_from_fixture(roles, route_ids)
+    fixture[0]["route_cells"] = [{"route": "B", "role": "Core"}]
+    negative = validate_place_rows(fixture, roles, route_ids, expected_places)
     report["negative_control"] = {"status": negative["status"], "failures": negative["failures"][:4]}
-
-    viewport_ok = all(
-        row["no_selected_place"] and row["rows"]["status"] == "PASS" and row["inspector"]["status"] == "PASS" and row["layout"]["status"] == "PASS" and row["restored_scroll"] and row["200_percent_reflow"]["status"] == "PASS" and not row["page_errors"]
-        for row in report["viewports"].values()
-    )
-    report["checks"] = {"complete_39_place_list": viewport_ok, "negative_control_rejected": negative["status"] == "FAIL", "screenshots_present": len(report["screenshots"]) == 8}
+    viewport_ok = all(row["no_selected_place"] and row["no_route_matrix"] and row["rows"]["status"] == "PASS" and row["inspector"]["status"] == "PASS" and row["layout"]["status"] == "PASS" and row["restored_scroll"] and row["200_percent_reflow"]["status"] == "PASS" and not row["page_errors"] for row in report["viewports"].values())
+    report["checks"] = {"complete_active_place_list": viewport_ok, "comparison_matrix_absent": viewport_ok, "negative_route_cell_rejected": negative["status"] == "FAIL", "candidate_screenshots_present": len(report["screenshots"]) == 8}
     report["status"] = "PASS" if all(report["checks"].values()) else "FAIL"
     bind_report(report, identity)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"status": report["status"], "checks": report["checks"], "screenshots": len(report["screenshots"]), "errors": report["errors"]}, ensure_ascii=False))
     return 0 if report["status"] == "PASS" else 1
-
-
-def collect_rows_from_fixture(matrix: dict[str, dict[str, str]]) -> list[dict]:
-    return [{"place_key": place, "cells": [{"route": route, "role": role, "symbol": ROLE_SYMBOLS[role], "label": role} for route, role in roles.items()]} for place, roles in matrix.items()]
 
 
 if __name__ == "__main__":
