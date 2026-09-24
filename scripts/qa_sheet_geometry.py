@@ -133,7 +133,7 @@ def main() -> int:
         "orientation_rule": "The explicit sheet state is preserved across orientation changes. If compact becomes desktop-invalid at width >800px, the workbench adapts to the desktop collapsed presentation and the app-bar workbench toggle owns focus; returning to mobile restores the compact bottom sheet without resetting task state.",
         "notes": [
             "Geometry is read from rendered DOM rectangles after the coalesced MapLibre resize/refit settles.",
-            "Cook's Meadow activation uses Playwright locator pointer input; no programmatic click is used.",
+            "Cook's Meadow activation uses Playwright locator touch input; no programmatic click is used.",
             "Independent Project OS pixel review, native Safari, physical-device behavior, and human field review remain external boundaries.",
         ],
     }
@@ -194,10 +194,11 @@ def main() -> int:
                     page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
                     page.wait_for_function("!document.querySelector('#peek.show')", timeout=5000)
                     cooks = page.locator(".photo-marker[data-place-key='cooks']")
-                    cooks.click(timeout=5000)
+                    cooks.tap(timeout=5000)
                     if page.locator("#peek.show").count() != 1:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: Cook's Meadow Peek did not open in compact")
                     page.keyboard.press("Escape")
+                    page.wait_for_function("!document.querySelector('#peek.show')", timeout=5000)
 
                     page.set_viewport_size({"width": 844, "height": 390})
                     page.wait_for_timeout(120)
