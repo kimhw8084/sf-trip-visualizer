@@ -53,9 +53,24 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertIn("53b0a322e8db6c6dfc6c8a4ec3a7acc4f4961fa9", evidence_script.read_text())
 
     def test_generated_evidence_does_not_make_exact_source_checkout_dirty(self):
-        with patch.object(pipeline.subprocess, "check_output", return_value="?? QA/CHG-232/current.json\n?? .build/modular/index.html\n"):
+        with patch.object(pipeline.subprocess, "check_output", return_value=b"?? QA/CHG-232/current.json\0?? .build/modular/index.html\0"):
             self.assertTrue(pipeline.working_tree_clean())
-        with patch.object(pipeline.subprocess, "check_output", return_value="?? QA/CHG-232/current.json\n M src/app_phase7.js\n"):
+        with patch.object(pipeline.subprocess, "check_output", return_value=b"?? QA/CHG-232/current.json\0 M src/app_phase7.js\0"):
+            self.assertFalse(pipeline.working_tree_clean())
+
+    def test_first_and_later_generated_qa_status_rows_remain_allowed(self):
+        status = b" M QA/CHG-232/accessibility.json\0 M QA/CHG-232/current.json\0"
+        with patch.object(pipeline.subprocess, "check_output", return_value=status):
+            self.assertEqual(pipeline.authored_source_changes(), [])
+            self.assertTrue(pipeline.working_tree_clean())
+
+    def test_porcelain_rename_and_quoted_paths_cannot_hide_authored_changes(self):
+        status = b'R  src/renamed file.js\0QA/CHG-232/original.json\0 M src/"quoted -> QA/CHG-232/name.js"\0'
+        with patch.object(pipeline.subprocess, "check_output", return_value=status):
+            self.assertEqual(
+                pipeline.authored_source_changes(),
+                ["src/renamed file.js", 'src/"quoted -> QA/CHG-232/name.js"'],
+            )
             self.assertFalse(pipeline.working_tree_clean())
 
     def test_build_does_not_mutate_authored_data(self):

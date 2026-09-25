@@ -24,6 +24,7 @@ OUTPUT = ROOT / "QA/CHG-232/comparative"
 SCREEN_ROOT = OUTPUT / "screens"
 sys.path.insert(0, str(ROOT / "scripts"))
 from day_presentation_contract import audit_day_surface  # noqa: E402
+from pipeline import authored_source_changes  # noqa: E402
 
 
 def command(args: list[str], cwd: Path = ROOT) -> str:
@@ -337,8 +338,7 @@ def main() -> int:
     SCREEN_ROOT.mkdir(parents=True, exist_ok=True)
     current = command(["git", "rev-parse", "HEAD"])
     current_tree = command(["git", "rev-parse", "HEAD^{tree}"])
-    status_rows = command(["git", "status", "--porcelain", "--untracked-files=all"]).splitlines()
-    source_dirty = [row[3:] for row in status_rows if len(row) >= 4 and not row[3:].startswith(("QA/", ".build/", ".release/", ".public-site/"))]
+    source_dirty = authored_source_changes()
     if source_dirty:
         raise SystemExit(f"Matched rendered evidence requires a clean exact candidate source tree: {source_dirty}")
     variants = {"A": BASELINE_A, "B": BASELINE_B, "C": current}
