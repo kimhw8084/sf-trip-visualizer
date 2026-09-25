@@ -123,7 +123,7 @@ def prepare_page(page, url: str, date_key: str, viewport: tuple[int, int], lang:
         page.goto(url, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_selector("#workbench", timeout=30000)
     page.wait_for_function("window.__tripApp?.map?.()", timeout=30000)
-    page.locator('[data-mode="day"]').click()
+    page.locator('#modeNav [data-mode="day"]').click()
     page.locator("#dateSelect").select_option(date_key)
     current_lang = page.locator("html").get_attribute("lang") or "ko"
     if current_lang != lang:
@@ -168,7 +168,7 @@ def inspect_candidate(browser, url: str) -> dict:
     page.on("pageerror", lambda error: report["errors"].append(str(error)))
     page.goto(url, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    page.locator('[data-mode="day"]').click()
+    page.locator('#modeNav [data-mode="day"]').click()
     page.locator("#dateSelect").select_option("10/4")
 
     collapsed = page.evaluate("""() => ({travel_rows:[...document.querySelectorAll('#dayPlan [data-travel-details-toggle]')].map(button=>{const region=document.getElementById(button.getAttribute('aria-controls'));return {travel_id:button.dataset.travelId,expanded:button.getAttribute('aria-expanded')==='true',region_hidden:region?.hidden,collapsed_text:button.closest('.plan-travel')?.innerText||'',button_id:button.id,controls_id:button.getAttribute('aria-controls'),region_id:region?.id,labelled_by:region?.getAttribute('aria-labelledby'),focus_preserved:true}}),day_notes:(()=>{const button=document.querySelector('[data-day-notes-toggle]'),region=button&&document.getElementById(button.getAttribute('aria-controls'));return button?{expanded:button.getAttribute('aria-expanded')==='true',region_hidden:region?.hidden,button_id:button.id,controls_id:button.getAttribute('aria-controls'),region_id:region?.id,labelled_by:region?.getAttribute('aria-labelledby')}:null})()})""")
@@ -267,7 +267,7 @@ def inspect_candidate(browser, url: str) -> dict:
     compact_path = OUTPUT / "screens" / "C" / "mobile_compact_map_390x844.png"
     page.screenshot(path=str(compact_path), animations="disabled")
     report["screenshots"].append({"name": compact_path.stem, "path": str(compact_path.relative_to(ROOT)), "sha256": sha256(compact_path)})
-    page.locator('[data-sheet="expanded"]').click()
+    page.locator('.sheet-actions [data-sheet="expanded"]').click()
     expanded = page.evaluate("() => ({sheet:window.__tripApp.state.presentation.sheet,selected:window.__tripApp.state.task.selected,map:window.__tripApp.mapSpatialSnapshot(),scrollWidth:document.documentElement.scrollWidth,innerWidth})")
     check("mobile_expanded_sheet_retains_state_and_spatial_map", expanded["sheet"] == "expanded" and expanded["selected"] == "battery" and expanded["map"]["useful"] and expanded["scrollWidth"] <= expanded["innerWidth"], expanded)
     expanded_path = OUTPUT / "screens" / "C" / "mobile_expanded_sheet_390x844.png"
@@ -278,7 +278,7 @@ def inspect_candidate(browser, url: str) -> dict:
     touch_page = touch_context.new_page()
     touch_page.goto(url, wait_until="domcontentloaded", timeout=90000)
     touch_page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    touch_page.locator('[data-mode="day"]').click()
+    touch_page.locator('#modeNav [data-mode="day"]').click()
     touch_page.locator("#dateSelect").select_option("10/4")
     touch_page.locator("#dayPlan [data-travel-details-toggle]").first.tap()
     touch = touch_page.evaluate("() => {const b=document.querySelector('#dayPlan [data-travel-details-toggle]'),r=document.getElementById(b.getAttribute('aria-controls'));return {expanded:b.getAttribute('aria-expanded'),hidden:r.hidden,focus:document.activeElement.id,button:b.id}}")
@@ -298,7 +298,7 @@ def inspect_candidate(browser, url: str) -> dict:
     reflow = browser.new_page(viewport={"width": 720, "height": 450})
     reflow.goto(url, wait_until="domcontentloaded", timeout=90000)
     reflow.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    reflow.locator('[data-mode="day"]').click()
+    reflow.locator('#modeNav [data-mode="day"]').click()
     reflow.locator("#dateSelect").select_option("10/4")
     reflow.locator("[data-day-notes-toggle]").click()
     reflow.evaluate("""() => {document.documentElement.style.fontSize='200%';const p=document.querySelector('.day-notes p');if(p)p.textContent='Long-copy reflow fixture: '+('Protected lodging recovery, route conditions, timing windows, and evidence remain available. '.repeat(18));}""")
@@ -310,7 +310,7 @@ def inspect_candidate(browser, url: str) -> dict:
     provider = browser.new_page(viewport={"width": 1440, "height": 900})
     provider.goto(url, wait_until="domcontentloaded", timeout=90000)
     provider.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    provider.locator('[data-mode="day"]').click()
+    provider.locator('#modeNav [data-mode="day"]').click()
     provider.locator("#dateSelect").select_option("10/8")
     provider.route("https://server.arcgisonline.com/**", lambda route: route.abort())
     provider.evaluate("window.__tripApp.chooseProvider('satellite')")
@@ -331,6 +331,10 @@ def main() -> int:
     SCREEN_ROOT.mkdir(parents=True, exist_ok=True)
     current = command(["git", "rev-parse", "HEAD"])
     current_tree = command(["git", "rev-parse", "HEAD^{tree}"])
+    status_rows = command(["git", "status", "--porcelain", "--untracked-files=all"]).splitlines()
+    source_dirty = [row[3:] for row in status_rows if len(row) >= 4 and not row[3:].startswith(("QA/", ".build/", ".release/", ".public-site/"))]
+    if source_dirty:
+        raise SystemExit(f"Matched rendered evidence requires a clean exact candidate source tree: {source_dirty}")
     variants = {"A": BASELINE_A, "B": BASELINE_B, "C": current}
     # The historical image route endpoints are checked by identity only here;
     # all baseline physical route endpoints were confirmed to be public map endpoints.
