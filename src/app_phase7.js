@@ -782,6 +782,7 @@
           toggle.setAttribute('aria-expanded', String(open));
           document.getElementById(toggle.getAttribute('aria-controls')).hidden = !open;
         });
+        button.focus({ preventScroll: true });
       };
     });
     const notesButton = plan.parentElement.querySelector('[data-day-notes-toggle]');
@@ -790,6 +791,7 @@
       disclosure.notesOpen = !disclosure.notesOpen;
       notesButton.setAttribute('aria-expanded', String(disclosure.notesOpen));
       document.getElementById(notesButton.getAttribute('aria-controls')).hidden = !disclosure.notesOpen;
+      notesButton.focus({ preventScroll: true });
     };
   }
   function compactTravelTime(item, range) {

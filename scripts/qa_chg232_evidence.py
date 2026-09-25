@@ -236,6 +236,7 @@ def inspect_candidate(browser, url: str) -> dict:
     page.screenshot(path=str(cockpit_path), animations="disabled")
     report["screenshots"].append({"name": cockpit_path.stem, "path": str(cockpit_path.relative_to(ROOT)), "sha256": sha256(cockpit_path)})
     page.locator("#costCockpitClose").click()
+    page.wait_for_function("document.activeElement.id==='openCostCockpit'", timeout=5000)
     check("dialog_close_restores_day_context", page.evaluate("document.activeElement.id==='openCostCockpit' && window.__tripApp.state.task.date==='10/4'"))
 
     page.locator("#dateSelect").select_option("all")
