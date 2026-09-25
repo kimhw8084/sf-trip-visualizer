@@ -189,6 +189,7 @@ def inspect_candidate(browser, url: str) -> dict:
     first.focus()
     before_scroll = page.evaluate("() => ({top:document.querySelector('.workbench-scroll').scrollTop, y:scrollY})")
     first.press("Enter")
+    page.wait_for_function("document.activeElement?.matches('[data-travel-details-toggle]') && document.activeElement.getAttribute('aria-expanded')==='true'", timeout=5000)
     opened = page.evaluate("""() => {const button=document.querySelector('#dayPlan [data-travel-details-toggle]'),region=document.getElementById(button.getAttribute('aria-controls'));return {expanded:button.getAttribute('aria-expanded'),hidden:region.hidden,focus:document.activeElement.id,button:button.id,text:region.innerText}}""")
     check("keyboard_opens_one_travel_details_region", opened["expanded"] == "true" and not opened["hidden"] and opened["focus"] == opened["button"] and all(token in opened["text"].lower() for token in ("planning", "baseline", "buffer", "confidence")), opened)
     page.evaluate("async () => { await window.__tripApp.whenIdle?.(); }")
@@ -197,6 +198,7 @@ def inspect_candidate(browser, url: str) -> dict:
     page.screenshot(path=str(opened_path), animations="disabled")
     report["screenshots"].append({"name": opened_path.stem, "path": str(opened_path.relative_to(ROOT)), "sha256": sha256(opened_path)})
     first.press("Enter")
+    page.wait_for_function("document.activeElement?.matches('[data-travel-details-toggle]') && document.activeElement.getAttribute('aria-expanded')==='false'", timeout=5000)
     closed = page.evaluate("""() => {const button=document.querySelector('#dayPlan [data-travel-details-toggle]'),region=document.getElementById(button.getAttribute('aria-controls'));return {expanded:button.getAttribute('aria-expanded'),hidden:region.hidden,focus:document.activeElement.id,button:button.id}}""")
     after_scroll = page.evaluate("() => ({top:document.querySelector('.workbench-scroll').scrollTop, y:scrollY})")
     check("keyboard_collapses_and_keeps_focus_and_scroll", closed["expanded"] == "false" and closed["hidden"] and closed["focus"] == closed["button"] and after_scroll == before_scroll, {"closed": closed, "before_scroll": before_scroll, "after_scroll": after_scroll})
@@ -204,6 +206,7 @@ def inspect_candidate(browser, url: str) -> dict:
     note_button = page.locator("[data-day-notes-toggle]")
     note_button.focus()
     note_button.press("Enter")
+    page.wait_for_function("document.activeElement?.matches('[data-day-notes-toggle]') && document.activeElement.getAttribute('aria-expanded')==='true'", timeout=5000)
     notes = page.evaluate("""() => {const button=document.querySelector('[data-day-notes-toggle]'),region=document.getElementById(button.getAttribute('aria-controls'));return {expanded:button.getAttribute('aria-expanded'),hidden:region.hidden,focus:document.activeElement.id,button:button.id}}""")
     check("day_notes_keyboard_disclosure", notes["expanded"] == "true" and not notes["hidden"] and notes["focus"] == notes["button"], notes)
     notes_path = OUTPUT / "screens" / "C" / "day_notes_expanded_10-4_1440x900.png"

@@ -782,7 +782,9 @@
           toggle.setAttribute('aria-expanded', String(open));
           document.getElementById(toggle.getAttribute('aria-controls')).hidden = !open;
         });
+        const focusedId = button.id;
         button.focus({ preventScroll: true });
+        requestAnimationFrame(() => document.getElementById(focusedId)?.focus({ preventScroll: true }));
       };
     });
     const notesButton = plan.parentElement.querySelector('[data-day-notes-toggle]');
@@ -791,7 +793,9 @@
       disclosure.notesOpen = !disclosure.notesOpen;
       notesButton.setAttribute('aria-expanded', String(disclosure.notesOpen));
       document.getElementById(notesButton.getAttribute('aria-controls')).hidden = !disclosure.notesOpen;
+      const focusedId = notesButton.id;
       notesButton.focus({ preventScroll: true });
+      requestAnimationFrame(() => document.getElementById(focusedId)?.focus({ preventScroll: true }));
     };
   }
   function compactTravelTime(item, range) {
