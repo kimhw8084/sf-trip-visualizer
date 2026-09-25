@@ -1,0 +1,2671 @@
+{
+  "accepted_at": "2026-09-25T21:25:06Z",
+  "changed_files": [
+    {
+      "additions": 11,
+      "deletions": 11,
+      "path": ".github/workflows/candidate-qualification.yml",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": ".github/workflows/deploy-pages.yml",
+      "status": "M"
+    },
+    {
+      "additions": 34,
+      "deletions": 0,
+      "path": "QA/CHG-232/accessibility.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/browser_screenshots/firefox_1280_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/browser_screenshots/firefox_390_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/browser_screenshots/webkit_1280_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/browser_screenshots/webkit_390_detail.png",
+      "status": "A"
+    },
+    {
+      "additions": 978,
+      "deletions": 0,
+      "path": "QA/CHG-232/browser_summary.json",
+      "status": "A"
+    },
+    {
+      "additions": 2737,
+      "deletions": 0,
+      "path": "QA/CHG-232/canonical_truth.json",
+      "status": "A"
+    },
+    {
+      "additions": 3651,
+      "deletions": 0,
+      "path": "QA/CHG-232/comparative/objective_comparison.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_1010_1440x900_ko_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_1010_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_1010_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_1011_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_1011_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_1011_390x844_en_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_104_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_104_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_105_1440x900_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_105_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_105_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_106_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_106_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_106_390x844_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_108_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/A/day_108_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_1010_1440x900_ko_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_1010_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_1010_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_1011_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_1011_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_1011_390x844_en_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_104_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_104_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_105_1440x900_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_105_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_105_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_106_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_106_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_106_390x844_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_108_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/B/day_108_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/cost_readiness_dialog_10-4_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_1010_1440x900_ko_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_1010_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_1010_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_1011_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_1011_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_1011_390x844_en_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_104_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_104_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_105_1440x900_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_105_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_105_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_106_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_106_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_106_390x844_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_108_1440x900_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_108_390x844_en_dark.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/day_notes_expanded_10-4_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/desktop_collapsed_workbench_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/mobile_compact_map_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/mobile_expanded_sheet_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/provider_failure_recovered_to_smart_map_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/comparative/screens/C/travel_details_expanded_10-4_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/decision_workbench/day_1008_desktop.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/decision_workbench/decide_default_desktop.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/decision_workbench/place_inspector_desktop.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/decision_workbench/place_mobile_expanded.png",
+      "status": "A"
+    },
+    {
+      "additions": 148,
+      "deletions": 0,
+      "path": "QA/CHG-232/decision_workbench/task_oracles.json",
+      "status": "A"
+    },
+    {
+      "additions": 399,
+      "deletions": 0,
+      "path": "QA/CHG-232/exhaustive_states.json",
+      "status": "A"
+    },
+    {
+      "additions": 118,
+      "deletions": 0,
+      "path": "QA/CHG-232/gate5/baseline.json",
+      "status": "A"
+    },
+    {
+      "additions": 2033,
+      "deletions": 0,
+      "path": "QA/CHG-232/gate5/candidate.json",
+      "status": "A"
+    },
+    {
+      "additions": 1600,
+      "deletions": 0,
+      "path": "QA/CHG-232/gate5/finding_matrix.json",
+      "status": "A"
+    },
+    {
+      "additions": 415,
+      "deletions": 0,
+      "path": "QA/CHG-232/gate5/paired_comparison.json",
+      "status": "A"
+    },
+    {
+      "additions": 8,
+      "deletions": 0,
+      "path": "QA/CHG-232/gate5/performance_summary.log",
+      "status": "A"
+    },
+    {
+      "additions": 147,
+      "deletions": 0,
+      "path": "QA/CHG-232/gate5/review_pack_index.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/interaction_dynamics/dynamics_1440_route_peek.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/interaction_dynamics/dynamics_390_field_sheet.png",
+      "status": "A"
+    },
+    {
+      "additions": 163,
+      "deletions": 0,
+      "path": "QA/CHG-232/interaction_dynamics/interaction_dynamics.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/location_gap/cost_readiness_1440_ko_light_day.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/location_gap/cost_readiness_390_en_dark_mobile.png",
+      "status": "A"
+    },
+    {
+      "additions": 180,
+      "deletions": 0,
+      "path": "QA/CHG-232/location_gap/location_gap_visuals.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/location_gap/oct4_day_1440_en_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/location_gap/oct4_day_390_en_dark_mobile.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/location_gap/oct4_day_rows_1440_en_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/location_gap/oct4_day_rows_390_en_dark_mobile.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/location_gap/oct4_travel_details_expanded_1440_en_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/location_gap/oct6_day_1440_en_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/location_gap/oct6_day_390_en_dark_mobile.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/location_gap/oct6_day_rows_1440_en_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/location_gap/oct6_day_rows_390_en_dark_mobile.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/map_first_full/day_1008_1440.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/map_first_full/default_1440_ko_light.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/map_first_full/english_dark_1440.png",
+      "status": "A"
+    },
+    {
+      "additions": 238,
+      "deletions": 0,
+      "path": "QA/CHG-232/map_first_full/full_acceptance.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/map_first_full/mobile_expanded_390.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/map_first_full/place_inspector_1440.png",
+      "status": "A"
+    },
+    {
+      "additions": 525,
+      "deletions": 0,
+      "path": "QA/CHG-232/map_first_p0/p0_independent.json",
+      "status": "A"
+    },
+    {
+      "additions": 32,
+      "deletions": 0,
+      "path": "QA/CHG-232/map_first_smoke/smoke.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/map_first_smoke/smoke_1440.png",
+      "status": "A"
+    },
+    {
+      "additions": 1824,
+      "deletions": 0,
+      "path": "QA/CHG-232/map_geometry.json",
+      "status": "A"
+    },
+    {
+      "additions": 14,
+      "deletions": 0,
+      "path": "QA/CHG-232/photo_integrity.json",
+      "status": "A"
+    },
+    {
+      "additions": 200,
+      "deletions": 0,
+      "path": "QA/CHG-232/place_list_roles.json",
+      "status": "A"
+    },
+    {
+      "additions": 96,
+      "deletions": 0,
+      "path": "QA/CHG-232/release/fast.json",
+      "status": "A"
+    },
+    {
+      "additions": 39,
+      "deletions": 0,
+      "path": "QA/CHG-232/release/gate4.json",
+      "status": "A"
+    },
+    {
+      "additions": 3809,
+      "deletions": 0,
+      "path": "QA/CHG-232/release/gate4_runtime.json",
+      "status": "A"
+    },
+    {
+      "additions": 3551,
+      "deletions": 0,
+      "path": "QA/CHG-232/release/gate4_static.json",
+      "status": "A"
+    },
+    {
+      "additions": 44,
+      "deletions": 0,
+      "path": "QA/CHG-232/release/maplibre_security.json",
+      "status": "A"
+    },
+    {
+      "additions": 20,
+      "deletions": 0,
+      "path": "QA/CHG-232/release/public_asset_rights.json",
+      "status": "A"
+    },
+    {
+      "additions": 379,
+      "deletions": 0,
+      "path": "QA/CHG-232/release/qualification.json",
+      "status": "A"
+    },
+    {
+      "additions": 795,
+      "deletions": 0,
+      "path": "QA/CHG-232/release/route_continuity.json",
+      "status": "A"
+    },
+    {
+      "additions": 61,
+      "deletions": 0,
+      "path": "QA/CHG-232/release/route_truth.json",
+      "status": "A"
+    },
+    {
+      "additions": 1224,
+      "deletions": 0,
+      "path": "QA/CHG-232/release/security_privacy.json",
+      "status": "A"
+    },
+    {
+      "additions": 1712,
+      "deletions": 0,
+      "path": "QA/CHG-232/route_key_camera.json",
+      "status": "A"
+    },
+    {
+      "additions": 129,
+      "deletions": 0,
+      "path": "QA/CHG-232/route_surface.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/map_controls_390x844_single_route.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/map_controls_414x896_single_route.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/place_list/place_roles_1440x900_ko_light_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/place_list/place_roles_1440x900_ko_light_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/place_list/place_roles_360x800_stress_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/place_list/place_roles_360x800_stress_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/place_list/place_roles_375x812_stress_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/place_list/place_roles_375x812_stress_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/place_list/place_roles_390x844_en_dark_scrolled.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/place_list/place_roles_390x844_en_dark_top.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/satellite_failure_recovery_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/single_route_day_1005_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/single_route_decide_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/screenshots/single_route_place_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": 2244,
+      "deletions": 0,
+      "path": "QA/CHG-232/sheet_geometry.json",
+      "status": "A"
+    },
+    {
+      "additions": 9490,
+      "deletions": 0,
+      "path": "QA/CHG-232/standalone/standalone.json",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/standalone/standalone_file_origin_final.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/canonical_day_dense_recovery_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/canonical_day_sparse_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/canonical_decide_default_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/canonical_en_dark_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/canonical_no_results_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/canonical_peek_cooks_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/canonical_place_inspector_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/canonical_workbench_compact_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/canonical_workbench_expanded_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/canonical_workbench_full_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/compact_map_options_open_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/compact_map_region_yosemite_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_compact_360x800.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_compact_375x812.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_compact_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_compact_414x896.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_compact_map_options_360x800.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_compact_map_options_375x812.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_compact_map_options_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_compact_map_options_414x896.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_expanded_360x800.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_expanded_375x812.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_expanded_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_expanded_414x896.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_full_360x800.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_full_375x812.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_full_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_full_414x896.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_keyboard_peek_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/mobile_touch_peek_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/satellite_failure_recovery_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/single_route_plan_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/smart_failure_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/startup_immediate_1440x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/stress_decide_1366x768.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/stress_decide_1536x864.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/stress_decide_1600x900.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/stress_decide_1920x1080.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/stress_decide_360x800.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/stress_decide_375x812.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/stress_decide_390x844.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/stress_decide_414x896.png",
+      "status": "A"
+    },
+    {
+      "additions": null,
+      "deletions": null,
+      "path": "QA/CHG-232/visual/screenshots/stress_decide_844x390.png",
+      "status": "A"
+    },
+    {
+      "additions": 634,
+      "deletions": 0,
+      "path": "QA/CHG-232/visual/visual_index.json",
+      "status": "A"
+    },
+    {
+      "additions": 819,
+      "deletions": 474,
+      "path": "data/phase7_app_data.json",
+      "status": "M"
+    },
+    {
+      "additions": 20301,
+      "deletions": 622,
+      "path": "data/route_geometry_cache.json",
+      "status": "M"
+    },
+    {
+      "additions": 953,
+      "deletions": 337,
+      "path": "data/route_geometry_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 0,
+      "path": "data/translations.json",
+      "status": "M"
+    },
+    {
+      "additions": 34,
+      "deletions": 33,
+      "path": "manifests/canonical_pipeline.json",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 8,
+      "path": "manifests/gate5_field_quality_contract.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "manifests/map_first_basemap_manifest.json",
+      "status": "M"
+    },
+    {
+      "additions": 7,
+      "deletions": 7,
+      "path": "manifests/public_asset_rights.json",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "manifests/runtime_resilience_contract.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "manifests/security_privacy_contract.json",
+      "status": "M"
+    },
+    {
+      "additions": 62,
+      "deletions": 34,
+      "path": "scripts/audit_route_continuity.py",
+      "status": "M"
+    },
+    {
+      "additions": 144,
+      "deletions": 44,
+      "path": "scripts/cache_route_geometry.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/check_photo_integrity.py",
+      "status": "M"
+    },
+    {
+      "additions": 41,
+      "deletions": 0,
+      "path": "scripts/day_presentation_contract.py",
+      "status": "A"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "scripts/package_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 62,
+      "deletions": 39,
+      "path": "scripts/pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "scripts/prepare_public_site.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_accessibility_reflow.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_canonical_truth.py",
+      "status": "M"
+    },
+    {
+      "additions": 422,
+      "deletions": 0,
+      "path": "scripts/qa_chg232_evidence.py",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "scripts/qa_decision_workbench.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_gate4_resilience.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 4,
+      "path": "scripts/qa_gate5_field_quality.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_interaction_dynamics.py",
+      "status": "M"
+    },
+    {
+      "additions": 101,
+      "deletions": 15,
+      "path": "scripts/qa_location_gap_visuals.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_map_first_full.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_map_first_p0.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_map_geometry.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_maplibre_security.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "scripts/qa_place_list_membership.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "scripts/qa_route_explanations_panel.py",
+      "status": "M"
+    },
+    {
+      "additions": 3,
+      "deletions": 3,
+      "path": "scripts/qa_route_key_camera.py",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "scripts/qa_sheet_geometry.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/qa_standalone_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 46,
+      "deletions": 19,
+      "path": "scripts/refresh_map_first_manifests.py",
+      "status": "M"
+    },
+    {
+      "additions": 203,
+      "deletions": 0,
+      "path": "scripts/route_graph_contract.py",
+      "status": "A"
+    },
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "scripts/run_cross_browser.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/run_exhaustive_states.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/run_visual_spots.py",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 1,
+      "path": "scripts/security_privacy.py",
+      "status": "M"
+    },
+    {
+      "additions": 11,
+      "deletions": 2,
+      "path": "scripts/travel_contract.py",
+      "status": "M"
+    },
+    {
+      "additions": 10,
+      "deletions": 13,
+      "path": "scripts/validate_route_truth.py",
+      "status": "M"
+    },
+    {
+      "additions": 13,
+      "deletions": 7,
+      "path": "scripts/validate_trip_data.py",
+      "status": "M"
+    },
+    {
+      "additions": 29,
+      "deletions": 0,
+      "path": "src/app_phase7.css",
+      "status": "M"
+    },
+    {
+      "additions": 113,
+      "deletions": 7,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    },
+    {
+      "additions": 2,
+      "deletions": 0,
+      "path": "src/atlas_messages.js",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 0,
+      "path": "src/atlas_state.js",
+      "status": "M"
+    },
+    {
+      "additions": 31,
+      "deletions": 6,
+      "path": "tests/test_canonical_pipeline.py",
+      "status": "M"
+    },
+    {
+      "additions": 142,
+      "deletions": 0,
+      "path": "tests/test_chg232_regression_recovery.py",
+      "status": "A"
+    },
+    {
+      "additions": 7,
+      "deletions": 4,
+      "path": "tests/test_route_truth.py",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'cat /Users/haewonkim/.codex/RTK.md && cat /Users/haewonkim/.codex/law.md'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"git status --short --branch && git remote -v && git branch --show-current && git rev-parse HEAD && git show -s --format='%H%n%T%n%P%n%s' f7d23508c70706886de411fc4bf087785248b91e && git rev-parse f7d23508c70706886de411fc4bf087785248b91e\"'^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-tree --name-only f7d23508c70706886de411fc4bf087785248b91e .github/workflows && rtk git ls-tree -r --name-only f7d23508c70706886de411fc4bf087785248b91e .github/workflows'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show f7d23508c70706886de411fc4bf087785248b91e:.github/workflows/candidate-qualification.yml'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --stat 53b0a322e8db6c6dfc6c8a4ec3a7acc4f4961fa9 f7d23508c70706886de411fc4bf087785248b91e && rtk git diff --name-only 53b0a322e8db6c6dfc6c8a4ec3a7acc4f4961fa9 f7d23508c70706886de411fc4bf087785248b91e && rtk git log --oneline --decorate 53b0a322e8db6c6dfc6c8a4ec3a7acc4f4961fa9..f7d23508c70706886de411fc4bf087785248b91e'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git reset --hard f7d23508c70706886de411fc4bf087785248b91e'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && rtk git rev-parse HEAD 'HEAD\"'^{tree}'\"' && rtk git diff --exit-code f7d23508c70706886de411fc4bf087785248b91e && rtk git show -s --format='%H%n%T%n%P' HEAD\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -la && rtk ls -la .codex-fabric'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk command -v codex-fabric || true && rtk command -v fabric || true'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git status --short --branch && rtk git rev-parse HEAD 'HEAD\"'^{tree}'\"' && rtk git rev-list --count f7d23508c70706886de411fc4bf087785248b91e..HEAD && rtk git diff --exit-code f7d23508c70706886de411fc4bf087785248b91e\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git merge-base --is-ancestor 53b0a322e8db6c6dfc6c8a4ec3a7acc4f4961fa9 f7d23508c70706886de411fc4bf087785248b91e'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-list --count f7d23508c70706886de411fc4bf087785248b91e..HEAD && rtk git diff --name-only f7d23508c70706886de411fc4bf087785248b91e HEAD && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-atlas-integration-retry-r4 refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.156.1",
+    "configured_model": "gpt-6-luna",
+    "event_count": 215,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 95.82,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 4186880,
+      "fresh_input_tokens": 182492,
+      "input_tokens": 4369372,
+      "non_reasoning_output_tokens": 14034,
+      "output_tokens": 26209,
+      "reasoning_output_tokens": 12175,
+      "total_processed_tokens": 4395581
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "f7d23508c70706886de411fc4bf087785248b91e",
+      "subject": "fabric: capture completed model changes [CF-513214324262f181658ab5d1]"
+    },
+    {
+      "sha": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
+      "subject": "Fix CHG-232 porcelain source cleanliness parsing"
+    },
+    {
+      "sha": "ff0c4ef6b3600d290114e057150f96d1c48dee7e",
+      "subject": "fabric: capture completed model changes [CF-7ead26db349663e8052e15eb]"
+    },
+    {
+      "sha": "8454454c30b8cfb027b61f890a0de597dcd65a95",
+      "subject": "Avoid timing-sensitive duplicate disclosure focus check"
+    },
+    {
+      "sha": "9fda1cc713cf745b3f3d30fade1525345f42346e",
+      "subject": "Match travel evidence oracle to disclosed method text"
+    },
+    {
+      "sha": "bb001d8c358e008fe3301cfc21ce8fb4fd57b39c",
+      "subject": "Wait for Day app state in visual QA"
+    },
+    {
+      "sha": "e4957089cfaac5f700632f1384e4b3a814fe8a23",
+      "subject": "Align location gap QA with Day travel disclosures"
+    },
+    {
+      "sha": "11be73350b3bf5712b6b0c35593a00a6782fdd90",
+      "subject": "Refresh CHG-232 public asset rights bindings"
+    },
+    {
+      "sha": "8c5806a4b55517acbbe9e2ac3d7f98351a98443b",
+      "subject": "Wait for map paint in matched CHG-232 screenshots"
+    },
+    {
+      "sha": "3c360d053170ae0657c7043f2c7ee07e9cebb78e",
+      "subject": "Restore focus after Day panel rerender"
+    },
+    {
+      "sha": "529ae0cfa653c103e6238899b8854e384b817544",
+      "subject": "Keep focus on Day disclosures after activation"
+    },
+    {
+      "sha": "151d441ea38728bef33f7c6e42e9286f0f88c5c6",
+      "subject": "Fix CHG-232 matched browser evidence selectors"
+    },
+    {
+      "sha": "449e878bb8ebd014b0669ccbfb8333f7c8b7f1b2",
+      "subject": "CHG-232 restore field atlas route fidelity and compact day view"
+    }
+  ],
+  "diff": {
+    "additions": 63293,
+    "changed_files": 228,
+    "commit_count": 13,
+    "deletions": 1728
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 186,
+    "items": [
+      {
+        "bytes": 789,
+        "path": "QA/CHG-232/accessibility.json",
+        "sha256": "8ac4d4448faf47d3eee0e3b744d20b3d8be0fb87fd11abfe8025636a5c81d780"
+      },
+      {
+        "bytes": 681459,
+        "path": "QA/CHG-232/browser_screenshots/firefox_1280_detail.png",
+        "sha256": "b2fecedf9943c3282e1ff3fe371340fab15a319799eca91109dea97f177c0504"
+      },
+      {
+        "bytes": 235234,
+        "path": "QA/CHG-232/browser_screenshots/firefox_390_detail.png",
+        "sha256": "0e7d2edd7ba12dd52bb48fe4a6ca0391f1121f00261a4ee6604517add0250b04"
+      },
+      {
+        "bytes": 787066,
+        "path": "QA/CHG-232/browser_screenshots/webkit_1280_detail.png",
+        "sha256": "ffbdf15a9b76e515ff6643876b8496c83f2c8c74fc4b337ef0d4ca452b48ac22"
+      },
+      {
+        "bytes": 267148,
+        "path": "QA/CHG-232/browser_screenshots/webkit_390_detail.png",
+        "sha256": "c0c7969e7bbb269ccd961081d5ed2627682399242313c7ef09d950d3d8d72f54"
+      },
+      {
+        "bytes": 27666,
+        "path": "QA/CHG-232/browser_summary.json",
+        "sha256": "6b9906d15aa77b0982c5a3bb119d89a5fdd709a6acab9b9740f8cf6c1052838f"
+      },
+      {
+        "bytes": 151088,
+        "path": "QA/CHG-232/canonical_truth.json",
+        "sha256": "8e99241da68bd1d615c9bce3327ab4189cd4c33369fd442c1b8eca4d2d70348c"
+      },
+      {
+        "bytes": 117246,
+        "path": "QA/CHG-232/comparative/objective_comparison.json",
+        "sha256": "e900995f371655cfa4ad0530958ac771ca34a32b77b91c92977413f9236326e2"
+      },
+      {
+        "bytes": 616120,
+        "path": "QA/CHG-232/comparative/screens/A/day_1010_1440x900_ko_dark.png",
+        "sha256": "374641cc2a5ec0cd7bcf8dca009880c9e569fbd0ed484c02587bb7a16885a162"
+      },
+      {
+        "bytes": 533791,
+        "path": "QA/CHG-232/comparative/screens/A/day_1010_1440x900_ko_light.png",
+        "sha256": "d38e5c90c0e179cc474954cbff042013506c2c146232bda5981270d930356d03"
+      },
+      {
+        "bytes": 181894,
+        "path": "QA/CHG-232/comparative/screens/A/day_1010_390x844_en_dark.png",
+        "sha256": "f6bc781d06158c09ea3fa894478d9cc597b916c18babed2293cf0c112238cd1a"
+      },
+      {
+        "bytes": 506418,
+        "path": "QA/CHG-232/comparative/screens/A/day_1011_1440x900_ko_light.png",
+        "sha256": "34c4e1f098f4c843dbaf4e95871c51231d5f6d3db90d54b8b81d1545a9248bec"
+      },
+      {
+        "bytes": 147546,
+        "path": "QA/CHG-232/comparative/screens/A/day_1011_390x844_en_dark.png",
+        "sha256": "79d56f7ff16155a9043730a9e53742bc74159ce67553595cf8e215d4473a3fc8"
+      },
+      {
+        "bytes": 139558,
+        "path": "QA/CHG-232/comparative/screens/A/day_1011_390x844_en_light.png",
+        "sha256": "31a0550a1f653b9a7d76040ed7fa77a70175a6bed078329c125db02466b96fcc"
+      },
+      {
+        "bytes": 314322,
+        "path": "QA/CHG-232/comparative/screens/A/day_104_1440x900_ko_light.png",
+        "sha256": "8c74bb9f68cc277f7ed25c0b28c2ad06d5fb2fdd5d2db2ad3015bfae2c41b00b"
+      },
+      {
+        "bytes": 124956,
+        "path": "QA/CHG-232/comparative/screens/A/day_104_390x844_en_dark.png",
+        "sha256": "72946ae29186ef7368aea45fa7003667390ed53c02a5eb26cc0daaa69ada81ce"
+      },
+      {
+        "bytes": 444883,
+        "path": "QA/CHG-232/comparative/screens/A/day_105_1440x900_en_dark.png",
+        "sha256": "ea2b5501e6d5ad7b78ba40aced252e8bf821b708b218b23395bd05c0f241f422"
+      },
+      {
+        "bytes": 384928,
+        "path": "QA/CHG-232/comparative/screens/A/day_105_1440x900_ko_light.png",
+        "sha256": "8c61354dd6cec3e10b7a2859d3673fec889272c2a3ecd495337d0e1abd9bf56f"
+      },
+      {
+        "bytes": 145607,
+        "path": "QA/CHG-232/comparative/screens/A/day_105_390x844_en_dark.png",
+        "sha256": "067d84828ffaa8c79e626c3380d2f6cf14ba228b93e77c007d6c50a0760a3b17"
+      },
+      {
+        "bytes": 289488,
+        "path": "QA/CHG-232/comparative/screens/A/day_106_1440x900_ko_light.png",
+        "sha256": "b1c4f0ee1b1c5dc4aab76251fd8af9191b9fd5ab4052225589befb480cc181bb"
+      },
+      {
+        "bytes": 132910,
+        "path": "QA/CHG-232/comparative/screens/A/day_106_390x844_en_dark.png",
+        "sha256": "eea3ef1cab80413a8a413415d8f7d6e7a5143c87afbdef47a9af8d7128b7f9fa"
+      },
+      {
+        "bytes": 135761,
+        "path": "QA/CHG-232/comparative/screens/A/day_106_390x844_ko_light.png",
+        "sha256": "ecfc440140f5a1c46cc0fe7f4566f2101bef0d62fc713ea93b8338c2ee3b8466"
+      },
+      {
+        "bytes": 651285,
+        "path": "QA/CHG-232/comparative/screens/A/day_108_1440x900_ko_light.png",
+        "sha256": "a1388100082b0177dad92538446daadf7e8c1002e7d96c92714902117ba226f6"
+      },
+      {
+        "bytes": 145654,
+        "path": "QA/CHG-232/comparative/screens/A/day_108_390x844_en_dark.png",
+        "sha256": "901a1a3f2c34a54ecc69cd707c7a1f100dd2d34d126dcf6e065f106de36fdddd"
+      },
+      {
+        "bytes": 581706,
+        "path": "QA/CHG-232/comparative/screens/B/day_1010_1440x900_ko_dark.png",
+        "sha256": "e99e8451d5d56d4e1c9dec06ef31c15f61a260d124213737d9b1df3024924dea"
+      },
+      {
+        "bytes": 545820,
+        "path": "QA/CHG-232/comparative/screens/B/day_1010_1440x900_ko_light.png",
+        "sha256": "699d3b0ed4bb31bf51b9951e04647fb92a2caa4312c76a068426f194088db37f"
+      },
+      {
+        "bytes": 209767,
+        "path": "QA/CHG-232/comparative/screens/B/day_1010_390x844_en_dark.png",
+        "sha256": "7f7e95c9fe6874322acc7d7f4bba695e7369e33c632514cee79d3d5943609f59"
+      },
+      {
+        "bytes": 453391,
+        "path": "QA/CHG-232/comparative/screens/B/day_1011_1440x900_ko_light.png",
+        "sha256": "863514a4166bb6267be41fb2662060f8a032b0e0e71a6d127b78c91e5885aaae"
+      },
+      {
+        "bytes": 130848,
+        "path": "QA/CHG-232/comparative/screens/B/day_1011_390x844_en_dark.png",
+        "sha256": "8696c73894a9822fcd51cd7d192e11a76d25b2dd63e8995232c33a57f5bd6893"
+      },
+      {
+        "bytes": 127399,
+        "path": "QA/CHG-232/comparative/screens/B/day_1011_390x844_en_light.png",
+        "sha256": "0224bdb61e7195ec596fab7d6aeb18f83b8a36c7a38b2e5ebb9cfd8adc346820"
+      },
+      {
+        "bytes": 340260,
+        "path": "QA/CHG-232/comparative/screens/B/day_104_1440x900_ko_light.png",
+        "sha256": "18844e7e4231fcd764eb84d6a53c6502dcb386034bfc63f1c89abf1c58c32307"
+      },
+      {
+        "bytes": 140165,
+        "path": "QA/CHG-232/comparative/screens/B/day_104_390x844_en_dark.png",
+        "sha256": "f6b283c348e0cb060ec37b5a728c5fe0bc0777c93fedf5c7415d79ce7da83ec6"
+      },
+      {
+        "bytes": 450616,
+        "path": "QA/CHG-232/comparative/screens/B/day_105_1440x900_en_dark.png",
+        "sha256": "54f65b433eb72d65a99de6213bf4e4fee053e654fe37fe75367d1f03d0e58b81"
+      },
+      {
+        "bytes": 398156,
+        "path": "QA/CHG-232/comparative/screens/B/day_105_1440x900_ko_light.png",
+        "sha256": "f570d29c4d89dae926b1564b7482884ff1e4f477877f634952eb35777c3e279c"
+      },
+      {
+        "bytes": 138816,
+        "path": "QA/CHG-232/comparative/screens/B/day_105_390x844_en_dark.png",
+        "sha256": "77c37f94ef6d91a37172a30ebd51e2a5db2c2db488b990aa47be3d1f4be63eda"
+      },
+      {
+        "bytes": 317987,
+        "path": "QA/CHG-232/comparative/screens/B/day_106_1440x900_ko_light.png",
+        "sha256": "7325e165cde8490db4473dc48b234fa7025f81e7833e279a9d21df1f4b7497ee"
+      },
+      {
+        "bytes": 136377,
+        "path": "QA/CHG-232/comparative/screens/B/day_106_390x844_en_dark.png",
+        "sha256": "228f18eeba41e0af3943c42ee3f96ec6bedfc1c05cacaa4bd03af42a557d05ab"
+      },
+      {
+        "bytes": 136917,
+        "path": "QA/CHG-232/comparative/screens/B/day_106_390x844_ko_light.png",
+        "sha256": "bcae5cb3427fcfe6460c2d64b5ac26970265f0cb1c10d59ccfe70b9b5afb31d9"
+      },
+      {
+        "bytes": 658322,
+        "path": "QA/CHG-232/comparative/screens/B/day_108_1440x900_ko_light.png",
+        "sha256": "5beb3d2357e06c1521482f9eac3c707c6f49c7d8220d189bb7aa752288627702"
+      },
+      {
+        "bytes": 144338,
+        "path": "QA/CHG-232/comparative/screens/B/day_108_390x844_en_dark.png",
+        "sha256": "a1e8e504ca0d3ded85175442f9246905fed82072d5c606076748ea7f9389e92d"
+      },
+      {
+        "bytes": 173066,
+        "path": "QA/CHG-232/comparative/screens/C/cost_readiness_dialog_10-4_1440x900.png",
+        "sha256": "a2ac70df34010d430735136563b93fa1d0b7fef908b9ba4b77ed31573f747526"
+      },
+      {
+        "bytes": 557011,
+        "path": "QA/CHG-232/comparative/screens/C/day_1010_1440x900_ko_dark.png",
+        "sha256": "b2c522e7ec9ed7cd27c3a5e0c9c5ac7c7042c248988826f84ca1c6dbeda568b0"
+      },
+      {
+        "bytes": 519745,
+        "path": "QA/CHG-232/comparative/screens/C/day_1010_1440x900_ko_light.png",
+        "sha256": "1c6d91875465c35a878021d6aea59a0409f350952bd6b9effa12bdda63ce6712"
+      },
+      {
+        "bytes": 206663,
+        "path": "QA/CHG-232/comparative/screens/C/day_1010_390x844_en_dark.png",
+        "sha256": "2971721b691b6860cb9b8abe3bf2226781a558ae2df14653ec2039c2635865c7"
+      },
+      {
+        "bytes": 427241,
+        "path": "QA/CHG-232/comparative/screens/C/day_1011_1440x900_ko_light.png",
+        "sha256": "2a02bd26bfa8342a9920618462721027b158dd17d7f287eef5e5a2efe6d91f92"
+      },
+      {
+        "bytes": 129063,
+        "path": "QA/CHG-232/comparative/screens/C/day_1011_390x844_en_dark.png",
+        "sha256": "d390c3bcbf6561311f20ddf2ca394c5698701a3b111b021bb49336849bc6858a"
+      },
+      {
+        "bytes": 126791,
+        "path": "QA/CHG-232/comparative/screens/C/day_1011_390x844_en_light.png",
+        "sha256": "731a9db238bc1060ecc16af6b717cbb4217e0a9e9b4808066947b269f41c6cfe"
+      },
+      {
+        "bytes": 323679,
+        "path": "QA/CHG-232/comparative/screens/C/day_104_1440x900_ko_light.png",
+        "sha256": "07215a734449e812cf44a4d044c24917270503955f625cacd32d2d56936e2d92"
+      },
+      {
+        "bytes": 143245,
+        "path": "QA/CHG-232/comparative/screens/C/day_104_390x844_en_dark.png",
+        "sha256": "6286fdec24600612b3b0527f3566b8f87fb5315ee0546e1bc89e0df292bdeba9"
+      },
+      {
+        "bytes": 440730,
+        "path": "QA/CHG-232/comparative/screens/C/day_105_1440x900_en_dark.png",
+        "sha256": "5f314376c0b504f4441688fc17976031308378f547cefa052cfb520453fd8133"
+      },
+      {
+        "bytes": 375989,
+        "path": "QA/CHG-232/comparative/screens/C/day_105_1440x900_ko_light.png",
+        "sha256": "61b240b2851d158f66b3ef399c9447bc20f1e7d7b85fb695e21643fd55b08ef8"
+      },
+      {
+        "bytes": 140447,
+        "path": "QA/CHG-232/comparative/screens/C/day_105_390x844_en_dark.png",
+        "sha256": "93775a64aaf2263e550b307ca15ca29d1dd6f7015ac2a5b314762495b3ceb961"
+      },
+      {
+        "bytes": 282506,
+        "path": "QA/CHG-232/comparative/screens/C/day_106_1440x900_ko_light.png",
+        "sha256": "af307ade88883495e11597001d9b785eee49f356fc854c64faf3bb805f35ba66"
+      },
+      {
+        "bytes": 130913,
+        "path": "QA/CHG-232/comparative/screens/C/day_106_390x844_en_dark.png",
+        "sha256": "f459de6d7b053f5530f161ba9397ca0401ac990490d41bae8a11034de655f0eb"
+      },
+      {
+        "bytes": 138298,
+        "path": "QA/CHG-232/comparative/screens/C/day_106_390x844_ko_light.png",
+        "sha256": "9843e083191485529a05ae6367506c2875547506cfccb4d5670e5ac6f421cc99"
+      },
+      {
+        "bytes": 638404,
+        "path": "QA/CHG-232/comparative/screens/C/day_108_1440x900_ko_light.png",
+        "sha256": "26e3dc82b81afda3fc535ae9a9813d0fdd663e085cd0151eb7a8222f371d74e8"
+      },
+      {
+        "bytes": 146203,
+        "path": "QA/CHG-232/comparative/screens/C/day_108_390x844_en_dark.png",
+        "sha256": "19621e287614ba3726b2154ce24d1eac77b18f7c6edf7449aa92c6dd424aa04f"
+      },
+      {
+        "bytes": 330125,
+        "path": "QA/CHG-232/comparative/screens/C/day_notes_expanded_10-4_1440x900.png",
+        "sha256": "802d981d6065db49f1c56852b3d38ea00ba2ae6accae2af02a77eb1dbff23da7"
+      },
+      {
+        "bytes": 62343,
+        "path": "QA/CHG-232/comparative/screens/C/desktop_collapsed_workbench_1440x900.png",
+        "sha256": "767993b075a4a51b19b52e202e2cd14338b90d09d0533795516df70e811b8c8c"
+      },
+      {
+        "bytes": 193213,
+        "path": "QA/CHG-232/comparative/screens/C/mobile_compact_map_390x844.png",
+        "sha256": "1877ebdd6a5eff3c0bc1f2622a74447810fbe5387a80b2b116fa4f1a9b0b6d27"
+      },
+      {
+        "bytes": 180046,
+        "path": "QA/CHG-232/comparative/screens/C/mobile_expanded_sheet_390x844.png",
+        "sha256": "d1f38c059e38da814d2b1200c495890b4e601655e687fc3118729e8434729ad8"
+      },
+      {
+        "bytes": 614508,
+        "path": "QA/CHG-232/comparative/screens/C/provider_failure_recovered_to_smart_map_1440x900.png",
+        "sha256": "d52d597fcc271f8cb540b776adc05d5c966188f9efcfdc53194d755e0775a88a"
+      },
+      {
+        "bytes": 332677,
+        "path": "QA/CHG-232/comparative/screens/C/travel_details_expanded_10-4_1440x900.png",
+        "sha256": "5e6354ead4c9192c2a5bbda9d631cb2a26b3ed8910073c229c2008f90c8afa70"
+      },
+      {
+        "bytes": 629108,
+        "path": "QA/CHG-232/decision_workbench/day_1008_desktop.png",
+        "sha256": "641b14a6bfac533548a1f4577e2881519b4ca7cf8ebb6c12662526a541c53077"
+      },
+      {
+        "bytes": 469239,
+        "path": "QA/CHG-232/decision_workbench/decide_default_desktop.png",
+        "sha256": "f21d8a1de98bf393d42a3c737362b2defd7725f23f6f7434696f64a11ff4e046"
+      },
+      {
+        "bytes": 640110,
+        "path": "QA/CHG-232/decision_workbench/place_inspector_desktop.png",
+        "sha256": "7a26a598f95a8e9446b38b417f8ea33bc08389495c9f09bc018279280be9949c"
+      },
+      {
+        "bytes": 241381,
+        "path": "QA/CHG-232/decision_workbench/place_mobile_expanded.png",
+        "sha256": "c170a5960ff7a292686ba6c2e011d2fdb9d96982e39d1e92c8dfa5ed7e4a7e8d"
+      },
+      {
+        "bytes": 3771,
+        "path": "QA/CHG-232/decision_workbench/task_oracles.json",
+        "sha256": "3bf1ba6ea3956e8185771f300075c2592b9fa7fb23e057a34f8135fe59015a30"
+      },
+      {
+        "bytes": 7160,
+        "path": "QA/CHG-232/exhaustive_states.json",
+        "sha256": "b7d2a9713e5cd2f9b8e558627a1cd008a7dfbb64b84ffeec9efdc920bca8ac15"
+      },
+      {
+        "bytes": 2972,
+        "path": "QA/CHG-232/gate5/baseline.json",
+        "sha256": "aca6c4d9a63bda0dbfc6607981a692c67305bf60fb2658847acbd11bc9478680"
+      },
+      {
+        "bytes": 62498,
+        "path": "QA/CHG-232/gate5/candidate.json",
+        "sha256": "fe074ff49ba9e666504cbff1874595091583f69201b547b0e71d74227fe0d30d"
+      },
+      {
+        "bytes": 51150,
+        "path": "QA/CHG-232/gate5/finding_matrix.json",
+        "sha256": "e233fe78d1da29ebf3a5a40bd5b381fda33b914caa2bb961fa6d526ccfe44795"
+      },
+      {
+        "bytes": 10484,
+        "path": "QA/CHG-232/gate5/paired_comparison.json",
+        "sha256": "9c8cd8a8f9221dd9d86b2e1a7ed582f91f004a0ed1ce3327bbb35a1ebc48cd68"
+      },
+      {
+        "bytes": 1856,
+        "path": "QA/CHG-232/gate5/performance_summary.log",
+        "sha256": "563fbf37c89d2deaf6a65a1a14ae1f040e76b3492daac0d0d947cd8e9dc75e86"
+      },
+      {
+        "bytes": 9780,
+        "path": "QA/CHG-232/gate5/review_pack_index.json",
+        "sha256": "3bf8410554cbe4cf3ab7afe2e5b112f795b89c851c4fefc13e65175272e3bb7f"
+      },
+      {
+        "bytes": 441869,
+        "path": "QA/CHG-232/interaction_dynamics/dynamics_1440_route_peek.png",
+        "sha256": "fe4283c1fcc46eb6e5c9fd6bc7f0e11e2b22d9469344ff0a4c91aa6391e41fa7"
+      },
+      {
+        "bytes": 183172,
+        "path": "QA/CHG-232/interaction_dynamics/dynamics_390_field_sheet.png",
+        "sha256": "0b155c1b42b6c7d2738d4d1c4319bc14f56f240f25994a0aab29d3ca6c28d5e6"
+      },
+      {
+        "bytes": 2887,
+        "path": "QA/CHG-232/interaction_dynamics/interaction_dynamics.json",
+        "sha256": "0f0ab352b00f1f5edd980bd959d1bb9cde9fd05def48874c7f80df83b1c15f42"
+      },
+      {
+        "bytes": 375822,
+        "path": "QA/CHG-232/location_gap/cost_readiness_1440_ko_light_day.png",
+        "sha256": "cf00ab8e778641c856f1d66b2712e15cf44cc1b8a5de3e9356929827cce9efea"
+      },
+      {
+        "bytes": 77200,
+        "path": "QA/CHG-232/location_gap/cost_readiness_390_en_dark_mobile.png",
+        "sha256": "ef9b0653b70d3bfbcadaa9f806ba4606a269d0158cfe6398e0156102db1a39ec"
+      },
+      {
+        "bytes": 7184,
+        "path": "QA/CHG-232/location_gap/location_gap_visuals.json",
+        "sha256": "8e288fb938384e63b012658af893fd7eb850f6d0770d9a9ea3bccab4a0fb8911"
+      },
+      {
+        "bytes": 320277,
+        "path": "QA/CHG-232/location_gap/oct4_day_1440_en_light.png",
+        "sha256": "dc77ffd95eb365e40d228c56602f4a3833cef93ae4d22bab0febf26cefe2aeea"
+      },
+      {
+        "bytes": 151193,
+        "path": "QA/CHG-232/location_gap/oct4_day_390_en_dark_mobile.png",
+        "sha256": "9699aef166e769ab4b398addd2edd1d6635eeb42ff7e14d9c7e8db83a0d73b59"
+      },
+      {
+        "bytes": 322958,
+        "path": "QA/CHG-232/location_gap/oct4_day_rows_1440_en_light.png",
+        "sha256": "c6b3b8292a1d868f31441e4a050ce5d4592f37c1e66f497b7296e6378de06956"
+      },
+      {
+        "bytes": 148957,
+        "path": "QA/CHG-232/location_gap/oct4_day_rows_390_en_dark_mobile.png",
+        "sha256": "1ff211cffb8d86c4377621bc173caa7408a5a5d5622e54a763a1bd670a802d23"
+      },
+      {
+        "bytes": 334169,
+        "path": "QA/CHG-232/location_gap/oct4_travel_details_expanded_1440_en_light.png",
+        "sha256": "0060e83ad21918e73b9ccc978726835d69bbe514c611bb91df1540e0b3091d33"
+      },
+      {
+        "bytes": 151888,
+        "path": "QA/CHG-232/location_gap/oct6_day_1440_en_light.png",
+        "sha256": "7171f3c3a613d0fc459cad07b9eeec2e334a21b10f43b13a6f6dab99bfc39e5f"
+      },
+      {
+        "bytes": 72872,
+        "path": "QA/CHG-232/location_gap/oct6_day_390_en_dark_mobile.png",
+        "sha256": "16dd80c1f060ead52a6f7b307ffa3ae123767c95b7a18c1cde525bd9b6129199"
+      },
+      {
+        "bytes": 296847,
+        "path": "QA/CHG-232/location_gap/oct6_day_rows_1440_en_light.png",
+        "sha256": "8ed5b9110758566697c1937d891927ba8f24cdbc156a6ad293a6d32cfdb84658"
+      },
+      {
+        "bytes": 132098,
+        "path": "QA/CHG-232/location_gap/oct6_day_rows_390_en_dark_mobile.png",
+        "sha256": "6647c7b4f58dfff6f23fce47e179b21cc6c10dc814a77f61feab193ca038a6cf"
+      },
+      {
+        "bytes": 517871,
+        "path": "QA/CHG-232/map_first_full/day_1008_1440.png",
+        "sha256": "c12096cea0f1b91b4e8833bb68e8411cd9bf7e37c8f8e8f8940d5f902ff0fbfc"
+      },
+      {
+        "bytes": 467302,
+        "path": "QA/CHG-232/map_first_full/default_1440_ko_light.png",
+        "sha256": "ae99ec47adc0ff9ea4d39e85bd902667a9d0ad22daf552216fbcf4cba1fa16f5"
+      },
+      {
+        "bytes": 189457,
+        "path": "QA/CHG-232/map_first_full/english_dark_1440.png",
+        "sha256": "d2989df85d12e3ae52d875d650d3830a8870eaecc6d1f14241bb0e71f689cf19"
+      },
+      {
+        "bytes": 4744,
+        "path": "QA/CHG-232/map_first_full/full_acceptance.json",
+        "sha256": "59537758ae43d76fbb567b48a85988d036edb2c4a9f32038698eadbfba0be056"
+      },
+      {
+        "bytes": 140625,
+        "path": "QA/CHG-232/map_first_full/mobile_expanded_390.png",
+        "sha256": "7692d5f4871ae1c321c212338af2eea3457e46a6301a6e3eab158cd7475788ec"
+      },
+      {
+        "bytes": 640106,
+        "path": "QA/CHG-232/map_first_full/place_inspector_1440.png",
+        "sha256": "73e6adee783f0c5281123a6d9e7e239d944a410b85b8e6fb618ded37701dc7c6"
+      },
+      {
+        "bytes": 10943,
+        "path": "QA/CHG-232/map_first_p0/p0_independent.json",
+        "sha256": "be9bcaec22b3386cbdeb9fdaa95780c9d225456e0d756132f6ebbcfdb495c6af"
+      },
+      {
+        "bytes": 988,
+        "path": "QA/CHG-232/map_first_smoke/smoke.json",
+        "sha256": "197f10334ded506a8bdb907c916a1f4aeb762588748bd29739a64feae36c5018"
+      },
+      {
+        "bytes": 282840,
+        "path": "QA/CHG-232/map_first_smoke/smoke_1440.png",
+        "sha256": "1df3e755611d79d2cd3d24c52b20abc3afe488da38d22c1f77483f00ee2f9624"
+      },
+      {
+        "bytes": 49365,
+        "path": "QA/CHG-232/map_geometry.json",
+        "sha256": "cd7a73b79379d7ecf4c3329b30e9549b9d9849b20f6ceacf6c5e238d33b38ea8"
+      },
+      {
+        "bytes": 424,
+        "path": "QA/CHG-232/photo_integrity.json",
+        "sha256": "356469ddd4543a3c21a58524aa49b4283d31c18bba18769c7720373a2de1a6ee"
+      },
+      {
+        "bytes": 5119,
+        "path": "QA/CHG-232/place_list_roles.json",
+        "sha256": "604c084741e81dceca364780b2a7e8eb7554186f8d53ab1e963f16daf5cf45ad"
+      },
+      {
+        "bytes": 2754,
+        "path": "QA/CHG-232/release/fast.json",
+        "sha256": "36c953e55aa59d67d26e756c2980d35b898bdb0a04b6971e06de1283a14f11ce"
+      },
+      {
+        "bytes": 1081,
+        "path": "QA/CHG-232/release/gate4.json",
+        "sha256": "d87b1f950bdc920a928e7e136221257f760a7ecdfb771e0980d14c41f59054f1"
+      },
+      {
+        "bytes": 99247,
+        "path": "QA/CHG-232/release/gate4_runtime.json",
+        "sha256": "4bc573aa00477f2e24a816733a8165e31ff051e505805df7f131babcd288ab02"
+      },
+      {
+        "bytes": 111711,
+        "path": "QA/CHG-232/release/gate4_static.json",
+        "sha256": "07fe9111f14beb011be74bdc10c9463b64bc502c28b868eba8317c8b49e7fc14"
+      },
+      {
+        "bytes": 1428,
+        "path": "QA/CHG-232/release/maplibre_security.json",
+        "sha256": "51e8499a3b822a96923ee4e280ddb90279deefe1f3865cfc4c4719d0cbeb6da8"
+      },
+      {
+        "bytes": 593,
+        "path": "QA/CHG-232/release/public_asset_rights.json",
+        "sha256": "1f5f8efff9092ef11979d950ca11ddb9ac257db69f853077667220f558dfd565"
+      },
+      {
+        "bytes": 38369,
+        "path": "QA/CHG-232/release/qualification.json",
+        "sha256": "ac163145ac0ee44716956720d4fadcbf6bf05682b8c16b2dad52cc9ceb9b4a0c"
+      },
+      {
+        "bytes": 18746,
+        "path": "QA/CHG-232/release/route_continuity.json",
+        "sha256": "9fdead3d28bd62cedbf882089b60403c3e13b04ac9d4096e4dc206bc1af727ed"
+      },
+      {
+        "bytes": 894,
+        "path": "QA/CHG-232/release/route_truth.json",
+        "sha256": "2241cf00d157e3e8f1830a6d661776edc6a3e2b34d5b5c682f109e01066e9777"
+      },
+      {
+        "bytes": 42539,
+        "path": "QA/CHG-232/release/security_privacy.json",
+        "sha256": "136974464da7e7de06f6ba2ebf8c032d32d56f18083b27353a3cab45c81cfac5"
+      },
+      {
+        "bytes": 50588,
+        "path": "QA/CHG-232/route_key_camera.json",
+        "sha256": "75a037de78bcba6a6ccd122ad3d8a4995af308de20aa477abd6e6d36a266a664"
+      },
+      {
+        "bytes": 3531,
+        "path": "QA/CHG-232/route_surface.json",
+        "sha256": "1a075ed1d1b772e10542ed271b9afefc806a688fd97f24821574688c1dae662f"
+      },
+      {
+        "bytes": 219434,
+        "path": "QA/CHG-232/screenshots/map_controls_390x844_single_route.png",
+        "sha256": "027a678603703b4d41371fff03c7e42ea92f1a8c38dfed2071ddf81a336d74b6"
+      },
+      {
+        "bytes": 235074,
+        "path": "QA/CHG-232/screenshots/map_controls_414x896_single_route.png",
+        "sha256": "2f3fd2f6fe3e98d35d37554b99097388f4dc1c54c3d70b05e8dc3291843ee236"
+      },
+      {
+        "bytes": 439524,
+        "path": "QA/CHG-232/screenshots/place_list/place_roles_1440x900_ko_light_scrolled.png",
+        "sha256": "8f4d7cf64ced275bc1ce0335a3f6558d862a7a5dcee1ca585e928266dae8fadc"
+      },
+      {
+        "bytes": 143764,
+        "path": "QA/CHG-232/screenshots/place_list/place_roles_1440x900_ko_light_top.png",
+        "sha256": "0b0a41400e0cf0e02d041da714fe14da4519cca7f6960aa8719c158bc32e43d9"
+      },
+      {
+        "bytes": 144018,
+        "path": "QA/CHG-232/screenshots/place_list/place_roles_360x800_stress_scrolled.png",
+        "sha256": "ebe0e622b4282d8611a548ca018e56e9b0deebe562acd109414ba37bc40b39fd"
+      },
+      {
+        "bytes": 56248,
+        "path": "QA/CHG-232/screenshots/place_list/place_roles_360x800_stress_top.png",
+        "sha256": "54f55d573789a557a548a8a8f1bdfd2342803c58178558d8444ef88230c4a84c"
+      },
+      {
+        "bytes": 148491,
+        "path": "QA/CHG-232/screenshots/place_list/place_roles_375x812_stress_scrolled.png",
+        "sha256": "0e5f2feff2ea19f497be3f44c572c52a78bfcc579d2bc4e62731c1eb0dd6ec85"
+      },
+      {
+        "bytes": 56615,
+        "path": "QA/CHG-232/screenshots/place_list/place_roles_375x812_stress_top.png",
+        "sha256": "e682b10d59465b30be0993a55930b5cac387cb2129a69deaff5678690b921a9d"
+      },
+      {
+        "bytes": 128933,
+        "path": "QA/CHG-232/screenshots/place_list/place_roles_390x844_en_dark_scrolled.png",
+        "sha256": "ecb41a82a12a2a516d816927a429df5998b4b726586d2b6495a5f7418c81e6bf"
+      },
+      {
+        "bytes": 57975,
+        "path": "QA/CHG-232/screenshots/place_list/place_roles_390x844_en_dark_top.png",
+        "sha256": "04a045449fd590305200b67a922087cb34b46b21085a3726dd7c3e38e14fce8a"
+      },
+      {
+        "bytes": 323376,
+        "path": "QA/CHG-232/screenshots/satellite_failure_recovery_1440x900.png",
+        "sha256": "83633428629889d6cfa8a26f92c64c1537f11387706c17700e35f77308df1389"
+      },
+      {
+        "bytes": 357211,
+        "path": "QA/CHG-232/screenshots/single_route_day_1005_1440x900.png",
+        "sha256": "b0385c50d13c2bc5e1b9554906804dd11807199f5e7aa752e035af20b1f6067c"
+      },
+      {
+        "bytes": 467302,
+        "path": "QA/CHG-232/screenshots/single_route_decide_1440x900.png",
+        "sha256": "ae99ec47adc0ff9ea4d39e85bd902667a9d0ad22daf552216fbcf4cba1fa16f5"
+      },
+      {
+        "bytes": 139256,
+        "path": "QA/CHG-232/screenshots/single_route_place_390x844.png",
+        "sha256": "ba68a52fd59af558e0b37cd04a77e965e3b5d07a5bd6f7fb682f48295a4c4ea5"
+      },
+      {
+        "bytes": 59108,
+        "path": "QA/CHG-232/sheet_geometry.json",
+        "sha256": "bcab322b4c87c3dac05060b5cd66799cd487b92753055d8562a4faddd7c47047"
+      },
+      {
+        "bytes": 239909,
+        "path": "QA/CHG-232/standalone/standalone.json",
+        "sha256": "8edaa1f5484b0277abdb7ecf52081bc8f2cc34df8b871bdc3fd7e844fb34360d"
+      },
+      {
+        "bytes": 524726,
+        "path": "QA/CHG-232/standalone/standalone_file_origin_final.png",
+        "sha256": "49f2203b98544ed3d5962c883b93d3c2f69555fab56f33c1c8177bb697b50480"
+      },
+      {
+        "bytes": 523455,
+        "path": "QA/CHG-232/visual/screenshots/canonical_day_dense_recovery_1440x900.png",
+        "sha256": "beb2c245c72badf3782b1ede169107fee90987b67ea32662b944b0930a5c933c"
+      },
+      {
+        "bytes": 558709,
+        "path": "QA/CHG-232/visual/screenshots/canonical_day_sparse_1440x900.png",
+        "sha256": "00543d6340a41c2870ba1d877b37243a4f0e0df8d24dfe0e2cf040c280e35415"
+      },
+      {
+        "bytes": 452830,
+        "path": "QA/CHG-232/visual/screenshots/canonical_decide_default_1440x900.png",
+        "sha256": "ea32ce6ff63596029a983f4f1accc9c51cf47d8f8b6101ea6835bbf89d1656aa"
+      },
+      {
+        "bytes": 117179,
+        "path": "QA/CHG-232/visual/screenshots/canonical_en_dark_1440x900.png",
+        "sha256": "aaed4c438b906d34fb554f3992e871ba4054ec899af4fe3152fac518b342873c"
+      },
+      {
+        "bytes": 608619,
+        "path": "QA/CHG-232/visual/screenshots/canonical_no_results_1440x900.png",
+        "sha256": "3fbe2feba48f94cb0739ff5a7e2fe98b486dbc62e2be359c5f50e820937cf8cd"
+      },
+      {
+        "bytes": 632499,
+        "path": "QA/CHG-232/visual/screenshots/canonical_peek_cooks_1440x900.png",
+        "sha256": "130c047749359d2bbe7d6d57a88053938df7c853a6ea336540142ae08f5a4328"
+      },
+      {
+        "bytes": 697447,
+        "path": "QA/CHG-232/visual/screenshots/canonical_place_inspector_1440x900.png",
+        "sha256": "b6eab8a5cda9ebfa3be9509fcd625ee57ddf6641bd0014672b916ae6b50cc60d"
+      },
+      {
+        "bytes": 418814,
+        "path": "QA/CHG-232/visual/screenshots/canonical_workbench_compact_1440x900.png",
+        "sha256": "da7ad4d049e2b2e2817854e50579d47efd43bd7b209b800485f07c0cbdfdc7c8"
+      },
+      {
+        "bytes": 408921,
+        "path": "QA/CHG-232/visual/screenshots/canonical_workbench_expanded_1440x900.png",
+        "sha256": "23eccaa5ad707f7543c656879d8317e583846db6313cb3fee88d7ccab4d88089"
+      },
+      {
+        "bytes": 404457,
+        "path": "QA/CHG-232/visual/screenshots/canonical_workbench_full_1440x900.png",
+        "sha256": "6e5c946c9dd25d3e7f94fea25e808a2bc1458e5dd5617b982685325f40f6a2a7"
+      },
+      {
+        "bytes": 449878,
+        "path": "QA/CHG-232/visual/screenshots/compact_map_options_open_1440x900.png",
+        "sha256": "e7dd5f8e5b677cae9f9379fc2a36fb80e84eacf43cafe92c206fcce23f5675bc"
+      },
+      {
+        "bytes": 391988,
+        "path": "QA/CHG-232/visual/screenshots/compact_map_region_yosemite_1440x900.png",
+        "sha256": "7f151be7d4424a5e77ee6a763c97e2c7fa7a5650e2b67c7094becc14f94db453"
+      },
+      {
+        "bytes": 147212,
+        "path": "QA/CHG-232/visual/screenshots/mobile_compact_360x800.png",
+        "sha256": "afb424f4078953b4bf629cafee92fc5ece075c2dce9bc81408f7140c5fea01a4"
+      },
+      {
+        "bytes": 151825,
+        "path": "QA/CHG-232/visual/screenshots/mobile_compact_375x812.png",
+        "sha256": "0ccf200ff6468d76080970f95315284f54170065fc2e2f31f0f754231a92760d"
+      },
+      {
+        "bytes": 158412,
+        "path": "QA/CHG-232/visual/screenshots/mobile_compact_390x844.png",
+        "sha256": "804d008934bbf046488014c6f7b34067e966dc1b097ac330888e95673ebdee71"
+      },
+      {
+        "bytes": 168754,
+        "path": "QA/CHG-232/visual/screenshots/mobile_compact_414x896.png",
+        "sha256": "6ad16269cc5e89b41f9c76f413d37006aff3ae931d09ed3cef06758e5833c662"
+      },
+      {
+        "bytes": 43950,
+        "path": "QA/CHG-232/visual/screenshots/mobile_compact_map_options_360x800.png",
+        "sha256": "a06fa1f3600fbbca064eb0719219e2a6e2153242a8595ecec08e705c13e0157d"
+      },
+      {
+        "bytes": 44107,
+        "path": "QA/CHG-232/visual/screenshots/mobile_compact_map_options_375x812.png",
+        "sha256": "637856ae81f8014ed87570ecd078fe0a26cde36629b10f9947aa8e83eebfcd64"
+      },
+      {
+        "bytes": 44426,
+        "path": "QA/CHG-232/visual/screenshots/mobile_compact_map_options_390x844.png",
+        "sha256": "0acb9d03dde069a3fa5719ea8fe4c6503d3018ae650034d32149f1a8ea5d7f19"
+      },
+      {
+        "bytes": 57569,
+        "path": "QA/CHG-232/visual/screenshots/mobile_compact_map_options_414x896.png",
+        "sha256": "beaf94b6b450f794414f0a0f4cdb49958dd9ee0e591bec99350aaf9017a8d0c5"
+      },
+      {
+        "bytes": 137089,
+        "path": "QA/CHG-232/visual/screenshots/mobile_expanded_360x800.png",
+        "sha256": "cd2e857a65baf82e28c7d3a1d287cb6fd22e402fa7439067a500f2283c76d167"
+      },
+      {
+        "bytes": 149384,
+        "path": "QA/CHG-232/visual/screenshots/mobile_expanded_375x812.png",
+        "sha256": "e74e60f843cea4b7af5a2462ffe1d1123ac7dbc5a0f50af85c8f6cd8c5f4bfe8"
+      },
+      {
+        "bytes": 155572,
+        "path": "QA/CHG-232/visual/screenshots/mobile_expanded_390x844.png",
+        "sha256": "4cc854711451ea71a0862479a7332d44e3f53e284dc7e30a730df2257a9aab6e"
+      },
+      {
+        "bytes": 169268,
+        "path": "QA/CHG-232/visual/screenshots/mobile_expanded_414x896.png",
+        "sha256": "c6220337670ab1435eefd37252f322ac0328ed4ce902c8e9d11875ac3150d8c8"
+      },
+      {
+        "bytes": 111965,
+        "path": "QA/CHG-232/visual/screenshots/mobile_full_360x800.png",
+        "sha256": "27e6b2ae3cb9c0f4097473987eb84a984f5992a96f96b5cb4bfd93b507d6b476"
+      },
+      {
+        "bytes": 121587,
+        "path": "QA/CHG-232/visual/screenshots/mobile_full_375x812.png",
+        "sha256": "444376a6634161945ec3deb4a2df2c4ed661abcaf0624c544f55732cc2f8f83c"
+      },
+      {
+        "bytes": 127617,
+        "path": "QA/CHG-232/visual/screenshots/mobile_full_390x844.png",
+        "sha256": "080830e10aaa168efa6f7185413174877e377e763bda74ff677cbb06a682aa25"
+      },
+      {
+        "bytes": 135543,
+        "path": "QA/CHG-232/visual/screenshots/mobile_full_414x896.png",
+        "sha256": "2b2a281a474a92c39367995923c873c3a1d19a7f357dccfb4c11fa7eb3bddf41"
+      },
+      {
+        "bytes": 166402,
+        "path": "QA/CHG-232/visual/screenshots/mobile_keyboard_peek_390x844.png",
+        "sha256": "37c72bc6b6baf129ef4e704c3d72e29561b22726332e30f38547b9c8a6518395"
+      },
+      {
+        "bytes": 166568,
+        "path": "QA/CHG-232/visual/screenshots/mobile_touch_peek_390x844.png",
+        "sha256": "4b44a9fe7b21442bdda93760035b10def0151193aecfa8067a6aeb7e6f895ff9"
+      },
+      {
+        "bytes": 468422,
+        "path": "QA/CHG-232/visual/screenshots/satellite_failure_recovery_1440x900.png",
+        "sha256": "159df413aac00aeea38ac143ad48f80a08891df45a588b5114c664f4ce3486e8"
+      },
+      {
+        "bytes": 392106,
+        "path": "QA/CHG-232/visual/screenshots/single_route_plan_1440x900.png",
+        "sha256": "fcf85731e1abf899f37261642badd57f787ebb7194638eb96590d7ef6d419cfc"
+      },
+      {
+        "bytes": 186532,
+        "path": "QA/CHG-232/visual/screenshots/smart_failure_1440x900.png",
+        "sha256": "e34736e0258a3fbba153b5ca1262a06e1cc161dcb1a9d5a445c2a1589e79d3a5"
+      },
+      {
+        "bytes": 175980,
+        "path": "QA/CHG-232/visual/screenshots/startup_immediate_1440x900.png",
+        "sha256": "488955a6d380a83f1229ed6395f00e9fce0be85d10aa3e46fd3f88dec73b5ff9"
+      },
+      {
+        "bytes": 314354,
+        "path": "QA/CHG-232/visual/screenshots/stress_decide_1366x768.png",
+        "sha256": "9f8539a0a911c414f37e12a47178844280c7341e24bd82f4c79b345cce29bbb3"
+      },
+      {
+        "bytes": 492005,
+        "path": "QA/CHG-232/visual/screenshots/stress_decide_1536x864.png",
+        "sha256": "beed942eaefcdb63b9c0f7988f02b14f0d707e69195ba9744c0688293b508cd7"
+      },
+      {
+        "bytes": 516175,
+        "path": "QA/CHG-232/visual/screenshots/stress_decide_1600x900.png",
+        "sha256": "65f239feb8ff3a26749139d9c0491529eb0c71b5e3c094453a99200544d1a003"
+      },
+      {
+        "bytes": 624107,
+        "path": "QA/CHG-232/visual/screenshots/stress_decide_1920x1080.png",
+        "sha256": "fe23e1517d580c697df328939d1ab6a96e59758e7ecf9f237cdb1f9caf7ccbf9"
+      },
+      {
+        "bytes": 145335,
+        "path": "QA/CHG-232/visual/screenshots/stress_decide_360x800.png",
+        "sha256": "68bfce9c75e9e2f3dbeca5ef235991993171ea6bd577a9bd9f0dfc519513911c"
+      },
+      {
+        "bytes": 157739,
+        "path": "QA/CHG-232/visual/screenshots/stress_decide_375x812.png",
+        "sha256": "a25be54a5daa433912c173d301413422ac0d51d7e4a5b737613a5657eb669d5c"
+      },
+      {
+        "bytes": 164562,
+        "path": "QA/CHG-232/visual/screenshots/stress_decide_390x844.png",
+        "sha256": "2c1596c8a9e72738e48781ac39268d094f07bb72e94a152d09e1d5ab69315afe"
+      },
+      {
+        "bytes": 177060,
+        "path": "QA/CHG-232/visual/screenshots/stress_decide_414x896.png",
+        "sha256": "19c32b37e44dbc0798c9c7c9fa161b61dfd139703f3cd9e23c30fc20b60878ef"
+      },
+      {
+        "bytes": 117346,
+        "path": "QA/CHG-232/visual/screenshots/stress_decide_844x390.png",
+        "sha256": "362e5fb8427dd7b3393ef8dda142a968add1da0ef53574591dd04454dfa08109"
+      },
+      {
+        "bytes": 23271,
+        "path": "QA/CHG-232/visual/visual_index.json",
+        "sha256": "03217e262ee1de38c2e305bed38e90a6ce7707035620123c9fcb84e85b51c28b"
+      },
+      {
+        "bytes": 425220,
+        "path": "data/phase7_app_data.json",
+        "sha256": "e3573ad0890f7b0019d471984c8321cdd234c90ce69d70f011f0df27ac30bc16"
+      },
+      {
+        "bytes": 292281,
+        "path": "data/route_geometry_cache.json",
+        "sha256": "340879a7c59fce5fec3fcdac5c8e35ec2a6a791100b0001be8d7e8c6c964f878"
+      },
+      {
+        "bytes": 45994,
+        "path": "data/route_geometry_manifest.json",
+        "sha256": "d4d23abc3f1351aa433d78a8e64bbd74d106d0df6c37b2f52f87088711368e71"
+      },
+      {
+        "bytes": 37079,
+        "path": "data/translations.json",
+        "sha256": "d1dd323857c93e2403864037742d637ce136460907d584074c4f914aeb394607"
+      },
+      {
+        "bytes": 6395,
+        "path": "manifests/canonical_pipeline.json",
+        "sha256": "a5d35e268799eb54187a1ef1d1429b0d7ff8e961df13809390e1beb6b9dc0ece"
+      },
+      {
+        "bytes": 3853,
+        "path": "manifests/gate5_field_quality_contract.json",
+        "sha256": "d1b76d37c031be4e1e565158bb07abe27ef91c9180b2fa552e3608a996e5d8e2"
+      },
+      {
+        "bytes": 4704,
+        "path": "manifests/map_first_basemap_manifest.json",
+        "sha256": "42565b58c31f01eeffde62453d6756060633c288d3660b324064cbdcf0f7f7cc"
+      },
+      {
+        "bytes": 581577,
+        "path": "manifests/public_asset_rights.json",
+        "sha256": "a8dbb4c498477d0e47931d7d4a6dd55bbc4d831a1d15dff9f2501abc10ff2a38"
+      },
+      {
+        "bytes": 3922,
+        "path": "manifests/runtime_resilience_contract.json",
+        "sha256": "c155a74a836dc313f08bfea08bb64dc016b443bbef09ef25c898c2a097ff7b2a"
+      },
+      {
+        "bytes": 37707,
+        "path": "manifests/security_privacy_contract.json",
+        "sha256": "07eefbd5c67e810ee301b82954b73434745dbaf226518d1d7a2e338624d1f9a3"
+      },
+      {
+        "bytes": 30227,
+        "path": "scripts/qa_chg232_evidence.py",
+        "sha256": "263838d7fdc2cd7f01ca456a2c5703efdfa4a9183344df6029b882b80c7d0c58"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-25T21:57:40Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "53b0a322e8db6c6dfc6c8a4ec3a7acc4f4961fa9",
+    "branch": "codex/sf-trip-visualizer-field-atlas-integration-retry-r4",
+    "detached_verify": false,
+    "head_sha": "f7d23508c70706886de411fc4bf087785248b91e",
+    "remote_exact_head": true,
+    "remote_head_sha": "f7d23508c70706886de411fc4bf087785248b91e",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "53b0a322e8db6c6dfc6c8a4ec3a7acc4f4961fa9",
+    "work_branch": "codex/sf-trip-visualizer-field-atlas-integration-retry-r4",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-59b289c807bdbe3a7a47538b",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-atlas-integration-retry-r4"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "field-atlas-integration-retry-r4",
+  "schema_version": 1,
+  "started_at": "2026-09-25T21:25:06Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 1954,
+    "queue_seconds": 0,
+    "total_seconds": 1954
+  },
+  "transport": {
+    "bytes": 3168,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 2818,
+    "prompt_sha256": "02a541f638485b9fff9d0f09c3686bf74f4149988f8a25433d8a7ee7ed69ee1c",
+    "sha256": "59b289c807bdbe3a7a47538b38a8782d82cfd29746914b6df6073fed8fa3ca66"
+  }
+}
