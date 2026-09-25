@@ -49,13 +49,16 @@ class RouteTruthTests(unittest.TestCase):
         self.assertEqual(report["status"], "FAIL")
         self.assertTrue(any("10/9 transfer must end in Foster City recovery only" in failure for failure in report["failures"]))
 
-    def test_yosemite_to_san_francisco_transfer_must_follow_the_final_morning(self):
+    def test_yosemite_to_san_francisco_transfer_stays_in_timeline_without_a_private_map_line(self):
         mutated = copy.deepcopy(self.data)
-        transfer = next(leg for leg in mutated["legs"] if leg["date"] == "10/9" and leg["from"] == "yosemite_valley")
-        transfer["date"] = "10/10"
+        transfer = {
+            "leg_id": "faulty_oct9_private_transfer", "date": "10/9", "from": "yosemite_valley", "to": "sf_center",
+            "mode": "drive", "routes": ["A"], "render_style": "transfer_dots",
+        }
+        mutated["legs"].append(transfer)
         report = validate_route_truth(mutated, self.roles, self.schedule)
         self.assertEqual(report["status"], "FAIL")
-        self.assertTrue(any("conceptual Yosemite → SF transfer after the 10/9 morning" in failure for failure in report["failures"]))
+        self.assertTrue(any("10/9 Foster City transfer in the timeline without drawing a private-lodging route" in failure for failure in report["failures"]))
 
     def test_wrong_role_bucket_is_rejected(self):
         mutated = copy.deepcopy(self.schedule)

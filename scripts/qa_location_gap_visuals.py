@@ -1,4 +1,4 @@
-"""Candidate-bound browser QA for CHG-204 operations and cost/readiness."""
+"""Candidate-bound browser QA for CHG-232 operations and cost/readiness."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from qa_evidence import ROOT, bind_report, candidate_identity
 import security_privacy
 
 
-OUT = ROOT / "QA" / "CHG-204" / "location_gap"
+OUT = ROOT / "QA" / "CHG-232" / "location_gap"
 OUT.mkdir(parents=True, exist_ok=True)
 CANONICAL_DATA = json.loads((ROOT / "data" / "phase7_app_data.json").read_text())
 report = bind_report({"status": "FAIL", "checks": {}, "screenshots": [], "errors": []}, candidate_identity())

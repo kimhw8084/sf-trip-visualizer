@@ -15,8 +15,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from validate_trip_data import active_route_contract_failures  # noqa: E402
 
 
-OUT = ROOT / "QA" / "CHG-204" / "route_surface.json"
-SCREENSHOTS = ROOT / "QA" / "CHG-204" / "screenshots"
+OUT = ROOT / "QA" / "CHG-232" / "route_surface.json"
+SCREENSHOTS = ROOT / "QA" / "CHG-232" / "screenshots"
 DATA = json.loads((ROOT / "data/phase7_app_data.json").read_text())
 I18N = json.loads((ROOT / "data/translations.json").read_text())
 ROUTE_IDS = sorted(DATA["routes"])

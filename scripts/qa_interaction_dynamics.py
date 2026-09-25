@@ -9,7 +9,7 @@ from qa_config import MODULAR_URL
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "CHG-204" / "interaction_dynamics"
+OUT = ROOT / "QA" / "CHG-232" / "interaction_dynamics"
 OUT.mkdir(parents=True, exist_ok=True)
 report = {"status": "FAIL", "fit_states": [], "zoom_states": [], "errors": [], "screenshots": []}
 ROUTE_IDS = sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"])

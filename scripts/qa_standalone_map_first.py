@@ -12,7 +12,7 @@ from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "CHG-204" / "standalone"
+OUT = ROOT / "QA" / "CHG-232" / "standalone"
 OUT.mkdir(parents=True, exist_ok=True)
 ROUTES = tuple(sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"]))
 REGIONS = ("overall", "sf", "monterey", "yosemite")

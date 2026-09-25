@@ -19,7 +19,7 @@
   "candidate_binding": {
     "required": true,
     "strategy": "The gate records git rev-parse HEAD, verifies an optional requested revision, records SHA-256 hashes of the contract, canonical pipeline, renderer, workflows, requirements, and material vendored files, and rejects stale public/package provenance.",
-    "evidence": "QA/CHG-204/release/security_privacy.json",
+    "evidence": "QA/CHG-232/release/security_privacy.json",
     "release_rule": "A public or package artifact is eligible only when its embedded qualification/provenance tested_sha equals the exact candidate head and the security evidence is regenerated for that head."
   },
   "runtime_data_flows": {

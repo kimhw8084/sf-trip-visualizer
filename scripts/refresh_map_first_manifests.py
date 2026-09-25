@@ -71,39 +71,66 @@ manifest_path = ROOT / "data/route_geometry_manifest.json"
 manifest = json.loads(manifest_path.read_text())
 cache = json.loads((ROOT / "data/route_geometry_cache.json").read_text())
 app_data = json.loads((ROOT / "data/phase7_app_data.json").read_text())
-exact_count = sum(entry["status"] == "routed_osm" for entry in cache.values())
-conceptual_ferry_count = sum(entry["status"] == "conceptual_ferry" for entry in cache.values())
-conceptual_transfer_count = sum(entry["status"] == "conceptual_transfer" for entry in cache.values())
-conceptual_connector_count = sum(entry["status"] == "conceptual_connector" for entry in cache.values())
-conceptual_count = conceptual_ferry_count + conceptual_transfer_count + conceptual_connector_count
+legs = app_data.get("legs", [])
+exact_count = sum(entry.get("status") == "routed_osm" and entry.get("mode") in {"drive", "walk"} for entry in cache.values())
+conceptual_ferry_count = sum(entry.get("status") == "conceptual_ferry" for entry in cache.values())
+conceptual_relationship_count = sum(entry.get("status") in {"conceptual_ferry", "conceptual_transfer", "conceptual_connector"} for entry in cache.values())
+unavailable_count = sum(entry.get("status") == "intentionally_omitted" for entry in cache.values())
+semantic_public_count = sum(leg.get("mode") in {"drive", "walk"} for leg in legs)
+point_count = sum(len(entry.get("coordinates", [])) for entry in cache.values())
+omissions = app_data.get("route_graph_omissions", [])
 manifest.update({
     "version": "2.0-map-first", "generated": str(date.today()),
-    "routing_service_status": "OSM_REFERENCE_GEOMETRY_CACHED_LOCALLY",
-    "acceptance_strategy": f"{exact_count} legs retain cached OSM reference geometry; {conceptual_ferry_count} ferry links, {conceptual_transfer_count} inter-region transfers, and {conceptual_connector_count} other conceptual connectors remain explicit non-track relationships. App runtime performs no routing requests.",
+    "routing_service_status": "OSM_REFERENCE_GEOMETRY_WITH_EXPLICIT_OMISSIONS",
+    "acceptance_strategy": f"{exact_count}/{semantic_public_count} semantic public car/walk legs have cached network-following OSM geometry; {conceptual_ferry_count} ferry relationships remain endpoint-only; {len(omissions) + unavailable_count} connections are intentionally omitted. App runtime performs no routing requests.",
     "exact_routed_legs": exact_count,
-    "conceptual_legs": conceptual_count,
-    "renderable_conceptual_legs": conceptual_count,
-    "display_policy": "Day and active-route membership gate every leg. Geometry is a cached reference or a visibly conceptual relationship; no live routing is used. Main lines are solid; alternate, conditional, bonus, recovery-gap, and choice links retain typed route semantics. Ferry links are explicitly conceptual.",
+    "semantic_public_route_legs": semantic_public_count,
+    "routed_public_legs": exact_count,
+    "conceptual_legs": conceptual_relationship_count,
+    "conceptual_ferry_legs": conceptual_ferry_count,
+    "conceptual_relationship_legs": conceptual_relationship_count,
+    "unavailable_physical_legs": unavailable_count,
+    "intentionally_omitted_connections": len(omissions),
+    "total_geometry_point_count": point_count,
+    "renderable_conceptual_legs": conceptual_ferry_count,
+    "counts": {
+        "semantic_public_route_legs": semantic_public_count,
+        "routed_public_legs": exact_count,
+        "conceptual_legs": conceptual_relationship_count,
+        "conceptual_ferry_legs": conceptual_ferry_count,
+        "intentionally_omitted_legs": len(omissions) + unavailable_count,
+        "unavailable_physical_legs": unavailable_count,
+        "total_geometry_points": point_count,
+    },
+    "display_policy": "Physical public car/walk lines render only from routed_osm geometry with matching endpoint signature and mode. Unavailable lines and semantic break connections are intentionally omitted. Ferry relationships remain conceptual endpoint links. App runtime performs no routing requests.",
     "geometry_cache_path": "data/route_geometry_cache.json",
     "geometry_cache_sha256": digest(ROOT / "data/route_geometry_cache.json"),
-    "cross_day_suppressed_legs": [leg["leg_id"] for leg in app_data.get("legs", []) if leg.get("relationship_scope") == "cross_date_scenario"],
+    "cross_day_suppressed_legs": [],
+    "omitted_connections": [
+        {"omission_id": item["omission_id"], "date_key": item["date_key"], "from": item.get("from"), "to": item.get("to"), "mode": item.get("mode"), "status": item["status"], "endpoint_signature": None, "point_count": 0, "reason": item["reason"]}
+        for item in omissions
+    ],
 })
 manifest["legs"] = []
-for source_leg in app_data["legs"]:
+for source_leg in legs:
     leg = dict(source_leg)
     entry = cache[leg["leg_id"]]
     leg["geometry_kind"] = entry["status"]
     leg["geometry_source"] = entry["source"]
-    leg["geometry_point_count"] = len(entry["coordinates"])
+    leg["geometry_point_count"] = len(entry.get("coordinates", []))
+    leg["point_count"] = len(entry.get("coordinates", []))
+    leg["status"] = entry["status"]
+    leg["mode"] = entry.get("mode")
+    leg["endpoint_signature"] = entry.get("endpoint_signature")
     leg["distance_km"] = entry.get("distance_km")
     leg["reference_duration_min"] = entry.get("duration_min_reference")
-    leg["render_style"] = {"conceptual_ferry": "conceptual_ferry_dots", "conceptual_transfer": "transfer_dots", "conceptual_connector": "conceptual_dots"}.get(entry["status"], "cached_osm_reference_line")
+    leg["source"] = entry.get("source")
+    leg["render_style"] = source_leg.get("render_style")
     leg["source_limitation"] = {
-        "routed_osm": "Reference OSM routing, not live closure/traffic advice",
-        "conceptual_ferry": "Direct ferry relationship, not a surveyed boat track",
-        "conceptual_transfer": "Regional transfer corridor, not a verified road track or live navigation",
-        "conceptual_connector": "Authored itinerary relationship only; not a measured road or walking track",
+        "routed_osm": "Cached OSM network reference; not live closure or traffic advice",
+        "conceptual_ferry": "Conceptual public ferry relationship, not a surveyed vessel track",
+        "intentionally_omitted": "No truthful network-following geometry was available; the map line is omitted",
     }.get(entry["status"], "Geometry status requires review")
     manifest["legs"].append(leg)
 manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
-print(f"Basemap assets: {len(map_assets)}; route geometry: {manifest['exact_routed_legs']} cached reference, {conceptual_ferry_count} ferry, {conceptual_transfer_count} transfer")
+print(f"Basemap assets: {len(map_assets)}; route geometry: {exact_count}/{semantic_public_count} routed public legs, {conceptual_ferry_count} conceptual ferry, {len(omissions) + unavailable_count} omitted connections, {point_count} points")

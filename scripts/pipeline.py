@@ -35,7 +35,7 @@ MANIFEST_PATH = ROOT / "manifests" / "canonical_pipeline.json"
 BUILD = ROOT / ".build"
 PUBLIC = ROOT / ".public-site"
 RELEASE = ROOT / ".release"
-EVIDENCE_ROOT = ROOT / "QA" / "CHG-204"
+EVIDENCE_ROOT = ROOT / "QA" / "CHG-232"
 RELEASE_EVIDENCE = EVIDENCE_ROOT / "release"
 FAST_EVIDENCE = RELEASE_EVIDENCE / "fast.json"
 QUALIFICATION = RELEASE_EVIDENCE / "qualification.json"
@@ -54,28 +54,29 @@ PERFORMANCE_BASE_REVISION = "7d5d8727b1772642e87311d91d087e211656f6e4"
 PERFORMANCE_BASE_TREE = "ede888516de0dc9c8554036435ae9f8034aaea4f"
 
 COMPONENTS = (
-    ("canonical_truth", "scripts/qa_canonical_truth.py", "QA/CHG-204/canonical_truth.json"),
-    ("photo_integrity", "scripts/check_photo_integrity.py", "QA/CHG-204/photo_integrity.json"),
-    ("maplibre_security", "scripts/qa_maplibre_security.py", "QA/CHG-204/release/maplibre_security.json"),
-    ("map_first_smoke", "scripts/qa_map_first.py", "QA/CHG-204/map_first_smoke/smoke.json"),
-    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/CHG-204/decision_workbench/task_oracles.json"),
-    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/CHG-204/accessibility.json"),
-    ("map_geometry", "scripts/qa_map_geometry.py", "QA/CHG-204/map_geometry.json"),
-    ("sheet_geometry", "scripts/qa_sheet_geometry.py", "QA/CHG-204/sheet_geometry.json"),
-    ("route_key_camera", "scripts/qa_route_key_camera.py", "QA/CHG-204/route_key_camera.json"),
-    ("map_first_full", "scripts/qa_map_first_full.py", "QA/CHG-204/map_first_full/full_acceptance.json"),
-    ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/CHG-204/map_first_p0/p0_independent.json"),
-    ("standalone", "scripts/qa_standalone_map_first.py", "QA/CHG-204/standalone/standalone.json"),
-    ("location_gap", "scripts/qa_location_gap_visuals.py", "QA/CHG-204/location_gap/location_gap_visuals.json"),
-    ("interaction_dynamics", "scripts/qa_interaction_dynamics.py", "QA/CHG-204/interaction_dynamics/interaction_dynamics.json"),
-    ("route_continuity", "scripts/audit_route_continuity.py", "QA/CHG-204/release/route_continuity.json"),
-    ("route_panel", "scripts/qa_route_explanations_panel.py", "QA/CHG-204/route_surface.json"),
-    ("place_list_membership", "scripts/qa_place_list_membership.py", "QA/CHG-204/place_list_roles.json"),
-    ("exhaustive_states", "scripts/run_exhaustive_states.py", "QA/CHG-204/exhaustive_states.json"),
-    ("cross_browser", "scripts/run_cross_browser.py", "QA/CHG-204/browser_summary.json"),
-    ("visual_spots", "scripts/run_visual_spots.py", "QA/CHG-204/visual/visual_index.json"),
-    ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/CHG-204/release/gate4_runtime.json"),
-    ("gate5_field_quality", "scripts/qa_gate5_field_quality.py", "QA/CHG-204/gate5/candidate.json"),
+    ("canonical_truth", "scripts/qa_canonical_truth.py", "QA/CHG-232/canonical_truth.json"),
+    ("photo_integrity", "scripts/check_photo_integrity.py", "QA/CHG-232/photo_integrity.json"),
+    ("maplibre_security", "scripts/qa_maplibre_security.py", "QA/CHG-232/release/maplibre_security.json"),
+    ("map_first_smoke", "scripts/qa_map_first.py", "QA/CHG-232/map_first_smoke/smoke.json"),
+    ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/CHG-232/decision_workbench/task_oracles.json"),
+    ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/CHG-232/accessibility.json"),
+    ("map_geometry", "scripts/qa_map_geometry.py", "QA/CHG-232/map_geometry.json"),
+    ("sheet_geometry", "scripts/qa_sheet_geometry.py", "QA/CHG-232/sheet_geometry.json"),
+    ("route_key_camera", "scripts/qa_route_key_camera.py", "QA/CHG-232/route_key_camera.json"),
+    ("map_first_full", "scripts/qa_map_first_full.py", "QA/CHG-232/map_first_full/full_acceptance.json"),
+    ("map_first_p0", "scripts/qa_map_first_p0.py", "QA/CHG-232/map_first_p0/p0_independent.json"),
+    ("standalone", "scripts/qa_standalone_map_first.py", "QA/CHG-232/standalone/standalone.json"),
+    ("location_gap", "scripts/qa_location_gap_visuals.py", "QA/CHG-232/location_gap/location_gap_visuals.json"),
+    ("interaction_dynamics", "scripts/qa_interaction_dynamics.py", "QA/CHG-232/interaction_dynamics/interaction_dynamics.json"),
+    ("route_continuity", "scripts/audit_route_continuity.py", "QA/CHG-232/release/route_continuity.json"),
+    ("matched_comparison", "scripts/qa_chg232_evidence.py", "QA/CHG-232/comparative/objective_comparison.json"),
+    ("route_panel", "scripts/qa_route_explanations_panel.py", "QA/CHG-232/route_surface.json"),
+    ("place_list_membership", "scripts/qa_place_list_membership.py", "QA/CHG-232/place_list_roles.json"),
+    ("exhaustive_states", "scripts/run_exhaustive_states.py", "QA/CHG-232/exhaustive_states.json"),
+    ("cross_browser", "scripts/run_cross_browser.py", "QA/CHG-232/browser_summary.json"),
+    ("visual_spots", "scripts/run_visual_spots.py", "QA/CHG-232/visual/visual_index.json"),
+    ("gate4_runtime", "scripts/qa_gate4_resilience.py", "QA/CHG-232/release/gate4_runtime.json"),
+    ("gate5_field_quality", "scripts/qa_gate5_field_quality.py", "QA/CHG-232/gate5/candidate.json"),
 )
 
 
@@ -307,8 +308,8 @@ def write_gate4_summary(package: dict | None = None) -> dict:
         "status": "PASS" if static.get("status") == "PASS" and runtime.get("status") == "PASS" else "INCOMPLETE",
         "candidate_head": current_revision(),
         "test_modes": ["static", "browser", "delivery_parity"],
-        "static": {"status": static.get("status"), "evidence": "QA/CHG-204/release/gate4_static.json"},
-        "runtime": {"status": runtime.get("status"), "evidence": "QA/CHG-204/release/gate4_runtime.json", "external_provider": runtime.get("external_provider")},
+        "static": {"status": static.get("status"), "evidence": "QA/CHG-232/release/gate4_static.json"},
+        "runtime": {"status": runtime.get("status"), "evidence": "QA/CHG-232/release/gate4_runtime.json", "external_provider": runtime.get("external_provider")},
         "delivery": delivery,
         "package": package_evidence or {"status": "VERIFY_REQUIRED", "reason": "package is assembled after qualification"},
         "limitations": ["This is Gate 4 evidence only; it is not a production-readiness or production-release claim."],
@@ -361,9 +362,9 @@ def run_fast(expected_revision: str | None = None, require_clean: bool = False) 
             "standalone_sha256": digest(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"),
             "file_count": len(build_manifest["files"]),
         }
-        evidence["gate4_static"] = {"status": gate4_static["status"], "evidence": "QA/CHG-204/release/gate4_static.json"}
-        evidence["public_asset_rights"] = {"status": public_rights["status"], "evidence": "QA/CHG-204/release/public_asset_rights.json", "candidate_file_count": public_rights["file_count"], "approved_file_counts_by_class": public_rights["approved_file_counts_by_class"]}
-        evidence["security_privacy"] = {"status": security["status"], "evidence": "QA/CHG-204/release/security_privacy.json", "verify_required": security.get("verify_required", [])}
+        evidence["gate4_static"] = {"status": gate4_static["status"], "evidence": "QA/CHG-232/release/gate4_static.json"}
+        evidence["public_asset_rights"] = {"status": public_rights["status"], "evidence": "QA/CHG-232/release/public_asset_rights.json", "candidate_file_count": public_rights["file_count"], "approved_file_counts_by_class": public_rights["approved_file_counts_by_class"]}
+        evidence["security_privacy"] = {"status": security["status"], "evidence": "QA/CHG-232/release/security_privacy.json", "verify_required": security.get("verify_required", [])}
         evidence["status"] = "PASS"
     except (Exception, SystemExit) as error:
         evidence["errors"].append(str(error))
@@ -551,7 +552,7 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
         report["fast"] = fast
         if fast["status"] != "PASS":
             raise RuntimeError("Fast validation did not pass; decisive browser qualification was not authorized.")
-        report["tests"].append({"name": "public_asset_rights", "command": "candidate-tree audit via scripts/public_asset_rights.py", "evidence": "QA/CHG-204/release/public_asset_rights.json", "status": fast.get("public_asset_rights", {}).get("status", "UNVERIFIED"), "returncode": 0, "timeout_seconds": COMPONENT_TIMEOUT_SECONDS})
+        report["tests"].append({"name": "public_asset_rights", "command": "candidate-tree audit via scripts/public_asset_rights.py", "evidence": "QA/CHG-232/release/public_asset_rights.json", "status": fast.get("public_asset_rights", {}).get("status", "UNVERIFIED"), "returncode": 0, "timeout_seconds": COMPONENT_TIMEOUT_SECONDS})
         before = authored_snapshot(pipeline_manifest())
         port = free_local_port()
         qa_url = f"http://127.0.0.1:{port}/index.html"

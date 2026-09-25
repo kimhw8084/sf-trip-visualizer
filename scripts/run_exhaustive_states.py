@@ -9,7 +9,7 @@ from qa_config import MODULAR_URL
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "CHG-204" / "exhaustive_states.json"
+OUT = ROOT / "QA" / "CHG-232" / "exhaustive_states.json"
 DATA = json.loads((ROOT / "data/phase7_app_data.json").read_text())
 ROUTES = tuple(sorted(DATA["routes"]))
 REGIONS = ("overall", *sorted(key for key in DATA["region_cfg"] if key != "overall"))

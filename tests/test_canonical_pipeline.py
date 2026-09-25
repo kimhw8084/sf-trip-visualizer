@@ -42,10 +42,20 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertEqual(len(data["dates"]), expected["dates"])
         self.assertEqual(set(data["place_region"]), {marker["place_key"] for marker in data["markers"]})
 
+    def test_chg232_matched_render_evidence_is_part_of_qualification(self):
+        manifest = json.loads(MANIFEST.read_text())
+        pipeline_text = (ROOT / "scripts/pipeline.py").read_text()
+        evidence_script = ROOT / "scripts/qa_chg232_evidence.py"
+        self.assertTrue(evidence_script.is_file())
+        self.assertIn("QA/CHG-232/comparative/objective_comparison.json", manifest["qualification_evidence"])
+        self.assertIn('("matched_comparison", "scripts/qa_chg232_evidence.py", "QA/CHG-232/comparative/objective_comparison.json")', pipeline_text)
+        self.assertIn("db86b0f22c13b96a86d74a710abbb13dc354ff4b", evidence_script.read_text())
+        self.assertIn("53b0a322e8db6c6dfc6c8a4ec3a7acc4f4961fa9", evidence_script.read_text())
+
     def test_generated_evidence_does_not_make_exact_source_checkout_dirty(self):
-        with patch.object(pipeline.subprocess, "check_output", return_value="?? QA/CHG-204/current.json\n?? .build/modular/index.html\n"):
+        with patch.object(pipeline.subprocess, "check_output", return_value="?? QA/CHG-232/current.json\n?? .build/modular/index.html\n"):
             self.assertTrue(pipeline.working_tree_clean())
-        with patch.object(pipeline.subprocess, "check_output", return_value="?? QA/CHG-204/current.json\n M src/app_phase7.js\n"):
+        with patch.object(pipeline.subprocess, "check_output", return_value="?? QA/CHG-232/current.json\n M src/app_phase7.js\n"):
             self.assertFalse(pipeline.working_tree_clean())
 
     def test_build_does_not_mutate_authored_data(self):
@@ -137,8 +147,8 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertIn("actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02", workflow)
         self.assertNotIn("pip install --upgrade", workflow)
         self.assertIn("candidate-qualification-${{ github.sha }}", workflow)
-        self.assertIn("QA/CHG-204/**/*.json", workflow)
-        self.assertIn("QA/CHG-204/**/*.log", workflow)
+        self.assertIn("QA/CHG-232/**/*.json", workflow)
+        self.assertIn("QA/CHG-232/**/*.log", workflow)
 
     def test_public_assembly_is_exact_sha_gated(self):
         public = (ROOT / "scripts/prepare_public_site.py").read_text()
@@ -149,8 +159,8 @@ class CanonicalPipelineTests(unittest.TestCase):
         source_generation = (ROOT / "scripts/apply_location_gap_audit.py").read_text()
         self.assertIn("Explicit source-generation step required", source_generation)
         package = (ROOT / "scripts/package_map_first.py").read_text()
-        self.assertIn('"CHG-204" / "release" / "qualification.json"', package)
-        self.assertIn('"QA/CHG-204/release"', package)
+        self.assertIn('"CHG-232" / "release" / "qualification.json"', package)
+        self.assertIn('"QA/CHG-232/release"', package)
         self.assertNotIn('"QA" / "release"', package)
 
     def test_smart_map_asset_is_materialized_not_an_lfs_pointer(self):

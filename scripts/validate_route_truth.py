@@ -243,17 +243,13 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
                     elif live_roles[0] != canonical_role:
                         failures.append(f"{prefix} is scheduled as {live_roles[0]}, canonical role is {canonical_role}")
 
-        anchors = data.get("endpoint_anchors", {})
-        for leg in data.get("legs", []):
-            if route not in leg.get("routes", []) or leg.get("date") not in daily_regions[route] or leg.get("render_style") != "transfer_dots":
-                continue
-            endpoint_regions = [place_region.get(endpoint) or anchors.get(endpoint, {}).get("region") for endpoint in (leg.get("from"), leg.get("to"))]
-            regions = daily_regions[route][leg["date"]]
-            origin_region, destination_region = endpoint_regions
-            if origin_region and origin_region not in regions:
-                regions.insert(0, origin_region)
-            if destination_region and destination_region not in regions:
-                regions.append(destination_region)
+        # The 10/9 regional movement remains in the owner timeline. The map
+        # intentionally shows separate public clusters around private lodging.
+        transfer_rows = [row for row in data.get("timeline", []) if row.get("routes") and route in row.get("routes", []) and row.get("date_key") == "10/9" and row.get("kind") == "travel" and row.get("travel_role") == "lodging_arrival"]
+        for row in transfer_rows:
+            for region in row.get("regions", []):
+                if region not in daily_regions[route].get("10/9", []):
+                    daily_regions[route].setdefault("10/9", []).append(region)
 
         _check(failures, set(days) <= set(date_keys), f"{route} schedule dates are outside the canonical sightseeing window")
         ordered_regions: list[str] = []
@@ -266,8 +262,9 @@ def validate_route_truth(data: dict | None = None, roles_doc: dict | None = None
             ordered_regions == ["sf", "monterey", "yosemite", "sf"] or ordered_regions == ["sf", "monterey", "yosemite"],
             f"{route} region chronology is implausible: {ordered_regions}",
         )
-        yosemite_to_sf = [leg for leg in data.get("legs", []) if route in leg.get("routes", []) and leg.get("date") == "10/9" and leg.get("from") == "yosemite_valley" and leg.get("to") == "sf_center" and leg.get("render_style") == "transfer_dots"]
-        _check(failures, len(yosemite_to_sf) == 1, f"{route} must have exactly one conceptual Yosemite → SF transfer after the 10/9 morning")
+        yosemite_to_sf = [row for row in transfer_rows if "Foster City lodging" in str(row.get("title_en", ""))]
+        map_transfers = [leg for leg in data.get("legs", []) if route in leg.get("routes", []) and leg.get("date") == "10/9"]
+        _check(failures, len(yosemite_to_sf) == 1 and not map_transfers, f"{route} must retain the 10/9 Foster City transfer in the timeline without drawing a private-lodging route")
 
         for place, required_day in OWNER_MUST_DAYS.items():
             day = days.get(required_day, {})
