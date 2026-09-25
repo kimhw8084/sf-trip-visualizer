@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "gate": "production_readiness_gate_4",
+  "status": "PASS",
+  "candidate_head": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
+  "test_modes": [
+    "static",
+    "browser",
+    "delivery_parity"
+  ],
+  "static": {
+    "status": "PASS",
+    "evidence": "QA/CHG-232/release/gate4_static.json"
+  },
+  "runtime": {
+    "status": "PASS",
+    "evidence": "QA/CHG-232/release/gate4_runtime.json",
+    "external_provider": {
+      "status": "PASS",
+      "provider": "satellite",
+      "success_requests": 2,
+      "note": "optional success path independently observed in this environment",
+      "post_switch_tile_failure_recovery": "PASS"
+    }
+  },
+  "delivery": {
+    "status": "VERIFY_REQUIRED",
+    "reason": "public staging is assembled only after PASS qualification",
+    "forms": []
+  },
+  "package": {
+    "status": "VERIFY_REQUIRED",
+    "reason": "package is assembled after qualification"
+  },
+  "limitations": [
+    "This is Gate 4 evidence only; it is not a production-readiness or production-release claim."
+  ]
+}

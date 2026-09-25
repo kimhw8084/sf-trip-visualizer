@@ -2081,7 +2081,7 @@
   ],
   "legs": [
     {
-      "leg_id": "CHG204_104_01",
+      "leg_id": "CHG232_104_01",
       "date": "10/4",
       "from": "battery",
       "to": "muir",
@@ -2097,49 +2097,23 @@
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct4_morning",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-car reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Battery Spencer → Muir Woods National Monument",
       "label_en": "Battery Spencer → Muir Woods National Monument",
-      "label_ko": "배터리 스펜서 → 뮤어 우즈 국립기념물",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Battery Spencer → Muir Woods National Monument",
+      "note": "공개 장소 사이의 정적 OSM 도로 참고 경로입니다. 출발 전 실시간 길안내와 현장 상황을 확인하세요.",
+      "note_en": "Static OSM road reference between public places. Check live navigation and conditions before leaving.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_104_battery_muir"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_104_02",
-      "date": "10/4",
-      "from": "muir",
-      "to": "palace",
-      "from_latlon": [
-        37.892848,
-        -122.572465
-      ],
-      "to_latlon": [
-        37.802897,
-        -122.448414
-      ],
-      "mode": "drive",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
-      "label": "Muir Woods National Monument → Palace of Fine Arts",
-      "label_en": "Muir Woods National Monument → Palace of Fine Arts",
-      "label_ko": "뮤어 우즈 국립기념물 → 팰리스 오브 파인 아츠",
-      "note": "Static planning connector only; check live navigation before departure.",
-      "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
-      "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_104_02"
-    },
-    {
-      "leg_id": "CHG204_104_03",
+      "leg_id": "CHG232_104_02",
       "date": "10/4",
       "from": "palace",
       "to": "crissy",
@@ -2155,20 +2129,23 @@
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct4_afternoon",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-car reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Palace of Fine Arts → Crissy Field",
       "label_en": "Palace of Fine Arts → Crissy Field",
-      "label_ko": "팰리스 오브 파인 아츠 → 크리시 필드",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Palace of Fine Arts → Crissy Field",
+      "note": "공개 장소 사이의 정적 OSM 도로 참고 경로입니다. 출발 전 실시간 길안내와 현장 상황을 확인하세요.",
+      "note_en": "Static OSM road reference between public places. Check live navigation and conditions before leaving.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_104_03"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_104_04",
+      "leg_id": "CHG232_104_03",
       "date": "10/4",
       "from": "crissy",
       "to": "tunnel_tops",
@@ -2180,24 +2157,27 @@
         37.80296,
         -122.46172
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct4_afternoon",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Crissy Field → Presidio Tunnel Tops",
       "label_en": "Crissy Field → Presidio Tunnel Tops",
-      "label_ko": "크리시 필드 → 프레시디오 터널 탑스",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Crissy Field → Presidio Tunnel Tops",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_104_04"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_104_05",
+      "leg_id": "CHG232_104_04",
       "date": "10/4",
       "from": "tunnel_tops",
       "to": "ggb",
@@ -2209,82 +2189,126 @@
         37.8078,
         -122.475
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct4_afternoon",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Presidio Tunnel Tops → Golden Gate Bridge south-side overlook",
       "label_en": "Presidio Tunnel Tops → Golden Gate Bridge south-side overlook",
-      "label_ko": "프레시디오 터널 탑스 → 금문교 남측 전망",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Presidio Tunnel Tops → Golden Gate Bridge south-side overlook",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_104_05"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_104_06",
+      "leg_id": "CHG232_104_05",
       "date": "10/4",
-      "from": "ggb",
-      "to": "twin_peaks",
+      "from": "twin_peaks",
+      "to": "crissy",
       "from_latlon": [
-        37.8078,
-        -122.475
-      ],
-      "to_latlon": [
         37.75493,
         -122.44664
       ],
+      "to_latlon": [
+        37.805578,
+        -122.451188
+      ],
       "mode": "drive",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
-      "label": "Golden Gate Bridge south-side overlook → Twin Peaks · clear-visibility flex",
-      "label_en": "Golden Gate Bridge south-side overlook → Twin Peaks · clear-visibility flex",
-      "label_ko": "금문교 남측 전망 → 트윈 픽스 · 시야 좋은 날 선택",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "branch_kind": "swap",
+      "continuity_group": "oct4_afternoon",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-car reference geometry",
+      "render_style": "cached_osm_reference_line",
+      "label": "Twin Peaks · clear-visibility flex → Crissy Field",
+      "label_en": "Twin Peaks · clear-visibility flex → Crissy Field",
+      "label_ko": "Twin Peaks · clear-visibility flex → Crissy Field",
+      "note": "공개 장소 사이의 정적 OSM 도로 참고 경로입니다. 출발 전 실시간 길안내와 현장 상황을 확인하세요.",
+      "note_en": "Static OSM road reference between public places. Check live navigation and conditions before leaving.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_104_06"
+      "choice_id": "oct4_palace_or_twin_peaks",
+      "choice_value": "twin_peaks",
+      "rejoins_at": "crissy",
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_105_01",
+      "leg_id": "CHG232_105_01",
       "date": "10/5",
-      "from": "alcatraz",
-      "to": "pier39",
+      "from": "Pier 33 Alcatraz Landing",
+      "to": "alcatraz",
       "from_latlon": [
+        37.80671,
+        -122.40538
+      ],
+      "to_latlon": [
         37.826762,
         -122.423021
+      ],
+      "mode": "ferry",
+      "routes": [
+        "A"
+      ],
+      "branch_kind": "main",
+      "continuity_group": "oct5_morning",
+      "geometry_kind": "conceptual_ferry",
+      "geometry_source": "Conceptual ferry relation between public Pier 33 and Alcatraz endpoints",
+      "render_style": "conceptual_ferry_dots",
+      "label": "Pier 33 Alcatraz Landing ↔ Alcatraz Island",
+      "label_en": "Pier 33 알카트라즈 선착장 ↔ Alcatraz Island",
+      "label_ko": "Pier 33 Alcatraz Landing ↔ Alcatraz Island",
+      "note": "Pier 33과 알카트라즈 사이의 개념적 페리 관계이며 실제 선박 항적을 나타내지 않습니다.",
+      "note_en": "Conceptual ferry relationship between Pier 33 and Alcatraz; it does not represent a surveyed vessel track.",
+      "show_overall": true,
+      "travel_time_policy": "CONCEPTUAL_FERRY_RELATIONSHIP",
+      "live_navigation_cue": "Check live navigation before leaving.",
+      "source_limitation": "Conceptual ferry relation only; not a surveyed vessel track."
+    },
+    {
+      "leg_id": "CHG232_105_02",
+      "date": "10/5",
+      "from": "Pier 33 Alcatraz Landing",
+      "to": "pier39",
+      "from_latlon": [
+        37.80671,
+        -122.40538
       ],
       "to_latlon": [
         37.81004,
         -122.41038
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
-      "label": "Alcatraz Island → PIER 39 sea lions",
-      "label_en": "Alcatraz Island → PIER 39 sea lions",
-      "label_ko": "알카트라즈 섬 → 피어 39 바다사자",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "branch_kind": "main",
+      "continuity_group": "oct5_morning",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
+      "label": "Pier 33 Alcatraz Landing → PIER 39 sea lions",
+      "label_en": "Pier 33 알카트라즈 선착장 → PIER 39 sea lions",
+      "label_ko": "Pier 33 Alcatraz Landing → PIER 39 sea lions",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_105_01"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_105_02",
+      "leg_id": "CHG232_105_03",
       "date": "10/5",
       "from": "pier39",
       "to": "ghirardelli",
@@ -2296,24 +2320,27 @@
         37.80582,
         -122.42294
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct5_morning",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "PIER 39 sea lions → Ghirardelli Square",
       "label_en": "PIER 39 sea lions → Ghirardelli Square",
-      "label_ko": "피어 39 바다사자 → 기라델리 스퀘어",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "PIER 39 sea lions → Ghirardelli Square",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_105_02"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_105_03",
+      "leg_id": "CHG232_105_04",
       "date": "10/5",
       "from": "ghirardelli",
       "to": "aquatic_park",
@@ -2325,53 +2352,27 @@
         37.80648,
         -122.4232
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct5_morning",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Ghirardelli Square → Aquatic Park",
       "label_en": "Ghirardelli Square → Aquatic Park",
-      "label_ko": "기라델리 스퀘어 → 아쿠아틱 파크",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Ghirardelli Square → Aquatic Park",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_105_03"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_105_04",
-      "date": "10/5",
-      "from": "aquatic_park",
-      "to": "cable_car",
-      "from_latlon": [
-        37.80648,
-        -122.4232
-      ],
-      "to_latlon": [
-        37.80518,
-        -122.42067
-      ],
-      "mode": "drive",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
-      "label": "Aquatic Park → Powell-Hyde cable car",
-      "label_en": "Aquatic Park → Powell-Hyde cable car",
-      "label_ko": "아쿠아틱 파크 → 파월-하이드 케이블카",
-      "note": "Static planning connector only; check live navigation before departure.",
-      "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
-      "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_105_04"
-    },
-    {
-      "leg_id": "CHG204_105_05",
+      "leg_id": "CHG232_105_05",
       "date": "10/5",
       "from": "cable_car",
       "to": "lombard",
@@ -2383,24 +2384,27 @@
         37.802003,
         -122.419619
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct5_evening",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Powell-Hyde cable car → Lombard Street",
       "label_en": "Powell-Hyde cable car → Lombard Street",
-      "label_ko": "파월-하이드 케이블카 → 롬바드 스트리트",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Powell-Hyde cable car → Lombard Street",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_105_05"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_105_06",
+      "leg_id": "CHG232_105_06",
       "date": "10/5",
       "from": "lombard",
       "to": "north_beach",
@@ -2412,24 +2416,27 @@
         37.800918,
         -122.410111
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct5_evening",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Lombard Street → North Beach",
       "label_en": "Lombard Street → North Beach",
-      "label_ko": "롬바드 스트리트 → 노스 비치",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Lombard Street → North Beach",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_105_06"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_105_07",
+      "leg_id": "CHG232_105_07",
       "date": "10/5",
       "from": "north_beach",
       "to": "fortune",
@@ -2441,24 +2448,27 @@
         37.7957,
         -122.40735
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct5_evening",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap foot reference geometry; exact endpoint/mode cache reuse",
+      "render_style": "cached_osm_reference_line",
       "label": "North Beach → Golden Gate Fortune Cookie Factory",
       "label_en": "North Beach → Golden Gate Fortune Cookie Factory",
-      "label_ko": "노스 비치 → 골든 게이트 포춘 쿠키 팩토리",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "North Beach → Golden Gate Fortune Cookie Factory",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_105_07"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_105_08",
+      "leg_id": "CHG232_105_08",
       "date": "10/5",
       "from": "fortune",
       "to": "chinatown",
@@ -2470,24 +2480,27 @@
         37.7946,
         -122.4079
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct5_evening",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Golden Gate Fortune Cookie Factory → Chinatown",
       "label_en": "Golden Gate Fortune Cookie Factory → Chinatown",
-      "label_ko": "골든 게이트 포춘 쿠키 팩토리 → 차이나타운",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Golden Gate Fortune Cookie Factory → Chinatown",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_105_08"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_106_01",
+      "leg_id": "CHG232_106_01",
       "date": "10/6",
       "from": "point_lobos",
       "to": "carmel",
@@ -2503,20 +2516,23 @@
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct6_public_drive",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap car reference geometry; exact endpoint/mode cache reuse",
+      "render_style": "cached_osm_reference_line",
       "label": "Point Lobos State Natural Reserve → Carmel-by-the-Sea",
       "label_en": "Point Lobos State Natural Reserve → Carmel-by-the-Sea",
-      "label_ko": "포인트 로보스 주립 자연보호구역 → 카멜 바이 더 시",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Point Lobos State Natural Reserve → Carmel-by-the-Sea",
+      "note": "공개 장소 사이의 정적 OSM 도로 참고 경로입니다. 출발 전 실시간 길안내와 현장 상황을 확인하세요.",
+      "note_en": "Static OSM road reference between public places. Check live navigation and conditions before leaving.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_106_01"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_106_02",
+      "leg_id": "CHG232_106_02",
       "date": "10/6",
       "from": "carmel",
       "to": "carmel_beach",
@@ -2528,24 +2544,27 @@
         36.5552,
         -121.931
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct6_public_drive",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Carmel-by-the-Sea → Carmel Beach",
       "label_en": "Carmel-by-the-Sea → Carmel Beach",
-      "label_ko": "카멜 바이 더 시 → 카멜 비치",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Carmel-by-the-Sea → Carmel Beach",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_106_02"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_106_03",
+      "leg_id": "CHG232_106_03",
       "date": "10/6",
       "from": "carmel_beach",
       "to": "lone_cypress",
@@ -2561,20 +2580,23 @@
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct6_public_drive",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-car reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Carmel Beach → Lone Cypress · 17-Mile Drive",
       "label_en": "Carmel Beach → Lone Cypress · 17-Mile Drive",
-      "label_ko": "카멜 비치 → 론 사이프러스 · 17마일 드라이브",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Carmel Beach → Lone Cypress · 17-Mile Drive",
+      "note": "공개 장소 사이의 정적 OSM 도로 참고 경로입니다. 출발 전 실시간 길안내와 현장 상황을 확인하세요.",
+      "note_en": "Static OSM road reference between public places. Check live navigation and conditions before leaving.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_106_03"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_106_04",
+      "leg_id": "CHG232_106_04",
       "date": "10/6",
       "from": "lone_cypress",
       "to": "aquarium",
@@ -2590,78 +2612,23 @@
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct6_public_drive",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap car reference geometry; exact endpoint/mode cache reuse",
+      "render_style": "cached_osm_reference_line",
       "label": "Lone Cypress · 17-Mile Drive → Monterey Bay Aquarium",
       "label_en": "Lone Cypress · 17-Mile Drive → Monterey Bay Aquarium",
-      "label_ko": "론 사이프러스 · 17마일 드라이브 → 몬터레이 베이 아쿠아리움",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Lone Cypress · 17-Mile Drive → Monterey Bay Aquarium",
+      "note": "공개 장소 사이의 정적 OSM 도로 참고 경로입니다. 출발 전 실시간 길안내와 현장 상황을 확인하세요.",
+      "note_en": "Static OSM road reference between public places. Check live navigation and conditions before leaving.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_106_04"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_106_05",
-      "date": "10/6",
-      "from": "aquarium",
-      "to": "monterey_wharf",
-      "from_latlon": [
-        36.617833,
-        -121.902
-      ],
-      "to_latlon": [
-        36.60393,
-        -121.89304
-      ],
-      "mode": "drive",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
-      "label": "Monterey Bay Aquarium → Old Fisherman's Wharf",
-      "label_en": "Monterey Bay Aquarium → Old Fisherman's Wharf",
-      "label_ko": "몬터레이 베이 아쿠아리움 → 올드 피셔맨스 워프",
-      "note": "Static planning connector only; check live navigation before departure.",
-      "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
-      "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_106_05"
-    },
-    {
-      "leg_id": "CHG204_107_01",
-      "date": "10/7",
-      "from": "cooks",
-      "to": "bridalveil",
-      "from_latlon": [
-        37.74648,
-        -119.58982
-      ],
-      "to_latlon": [
-        37.7157,
-        -119.6376
-      ],
-      "mode": "drive",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
-      "label": "Cook's Meadow → Bridalveil Fall",
-      "label_en": "Cook's Meadow → Bridalveil Fall",
-      "label_ko": "쿡스 메도우 → 브라이들베일 폭포",
-      "note": "Static planning connector only; check live navigation before departure.",
-      "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
-      "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_107_01"
-    },
-    {
-      "leg_id": "CHG204_107_02",
+      "leg_id": "CHG232_107_01",
       "date": "10/7",
       "from": "bridalveil",
       "to": "tunnel_view",
@@ -2677,20 +2644,23 @@
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct7_after_checkin",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-car reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Bridalveil Fall → Tunnel View",
       "label_en": "Bridalveil Fall → Tunnel View",
-      "label_ko": "브라이들베일 폭포 → 터널 뷰",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Bridalveil Fall → Tunnel View",
+      "note": "공개 장소 사이의 정적 OSM 도로 참고 경로입니다. 출발 전 실시간 길안내와 현장 상황을 확인하세요.",
+      "note_en": "Static OSM road reference between public places. Check live navigation and conditions before leaving.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_107_02"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_108_01",
+      "leg_id": "CHG232_108_01",
       "date": "10/8",
       "from": "washburn",
       "to": "glacier",
@@ -2706,78 +2676,23 @@
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct8_morning",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap car reference geometry; exact endpoint/mode cache reuse",
+      "render_style": "cached_osm_reference_line",
       "label": "Washburn Point → Glacier Point",
       "label_en": "Washburn Point → Glacier Point",
-      "label_ko": "워시번 포인트 → 글레이셔 포인트",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Washburn Point → Glacier Point",
+      "note": "공개 장소 사이의 정적 OSM 도로 참고 경로입니다. 출발 전 실시간 길안내와 현장 상황을 확인하세요.",
+      "note_en": "Static OSM road reference between public places. Check live navigation and conditions before leaving.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_108_01"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_108_02",
-      "date": "10/8",
-      "from": "glacier",
-      "to": "el_capitan",
-      "from_latlon": [
-        37.730806,
-        -119.573
-      ],
-      "to_latlon": [
-        37.72752,
-        -119.63312
-      ],
-      "mode": "drive",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
-      "label": "Glacier Point → El Capitan Meadow",
-      "label_en": "Glacier Point → El Capitan Meadow",
-      "label_ko": "글레이셔 포인트 → 엘 캐피탄 메도우",
-      "note": "Static planning connector only; check live navigation before departure.",
-      "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
-      "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_108_02"
-    },
-    {
-      "leg_id": "CHG204_108_03",
-      "date": "10/8",
-      "from": "el_capitan",
-      "to": "valley_view",
-      "from_latlon": [
-        37.72752,
-        -119.63312
-      ],
-      "to_latlon": [
-        37.7172,
-        -119.6621
-      ],
-      "mode": "drive",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
-      "label": "El Capitan Meadow → Valley View",
-      "label_en": "El Capitan Meadow → Valley View",
-      "label_ko": "엘 캐피탄 메도우 → 밸리 뷰",
-      "note": "Static planning connector only; check live navigation before departure.",
-      "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
-      "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_108_03"
-    },
-    {
-      "leg_id": "CHG204_1010_01",
+      "leg_id": "CHG232_1010_01",
       "date": "10/10",
       "from": "botanical",
       "to": "tea_garden",
@@ -2789,53 +2704,27 @@
         37.7701,
         -122.4709
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct10_ggp",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "San Francisco Botanical Garden → Japanese Tea Garden",
       "label_en": "San Francisco Botanical Garden → Japanese Tea Garden",
-      "label_ko": "샌프란시스코 식물원 → 재패니즈 티 가든",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "San Francisco Botanical Garden → Japanese Tea Garden",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_1010_01"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_1010_02",
-      "date": "10/10",
-      "from": "tea_garden",
-      "to": "cantor_arts",
-      "from_latlon": [
-        37.7701,
-        -122.4709
-      ],
-      "to_latlon": [
-        37.4323,
-        -122.17
-      ],
-      "mode": "drive",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
-      "label": "Japanese Tea Garden → Cantor Arts Center",
-      "label_en": "Japanese Tea Garden → Cantor Arts Center",
-      "label_ko": "재패니즈 티 가든 → 캔터 아트 센터",
-      "note": "Static planning connector only; check live navigation before departure.",
-      "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
-      "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_1010_02"
-    },
-    {
-      "leg_id": "CHG204_1010_03",
+      "leg_id": "CHG232_1010_02",
       "date": "10/10",
       "from": "cantor_arts",
       "to": "rodin_garden",
@@ -2847,24 +2736,27 @@
         37.4325,
         -122.17
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct10_stanford",
+      "geometry_kind": "intentionally_omitted",
+      "geometry_source": "OpenStreetMap routed-foot build-time routing attempt",
+      "render_style": "omitted",
       "label": "Cantor Arts Center → Rodin Sculpture Garden",
       "label_en": "Cantor Arts Center → Rodin Sculpture Garden",
-      "label_ko": "캔터 아트 센터 → 로댕 조각 정원",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Cantor Arts Center → Rodin Sculpture Garden",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_1010_03"
+      "source_limitation": "No truthful network-following geometry was available; line intentionally omitted."
     },
     {
-      "leg_id": "CHG204_1010_04",
+      "leg_id": "CHG232_1010_03",
       "date": "10/10",
       "from": "rodin_garden",
       "to": "stanford_quad",
@@ -2876,24 +2768,27 @@
         37.4275,
         -122.1697
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct10_stanford",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Rodin Sculpture Garden → Stanford Main Quad · Memorial Court · Oval",
       "label_en": "Rodin Sculpture Garden → Stanford Main Quad · Memorial Court · Oval",
-      "label_ko": "로댕 조각 정원 → 스탠퍼드 메인 쿼드 · 메모리얼 코트 · 오벌",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Rodin Sculpture Garden → Stanford Main Quad · Memorial Court · Oval",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_1010_04"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_1011_01",
+      "leg_id": "CHG232_1011_01",
       "date": "10/11",
       "from": "lands_end",
       "to": "painted",
@@ -2909,20 +2804,23 @@
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct11_morning",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-car reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Lands End · Merrie Way → Painted Ladies",
       "label_en": "Lands End · Merrie Way → Painted Ladies",
-      "label_ko": "랜즈 엔드 · 메리 웨이 → 페인티드 레이디스",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Lands End · Merrie Way → Painted Ladies",
+      "note": "공개 장소 사이의 정적 OSM 도로 참고 경로입니다. 출발 전 실시간 길안내와 현장 상황을 확인하세요.",
+      "note_en": "Static OSM road reference between public places. Check live navigation and conditions before leaving.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_1011_01"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     },
     {
-      "leg_id": "CHG204_1011_02",
+      "leg_id": "CHG232_1011_02",
       "date": "10/11",
       "from": "painted",
       "to": "alamo_square",
@@ -2934,79 +2832,24 @@
         37.7763,
         -122.434
       ],
-      "mode": "drive",
+      "mode": "walk",
       "routes": [
         "A"
       ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
+      "branch_kind": "main",
+      "continuity_group": "oct11_morning",
+      "geometry_kind": "routed_osm",
+      "geometry_source": "OpenStreetMap routed-foot reference geometry",
+      "render_style": "cached_osm_reference_line",
       "label": "Painted Ladies → Alamo Square",
       "label_en": "Painted Ladies → Alamo Square",
-      "label_ko": "페인티드 레이디스 → 알라모 스퀘어",
-      "note": "Static planning connector only; check live navigation before departure.",
+      "label_ko": "Painted Ladies → Alamo Square",
+      "note": "공개 보행로의 정적 OSM 참고 경로입니다. 출발 전 현장 접근과 운영 상황을 확인하세요.",
+      "note_en": "Static OSM pedestrian reference. Check current access and operations before setting out.",
       "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
+      "travel_time_policy": "STATIC_OSM_REFERENCE_NOT_LIVE_TRAFFIC",
       "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_1011_02"
-    },
-    {
-      "leg_id": "CHG204_1011_03",
-      "date": "10/11",
-      "from": "alamo_square",
-      "to": "baker_beach",
-      "from_latlon": [
-        37.7763,
-        -122.434
-      ],
-      "to_latlon": [
-        37.7937,
-        -122.483
-      ],
-      "mode": "drive",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "conceptual",
-      "geometry_source": "public-place endpoints; no live traffic authority",
-      "render_style": "conceptual_dots",
-      "label": "Alamo Square → Baker Beach",
-      "label_en": "Alamo Square → Baker Beach",
-      "label_ko": "알라모 스퀘어 → 베이커 비치",
-      "note": "Static planning connector only; check live navigation before departure.",
-      "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
-      "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_leg_chg204_1011_03"
-    },
-    {
-      "leg_id": "CHG204_1009_YOSEMITE_FOSTER_TRANSFER",
-      "date": "10/9",
-      "from": "yosemite_valley",
-      "to": "sf_center",
-      "from_latlon": [
-        37.7456,
-        -119.5936
-      ],
-      "to_latlon": [
-        37.7749,
-        -122.4194
-      ],
-      "mode": "drive",
-      "routes": [
-        "A"
-      ],
-      "geometry_kind": "conceptual_transfer",
-      "geometry_source": "regional planning anchors; not a verified road track",
-      "render_style": "transfer_dots",
-      "label": "Yosemite Valley → Foster City region",
-      "label_en": "Yosemite Valley → Foster City region",
-      "label_ko": "Yosemite Valley → Foster City 구역",
-      "note": "Long transfer timing is schedule-managed and traffic-dependent; check live navigation. Regional endpoint is not a lodging location.",
-      "show_overall": true,
-      "travel_time_policy": "STATIC_PLANNING_RANGE_NOT_LIVE_TRAFFIC",
-      "live_navigation_cue": "Check live navigation before leaving.",
-      "travel_range_id": "travel_109_yosemite_valley_to_foster_city"
+      "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     }
   ],
   "providers": {
@@ -4633,6 +4476,7 @@
       ],
       "route_specific": false,
       "regions": [
+        "monterey",
         "yosemite"
       ],
       "schedule_tier": "recovery",
@@ -4778,7 +4622,8 @@
       ],
       "route_specific": false,
       "regions": [
-        "yosemite"
+        "yosemite",
+        "sf"
       ],
       "schedule_tier": "recovery",
       "route_roles": {
@@ -5200,7 +5045,8 @@
       ],
       "route_specific": false,
       "regions": [
-        "yosemite"
+        "yosemite",
+        "sf"
       ],
       "schedule_tier": "recovery",
       "route_roles": {
@@ -10591,5 +10437,504 @@
     "double_count_rule_ko": "연방 입장 시나리오는 서로 배타적이다. 하한에는 변동 가능한 Tea Garden 요금, 도시 주차, 식비, 기름값, 숙박비, 기본 렌터카 요금이 포함되지 않는다."
   },
   "trip_identity": "sf-family-2026-final",
-  "travel_contract_schema_version": 2
+  "travel_contract_schema_version": 2,
+  "route_graph_schema_version": 1,
+  "route_continuity_groups": [
+    {
+      "id": "oct3_morning",
+      "date_key": "10/3",
+      "nodes": [
+        "ferry"
+      ]
+    },
+    {
+      "id": "oct3_sausalito",
+      "date_key": "10/3",
+      "nodes": [
+        "gabrielson_park"
+      ]
+    },
+    {
+      "id": "oct4_morning",
+      "date_key": "10/4",
+      "nodes": [
+        "battery",
+        "muir"
+      ]
+    },
+    {
+      "id": "oct4_afternoon",
+      "date_key": "10/4",
+      "nodes": [
+        "palace",
+        "twin_peaks",
+        "crissy",
+        "tunnel_tops",
+        "ggb"
+      ],
+      "choices": [
+        {
+          "id": "oct4_palace_or_twin_peaks",
+          "default": "palace",
+          "alternative": "twin_peaks",
+          "rejoins_at": "crissy"
+        }
+      ]
+    },
+    {
+      "id": "oct5_morning",
+      "date_key": "10/5",
+      "nodes": [
+        "Pier 33 Alcatraz Landing",
+        "alcatraz",
+        "pier39",
+        "ghirardelli",
+        "aquatic_park"
+      ]
+    },
+    {
+      "id": "oct5_evening",
+      "date_key": "10/5",
+      "nodes": [
+        "cable_car",
+        "lombard",
+        "north_beach",
+        "fortune",
+        "chinatown"
+      ]
+    },
+    {
+      "id": "oct6_public_drive",
+      "date_key": "10/6",
+      "nodes": [
+        "point_lobos",
+        "carmel",
+        "carmel_beach",
+        "lone_cypress",
+        "aquarium"
+      ]
+    },
+    {
+      "id": "oct6_wharf_outing",
+      "date_key": "10/6",
+      "nodes": [
+        "monterey_wharf"
+      ]
+    },
+    {
+      "id": "oct7_pre_checkin",
+      "date_key": "10/7",
+      "nodes": [
+        "cooks"
+      ]
+    },
+    {
+      "id": "oct7_after_checkin",
+      "date_key": "10/7",
+      "nodes": [
+        "bridalveil",
+        "tunnel_view"
+      ]
+    },
+    {
+      "id": "oct8_morning",
+      "date_key": "10/8",
+      "nodes": [
+        "washburn",
+        "glacier"
+      ]
+    },
+    {
+      "id": "oct8_after_nap",
+      "date_key": "10/8",
+      "nodes": [
+        "el_capitan",
+        "valley_view",
+        "valley_loop_walk",
+        "sentinel_beach"
+      ]
+    },
+    {
+      "id": "oct10_ggp",
+      "date_key": "10/10",
+      "nodes": [
+        "botanical",
+        "tea_garden"
+      ]
+    },
+    {
+      "id": "oct10_stanford",
+      "date_key": "10/10",
+      "nodes": [
+        "cantor_arts",
+        "rodin_garden",
+        "stanford_quad"
+      ]
+    },
+    {
+      "id": "oct11_morning",
+      "date_key": "10/11",
+      "nodes": [
+        "lands_end",
+        "painted",
+        "alamo_square"
+      ]
+    },
+    {
+      "id": "oct11_baker_finale",
+      "date_key": "10/11",
+      "nodes": [
+        "baker_beach"
+      ]
+    }
+  ],
+  "route_graph_omissions": [
+    {
+      "omission_id": "CHG232_103_FERRY_GABRIELSON",
+      "date_key": "10/3",
+      "from": "ferry",
+      "to": "gabrielson_park",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Ferry Building public cluster and Sausalito waterfront are separated by protected lodging recovery; the movement remains in the timeline."
+    },
+    {
+      "omission_id": "CHG232_104_MUIR_PALACE",
+      "date_key": "10/4",
+      "from": "muir",
+      "to": "palace",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Private Mill Valley lunch and nap break route continuity."
+    },
+    {
+      "omission_id": "CHG232_105_AQUATIC_CABLE",
+      "date_key": "10/5",
+      "from": "aquatic_park",
+      "to": "cable_car",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Mill Valley protected nap separates the morning waterfront from the evening cable-car area."
+    },
+    {
+      "omission_id": "CHG232_106_AQUARIUM_WHARF",
+      "date_key": "10/6",
+      "from": "aquarium",
+      "to": "monterey_wharf",
+      "mode": null,
+      "status": "lodging_checkin_break",
+      "reason": "Stage Coach Lodge check-in and reset separate the Aquarium loop from the Wharf outing; no hotel photo marker is added."
+    },
+    {
+      "omission_id": "CHG232_107_COOKS_BRIDALVEIL",
+      "date_key": "10/7",
+      "from": "cooks",
+      "to": "bridalveil",
+      "mode": null,
+      "status": "lodging_checkin_break",
+      "reason": "Yosemite West private check-in/reset separates the Cook’s Meadow visit from the evening cluster."
+    },
+    {
+      "omission_id": "CHG232_108_GLACIER_ELCAP",
+      "date_key": "10/8",
+      "from": "glacier",
+      "to": "el_capitan",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Yosemite West lunch and protected nap separate the morning overlook from the afternoon Valley life."
+    },
+    {
+      "omission_id": "CHG232_108_ELCAP_LOOP",
+      "date_key": "10/8",
+      "from": "el_capitan",
+      "to": "valley_loop_walk",
+      "mode": "walk",
+      "status": "non_photo_route_anchor_unavailable",
+      "reason": "Valley Loop is an itinerary-only walking identity; no lawful non-marker route anchor exists."
+    },
+    {
+      "omission_id": "CHG232_108_LOOP_SENTINEL",
+      "date_key": "10/8",
+      "from": "valley_loop_walk",
+      "to": "sentinel_beach",
+      "mode": "walk",
+      "status": "non_photo_route_anchor_unavailable",
+      "reason": "Valley Loop and Sentinel Beach remain non-photo itinerary identities; no route anchors are added."
+    },
+    {
+      "omission_id": "CHG232_108_SENTINEL_VALLEYVIEW",
+      "date_key": "10/8",
+      "from": "sentinel_beach",
+      "to": "valley_view",
+      "mode": "drive",
+      "status": "non_photo_route_anchor_unavailable",
+      "reason": "Sentinel Beach remains a non-photo picnic identity; no direct shortcut to Valley View is drawn."
+    },
+    {
+      "omission_id": "CHG232_1010_TEA_CANTOR",
+      "date_key": "10/10",
+      "from": "tea_garden",
+      "to": "cantor_arts",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Foster City lunch and protected nap separate the Golden Gate Park visit from Stanford."
+    },
+    {
+      "omission_id": "CHG232_1011_ALAMO_BAKER",
+      "date_key": "10/11",
+      "from": "alamo_square",
+      "to": "baker_beach",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Foster City protected nap separates the morning neighborhood cluster from the Baker Beach finale."
+    }
+  ],
+  "route_graph_legacy_range_archive": [
+    {
+      "travel_range_id": "travel_leg_chg204_1010_01",
+      "source_leg_id": "CHG204_1010_01",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_1010_02",
+      "source_leg_id": "CHG204_1010_02",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_1010_03",
+      "source_leg_id": "CHG204_1010_03",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_1010_04",
+      "source_leg_id": "CHG204_1010_04",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_1011_01",
+      "source_leg_id": "CHG204_1011_01",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_1011_02",
+      "source_leg_id": "CHG204_1011_02",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_1011_03",
+      "source_leg_id": "CHG204_1011_03",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_104_02",
+      "source_leg_id": "CHG204_104_02",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_104_03",
+      "source_leg_id": "CHG204_104_03",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_104_04",
+      "source_leg_id": "CHG204_104_04",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_104_05",
+      "source_leg_id": "CHG204_104_05",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_104_06",
+      "source_leg_id": "CHG204_104_06",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_105_01",
+      "source_leg_id": "CHG204_105_01",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_105_02",
+      "source_leg_id": "CHG204_105_02",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_105_03",
+      "source_leg_id": "CHG204_105_03",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_105_04",
+      "source_leg_id": "CHG204_105_04",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_105_05",
+      "source_leg_id": "CHG204_105_05",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_105_06",
+      "source_leg_id": "CHG204_105_06",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_105_07",
+      "source_leg_id": "CHG204_105_07",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_105_08",
+      "source_leg_id": "CHG204_105_08",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_106_01",
+      "source_leg_id": "CHG204_106_01",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_106_02",
+      "source_leg_id": "CHG204_106_02",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_106_03",
+      "source_leg_id": "CHG204_106_03",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_106_04",
+      "source_leg_id": "CHG204_106_04",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_106_05",
+      "source_leg_id": "CHG204_106_05",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_107_01",
+      "source_leg_id": "CHG204_107_01",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_107_02",
+      "source_leg_id": "CHG204_107_02",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_108_01",
+      "source_leg_id": "CHG204_108_01",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_108_02",
+      "source_leg_id": "CHG204_108_02",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    },
+    {
+      "travel_range_id": "travel_leg_chg204_108_03",
+      "source_leg_id": "CHG204_108_03",
+      "disposition": "preserved_unbound_legacy_connector_detail",
+      "reason": "Retained as CHG-204 travel-contract evidence; it does not describe a continuous public route in the corrected graph."
+    }
+  ],
+  "route_continuity_breaks": [
+    {
+      "id": "break_103_lodging_nap",
+      "date_key": "10/3",
+      "from_group": "oct3_morning",
+      "to_group": "oct3_sausalito",
+      "barrier_timeline_id": "chg204_103_return_nap",
+      "kind": "protected_nap_return"
+    },
+    {
+      "id": "break_104_lodging_nap",
+      "date_key": "10/4",
+      "from_group": "oct4_morning",
+      "to_group": "oct4_afternoon",
+      "barrier_timeline_id": "chg204_104_muir_lodging",
+      "kind": "protected_nap_return"
+    },
+    {
+      "id": "break_105_lodging_nap",
+      "date_key": "10/5",
+      "from_group": "oct5_morning",
+      "to_group": "oct5_evening",
+      "barrier_timeline_id": "chg204_105_nap",
+      "kind": "protected_nap_return"
+    },
+    {
+      "id": "break_106_stage_coach_reset",
+      "date_key": "10/6",
+      "from_group": "oct6_public_drive",
+      "to_group": "oct6_wharf_outing",
+      "barrier_timeline_id": "chg204_106_checkin_reset",
+      "kind": "lodging_checkin_reset"
+    },
+    {
+      "id": "break_107_yosemite_checkin",
+      "date_key": "10/7",
+      "from_group": "oct7_pre_checkin",
+      "to_group": "oct7_after_checkin",
+      "barrier_timeline_id": "chg204_107_checkin",
+      "kind": "lodging_checkin_reset"
+    },
+    {
+      "id": "break_108_lodging_nap",
+      "date_key": "10/8",
+      "from_group": "oct8_morning",
+      "to_group": "oct8_after_nap",
+      "barrier_timeline_id": "chg204_108_glacier_lodging",
+      "kind": "protected_nap_return"
+    },
+    {
+      "id": "break_1010_lodging_nap",
+      "date_key": "10/10",
+      "from_group": "oct10_ggp",
+      "to_group": "oct10_stanford",
+      "barrier_timeline_id": "chg204_1010_nap",
+      "kind": "protected_nap_return"
+    },
+    {
+      "id": "break_1011_lodging_nap",
+      "date_key": "10/11",
+      "from_group": "oct11_morning",
+      "to_group": "oct11_baker_finale",
+      "barrier_timeline_id": "chg204_1011_nap",
+      "kind": "protected_nap_return"
+    }
+  ]
 }

@@ -11,7 +11,7 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "CHG-204" / "visual"
+OUT = ROOT / "QA" / "CHG-232" / "visual"
 SHOTS = OUT / "screenshots"
 
 

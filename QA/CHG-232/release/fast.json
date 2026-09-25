@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "candidate_head": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
+  "working_tree_clean": true,
+  "errors": [],
+  "source": {
+    "checks": {
+      "places": true,
+      "photos": true,
+      "timeline_cards": true,
+      "route_legs": true,
+      "route_strategies": true,
+      "dates": true,
+      "regions": true,
+      "providers": true,
+      "place_region": true,
+      "photo_roles": true,
+      "photo_status": true,
+      "semantic_links": true,
+      "photo_files": true,
+      "vector_bundle": true
+    },
+    "truth_validation": {
+      "status": "PASS",
+      "counts": {
+        "places": 39,
+        "timeline_cards": 93,
+        "legs": 24,
+        "routes": 1,
+        "dates": 11,
+        "freshness_records": 17,
+        "geometry_entries": 24
+      }
+    },
+    "route_truth": {
+      "status": "PASS",
+      "counts": {
+        "routes": 1,
+        "matrix_places": 39,
+        "scheduled_rows": 40,
+        "drop_first_references": 12,
+        "drop_first_days": 11,
+        "occurrences": 44,
+        "dates": 11
+      }
+    },
+    "counts": {
+      "places": 39,
+      "photos": 117,
+      "timeline_cards": 93,
+      "route_legs": 24
+    },
+    "providers": [
+      "satellite",
+      "vector"
+    ]
+  },
+  "authored_inputs_unchanged": true,
+  "reproducible": true,
+  "build": {
+    "root": ".build",
+    "manifest_sha256": "2dc95ad1b055df946c61630497aa8b9ffd1fda255785ebfac9c4b521737d4abe",
+    "modular_index_sha256": "a9bd32939154e314656a3c2c3076c00c055ae4fd0b1c8312d2d6058e670343d5",
+    "standalone_sha256": "efaa1da365d56029159dd7eef4c9b8a9e932e01e4c29658561c138adb398d81b",
+    "file_count": 262
+  },
+  "gate4_static": {
+    "status": "PASS",
+    "evidence": "QA/CHG-232/release/gate4_static.json"
+  },
+  "public_asset_rights": {
+    "status": "PASS",
+    "evidence": "QA/CHG-232/release/public_asset_rights.json",
+    "candidate_file_count": 266,
+    "approved_file_counts_by_class": {
+      "first-party-runtime": 6,
+      "font-glyph-data": 6,
+      "generated-release-file": 6,
+      "generated-third-party-bundle": 1,
+      "government-relief-data": 1,
+      "map-data": 1,
+      "map-sprite-data": 8,
+      "photo-derivative": 234,
+      "third-party-software": 3
+    }
+  },
+  "security_privacy": {
+    "status": "PASS",
+    "evidence": "QA/CHG-232/release/security_privacy.json",
+    "verify_required": [
+      "Authoritative advisory coverage for the exact embedded fflate/PMTiles/@protomaps/basemaps versions is VERIFY_REQUIRED because the bundle does not embed semver and no lockfile is present.",
+      "Playwright browser archives are platform-provided by the exact package release; browser archive provenance is VERIFY_REQUIRED beyond the package pin."
+    ]
+  }
+}

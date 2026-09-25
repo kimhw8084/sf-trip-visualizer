@@ -13,8 +13,8 @@ from qa_evidence import bind_report, candidate_identity
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "QA" / "CHG-204" / "route_key_camera.json"
-SCREENSHOTS = ROOT / "QA" / "CHG-204" / "screenshots"
+OUT = ROOT / "QA" / "CHG-232" / "route_key_camera.json"
+SCREENSHOTS = ROOT / "QA" / "CHG-232" / "screenshots"
 VIEWPORTS = ((360, 800), (375, 812), (390, 844), (414, 896))
 PATHS = ("pointer", "keyboard", "touch")
 ROUTES = sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"])
@@ -155,7 +155,7 @@ def context_passes(context: dict) -> bool:
 def main() -> int:
     identity = candidate_identity()
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    report = bind_report({"schema_version": 2, "change": "CHG-204 single-route map controls and camera context", "status": "FAIL", "route_ids": ROUTES, "viewports": {}, "failures": [], "errors": [], "screenshots": [], "negative_control": {"route_comparison_ui_absent": True}}, identity)
+    report = bind_report({"schema_version": 2, "change": "CHG-232 single-route map controls and camera context", "status": "FAIL", "route_ids": ROUTES, "viewports": {}, "failures": [], "errors": [], "screenshots": [], "negative_control": {"route_comparison_ui_absent": True}}, identity)
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         for width, height in VIEWPORTS:

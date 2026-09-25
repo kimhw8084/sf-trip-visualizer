@@ -113,6 +113,12 @@
   function legVisible(leg, options = {}) {
     if (!routeIntersects(leg.routes, options)) return false;
     if (state.task.date !== 'all' && leg.date !== state.task.date) return false;
+    const geometry = GEOMETRY[leg.leg_id], signature = [leg.from_latlon, leg.to_latlon, leg.mode];
+    if (leg.mode === 'drive' || leg.mode === 'walk') {
+      if (geometry?.status !== 'routed_osm' || geometry.mode !== leg.mode || !Array.isArray(geometry.coordinates) || geometry.coordinates.length <= 2 || JSON.stringify(geometry.endpoint_signature) !== JSON.stringify(signature)) return false;
+    } else if (leg.mode === 'ferry') {
+      if (geometry?.status !== 'conceptual_ferry' || geometry.mode !== 'ferry' || !Array.isArray(geometry.coordinates) || geometry.coordinates.length !== 2 || JSON.stringify(geometry.endpoint_signature) !== JSON.stringify(signature)) return false;
+    } else return false;
     const from = markerByKey[leg.from], to = markerByKey[leg.to], routes = activeRoutes(options);
     if (from && to && !leg.routes.some(route => routes.has(route) && from.occurrences.some(item => item.route === route && occurrenceDateKey(item) === leg.date) && to.occurrences.some(item => item.route === route && occurrenceDateKey(item) === leg.date))) return false;
     if (state.task.region !== 'overall') {
@@ -326,13 +332,18 @@
     const routes = activeRoutes({ map: true }), features = [];
     for (const leg of DATA.legs || []) {
       if (!legVisible(leg, { map: true })) continue;
-      const geometry = GEOMETRY[leg.leg_id], transfer = leg.render_style === 'transfer_dots', branch = leg.branch_kind || 'main';
-      const kind = transfer ? 'transfer' : branch === 'swap' ? 'option' : ['bonus', 'conditional', 'recovery', 'choice'].includes(branch) ? branch : 'local';
-      const coordinates = geometry?.coordinates || [[leg.from_latlon[1], leg.from_latlon[0]], [leg.to_latlon[1], leg.to_latlon[0]]];
+      const geometry = GEOMETRY[leg.leg_id];
+      if (!geometry || geometry.mode !== leg.mode || JSON.stringify(geometry.endpoint_signature) !== JSON.stringify([leg.from_latlon, leg.to_latlon, leg.mode])) continue;
+      const coordinates = geometry.coordinates;
+      if (['drive', 'walk'].includes(leg.mode) && (geometry.status !== 'routed_osm' || !Array.isArray(coordinates) || coordinates.length <= 2 || leg.render_style !== 'cached_osm_reference_line')) continue;
+      if (leg.mode === 'ferry' && (geometry.status !== 'conceptual_ferry' || !Array.isArray(coordinates) || coordinates.length !== 2)) continue;
+      if (!['drive', 'walk', 'ferry'].includes(leg.mode)) continue;
+      const branch = leg.branch_kind || 'main';
+      const kind = leg.mode === 'ferry' ? 'transfer' : branch === 'swap' ? 'option' : ['bonus', 'conditional', 'recovery', 'choice'].includes(branch) ? branch : 'local';
       leg.routes.filter(route => routes.has(route)).forEach((route, index, active) => {
         const fromOccurrence = markerByKey[leg.from]?.occurrences.find(item => item.route === route && occurrenceDateKey(item) === leg.date);
         const toOccurrence = markerByKey[leg.to]?.occurrences.find(item => item.route === route && occurrenceDateKey(item) === leg.date);
-        features.push({ type: 'Feature', geometry: { type: 'LineString', coordinates }, properties: { leg_id: leg.leg_id, label: leg.label, mode: leg.mode, note: leg.note, date: leg.date, route, color: safeColor(routeMeta[route].color), offset: (index - (active.length - 1) / 2) * (transfer ? 3.2 : 3), kind, branch, emphasis: route === state.task.primaryRoute ? 1 : .22, status: geometry?.status || 'conceptual_fallback', distance_km: geometry?.distance_km || 0, time: [fromOccurrence?.time, toOccurrence?.time].filter(Boolean).map(tr).join(' → ') } });
+        features.push({ type: 'Feature', geometry: { type: 'LineString', coordinates }, properties: { leg_id: leg.leg_id, label: leg.label, mode: leg.mode, note: leg.note, date: leg.date, route, color: safeColor(routeMeta[route].color), offset: (index - (active.length - 1) / 2) * 3, kind, branch, emphasis: route === state.task.primaryRoute ? 1 : .22, status: geometry.status, distance_km: geometry.distance_km || 0, time: [fromOccurrence?.time, toOccurrence?.time].filter(Boolean).map(tr).join(' → ') } });
       });
     }
     return features;
@@ -739,6 +750,75 @@
   function freshnessLabel(status) {
     return m(({ VERIFIED: 'freshnessVerified', STALE: 'freshnessStale', UNVERIFIED: 'freshnessUnverified', RECHECK_REQUIRED: 'freshnessRecheck', NOT_APPLICABLE: 'freshnessNA' })[status] || 'freshnessUnverified');
   }
+  function travelDetailsMarkup(range) {
+    if (!range) return '';
+    const schedule = range.planned_schedule_window || {}, duration = range.planning_duration_range || {}, buffer = range.schedule_buffer || {}, baseline = range.baseline_reference || {};
+    const scheduleDuration = duration.status === 'SCHEDULE_DERIVED'
+      ? `${compactDurationText(duration)} · ${m('travelConfidenceLow')}`
+      : `${m('travelConfidenceUnknown')} · ${tr(duration.reason || '')}`;
+    const method = range.method === 'owner_approved_schedule_window_subtraction' ? m('travelMethodSchedule') : m('travelMethodUnavailable');
+    const confidence = range.confidence === 'low_schedule_derived' ? m('travelConfidenceLow') : m('travelConfidenceUnknown');
+    const privacy = range.privacy_classification === 'private_lodging_endpoint_redacted' ? m('privacyPrivateRedacted') : m('privacyPublic');
+    return `<div class="travel-details-grid">
+      <p><b>${esc(m('staticVsLive'))}</b><span>${esc(m('staticNotLive'))}</span></p>
+      <p><b>${esc(m('travelDepart'))}</b><span>${esc(travelWindowLabel(schedule.departure, 'departure'))}</span></p>
+      <p><b>${esc(m('travelArrive'))}</b><span>${esc(travelWindowLabel(schedule.arrival, 'arrival'))}</span></p>
+      <p><b>${esc(m('scheduleDuration'))}</b><span>${esc(scheduleDuration)}</span></p>
+      <p><b>${esc(m('scheduleBuffer'))}</b><span>${esc(tr(buffer.detail || ''))}</span></p>
+      <p><b>${esc(m('independentBaseline'))}</b><span>${esc(baseline.provenance ? tr(baseline.provenance) : `${m('noIndependentSource')} ${tr(baseline.reason || '')}`)}</span></p>
+      <p><b>${esc(m('confidence'))}</b><span>${esc(confidence)}</span></p>
+      <p><b>${esc(m('travelProvenance'))}</b><span>${esc(`${method} · ${tr(range.basis || '')}`)}</span></p>
+      <p><b>${esc(m('travelFreshness'))}</b><span>${esc(m('travelFreshnessRecheck'))}</span></p>
+      <p><b>${esc(m('travelPrivacy'))}</b><span>${esc(privacy)}</span></p>
+    </div>`;
+  }
+  function bindDayDisclosures(plan) {
+    plan.querySelectorAll('[data-travel-details-toggle]').forEach(button => {
+      button.onclick = () => {
+        const disclosure = state.presentation.dayDisclosure, id = button.dataset.travelId;
+        disclosure.openTravelId = disclosure.openTravelId === id ? null : id;
+        plan.querySelectorAll('[data-travel-details-toggle]').forEach(toggle => {
+          const open = toggle.dataset.travelId === disclosure.openTravelId;
+          toggle.setAttribute('aria-expanded', String(open));
+          document.getElementById(toggle.getAttribute('aria-controls')).hidden = !open;
+        });
+        const focusedId = button.id;
+        button.focus({ preventScroll: true });
+        requestAnimationFrame(() => document.getElementById(focusedId)?.focus({ preventScroll: true }));
+      };
+    });
+    const notesButton = plan.parentElement.querySelector('[data-day-notes-toggle]');
+    if (notesButton) notesButton.onclick = () => {
+      const disclosure = state.presentation.dayDisclosure;
+      disclosure.notesOpen = !disclosure.notesOpen;
+      notesButton.setAttribute('aria-expanded', String(disclosure.notesOpen));
+      document.getElementById(notesButton.getAttribute('aria-controls')).hidden = !disclosure.notesOpen;
+      const focusedId = notesButton.id;
+      notesButton.focus({ preventScroll: true });
+      requestAnimationFrame(() => document.getElementById(focusedId)?.focus({ preventScroll: true }));
+    };
+  }
+  function compactTravelTime(item, range) {
+    const schedule = range?.planned_schedule_window || {};
+    const departure = schedule.departure?.status === 'OWNER_APPROVED_WINDOW' ? schedule.departure.detail : '';
+    const arrival = schedule.arrival?.status === 'OWNER_APPROVED_WINDOW' ? schedule.arrival.detail : '';
+    if (departure && arrival) return `${departure} → ${arrival}`;
+    return tr(String(item.time || '—').split(';', 1)[0].trim());
+  }
+  function compactDurationText(duration) {
+    if (duration?.status !== 'SCHEDULE_DERIVED') return '';
+    const lower = duration.minutes_min, upper = duration.minutes_max;
+    return `${lower === upper ? lower : `${lower}–${upper}`} ${m('minutes')}`;
+  }
+  function compactDayWatch(dateKey, op) {
+    const focusClause = { '10/4': 0, '10/5': 0, '10/6': -1, '10/7': 0, '10/8': 0, '10/9': 0, '10/10': -1, '10/11': 0 }[dateKey];
+    const clauses = String(tx(op, 'invalidator') || '').split(/[;,·]/).map(value => value.trim()).filter(Boolean);
+    if (Number.isInteger(focusClause) && clauses.length) return { label: m('watchCondition'), value: clauses[focusClause < 0 ? clauses.length + focusClause : focusClause] };
+    const text = String(tx(op, 'recovery') || '');
+    const times = [...text.matchAll(/(?:~|about\s+|by\s+)?\b\d{1,2}:\d{2}(?:–\d{1,2}:\d{2})?/g)];
+    if (times.length) return { label: m('expectedReturn'), value: times[times.length - 1][0].trim() };
+    return { label: m('watchCondition'), value: clauses[0] || '' };
+  }
   function renderCostCockpit() {
     const content = document.getElementById('costCockpitContent'), dialog = document.getElementById('costCockpit');
     if (!content || !dialog) return;
@@ -762,16 +842,42 @@
     renderDatePicker(); const items = DATA.timeline.filter(timelineVisible), header = document.getElementById('dayHeader'), plan = document.getElementById('dayPlan');
     const cockpitButton = `<button type="button" id="openCostCockpit" class="secondary-action cost-open" aria-haspopup="dialog" aria-controls="costCockpit" aria-expanded="${document.getElementById('costCockpit')?.open ? 'true' : 'false'}">${esc(m('costReadiness'))}</button>`;
     if (state.task.date === 'all') {
+      state.presentation.dayDisclosure = { dateKey: 'all', openTravelId: null, notesOpen: false };
       header.innerHTML = `<h3>${m('chooseDay')}</h3><p>${DATA.dates.length} ${m('day').toLowerCase()} · ${esc(state.task.primaryRoute)} · ${esc(m('recheck'))}</p>${cockpitButton}`;
       plan.innerHTML = DATA.dates.map(date => { const dayRows = DATA.timeline.filter(item => item.date_key === date.key && routeIntersects(item.routes)); const mapped = dayRows.find(item => item.spatial_keys?.length); const op = DATA.operating_days?.[date.key]; return `<button type="button" class="day-item" data-day-choice="${esc(date.key)}" style="--tier-color:var(--accent)"><span class="day-time">${esc(dateLabel(date.key))}</span><span class="day-item-main"><span class="day-item-title">${esc(mapped ? placeName(mapped.spatial_keys[0]) : tx(dayRows[0], 'title'))}</span><span class="day-item-reason">${esc(tx(op, 'leave'))} · ${esc(tx(op, 'nap'))}</span><span class="day-item-tags"><span class="semantic-tag">${dayRows.length} ${esc(m('stop'))}</span><span class="semantic-tag">${esc(dayIntensity(dayRows))}</span></span></span></button>`; }).join('');
       plan.querySelectorAll('[data-day-choice]').forEach(button => { button.onclick = () => { state.task.date = button.dataset.dayChoice; renderAll(); persist(); drawMap(false); }; });
       document.getElementById('openCostCockpit').onclick = event => { const dialog = document.getElementById('costCockpit'); renderCostCockpit(); dialog.showModal(); event.currentTarget.setAttribute('aria-expanded', 'true'); document.getElementById('costCockpitClose').focus(); };
       return;
     }
-    const dayMeta = DATA.dates.find(date => date.key === state.task.date), op = DATA.operating_days?.[state.task.date], regions = [...new Set(items.flatMap(item => item.regions || []))].map(region => DATA.region_cfg[region]?.[state.presentation.lang === 'ko' ? 'label_ko' : 'label'] || m(region)).join(' · '), recovery = items.filter(item => ['recovery', 'bonus'].includes(item.schedule_tier)).length, decisions = items.filter(item => ['swap', 'conditional', 'choice'].includes(item.schedule_tier)).length;
-    header.innerHTML = `<h3>${esc(dateLabel(dayMeta?.key || state.task.date))}</h3><p>${esc(regions || m('overall'))} · ${esc(state.task.primaryRoute)}</p><div class="day-facts"><p><b>${esc(m('leaveBy'))}:</b> ${esc(tx(op, 'leave'))}</p><p><b>${esc(m('napWindow'))}:</b> ${esc(tx(op, 'nap'))}</p><p><b>${esc(m('recoveryPlan'))}:</b> ${esc(tx(op, 'recovery'))}</p><p><b>${esc(m('prepareBefore'))}:</b> ${esc(tx(op, 'prepare'))}</p><p><b>${esc(m('couldInvalidate'))}:</b> ${esc(tx(op, 'invalidator'))}</p></div><div class="day-metrics"><span class="day-metric">${m('intensity')}: ${esc(dayIntensity(items))}</span><span class="day-metric">${m('decisions')}: ${decisions}</span><span class="day-metric">${m('calm')}: ${recovery}</span></div>${cockpitButton}`;
+    const dayMeta = DATA.dates.find(date => date.key === state.task.date), op = DATA.operating_days?.[state.task.date];
+    if (state.presentation.dayDisclosure?.dateKey !== state.task.date) state.presentation.dayDisclosure = { dateKey: state.task.date, openTravelId: null, notesOpen: false };
+    const disclosure = state.presentation.dayDisclosure, availableTravelIds = new Set(items.filter(item => item.kind === 'travel' && item.travel_range_id).map(item => item.travel_range_id));
+    if (disclosure.openTravelId && !availableTravelIds.has(disclosure.openTravelId)) disclosure.openTravelId = null;
+    const start = String(tx(op, 'leave') || '').split(/[;·]/, 1)[0].trim(), nap = tx(op, 'nap'), watch = compactDayWatch(state.task.date, op);
+    const notesId = `day-notes-${state.task.date.replace('/', '-')}`, notesToggleId = `${notesId}-toggle`, notesOpen = disclosure.notesOpen;
+    header.innerHTML = `<h3>${esc(dateLabel(dayMeta?.key || state.task.date))}</h3><div class="day-summary"><p><b>${esc(m('dayStart'))}:</b> ${esc(start)}</p><p><b>${esc(m('napWindow'))}:</b> ${esc(nap)}</p><p><b>${esc(watch.label)}:</b> ${esc(watch.value)}</p></div><div class="day-header-actions"><button id="${notesToggleId}" type="button" class="day-notes-toggle" data-day-notes-toggle aria-expanded="${notesOpen}" aria-controls="${notesId}">${esc(m('dayNotes'))}</button>${cockpitButton}</div><div id="${notesId}" class="day-notes" role="region" aria-labelledby="${notesToggleId}" ${notesOpen ? '' : 'hidden'}><p><b>${esc(m('prepareBefore'))}:</b> ${esc(tx(op, 'prepare'))}</p><p><b>${esc(m('recoveryPlan'))}:</b> ${esc(tx(op, 'recovery'))}</p><p><b>${esc(m('couldInvalidate'))}:</b> ${esc(tx(op, 'invalidator'))}</p></div>`;
     if (!items.length) { plan.innerHTML = `<div class="empty-state">${m('noSlots')}</div>`; return; }
-    plan.innerHTML = `<p class="day-story">${esc(tx(items[0], 'reason'))}</p>${items.map(item => { const mapped = item.spatial_keys?.length, tier = item.schedule_tier || 'main', color = tier === 'must' ? '#a94335' : tier === 'swap' ? '#a76a42' : tier === 'recovery' ? '#72857b' : 'var(--accent)', identity = item.itinerary_identity, range = travelRangeById[item.travel_range_id], duration = range?.planning_duration_range, schedule = range?.planned_schedule_window, elapsed = duration?.status === 'SCHEDULE_DERIVED' ? `${esc(m('travelElapsed'))}: ${duration.minutes_min}–${duration.minutes_max} ${esc(m('minutes'))} · ${esc(m('travelLowConfidence'))}` : esc(m('travelDurationUnknown')), cue = item.travel_navigation_cue ? (range ? `<p class="travel-cue travel-provenance"><b>${esc(m('staticTravelPlan'))}:</b> ${esc(m('travelDepart'))}: ${esc(travelWindowLabel(schedule?.departure, 'departure'))} · ${esc(m('travelArrive'))}: ${esc(travelWindowLabel(schedule?.arrival, 'arrival'))}<br>${elapsed} · ${esc(m('travelNoBaseline'))}<br>${esc(m('checkLiveNavigation'))}</p>` : `<p class="travel-cue">${esc(m('liveNavCue'))}</p>`) : '', cueInline = item.travel_navigation_cue ? `<span class="travel-cue">${esc(m('liveNavCue'))}</span>` : '', blocker = identity?.photo_blocker ? `<p class="photo-blocker"><b>${esc(m('photoBlocked'))}:</b> ${esc(tx(identity, 'photo_blocker'))}</p>` : '', title = tx(item, 'title'), reason = tx(item, 'reason'), noMapSuffix = ['travel', 'logistics'].includes(item.kind) ? '' : ` · ${esc(m('unpinnedActivity'))}`; return mapped ? `<button type="button" class="day-item ${item.spatial_keys.includes(state.task.selected) ? 'selected' : ''}" data-day-place="${esc(item.spatial_keys[0])}" style="--tier-color:${color}"><span class="day-time">${esc(tr(item.time || '—'))}</span><span class="day-item-main"><span class="day-item-title">${esc(title)}</span><span class="day-item-reason"><strong>${esc(m('whyNow'))}:</strong> ${esc(reason)}</span>${cueInline}<span class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${ROUTES.length > 1 ? (item.route_specific ? `<span class="semantic-tag">${m('specific')}</span>` : `<span class="semantic-tag">${m('shared')}</span>`) : ''}${routeMini(item.routes, item.spatial_keys[0])}</span></span></button>` : `<article class="plan-card" style="--tier-color:${color}"><strong>${esc(tr(item.time || '—'))} · ${esc(title)}</strong><p>${esc(reason)}${noMapSuffix}</p>${blocker}${cue}<div class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${routeMini(item.routes)}</div></article>`; }).join('')}`;
+    plan.innerHTML = items.map(item => {
+      const mapped = item.spatial_keys?.length, tier = item.schedule_tier || 'main';
+      const color = tier === 'must' ? '#a94335' : tier === 'swap' ? '#a76a42' : tier === 'recovery' ? '#72857b' : 'var(--accent)';
+      const identity = item.itinerary_identity, range = travelRangeById[item.travel_range_id], title = tx(item, 'title'), reason = tx(item, 'reason');
+      const blocker = identity?.photo_blocker ? `<p class="photo-blocker"><b>${esc(m('photoBlocked'))}:</b> ${esc(tx(identity, 'photo_blocker'))}</p>` : '';
+      if (item.kind === 'travel') {
+        const duration = range?.planning_duration_range, durationLabel = duration?.status === 'SCHEDULE_DERIVED' ? ` · ~${esc(compactDurationText(duration))}` : '';
+        const detailId = `travel-details-${state.task.date.replace('/', '-')}-${esc(item.travel_range_id || item.id)}`, toggleId = `${detailId}-toggle`, expanded = disclosure.openTravelId === item.travel_range_id;
+        const detailToggle = range ? `<button id="${toggleId}" type="button" class="travel-details-toggle" data-travel-details-toggle data-travel-id="${esc(item.travel_range_id)}" aria-expanded="${expanded}" aria-controls="${detailId}">${esc(m('travelDetails'))}</button><div id="${detailId}" class="travel-details" role="region" aria-labelledby="${toggleId}" ${expanded ? '' : 'hidden'}>${travelDetailsMarkup(range)}</div>` : '';
+        if (range) {
+          return `<article class="plan-card plan-travel"><div class="travel-compact"><strong class="travel-compact-time">${esc(compactTravelTime(item, range))}</strong><span class="travel-compact-title">${esc(title)}</span><span class="travel-compact-duration">${durationLabel}</span></div>${item.travel_navigation_cue ? `<p class="travel-cue">${esc(m('checkLiveNavigation'))}</p>` : ''}${detailToggle}</article>`;
+        }
+        return `<article class="plan-card plan-travel"><div class="travel-compact"><strong class="travel-compact-time">${esc(tr(String(item.time || '—').split(';', 1)[0].trim()))}</strong><span class="travel-compact-title">${esc(title)}</span></div>${item.travel_navigation_cue ? `<p class="travel-cue">${esc(m('checkLiveNavigation'))}</p>` : ''}</article>`;
+      }
+      const noMapSuffix = ['logistics'].includes(item.kind) ? '' : ` · ${esc(m('unpinnedActivity'))}`;
+      return mapped
+        ? `<button type="button" class="day-item day-place ${item.spatial_keys.includes(state.task.selected) ? 'selected' : ''}" data-day-place="${esc(item.spatial_keys[0])}" style="--tier-color:${color}"><span class="day-time">${esc(tr(item.time || '—'))}</span><span class="day-item-main"><span class="day-item-title">${esc(title)}</span><span class="day-item-reason"><strong>${esc(m('whyNow'))}:</strong> ${esc(reason)}</span><span class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${ROUTES.length > 1 ? (item.route_specific ? `<span class="semantic-tag">${m('specific')}</span>` : `<span class="semantic-tag">${m('shared')}</span>`) : ''}${routeMini(item.routes, item.spatial_keys[0])}</span></span></button>`
+        : `<article class="plan-card ${['recovery', 'meal'].includes(item.kind) ? 'plan-recovery' : 'plan-logistics'}" style="--tier-color:${color}"><strong>${esc(tr(item.time || '—'))} · ${esc(title)}</strong><p>${esc(reason)}${noMapSuffix}</p>${blocker}<div class="day-item-tags"><span class="tier-chip">${esc(tierLabel(tier))}</span>${routeMini(item.routes)}</div></article>`;
+    }).join('');
+    plan.querySelectorAll('.travel-details').forEach(region => { region.setAttribute('aria-labelledby', `${region.id}-toggle`); });
+    bindDayDisclosures(plan);
     plan.querySelectorAll('[data-day-place]').forEach(button => { button.onclick = () => { selectPlace(button.dataset.dayPlace, { focus: true, open: false, invoker: button }); showPeek(button.dataset.dayPlace, { invoker: button }); }; });
     document.getElementById('openCostCockpit').onclick = event => { const dialog = document.getElementById('costCockpit'); renderCostCockpit(); dialog.showModal(); event.currentTarget.setAttribute('aria-expanded', 'true'); document.getElementById('costCockpitClose').focus(); };
   }

@@ -39,6 +39,7 @@
         previousContext: null,
         focusReturn: null,
         mapOptionsOpen: false,
+        dayDisclosure: { dateKey: null, openTravelId: null, notesOpen: false },
       },
       runtime: {
         provider: 'vector', providerIdentity: data.providers?.vector?.identity || 'smart-local-vector',

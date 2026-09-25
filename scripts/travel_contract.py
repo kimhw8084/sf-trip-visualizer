@@ -41,6 +41,7 @@ def validate_travel_contract(data: dict[str, Any]) -> dict[str, Any]:
 
     timeline = data.get("timeline", [])
     legs = data.get("legs", [])
+    legacy_archive = data.get("route_graph_legacy_range_archive", [])
     ranges = data.get("travel_ranges", [])
     range_ids = [item.get("id") for item in ranges]
     duplicate_ranges = sorted(key for key, count in Counter(range_ids).items() if not key or count != 1)
@@ -63,16 +64,23 @@ def validate_travel_contract(data: dict[str, Any]) -> dict[str, Any]:
             check(travel_id in by_id, f"timeline travel row {row.get('id')} references missing range {travel_id}")
     for leg in legs:
         travel_id = leg.get("travel_range_id")
-        check(bool(travel_id), f"material connector {leg.get('leg_id')} has no travel_range_id")
         if travel_id:
             references.setdefault(travel_id, []).append(("leg", leg.get("leg_id", "")))
             check(travel_id in by_id, f"connector {leg.get('leg_id')} references missing range {travel_id}")
+    for archived in legacy_archive:
+        travel_id = archived.get("travel_range_id")
+        check(bool(travel_id), f"legacy connector archive {archived.get('source_leg_id')} has no travel_range_id")
+        if travel_id:
+            references.setdefault(travel_id, []).append(("legacy_archive", archived.get("source_leg_id", "")))
+            check(travel_id in by_id, f"legacy connector archive references missing range {travel_id}")
 
     for travel_id, travel_range in by_id.items():
         linked = references.get(travel_id, [])
         check(bool(linked), f"orphan travel range {travel_id}")
         check(sum(kind == "timeline" for kind, _ in linked) <= 1, f"range {travel_id} links multiple timeline movements")
         check(sum(kind == "leg" for kind, _ in linked) <= 1, f"range {travel_id} links multiple connectors")
+        check(sum(kind == "legacy_archive" for kind, _ in linked) <= 1, f"range {travel_id} repeats in the legacy connector archive")
+        check(not any(kind == "legacy_archive" for kind, _ in linked) or not any(kind in {"timeline", "leg"} for kind, _ in linked), f"range {travel_id} is both active and archived")
         if not linked:
             continue
 
@@ -168,7 +176,8 @@ def validate_travel_contract(data: dict[str, Any]) -> dict[str, Any]:
         "failures": failures,
         "counts": {
             "material_timeline_movements": sum(row.get("kind") == "travel" for row in timeline),
-            "material_route_connectors": len(legs),
+            "material_route_connectors": sum(bool(leg.get("travel_range_id")) for leg in legs),
+            "linked_legacy_connector_ranges": len(legacy_archive),
             "structured_travel_ranges": len(ranges),
             "linked_timeline_movements": sum(bool(row.get("travel_range_id")) for row in timeline if row.get("kind") == "travel"),
             "linked_route_connectors": sum(bool(leg.get("travel_range_id")) for leg in legs),

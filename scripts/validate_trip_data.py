@@ -16,6 +16,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 from travel_contract import validate_travel_contract
+from route_graph_contract import validate_route_graph
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,7 +42,7 @@ REFERENCE_FILES = {
 KO = re.compile(r"[가-힣]")
 DATE = re.compile(r"^(\d{1,2}/\d{1,2})")
 BRANCH_KINDS = {"main", "conditional", "swap", "bonus", "recovery", "choice"}
-GEOMETRY_STATUSES = {"routed_osm", "conceptual_ferry", "conceptual_transfer", "conceptual_connector"}
+GEOMETRY_STATUSES = {"routed_osm", "conceptual_ferry", "intentionally_omitted"}
 REGIONS = {"sf", "monterey", "yosemite"}
 RETIRED_ACTIVE_PLACE_KEYS = {"exploratorium", "musee", "academy", "bay_lights", "coit", "bixby", "mariposa"}
 RETIRED_ACTIVE_COPY = (
@@ -105,6 +106,8 @@ def validate_trip_data() -> dict[str, Any]:
 
     travel_contract = validate_travel_contract(data)
     check("travel_provenance_completeness", travel_contract["status"] == "PASS", "; ".join(travel_contract["failures"][:8]))
+    route_graph = validate_route_graph(data, geometry, geometry_manifest)
+    check("semantic_route_graph_and_geometry", route_graph["status"] == "PASS", "; ".join(route_graph["failures"][:8]))
 
     truth = manifest.get("truth_authority", {})
     check("truth_authority_source", truth.get("authored_source") == "data/phase7_app_data.json")
@@ -222,8 +225,7 @@ def validate_trip_data() -> dict[str, Any]:
     legs = data.get("legs", [])
     leg_ids = [leg.get("leg_id") for leg in legs]
     check("leg_ids_unique", len(leg_ids) == len(set(leg_ids)))
-    yosemite_sf_transfers = [leg for leg in legs if leg.get("date") == "10/9" and leg.get("from") == "yosemite_valley" and leg.get("to") == "sf_center" and leg.get("render_style") == "transfer_dots"]
-    check("oct9_yosemite_morning_then_sf_transfer", len(yosemite_sf_transfers) == 1 and set(yosemite_sf_transfers[0].get("routes", [])) == route_ids if yosemite_sf_transfers else False)
+    check("oct9_public_clusters_stay_unconnected", not any(leg.get("date") == "10/9" for leg in legs))
     for leg in legs:
         prefix = f"leg[{leg.get('leg_id')}]"
         from_ref, from_name = resolve_endpoint(leg.get("from"))
@@ -343,7 +345,11 @@ def validate_trip_data() -> dict[str, Any]:
         status = entry.get("status")
         check(f"{prefix}.status", status in GEOMETRY_STATUSES)
         check(f"{prefix}.provenance", has_text(entry.get("source")) and isinstance(entry.get("endpoint_signature"), list))
-        check(f"{prefix}.coordinates", isinstance(entry.get("coordinates"), list) and len(entry.get("coordinates", [])) >= 2)
+        coordinates = entry.get("coordinates")
+        if status == "intentionally_omitted":
+            check(f"{prefix}.coordinates", coordinates == [])
+        else:
+            check(f"{prefix}.coordinates", isinstance(coordinates, list) and len(coordinates) >= 2)
         check(f"{prefix}.active_routes", set(leg.get("routes", [])) == route_ids)
         check(f"{prefix}.manifest_routes", set(geometry_manifest_legs.get(leg["leg_id"], {}).get("routes", [])) == set(leg.get("routes", [])))
         if leg.get("mode") == "ferry":
@@ -353,9 +359,8 @@ def validate_trip_data() -> dict[str, Any]:
             check(f"{prefix}.transfer_source_limit", "not a verified road track" in str(geometry_manifest.get("legs", [])[leg_ids.index(leg["leg_id"])].get("source_limitation", "")))
         if status == "routed_osm":
             check(f"{prefix}.road_reference_limit", "verify live closures" in str(entry.get("endpoint_note", "")) or "not live" in str(geometry_manifest.get("legs", [])[leg_ids.index(leg["leg_id"])].get("source_limitation", "")))
-        if status == "conceptual_connector":
-            limit = str(entry.get("endpoint_note", "")).lower()
-            check(f"{prefix}.conceptual_connector_limit", "does not claim" in limit or "not a" in limit)
+        if status == "intentionally_omitted":
+            check(f"{prefix}.omitted_geometry_empty", entry.get("coordinates") == [] and leg.get("render_style") == "omitted")
 
     records = freshness.get("records", [])
     fact_ids = [record.get("fact_id") for record in records]
@@ -454,6 +459,7 @@ def validate_trip_data() -> dict[str, Any]:
             "geometry_entries": len(geometry),
         },
         "travel_contract": travel_contract,
+        "route_graph": route_graph,
         "roles": {row["place_key"]: row["coordinate_type"] for row in coordinate_audit},
         "geometry_statuses": {status: sum(entry.get("status") == status for entry in geometry.values()) for status in sorted(GEOMETRY_STATUSES)},
         "freshness_statuses": {status: sum(record.get("status") == status for record in records) for status in sorted(allowed_status)},

@@ -1,0 +1,795 @@
+{
+  "schema_version": 2,
+  "status": "PASS",
+  "states_tested": 11,
+  "continuity_groups_tested": 16,
+  "semantic_public_route_legs": 23,
+  "routed_osm_public_legs": 22,
+  "conceptual_ferry_legs": 1,
+  "geometry_unavailable_legs": 1,
+  "intentionally_omitted_connections": 11,
+  "continuity_breaks": 8,
+  "total_geometry_points": 5005,
+  "failures": [],
+  "states": [
+    {
+      "date": "10/2",
+      "route": "A",
+      "continuity_groups": [],
+      "status": "PASS"
+    },
+    {
+      "date": "10/3",
+      "route": "A",
+      "continuity_groups": [
+        "oct3_morning",
+        "oct3_sausalito"
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/4",
+      "route": "A",
+      "continuity_groups": [
+        "oct4_morning",
+        "oct4_afternoon"
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/5",
+      "route": "A",
+      "continuity_groups": [
+        "oct5_morning",
+        "oct5_evening"
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/6",
+      "route": "A",
+      "continuity_groups": [
+        "oct6_public_drive",
+        "oct6_wharf_outing"
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/7",
+      "route": "A",
+      "continuity_groups": [
+        "oct7_pre_checkin",
+        "oct7_after_checkin"
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/8",
+      "route": "A",
+      "continuity_groups": [
+        "oct8_morning",
+        "oct8_after_nap"
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/9",
+      "route": "A",
+      "continuity_groups": [],
+      "status": "PASS"
+    },
+    {
+      "date": "10/10",
+      "route": "A",
+      "continuity_groups": [
+        "oct10_ggp",
+        "oct10_stanford"
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/11",
+      "route": "A",
+      "continuity_groups": [
+        "oct11_morning",
+        "oct11_baker_finale"
+      ],
+      "status": "PASS"
+    },
+    {
+      "date": "10/12",
+      "route": "A",
+      "continuity_groups": [],
+      "status": "PASS"
+    }
+  ],
+  "continuity_groups": [
+    {
+      "group_id": "oct3_morning",
+      "date_key": "10/3",
+      "nodes": [
+        "ferry"
+      ],
+      "edges": [],
+      "components": [
+        [
+          "ferry"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_103_FERRY_GABRIELSON"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct3_sausalito",
+      "date_key": "10/3",
+      "nodes": [
+        "gabrielson_park"
+      ],
+      "edges": [],
+      "components": [
+        [
+          "gabrielson_park"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_103_FERRY_GABRIELSON"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct4_morning",
+      "date_key": "10/4",
+      "nodes": [
+        "battery",
+        "muir"
+      ],
+      "edges": [
+        {
+          "from": "battery",
+          "to": "muir",
+          "mode": "drive",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        }
+      ],
+      "components": [
+        [
+          "battery",
+          "muir"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_104_MUIR_PALACE"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct4_afternoon",
+      "date_key": "10/4",
+      "nodes": [
+        "palace",
+        "twin_peaks",
+        "crissy",
+        "tunnel_tops",
+        "ggb"
+      ],
+      "edges": [
+        {
+          "from": "palace",
+          "to": "crissy",
+          "mode": "drive",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "crissy",
+          "to": "tunnel_tops",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "tunnel_tops",
+          "to": "ggb",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "twin_peaks",
+          "to": "crissy",
+          "mode": "drive",
+          "branch_kind": "swap",
+          "geometry_status": "routed_osm"
+        }
+      ],
+      "components": [
+        [
+          "crissy",
+          "ggb",
+          "palace",
+          "tunnel_tops",
+          "twin_peaks"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_104_MUIR_PALACE"
+      ],
+      "choices": [
+        {
+          "id": "oct4_palace_or_twin_peaks",
+          "default": "palace",
+          "alternative": "twin_peaks",
+          "rejoins_at": "crissy"
+        }
+      ]
+    },
+    {
+      "group_id": "oct5_morning",
+      "date_key": "10/5",
+      "nodes": [
+        "Pier 33 Alcatraz Landing",
+        "alcatraz",
+        "pier39",
+        "ghirardelli",
+        "aquatic_park"
+      ],
+      "edges": [
+        {
+          "from": "Pier 33 Alcatraz Landing",
+          "to": "alcatraz",
+          "mode": "ferry",
+          "branch_kind": "main",
+          "geometry_status": "conceptual_ferry"
+        },
+        {
+          "from": "Pier 33 Alcatraz Landing",
+          "to": "pier39",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "pier39",
+          "to": "ghirardelli",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "ghirardelli",
+          "to": "aquatic_park",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        }
+      ],
+      "components": [
+        [
+          "Pier 33 Alcatraz Landing",
+          "alcatraz",
+          "aquatic_park",
+          "ghirardelli",
+          "pier39"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_105_AQUATIC_CABLE"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct5_evening",
+      "date_key": "10/5",
+      "nodes": [
+        "cable_car",
+        "lombard",
+        "north_beach",
+        "fortune",
+        "chinatown"
+      ],
+      "edges": [
+        {
+          "from": "cable_car",
+          "to": "lombard",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "lombard",
+          "to": "north_beach",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "north_beach",
+          "to": "fortune",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "fortune",
+          "to": "chinatown",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        }
+      ],
+      "components": [
+        [
+          "cable_car",
+          "chinatown",
+          "fortune",
+          "lombard",
+          "north_beach"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_105_AQUATIC_CABLE"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct6_public_drive",
+      "date_key": "10/6",
+      "nodes": [
+        "point_lobos",
+        "carmel",
+        "carmel_beach",
+        "lone_cypress",
+        "aquarium"
+      ],
+      "edges": [
+        {
+          "from": "point_lobos",
+          "to": "carmel",
+          "mode": "drive",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "carmel",
+          "to": "carmel_beach",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "carmel_beach",
+          "to": "lone_cypress",
+          "mode": "drive",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "lone_cypress",
+          "to": "aquarium",
+          "mode": "drive",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        }
+      ],
+      "components": [
+        [
+          "aquarium",
+          "carmel",
+          "carmel_beach",
+          "lone_cypress",
+          "point_lobos"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_106_AQUARIUM_WHARF"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct6_wharf_outing",
+      "date_key": "10/6",
+      "nodes": [
+        "monterey_wharf"
+      ],
+      "edges": [],
+      "components": [
+        [
+          "monterey_wharf"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_106_AQUARIUM_WHARF"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct7_pre_checkin",
+      "date_key": "10/7",
+      "nodes": [
+        "cooks"
+      ],
+      "edges": [],
+      "components": [
+        [
+          "cooks"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_107_COOKS_BRIDALVEIL"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct7_after_checkin",
+      "date_key": "10/7",
+      "nodes": [
+        "bridalveil",
+        "tunnel_view"
+      ],
+      "edges": [
+        {
+          "from": "bridalveil",
+          "to": "tunnel_view",
+          "mode": "drive",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        }
+      ],
+      "components": [
+        [
+          "bridalveil",
+          "tunnel_view"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_107_COOKS_BRIDALVEIL"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct8_morning",
+      "date_key": "10/8",
+      "nodes": [
+        "washburn",
+        "glacier"
+      ],
+      "edges": [
+        {
+          "from": "washburn",
+          "to": "glacier",
+          "mode": "drive",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        }
+      ],
+      "components": [
+        [
+          "glacier",
+          "washburn"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_108_GLACIER_ELCAP"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct8_after_nap",
+      "date_key": "10/8",
+      "nodes": [
+        "el_capitan",
+        "valley_view",
+        "valley_loop_walk",
+        "sentinel_beach"
+      ],
+      "edges": [],
+      "components": [
+        [
+          "el_capitan"
+        ],
+        [
+          "sentinel_beach"
+        ],
+        [
+          "valley_loop_walk"
+        ],
+        [
+          "valley_view"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_108_ELCAP_LOOP",
+        "CHG232_108_GLACIER_ELCAP",
+        "CHG232_108_LOOP_SENTINEL",
+        "CHG232_108_SENTINEL_VALLEYVIEW"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct10_ggp",
+      "date_key": "10/10",
+      "nodes": [
+        "botanical",
+        "tea_garden"
+      ],
+      "edges": [
+        {
+          "from": "botanical",
+          "to": "tea_garden",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        }
+      ],
+      "components": [
+        [
+          "botanical",
+          "tea_garden"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_1010_TEA_CANTOR"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct10_stanford",
+      "date_key": "10/10",
+      "nodes": [
+        "cantor_arts",
+        "rodin_garden",
+        "stanford_quad"
+      ],
+      "edges": [
+        {
+          "from": "cantor_arts",
+          "to": "rodin_garden",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "intentionally_omitted"
+        },
+        {
+          "from": "rodin_garden",
+          "to": "stanford_quad",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        }
+      ],
+      "components": [
+        [
+          "cantor_arts",
+          "rodin_garden",
+          "stanford_quad"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_1010_TEA_CANTOR"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct11_morning",
+      "date_key": "10/11",
+      "nodes": [
+        "lands_end",
+        "painted",
+        "alamo_square"
+      ],
+      "edges": [
+        {
+          "from": "lands_end",
+          "to": "painted",
+          "mode": "drive",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        },
+        {
+          "from": "painted",
+          "to": "alamo_square",
+          "mode": "walk",
+          "branch_kind": "main",
+          "geometry_status": "routed_osm"
+        }
+      ],
+      "components": [
+        [
+          "alamo_square",
+          "lands_end",
+          "painted"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_1011_ALAMO_BAKER"
+      ],
+      "choices": []
+    },
+    {
+      "group_id": "oct11_baker_finale",
+      "date_key": "10/11",
+      "nodes": [
+        "baker_beach"
+      ],
+      "edges": [],
+      "components": [
+        [
+          "baker_beach"
+        ]
+      ],
+      "intentional_omission_ids": [
+        "CHG232_1011_ALAMO_BAKER"
+      ],
+      "choices": []
+    }
+  ],
+  "protected_breaks": [
+    {
+      "id": "break_103_lodging_nap",
+      "date_key": "10/3",
+      "from_group": "oct3_morning",
+      "to_group": "oct3_sausalito",
+      "barrier_timeline_id": "chg204_103_return_nap",
+      "kind": "protected_nap_return"
+    },
+    {
+      "id": "break_104_lodging_nap",
+      "date_key": "10/4",
+      "from_group": "oct4_morning",
+      "to_group": "oct4_afternoon",
+      "barrier_timeline_id": "chg204_104_muir_lodging",
+      "kind": "protected_nap_return"
+    },
+    {
+      "id": "break_105_lodging_nap",
+      "date_key": "10/5",
+      "from_group": "oct5_morning",
+      "to_group": "oct5_evening",
+      "barrier_timeline_id": "chg204_105_nap",
+      "kind": "protected_nap_return"
+    },
+    {
+      "id": "break_106_stage_coach_reset",
+      "date_key": "10/6",
+      "from_group": "oct6_public_drive",
+      "to_group": "oct6_wharf_outing",
+      "barrier_timeline_id": "chg204_106_checkin_reset",
+      "kind": "lodging_checkin_reset"
+    },
+    {
+      "id": "break_107_yosemite_checkin",
+      "date_key": "10/7",
+      "from_group": "oct7_pre_checkin",
+      "to_group": "oct7_after_checkin",
+      "barrier_timeline_id": "chg204_107_checkin",
+      "kind": "lodging_checkin_reset"
+    },
+    {
+      "id": "break_108_lodging_nap",
+      "date_key": "10/8",
+      "from_group": "oct8_morning",
+      "to_group": "oct8_after_nap",
+      "barrier_timeline_id": "chg204_108_glacier_lodging",
+      "kind": "protected_nap_return"
+    },
+    {
+      "id": "break_1010_lodging_nap",
+      "date_key": "10/10",
+      "from_group": "oct10_ggp",
+      "to_group": "oct10_stanford",
+      "barrier_timeline_id": "chg204_1010_nap",
+      "kind": "protected_nap_return"
+    },
+    {
+      "id": "break_1011_lodging_nap",
+      "date_key": "10/11",
+      "from_group": "oct11_morning",
+      "to_group": "oct11_baker_finale",
+      "barrier_timeline_id": "chg204_1011_nap",
+      "kind": "protected_nap_return"
+    }
+  ],
+  "omitted_connections": [
+    {
+      "omission_id": "CHG232_103_FERRY_GABRIELSON",
+      "date_key": "10/3",
+      "from": "ferry",
+      "to": "gabrielson_park",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Ferry Building public cluster and Sausalito waterfront are separated by protected lodging recovery; the movement remains in the timeline."
+    },
+    {
+      "omission_id": "CHG232_104_MUIR_PALACE",
+      "date_key": "10/4",
+      "from": "muir",
+      "to": "palace",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Private Mill Valley lunch and nap break route continuity."
+    },
+    {
+      "omission_id": "CHG232_105_AQUATIC_CABLE",
+      "date_key": "10/5",
+      "from": "aquatic_park",
+      "to": "cable_car",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Mill Valley protected nap separates the morning waterfront from the evening cable-car area."
+    },
+    {
+      "omission_id": "CHG232_106_AQUARIUM_WHARF",
+      "date_key": "10/6",
+      "from": "aquarium",
+      "to": "monterey_wharf",
+      "mode": null,
+      "status": "lodging_checkin_break",
+      "reason": "Stage Coach Lodge check-in and reset separate the Aquarium loop from the Wharf outing; no hotel photo marker is added."
+    },
+    {
+      "omission_id": "CHG232_107_COOKS_BRIDALVEIL",
+      "date_key": "10/7",
+      "from": "cooks",
+      "to": "bridalveil",
+      "mode": null,
+      "status": "lodging_checkin_break",
+      "reason": "Yosemite West private check-in/reset separates the Cook’s Meadow visit from the evening cluster."
+    },
+    {
+      "omission_id": "CHG232_108_GLACIER_ELCAP",
+      "date_key": "10/8",
+      "from": "glacier",
+      "to": "el_capitan",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Yosemite West lunch and protected nap separate the morning overlook from the afternoon Valley life."
+    },
+    {
+      "omission_id": "CHG232_108_ELCAP_LOOP",
+      "date_key": "10/8",
+      "from": "el_capitan",
+      "to": "valley_loop_walk",
+      "mode": "walk",
+      "status": "non_photo_route_anchor_unavailable",
+      "reason": "Valley Loop is an itinerary-only walking identity; no lawful non-marker route anchor exists."
+    },
+    {
+      "omission_id": "CHG232_108_LOOP_SENTINEL",
+      "date_key": "10/8",
+      "from": "valley_loop_walk",
+      "to": "sentinel_beach",
+      "mode": "walk",
+      "status": "non_photo_route_anchor_unavailable",
+      "reason": "Valley Loop and Sentinel Beach remain non-photo itinerary identities; no route anchors are added."
+    },
+    {
+      "omission_id": "CHG232_108_SENTINEL_VALLEYVIEW",
+      "date_key": "10/8",
+      "from": "sentinel_beach",
+      "to": "valley_view",
+      "mode": "drive",
+      "status": "non_photo_route_anchor_unavailable",
+      "reason": "Sentinel Beach remains a non-photo picnic identity; no direct shortcut to Valley View is drawn."
+    },
+    {
+      "omission_id": "CHG232_1010_TEA_CANTOR",
+      "date_key": "10/10",
+      "from": "tea_garden",
+      "to": "cantor_arts",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Foster City lunch and protected nap separate the Golden Gate Park visit from Stanford."
+    },
+    {
+      "omission_id": "CHG232_1011_ALAMO_BAKER",
+      "date_key": "10/11",
+      "from": "alamo_square",
+      "to": "baker_beach",
+      "mode": null,
+      "status": "protected_recovery_break",
+      "reason": "Foster City protected nap separates the morning neighborhood cluster from the Baker Beach finale."
+    }
+  ]
+}

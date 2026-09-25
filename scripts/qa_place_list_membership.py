@@ -11,8 +11,8 @@ from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 
 
-OUT = ROOT / "QA" / "CHG-204" / "place_list_roles.json"
-SCREENSHOTS = ROOT / "QA" / "CHG-204" / "screenshots" / "place_list"
+OUT = ROOT / "QA" / "CHG-232" / "place_list_roles.json"
+SCREENSHOTS = ROOT / "QA" / "CHG-232" / "screenshots" / "place_list"
 RETIRED_KEYS = {"bay_lights", "exploratorium", "musee", "academy", "coit", "bixby", "mariposa"}
 
 
