@@ -38,6 +38,71 @@ def render_day(page, date_key):
     return page.locator("#dayPlan").inner_text()
 
 
+def compact_travel_contract(page, expected_rows):
+    return page.evaluate(
+        """expected => {
+          const toggles=[...document.querySelectorAll('#dayPlan [data-travel-details-toggle]')];
+          const rows=[...document.querySelectorAll('#dayPlan .plan-travel')];
+          const audit=['static schedule plan','no independent reference','schedule-derived','independent baseline','source confidence','basis and source','method:','freshness','confidence'];
+          const texts=rows.map(row=>row.innerText.toLowerCase());
+          const allCollapsed=toggles.every(button=>{
+            const region=document.getElementById(button.getAttribute('aria-controls'));
+            return button.getAttribute('aria-expanded')==='false' && region?.hidden===true;
+          });
+          const liveNavigationCues=rows.map(row=>row.innerText).join('\\n').split('Check live navigation before leaving').length-1;
+          return {
+            travel_rows:rows.length,
+            disclosure_buttons:toggles.length,
+            all_collapsed:allCollapsed,
+            live_navigation_cues:liveNavigationCues,
+            audit_absent:!texts.some(text=>audit.some(term=>text.includes(term))),
+            compact_default:rows.length===expected && toggles.length===expected && allCollapsed && liveNavigationCues>=expected && !texts.some(text=>audit.some(term=>text.includes(term)))
+          };
+        }""",
+        expected_rows,
+    )
+
+
+def verify_travel_details(page, capture_name=None):
+    button = page.locator("#dayPlan [data-travel-details-toggle]").first
+    button_id = button.get_attribute("id")
+    region_id = button.get_attribute("aria-controls")
+    button.click()
+    page.wait_for_function(
+        """ids => {const b=document.getElementById(ids.button),r=document.getElementById(ids.region);return b?.getAttribute('aria-expanded')==='true' && r && !r.hidden}""",
+        arg={"button": button_id, "region": region_id},
+    )
+    evidence = page.evaluate(
+        """ids => {
+          const button=document.getElementById(ids.button),region=document.getElementById(ids.region);
+          const text=region.innerText.toLowerCase();
+          const expected=['planning vs live navigation','schedule-derived range','separate buffer','independent baseline','confidence','method','basis and source','freshness','privacy classification'];
+          return {
+            expanded:button?.getAttribute('aria-expanded')==='true',
+            owned:button?.getAttribute('aria-controls')===region?.id && region?.getAttribute('aria-labelledby')===button?.id,
+            focus_preserved:document.activeElement===button,
+            evidence_fields:Object.fromEntries(expected.map(term=>[term,text.includes(term)])),
+            day_context:!!document.querySelector('#dayHeader')?.innerText && !!document.querySelector('#dayPlan [data-day-place]')?.innerText,
+            text:region?.innerText||''
+          };
+        }""",
+        {"button": button_id, "region": region_id},
+    )
+    evidence["evidence_complete"] = all(evidence["evidence_fields"].values())
+    if capture_name:
+        capture(page, capture_name)
+    button.click()
+    page.wait_for_function(
+        """ids => {const b=document.getElementById(ids.button),r=document.getElementById(ids.region);return b?.getAttribute('aria-expanded')==='false' && r?.hidden===true}""",
+        arg={"button": button_id, "region": region_id},
+    )
+    evidence["collapse_restored"] = (
+        page.locator(f"#{button_id}").get_attribute("aria-expanded") == "false"
+        and page.evaluate("id => document.activeElement?.id === id", button_id)
+    )
+    return evidence
+
+
 with sync_playwright() as playwright:
     browser = playwright.chromium.launch(headless=True)
     context = browser.new_context(viewport={"width": 1440, "height": 900})
@@ -70,11 +135,15 @@ with sync_playwright() as playwright:
         expected_cues = len(travel_rows)
         actual_cues = day_text.count("Static schedule plan:")
         actual_rechecks = day_text.count("Check live navigation before leaving")
+        compact_contract = compact_travel_contract(page, expected_cues)
         day_contracts[date_key] = {
             "travel_rows": expected_cues,
             "static_plan_cues": actual_cues,
             "live_navigation_cues": actual_rechecks,
-            "provenance_visible": actual_cues == expected_cues and actual_rechecks >= expected_cues,
+            "disclosure_buttons": compact_contract["disclosure_buttons"],
+            "all_details_collapsed": compact_contract["all_collapsed"],
+            "audit_absent_by_default": compact_contract["audit_absent"],
+            "compact_default_scan": compact_contract["compact_default"],
         }
         if date_key == "10/4":
             start = day_text.find("Golden Gate Bridge south-side overlook")
@@ -96,6 +165,17 @@ with sync_playwright() as playwright:
             ) and positions == sorted(positions)
             report["checks"]["oct6_place_sequence"] = day_contracts[date_key]["separate_places_and_movements_in_order"]
             capture(page, "oct6_day_1440_en_light")
+        if date_key == "10/4":
+            evidence = verify_travel_details(page, "oct4_travel_details_expanded_1440_en_light")
+            report["checks"]["1004_travel_details_evidence"] = (
+                evidence["expanded"]
+                and evidence["owned"]
+                and evidence["focus_preserved"]
+                and evidence["evidence_complete"]
+                and evidence["day_context"]
+                and evidence["collapse_restored"]
+            )
+            day_contracts[date_key]["expanded_evidence"] = evidence
         page.locator(".workbench-scroll").evaluate("e=>e.scrollTop=e.scrollHeight")
         page.wait_for_timeout(100)
         scrolled_to_end = page.locator(".workbench-scroll").evaluate(
@@ -106,7 +186,7 @@ with sync_playwright() as playwright:
         capture(page, f"oct{date_key.split('/')[1]}_day_rows_1440_en_light")
         page.locator(".workbench-scroll").evaluate("e=>e.scrollTop=0")
         date_id = f"10{int(date_key.split('/')[1]):02d}"
-        report["checks"][f"{date_id}_day_provenance"] = day_contracts[date_key]["provenance_visible"]
+        report["checks"][f"{date_id}_compact_default"] = day_contracts[date_key]["compact_default_scan"]
     report["checks"]["rendered_day_contracts"] = day_contracts
     render_day(page, "10/5")
 
@@ -159,18 +239,15 @@ with sync_playwright() as playwright:
     page.locator("#costCockpitClose").click()
     page.wait_for_function("!document.querySelector('#costCockpit').open")
     for date_key in ("10/4", "10/6"):
-        day_text = render_day(page, date_key)
+        render_day(page, date_key)
         travel_rows = [
             item for item in CANONICAL_DATA["timeline"]
             if item.get("date_key") == date_key and item.get("kind") == "travel"
         ]
         expected_cues = len(travel_rows)
-        actual_cues = day_text.count("Static schedule plan:")
-        actual_rechecks = day_text.count("Check live navigation before leaving")
+        compact_contract = compact_travel_contract(page, expected_cues)
         date_id = f"10{int(date_key.split('/')[1]):02d}"
-        report["checks"][f"{date_id}_mobile_day_contract"] = (
-            actual_cues == expected_cues and actual_rechecks >= expected_cues
-        )
+        report["checks"][f"{date_id}_mobile_compact_default"] = compact_contract["compact_default"]
         capture(page, f"oct{date_key.split('/')[1]}_day_390_en_dark_mobile")
         page.locator(".workbench-scroll").evaluate("e=>e.scrollTop=e.scrollHeight")
         page.wait_for_timeout(100)
@@ -224,10 +301,11 @@ required_boolean_checks = (
     "final_day_content",
     "oct4_return_row",
     "oct6_place_sequence",
-    "1004_day_provenance",
-    "1006_day_provenance",
-    "1004_mobile_day_contract",
-    "1006_mobile_day_contract",
+    "1004_travel_details_evidence",
+    "1004_compact_default",
+    "1006_compact_default",
+    "1004_mobile_compact_default",
+    "1006_mobile_compact_default",
     "1004_desktop_rows_scrolled_into_view",
     "1006_desktop_rows_scrolled_into_view",
     "1004_mobile_rows_scrolled_into_view",
