@@ -1,0 +1,415 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "candidate_revision": "8454454c30b8cfb027b61f890a0de597dcd65a95",
+  "performance": {
+    "status": "PAIRED",
+    "comparison_status": "PASS",
+    "environment": {
+      "platform": "macOS-26.6.2-arm64-arm-64bit",
+      "python": "3.11.7",
+      "browser": "Chromium",
+      "browser_version": "151.0.7922.34",
+      "viewport": "1440x900",
+      "headless": true,
+      "sample_count_per_variant": 8,
+      "ordering": [
+        {
+          "sample": 1,
+          "label": "baseline",
+          "order": 0
+        },
+        {
+          "sample": 1,
+          "label": "candidate",
+          "order": 1
+        },
+        {
+          "sample": 2,
+          "label": "candidate",
+          "order": 0
+        },
+        {
+          "sample": 2,
+          "label": "baseline",
+          "order": 1
+        },
+        {
+          "sample": 3,
+          "label": "baseline",
+          "order": 0
+        },
+        {
+          "sample": 3,
+          "label": "candidate",
+          "order": 1
+        },
+        {
+          "sample": 4,
+          "label": "candidate",
+          "order": 0
+        },
+        {
+          "sample": 4,
+          "label": "baseline",
+          "order": 1
+        },
+        {
+          "sample": 5,
+          "label": "baseline",
+          "order": 0
+        },
+        {
+          "sample": 5,
+          "label": "candidate",
+          "order": 1
+        },
+        {
+          "sample": 6,
+          "label": "candidate",
+          "order": 0
+        },
+        {
+          "sample": 6,
+          "label": "baseline",
+          "order": 1
+        },
+        {
+          "sample": 7,
+          "label": "baseline",
+          "order": 0
+        },
+        {
+          "sample": 7,
+          "label": "candidate",
+          "order": 1
+        },
+        {
+          "sample": 8,
+          "label": "candidate",
+          "order": 0
+        },
+        {
+          "sample": 8,
+          "label": "baseline",
+          "order": 1
+        }
+      ],
+      "candidate_url": "http://127.0.0.1:63860/index.html",
+      "baseline_url": "http://127.0.0.1:63865/index.html",
+      "baseline_revision": "7d5d8727b1772642e87311d91d087e211656f6e4",
+      "baseline_tree": "ede888516de0dc9c8554036435ae9f8034aaea4f"
+    },
+    "baseline": {
+      "revision": "7d5d8727b1772642e87311d91d087e211656f6e4",
+      "tree": "ede888516de0dc9c8554036435ae9f8034aaea4f",
+      "samples": [
+        {
+          "label": "baseline",
+          "sample": 1,
+          "order": 0,
+          "dom_content_ms": 25.699,
+          "smart_style_ready_ms": 608.987,
+          "first_actionable_state_ms": 1192.77,
+          "markers": 39,
+          "map_layers": 149
+        },
+        {
+          "label": "baseline",
+          "sample": 2,
+          "order": 1,
+          "dom_content_ms": 37.528,
+          "smart_style_ready_ms": 583.491,
+          "first_actionable_state_ms": 1082.193,
+          "markers": 39,
+          "map_layers": 149
+        },
+        {
+          "label": "baseline",
+          "sample": 3,
+          "order": 0,
+          "dom_content_ms": 37.699,
+          "smart_style_ready_ms": 583.228,
+          "first_actionable_state_ms": 1108.344,
+          "markers": 39,
+          "map_layers": 149
+        },
+        {
+          "label": "baseline",
+          "sample": 4,
+          "order": 1,
+          "dom_content_ms": 37.559,
+          "smart_style_ready_ms": 601.926,
+          "first_actionable_state_ms": 1107.707,
+          "markers": 39,
+          "map_layers": 149
+        },
+        {
+          "label": "baseline",
+          "sample": 5,
+          "order": 0,
+          "dom_content_ms": 38.043,
+          "smart_style_ready_ms": 576.515,
+          "first_actionable_state_ms": 1087.643,
+          "markers": 39,
+          "map_layers": 149
+        },
+        {
+          "label": "baseline",
+          "sample": 6,
+          "order": 1,
+          "dom_content_ms": 39.117,
+          "smart_style_ready_ms": 605.324,
+          "first_actionable_state_ms": 1137.642,
+          "markers": 39,
+          "map_layers": 149
+        },
+        {
+          "label": "baseline",
+          "sample": 7,
+          "order": 0,
+          "dom_content_ms": 36.808,
+          "smart_style_ready_ms": 573.019,
+          "first_actionable_state_ms": 1076.663,
+          "markers": 39,
+          "map_layers": 149
+        },
+        {
+          "label": "baseline",
+          "sample": 8,
+          "order": 1,
+          "dom_content_ms": 37.246,
+          "smart_style_ready_ms": 584.507,
+          "first_actionable_state_ms": 1112.921,
+          "markers": 39,
+          "map_layers": 149
+        }
+      ],
+      "metrics": {
+        "dom_content_ms": {
+          "count": 8,
+          "min_ms": 25.699,
+          "median_ms": 37.543,
+          "max_ms": 39.117,
+          "mean_ms": 36.212,
+          "stdev_ms": 4.301
+        },
+        "smart_style_ready_ms": {
+          "count": 8,
+          "min_ms": 573.019,
+          "median_ms": 583.999,
+          "max_ms": 608.987,
+          "mean_ms": 589.625,
+          "stdev_ms": 13.758
+        },
+        "first_actionable_state_ms": {
+          "count": 8,
+          "min_ms": 1076.663,
+          "median_ms": 1108.026,
+          "max_ms": 1192.77,
+          "mean_ms": 1113.235,
+          "stdev_ms": 37.668
+        }
+      }
+    },
+    "candidate": {
+      "samples": [
+        {
+          "label": "candidate",
+          "sample": 1,
+          "order": 1,
+          "dom_content_ms": 28.219,
+          "smart_style_ready_ms": 563.384,
+          "first_actionable_state_ms": 1018.214,
+          "markers": 39,
+          "map_layers": 93
+        },
+        {
+          "label": "candidate",
+          "sample": 2,
+          "order": 0,
+          "dom_content_ms": 27.137,
+          "smart_style_ready_ms": 564.288,
+          "first_actionable_state_ms": 1045.008,
+          "markers": 39,
+          "map_layers": 93
+        },
+        {
+          "label": "candidate",
+          "sample": 3,
+          "order": 1,
+          "dom_content_ms": 28.285,
+          "smart_style_ready_ms": 584.511,
+          "first_actionable_state_ms": 1057.479,
+          "markers": 39,
+          "map_layers": 93
+        },
+        {
+          "label": "candidate",
+          "sample": 4,
+          "order": 0,
+          "dom_content_ms": 27.588,
+          "smart_style_ready_ms": 577.316,
+          "first_actionable_state_ms": 1025.64,
+          "markers": 39,
+          "map_layers": 93
+        },
+        {
+          "label": "candidate",
+          "sample": 5,
+          "order": 1,
+          "dom_content_ms": 29.342,
+          "smart_style_ready_ms": 574.477,
+          "first_actionable_state_ms": 1031.505,
+          "markers": 39,
+          "map_layers": 93
+        },
+        {
+          "label": "candidate",
+          "sample": 6,
+          "order": 0,
+          "dom_content_ms": 27.571,
+          "smart_style_ready_ms": 576.291,
+          "first_actionable_state_ms": 1025.613,
+          "markers": 39,
+          "map_layers": 93
+        },
+        {
+          "label": "candidate",
+          "sample": 7,
+          "order": 1,
+          "dom_content_ms": 27.995,
+          "smart_style_ready_ms": 563.009,
+          "first_actionable_state_ms": 1020.747,
+          "markers": 39,
+          "map_layers": 93
+        },
+        {
+          "label": "candidate",
+          "sample": 8,
+          "order": 0,
+          "dom_content_ms": 27.233,
+          "smart_style_ready_ms": 584.418,
+          "first_actionable_state_ms": 1055.552,
+          "markers": 39,
+          "map_layers": 93
+        }
+      ],
+      "metrics": {
+        "dom_content_ms": {
+          "count": 8,
+          "min_ms": 27.137,
+          "median_ms": 27.791,
+          "max_ms": 29.342,
+          "mean_ms": 27.921,
+          "stdev_ms": 0.714
+        },
+        "smart_style_ready_ms": {
+          "count": 8,
+          "min_ms": 563.009,
+          "median_ms": 575.384,
+          "max_ms": 584.511,
+          "mean_ms": 573.462,
+          "stdev_ms": 8.952
+        },
+        "first_actionable_state_ms": {
+          "count": 8,
+          "min_ms": 1018.214,
+          "median_ms": 1028.573,
+          "max_ms": 1057.479,
+          "mean_ms": 1034.97,
+          "stdev_ms": 15.587
+        }
+      }
+    },
+    "comparison": {
+      "dom_content_ms": {
+        "mean_ms": -8.291,
+        "median_ms": -9.692,
+        "stdev_ms": 4.462,
+        "slower_count": 1,
+        "material_slower_200ms_count": 0
+      },
+      "smart_style_ready_ms": {
+        "mean_ms": -16.163,
+        "median_ms": -14.607,
+        "stdev_ms": 16.532,
+        "slower_count": 1,
+        "material_slower_200ms_count": 0
+      },
+      "first_actionable_state_ms": {
+        "mean_ms": -78.266,
+        "median_ms": -56.754,
+        "stdev_ms": 45.183,
+        "slower_count": 0,
+        "material_slower_200ms_count": 0
+      }
+    },
+    "deltas": [
+      {
+        "sample": 1,
+        "deltas": {
+          "dom_content_ms": 2.52,
+          "smart_style_ready_ms": -45.603,
+          "first_actionable_state_ms": -174.556
+        }
+      },
+      {
+        "sample": 2,
+        "deltas": {
+          "dom_content_ms": -10.391,
+          "smart_style_ready_ms": -19.203,
+          "first_actionable_state_ms": -37.185
+        }
+      },
+      {
+        "sample": 3,
+        "deltas": {
+          "dom_content_ms": -9.414,
+          "smart_style_ready_ms": 1.283,
+          "first_actionable_state_ms": -50.865
+        }
+      },
+      {
+        "sample": 4,
+        "deltas": {
+          "dom_content_ms": -9.971,
+          "smart_style_ready_ms": -24.61,
+          "first_actionable_state_ms": -82.067
+        }
+      },
+      {
+        "sample": 5,
+        "deltas": {
+          "dom_content_ms": -8.701,
+          "smart_style_ready_ms": -2.038,
+          "first_actionable_state_ms": -56.138
+        }
+      },
+      {
+        "sample": 6,
+        "deltas": {
+          "dom_content_ms": -11.546,
+          "smart_style_ready_ms": -29.033,
+          "first_actionable_state_ms": -112.029
+        }
+      },
+      {
+        "sample": 7,
+        "deltas": {
+          "dom_content_ms": -8.813,
+          "smart_style_ready_ms": -10.01,
+          "first_actionable_state_ms": -55.916
+        }
+      },
+      {
+        "sample": 8,
+        "deltas": {
+          "dom_content_ms": -10.013,
+          "smart_style_ready_ms": -0.089,
+          "first_actionable_state_ms": -57.369
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,3809 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "candidate_head": "8454454c30b8cfb027b61f890a0de597dcd65a95",
+  "test_mode": "browser",
+  "modular": {
+    "initial": {
+      "provider": "vector",
+      "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "untested"
+      },
+      "app_ready": true,
+      "map_visual_ready": true,
+      "planning_state": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "all",
+        "region": "overall",
+        "selected": null,
+        "mode": "decide",
+        "sheet": "expanded",
+        "lang": "ko",
+        "theme": "light"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "startup": {
+        "marks": [
+          {
+            "name": "html_parse_start",
+            "at_ms": 0
+          },
+          {
+            "name": "canonical_data_parsed",
+            "at_ms": 4.9
+          },
+          {
+            "name": "dom_content_loaded",
+            "at_ms": 6.9
+          },
+          {
+            "name": "authored_js_evaluated",
+            "at_ms": 30.4
+          },
+          {
+            "name": "init_start",
+            "at_ms": 30.5
+          },
+          {
+            "name": "decision_shell_ready",
+            "at_ms": 31.6,
+            "dom_nodes": 143
+          },
+          {
+            "name": "map_runtime_scripts_ready",
+            "at_ms": 48.3
+          },
+          {
+            "name": "local_vector_setup_start",
+            "at_ms": 48.4
+          },
+          {
+            "name": "local_pmtiles_header_ready",
+            "at_ms": 51.1,
+            "tile_type": 1,
+            "max_zoom": 14
+          },
+          {
+            "name": "local_vector_setup_ready",
+            "at_ms": 51.1
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 51.2,
+            "request": 1
+          },
+          {
+            "name": "local_map_asset_style_start",
+            "at_ms": 51.3,
+            "labels_only": false
+          },
+          {
+            "name": "local_map_asset_style_ready",
+            "at_ms": 52,
+            "labels_only": false,
+            "layers": 72,
+            "hillshade": true
+          },
+          {
+            "name": "map_created",
+            "at_ms": 60.7
+          },
+          {
+            "name": "init_complete",
+            "at_ms": 60.7
+          },
+          {
+            "name": "map_style_ready",
+            "at_ms": 650.6
+          },
+          {
+            "name": "route_layer_install_start",
+            "at_ms": 650.8
+          },
+          {
+            "name": "route_layer_install_ready",
+            "at_ms": 662.4,
+            "layers": 93
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 662.6
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 662.6,
+            "count": 39
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 664.5,
+            "markers": 39
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 664.5,
+            "markers": 39
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 664.5
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 671.5,
+            "padding": {
+              "top": 102.6875,
+              "right": 16,
+              "bottom": 16,
+              "left": 253.3125
+            }
+          },
+          {
+            "name": "initial_fit_complete",
+            "at_ms": 673.5
+          },
+          {
+            "name": "map_visual_ready",
+            "at_ms": 676.7,
+            "markers": 39,
+            "layers": 93
+          }
+        ]
+      },
+      "runtime": {
+        "provider": "vector",
+        "providerIdentity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+        "providerHealth": {
+          "vector": "ready",
+          "satellite": "untested"
+        },
+        "providerEvents": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          }
+        ],
+        "localAssets": {
+          "status": "ready",
+          "failures": []
+        },
+        "mapStatus": "ready",
+        "mapVisualReady": true,
+        "sequence": 1,
+        "probeSequence": 0,
+        "mapCreations": 1,
+        "mapRemovals": 0,
+        "drawRequests": 1,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          }
+        ],
+        "providerStats": {
+          "vector": {
+            "healthProbes": 0,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 0
+          },
+          "satellite": {
+            "healthProbes": 0,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 0
+          }
+        }
+      },
+      "smart_camera": {
+        "center": [
+          -121.70179082333442,
+          37.3922657142452
+        ],
+        "zoom": 7.050848741282394,
+        "bearing": -0.0,
+        "pitch": 0,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "all",
+          "region": "overall"
+        },
+        "spatial": {
+          "useful": true,
+          "width": 835,
+          "height": 812,
+          "visible_markers": 39,
+          "markers_in_viewport": 39,
+          "route_features": 22,
+          "route_features_in_viewport": 22,
+          "route_points_in_viewport": 5003,
+          "content_occupancy_ratio": 0.2727
+        },
+        "owner": "smart"
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 39,
+        "photo_marker_keys": [
+          "ferry",
+          "ggb",
+          "muir",
+          "battery",
+          "palace",
+          "crissy",
+          "tunnel_tops",
+          "alcatraz",
+          "north_beach",
+          "fortune",
+          "lombard",
+          "pier39",
+          "ghirardelli",
+          "aquatic_park",
+          "cable_car",
+          "point_lobos",
+          "carmel",
+          "carmel_beach",
+          "lone_cypress",
+          "aquarium",
+          "monterey_wharf",
+          "cooks",
+          "el_capitan",
+          "tunnel_view",
+          "valley_view",
+          "washburn",
+          "glacier",
+          "painted",
+          "twin_peaks",
+          "botanical",
+          "lands_end",
+          "chinatown",
+          "tea_garden",
+          "bridalveil",
+          "alamo_square",
+          "cantor_arts",
+          "rodin_garden",
+          "stanford_quad",
+          "baker_beach"
+        ],
+        "clusters": 4,
+        "leg_markers": 0,
+        "layers": 93,
+        "camera": {
+          "center": [
+            -121.70179082333442,
+            37.3922657142452
+          ],
+          "zoom": 7.050848741282394,
+          "bearing": -0.0,
+          "pitch": 0
+        },
+        "spatial": {
+          "useful": true,
+          "width": 835,
+          "height": 812,
+          "visible_markers": 39,
+          "markers_in_viewport": 39,
+          "route_features": 22,
+          "route_features_in_viewport": 22,
+          "route_points_in_viewport": 5003,
+          "content_occupancy_ratio": 0.2727
+        }
+      }
+    },
+    "before_reload": {
+      "provider": "vector",
+      "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "untested"
+      },
+      "app_ready": true,
+      "map_visual_ready": true,
+      "planning_state": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/3",
+        "region": "sf",
+        "selected": "ferry",
+        "mode": "day",
+        "sheet": "expanded",
+        "lang": "en",
+        "theme": "dark"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "startup": {
+        "marks": [
+          {
+            "name": "html_parse_start",
+            "at_ms": 0
+          },
+          {
+            "name": "canonical_data_parsed",
+            "at_ms": 4.9
+          },
+          {
+            "name": "dom_content_loaded",
+            "at_ms": 6.9
+          },
+          {
+            "name": "authored_js_evaluated",
+            "at_ms": 30.4
+          },
+          {
+            "name": "init_start",
+            "at_ms": 30.5
+          },
+          {
+            "name": "decision_shell_ready",
+            "at_ms": 31.6,
+            "dom_nodes": 143
+          },
+          {
+            "name": "map_runtime_scripts_ready",
+            "at_ms": 48.3
+          },
+          {
+            "name": "local_vector_setup_start",
+            "at_ms": 48.4
+          },
+          {
+            "name": "local_pmtiles_header_ready",
+            "at_ms": 51.1,
+            "tile_type": 1,
+            "max_zoom": 14
+          },
+          {
+            "name": "local_vector_setup_ready",
+            "at_ms": 51.1
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 51.2,
+            "request": 1
+          },
+          {
+            "name": "local_map_asset_style_start",
+            "at_ms": 51.3,
+            "labels_only": false
+          },
+          {
+            "name": "local_map_asset_style_ready",
+            "at_ms": 52,
+            "labels_only": false,
+            "layers": 72,
+            "hillshade": true
+          },
+          {
+            "name": "map_created",
+            "at_ms": 60.7
+          },
+          {
+            "name": "init_complete",
+            "at_ms": 60.7
+          },
+          {
+            "name": "map_style_ready",
+            "at_ms": 650.6
+          },
+          {
+            "name": "route_layer_install_start",
+            "at_ms": 650.8
+          },
+          {
+            "name": "route_layer_install_ready",
+            "at_ms": 662.4,
+            "layers": 93
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 662.6
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 662.6,
+            "count": 39
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 664.5,
+            "markers": 39
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 664.5,
+            "markers": 39
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 664.5
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 671.5,
+            "padding": {
+              "top": 102.6875,
+              "right": 16,
+              "bottom": 16,
+              "left": 253.3125
+            }
+          },
+          {
+            "name": "initial_fit_complete",
+            "at_ms": 673.5
+          },
+          {
+            "name": "map_visual_ready",
+            "at_ms": 676.7,
+            "markers": 39,
+            "layers": 93
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 1775,
+            "request": 2
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 1775.4
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 1775.4,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 1775.6,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 1775.6,
+            "markers": 1
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 1775.6
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 1928.6
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 2365.1,
+            "request": 3
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 2365.3
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 2365.3,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 2365.4,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 2365.4,
+            "markers": 1
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 2365.4
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 2368.3
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 2929.8
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 2930,
+            "reason": "sheet:compact",
+            "refit": true
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 2950.3
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 2950.3,
+            "reason": "map-shell-resize",
+            "refit": true
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 3087.4
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 3087.4,
+            "reason": "sheet:expanded",
+            "refit": true
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 3121.3
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 3121.4,
+            "reason": "map-shell-resize",
+            "refit": true
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 3206.2,
+            "request": 4
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 3206.3
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 3206.3,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 3206.5,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 3206.5,
+            "markers": 1
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 3221.3,
+            "padding": {
+              "top": 102.6875,
+              "right": 16,
+              "bottom": 16,
+              "left": 283.953125
+            }
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 3529.5,
+            "request": 5
+          },
+          {
+            "name": "local_map_asset_style_start",
+            "at_ms": 3534.5,
+            "labels_only": false
+          },
+          {
+            "name": "local_map_asset_style_ready",
+            "at_ms": 3534.7,
+            "labels_only": false,
+            "layers": 72,
+            "hillshade": true
+          },
+          {
+            "name": "map_created",
+            "at_ms": 3545.2
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 3734.6,
+            "reason": "viewport",
+            "refit": true
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 3847.3,
+            "reason": "map-shell-resize",
+            "refit": true
+          },
+          {
+            "name": "map_style_ready",
+            "at_ms": 4527.7
+          },
+          {
+            "name": "route_layer_install_start",
+            "at_ms": 4527.7
+          },
+          {
+            "name": "route_layer_install_ready",
+            "at_ms": 4533.1,
+            "layers": 93
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 4533.1
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 4533.1,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 4533.4,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 4533.4,
+            "markers": 1
+          },
+          {
+            "name": "map_visual_ready",
+            "at_ms": 4534,
+            "markers": 1,
+            "layers": 93
+          }
+        ]
+      },
+      "runtime": {
+        "provider": "vector",
+        "providerIdentity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+        "providerHealth": {
+          "vector": "ready",
+          "satellite": "untested"
+        },
+        "providerEvents": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          }
+        ],
+        "localAssets": {
+          "status": "ready",
+          "failures": []
+        },
+        "mapStatus": "ready",
+        "mapVisualReady": true,
+        "sequence": 1,
+        "probeSequence": 0,
+        "mapCreations": 2,
+        "mapRemovals": 1,
+        "drawRequests": 5,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          }
+        ],
+        "providerStats": {
+          "vector": {
+            "healthProbes": 0,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 0
+          },
+          "satellite": {
+            "healthProbes": 0,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 0
+          }
+        }
+      },
+      "smart_camera": {
+        "center": [
+          -122.39343,
+          37.79554
+        ],
+        "zoom": 13.1,
+        "bearing": -0.0,
+        "pitch": 0,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/3",
+          "region": "sf"
+        },
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 1,
+          "markers_in_viewport": 1,
+          "route_features": 0,
+          "route_features_in_viewport": 0,
+          "route_points_in_viewport": 0,
+          "content_occupancy_ratio": 0
+        },
+        "owner": "smart"
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 1,
+        "photo_marker_keys": [
+          "ferry"
+        ],
+        "clusters": 0,
+        "leg_markers": 0,
+        "layers": 93,
+        "camera": {
+          "center": [
+            -122.39343,
+            37.79554
+          ],
+          "zoom": 13.1,
+          "bearing": -0.0,
+          "pitch": 0
+        },
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 1,
+          "markers_in_viewport": 1,
+          "route_features": 0,
+          "route_features_in_viewport": 0,
+          "route_points_in_viewport": 0,
+          "content_occupancy_ratio": 0
+        }
+      }
+    },
+    "after_reload": {
+      "provider": "vector",
+      "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "untested"
+      },
+      "app_ready": true,
+      "map_visual_ready": true,
+      "planning_state": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/3",
+        "region": "sf",
+        "selected": "ferry",
+        "mode": "day",
+        "sheet": "expanded",
+        "lang": "en",
+        "theme": "dark"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "startup": {
+        "marks": [
+          {
+            "name": "html_parse_start",
+            "at_ms": 0.1
+          },
+          {
+            "name": "canonical_data_parsed",
+            "at_ms": 1.4
+          },
+          {
+            "name": "dom_content_loaded",
+            "at_ms": 2.1
+          },
+          {
+            "name": "authored_js_evaluated",
+            "at_ms": 4.9
+          },
+          {
+            "name": "init_start",
+            "at_ms": 4.9
+          },
+          {
+            "name": "decision_shell_ready",
+            "at_ms": 6,
+            "dom_nodes": 373
+          },
+          {
+            "name": "map_runtime_scripts_ready",
+            "at_ms": 40.1
+          },
+          {
+            "name": "local_vector_setup_start",
+            "at_ms": 40.2
+          },
+          {
+            "name": "local_pmtiles_header_ready",
+            "at_ms": 70.7,
+            "tile_type": 1,
+            "max_zoom": 14
+          },
+          {
+            "name": "local_vector_setup_ready",
+            "at_ms": 70.7
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 70.7,
+            "request": 1
+          },
+          {
+            "name": "local_map_asset_style_start",
+            "at_ms": 70.7,
+            "labels_only": false
+          },
+          {
+            "name": "local_map_asset_style_ready",
+            "at_ms": 71,
+            "labels_only": false,
+            "layers": 72,
+            "hillshade": true
+          },
+          {
+            "name": "map_created",
+            "at_ms": 76.6
+          },
+          {
+            "name": "init_complete",
+            "at_ms": 76.6
+          },
+          {
+            "name": "map_style_ready",
+            "at_ms": 750.9
+          },
+          {
+            "name": "route_layer_install_start",
+            "at_ms": 750.9
+          },
+          {
+            "name": "route_layer_install_ready",
+            "at_ms": 757.1,
+            "layers": 93
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 757.1
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 757.2,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 757.7,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 757.7,
+            "markers": 1
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 757.7
+          },
+          {
+            "name": "map_visual_ready",
+            "at_ms": 758.5,
+            "markers": 1,
+            "layers": 93
+          }
+        ]
+      },
+      "runtime": {
+        "provider": "vector",
+        "providerIdentity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+        "providerHealth": {
+          "vector": "ready",
+          "satellite": "untested"
+        },
+        "providerEvents": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          }
+        ],
+        "localAssets": {
+          "status": "ready",
+          "failures": []
+        },
+        "mapStatus": "ready",
+        "mapVisualReady": true,
+        "sequence": 1,
+        "probeSequence": 0,
+        "mapCreations": 1,
+        "mapRemovals": 0,
+        "drawRequests": 1,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          }
+        ],
+        "providerStats": {
+          "vector": {
+            "healthProbes": 0,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 0
+          },
+          "satellite": {
+            "healthProbes": 0,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 0
+          }
+        }
+      },
+      "smart_camera": {
+        "center": [
+          -122.39343,
+          37.79554
+        ],
+        "zoom": 13.1,
+        "bearing": -0.0,
+        "pitch": 0,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/3",
+          "region": "sf"
+        },
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 1,
+          "markers_in_viewport": 1,
+          "route_features": 0,
+          "route_features_in_viewport": 0,
+          "route_points_in_viewport": 0,
+          "content_occupancy_ratio": 0
+        },
+        "owner": "smart"
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 1,
+        "photo_marker_keys": [
+          "ferry"
+        ],
+        "clusters": 0,
+        "leg_markers": 0,
+        "layers": 93,
+        "camera": {
+          "center": [
+            -122.39343,
+            37.79554
+          ],
+          "zoom": 13.1,
+          "bearing": -0.0,
+          "pitch": 0
+        },
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 1,
+          "markers_in_viewport": 1,
+          "route_features": 0,
+          "route_features_in_viewport": 0,
+          "route_points_in_viewport": 0,
+          "content_occupancy_ratio": 0
+        }
+      }
+    },
+    "blocked_provider": {
+      "provider": "vector",
+      "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "failed"
+      },
+      "app_ready": true,
+      "map_visual_ready": true,
+      "planning_state": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/3",
+        "region": "sf",
+        "selected": "ferry",
+        "mode": "day",
+        "sheet": "expanded",
+        "lang": "en",
+        "theme": "dark"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+        },
+        {
+          "seq": 2,
+          "type": "health_probe_failed",
+          "provider": "satellite"
+        },
+        {
+          "seq": 3,
+          "type": "fallback_to_smart",
+          "provider": "satellite",
+          "reason": "probe_failure"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "startup": {
+        "marks": [
+          {
+            "name": "html_parse_start",
+            "at_ms": 0.1
+          },
+          {
+            "name": "canonical_data_parsed",
+            "at_ms": 1.4
+          },
+          {
+            "name": "dom_content_loaded",
+            "at_ms": 2.1
+          },
+          {
+            "name": "authored_js_evaluated",
+            "at_ms": 4.9
+          },
+          {
+            "name": "init_start",
+            "at_ms": 4.9
+          },
+          {
+            "name": "decision_shell_ready",
+            "at_ms": 6,
+            "dom_nodes": 373
+          },
+          {
+            "name": "map_runtime_scripts_ready",
+            "at_ms": 40.1
+          },
+          {
+            "name": "local_vector_setup_start",
+            "at_ms": 40.2
+          },
+          {
+            "name": "local_pmtiles_header_ready",
+            "at_ms": 70.7,
+            "tile_type": 1,
+            "max_zoom": 14
+          },
+          {
+            "name": "local_vector_setup_ready",
+            "at_ms": 70.7
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 70.7,
+            "request": 1
+          },
+          {
+            "name": "local_map_asset_style_start",
+            "at_ms": 70.7,
+            "labels_only": false
+          },
+          {
+            "name": "local_map_asset_style_ready",
+            "at_ms": 71,
+            "labels_only": false,
+            "layers": 72,
+            "hillshade": true
+          },
+          {
+            "name": "map_created",
+            "at_ms": 76.6
+          },
+          {
+            "name": "init_complete",
+            "at_ms": 76.6
+          },
+          {
+            "name": "map_style_ready",
+            "at_ms": 750.9
+          },
+          {
+            "name": "route_layer_install_start",
+            "at_ms": 750.9
+          },
+          {
+            "name": "route_layer_install_ready",
+            "at_ms": 757.1,
+            "layers": 93
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 757.1
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 757.2,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 757.7,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 757.7,
+            "markers": 1
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 757.7
+          },
+          {
+            "name": "map_visual_ready",
+            "at_ms": 758.5,
+            "markers": 1,
+            "layers": 93
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 1470.7,
+            "request": 2
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 1470.9
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 1470.9,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 1471,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 1471,
+            "markers": 1
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 1471.9,
+            "padding": {
+              "top": 87.390625,
+              "right": 16,
+              "bottom": 16,
+              "left": 16
+            }
+          }
+        ]
+      },
+      "runtime": {
+        "provider": "vector",
+        "providerIdentity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+        "providerHealth": {
+          "vector": "ready",
+          "satellite": "failed"
+        },
+        "providerEvents": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          },
+          {
+            "seq": 2,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 3,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure"
+          }
+        ],
+        "localAssets": {
+          "status": "ready",
+          "failures": []
+        },
+        "mapStatus": "ready",
+        "mapVisualReady": true,
+        "sequence": 3,
+        "probeSequence": 1,
+        "mapCreations": 1,
+        "mapRemovals": 0,
+        "drawRequests": 2,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          },
+          {
+            "seq": 2,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 3,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure"
+          }
+        ],
+        "providerStats": {
+          "vector": {
+            "healthProbes": 0,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 0
+          },
+          "satellite": {
+            "healthProbes": 1,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 1
+          }
+        }
+      },
+      "smart_camera": {
+        "center": [
+          -122.39343,
+          37.79554
+        ],
+        "zoom": 13.1,
+        "bearing": -0.0,
+        "pitch": 0,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/3",
+          "region": "sf"
+        },
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 1,
+          "markers_in_viewport": 1,
+          "route_features": 0,
+          "route_features_in_viewport": 0,
+          "route_points_in_viewport": 0,
+          "content_occupancy_ratio": 0
+        },
+        "owner": "smart"
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 1,
+        "photo_marker_keys": [
+          "ferry"
+        ],
+        "clusters": 0,
+        "leg_markers": 0,
+        "layers": 93,
+        "camera": {
+          "center": [
+            -122.39343,
+            37.79554
+          ],
+          "zoom": 13.1,
+          "bearing": -0.0,
+          "pitch": 0
+        },
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 1,
+          "markers_in_viewport": 1,
+          "route_features": 0,
+          "route_features_in_viewport": 0,
+          "route_points_in_viewport": 0,
+          "content_occupancy_ratio": 0
+        }
+      }
+    },
+    "repeated_switches": {
+      "provider": "vector",
+      "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "failed"
+      },
+      "app_ready": true,
+      "map_visual_ready": true,
+      "planning_state": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/3",
+        "region": "sf",
+        "selected": "ferry",
+        "mode": "day",
+        "sheet": "expanded",
+        "lang": "en",
+        "theme": "dark"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+        },
+        {
+          "seq": 2,
+          "type": "health_probe_failed",
+          "provider": "satellite"
+        },
+        {
+          "seq": 3,
+          "type": "fallback_to_smart",
+          "provider": "satellite",
+          "reason": "probe_failure"
+        },
+        {
+          "seq": 4,
+          "type": "health_probe_failed",
+          "provider": "satellite"
+        },
+        {
+          "seq": 5,
+          "type": "fallback_to_smart",
+          "provider": "satellite",
+          "reason": "probe_failure"
+        },
+        {
+          "seq": 6,
+          "type": "health_probe_failed",
+          "provider": "satellite"
+        },
+        {
+          "seq": 7,
+          "type": "fallback_to_smart",
+          "provider": "satellite",
+          "reason": "probe_failure"
+        },
+        {
+          "seq": 8,
+          "type": "health_probe_failed",
+          "provider": "satellite"
+        },
+        {
+          "seq": 9,
+          "type": "fallback_to_smart",
+          "provider": "satellite",
+          "reason": "probe_failure"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "startup": {
+        "marks": [
+          {
+            "name": "html_parse_start",
+            "at_ms": 0.1
+          },
+          {
+            "name": "canonical_data_parsed",
+            "at_ms": 1.4
+          },
+          {
+            "name": "dom_content_loaded",
+            "at_ms": 2.1
+          },
+          {
+            "name": "authored_js_evaluated",
+            "at_ms": 4.9
+          },
+          {
+            "name": "init_start",
+            "at_ms": 4.9
+          },
+          {
+            "name": "decision_shell_ready",
+            "at_ms": 6,
+            "dom_nodes": 373
+          },
+          {
+            "name": "map_runtime_scripts_ready",
+            "at_ms": 40.1
+          },
+          {
+            "name": "local_vector_setup_start",
+            "at_ms": 40.2
+          },
+          {
+            "name": "local_pmtiles_header_ready",
+            "at_ms": 70.7,
+            "tile_type": 1,
+            "max_zoom": 14
+          },
+          {
+            "name": "local_vector_setup_ready",
+            "at_ms": 70.7
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 70.7,
+            "request": 1
+          },
+          {
+            "name": "local_map_asset_style_start",
+            "at_ms": 70.7,
+            "labels_only": false
+          },
+          {
+            "name": "local_map_asset_style_ready",
+            "at_ms": 71,
+            "labels_only": false,
+            "layers": 72,
+            "hillshade": true
+          },
+          {
+            "name": "map_created",
+            "at_ms": 76.6
+          },
+          {
+            "name": "init_complete",
+            "at_ms": 76.6
+          },
+          {
+            "name": "map_style_ready",
+            "at_ms": 750.9
+          },
+          {
+            "name": "route_layer_install_start",
+            "at_ms": 750.9
+          },
+          {
+            "name": "route_layer_install_ready",
+            "at_ms": 757.1,
+            "layers": 93
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 757.1
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 757.2,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 757.7,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 757.7,
+            "markers": 1
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 757.7
+          },
+          {
+            "name": "map_visual_ready",
+            "at_ms": 758.5,
+            "markers": 1,
+            "layers": 93
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 1470.7,
+            "request": 2
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 1470.9
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 1470.9,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 1471,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 1471,
+            "markers": 1
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 1471.9,
+            "padding": {
+              "top": 87.390625,
+              "right": 16,
+              "bottom": 16,
+              "left": 16
+            }
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 1487.4,
+            "request": 3
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 1487.5
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 1487.5,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 1487.6,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 1487.6,
+            "markers": 1
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 1488.2,
+            "padding": {
+              "top": 87.390625,
+              "right": 16,
+              "bottom": 16,
+              "left": 16
+            }
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 1511,
+            "request": 4
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 1511.1
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 1511.1,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 1511.2,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 1511.2,
+            "markers": 1
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 1511.6,
+            "padding": {
+              "top": 87.390625,
+              "right": 16,
+              "bottom": 16,
+              "left": 16
+            }
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 1563.9,
+            "request": 5
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 1564
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 1564,
+            "count": 1
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 1564.2,
+            "markers": 1
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 1564.2,
+            "markers": 1
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 1564.8,
+            "padding": {
+              "top": 87.390625,
+              "right": 16,
+              "bottom": 16,
+              "left": 16
+            }
+          }
+        ]
+      },
+      "runtime": {
+        "provider": "vector",
+        "providerIdentity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+        "providerHealth": {
+          "vector": "ready",
+          "satellite": "failed"
+        },
+        "providerEvents": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          },
+          {
+            "seq": 2,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 3,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure"
+          },
+          {
+            "seq": 4,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 5,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure"
+          },
+          {
+            "seq": 6,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 7,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure"
+          },
+          {
+            "seq": 8,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 9,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure"
+          }
+        ],
+        "localAssets": {
+          "status": "ready",
+          "failures": []
+        },
+        "mapStatus": "ready",
+        "mapVisualReady": true,
+        "sequence": 9,
+        "probeSequence": 4,
+        "mapCreations": 1,
+        "mapRemovals": 0,
+        "drawRequests": 5,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          },
+          {
+            "seq": 2,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 3,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure"
+          },
+          {
+            "seq": 4,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 5,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure"
+          },
+          {
+            "seq": 6,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 7,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure"
+          },
+          {
+            "seq": 8,
+            "type": "health_probe_failed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 9,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "probe_failure"
+          }
+        ],
+        "providerStats": {
+          "vector": {
+            "healthProbes": 0,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 0
+          },
+          "satellite": {
+            "healthProbes": 4,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 4
+          }
+        }
+      },
+      "smart_camera": {
+        "center": [
+          -122.39343,
+          37.79554
+        ],
+        "zoom": 13.1,
+        "bearing": -0.0,
+        "pitch": 0,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/3",
+          "region": "sf"
+        },
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 1,
+          "markers_in_viewport": 1,
+          "route_features": 0,
+          "route_features_in_viewport": 0,
+          "route_points_in_viewport": 0,
+          "content_occupancy_ratio": 0
+        },
+        "owner": "smart"
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 1,
+        "photo_marker_keys": [
+          "ferry"
+        ],
+        "clusters": 0,
+        "leg_markers": 0,
+        "layers": 93,
+        "camera": {
+          "center": [
+            -122.39343,
+            37.79554
+          ],
+          "zoom": 13.1,
+          "bearing": -0.0,
+          "pitch": 0
+        },
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 1,
+          "markers_in_viewport": 1,
+          "route_features": 0,
+          "route_features_in_viewport": 0,
+          "route_points_in_viewport": 0,
+          "content_occupancy_ratio": 0
+        }
+      }
+    },
+    "smart_first_use_remote_requests": [],
+    "optional_provider_requests": [
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=2",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=3",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=4"
+    ],
+    "remote_requests": [
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=1",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=2",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=3",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655?health=4"
+    ],
+    "page_errors": [],
+    "critical_pass": true,
+    "failures": []
+  },
+  "standalone": {
+    "snapshot": {
+      "provider": "vector",
+      "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "untested"
+      },
+      "app_ready": true,
+      "map_visual_ready": true,
+      "planning_state": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "all",
+        "region": "overall",
+        "selected": "ferry",
+        "mode": "decide",
+        "sheet": "expanded",
+        "lang": "ko",
+        "theme": "light"
+      },
+      "provider_events": [
+        {
+          "seq": 1,
+          "type": "smart_ready",
+          "provider": "vector",
+          "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+        }
+      ],
+      "local_assets": {
+        "status": "ready",
+        "failures": []
+      },
+      "startup": {
+        "marks": [
+          {
+            "name": "html_parse_start",
+            "at_ms": 0
+          },
+          {
+            "name": "canonical_data_parsed",
+            "at_ms": 4.7
+          },
+          {
+            "name": "authored_js_evaluated",
+            "at_ms": 4927.5
+          },
+          {
+            "name": "dom_content_loaded",
+            "at_ms": 4927.7
+          },
+          {
+            "name": "init_start",
+            "at_ms": 4927.8
+          },
+          {
+            "name": "decision_shell_ready",
+            "at_ms": 4929.3,
+            "dom_nodes": 152
+          },
+          {
+            "name": "local_vector_setup_start",
+            "at_ms": 4929.3
+          },
+          {
+            "name": "local_pmtiles_header_ready",
+            "at_ms": 5397.9,
+            "tile_type": 1,
+            "max_zoom": 14
+          },
+          {
+            "name": "local_vector_setup_ready",
+            "at_ms": 5398
+          },
+          {
+            "name": "map_draw_requested",
+            "at_ms": 5398,
+            "request": 1
+          },
+          {
+            "name": "local_map_asset_style_start",
+            "at_ms": 5398.2,
+            "labels_only": false
+          },
+          {
+            "name": "local_map_asset_style_ready",
+            "at_ms": 5398.9,
+            "labels_only": false,
+            "layers": 72,
+            "hillshade": true
+          },
+          {
+            "name": "map_created",
+            "at_ms": 5408
+          },
+          {
+            "name": "init_complete",
+            "at_ms": 5408
+          },
+          {
+            "name": "map_style_ready",
+            "at_ms": 5612.6
+          },
+          {
+            "name": "route_layer_install_start",
+            "at_ms": 5612.7
+          },
+          {
+            "name": "route_layer_install_ready",
+            "at_ms": 5620.6,
+            "layers": 93
+          },
+          {
+            "name": "photo_preparation_start",
+            "at_ms": 5620.7
+          },
+          {
+            "name": "marker_install_start",
+            "at_ms": 5620.8,
+            "count": 39
+          },
+          {
+            "name": "photo_preparation_ready",
+            "at_ms": 5623.5,
+            "markers": 39
+          },
+          {
+            "name": "marker_install_ready",
+            "at_ms": 5623.5,
+            "markers": 39
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 5623.6
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 5633.1,
+            "padding": {
+              "top": 102.6875,
+              "right": 16,
+              "bottom": 16,
+              "left": 253.3125
+            }
+          },
+          {
+            "name": "initial_fit_complete",
+            "at_ms": 5634.9
+          },
+          {
+            "name": "map_visual_ready",
+            "at_ms": 5637.4,
+            "markers": 39,
+            "layers": 93
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 9050.6
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 9051.4,
+            "padding": {
+              "top": 87.390625,
+              "right": 16,
+              "bottom": 16,
+              "left": 16
+            }
+          },
+          {
+            "name": "initial_fit_complete",
+            "at_ms": 9053.2
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 9053.2,
+            "reason": "viewport",
+            "refit": true
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 9237.9
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 9239.2,
+            "padding": {
+              "top": 87.390625,
+              "right": 16,
+              "bottom": 16,
+              "left": 16
+            }
+          },
+          {
+            "name": "initial_fit_complete",
+            "at_ms": 9241.1
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 9241.1,
+            "reason": "map-shell-resize",
+            "refit": true
+          }
+        ]
+      },
+      "runtime": {
+        "provider": "vector",
+        "providerIdentity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+        "providerHealth": {
+          "vector": "ready",
+          "satellite": "untested"
+        },
+        "providerEvents": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          }
+        ],
+        "localAssets": {
+          "status": "ready",
+          "failures": []
+        },
+        "mapStatus": "ready",
+        "mapVisualReady": true,
+        "sequence": 1,
+        "probeSequence": 0,
+        "mapCreations": 1,
+        "mapRemovals": 0,
+        "drawRequests": 1,
+        "providerSwitches": 0,
+        "events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          }
+        ],
+        "providerStats": {
+          "vector": {
+            "healthProbes": 0,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 0
+          },
+          "satellite": {
+            "healthProbes": 0,
+            "viewportProbes": 0,
+            "tileErrors": 0,
+            "fallbacks": 0
+          }
+        }
+      },
+      "smart_camera": {
+        "center": [
+          -121.0725655,
+          37.4472675744457
+        ],
+        "zoom": 6.390803036678792,
+        "bearing": -0.0,
+        "pitch": 0,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "all",
+          "region": "overall"
+        },
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 39,
+          "markers_in_viewport": 39,
+          "route_features": 22,
+          "route_features_in_viewport": 22,
+          "route_points_in_viewport": 5003,
+          "content_occupancy_ratio": 0.4277
+        },
+        "owner": "smart"
+      },
+      "map": {
+        "canvas_count": 1,
+        "photo_markers": 39,
+        "photo_marker_keys": [
+          "ferry",
+          "ggb",
+          "muir",
+          "battery",
+          "palace",
+          "crissy",
+          "tunnel_tops",
+          "alcatraz",
+          "north_beach",
+          "fortune",
+          "lombard",
+          "pier39",
+          "ghirardelli",
+          "aquatic_park",
+          "cable_car",
+          "point_lobos",
+          "carmel",
+          "carmel_beach",
+          "lone_cypress",
+          "aquarium",
+          "monterey_wharf",
+          "cooks",
+          "el_capitan",
+          "tunnel_view",
+          "valley_view",
+          "washburn",
+          "glacier",
+          "painted",
+          "twin_peaks",
+          "botanical",
+          "lands_end",
+          "chinatown",
+          "tea_garden",
+          "bridalveil",
+          "alamo_square",
+          "cantor_arts",
+          "rodin_garden",
+          "stanford_quad",
+          "baker_beach"
+        ],
+        "clusters": 4,
+        "leg_markers": 0,
+        "layers": 93,
+        "camera": {
+          "center": [
+            -121.0725655,
+            37.4472675744457
+          ],
+          "zoom": 6.390803036678792,
+          "bearing": -0.0,
+          "pitch": 0
+        },
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 39,
+          "markers_in_viewport": 39,
+          "route_features": 22,
+          "route_features_in_viewport": 22,
+          "route_points_in_viewport": 5003,
+          "content_occupancy_ratio": 0.4277
+        }
+      }
+    },
+    "remote_requests": [],
+    "page_errors": [],
+    "critical_pass": true
+  },
+  "negative_checks": [
+    {
+      "case": "missing_pmtiles",
+      "visible_failure": true,
+      "provider": "vector",
+      "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "remote_requests": [],
+      "pass": true
+    },
+    {
+      "case": "corrupt_pmtiles",
+      "visible_failure": true,
+      "provider": "vector",
+      "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "remote_requests": [],
+      "pass": true
+    },
+    {
+      "case": "missing_required_photo",
+      "visible_failure": true,
+      "provider": "vector",
+      "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "remote_requests": [],
+      "pass": true
+    },
+    {
+      "case": "missing_terrain",
+      "visible_failure": true,
+      "provider": "vector",
+      "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "remote_requests": [],
+      "pass": true
+    }
+  ],
+  "deterministic_provider": {
+    "status": "PASS",
+    "mode": "deterministic_fulfilled_then_failed_remote_raster",
+    "activation": {
+      "result": true,
+      "provider": "satellite",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "ready"
+      },
+      "success_requests": 31,
+      "raster_success_requests": 9,
+      "snapshot": {
+        "provider": "satellite",
+        "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+        "provider_health": {
+          "vector": "ready",
+          "satellite": "ready"
+        },
+        "app_ready": true,
+        "map_visual_ready": true,
+        "planning_state": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/4",
+          "region": "sf",
+          "selected": null,
+          "mode": "day",
+          "sheet": "full",
+          "lang": "en",
+          "theme": "dark"
+        },
+        "provider_events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          },
+          {
+            "seq": 2,
+            "type": "health_probe_passed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 3,
+            "type": "provider_switch",
+            "provider": "satellite",
+            "from": "vector"
+          }
+        ],
+        "local_assets": {
+          "status": "ready",
+          "failures": []
+        },
+        "startup": {
+          "marks": [
+            {
+              "name": "html_parse_start",
+              "at_ms": 0.1
+            },
+            {
+              "name": "canonical_data_parsed",
+              "at_ms": 40.2
+            },
+            {
+              "name": "dom_content_loaded",
+              "at_ms": 42.6
+            },
+            {
+              "name": "authored_js_evaluated",
+              "at_ms": 57.8
+            },
+            {
+              "name": "init_start",
+              "at_ms": 57.8
+            },
+            {
+              "name": "decision_shell_ready",
+              "at_ms": 59.4,
+              "dom_nodes": 143
+            },
+            {
+              "name": "map_runtime_scripts_ready",
+              "at_ms": 77.1
+            },
+            {
+              "name": "local_vector_setup_start",
+              "at_ms": 77.3
+            },
+            {
+              "name": "local_pmtiles_header_ready",
+              "at_ms": 80.3,
+              "tile_type": 1,
+              "max_zoom": 14
+            },
+            {
+              "name": "local_vector_setup_ready",
+              "at_ms": 80.3
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 80.4,
+              "request": 1
+            },
+            {
+              "name": "local_map_asset_style_start",
+              "at_ms": 80.5,
+              "labels_only": false
+            },
+            {
+              "name": "local_map_asset_style_ready",
+              "at_ms": 81.3,
+              "labels_only": false,
+              "layers": 72,
+              "hillshade": true
+            },
+            {
+              "name": "map_created",
+              "at_ms": 91.7
+            },
+            {
+              "name": "init_complete",
+              "at_ms": 91.7
+            },
+            {
+              "name": "map_style_ready",
+              "at_ms": 670
+            },
+            {
+              "name": "route_layer_install_start",
+              "at_ms": 670
+            },
+            {
+              "name": "route_layer_install_ready",
+              "at_ms": 682.5,
+              "layers": 93
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 682.7
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 682.7,
+              "count": 39
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 684.7,
+              "markers": 39
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 684.7,
+              "markers": 39
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 684.7
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 694.6,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 253.3125
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 696.5
+            },
+            {
+              "name": "map_visual_ready",
+              "at_ms": 700,
+              "markers": 39,
+              "layers": 93
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 1726.5,
+              "request": 2
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 1727
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 1727,
+              "count": 7
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 1727.3,
+              "markers": 7
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 1727.3,
+              "markers": 7
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 1727.3
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 1731.8,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 253.3125
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 1733.3
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 1890.5
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 1890.8,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 350
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 1892.2
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 2138.7,
+              "request": 3
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 2139
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 2139,
+              "count": 7
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 2139.4,
+              "markers": 7
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 2139.4,
+              "markers": 7
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 2139.4
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 2141.1,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 291.578125
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 2142.4
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 2145.3
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 2145.6,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 291.578125
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 2147.8
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 2307.1
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 2307.7,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 291.578125
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 2308.6
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 2308.6,
+              "reason": "sheet:full",
+              "refit": true
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 2463.4,
+              "request": 4
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 2463.7
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 2463.7,
+              "count": 7
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 2464,
+              "markers": 7
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 2464,
+              "markers": 7
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 2501.6,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 283.953125
+              }
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 2621.2,
+              "request": 5
+            },
+            {
+              "name": "local_map_asset_style_start",
+              "at_ms": 2625.8,
+              "labels_only": false
+            },
+            {
+              "name": "local_map_asset_style_ready",
+              "at_ms": 2625.9,
+              "labels_only": false,
+              "layers": 72,
+              "hillshade": true
+            },
+            {
+              "name": "map_created",
+              "at_ms": 2636
+            },
+            {
+              "name": "map_style_ready",
+              "at_ms": 3318.5
+            },
+            {
+              "name": "route_layer_install_start",
+              "at_ms": 3318.5
+            },
+            {
+              "name": "route_layer_install_ready",
+              "at_ms": 3324.2,
+              "layers": 93
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 3324.2
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 3324.2,
+              "count": 7
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 3324.5,
+              "markers": 7
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 3324.5,
+              "markers": 7
+            },
+            {
+              "name": "map_visual_ready",
+              "at_ms": 3326.1,
+              "markers": 7,
+              "layers": 93
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 3699.1,
+              "request": 6
+            },
+            {
+              "name": "local_map_asset_style_start",
+              "at_ms": 3703.2,
+              "labels_only": true
+            },
+            {
+              "name": "local_map_asset_style_ready",
+              "at_ms": 3703.3,
+              "labels_only": true,
+              "layers": 14,
+              "hillshade": false
+            },
+            {
+              "name": "map_created",
+              "at_ms": 3707.6
+            },
+            {
+              "name": "map_style_ready",
+              "at_ms": 3878.3
+            },
+            {
+              "name": "route_layer_install_start",
+              "at_ms": 3878.3
+            },
+            {
+              "name": "route_layer_install_ready",
+              "at_ms": 3883.4,
+              "layers": 36
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 3883.4
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 3883.5,
+              "count": 7
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 3883.8,
+              "markers": 7
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 3883.8,
+              "markers": 7
+            },
+            {
+              "name": "map_visual_ready",
+              "at_ms": 3884.2,
+              "markers": 7,
+              "layers": 36
+            }
+          ]
+        },
+        "runtime": {
+          "provider": "satellite",
+          "providerIdentity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+          "providerHealth": {
+            "vector": "ready",
+            "satellite": "ready"
+          },
+          "providerEvents": [
+            {
+              "seq": 1,
+              "type": "smart_ready",
+              "provider": "vector",
+              "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+            },
+            {
+              "seq": 2,
+              "type": "health_probe_passed",
+              "provider": "satellite"
+            },
+            {
+              "seq": 3,
+              "type": "provider_switch",
+              "provider": "satellite",
+              "from": "vector"
+            }
+          ],
+          "localAssets": {
+            "status": "ready",
+            "failures": []
+          },
+          "mapStatus": "ready",
+          "mapVisualReady": true,
+          "sequence": 3,
+          "probeSequence": 2,
+          "mapCreations": 3,
+          "mapRemovals": 2,
+          "drawRequests": 6,
+          "providerSwitches": 1,
+          "events": [
+            {
+              "seq": 1,
+              "type": "smart_ready",
+              "provider": "vector",
+              "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+            },
+            {
+              "seq": 2,
+              "type": "health_probe_passed",
+              "provider": "satellite"
+            },
+            {
+              "seq": 3,
+              "type": "provider_switch",
+              "provider": "satellite",
+              "from": "vector"
+            }
+          ],
+          "providerStats": {
+            "vector": {
+              "healthProbes": 0,
+              "viewportProbes": 0,
+              "tileErrors": 0,
+              "fallbacks": 0
+            },
+            "satellite": {
+              "healthProbes": 1,
+              "viewportProbes": 1,
+              "tileErrors": 0,
+              "fallbacks": 0
+            }
+          }
+        },
+        "smart_camera": {
+          "center": [
+            -122.54633682572126,
+            37.83100908880232
+          ],
+          "zoom": 11.326340532094237,
+          "bearing": -0.0,
+          "pitch": 0,
+          "task": {
+            "routes": [
+              "A"
+            ],
+            "primary_route": "A",
+            "date": "10/4",
+            "region": "sf"
+          },
+          "spatial": {
+            "useful": true,
+            "width": 835,
+            "height": 812,
+            "visible_markers": 7,
+            "markers_in_viewport": 7,
+            "route_features": 5,
+            "route_features_in_viewport": 5,
+            "route_points_in_viewport": 2573,
+            "content_occupancy_ratio": 0.4769
+          },
+          "owner": "smart"
+        },
+        "map": {
+          "canvas_count": 1,
+          "photo_markers": 7,
+          "photo_marker_keys": [
+            "ggb",
+            "muir",
+            "battery",
+            "palace",
+            "crissy",
+            "tunnel_tops",
+            "twin_peaks"
+          ],
+          "clusters": 1,
+          "leg_markers": 0,
+          "layers": 36,
+          "camera": {
+            "center": [
+              -122.54633682572126,
+              37.83100908880232
+            ],
+            "zoom": 11.326340532094237,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "spatial": {
+            "useful": true,
+            "width": 835,
+            "height": 812,
+            "visible_markers": 7,
+            "markers_in_viewport": 7,
+            "route_features": 5,
+            "route_features_in_viewport": 5,
+            "route_points_in_viewport": 2573,
+            "content_occupancy_ratio": 0.4769
+          }
+        }
+      }
+    },
+    "recovery": {
+      "provider": "vector",
+      "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "provider_health": {
+        "vector": "ready",
+        "satellite": "failed"
+      },
+      "satellite_stats": {
+        "healthProbes": 1,
+        "viewportProbes": 1,
+        "tileErrors": 1,
+        "fallbacks": 1
+      },
+      "tile_error_events": [
+        {
+          "seq": 4,
+          "type": "tile_error",
+          "provider": "satellite",
+          "source_id": "base",
+          "message": "Failed to fetch"
+        }
+      ],
+      "fallback_events": [
+        {
+          "seq": 5,
+          "type": "fallback_to_smart",
+          "provider": "satellite",
+          "reason": "tile_error",
+          "source_id": "base",
+          "message": "Failed to fetch"
+        }
+      ],
+      "activation_state_preserved": true,
+      "planning_state_preserved": true,
+      "feedback_visible": true,
+      "feedback_truthful": true,
+      "feedback_dismissible": true,
+      "map_visual_ready": true,
+      "spatial_recovery": {
+        "pre_satellite_smart_camera": {
+          "center": [
+            -122.54633682572126,
+            37.83100908880232
+          ],
+          "zoom": 11.326340532094237,
+          "bearing": -0.0,
+          "pitch": 0,
+          "task": {
+            "routes": [
+              "A"
+            ],
+            "primary_route": "A",
+            "date": "10/4",
+            "region": "sf"
+          },
+          "spatial": {
+            "useful": true,
+            "width": 835,
+            "height": 812,
+            "visible_markers": 7,
+            "markers_in_viewport": 7,
+            "route_features": 5,
+            "route_features_in_viewport": 5,
+            "route_points_in_viewport": 2573,
+            "content_occupancy_ratio": 0.4769
+          },
+          "owner": "smart"
+        },
+        "recovered_smart_camera": {
+          "center": [
+            -122.54633682572126,
+            37.83100908880232
+          ],
+          "zoom": 11.326340532094237,
+          "bearing": -0.0,
+          "pitch": 0,
+          "task": {
+            "routes": [
+              "A"
+            ],
+            "primary_route": "A",
+            "date": "10/4",
+            "region": "sf"
+          },
+          "spatial": {
+            "useful": true,
+            "width": 835,
+            "height": 812,
+            "visible_markers": 7,
+            "markers_in_viewport": 7,
+            "route_features": 5,
+            "route_features_in_viewport": 5,
+            "route_points_in_viewport": 2573,
+            "content_occupancy_ratio": 0.4769
+          },
+          "owner": "smart"
+        },
+        "recovered_map_camera": {
+          "center": [
+            -122.54633682572126,
+            37.83100908880232
+          ],
+          "zoom": 11.326340532094237,
+          "bearing": -0.0,
+          "pitch": 0
+        },
+        "camera_restored": true,
+        "inherited_satellite_camera_negative_control": {
+          "useful": false,
+          "width": 835,
+          "height": 812,
+          "visible_markers": 7,
+          "markers_in_viewport": 0,
+          "route_features": 5,
+          "route_features_in_viewport": 0,
+          "route_points_in_viewport": 0,
+          "content_occupancy_ratio": 0
+        },
+        "inherited_camera_was_spatially_empty": true,
+        "recovered_spatial": {
+          "useful": true,
+          "width": 835,
+          "height": 812,
+          "visible_markers": 7,
+          "markers_in_viewport": 7,
+          "route_features": 5,
+          "route_features_in_viewport": 5,
+          "route_points_in_viewport": 2573,
+          "content_occupancy_ratio": 0.4769
+        },
+        "recovered_useful": true,
+        "recovered_markers_in_viewport": 7,
+        "recovered_routes_in_viewport": 5,
+        "recovered_content_occupancy_ratio": 0.4769
+      },
+      "snapshot": {
+        "provider": "vector",
+        "provider_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+        "provider_health": {
+          "vector": "ready",
+          "satellite": "failed"
+        },
+        "app_ready": true,
+        "map_visual_ready": true,
+        "planning_state": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/4",
+          "region": "sf",
+          "selected": null,
+          "mode": "day",
+          "sheet": "full",
+          "lang": "en",
+          "theme": "dark"
+        },
+        "provider_events": [
+          {
+            "seq": 1,
+            "type": "smart_ready",
+            "provider": "vector",
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+          },
+          {
+            "seq": 2,
+            "type": "health_probe_passed",
+            "provider": "satellite"
+          },
+          {
+            "seq": 3,
+            "type": "provider_switch",
+            "provider": "satellite",
+            "from": "vector"
+          },
+          {
+            "seq": 4,
+            "type": "tile_error",
+            "provider": "satellite",
+            "source_id": "base",
+            "message": "Failed to fetch"
+          },
+          {
+            "seq": 5,
+            "type": "fallback_to_smart",
+            "provider": "satellite",
+            "reason": "tile_error",
+            "source_id": "base",
+            "message": "Failed to fetch"
+          }
+        ],
+        "local_assets": {
+          "status": "ready",
+          "failures": []
+        },
+        "startup": {
+          "marks": [
+            {
+              "name": "html_parse_start",
+              "at_ms": 0.1
+            },
+            {
+              "name": "canonical_data_parsed",
+              "at_ms": 40.2
+            },
+            {
+              "name": "dom_content_loaded",
+              "at_ms": 42.6
+            },
+            {
+              "name": "authored_js_evaluated",
+              "at_ms": 57.8
+            },
+            {
+              "name": "init_start",
+              "at_ms": 57.8
+            },
+            {
+              "name": "decision_shell_ready",
+              "at_ms": 59.4,
+              "dom_nodes": 143
+            },
+            {
+              "name": "map_runtime_scripts_ready",
+              "at_ms": 77.1
+            },
+            {
+              "name": "local_vector_setup_start",
+              "at_ms": 77.3
+            },
+            {
+              "name": "local_pmtiles_header_ready",
+              "at_ms": 80.3,
+              "tile_type": 1,
+              "max_zoom": 14
+            },
+            {
+              "name": "local_vector_setup_ready",
+              "at_ms": 80.3
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 80.4,
+              "request": 1
+            },
+            {
+              "name": "local_map_asset_style_start",
+              "at_ms": 80.5,
+              "labels_only": false
+            },
+            {
+              "name": "local_map_asset_style_ready",
+              "at_ms": 81.3,
+              "labels_only": false,
+              "layers": 72,
+              "hillshade": true
+            },
+            {
+              "name": "map_created",
+              "at_ms": 91.7
+            },
+            {
+              "name": "init_complete",
+              "at_ms": 91.7
+            },
+            {
+              "name": "map_style_ready",
+              "at_ms": 670
+            },
+            {
+              "name": "route_layer_install_start",
+              "at_ms": 670
+            },
+            {
+              "name": "route_layer_install_ready",
+              "at_ms": 682.5,
+              "layers": 93
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 682.7
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 682.7,
+              "count": 39
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 684.7,
+              "markers": 39
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 684.7,
+              "markers": 39
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 684.7
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 694.6,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 253.3125
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 696.5
+            },
+            {
+              "name": "map_visual_ready",
+              "at_ms": 700,
+              "markers": 39,
+              "layers": 93
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 1726.5,
+              "request": 2
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 1727
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 1727,
+              "count": 7
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 1727.3,
+              "markers": 7
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 1727.3,
+              "markers": 7
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 1727.3
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 1731.8,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 253.3125
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 1733.3
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 1890.5
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 1890.8,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 350
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 1892.2
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 2138.7,
+              "request": 3
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 2139
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 2139,
+              "count": 7
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 2139.4,
+              "markers": 7
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 2139.4,
+              "markers": 7
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 2139.4
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 2141.1,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 291.578125
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 2142.4
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 2145.3
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 2145.6,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 291.578125
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 2147.8
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 2307.1
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 2307.7,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 291.578125
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 2308.6
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 2308.6,
+              "reason": "sheet:full",
+              "refit": true
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 2463.4,
+              "request": 4
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 2463.7
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 2463.7,
+              "count": 7
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 2464,
+              "markers": 7
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 2464,
+              "markers": 7
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 2501.6,
+              "padding": {
+                "top": 102.6875,
+                "right": 16,
+                "bottom": 16,
+                "left": 283.953125
+              }
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 2621.2,
+              "request": 5
+            },
+            {
+              "name": "local_map_asset_style_start",
+              "at_ms": 2625.8,
+              "labels_only": false
+            },
+            {
+              "name": "local_map_asset_style_ready",
+              "at_ms": 2625.9,
+              "labels_only": false,
+              "layers": 72,
+              "hillshade": true
+            },
+            {
+              "name": "map_created",
+              "at_ms": 2636
+            },
+            {
+              "name": "map_style_ready",
+              "at_ms": 3318.5
+            },
+            {
+              "name": "route_layer_install_start",
+              "at_ms": 3318.5
+            },
+            {
+              "name": "route_layer_install_ready",
+              "at_ms": 3324.2,
+              "layers": 93
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 3324.2
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 3324.2,
+              "count": 7
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 3324.5,
+              "markers": 7
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 3324.5,
+              "markers": 7
+            },
+            {
+              "name": "map_visual_ready",
+              "at_ms": 3326.1,
+              "markers": 7,
+              "layers": 93
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 3699.1,
+              "request": 6
+            },
+            {
+              "name": "local_map_asset_style_start",
+              "at_ms": 3703.2,
+              "labels_only": true
+            },
+            {
+              "name": "local_map_asset_style_ready",
+              "at_ms": 3703.3,
+              "labels_only": true,
+              "layers": 14,
+              "hillshade": false
+            },
+            {
+              "name": "map_created",
+              "at_ms": 3707.6
+            },
+            {
+              "name": "map_style_ready",
+              "at_ms": 3878.3
+            },
+            {
+              "name": "route_layer_install_start",
+              "at_ms": 3878.3
+            },
+            {
+              "name": "route_layer_install_ready",
+              "at_ms": 3883.4,
+              "layers": 36
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 3883.4
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 3883.5,
+              "count": 7
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 3883.8,
+              "markers": 7
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 3883.8,
+              "markers": 7
+            },
+            {
+              "name": "map_visual_ready",
+              "at_ms": 3884.2,
+              "markers": 7,
+              "layers": 36
+            },
+            {
+              "name": "map_draw_requested",
+              "at_ms": 5324.8,
+              "request": 7
+            },
+            {
+              "name": "local_map_asset_style_start",
+              "at_ms": 5326.9,
+              "labels_only": false
+            },
+            {
+              "name": "local_map_asset_style_ready",
+              "at_ms": 5327,
+              "labels_only": false,
+              "layers": 72,
+              "hillshade": true
+            },
+            {
+              "name": "map_created",
+              "at_ms": 5331.7
+            },
+            {
+              "name": "map_style_ready",
+              "at_ms": 6007
+            },
+            {
+              "name": "route_layer_install_start",
+              "at_ms": 6007
+            },
+            {
+              "name": "route_layer_install_ready",
+              "at_ms": 6014.7,
+              "layers": 93
+            },
+            {
+              "name": "photo_preparation_start",
+              "at_ms": 6014.7
+            },
+            {
+              "name": "marker_install_start",
+              "at_ms": 6014.8,
+              "count": 7
+            },
+            {
+              "name": "photo_preparation_ready",
+              "at_ms": 6015.1,
+              "markers": 7
+            },
+            {
+              "name": "marker_install_ready",
+              "at_ms": 6015.1,
+              "markers": 7
+            },
+            {
+              "name": "map_visual_ready",
+              "at_ms": 6016.7,
+              "markers": 7,
+              "layers": 93
+            }
+          ]
+        },
+        "runtime": {
+          "provider": "vector",
+          "providerIdentity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+          "providerHealth": {
+            "vector": "ready",
+            "satellite": "failed"
+          },
+          "providerEvents": [
+            {
+              "seq": 1,
+              "type": "smart_ready",
+              "provider": "vector",
+              "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+            },
+            {
+              "seq": 2,
+              "type": "health_probe_passed",
+              "provider": "satellite"
+            },
+            {
+              "seq": 3,
+              "type": "provider_switch",
+              "provider": "satellite",
+              "from": "vector"
+            },
+            {
+              "seq": 4,
+              "type": "tile_error",
+              "provider": "satellite",
+              "source_id": "base",
+              "message": "Failed to fetch"
+            },
+            {
+              "seq": 5,
+              "type": "fallback_to_smart",
+              "provider": "satellite",
+              "reason": "tile_error",
+              "source_id": "base",
+              "message": "Failed to fetch"
+            }
+          ],
+          "localAssets": {
+            "status": "ready",
+            "failures": []
+          },
+          "mapStatus": "ready",
+          "mapVisualReady": true,
+          "sequence": 5,
+          "probeSequence": 2,
+          "mapCreations": 4,
+          "mapRemovals": 3,
+          "drawRequests": 7,
+          "providerSwitches": 1,
+          "events": [
+            {
+              "seq": 1,
+              "type": "smart_ready",
+              "provider": "vector",
+              "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles"
+            },
+            {
+              "seq": 2,
+              "type": "health_probe_passed",
+              "provider": "satellite"
+            },
+            {
+              "seq": 3,
+              "type": "provider_switch",
+              "provider": "satellite",
+              "from": "vector"
+            },
+            {
+              "seq": 4,
+              "type": "tile_error",
+              "provider": "satellite",
+              "source_id": "base",
+              "message": "Failed to fetch"
+            },
+            {
+              "seq": 5,
+              "type": "fallback_to_smart",
+              "provider": "satellite",
+              "reason": "tile_error",
+              "source_id": "base",
+              "message": "Failed to fetch"
+            }
+          ],
+          "providerStats": {
+            "vector": {
+              "healthProbes": 0,
+              "viewportProbes": 0,
+              "tileErrors": 0,
+              "fallbacks": 0
+            },
+            "satellite": {
+              "healthProbes": 1,
+              "viewportProbes": 1,
+              "tileErrors": 1,
+              "fallbacks": 1
+            }
+          }
+        },
+        "smart_camera": {
+          "center": [
+            -122.54633682572126,
+            37.83100908880232
+          ],
+          "zoom": 11.326340532094237,
+          "bearing": -0.0,
+          "pitch": 0,
+          "task": {
+            "routes": [
+              "A"
+            ],
+            "primary_route": "A",
+            "date": "10/4",
+            "region": "sf"
+          },
+          "spatial": {
+            "useful": true,
+            "width": 835,
+            "height": 812,
+            "visible_markers": 7,
+            "markers_in_viewport": 7,
+            "route_features": 5,
+            "route_features_in_viewport": 5,
+            "route_points_in_viewport": 2573,
+            "content_occupancy_ratio": 0.4769
+          },
+          "owner": "smart"
+        },
+        "map": {
+          "canvas_count": 1,
+          "photo_markers": 7,
+          "photo_marker_keys": [
+            "ggb",
+            "muir",
+            "battery",
+            "palace",
+            "crissy",
+            "tunnel_tops",
+            "twin_peaks"
+          ],
+          "clusters": 1,
+          "leg_markers": 0,
+          "layers": 93,
+          "camera": {
+            "center": [
+              -122.54633682572126,
+              37.83100908880232
+            ],
+            "zoom": 11.326340532094237,
+            "bearing": -0.0,
+            "pitch": 0
+          },
+          "spatial": {
+            "useful": true,
+            "width": 835,
+            "height": 812,
+            "visible_markers": 7,
+            "markers_in_viewport": 7,
+            "route_features": 5,
+            "route_features_in_viewport": 5,
+            "route_points_in_viewport": 2573,
+            "content_occupancy_ratio": 0.4769
+          }
+        }
+      }
+    },
+    "retry_allowed": true,
+    "bounded": {
+      "single_fallback": true,
+      "single_tile_error_episode": true,
+      "one_recovery_draw": true,
+      "single_canvas": true,
+      "unique_markers": true,
+      "bounded_failure_requests": true,
+      "inherited_camera_negative_control": true,
+      "recovered_camera_or_safe_fit": true,
+      "recovered_task_occupancy": true
+    },
+    "failure_requests": 18,
+    "screenshot": "QA/CHG-232/screenshots/satellite_failure_recovery_1440x900.png",
+    "screenshot_sha256": "83633428629889d6cfa8a26f92c64c1537f11387706c17700e35f77308df1389",
+    "failures": []
+  },
+  "external_provider": {
+    "status": "PASS",
+    "provider": "satellite",
+    "success_requests": 2,
+    "note": "optional success path independently observed in this environment",
+    "post_switch_tile_failure_recovery": "PASS"
+  },
+  "failures": []
+}
