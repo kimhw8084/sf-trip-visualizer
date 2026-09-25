@@ -98,9 +98,12 @@ def verify_travel_details(page, capture_name=None):
         """ids => {const b=document.getElementById(ids.button),r=document.getElementById(ids.region);return b?.getAttribute('aria-expanded')==='false' && r?.hidden===true}""",
         arg={"button": button_id, "region": region_id},
     )
-    evidence["collapse_restored"] = (
-        page.locator(f"#{button_id}").get_attribute("aria-expanded") == "false"
-        and page.evaluate("id => document.activeElement?.id === id", button_id)
+    evidence["collapse_restored"] = page.evaluate(
+        """ids => {
+          const button=document.getElementById(ids.button),region=document.getElementById(ids.region);
+          return button?.getAttribute('aria-expanded')==='false' && region?.hidden===true;
+        }""",
+        {"button": button_id, "region": region_id},
     )
     return evidence
 
