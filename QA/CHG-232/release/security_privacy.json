@@ -4,8 +4,8 @@
   "gate": "production_readiness_gate_7",
   "change": "CHG-67",
   "status": "PASS",
-  "candidate_head": "8454454c30b8cfb027b61f890a0de597dcd65a95",
-  "requested_revision": "8454454c30b8cfb027b61f890a0de597dcd65a95",
+  "candidate_head": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
+  "requested_revision": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
   "exact_candidate_bound": true,
   "checks": {
     "candidate_binding": true,
@@ -24,8 +24,8 @@
   },
   "candidate_binding": {
     "status": "PASS",
-    "candidate_head": "8454454c30b8cfb027b61f890a0de597dcd65a95",
-    "requested_revision": "8454454c30b8cfb027b61f890a0de597dcd65a95",
+    "candidate_head": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
+    "requested_revision": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
     "exact_candidate_bound": true,
     "source_hashes": {
       ".github/workflows/candidate-qualification.yml": "4da3137430784688641ee4b005f7eac67da60c6308e7733a68da3d0e7709b81e",
@@ -37,7 +37,7 @@
       "scripts/build_map_first.py": "415d9ce9fd43e44de47c36f6213a077bc8b2bb8c5eec19e889879278fe5f4055",
       "scripts/hosted_linux_pipeline.py": "9e6e3fa04e11d68e09944044a362c442d251e9b9f4d9450f1730754115861a34",
       "scripts/package_map_first.py": "03f2a33182988c15de1eead8dd0c7b4fc8bd461fb4bfb0e8460b8dcee30f2f94",
-      "scripts/pipeline.py": "aa13bffd5b5bded93426ac36fec21a0fa324f4da45e49ccc35c470b9a04426d2",
+      "scripts/pipeline.py": "444a43bd71f219f2527e70616b5dd3bbfd6ffcef17c0396ea1836cd81b1e7cdc",
       "scripts/prepare_public_site.py": "d53c0b4519bcbc3a0756bfe1fc36f0310bdc4b51c7cb9f5f7585f36f42cb5299",
       "scripts/public_asset_rights.py": "96d1cbfee34c260f2a84223afc1f30e047ae59bad8fe4cf9462413a8e1f2af94",
       "scripts/qa_maplibre_security.py": "d6faaeae80875f02e997350907c0dad68f43d771f4bf2e98e9efef3264bf09ab",
@@ -60,7 +60,7 @@
     },
     "generated_artifacts": {
       "status": "PASS",
-      "inspected_files": 797,
+      "inspected_files": 263,
       "findings": []
     }
   },
@@ -747,7 +747,7 @@
       },
       "generated_artifacts": {
         "status": "PASS",
-        "scanned_files": 530,
+        "scanned_files": 263,
         "findings": []
       }
     },
@@ -763,28 +763,7 @@
   },
   "artifact_binding": {
     "status": "PASS",
-    "bindings": [
-      {
-        "path": ".public-site/.release-provenance.json",
-        "tested_sha": "8454454c30b8cfb027b61f890a0de597dcd65a95",
-        "status": "PASS"
-      },
-      {
-        "path": ".public-site/.release-qualification.json",
-        "tested_sha": "8454454c30b8cfb027b61f890a0de597dcd65a95",
-        "status": "PASS"
-      },
-      {
-        "path": ".public-site/.release-provenance.json",
-        "tested_sha": "8454454c30b8cfb027b61f890a0de597dcd65a95",
-        "status": "PASS"
-      },
-      {
-        "path": ".public-site/.release-qualification.json",
-        "tested_sha": "8454454c30b8cfb027b61f890a0de597dcd65a95",
-        "status": "PASS"
-      }
-    ],
+    "bindings": [],
     "failures": []
   },
   "advisory_review": {

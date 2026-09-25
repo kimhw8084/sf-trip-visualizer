@@ -3,7 +3,7 @@
   "project": "sf-trip-visualizer",
   "gate": "production_readiness_gate_4",
   "status": "PASS",
-  "candidate_head": "8454454c30b8cfb027b61f890a0de597dcd65a95",
+  "candidate_head": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
   "test_modes": [
     "static",
     "browser",
@@ -25,41 +25,9 @@
     }
   },
   "delivery": {
-    "schema_version": 1,
-    "status": "PASS",
-    "candidate_head": "8454454c30b8cfb027b61f890a0de597dcd65a95",
-    "test_mode": "delivery_parity",
-    "forms": [
-      {
-        "form": "modular",
-        "path": ".build/modular/index.html",
-        "sha256": "a9bd32939154e314656a3c2c3076c00c055ae4fd0b1c8312d2d6058e670343d5",
-        "truth_digest": "7aa76f6aea7dead528c48768ebb36786f82ccef4d1cceb64869177a1b88f9a1f",
-        "truth_matches": true,
-        "freshness_matches": true,
-        "contract_matches": true
-      },
-      {
-        "form": "standalone",
-        "path": ".build/standalone/SF_Smart_Minority_Map_First_Standalone.html",
-        "sha256": "efaa1da365d56029159dd7eef4c9b8a9e932e01e4c29658561c138adb398d81b",
-        "truth_digest": "7aa76f6aea7dead528c48768ebb36786f82ccef4d1cceb64869177a1b88f9a1f",
-        "truth_matches": true,
-        "freshness_matches": true,
-        "contract_matches": true
-      },
-      {
-        "form": "public_staging",
-        "path": ".public-site/index.html",
-        "sha256": "a9bd32939154e314656a3c2c3076c00c055ae4fd0b1c8312d2d6058e670343d5",
-        "exact_modular": true,
-        "truth_digest": "7aa76f6aea7dead528c48768ebb36786f82ccef4d1cceb64869177a1b88f9a1f",
-        "truth_matches": true,
-        "freshness_matches": true,
-        "contract_matches": true
-      }
-    ],
-    "failures": []
+    "status": "VERIFY_REQUIRED",
+    "reason": "public staging is assembled only after PASS qualification",
+    "forms": []
   },
   "package": {
     "status": "VERIFY_REQUIRED",
