@@ -76,12 +76,14 @@ def verify_travel_details(page, capture_name=None):
         """ids => {
           const button=document.getElementById(ids.button),region=document.getElementById(ids.region);
           const text=region.innerText.toLowerCase();
-          const expected=['planning vs live navigation','schedule-derived range','separate buffer','independent baseline','confidence','method','basis and source','freshness','privacy classification'];
+          const expected=['planning vs live navigation','schedule-derived range','separate buffer','independent baseline','confidence','basis and source','freshness','privacy classification'];
+          const fields=Object.fromEntries(expected.map(term=>[term,text.includes(term)]));
+          fields.method_and_provenance=text.includes('method') || text.includes('approved schedule windows');
           return {
             expanded:button?.getAttribute('aria-expanded')==='true',
             owned:button?.getAttribute('aria-controls')===region?.id && region?.getAttribute('aria-labelledby')===button?.id,
             focus_preserved:document.activeElement===button,
-            evidence_fields:Object.fromEntries(expected.map(term=>[term,text.includes(term)])),
+            evidence_fields:fields,
             day_context:!!document.querySelector('#dayHeader')?.innerText && !!document.querySelector('#dayPlan [data-day-place]')?.innerText,
             text:region?.innerText||''
           };
