@@ -132,7 +132,9 @@ def prepare_page(page, url: str, date_key: str, viewport: tuple[int, int], lang:
     if current_theme != theme:
         page.locator("#themeToggle").click()
     page.wait_for_function("date => window.__tripApp?.state.task.date === date", arg=date_key)
+    page.wait_for_function("window.__tripApp?.state.runtime.mapVisualReady && window.__tripApp.map()?.isStyleLoaded()", timeout=30000)
     page.evaluate("async () => { await window.__tripApp?.whenIdle?.(); }")
+    page.wait_for_timeout(250)
     return page.evaluate("() => ({lang:document.documentElement.lang,theme:document.documentElement.dataset.theme,date:window.__tripApp.state.task.date,mode:window.__tripApp.state.presentation.mode,sheet:window.__tripApp.state.presentation.sheet})")
 
 
