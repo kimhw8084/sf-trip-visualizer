@@ -110,7 +110,10 @@ with sync_playwright() as playwright:
     page.set_default_timeout(30000)
     page.on("pageerror", lambda error: report["errors"].append("browser page error"))
     page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
-    page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
+    page.wait_for_function(
+        "window.__tripApp?.state?.task && window.__tripApp?.map()?.isStyleLoaded()",
+        timeout=30000,
+    )
     page.evaluate(
         """async()=>{const a=window.__tripApp;a.state.task.date='10/5';a.state.task.region='overall';a.state.task.selected=null;a.setMode('day');await a.drawMap(false)}"""
     )
