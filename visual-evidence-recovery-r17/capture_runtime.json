@@ -1,0 +1,70 @@
+{
+  "base_authority": {
+    "commit": "fc195b1191fe4a430db0747b4264b8d036b6a48d",
+    "ref": "main"
+  },
+  "browser": {
+    "headless": true,
+    "name": "Chromium",
+    "version": "151.0.7922.34"
+  },
+  "capture_scripts": {
+    "scripts/build_map_first.py": "fcea1765e34b04a209f822fcbfed12890a5234c23926e1bc21fb6b0a5c77abb5",
+    "scripts/qa_location_gap_visuals.py": "2bed38f51dd8b38c7f8fb4fcb13ea474da50255fea72823fe5a960c5ba2895d9",
+    "scripts/qa_standalone_map_first.py": "f289f1cd01da909eb6628b27425d0c6231ae1cb5e4e02f024a11a085e8a800df",
+    "scripts/run_visual_spots.py": "2bf42da3f5d1fa3d0f228dd09bcd75935e4d78d647c1ae738d14b074aba93c42",
+    "scripts/serve_map.py": "25931f074d4f06e8d2e6318e9f0e26cb83a99bb2b665b61689cc5e309d75bfff"
+  },
+  "capture_tool": {
+    "name": "Playwright",
+    "version": "1.62.0"
+  },
+  "captured_at_utc": "2026-09-26T04:24:59Z",
+  "device_boundaries": {
+    "independent_multimodal_visual_usability_review": "pending Project OS inspection; not self-certified",
+    "native_safari": "not claimed; remains VERIFY_REQUIRED",
+    "physical_iphone_ipad": "not claimed; remains VERIFY_REQUIRED"
+  },
+  "discarded_attempt_note": "An initial attempt with the generic Python SimpleHTTPRequestHandler was discarded because that server did not support HTTP byte serving for PMTiles. The successful recapture used the maintained scripts/serve_map.py range server; no pixels from the failed attempt are included.",
+  "fabric_job_id": "CF-9fee33200be3a3453eaa4cb3",
+  "operation": "VERIFY",
+  "project": "sf-trip-visualizer",
+  "provenance": "Same-subject R17 recapture. These are new pixels, not the omitted PNG bytes from R16 run 36213209448.",
+  "request": "field-ux-a11y-performance-g5-visual-evidence-recovery-r17",
+  "runtime": {
+    "capture_host_profile": "local macOS browser runtime; not a native-Safari qualification or a physical iPhone/iPad",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.11.7 (main, Dec 15 2023, 12:09:56) [Clang 14.0.6 ]"
+  },
+  "schema_version": 1,
+  "served_capture": {
+    "build_manifest_sha256": "e4b63d8be5eba53567fecce7eadcdd899ba1b4eac03e9976a0e4f08e02f536d9",
+    "build_root": ".build/modular",
+    "served_screenshots": 44,
+    "server": "scripts/serve_map.py",
+    "server_sha256": "25931f074d4f06e8d2e6318e9f0e26cb83a99bb2b665b61689cc5e309d75bfff",
+    "url": "http://127.0.0.1:8876/index.html"
+  },
+  "standalone_capture": {
+    "build_sha256": "06011b59cabe8c1439f3f0212eaf119d15bee906789c4af2aa0a23be4a8b9d02",
+    "file": ".build/standalone/SF_Smart_Minority_Map_First_Standalone.html",
+    "rendering": "file:// standalone",
+    "screenshot_count": 1,
+    "viewport": "1280x800"
+  },
+  "successful_capture_results": {
+    "additional_mobile_region_capture": "PASS",
+    "direct_open_negative_control": "PASS",
+    "direct_open_positive": "PASS",
+    "direct_open_probes": 28,
+    "direct_open_status": "PASS",
+    "visual_spots_page_errors": [],
+    "visual_spots_pngs": 43,
+    "visual_spots_status": "PASS"
+  },
+  "tested_subject": {
+    "commit": "6ea2619659ecc3b3cfb1f0797bebef70e0d55d96",
+    "r16_request": "field-ux-a11y-performance-g5-direct-open-smart-map-fix-r16",
+    "tree": "37e979ac8514aff35612eea03a7919b655e846a8"
+  }
+}

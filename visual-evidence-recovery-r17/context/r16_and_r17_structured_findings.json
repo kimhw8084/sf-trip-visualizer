@@ -1,0 +1,155 @@
+{
+  "independent_disposition": {
+    "native_safari": "VERIFY_REQUIRED",
+    "physical_iphone_ipad": "VERIFY_REQUIRED",
+    "visual_usability_review": "pending"
+  },
+  "original_r16_structured_findings": {
+    "assertions": {
+      "new_pmtiles_ranges_read_during_exploration": true,
+      "no_duplicate_canvas_or_markers_after_smart_exploration": true,
+      "no_fetch_for_smart_embedded_resources": true,
+      "no_remote_request_during_smart_exploration": true,
+      "no_smart_local_failed_request": true,
+      "no_smart_maplibre_errors": true,
+      "repeated_sf_monterey_yosemite_exploration": true,
+      "smart_standalone_usable_after_repeated_exploration": true,
+      "standalone_hillshade_is_embedded_in_map_asset_bytes": true
+    },
+    "gate4_runtime_status": "PASS",
+    "gate5_status": "VERIFY_REQUIRED",
+    "gate5_verify_required": [
+      "native Safari remote automation is unavailable; Playwright WebKit is not a native Safari substitute",
+      "no verifiably real iPhone or iPad is available in this execution environment",
+      "independent candidate-bound multimodal visual/usability review is not supplied"
+    ],
+    "negative_control": {
+      "failure_phase": "map_runtime",
+      "forced_file_fetch": null,
+      "local_fetch_seen": true,
+      "oracle": "embedded_hillshade_local_fetch_is_detected",
+      "regression_detected": true,
+      "reproduced_error": "Failed to fetch",
+      "status": "PASS"
+    },
+    "probe_count": 28,
+    "probe_regions": [
+      "monterey",
+      "overall",
+      "sf",
+      "yosemite"
+    ],
+    "smart_exploration_summary": {
+      "canvas_count": 1,
+      "final_route_features_in_viewport": 1,
+      "final_smart_spatial_useful": true,
+      "final_visible_markers": 4,
+      "local_assets_status": "ready",
+      "provider": "vector",
+      "remote_requests_during_smart_exploration": 0,
+      "smart_embedded_resource_fetches": 0,
+      "smart_local_failed_requests": 0,
+      "smart_maplibre_errors": 0,
+      "unique_marker_keys": 4
+    },
+    "standalone_status": "PASS"
+  },
+  "provenance": {
+    "archive_png_count": 0,
+    "downloaded_archive_bytes": 299589,
+    "downloaded_archive_sha256": "8908871ad41090ad82bc51b963103a5e404993d73860e2489d37fa39b994129e",
+    "github_artifact_digest_sha256": "8908871ad41090ad82bc51b963103a5e404993d73860e2489d37fa39b994129e",
+    "github_artifact_id": 10896404962,
+    "github_artifact_name": "candidate-qualification-6ea2619659ecc3b3cfb1f0797bebef70e0d55d96",
+    "kind": "original R16 hosted qualification context, kept separate from R17 recapture pixels",
+    "meaning": "The prior archive contains exact structured reports and visual references but no PNG bytes. It is context only; all images in this package were recaptured under R17 provenance.",
+    "original_gate5_review_pack_references": 140,
+    "original_visual_index_rows": 43,
+    "workflow_head_sha": "6ea2619659ecc3b3cfb1f0797bebef70e0d55d96",
+    "workflow_run_id": 36213209448
+  },
+  "r17_direct_open_recapture_facts": {
+    "assertions": {
+      "all_active_routes_exercised": true,
+      "all_probes_use_smart": true,
+      "all_regions_exercised": true,
+      "new_pmtiles_ranges_read_during_exploration": true,
+      "no_asset_failures": true,
+      "no_duplicate_canvas": true,
+      "no_duplicate_canvas_or_markers_after_smart_exploration": true,
+      "no_duplicate_markers": true,
+      "no_fetch_for_smart_embedded_resources": true,
+      "no_local_runtime_errors": true,
+      "no_remote_request_during_smart_exploration": true,
+      "no_smart_local_failed_request": true,
+      "no_smart_maplibre_errors": true,
+      "repeated_sf_monterey_yosemite_exploration": true,
+      "satellite_recovers_once": true,
+      "smart_continues_after_recovery": true,
+      "smart_standalone_usable_after_repeated_exploration": true,
+      "spatial_content_remains_useful_or_explicit_sparse": true,
+      "standalone_hillshade_is_embedded_in_map_asset_bytes": true
+    },
+    "final_state": {
+      "date": "10/8",
+      "lang": "ko",
+      "mode": "day",
+      "primary_route": "A",
+      "region": "yosemite",
+      "routes": [
+        "A"
+      ],
+      "selected": null,
+      "sheet": "expanded",
+      "theme": "light"
+    },
+    "map": {
+      "canvas_count": 1,
+      "local_assets_status": "ready",
+      "provider": "vector",
+      "route_features_in_viewport": 1,
+      "spatial_useful": true,
+      "unique_marker_keys": 4,
+      "visible_marker_count": 4
+    },
+    "negative_control": {
+      "local_fetch_seen": true,
+      "oracle": "embedded_hillshade_local_fetch_is_detected",
+      "regression_detected": true,
+      "snapshot": {
+        "events": [
+          {
+            "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+            "provider": "vector",
+            "seq": 1,
+            "type": "smart_ready"
+          },
+          {
+            "message": "로컬 지도에 문제가 생겼지만 일정과 결정 정보는 계속 사용할 수 있습니다. 로컬 Smart 지도 오류 (map_runtime): Failed to fetch",
+            "phase": "map_runtime",
+            "provider": "vector",
+            "seq": 2,
+            "type": "smart_failure"
+          }
+        ],
+        "fetches": [
+          "assets/vector/yosemite_hillshade_shadow.webp"
+        ],
+        "local": {
+          "failures": [
+            "로컬 지도에 문제가 생겼지만 일정과 결정 정보는 계속 사용할 수 있습니다. 로컬 Smart 지도 오류 (map_runtime): Failed to fetch"
+          ],
+          "status": "failed"
+        },
+        "text": "로컬 지도에 문제가 생겼지만 일정과 결정 정보는 계속 사용할 수 있습니다. 로컬 Smart 지도 오류 (map_runtime): Failed to fetch"
+      },
+      "status": "PASS"
+    },
+    "status": "PASS"
+  },
+  "schema_version": 1,
+  "subject": {
+    "commit": "6ea2619659ecc3b3cfb1f0797bebef70e0d55d96",
+    "tree": "37e979ac8514aff35612eea03a7919b655e846a8"
+  }
+}
