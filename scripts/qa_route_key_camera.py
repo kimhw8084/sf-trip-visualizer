@@ -320,7 +320,6 @@ def main() -> int:
                 page.locator("#fitMap").click()
                 page.wait_for_timeout(100)
                 fit_context = acceptance_snapshot(page, baseline_task, expected_counts)
-                camera_regression = empty_state_camera_regression(page)
                 screenshots = []
                 if width in (390, 414):
                     target = SCREENSHOTS / f"map_controls_{key}_single_route.png"
@@ -329,6 +328,7 @@ def main() -> int:
                     screenshots.append(str(target.relative_to(ROOT)))
                     report["screenshots"].append({"path": screenshots[-1], "candidate": identity["sha"], "candidate_tree": identity["tree"], "browser": "chromium", "viewport": key, "state": "single-route Yosemite map controls"})
                 task_after_controls = task_state(page)
+                camera_regression = empty_state_camera_regression(page)
                 all_acceptances = [baseline_acceptance, fit_context] + [sample for control in paths.values() for sample in (control["opened"], control["closed"])]
                 comparison_chrome_count = baseline_acceptance["comparison_chrome_count"]
                 row = {"baseline_task": baseline_task, "task_after_controls": task_after_controls, "baseline_context": baseline_acceptance, "fit_context": fit_context, "empty_state_camera_regression": camera_regression, "comparison_chrome_count": comparison_chrome_count, "comparison_chrome_counts": [sample["comparison_chrome_count"] for sample in all_acceptances], "expected_counts": expected_counts, "paths": paths, "screenshots": screenshots, "page_errors": page_errors}
