@@ -322,7 +322,7 @@
   function renderProviderState() {
     const provider = state.runtime.provider, health = state.runtime.providerHealth[provider] || 'untested', status = document.getElementById('providerStatus');
     const label = provider === 'vector' ? (health === 'ready' ? m('mapReady') : health === 'failed' ? m('mapUnavailable') : m('mapChecking')) : (health === 'ready' ? m('satelliteReady') : health === 'failed' ? m('satelliteUnavailable') : m('satelliteChecking'));
-    const region = state.task.region === 'overall' ? m('overall') : DATA.region_cfg[state.task.region]?.[state.presentation.lang === 'ko' ? 'label' : 'label_en'] || state.task.region;
+    const region = state.task.region === 'overall' ? m('overall') : DATA.region_cfg[state.task.region]?.[state.presentation.lang === 'ko' ? 'label' : 'label_en'] || DATA.region_cfg[state.task.region]?.label || state.task.region;
     const providerLabel = provider === 'vector' ? m('smartMap') : m('satellite');
     const summary = document.getElementById('mapCurrentSummary');
     if (summary) summary.textContent = `${providerLabel} · ${region}`;
@@ -936,7 +936,7 @@
   function renderMapControls() {
     const provider = document.getElementById('providerControls'), region = document.getElementById('regionControls');
     provider.innerHTML = ['vector', 'satellite'].map(key => `<button type="button" class="segment" data-provider="${key}" aria-pressed="${state.runtime.provider === key}">${key === 'vector' ? m('smartMap') : m('satellite')}</button>`).join('');
-    region.innerHTML = Object.keys(DATA.region_cfg).map(key => `<button type="button" class="segment" data-region="${esc(key)}" aria-pressed="${state.task.region === key}">${esc(key === 'overall' ? m('overall') : DATA.region_cfg[key][state.presentation.lang === 'ko' ? 'label' : 'label_en'] || key)}</button>`).join('');
+    region.innerHTML = Object.keys(DATA.region_cfg).map(key => `<button type="button" class="segment" data-region="${esc(key)}" aria-pressed="${state.task.region === key}">${esc(key === 'overall' ? m('overall') : DATA.region_cfg[key][state.presentation.lang === 'ko' ? 'label' : 'label_en'] || DATA.region_cfg[key].label || key)}</button>`).join('');
     const panel = document.getElementById('mapOptionsPanel'), toggle = document.getElementById('mapOptionsToggle');
     if (panel && toggle) { panel.hidden = !state.presentation.mapOptionsOpen; toggle.setAttribute('aria-expanded', String(state.presentation.mapOptionsOpen)); }
     provider.querySelectorAll('[data-provider]').forEach(button => { button.onclick = async () => { setMapOptionsOpen(false); await chooseProvider(button.dataset.provider); }; });

@@ -51,7 +51,8 @@ def camera_snapshot(page) -> dict:
         task:{region:task.region,date:task.date},
         language:document.documentElement.lang,
         map_summary:document.querySelector('#mapCurrentSummary')?.textContent?.trim()||'',
-        expected_region_label:task.region==='overall'?(document.documentElement.lang==='ko'?region.label_ko:region.label):(region[document.documentElement.lang==='ko'?'label':'label_en']||task.region),
+        expected_region_label:task.region==='overall'?(document.documentElement.lang==='ko'?region.label_ko:region.label):(region.label||task.region),
+        selected_region_control_label:document.querySelector(`#regionControls [data-region="${task.region}"]`)?.textContent?.trim()||'',
         day_empty_text:empty?.innerText?.trim()||'',
         visible_markers:a.DATA.markers.filter(marker=>a.markerVisible(marker,{map:true})).length,
         photo_marker_elements:document.querySelectorAll('#map .photo-marker').length,
@@ -91,6 +92,8 @@ def empty_camera_issues(snapshot: dict, region: str, *, require_day_empty: bool 
     summary = snapshot.get("map_summary", "")
     if "Smart" not in summary or snapshot.get("expected_region_label", "") not in summary:
         issues.append("Smart map summary does not identify the selected region")
+    if snapshot.get("selected_region_control_label") != snapshot.get("expected_region_label"):
+        issues.append("selected region control does not use the canonical region label")
     if require_day_empty:
         language = snapshot.get("language")
         expected_text = "현재 조건에 맞는 일정이 없습니다." if language == "ko" else "No plan items match these conditions."

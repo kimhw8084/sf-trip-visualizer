@@ -60,6 +60,8 @@ def empty_state_metrics(page) -> dict:
         route_features:a.visibleRouteFeatures().length,
         camera:{center:[center.lng,center.lat],zoom:m.getZoom()},
         expected_region_camera:{center:[region.center.lon,region.center.lat],zoom:region.zoom},
+        expected_region_label:region.label||task.region,
+        selected_region_control_label:document.querySelector(`#regionControls [data-region="${task.region}"]`)?.textContent?.trim()||'',
         map_summary:document.querySelector('#mapCurrentSummary')?.textContent?.trim()||'',
         day_empty_text:document.querySelector('#dayPlan .empty-state')?.innerText?.trim()||'',
         canvas_count:document.querySelectorAll('.maplibregl-canvas').length
@@ -105,7 +107,7 @@ def capture_empty_state_holdouts(browser, rows: list[dict], errors: list[str]) -
         expected = metrics["expected_region_camera"]
         actual = metrics["camera"]
         center_matches = all(abs(float(left) - float(right)) <= 1e-5 for left, right in zip(actual["center"], expected["center"]))
-        if metrics["task"] != {"region": "sf", "date": "10/6"} or metrics["visible_markers"] != 0 or metrics["route_features"] != 0 or not center_matches or abs(actual["zoom"] - expected["zoom"]) > 0.01 or not metrics["day_empty_text"] or metrics["canvas_count"] != 1:
+        if metrics["task"] != {"region": "sf", "date": "10/6"} or metrics["visible_markers"] != 0 or metrics["route_features"] != 0 or not center_matches or abs(actual["zoom"] - expected["zoom"]) > 0.01 or not metrics["day_empty_text"] or metrics["expected_region_label"] not in metrics["map_summary"] or metrics["selected_region_control_label"] != metrics["expected_region_label"] or metrics["canvas_count"] != 1:
             errors.append(f"{viewport[0]}x{viewport[1]} {language}/{theme} {ordering}: empty-state visual holdout does not match selected SF fallback and empty task state")
         errors.extend(f"{viewport[0]}x{viewport[1]} {language}/{theme}: {error}" for error in page_errors)
         page.close(); context.close()
