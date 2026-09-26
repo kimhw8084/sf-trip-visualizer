@@ -1,0 +1,408 @@
+{
+  "accepted_at": "2026-09-26T01:26:36Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "manifests/public_asset_rights.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 5,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 0,
+      "path": "scripts/qa_location_gap_visuals.py",
+      "status": "M"
+    },
+    {
+      "additions": 124,
+      "deletions": 14,
+      "path": "scripts/qa_standalone_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 3,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '55,105p' scripts/qa_location_gap_visuals.py && rtk sed -n '155,190p' scripts/qa_location_gap_visuals.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import json; p=\\\"QA/CHG-232/location_gap/location_gap_visuals.json\\\"; x=json.load(open(p)); print(json.dumps({\\\"status\\\":x.get(\\\"status\\\"),\\\"focus_preserved\\\":x.get(\\\"checks\\\",{}).get(\\\"rendered_day_contracts\\\",{}).get(\\\"10/4\\\",{}).get(\\\"expanded_evidence\\\",{}).get(\\\"focus_preserved\\\"),\\\"checks_false\\\":[k for k,v in x.get(\\\"checks\\\",{}).items() if v is False],\\\"candidate\\\":x.get(\\\"candidate\\\")},indent=2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env TRIP_EXPECTED_REVISION=8ebfa44b94e938eadfb9ccfa24212fb7c8e71971 python3 scripts/qa_location_gap_visuals.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk nl -ba scripts/qa_location_gap_visuals.py | rtk sed -n '88,130p' && rtk python3 -c 'import json; x=json.load(open(\\\"QA/CHG-232/location_gap/location_gap_visuals.json\\\")); print(json.dumps({\\\"status\\\":x.get(\\\"status\\\"),\\\"focus\\\":x.get(\\\"checks\\\",{}).get(\\\"rendered_day_contracts\\\",{}).get(\\\"10/4\\\",{}).get(\\\"expanded_evidence\\\",{}).get(\\\"focus_preserved\\\"),\\\"errors\\\":x.get(\\\"errors\\\")},indent=2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,58p' scripts/qa_location_gap_visuals.py && rtk sed -n '1,100p' scripts/hosted_linux_pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"location_gap|qa_location_gap\" scripts/pipeline.py scripts'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,125p' scripts/pipeline.py && rtk rg -n \\\"MODULAR_URL|qa_start|http.server|serve\\\" scripts/qa_config.py scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py serve --port 8766'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk lsof -nP -iTCP:8766 -sTCP:LISTEN'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env TRIP_EXPECTED_REVISION=8ebfa44b94e938eadfb9ccfa24212fb7c8e71971 TRIP_QA_URL=http://127.0.0.1:8777/index.html python3 scripts/qa_location_gap_visuals.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"travel-details-toggle|aria-expanded.*travel|travelDetails\" src'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '745,800p' src/app_phase7.js && rtk sed -n '835,882p' src/app_phase7.js\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env TRIP_EXPECTED_REVISION=8ebfa44b94e938eadfb9ccfa24212fb7c8e71971 TRIP_QA_URL=http://127.0.0.1:8777/index.html python3 scripts/qa_location_gap_visuals.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- scripts/qa_location_gap_visuals.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add scripts/qa_location_gap_visuals.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git commit -m \"Wait for disclosure focus restoration in QA\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk env TRIP_EXPECTED_REVISION=6ea2619659ecc3b3cfb1f0797bebef70e0d55d96 TRIP_QA_URL=http://127.0.0.1:8777/index.html python3 scripts/qa_location_gap_visuals.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py fast --revision 6ea2619659ecc3b3cfb1f0797bebef70e0d55d96'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py serve --port 8777'",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision 6ea2619659ecc3b3cfb1f0797bebef70e0d55d96'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show -s --format=%T HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin codex/sf-trip-visualizer-field-ux-a11y-performance-g5-direct-open-smart-map-fix-r16'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run list --branch codex/sf-trip-visualizer-field-ux-a11y-performance-g5-direct-open-smart-map-fix-r16 --limit 5 --json databaseId,headSha,status,conclusion,workflowName,url,event'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 36213209448 --json headSha,status,conclusion,jobs'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run watch 36213209448 --compact --interval 30 --exit-status'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run download 36213209448 --dir .build/hosted-r16-36213209448'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files .build/hosted-r16-36213209448 | rtk rg 'qualification.json|standalone.json|location_gap_visuals.json|release.log'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import json,glob,os; root=\\\".build/hosted-r16-36213209448\\\"; qs=glob.glob(root+\\\"/**/QA/CHG-232/release/qualification.json\\\",recursive=True); print(\\\"qualification_reports\\\"); [print(json.dumps({\\\"path\\\":p,\\\"status\\\":(x:=json.load(open(p))).get(\\\"status\\\"),\\\"head\\\":x.get(\\\"candidate_head\\\"),\\\"failed\\\":[t[\\\"name\\\"] for t in x.get(\\\"tests\\\",[]) if t.get(\\\"status\\\")==\\\"FAIL\\\"],\\\"verify_required\\\":x.get(\\\"external_verify_required\\\")},ensure_ascii=False)) for p in qs]; sp=glob.glob(root+\\\"/**/QA/CHG-232/standalone/standalone.json\\\",recursive=True)[0]; s=json.load(open(sp)); pos=s[\\\"positive\\\"]; n=pos[\\\"smart_local_network_evidence\\\"]; print(\\\"standalone\\\",json.dumps({\\\"status\\\":s[\\\"status\\\"],\\\"head\\\":s[\\\"candidate\\\"],\\\"mode\\\":pos[\\\"mode\\\"],\\\"exploration_centers\\\":len(pos[\\\"direct_open_exploration\\\"][\\\"explored\\\"]),\\\"zoom_levels\\\":[8.7,11.5,13.8],\\\"pmtiles_new_ranges\\\":n[\\\"new_pmtiles_ranges\\\"],\\\"smart_fetches\\\":len(n[\\\"fetches\\\"]),\\\"smart_remote_requests\\\":len(n[\\\"remote_requests\\\"]),\\\"smart_errors\\\":pos[\\\"smart_map_errors\\\"],\\\"page_errors\\\":pos[\\\"page_errors\\\"],\\\"negative_control\\\":s[\\\"negative_control\\\"][\\\"status\\\"],\\\"negative_control_detected\\\":s[\\\"negative_control\\\"][\\\"regression_detected\\\"]})); lp=glob.glob(root+\\\"/**/QA/CHG-232/location_gap/location_gap_visuals.json\\\",recursive=True)[0]; l=json.load(open(lp)); print(\\\"location_gap\\\",json.dumps({\\\"status\\\":l.get(\\\"status\\\"),\\\"focus_preserved\\\":l[\\\"checks\\\"][\\\"rendered_day_contracts\\\"][\\\"10/4\\\"][\\\"expanded_evidence\\\"][\\\"focus_preserved\\\"],\\\"assertion\\\":l[\\\"checks\\\"].get(\\\"1004_travel_details_evidence\\\")})); print(\\\"pages_release_tail\\\"); p=glob.glob(root+\\\"/**/QA/CHG-232/release/pages-release.log\\\",recursive=True)[0]; lines=open(p,errors=\\\"replace\\\").read().splitlines(); print(\\\"\\\\n\\\".join(lines[-12:]))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import json,glob; root=\\\".build/hosted-r16-36213209448\\\"; ps=glob.glob(root+\\\"/**/QA/CHG-232/gate5/candidate.json\\\",recursive=True); [print(json.dumps({\\\"path\\\":p,\\\"candidate\\\":(x:=json.load(open(p))).get(\\\"candidate_head\\\"),\\\"status\\\":x.get(\\\"status\\\"),\\\"failures\\\":x.get(\\\"failures\\\"),\\\"verify_required\\\":x.get(\\\"verify_required\\\"),\\\"performance\\\":x.get(\\\"performance\\\")},ensure_ascii=False)) for p in ps]; pp=glob.glob(root+\\\"/**/QA/CHG-232/gate5/performance_summary.log\\\",recursive=True); [print(\\\"perf_log\\\",p,\\\"\\\\n\\\", \\\"\\\\n\\\".join(open(p,errors=\\\"replace\\\").read().splitlines()[-6:])) for p in pp[:1]]'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import json,glob; ps=glob.glob(\\\".build/hosted-r16-36213209448/**/QA/CHG-232/gate5/candidate.json\\\",recursive=True); [print(json.dumps({\\\"path\\\":p,\\\"status\\\":(x:=json.load(open(p))).get(\\\"status\\\"),\\\"verify\\\":x.get(\\\"verify_required\\\"),\\\"performance_status\\\":x.get(\\\"performance\\\",{}).get(\\\"status\\\"),\\\"comparison_status\\\":x.get(\\\"performance\\\",{}).get(\\\"comparison_status\\\"),\\\"comparison\\\":x.get(\\\"performance\\\",{}).get(\\\"comparison\\\"),\\\"sample_count\\\":x.get(\\\"performance\\\",{}).get(\\\"environment\\\",{}).get(\\\"sample_count_per_variant\\\")},ensure_ascii=False)) for p in ps]'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore -- QA/CHG-232/'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show -s --format=%T HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show -s --format=%T fc195b1191fe4a430db0747b4264b8d036b6a48d'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-only fc195b1191fe4a430db0747b4264b8d036b6a48d..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git log --oneline fc195b1191fe4a430db0747b4264b8d036b6a48d..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --stat fc195b1191fe4a430db0747b4264b8d036b6a48d..HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-ux-a11y-performance-g5-direct-open-smart-map-fix-r16'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"tripasset|Missing embedded asset|hillshade_is_embedded|no_fetch_for_smart_embedded_resources|1004_travel_details_evidence|activeElement\\\\?\\\\.id === id|EMBEDDED_MAP_ASSETS|yosemite_hillshade\\\" src/app_phase7.js scripts/build_map_first.py scripts/qa_standalone_map_first.py scripts/qa_location_gap_visuals.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git show fc195b1191fe4a430db0747b4264b8d036b6a48d:src/app_phase7.js | rtk rg -n -C 3 \\\"EMBEDDED_HILLSHADE|addProtocol\\\\('tripasset'|sources\\\\.hillshade|fetch\\\\(path\\\\)\\\"\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"FileSource|Protocol|EMBEDDED_VECTOR|PMTiles\" scripts/build_map_first.py src/app_phase7.js'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import json,glob; p=glob.glob(\\\".build/hosted-r16-36213209448/**/QA/CHG-232/standalone/standalone.json\\\",recursive=True)[0]; x=json.load(open(p)); z=x[\\\"positive\\\"]; snap=z[\\\"smart_snapshot_after_exploration\\\"]; rec=z[\\\"recovery\\\"]; sm=lambda a:{\\\"provider\\\":a[\\\"provider\\\"],\\\"health\\\":a[\\\"provider_health\\\"],\\\"local_assets\\\":a[\\\"local_assets\\\"],\\\"runtime\\\":a[\\\"runtime\\\"][\\\"mapStatus\\\"],\\\"map\\\":{\\\"canvas\\\":a[\\\"map\\\"][\\\"canvas_count\\\"],\\\"markers\\\":a[\\\"map\\\"][\\\"photo_markers\\\"],\\\"spatial\\\":a[\\\"map\\\"][\\\"spatial\\\"]},\\\"camera\\\":a[\\\"smart_camera\\\"]}; print(json.dumps({\\\"startup\\\":sm(z[\\\"initial\\\"]),\\\"after_exploration\\\":sm(snap),\\\"recovery\\\":sm(rec),\\\"continued\\\":sm(z[\\\"continued\\\"]),\\\"failed_requests\\\":z[\\\"failed_requests\\\"],\\\"unexpected_console\\\":z[\\\"unexpected_console_errors\\\"],\\\"unexpected_failed\\\":z[\\\"unexpected_failed_requests\\\"],\\\"smart_map_errors\\\":z[\\\"smart_map_errors\\\"],\\\"assertions\\\":z[\\\"assertions\\\"],\\\"negative_control\\\":x[\\\"negative_control\\\"]},ensure_ascii=False,indent=2))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/codex/sf-trip-visualizer-field-ux-a11y-performance-g5-direct-open-smart-map-fix-r16'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 36213209448 --json headSha,status,conclusion,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff fc195b1191fe4a430db0747b4264b8d036b6a48d..HEAD -- manifests/public_asset_rights.json'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.157.0",
+    "configured_model": "gpt-6-luna",
+    "event_count": 461,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 98.73,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 48844288,
+      "fresh_input_tokens": 627007,
+      "input_tokens": 49471295,
+      "non_reasoning_output_tokens": 45598,
+      "output_tokens": 128011,
+      "reasoning_output_tokens": 82413,
+      "total_processed_tokens": 49599306
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "6ea2619659ecc3b3cfb1f0797bebef70e0d55d96",
+      "subject": "Wait for disclosure focus restoration in QA"
+    },
+    {
+      "sha": "8ebfa44b94e938eadfb9ccfa24212fb7c8e71971",
+      "subject": "Refresh public runtime hash binding"
+    },
+    {
+      "sha": "20b267a3edccba901c2c59504ab877fb40701aec",
+      "subject": "Fix standalone Smart map hillshade loading"
+    }
+  ],
+  "diff": {
+    "additions": 139,
+    "changed_files": 5,
+    "commit_count": 3,
+    "deletions": 24
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 1,
+    "items": [
+      {
+        "bytes": 581577,
+        "path": "manifests/public_asset_rights.json",
+        "sha256": "989422c64b979ecdfbaaa6f8547fba0a88c53722998187156bc680b521bda353"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-26T03:30:06Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "fc195b1191fe4a430db0747b4264b8d036b6a48d",
+    "branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-direct-open-smart-map-fix-r16",
+    "detached_verify": false,
+    "head_sha": "6ea2619659ecc3b3cfb1f0797bebef70e0d55d96",
+    "remote_exact_head": true,
+    "remote_head_sha": "6ea2619659ecc3b3cfb1f0797bebef70e0d55d96",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "fc195b1191fe4a430db0747b4264b8d036b6a48d",
+    "work_branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-direct-open-smart-map-fix-r16",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-98f78871946b66464a3b86e4",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-direct-open-smart-map-fix-r16",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-direct-open-smart-map-fix-r16"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "field-ux-a11y-performance-g5-direct-open-smart-map-fix-r16",
+  "schema_version": 1,
+  "started_at": "2026-09-26T01:26:36Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 7410,
+    "queue_seconds": 0,
+    "total_seconds": 7410
+  },
+  "transport": {
+    "bytes": 8332,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 7933,
+    "prompt_sha256": "8646dff26c315e6199098f36375ddc13a4d65d2683f2ff6a9dc07417c516defa",
+    "sha256": "98f78871946b66464a3b86e477e31341e440678804f79e7010059aa002e93934"
+  }
+}
