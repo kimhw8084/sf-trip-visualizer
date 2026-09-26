@@ -166,7 +166,7 @@ def main() -> int:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: compact map is not materially larger than expanded")
                     if compact["workbench_height"] >= 220 or compact["workbench_height"] >= expanded["workbench_height"] * 0.8:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: compact workbench is not actual-controls height")
-                    if full["workbench_height"] <= expanded["workbench_height"] * 1.5:
+                    if full["workbench_height"] < viewport[1] * 0.85:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: full sheet is not task-dominant")
 
                     activate(page, "expanded", "pointer")

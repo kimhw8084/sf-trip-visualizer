@@ -76,7 +76,8 @@ with sync_playwright() as playwright:
     page.wait_for_function("window.__tripApp.state.presentation.mode==='place'")
     check("place_inspector_three_roles", page.locator("#placeInspector .photo-slot img").count() == 3 and page.locator("#placeInspector .place-glance").count() == 1)
     page.locator("[data-place-back]").click()
-    check("place_returns_to_day", page.evaluate("window.__tripApp.state.presentation.mode") == "day" and page.locator("#dateSelect").input_value() == "10/8")
+    page.wait_for_function("date=>window.__tripApp.state.presentation.mode==='day' && document.querySelector('#dateSelect')?.value===date", arg=DENSE_DATE)
+    check("place_returns_to_day", page.evaluate("date=>window.__tripApp.state.presentation.mode==='day' && document.querySelector('#dateSelect')?.value===date", DENSE_DATE))
     capture(page, "place_inspector_1440")
 
     # Exercise nonempty state combinations without retaining the old duplicate UI.

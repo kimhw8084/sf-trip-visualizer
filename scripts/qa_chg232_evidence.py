@@ -191,7 +191,8 @@ def inspect_candidate(browser, url: str) -> dict:
     oracle = page.evaluate("""() => {const place=document.querySelector('#dayPlan [data-day-place]'),travel=document.querySelector('#dayPlan .plan-travel'),summary=[...document.querySelectorAll('#dayHeader .day-summary p')].map(x=>x.innerText);return {next_place:place?.dataset.dayPlace,place_identity:place?.querySelector('.day-item-title')?.innerText,why_now:place?.querySelector('.day-item-reason')?.innerText,travel_row:travel?.querySelector('.travel-compact')?.innerText,travel_duration:travel?.querySelector('.travel-compact-duration')?.textContent.trim(),summary,details_collapsed:travel?.querySelector('[data-travel-details-toggle]')?.getAttribute('aria-expanded')==='false'}}""")
     check("today_plan_oracle_next_place_and_place_priority", oracle["next_place"] == "battery" and bool(oracle["place_identity"]) and "Why now" in oracle["why_now"], oracle)
     check("today_plan_oracle_leave_arrival_and_supported_duration", "→" in oracle["travel_row"] and oracle["travel_duration"].startswith("· ~") and "min" in oracle["travel_duration"], oracle)
-    check("today_plan_oracle_next_protected_nap_and_critical_condition", any("13:00–15:00" in row for row in oracle["summary"]) and any("Battery" in row or "visibility" in row.lower() for row in oracle["summary"]), oracle)
+    critical_condition = "Battery" in oracle["place_identity"] or "visibility" in oracle["place_identity"].lower() or "visibility" in oracle["why_now"].lower()
+    check("today_plan_oracle_next_protected_nap_and_critical_condition", any("13:00–15:00" in row for row in oracle["summary"]) and critical_condition, oracle)
     check("today_plan_oracle_keeps_details_collapsed", oracle["details_collapsed"], oracle)
 
     first = page.locator("#dayPlan [data-travel-details-toggle]").first

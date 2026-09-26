@@ -82,7 +82,7 @@ with sync_playwright() as playwright:
     page.wait_for_function("provider=>window.__tripApp.state.runtime.provider===provider", arg=VECTOR_PROVIDER)
     page.locator("#mapOptionsToggle").click()
     page.locator(f"#regionControls [data-region='{REGION_WITH_PLACES}']").click()
-    page.wait_for_function("region=>window.__tripApp.state.task.region===region", REGION_WITH_PLACES)
+    page.wait_for_function("region=>window.__tripApp.state.task.region===region", arg=REGION_WITH_PLACES)
     page.locator("#mapOptionsToggle").click()
     page.locator("#regionControls [data-region='overall']").click()
     page.wait_for_function("window.__tripApp.state.task.region === 'overall'")

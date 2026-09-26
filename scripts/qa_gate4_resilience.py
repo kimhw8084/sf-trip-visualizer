@@ -41,6 +41,7 @@ VECTOR_IDENTITY = ACTIVE_PACKAGE["providers"][VECTOR_PROVIDER]["identity"]
 FOCUS_DATE = next(
     date["key"] for date in ACTIVE_DATA["dates"]
     if any(item.get("date_key", item.get("date")) == date["key"] and item.get("spatial_keys") for item in ACTIVE_DATA["timeline"])
+    and any(leg.get("date") == date["key"] and leg.get("mode") in {"drive", "walk"} for leg in ACTIVE_DATA["legs"])
 )
 FOCUS_REGION = next(
     region for region in ACTIVE_DATA["region_cfg"] if region != "overall"

@@ -104,6 +104,8 @@ def main() -> int:
             # The complete-place-list oracle covers every package place. Start
             # from the explicit All days filter so an arrival-only date does
             # not correctly narrow the list to zero scheduled places.
+            page.locator("#modeNav [data-mode='day']").click()
+            page.wait_for_function("!document.querySelector('#dayView')?.hidden")
             page.locator("#dateSelect").select_option("all")
             page.locator("#modeNav [data-mode='place']").click()
             page.wait_for_function("n => document.querySelectorAll('#placeView:not([hidden]) .place-list-item').length === n", arg=expected_places)
