@@ -546,11 +546,17 @@
       markers,
     };
   }
-  function fitVisibleMap(map = photoMap) {
+  function fitVisibleMap(map = photoMap, { emptyFallback = true } = {}) {
     if (!map) return;
     markStartup('initial_fit_start');
     const visible = DATA.markers.filter(item => markerVisible(item, { map: true })), routePoints = visibleRouteFeatures().filter(feature => feature.properties.kind !== 'transfer').flatMap(feature => feature.geometry.coordinates), points = [...visible.map(item => [item.lon, item.lat]), ...routePoints];
-    if (!points.length) return;
+    if (!points.length) {
+      if (!emptyFallback) return;
+      const { center, zoom } = DATA.region_cfg[state.task.region];
+      map.jumpTo({ center: [center.lon, center.lat], zoom });
+      markStartup('empty_state_region_fit_complete', { region: state.task.region });
+      return;
+    }
     if (points.length === 1) return map.jumpTo({ center: points[0], zoom: 13.1 });
     const bounds = [[Math.min(...points.map(point => point[0])), Math.min(...points.map(point => point[1]))], [Math.max(...points.map(point => point[0])), Math.max(...points.map(point => point[1]))]];
     map.fitBounds(bounds, { padding: mapSafePadding(map), maxZoom: state.task.date !== 'all' ? 12.8 : 7.8, duration: 0 });
@@ -568,7 +574,7 @@
       geometryNeedsRefit = false;
       if (map) {
         map.resize();
-        if (shouldRefit && state.runtime.mapVisualReady) fitVisibleMap(map);
+        if (shouldRefit && state.runtime.mapVisualReady) fitVisibleMap(map, { emptyFallback: false });
         if (state.presentation.mapOptionsOpen) positionMapOptions();
         markStartup('map_geometry_recomposed', { reason, refit: shouldRefit });
       }
@@ -653,7 +659,7 @@
       const previous = photoMap, same = previous && renderedProvider === state.runtime.provider && renderedTheme === state.presentation.theme;
       clusterMarkers.forEach(marker => marker.remove()); clusterMarkers = []; photoMarkers.forEach(marker => marker.remove()); photoMarkers = []; legMarkers.forEach(marker => marker.remove()); legMarkers = [];
       if (same && state.runtime.localAssets.status === 'ready') {
-        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); if (!preserve || mapGeometrySnapshot().markers.some(marker => marker.intersects_obstacle.length)) fitVisibleMap(previous); rememberSmartCamera(previous); return true;
+        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); if (!preserve || mapGeometrySnapshot().markers.some(marker => marker.intersects_obstacle.length)) fitVisibleMap(previous, { emptyFallback: !preserve }); rememberSmartCamera(previous); return true;
       }
       const view = viewForDraw(preserve, previous);
       if (previous) { previous.__tripCleanup?.(); previous.remove(); state.runtime.mapRemovals += 1; }
@@ -919,11 +925,11 @@
     if (open) mapOptionsInvoker = toggle;
     panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open));
     if (open) {
-      requestAnimationFrame(() => { positionMapOptions(); fitVisibleMap(); if (focus) panel.querySelector('[data-provider], [data-region], #mapOptionsClose')?.focus({ preventScroll: true }); });
+      requestAnimationFrame(() => { positionMapOptions(); fitVisibleMap(photoMap, { emptyFallback: false }); if (focus) panel.querySelector('[data-provider], [data-region], #mapOptionsClose')?.focus({ preventScroll: true }); });
     } else {
       panel.classList.remove('open-up', 'align-right');
       const restore = returnFocus && mapOptionsInvoker?.focus && document.contains(mapOptionsInvoker) ? mapOptionsInvoker : null;
-      requestAnimationFrame(() => { fitVisibleMap(); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); });
+      requestAnimationFrame(() => { fitVisibleMap(photoMap, { emptyFallback: false }); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); });
       mapOptionsInvoker = null;
     }
   }

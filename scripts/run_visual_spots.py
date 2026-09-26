@@ -37,6 +37,80 @@ def new_page(browser, viewport: tuple[int, int]):
     return context, page, errors
 
 
+def settle_map(page) -> None:
+    page.evaluate("window.__tripApp.whenIdle()")
+    page.wait_for_function("window.__tripApp?.map()?.loaded() && !window.__tripApp.map().isMoving()", timeout=10000)
+    page.evaluate("new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))")
+
+
+def select_region(page, region: str) -> None:
+    if page.locator("#mapOptionsPanel").is_hidden():
+        page.locator("#mapOptionsToggle").click()
+        page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === false")
+    page.locator(f"#regionControls [data-region='{region}']").click()
+    settle_map(page)
+
+
+def empty_state_metrics(page) -> dict:
+    return page.evaluate("""() => {
+      const a=window.__tripApp,m=a.map(),task=a.state.task,center=m.getCenter(),region=a.DATA.region_cfg[task.region];
+      return {
+        task:{region:task.region,date:task.date},
+        visible_markers:a.DATA.markers.filter(marker=>a.markerVisible(marker,{map:true})).length,
+        route_features:a.visibleRouteFeatures().length,
+        camera:{center:[center.lng,center.lat],zoom:m.getZoom()},
+        expected_region_camera:{center:[region.center.lon,region.center.lat],zoom:region.zoom},
+        map_summary:document.querySelector('#mapCurrentSummary')?.textContent?.trim()||'',
+        day_empty_text:document.querySelector('#dayPlan .empty-state')?.innerText?.trim()||'',
+        canvas_count:document.querySelectorAll('.maplibregl-canvas').length
+      };
+    }""")
+
+
+def capture_empty_state_holdouts(browser, rows: list[dict], errors: list[str]) -> None:
+    combinations = [
+        ((1440, 900), "ko", "dark", "region then date"),
+        ((1440, 900), "en", "light", "date then region"),
+        ((1440, 900), "en", "dark", "date then region"),
+        ((390, 844), "ko", "light", "date then region"),
+        ((390, 844), "ko", "dark", "region then date"),
+        ((390, 844), "en", "light", "region then date"),
+        ((390, 844), "en", "dark", "date then region"),
+    ]
+    for viewport, language, theme, ordering in combinations:
+        context, page, page_errors = new_page(browser, viewport)
+        if language == "en":
+            page.locator("#langToggle").click()
+            settle_map(page)
+        if theme == "dark":
+            page.locator("#themeToggle").click()
+            page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true")
+            settle_map(page)
+        select_region(page, "yosemite")
+        page.locator("#modeNav [data-mode='day']").click()
+        page.locator("#dateSelect").select_option("10/9")
+        settle_map(page)
+        if ordering == "region then date":
+            select_region(page, "sf")
+            page.locator("#dateSelect").select_option("10/6")
+            settle_map(page)
+        else:
+            page.locator("#dateSelect").select_option("10/6")
+            settle_map(page)
+            select_region(page, "sf")
+        metrics = empty_state_metrics(page)
+        name = f"empty_state_sf_10-6_{viewport[0]}x{viewport[1]}_{language}_{theme}_{ordering.replace(' ', '_')}"
+        capture(page, rows, name, viewport, "day", "SF + Marin 10/6 no-results", "selected-region camera fallback with zero matching spatial data", "empty-state holdout", ordering)
+        rows[-1]["empty_state_metrics"] = metrics
+        expected = metrics["expected_region_camera"]
+        actual = metrics["camera"]
+        center_matches = all(abs(float(left) - float(right)) <= 1e-5 for left, right in zip(actual["center"], expected["center"]))
+        if metrics["task"] != {"region": "sf", "date": "10/6"} or metrics["visible_markers"] != 0 or metrics["route_features"] != 0 or not center_matches or abs(actual["zoom"] - expected["zoom"]) > 0.01 or not metrics["day_empty_text"] or metrics["canvas_count"] != 1:
+            errors.append(f"{viewport[0]}x{viewport[1]} {language}/{theme} {ordering}: empty-state visual holdout does not match selected SF fallback and empty task state")
+        errors.extend(f"{viewport[0]}x{viewport[1]} {language}/{theme}: {error}" for error in page_errors)
+        page.close(); context.close()
+
+
 def main() -> int:
     identity = candidate_identity()
     OUT.mkdir(parents=True, exist_ok=True)
@@ -58,13 +132,16 @@ def main() -> int:
         capture(page, rows, "single_route_plan_1440x900", (1440, 900), "decide", "Route A — Temporal Arbitrage Master", "single configured plan and its decision rules", "canonical-anchor", "single route Decide")
         page.locator("#modeNav [data-mode='day']").click()
         page.locator("#dateSelect").select_option("10/8")
+        settle_map(page)
         capture(page, rows, "canonical_day_dense_recovery_1440x900", (1440, 900), "day", "10/8", "dense Day with recovery and typed decisions", "canonical-anchor", "canonical dense day")
         page.locator("#dateSelect").select_option("10/9")
+        settle_map(page)
         capture(page, rows, "canonical_day_sparse_1440x900", (1440, 900), "day", "10/9", "sparse/recovery Day state", "canonical-anchor", "canonical sparse day")
         page.locator("#mapOptionsToggle").click()
         page.locator("#regionControls [data-region='sf']").click()
         page.locator("#dateSelect").select_option("10/6")
-        capture(page, rows, "canonical_no_results_1440x900", (1440, 900), "day", "SF + 10/6 no-results", "no-results handling", "canonical-anchor", "no-result state")
+        settle_map(page)
+        capture(page, rows, "canonical_no_results_1440x900", (1440, 900), "day", "SF + 10/6 no-results", "no-results handling", "canonical-anchor", "R17 region then date ordering; Yosemite 10/9 predecessor context")
         page.locator("#mapOptionsToggle").click()
         page.locator("#regionControls [data-region='yosemite']").click()
         page.locator("#dateSelect").select_option("10/7")
@@ -146,6 +223,7 @@ def main() -> int:
         capture(page, rows, "satellite_failure_recovery_1440x900", (1440, 900), "decide", "Satellite failure → Smart recovery", "provider failure and recovery", "stress", "Satellite recovery")
         errors.extend(failure_errors)
         page.close(); context.close()
+        capture_empty_state_holdouts(browser, rows, errors)
         browser.close()
 
     for row in rows:

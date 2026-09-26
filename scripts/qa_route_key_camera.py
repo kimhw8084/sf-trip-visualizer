@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 import time
 from pathlib import Path
 
@@ -33,6 +34,144 @@ def map_context(page) -> dict:
       const g=a.mapGeometrySnapshot();
       return {map_present:true,provider:r?.provider??null,app_ready:r?.mapStatus==='ready',map_visual_ready:r?.mapVisualReady===true,canvas_count,style_loaded:m.isStyleLoaded(),map_moving:m.isMoving(),visible_markers:a.DATA.markers.filter(x=>a.markerVisible(x,{map:true})).length,route_features:a.visibleRouteFeatures().length,spatial:a.mapSpatialSnapshot(),map_obstacles:g.obstacles.length};
     }""")
+
+
+def settle_map(page) -> None:
+    page.evaluate("window.__tripApp.whenIdle()")
+    page.wait_for_function("window.__tripApp?.map()?.loaded() && !window.__tripApp.map().isMoving()", timeout=10000)
+    page.evaluate("new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))")
+
+
+def camera_snapshot(page) -> dict:
+    return page.evaluate("""() => {
+      const a=window.__tripApp,m=a.map(),task=a.state.task,center=m.getCenter(),region=a.DATA.region_cfg[task.region];
+      const labels=m.queryRenderedFeatures().flatMap(feature=>Object.entries(feature.properties||{}).filter(([key,value])=>(key==='name'||key.startsWith('name:'))&&typeof value==='string').map(([,value])=>value));
+      const empty=document.querySelector('#dayPlan .empty-state');
+      return {
+        task:{region:task.region,date:task.date},
+        language:document.documentElement.lang,
+        map_summary:document.querySelector('#mapCurrentSummary')?.textContent?.trim()||'',
+        expected_region_label:region[document.documentElement.lang==='ko'?'label':'label_en']||task.region,
+        day_empty_text:empty?.innerText?.trim()||'',
+        visible_markers:a.DATA.markers.filter(marker=>a.markerVisible(marker,{map:true})).length,
+        photo_marker_elements:document.querySelectorAll('#map .photo-marker').length,
+        route_features:a.visibleRouteFeatures().length,
+        camera:{center:[center.lng,center.lat],zoom:m.getZoom()},
+        expected_region_camera:{center:[region.center.lon,region.center.lat],zoom:region.zoom},
+        rendered_yosemite_labels:[...new Set(labels.filter(value=>/yosemite|curry village/i.test(value)))],
+        spatial:a.mapSpatialSnapshot(),
+        canvas_count:document.querySelectorAll('.maplibregl-canvas').length,
+        map_creations:a.state.runtime.mapCreations,
+        map_removals:a.state.runtime.mapRemovals
+      };
+    }""")
+
+
+def empty_camera_issues(snapshot: dict, region: str, *, require_day_empty: bool = False) -> list[str]:
+    issues = []
+    task = snapshot.get("task", {})
+    if task.get("region") != region:
+        issues.append(f"expected {region} region in empty state")
+    if snapshot.get("visible_markers") != 0 or snapshot.get("photo_marker_elements") != 0:
+        issues.append("empty state contains visible or rendered photo markers")
+    if snapshot.get("route_features") != 0:
+        issues.append("empty state contains visible route features")
+    if snapshot.get("canvas_count") != 1:
+        issues.append("empty state has a missing or duplicate map canvas")
+    camera = snapshot.get("camera", {})
+    expected = snapshot.get("expected_region_camera", {})
+    center = camera.get("center", [])
+    expected_center = expected.get("center", [])
+    if len(center) != 2 or len(expected_center) != 2 or any(not math.isclose(float(actual), float(target), abs_tol=1e-5) for actual, target in zip(center, expected_center)):
+        issues.append("empty state camera center does not match the selected region authority")
+    if not math.isclose(float(camera.get("zoom", -1)), float(expected.get("zoom", -2)), abs_tol=0.01):
+        issues.append("empty state camera zoom does not match the selected region authority")
+    if snapshot.get("rendered_yosemite_labels"):
+        issues.append("Yosemite labels remain in the rendered map context")
+    summary = snapshot.get("map_summary", "")
+    if "Smart" not in summary or snapshot.get("expected_region_label", "") not in summary:
+        issues.append("Smart map summary does not identify the selected region")
+    if require_day_empty:
+        language = snapshot.get("language")
+        expected_text = "현재 조건에 맞는 일정이 없습니다." if language == "ko" else "No plan items match these conditions."
+        if snapshot.get("day_empty_text") != expected_text:
+            issues.append("Day panel does not explicitly report that no plan items match")
+    return issues
+
+
+def nonempty_recovery_issues(snapshot: dict, *, require_route: bool) -> list[str]:
+    issues = []
+    if snapshot.get("task") != {"region": "yosemite", "date": "10/7"}:
+        issues.append("Yosemite recovery task state is incorrect")
+    if snapshot.get("visible_markers", 0) <= 0 or snapshot.get("photo_marker_elements") != snapshot.get("visible_markers"):
+        issues.append("Yosemite recovery markers are missing or duplicated")
+    if require_route and snapshot.get("route_features", 0) <= 0:
+        issues.append("Yosemite recovery route geometry is missing")
+    spatial = snapshot.get("spatial", {})
+    if spatial.get("useful") is not True or spatial.get("markers_in_viewport") != snapshot.get("visible_markers"):
+        issues.append("Yosemite recovery camera does not frame all visible markers")
+    if require_route and (spatial.get("route_features_in_viewport") != snapshot.get("route_features") or spatial.get("route_points_in_viewport", 0) <= 0):
+        issues.append("Yosemite recovery camera does not frame visible route geometry")
+    if snapshot.get("canvas_count") != 1:
+        issues.append("Yosemite recovery has a missing or duplicate map canvas")
+    if snapshot.get("map_creations") != 1 or snapshot.get("map_removals") != 0:
+        issues.append("Yosemite recovery has stale or duplicate map ownership")
+    return issues
+
+
+def select_region(page, region: str) -> None:
+    if page.locator("#mapOptionsPanel").is_hidden():
+        page.locator("#mapOptionsToggle").click()
+        page.wait_for_function("document.querySelector('#mapOptionsPanel')?.hidden === false")
+    page.locator(f"#regionControls [data-region='{region}']").click()
+    settle_map(page)
+
+
+def select_date(page, date: str) -> None:
+    page.locator("#dateSelect").select_option(date)
+    settle_map(page)
+
+
+def empty_state_camera_regression(page) -> dict:
+    page.locator("#modeNav [data-mode='day']").click()
+    select_region(page, "yosemite")
+    select_date(page, "10/9")
+    sparse_control = camera_snapshot(page)
+    sparse_issues = []
+    if sparse_control["task"] != {"region": "yosemite", "date": "10/9"} or sparse_control["visible_markers"] <= 0 or not sparse_control["spatial"].get("useful"):
+        sparse_issues.append("non-empty Yosemite 10/9 positive fit control is not useful")
+
+    select_region(page, "sf")
+    select_date(page, "10/6")
+    region_then_date = camera_snapshot(page)
+    region_then_date_issues = empty_camera_issues(region_then_date, "sf", require_day_empty=True)
+
+    select_region(page, "yosemite")
+    select_date(page, "10/9")
+    select_date(page, "10/6")
+    select_region(page, "sf")
+    date_then_region = camera_snapshot(page)
+    date_then_region_issues = empty_camera_issues(date_then_region, "sf", require_day_empty=True)
+
+    select_region(page, "yosemite")
+    select_date(page, "10/7")
+    yosemite_recovery = camera_snapshot(page)
+    recovery_issues = nonempty_recovery_issues(yosemite_recovery, require_route=True)
+
+    select_region(page, "overall")
+    select_date(page, "10/12")
+    overall_empty = camera_snapshot(page)
+    overall_issues = empty_camera_issues(overall_empty, "overall")
+
+    return {
+        "status": "PASS" if not (sparse_issues or region_then_date_issues or date_then_region_issues or recovery_issues or overall_issues) else "FAIL",
+        "positive_nonempty_control": {"snapshot": sparse_control, "failures": sparse_issues},
+        "region_then_date_empty": {"snapshot": region_then_date, "failures": region_then_date_issues},
+        "date_then_region_empty": {"snapshot": date_then_region, "failures": date_then_region_issues},
+        "yosemite_nonempty_recovery": {"snapshot": yosemite_recovery, "failures": recovery_issues},
+        "overall_empty_fallback": {"snapshot": overall_empty, "failures": overall_issues},
+        "failures": sparse_issues + region_then_date_issues + date_then_region_issues + recovery_issues + overall_issues,
+    }
 
 
 def context_issues(context: dict, expected_counts: dict | None = None) -> list[str]:
@@ -181,6 +320,7 @@ def main() -> int:
                 page.locator("#fitMap").click()
                 page.wait_for_timeout(100)
                 fit_context = acceptance_snapshot(page, baseline_task, expected_counts)
+                camera_regression = empty_state_camera_regression(page)
                 screenshots = []
                 if width in (390, 414):
                     target = SCREENSHOTS / f"map_controls_{key}_single_route.png"
@@ -191,10 +331,10 @@ def main() -> int:
                 task_after_controls = task_state(page)
                 all_acceptances = [baseline_acceptance, fit_context] + [sample for control in paths.values() for sample in (control["opened"], control["closed"])]
                 comparison_chrome_count = baseline_acceptance["comparison_chrome_count"]
-                row = {"baseline_task": baseline_task, "task_after_controls": task_after_controls, "baseline_context": baseline_acceptance, "fit_context": fit_context, "comparison_chrome_count": comparison_chrome_count, "comparison_chrome_counts": [sample["comparison_chrome_count"] for sample in all_acceptances], "expected_counts": expected_counts, "paths": paths, "screenshots": screenshots, "page_errors": page_errors}
-                row["pass"] = task_matches_scenario and task_after_controls == baseline_task and all(sample["comparison_chrome_count"] == 0 and context_passes(sample) for sample in all_acceptances) and all(control["task_preserved"] and control["focus_returned"] and control["panel_closed"] for control in paths.values()) and not page_errors
+                row = {"baseline_task": baseline_task, "task_after_controls": task_after_controls, "baseline_context": baseline_acceptance, "fit_context": fit_context, "empty_state_camera_regression": camera_regression, "comparison_chrome_count": comparison_chrome_count, "comparison_chrome_counts": [sample["comparison_chrome_count"] for sample in all_acceptances], "expected_counts": expected_counts, "paths": paths, "screenshots": screenshots, "page_errors": page_errors}
+                row["pass"] = task_matches_scenario and task_after_controls == baseline_task and all(sample["comparison_chrome_count"] == 0 and context_passes(sample) for sample in all_acceptances) and all(control["task_preserved"] and control["focus_returned"] and control["panel_closed"] for control in paths.values()) and camera_regression["status"] == "PASS" and not page_errors
                 if not row["pass"]:
-                    report["failures"].append(f"{key}: map controls changed task state, lost map context, or exposed route comparison chrome")
+                    report["failures"].append(f"{key}: map controls or empty-state camera regression failed")
                 report["viewports"][key] = row
             except Exception as error:
                 report["errors"].append(f"{key}: {type(error).__name__}: {error}")
