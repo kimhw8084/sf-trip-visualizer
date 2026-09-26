@@ -25,6 +25,12 @@ SCREEN_ROOT = OUTPUT / "screens"
 sys.path.insert(0, str(ROOT / "scripts"))
 from day_presentation_contract import audit_day_surface  # noqa: E402
 from pipeline import authored_source_changes  # noqa: E402
+from trip_package import DEFAULT_PACKAGE, load_package  # noqa: E402
+
+PACKAGE = load_package(DEFAULT_PACKAGE)
+VECTOR_PROVIDER = next(key for key, value in PACKAGE["providers"].items() if value.get("kind") == "vector")
+RASTER_PROVIDER = next(key for key, value in PACKAGE["providers"].items() if value.get("kind") == "raster")
+RASTER_HOST = PACKAGE["source_policy"]["external"][RASTER_PROVIDER]["host"]
 
 
 def command(args: list[str], cwd: Path = ROOT) -> str:
@@ -247,8 +253,8 @@ def inspect_candidate(browser, url: str) -> dict:
 
     page.locator("#dateSelect").select_option("all")
     features = page.evaluate("""() => window.__tripApp.visibleRouteFeatures().map(f=>({leg_id:f.properties.leg_id,mode:f.properties.mode,status:f.properties.status,point_count:f.geometry.coordinates.length}))""")
-    data = json.loads((ROOT / "data/phase7_app_data.json").read_text())
-    geometry = json.loads((ROOT / "data/route_geometry_cache.json").read_text())
+    data = json.loads((ROOT / PACKAGE["canonical_data"]).read_text())
+    geometry = json.loads((ROOT / PACKAGE["projections"]["route_geometry"]).read_text())
     rendered_ids = {row["leg_id"] for row in features}
     physical = [leg for leg in data["legs"] if leg["mode"] in {"drive", "walk"}]
     route_features_valid = all(
@@ -319,15 +325,15 @@ def inspect_candidate(browser, url: str) -> dict:
     provider.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
     provider.locator('#modeNav [data-mode="day"]').click()
     provider.locator("#dateSelect").select_option("10/8")
-    provider.route("https://server.arcgisonline.com/**", lambda route: route.abort())
-    provider.evaluate("window.__tripApp.chooseProvider('satellite')")
-    provider.wait_for_function("window.__tripApp.state.provider==='vector' && !document.getElementById('mapError').hidden", timeout=15000)
+    provider.route(f"https://{RASTER_HOST}/**", lambda route: route.abort())
+    provider.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER)
+    provider.wait_for_function("provider=>window.__tripApp.state.provider===provider && !document.getElementById('mapError').hidden", arg=VECTOR_PROVIDER, timeout=15000)
     failure = provider.evaluate("() => ({provider:window.__tripApp.state.provider,date:window.__tripApp.state.task.date,mode:window.__tripApp.state.presentation.mode,selected:window.__tripApp.state.task.selected,localAssets:window.__tripApp.state.runtime.localAssets.status})")
-    check("provider_failure_recovers_to_local_map_without_losing_day", failure["provider"] == "vector" and failure["date"] == "10/8" and failure["mode"] == "day", failure)
+    check("provider_failure_recovers_to_local_map_without_losing_day", failure["provider"] == VECTOR_PROVIDER and failure["date"] == "10/8" and failure["mode"] == "day", failure)
     provider_path = OUTPUT / "screens" / "C" / "provider_failure_recovered_to_smart_map_1440x900.png"
     provider.screenshot(path=str(provider_path), animations="disabled")
     report["screenshots"].append({"name": provider_path.stem, "path": str(provider_path.relative_to(ROOT)), "sha256": sha256(provider_path)})
-    provider.unroute("https://server.arcgisonline.com/**")
+    provider.unroute(f"https://{RASTER_HOST}/**")
     provider.close()
     browser.close()
     return report
@@ -375,7 +381,22 @@ def main() -> int:
                 server, url = start_variant_server(checkout, build, work_root / f"server-{name}.log")
                 servers.append(server)
                 screenshots = capture_matrix(browser, name, url)
-                geometry = public_geometry_evidence(checkout / "data/phase7_app_data.json", checkout / "data/route_geometry_cache.json", checkout / "data/route_geometry_manifest.json")
+                pipeline_config = checkout / "manifests" / "canonical_pipeline.json"
+                active_package_path = None
+                if pipeline_config.is_file():
+                    selector = json.loads(pipeline_config.read_text()).get("authority", {}).get("active_trip_package")
+                    if selector and (checkout / selector).is_file():
+                        active_package_path = checkout / selector
+                if active_package_path:
+                    selected_package = json.loads(active_package_path.read_text())
+                    selected_data = checkout / selected_package["canonical_data"]
+                    selected_geometry = checkout / selected_package["projections"]["route_geometry"]
+                    selected_manifest = checkout / selected_package["projections"]["route_geometry_manifest"]
+                else:
+                    selected_data = checkout / "data/phase7_app_data.json"
+                    selected_geometry = checkout / "data/route_geometry_cache.json"
+                    selected_manifest = checkout / "data/route_geometry_manifest.json"
+                geometry = public_geometry_evidence(selected_data, selected_geometry, selected_manifest)
                 report["matched_variants"][name] = {
                     "revision": variants[name],
                     "tree": command(["git", "rev-parse", f"{variants[name]}^{{tree}}"]),

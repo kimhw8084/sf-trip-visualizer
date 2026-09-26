@@ -7,13 +7,14 @@ from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
 from qa_evidence import bind_report, candidate_identity
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "QA" / "CHG-232" / "map_first_smoke"
 OUT.mkdir(parents=True, exist_ok=True)
 identity = candidate_identity()
-SOURCE_DATA = json.loads((ROOT / "data/phase7_app_data.json").read_text())
+SOURCE_DATA = load_package(DEFAULT_PACKAGE)["data"]
 expected_routes = sorted(SOURCE_DATA["routes"])
 expected_places = len(SOURCE_DATA["markers"])
 expected_route_markers = sum(bool(set(marker.get("routes", [])) & set(expected_routes)) for marker in SOURCE_DATA["markers"])

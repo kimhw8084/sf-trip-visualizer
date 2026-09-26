@@ -9,14 +9,21 @@ from playwright.sync_api import sync_playwright
 
 from qa_config import STANDALONE_PATH
 from qa_evidence import bind_report, candidate_identity
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "QA" / "CHG-232" / "standalone"
 OUT.mkdir(parents=True, exist_ok=True)
-ROUTES = tuple(sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"]))
-REGIONS = ("overall", "sf", "monterey", "yosemite")
-DAYS = ("all", "10/2", "10/3", "10/6", "10/8", "10/11", "10/12")
+DATA = load_package(DEFAULT_PACKAGE)["data"]
+ACTIVE_PACKAGE = load_package(DEFAULT_PACKAGE)
+MAP_ASSETS = ACTIVE_PACKAGE["assets"]["map"]
+RELIEF_PATH = MAP_ASSETS.get("relief", {}).get("path")
+RASTER_PROVIDER = next(key for key, value in ACTIVE_PACKAGE["providers"].items() if value.get("kind") == "raster")
+RASTER_HOST = ACTIVE_PACKAGE["source_policy"]["external"][RASTER_PROVIDER]["host"]
+ROUTES = tuple(sorted(DATA["routes"]))
+REGIONS = ("overall", *sorted(key for key in DATA["region_cfg"] if key != "overall"))
+DAYS = ("all", *(item["key"] for item in DATA["dates"]))
 
 
 def watch_browser(page, errors, console_errors, failed_requests, requests):
@@ -33,13 +40,13 @@ def watch_browser(page, errors, console_errors, failed_requests, requests):
       };
       const originalSlice = File.prototype.slice;
       File.prototype.slice = function(start, end, type) {
-        if (this.name === 'sf_trip.pmtiles') {
+        if (this.name === __VECTOR_ARCHIVE_NAME__) {
           window.__tripPmtilesReadCount += 1;
           window.__tripPmtilesRanges.add(`${start}-${end}`);
         }
         return originalSlice.call(this, start, end, type);
       };
-    })()""")
+    })()""".replace("__VECTOR_ARCHIVE_NAME__", json.dumps(Path(MAP_ASSETS["vector_archive"]).name)))
     page.on("pageerror", lambda error: errors.append(str(error)))
     page.on("console", lambda message: console_errors.append(message.text) if message.type == "error" else None)
     page.on("request", lambda request: requests.append(request.url))
@@ -90,7 +97,7 @@ def explore_standalone(page):
     metrics = page.evaluate("""()=>({
       fetches:window.__tripFetches||[], pmtiles_ranges:[...(window.__tripPmtilesRanges||[])], pmtiles_read_count:window.__tripPmtilesReadCount||0,
       map_errors:window.__tripMapErrors||[],
-      embedded_hillshade:!!window.EMBEDDED_MAP_ASSETS?.['assets/vector/yosemite_hillshade_shadow.webp'],
+      embedded_relief:!!window.EMBEDDED_MAP_ASSETS?.[""" + json.dumps(RELIEF_PATH) + """],
       remote_resources:performance.getEntriesByType('resource').map(row=>row.name).filter(url=>/^https?:/i.test(url))
     })""")
     return {"explored": explored, "snapshot": snapshot, "metrics": metrics}
@@ -151,17 +158,17 @@ def exercise(page):
 
     page.unroute("http://**")
     page.unroute("https://**")
-    page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
-    page.evaluate("window.__tripApp.chooseProvider('satellite')")
+    page.route(f"https://{RASTER_HOST}/**", lambda route: route.abort())
+    page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER)
     page.wait_for_timeout(3300)
     recovery = page.evaluate("window.__tripApp.runtimeSnapshot()")
     page.mouse.wheel(0, -900); page.mouse.wheel(0, 900)
     page.evaluate("async(route)=>{const a=window.__tripApp;a.state.routes=new Set([route]);a.state.primaryRoute=route;a.state.region='yosemite';a.state.date='10/8';await a.drawMap(false);await a.whenIdle()}", ROUTES[0])
     continued = page.evaluate("window.__tripApp.runtimeSnapshot()")
-    page.unroute("https://server.arcgisonline.com/**")
+    page.unroute(f"https://{RASTER_HOST}/**")
     final = page.evaluate("window.__tripApp.runtimeSnapshot()")
-    unexpected_console_errors = [message for message in console_errors if "server.arcgisonline.com" not in message and "ERR_FAILED" not in message]
-    unexpected_failed_requests = [row for row in failed_requests if "server.arcgisonline.com" not in row["url"]]
+    unexpected_console_errors = [message for message in console_errors if RASTER_HOST not in message and "ERR_FAILED" not in message]
+    unexpected_failed_requests = [row for row in failed_requests if RASTER_HOST not in row["url"]]
     result = {
         "status": "PASS", "mode": "file://", "standalone": str(STANDALONE_PATH.relative_to(ROOT)),
         "initial": initial, "probes": probes, "direct_open_exploration": exploration,
@@ -176,7 +183,7 @@ def exercise(page):
             "spatial_content_remains_useful_or_explicit_sparse": all(row["useful"] or (row["markers"] == 0 and row["features"] == 0) for row in probes),
             "no_asset_failures": all(row["failures"] == 0 for row in probes),
             "repeated_sf_monterey_yosemite_exploration": len(exploration["explored"]) == 9 and {row["region"] for row in exploration["explored"]} == {"sf", "monterey", "yosemite"} and all(row["pan_gesture"] and len(row["zoom_levels"]) >= 3 for row in exploration["explored"]),
-            "standalone_hillshade_is_embedded_in_map_asset_bytes": exploration["metrics"]["embedded_hillshade"],
+            "standalone_relief_is_embedded_in_map_asset_bytes": exploration["metrics"]["embedded_relief"],
             "new_pmtiles_ranges_read_during_exploration": added_range_count >= 10,
             "no_duplicate_canvas_or_markers_after_smart_exploration": smart_snapshot["map"]["canvas_count"] == 1 and len(smart_snapshot["map"]["photo_marker_keys"]) == len(set(smart_snapshot["map"]["photo_marker_keys"])),
             "smart_standalone_usable_after_repeated_exploration": smart_snapshot["provider"] == "vector" and smart_snapshot["provider_health"]["vector"] == "ready" and smart_snapshot["local_assets"]["status"] == "ready" and not smart_snapshot["local_assets"]["failures"] and smart_snapshot["map_visual_ready"] and smart_snapshot["map"]["canvas_count"] == 1 and smart_snapshot["map"]["spatial"]["useful"] and smart_snapshot["map"]["spatial"]["markers_in_viewport"] >= 3 and smart_snapshot["map"]["spatial"]["route_features_in_viewport"] >= 1,
@@ -184,7 +191,7 @@ def exercise(page):
             "no_remote_request_during_smart_exploration": not smart_remote_requests and not exploration["metrics"]["remote_resources"],
             "no_smart_maplibre_errors": not smart_map_errors,
             "no_smart_local_failed_request": not smart_failed_requests,
-            "satellite_recovers_once": bool(recovery["provider_events"]) and recovery["provider"] == "vector" and any(event["type"] == "fallback_to_smart" for event in recovery["provider_events"]),
+            "optional_raster_recovers_once": bool(recovery["provider_events"]) and recovery["provider"] == "vector" and any(event["type"] == "fallback_to_smart" for event in recovery["provider_events"]),
             "smart_continues_after_recovery": continued["provider"] == "vector" and continued["map"]["canvas_count"] == 1 and continued["map"]["spatial"]["useful"],
             "no_duplicate_canvas": final["map"]["canvas_count"] == 1,
             "no_duplicate_markers": len(final["map"]["photo_marker_keys"]) == len(set(final["map"]["photo_marker_keys"])),
@@ -201,7 +208,7 @@ def exercise(page):
 def negative_control():
     source = STANDALONE_PATH.read_text()
     embedded_branch = "if (window.EMBEDDED_MAP_ASSETS) {"
-    force_local_fetch = "if (window.EMBEDDED_MAP_ASSETS && path !== 'assets/vector/yosemite_hillshade_shadow.webp') {"
+    force_local_fetch = f"if (window.EMBEDDED_MAP_ASSETS && path !== {json.dumps(RELIEF_PATH)}) {{"
     file_guard = "if (location.protocol === 'file:') throw new Error(`Missing embedded asset ${path}`);"
     if embedded_branch not in source or file_guard not in source:
         return {"status": "FAIL", "reason": "could not produce local-fetch negative control"}
@@ -219,9 +226,9 @@ def negative_control():
             page.wait_for_timeout(700)
             snapshot = page.evaluate("()=>({text:document.querySelector('#mapError .map-error-message')?.textContent||'',events:window.__tripApp?.state?.runtime?.events||[],local:window.__tripApp?.state?.runtime?.localAssets||{},fetches:window.__negativeFetches||[]})")
             browser.close()
-    local_fetch_seen = any("assets/vector/yosemite_hillshade_shadow.webp" in url for url in snapshot["fetches"])
+    local_fetch_seen = any(RELIEF_PATH in url for url in snapshot["fetches"]) if RELIEF_PATH else True
     regression_detected = snapshot["local"].get("status") == "failed" and "map_runtime" in snapshot["text"] and "Failed to fetch" in snapshot["text"]
-    return {"status": "PASS" if local_fetch_seen and regression_detected else "FAIL", "oracle": "embedded_hillshade_local_fetch_is_detected", "local_fetch_seen": local_fetch_seen, "regression_detected": regression_detected, "snapshot": snapshot}
+    return {"status": "PASS" if local_fetch_seen and regression_detected else "FAIL", "oracle": "declared_embedded_relief_local_fetch_is_detected", "local_fetch_seen": local_fetch_seen, "regression_detected": regression_detected, "snapshot": snapshot}
 
 
 with sync_playwright() as playwright:

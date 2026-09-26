@@ -8,6 +8,7 @@ from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
 from qa_evidence import bind_report, candidate_identity
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,7 +27,7 @@ with sync_playwright() as playwright:
     page.on("pageerror", lambda error: report["errors"].append(str(error)))
     page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    source_data = json.loads((ROOT / "data" / "phase7_app_data.json").read_text())
+    source_data = load_package(DEFAULT_PACKAGE)["data"]
     active_routes = set(source_data["routes"])
     expected_markers = sum(bool(set(marker.get("routes", [])) & active_routes) for marker in source_data["markers"])
     page.wait_for_function("expected=>document.querySelectorAll('.photo-marker').length===expected", arg=expected_markers, timeout=15000)

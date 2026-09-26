@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "trip_identity": "qa-fixture-juniper-coast",
+  "geometry_cache": "packages/portability-fixture/geometry.json",
+  "legs": [
+    {
+      "leg_id": "cove_walk_01",
+      "date": "2041-03-09",
+      "from": "ember_dock",
+      "to": "tide_studio",
+      "mode": "walk",
+      "routes": [
+        "COVE"
+      ],
+      "branch_kind": "main",
+      "endpoint_signature": [
+        [
+          46.31,
+          -123.76
+        ],
+        [
+          46.29,
+          -123.72
+        ],
+        "walk"
+      ],
+      "status": "routed_osm",
+      "point_count": 3
+    },
+    {
+      "leg_id": "wind_swap_02",
+      "date": "2041-03-09",
+      "from": "ember_dock",
+      "to": "tide_studio",
+      "mode": "walk",
+      "routes": [
+        "COVE"
+      ],
+      "branch_kind": "conditional",
+      "endpoint_signature": [
+        [
+          46.31,
+          -123.76
+        ],
+        [
+          46.29,
+          -123.72
+        ],
+        "walk"
+      ],
+      "status": "routed_osm",
+      "point_count": 3
+    },
+    {
+      "leg_id": "quiet_return_03",
+      "date": "2041-03-10",
+      "from": "tide_studio",
+      "to": "ember_dock",
+      "mode": "walk",
+      "routes": [
+        "RIDGE"
+      ],
+      "branch_kind": "recovery",
+      "endpoint_signature": [
+        [
+          46.29,
+          -123.72
+        ],
+        [
+          46.31,
+          -123.76
+        ],
+        "walk"
+      ],
+      "status": "routed_osm",
+      "point_count": 3
+    }
+  ],
+  "counts": {
+    "routed_public_legs": 3,
+    "conceptual_legs": 0,
+    "intentionally_omitted_legs": 0
+  }
+}

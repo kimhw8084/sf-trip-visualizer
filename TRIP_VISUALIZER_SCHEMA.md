@@ -2,21 +2,50 @@
 
 ## Canonical authority
 
-The machine-readable authority map is `manifests/canonical_pipeline.json`. The current authored application dataset is `data/phase7_app_data.json`; `phase7` is a historical filename, not a permission to use a Phase-era build. The maintained source is rendered by `scripts/build_map_first.py` and orchestrated by `scripts/pipeline.py`.
+The machine-readable authority map is `manifests/canonical_pipeline.json`. Its `authority.active_trip_package` selects a complete trip package. The checked-in active package is `packages/sf-family/trip.json`; it selects the current authored application dataset at `data/phase7_app_data.json`. That historical data filename is an SF package detail, not the reusable contract. The shared renderer is built by `scripts/build_map_first.py` and orchestrated by `scripts/pipeline.py`.
 
-`data/phase7_app_data.json` is the sole authored trip-truth source. Its `routes`,
+Each package has one canonical authored itinerary source. For the active SF package, `data/phase7_app_data.json` is that source. Its `routes`,
 `dates`, `region_cfg`, `markers`, `place_region`, `timeline`, `legs`,
-`endpoint_anchors`, `replan_rules`, `providers`, `trip_identity`, `operating_days`,
+`endpoint_anchors`, `replan_rules`, `trip_identity`, `operating_days`,
 `travel_ranges`, `readiness_items`, `cost_cockpit`, and
 `non_photo_itinerary_identities` fields drive the client. The
 locked route/itinerary snapshots, canonical-place export, coordinate audits, and
 location-gap audit are reference evidence; they corroborate the source but never
-override it or drive a build. `data/translations.json`, route geometry, and asset
-provider manifests are derived projections/evidence. `manifests/trip_freshness.json`
-is the one source/recheck authority for time-varying decision facts and is not an
-alternate itinerary source. `scripts/validate_trip_data.py` enforces these boundaries.
+override it or drive a build. The package descriptor owns trip identity, display
+title, slug, currency, canonical data path, derived projection paths, local
+photo/map resources, provider configuration, freshness/source policy, and
+artifact naming. Translations, route geometry, schedules, role matrices, photo
+manifests, and freshness records are selected through its `projections` object.
+Freshness remains the single source/recheck authority for time-varying decision
+facts. `scripts/trip_package.py` validates the reusable package boundary;
+`scripts/validate_trip_data.py` additionally enforces current SF itinerary and
+CHG-63 truth laws.
 
-Normal build/check commands never write authored data. `data/translations.json`, `data/route_geometry_cache.json`, `data/route_geometry_manifest.json`, and the provider/photo manifests are derived inputs or evidence. Superseded route-family/location-gap generators are classified as historical lineage and must not be run against the current trip; they can restore retired route IDs and prior schedules.
+Normal build/check commands never write authored data. Derived projections are
+selected by the package descriptor. Superseded SF route-family/location-gap
+generators are historical lineage and must not be run against the current trip;
+they can restore retired route IDs and prior schedules.
+
+## Trip package boundary
+
+`packages/sf-family/trip.json` is the active package descriptor. It selects one
+canonical itinerary source plus its translations, route roles/schedules/geometry,
+freshness and research projections, photo root/manifest, local vector archive,
+style resources, optional terrain, provider definitions, HTTPS source policies,
+currency, bilingual title/subtitle, slug, and optional stable compatibility
+filename. Paths stay inside the repository and required assets must exist.
+Source policies permit only declared HTTPS hosts and paths; credentials, ports,
+fragments, undeclared query keys, and links outside declared source classes are
+rejected by the runtime URL gates.
+
+Use `python3 scripts/build_map_first.py --package <descriptor> --output-dir <dir>`
+to build any package. Omitting `--package` selects the active SF package. Generated
+standalone names derive from the sanitized package slug; a descriptor may declare
+a stable compatibility alias for existing release consumers. The synthetic
+`packages/portability-fixture/trip.json` package is architecture evidence only;
+the canonical fast path builds it with the same engine and checks its title,
+identity, translation, route/date/region/currency/photo/map/provider/source policy
+and isolation. It is visibly marked as QA-only and excluded from shipping.
 
 Gate 3 refresh and validation use the canonical pipeline:
 
@@ -36,7 +65,7 @@ Without safe external retrieval, the workflow stays fail-closed as
 
 ## Core data
 
-`data/phase7_app_data.json` supplies:
+The active SF package's canonical data supplies:
 
 - `routes`: keyed strategies with color, pattern, title, and decision narrative;
 - `dates`: ordered date keys with Korean and English labels;
@@ -55,14 +84,16 @@ Without safe external retrieval, the workflow stays fail-closed as
 - `non_photo_itinerary_identities`: physical activities that remain in the
   itinerary without a public map marker when the photo-rights contract is unmet.
 
-The configured 2026 trip has one active itinerary (`A`), 39 photo-backed place
-identities, 77 timeline cards, 32 typed connectors, and 11 dates (October 2–12).
-It keeps the existing three non-overall regions and the `vector` / `satellite`
-providers. Route identifiers come from the canonical role/schedule source; the
-renderer supports a one-route trip without a comparison surface.
-`manifests/asset_manifest.json` supplies 117 real local photographs: HERO,
-EXPERIENCE, and SCALE_CONTEXT for every active marker. Historical route evidence
-stays outside configured runtime.
+The active SF regression package has one itinerary (`A`), 39 photo-backed place
+identities, 93 timeline cards, 24 typed connectors, and 11 dates (October 2–12).
+It keeps the existing three non-overall regions. Provider IDs and configuration
+are package-owned; the runtime requires a local `vector` provider and supports
+any number of declared optional raster providers. Route identifiers come from
+each package's canonical role/schedule source; the renderer supports one or
+multiple routes. The active SF photo manifest supplies 117 real local
+photographs: HERO, EXPERIENCE, and SCALE_CONTEXT for every active marker. A
+future package supplies its own photo manifest and local derivatives.
+Historical route evidence stays outside configured runtime.
 
 ## Final itinerary, recovery, and privacy
 
@@ -121,35 +152,52 @@ Use `render_style: transfer_dots` only for inter-region transfers. Ferry legs ar
 
 ## Photo contract
 
-Paths follow `assets/photos/{original|thumb|medium}/{place_key}__{hero|experience|scale_context}.{ext}`. Runtime uses local thumbnail/medium derivatives only. The asset manifest records source page, direct image URL, creator/license metadata where available, local paths, dimensions, MIME type, visual-review note, and SHA-256 hashes. No remote photo is used at runtime.
+Each descriptor declares its photo root and local thumbnail/medium directories.
+Runtime uses local derivatives only. The selected photo manifest records source
+page, direct image URL, creator/license metadata where available, local paths,
+dimensions, MIME type, visual-review note, and SHA-256 hashes. No remote photo is
+used at runtime.
 
 ## Canonical pipeline
 
 ```bash
 python3 -m pip install -r requirements-qa.txt
+python3 scripts/build_map_first.py --package packages/sf-family/trip.json --output-dir .build
+python3 scripts/build_map_first.py --package packages/portability-fixture/trip.json --output-dir .build/portability-fixture
 python3 scripts/pipeline.py fast
 python3 scripts/pipeline.py qualify
 python3 scripts/pipeline.py package
 ```
 
-`fast` validates source/schema/integrity/build invariants, protects authored-input hashes, and compares a repeat build. `qualify` runs the decisive map-first, single-route, place-role, geometry, standalone, responsive/cross-browser, and focused visual suites. It writes current exact-candidate evidence to `QA/CHG-204/` and never rewrites historical evidence.
+`fast` validates package schema, source/integrity/build invariants, runs both
+packages through the same renderer to prove package isolation, protects
+authored-input hashes, and compares a repeat active-package build. `qualify`
+runs the decisive map-first, route/place role, geometry, standalone,
+responsive/cross-browser, phone field-surface, and focused visual suites. It
+writes current exact-candidate evidence to `QA/CHG-232/` and never rewrites
+historical evidence.
 
 Qualification components have a 300-second default timeout. A timeout is machine-recorded as `UNVERIFIED` and blocks release; `TRIP_QUALIFICATION_TIMEOUT_SECONDS` is available only to shorten local diagnostic runs.
 
-The generated modular artifact is `.build/modular/index.html`; serve it with `python3 scripts/pipeline.py serve --port 8766`. The direct-open artifact is `.build/standalone/SF_Smart_Minority_Map_First_Standalone.html`. `package` requires PASS qualification and produces `.release/package/` plus `.release/package.zip` containing modular, standalone, public, source, manifests, and current evidence.
+The default generated modular artifact is `.build/modular/index.html`; serve it
+with `python3 scripts/pipeline.py serve --port 8766`. The standalone file is
+`.build/standalone/<package-slug>-standalone.html`; the active SF descriptor also
+emits its declared historical alias for existing consumers. `package` requires
+PASS qualification and produces `.release/package/` plus `.release/package.zip`
+containing modular, standalone, public, source, manifests, and current evidence.
 
 GitHub Pages runs the same exact-revision release command, checks the staged `.public-site/.release-provenance.json`, and uploads/deploys only after the qualification and provenance checks pass. Historical root HTML, `QA/final_*`, phase evidence, `build_final.py`, `package_final.py`, and provider-era scripts are retained for history but are not supported authority.
 
 ## Gate 4 runtime-resilience contract
 
-`manifests/runtime_resilience_contract.json` is the single Gate 4 contract for
-the four delivery forms and the two maintained providers. `vector` is the
-explicit `smart-local-vector` identity: its PMTiles, fonts, sprites, terrain,
-and local photo derivatives are critical local assets. Missing or corrupt local
-assets are a qualification failure or a visible Smart-map failure; they never
-authorize a remote substitute. Satellite is optional network behavior. Its
-health probes, tile failures, bounded fallback, state preservation, and any
-unverified external-provider success are recorded by
+`manifests/runtime_resilience_contract.json` defines Gate 4 behavior for the
+delivery forms. Each package declares a local `vector` identity and its local map,
+fonts, sprites, optional terrain, and photo derivatives as local assets. Missing
+or corrupt local assets are a qualification failure or a visible Smart-map
+failure; they never authorize a remote substitute. Package-declared raster
+providers are optional network behavior. Their health probes, tile failures,
+bounded fallback, state preservation, and any unverified external-provider
+success are recorded by
 `scripts/qa_gate4_resilience.py` in `QA/CHG-204/release/gate4*.json`.
 
 Gate 4 evidence is run by `scripts/pipeline.py fast` and `qualify`; public and

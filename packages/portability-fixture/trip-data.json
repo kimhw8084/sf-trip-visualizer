@@ -1,0 +1,518 @@
+{
+  "trip_identity": "qa-fixture-juniper-coast",
+  "routes": {
+    "COVE": {
+      "title": "Cove Thread",
+      "subtitle": "Quiet inlets before the afternoon wind",
+      "core_reason": "Reach the sheltered shore while it is calm.",
+      "recommended": true,
+      "color": "#187e78",
+      "pattern": "solid",
+      "score": {
+        "calm": 9,
+        "light": 8
+      },
+      "operating_architecture": "Protect a slow morning and a long quiet-hour reset.",
+      "explanation": {
+        "ko": {
+          "best_for": "잔잔한 해안과 휴식을 원하는 날",
+          "tradeoff": "두 장소만 여유 있게 봅니다.",
+          "decision_rule": "바람과 조수를 확인한 뒤 전망대를 선택합니다.",
+          "regret_guard": "바람이 강하면 실내 전시로 바꿉니다."
+        },
+        "en": {
+          "best_for": "A calm shoreline day with real recovery",
+          "tradeoff": "Two stops with room between them.",
+          "decision_rule": "Check tide and wind before choosing the overlook.",
+          "regret_guard": "Swap to the indoor gallery if wind rises."
+        }
+      }
+    },
+    "RIDGE": {
+      "title": "Ridge Lanterns",
+      "subtitle": "A short high-coast loop with an indoor fallback",
+      "core_reason": "Use a compact overlook and the warm studio.",
+      "recommended": false,
+      "color": "#cb7547",
+      "pattern": "dash",
+      "score": {
+        "calm": 7,
+        "light": 9
+      },
+      "operating_architecture": "Keep the ridge visit conditional and preserve recovery.",
+      "explanation": {
+        "ko": {
+          "best_for": "짧은 전망과 실내 대안을 원하는 날",
+          "tradeoff": "노출된 전망대는 날씨에 좌우됩니다.",
+          "decision_rule": "조수와 바람 조건을 통과할 때만 능선을 방문합니다.",
+          "regret_guard": "조건이 맞지 않으면 스튜디오에서 오래 쉽니다."
+        },
+        "en": {
+          "best_for": "A short viewpoint with an indoor alternative",
+          "tradeoff": "The exposed overlook depends on weather.",
+          "decision_rule": "Visit the ridge only when tide and wind pass.",
+          "regret_guard": "Stay longer at the studio when conditions fail."
+        }
+      }
+    }
+  },
+  "route_day_models": {
+    "COVE": {},
+    "RIDGE": {}
+  },
+  "dates": [
+    {
+      "key": "2041-03-09",
+      "label": "Mar 9 · Cove day",
+      "label_en": "Mar 9 · Cove day"
+    },
+    {
+      "key": "2041-03-10",
+      "label": "Mar 10 · Ridge day",
+      "label_en": "Mar 10 · Ridge day"
+    }
+  ],
+  "region_cfg": {
+    "overall": {
+      "label": "All districts",
+      "label_ko": "전체",
+      "center": {
+        "lat": 46.2,
+        "lon": -123.7
+      },
+      "zoom": 6.8
+    },
+    "orchard": {
+      "label": "Orchard Reach",
+      "label_ko": "과수원 해안",
+      "center": {
+        "lat": 46.3,
+        "lon": -123.75
+      },
+      "zoom": 10
+    },
+    "tideline": {
+      "label": "Tideglass Strand",
+      "label_ko": "유리 조수 해변",
+      "center": {
+        "lat": 46.1,
+        "lon": -123.55
+      },
+      "zoom": 10
+    }
+  },
+  "markers": [
+    {
+      "place_key": "ember_dock",
+      "name": "Ember Dock",
+      "title": "Ember Dock",
+      "lat": 46.31,
+      "lon": -123.76,
+      "cluster": "Orchard Reach",
+      "routes": [
+        "COVE"
+      ],
+      "route_count": 1,
+      "summary": "Ember Dock",
+      "why": "A small QA-only synthetic fixture stop.",
+      "role": "Core",
+      "score": 82,
+      "maps_url": "https://nav.juniper.example.test/place/?q=ember_dock",
+      "occurrences": [
+        {
+          "route": "COVE",
+          "date": "2041-03-09",
+          "date_key": "2041-03-09",
+          "time": "08:20–09:00",
+          "title": "Ember Dock · low-tide start",
+          "title_en": "Ember Dock · low-tide start",
+          "reason": "Reach the sheltered rocks before the morning breeze strengthens.",
+          "reason_en": "Reach the sheltered rocks before the morning breeze strengthens.",
+          "advantage": "Reach the sheltered rocks before the morning breeze strengthens.",
+          "advantage_en": "Reach the sheltered rocks before the morning breeze strengthens.",
+          "kind": "exclusive",
+          "status": "planned",
+          "seq": 1,
+          "route_title": "COVE",
+          "role": "Core",
+          "schedule_tier": "must",
+          "fallback_rule": "Keep the quiet-hour recovery if energy or access drops.",
+          "recovery_rule": "Skip this stop before cutting the planned recovery.",
+          "condition": "Open only if the tide and wind check pass."
+        }
+      ],
+      "photo_thumb": "packages/portability-fixture/assets/photos/thumb/ember_dock__hero.webp",
+      "photo_status": "LOCAL_TEST_ASSET",
+      "decision_rules": [
+        {
+          "key": "weather",
+          "text": "Choose the indoor studio if the exposed coast is windy.",
+          "text_en": "Choose the indoor studio if the exposed coast is windy."
+        }
+      ],
+      "route_roles": {
+        "COVE": "Core",
+        "RIDGE": "Skip"
+      },
+      "schedule_tier": "must",
+      "description_en": "Ember Dock",
+      "description_ko": "Ember Dock"
+    },
+    {
+      "place_key": "tide_studio",
+      "name": "Tideglass Studio",
+      "title": "Tideglass Studio",
+      "lat": 46.29,
+      "lon": -123.72,
+      "cluster": "Tideglass Strand",
+      "routes": [
+        "COVE",
+        "RIDGE"
+      ],
+      "route_count": 1,
+      "summary": "Tideglass Studio",
+      "why": "A small QA-only synthetic fixture stop.",
+      "role": "Core",
+      "score": 82,
+      "maps_url": "https://nav.juniper.example.test/place/?q=tide_studio",
+      "occurrences": [
+        {
+          "route": "COVE",
+          "date": "2041-03-09",
+          "date_key": "2041-03-09",
+          "time": "10:15–11:00",
+          "title": "Tideglass Studio · wind fallback",
+          "title_en": "Tideglass Studio · wind fallback",
+          "reason": "A warm indoor option is available if the shoreline becomes exposed.",
+          "reason_en": "A warm indoor option is available if the shoreline becomes exposed.",
+          "advantage": "A warm indoor option is available if the shoreline becomes exposed.",
+          "advantage_en": "A warm indoor option is available if the shoreline becomes exposed.",
+          "kind": "exclusive",
+          "status": "planned",
+          "seq": 1,
+          "route_title": "COVE",
+          "role": "Conditional",
+          "schedule_tier": "conditional",
+          "fallback_rule": "Keep the quiet-hour recovery if energy or access drops.",
+          "recovery_rule": "Skip this stop before cutting the planned recovery.",
+          "condition": "Open only if the tide and wind check pass."
+        },
+        {
+          "route": "RIDGE",
+          "date": "2041-03-10",
+          "date_key": "2041-03-10",
+          "time": "10:00–11:30",
+          "title": "Tideglass Studio · long visit",
+          "title_en": "Tideglass Studio · long visit",
+          "reason": "The covered studio stays comfortable if the ridge is windy.",
+          "reason_en": "The covered studio stays comfortable if the ridge is windy.",
+          "advantage": "The covered studio stays comfortable if the ridge is windy.",
+          "advantage_en": "The covered studio stays comfortable if the ridge is windy.",
+          "kind": "exclusive",
+          "status": "planned",
+          "seq": 1,
+          "route_title": "RIDGE",
+          "role": "Core",
+          "schedule_tier": "strong",
+          "fallback_rule": "Keep the quiet-hour recovery if energy or access drops.",
+          "recovery_rule": "Skip this stop before cutting the planned recovery.",
+          "condition": "Open only if the tide and wind check pass."
+        }
+      ],
+      "photo_thumb": "packages/portability-fixture/assets/photos/thumb/tide_studio__hero.webp",
+      "photo_status": "LOCAL_TEST_ASSET",
+      "decision_rules": [
+        {
+          "key": "weather",
+          "text": "Choose the indoor studio if the exposed coast is windy.",
+          "text_en": "Choose the indoor studio if the exposed coast is windy."
+        }
+      ],
+      "route_roles": {
+        "COVE": "Conditional",
+        "RIDGE": "Core"
+      },
+      "schedule_tier": "must",
+      "description_en": "Tideglass Studio",
+      "description_ko": "Tideglass Studio"
+    }
+  ],
+  "place_region": {
+    "ember_dock": "orchard",
+    "tide_studio": "tideline"
+  },
+  "route_roles": {
+    "ember_dock": {
+      "COVE": "Core",
+      "RIDGE": "Skip"
+    },
+    "tide_studio": {
+      "COVE": "Conditional",
+      "RIDGE": "Core"
+    }
+  },
+  "timeline": [
+    {
+      "id": "cove_01",
+      "date": "2041-03-09",
+      "date_key": "2041-03-09",
+      "routes": [
+        "COVE"
+      ],
+      "regions": [
+        "orchard"
+      ],
+      "spatial_keys": [
+        "ember_dock"
+      ],
+      "kind": "place",
+      "time": "08:20–09:00",
+      "title": "Ember Dock · low-tide start",
+      "title_en": "Ember Dock · low-tide start",
+      "reason": "Sheltered rocks are easiest before the breeze rises.",
+      "reason_en": "Sheltered rocks are easiest before the breeze rises.",
+      "advantage": "Quiet water and easy access.",
+      "advantage_en": "Quiet water and easy access.",
+      "schedule_tier": "must",
+      "route_specific": true
+    },
+    {
+      "id": "walk_02",
+      "date": "2041-03-09",
+      "date_key": "2041-03-09",
+      "routes": [
+        "COVE"
+      ],
+      "regions": [
+        "orchard",
+        "tideline"
+      ],
+      "spatial_keys": [],
+      "kind": "travel",
+      "time": "09:00–09:20",
+      "title": "Walk the sheltered path",
+      "title_en": "Walk the sheltered path",
+      "reason": "Short local connection; static map reference only.",
+      "reason_en": "Short local connection; static map reference only.",
+      "advantage": "No vehicle transfer.",
+      "advantage_en": "No vehicle transfer.",
+      "schedule_tier": "strong"
+    },
+    {
+      "id": "quiet_03",
+      "date": "2041-03-09",
+      "date_key": "2041-03-09",
+      "routes": [
+        "COVE",
+        "RIDGE"
+      ],
+      "regions": [
+        "orchard",
+        "tideline"
+      ],
+      "spatial_keys": [],
+      "kind": "recovery",
+      "time": "12:00–14:00",
+      "title": "Quiet-hour recovery",
+      "title_en": "Quiet-hour recovery",
+      "reason": "Protect the long indoor rest before the afternoon.",
+      "reason_en": "Protect the long indoor rest before the afternoon.",
+      "advantage": "Everyone gets a calm reset.",
+      "advantage_en": "Everyone gets a calm reset.",
+      "schedule_tier": "recovery",
+      "branch_kind": "recovery"
+    },
+    {
+      "id": "studio_04",
+      "date": "2041-03-09",
+      "date_key": "2041-03-09",
+      "routes": [
+        "COVE"
+      ],
+      "regions": [
+        "tideline"
+      ],
+      "spatial_keys": [
+        "tide_studio"
+      ],
+      "kind": "place",
+      "time": "14:20–15:00",
+      "title": "Tideglass Studio · wind fallback",
+      "title_en": "Tideglass Studio · wind fallback",
+      "reason": "Use this warm indoor stop only if the exposed shoreline is windy.",
+      "reason_en": "Use this warm indoor stop only if the exposed shoreline is windy.",
+      "advantage": "An easy swap keeps the day comfortable.",
+      "advantage_en": "An easy swap keeps the day comfortable.",
+      "schedule_tier": "conditional",
+      "branch_kind": "conditional",
+      "condition": "Only if wind exceeds the family comfort threshold."
+    },
+    {
+      "id": "ridge_05",
+      "date": "2041-03-10",
+      "date_key": "2041-03-10",
+      "routes": [
+        "RIDGE"
+      ],
+      "regions": [
+        "orchard"
+      ],
+      "spatial_keys": [
+        "ember_dock"
+      ],
+      "kind": "place",
+      "time": "08:45–09:20",
+      "title": "Ember Dock · ridge overlook",
+      "title_en": "Ember Dock · ridge overlook",
+      "reason": "Short view if tide and wind are calm.",
+      "reason_en": "Short view if tide and wind are calm.",
+      "advantage": "A brief coastal panorama.",
+      "advantage_en": "A brief coastal panorama.",
+      "schedule_tier": "conditional",
+      "branch_kind": "conditional"
+    },
+    {
+      "id": "studio_06",
+      "date": "2041-03-10",
+      "date_key": "2041-03-10",
+      "routes": [
+        "RIDGE"
+      ],
+      "regions": [
+        "tideline"
+      ],
+      "spatial_keys": [
+        "tide_studio"
+      ],
+      "kind": "place",
+      "time": "10:00–11:30",
+      "title": "Tideglass Studio · long visit",
+      "title_en": "Tideglass Studio · long visit",
+      "reason": "Covered space makes a comfortable fallback.",
+      "reason_en": "Covered space makes a comfortable fallback.",
+      "advantage": "Rest and explore at a slower pace.",
+      "advantage_en": "Rest and explore at a slower pace.",
+      "schedule_tier": "must"
+    }
+  ],
+  "legs": [
+    {
+      "leg_id": "cove_walk_01",
+      "from": "ember_dock",
+      "to": "tide_studio",
+      "from_latlon": [
+        46.31,
+        -123.76
+      ],
+      "to_latlon": [
+        46.29,
+        -123.72
+      ],
+      "date": "2041-03-09",
+      "routes": [
+        "COVE"
+      ],
+      "mode": "walk",
+      "label": "Sheltered path",
+      "note": "Static local fixture geometry; verify access before walking.",
+      "render_style": "cached_osm_reference_line",
+      "geometry_source": "fixture coordinates",
+      "geometry_kind": "routed_osm",
+      "branch_kind": "main"
+    },
+    {
+      "leg_id": "wind_swap_02",
+      "from": "ember_dock",
+      "to": "tide_studio",
+      "from_latlon": [
+        46.31,
+        -123.76
+      ],
+      "to_latlon": [
+        46.29,
+        -123.72
+      ],
+      "date": "2041-03-09",
+      "routes": [
+        "COVE"
+      ],
+      "mode": "walk",
+      "label": "Wind fallback",
+      "note": "Conditional relationship to the covered studio.",
+      "render_style": "cached_osm_reference_line",
+      "geometry_source": "fixture coordinates",
+      "geometry_kind": "routed_osm",
+      "branch_kind": "conditional"
+    },
+    {
+      "leg_id": "quiet_return_03",
+      "from": "tide_studio",
+      "to": "ember_dock",
+      "from_latlon": [
+        46.29,
+        -123.72
+      ],
+      "to_latlon": [
+        46.31,
+        -123.76
+      ],
+      "date": "2041-03-10",
+      "routes": [
+        "RIDGE"
+      ],
+      "mode": "walk",
+      "label": "Protected quiet-hour return",
+      "note": "Recovery relationship; do not compress this rest.",
+      "render_style": "cached_osm_reference_line",
+      "geometry_source": "fixture coordinates",
+      "geometry_kind": "routed_osm",
+      "branch_kind": "recovery"
+    }
+  ],
+  "endpoint_anchors": {},
+  "replan_rules": {
+    "weather": "Use the indoor stop if the ridge is windy."
+  },
+  "operating_days": {
+    "2041-03-09": {
+      "leave": "08:00–08:30",
+      "leave_en": "08:00–08:30",
+      "nap": "12:00–14:00",
+      "nap_en": "12:00–14:00",
+      "recovery": "Quiet-hour return by 14:00",
+      "recovery_en": "Quiet-hour return by 14:00",
+      "prepare": "Check tide, wind, and path access.",
+      "prepare_en": "Check tide, wind, and path access.",
+      "invalidator": "Wind exposure; tide access; indoor fallback availability.",
+      "invalidator_en": "Wind exposure; tide access; indoor fallback availability.",
+      "field_watch": "Check wind and tide before choosing the ridge.",
+      "field_watch_en": "Check wind and tide before choosing the ridge."
+    },
+    "2041-03-10": {
+      "leave": "08:00–08:30",
+      "leave_en": "08:00–08:30",
+      "nap": "12:00–14:00",
+      "nap_en": "12:00–14:00",
+      "recovery": "Quiet-hour return by 14:00",
+      "recovery_en": "Quiet-hour return by 14:00",
+      "prepare": "Check tide, wind, and path access.",
+      "prepare_en": "Check tide, wind, and path access.",
+      "invalidator": "Wind exposure; tide access; indoor fallback availability.",
+      "invalidator_en": "Wind exposure; tide access; indoor fallback availability.",
+      "field_watch": "Check wind and tide before choosing the ridge.",
+      "field_watch_en": "Check wind and tide before choosing the ridge."
+    }
+  },
+  "travel_ranges": [],
+  "readiness_items": [],
+  "cost_cockpit": {
+    "scenarios": [],
+    "variable_checkout_required": [],
+    "optional_convenience": [],
+    "analysis_scenario": {
+      "excluded": [],
+      "excluded_ko": []
+    }
+  },
+  "non_photo_itinerary_identities": []
+}

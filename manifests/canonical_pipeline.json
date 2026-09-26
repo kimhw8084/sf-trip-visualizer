@@ -3,19 +3,17 @@
   "project": "sf-trip-visualizer",
   "authority": {
     "product": "Smart Minority family-trip decision system",
-    "canonical_data": "data/phase7_app_data.json",
-    "canonical_route_roles": "data/route_role_matrix.json",
-    "canonical_route_schedules": "data/route_schedules.json",
+    "active_trip_package": "packages/sf-family/trip.json",
     "route_truth_validator": "scripts/validate_route_truth.py",
     "canonical_template": "src/map_shell_template.html",
     "canonical_renderer": "src/app_phase7.js",
     "canonical_build": "scripts/build_map_first.py",
     "canonical_pipeline": "scripts/pipeline.py",
-    "filename_note": "phase7_app_data.json and app_phase7.js are current maintained inputs; their names do not indicate legacy authority. Authority is defined by this manifest and the supported pipeline."
+    "package_boundary": "The selected package descriptor owns trip identity, canonical data, projections, local assets, provider configuration, source policy, and artifact identity. Renderer and canonical builder source are shared across packages."
   },
   "truth_authority": {
-    "scope": "routes, canonical route roles, dates, regions, physical places, route occurrences, timeline cards, typed legs, decision rules, endpoint anchors, lodging transitions, and provider configuration",
-    "authored_source": "data/phase7_app_data.json",
+    "scope": "routes, canonical route roles, dates, regions, physical places, route occurrences, timeline cards, typed legs, decision rules, endpoint anchors, lodging transitions",
+    "authored_source": "$active_trip_package.canonical_data",
     "required_top_level_fields": [
       "routes",
       "dates",
@@ -26,7 +24,6 @@
       "legs",
       "endpoint_anchors",
       "replan_rules",
-      "providers",
       "readiness_items",
       "cost_cockpit",
       "operating_days",
@@ -40,10 +37,11 @@
     "route_schedule_validator": "scripts/validate_route_truth.py"
   },
   "authored_inputs": [
-    "data/phase7_app_data.json",
-    "data/route_role_matrix.json",
-    "data/route_schedules.json",
-    "data/route_research_ledger.json",
+    "packages/sf-family/trip.json",
+    "scripts/trip_package.py",
+    "scripts/qa_trip_package_portability.py",
+    "scripts/qa_phone_field_surface.py",
+    "tests/test_trip_package.py",
     "src/map_shell_template.html",
     "src/app_phase7.css",
     "src/app_phase7.js",
@@ -56,12 +54,8 @@
     "vendor/maplibre-gl.js",
     "vendor/trip-vector.js",
     "vendor/plotly.min.js",
-    "assets/vector/sf_trip.pmtiles",
-    "assets/vector/yosemite_hillshade_source.png",
-    "assets/vector/yosemite_hillshade_shadow.webp",
     "manifests/photo_selection.json",
     "manifests/photo_acquisition_queue.json",
-    "manifests/trip_freshness.json",
     "manifests/runtime_resilience_contract.json",
     "manifests/public_asset_rights.json",
     "manifests/security_privacy_contract.json"
@@ -77,13 +71,15 @@
     "LOCATION_COVERAGE_AUDIT.md"
   ],
   "derived_inputs": [
-    "data/translations.json",
-    "data/route_geometry_cache.json",
-    "data/route_geometry_manifest.json",
-    "manifests/asset_manifest.json",
-    "manifests/map_first_basemap_manifest.json",
-    "manifests/basemap_provider_manifest.json",
-    "manifests/public_asset_rights.json"
+    "$active_trip_package.projections.translations",
+    "$active_trip_package.projections.route_geometry",
+    "$active_trip_package.projections.route_geometry_manifest",
+    "$active_trip_package.projections.route_roles",
+    "$active_trip_package.projections.route_schedules",
+    "$active_trip_package.projections.freshness",
+    "$active_trip_package.projections.research_ledger",
+    "$active_trip_package.projections.photos_manifest",
+    "$active_trip_package.assets.map.local_resources"
   ],
   "generated_outputs": [
     ".build/",
@@ -117,6 +113,7 @@
     "scripts/rebuild_five_route_data.py"
   ],
   "supported_commands": {
+    "build_package": "python3 scripts/build_map_first.py --package <trip-descriptor> --output-dir <generated-directory>",
     "fast": "python3 scripts/pipeline.py fast",
     "qualify": "python3 scripts/pipeline.py qualify",
     "serve": "python3 scripts/pipeline.py serve --port 8766",
@@ -163,6 +160,8 @@
     "QA/CHG-232/browser_summary.json",
     "QA/CHG-232/visual/visual_index.json",
     "QA/CHG-232/release/fast.json",
+    "QA/CHG-232/portability.json",
+    "QA/CHG-232/phone_field_surface.json",
     "QA/CHG-232/release/qualification.json",
     "QA/CHG-232/release/gate4_static.json",
     "QA/CHG-232/release/gate4_runtime.json",

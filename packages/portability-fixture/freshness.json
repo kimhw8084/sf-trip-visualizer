@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "project": "qa-fixture-juniper-coast",
+  "default_status": "RECHECK_REQUIRED",
+  "records": [
+    {
+      "fact_id": "juniper_tide_001",
+      "scope": {
+        "dates": [
+          "2041-03-09",
+          "2041-03-10"
+        ],
+        "place_keys": [
+          "ember_dock",
+          "tide_studio"
+        ]
+      },
+      "claim": "Tide access and wind conditions are not live verified.",
+      "source": {
+        "publisher": "Juniper Coast test authority",
+        "source_urls": [
+          "https://agency.juniper.test/conditions"
+        ],
+        "primary_or_official": true
+      },
+      "observed_on": "2041-03-01",
+      "status": "RECHECK_REQUIRED",
+      "certainty": "OBSERVED_AT_SOURCE_CHECK_RECHECK_REQUIRED",
+      "confidence": "medium",
+      "recheck": {
+        "trigger": "Trip date or condition change",
+        "window": "Morning of visit"
+      },
+      "last_observation": {
+        "source_url": "https://agency.juniper.test/conditions",
+        "checked_at": "2041-03-01"
+      }
+    }
+  ]
+}

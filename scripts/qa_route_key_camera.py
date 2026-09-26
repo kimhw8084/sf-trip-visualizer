@@ -11,6 +11,7 @@ from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
 from qa_evidence import bind_report, candidate_identity
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,7 +19,7 @@ OUT = ROOT / "QA" / "CHG-232" / "route_key_camera.json"
 SCREENSHOTS = ROOT / "QA" / "CHG-232" / "screenshots"
 VIEWPORTS = ((360, 800), (375, 812), (390, 844), (414, 896))
 PATHS = ("pointer", "keyboard", "touch")
-ROUTES = sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"])
+ROUTES = sorted(load_package(DEFAULT_PACKAGE)["data"]["routes"])
 STYLE_READY_TIMEOUT_MS = 5000
 
 

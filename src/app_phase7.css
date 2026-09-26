@@ -63,12 +63,14 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .eyebrow { margin: 0; color: var(--text-subtle); font-size: 10px; line-height: 1.25; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 .brand { margin: 3px 0 0; font-size: clamp(16px, 1.55vw, 22px); line-height: 1.1; letter-spacing: -.035em; }
 .sub { margin: 5px 0 0; color: var(--text-muted); font-size: 12px; line-height: 1.35; }
+.fixture-notice { margin: 4px 0 0; color: var(--warning); font-size: 10px; font-weight: 800; line-height: 1.25; }
 .global-actions { display: flex; align-items: center; justify-content: flex-end; gap: 7px; flex: 0 0 auto; }
 .credits-link { color: var(--text-muted); font-size: 11px; text-underline-offset: 3px; }
 .utility-button, .icon-button, .map-action { min-height: 36px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface-raised); color: var(--text); padding: 7px 11px; font-size: 11px; font-weight: 750; cursor: pointer; }
 .utility-button:hover, .utility-button:focus-visible, .map-action:hover, .map-action:focus-visible { border-color: var(--accent); background: var(--accent-soft); }
 .workspace { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 42vw); }
 .map-shell { position: relative; min-width: 0; min-height: 0; isolation: isolate; background: #d7dedb; }
+.map-shell.options-open { z-index: 25; }
 .map { width: 100%; height: 100%; min-height: 320px; }
 .map-chrome { position: absolute; z-index: 9; border: 1px solid color-mix(in srgb, var(--border-strong) 72%, transparent); border-radius: var(--radius-md); background: color-mix(in srgb, var(--surface-raised) 92%, transparent); box-shadow: var(--shadow-soft); backdrop-filter: blur(10px); }
 .map-top-left { top: 14px; left: 14px; display: grid; gap: 7px; padding: 7px; max-width: min(360px, calc(100% - 28px)); }
@@ -93,7 +95,7 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .segmented-control { display: flex; flex-wrap: wrap; gap: 4px; }
 .segment { min-height: 32px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text-muted); padding: 6px 9px; font-size: 10px; font-weight: 750; cursor: pointer; }
 .segment[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
-.segment[data-provider="satellite"][data-health="failed"]::after { content: " · !"; color: var(--warning); }
+.segment[data-health="failed"]::after { content: " · !"; color: var(--warning); }
 .map-status { max-width: 320px; padding-inline: 3px; color: var(--text-muted); font-size: 9px; line-height: 1.3; }
 .map-status.ready { color: var(--accent-strong); }
 .map-status.failed { color: var(--danger); }
@@ -305,35 +307,48 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 @media (max-width: 1000px) and (min-width: 801px) { .workspace { grid-template-columns: minmax(0, 1fr) minmax(340px, 46vw); } .mode-view { padding-inline: 14px; } }
 @media (max-width: 800px) {
   body { overflow: hidden; }
-  .appbar { align-items: flex-start; padding: 10px 11px 8px; }
+  .appbar { align-items: flex-start; padding: max(10px, env(safe-area-inset-top)) 11px 8px; }
   .eyebrow { font-size: 8px; }
   .brand { font-size: 15px; }
   .sub, .credits-link { display: none; }
   .global-actions { gap: 4px; }
-  .utility-button { min-height: 32px; padding: 6px 8px; font-size: 10px; }
+  .utility-button { min-height: 44px; min-width: 44px; padding: 6px 8px; font-size: 10px; }
   .workbench-toggle { display: none; }
-  .workspace { position: relative; grid-template-columns: 1fr; grid-template-rows: minmax(0, 56%) minmax(0, 44%); }
+  /* Keep route geography present while giving the selected day enough room to
+     show its next concrete step on first use. The map stays visible as the
+     traveler scrolls the day sheet. */
+  .workspace { position: relative; grid-template-columns: 1fr; grid-template-rows: minmax(210px, 31%) minmax(0, 69%); }
+  .map { min-height: 0; }
   #app[data-sheet="compact"] .workspace { grid-template-rows: minmax(0, 1fr) max-content; }
   #app[data-sheet="full"] .workspace { grid-template-rows: minmax(0, 1fr); }
   .map-top-left { top: 8px; left: 8px; max-width: calc(100% - 16px); padding: 5px; gap: 5px; }
   .map-bottom-left { left: 8px; bottom: 8px; max-width: calc(100% - 16px); }
   .map-control-label { font-size: 8px; }
-  .segment { min-height: 34px; padding: 6px 8px; font-size: 9px; }
+  .segment { min-height: 44px; padding: 6px 8px; font-size: 9px; }
   .map-status { max-width: 100%; font-size: 8px; }
-  .map-action { min-height: 34px; padding: 6px 8px; font-size: 9px; }
-  .map-summary-button { min-height: 36px; padding-inline: 8px; }
-  .map-options-panel { width: min(320px, calc(100vw - 16px)); max-height: min(330px, calc(100dvh - 150px)); }
+  .map-action { min-height: 44px; padding: 6px 8px; font-size: 9px; }
+  .map-summary-button { min-height: 44px; padding-inline: 8px; }
+  .map-options-close { min-width: 44px; min-height: 44px; }
+  .map-options-panel { width: min(320px, calc(100vw - 16px)); max-height: min(210px, calc(100dvh - 190px)); }
   .peek { right: 8px; bottom: 8px; left: 8px; top: auto; width: auto; max-height: min(310px, calc(100% - 16px)); }
   .peek-media { height: 82px; }
   .workbench { position: relative; z-index: 15; border-top: 1px solid var(--border); border-left: 0; border-radius: 18px 18px 0 0; box-shadow: 0 -12px 30px rgba(35, 47, 42, .15); }
+  .workbench[data-mode="day"] .mode-intro { display: none; }
+  .workbench[data-mode="place"] .mode-intro { display: none; }
+  .workbench[data-mode="day"] { padding-bottom: env(safe-area-inset-bottom); }
   .workbench[data-sheet="compact"] { height: max-content; grid-template-rows: auto auto 0; overflow: hidden; }
   .workbench[data-sheet="compact"] .workbench-scroll,
   .workbench[data-sheet="compact"] .workbench-scroll[hidden] { display: none; }
   .workbench[data-sheet="full"] { position: absolute; inset: 0; border-radius: 0; }
   .workbench-head { padding: 9px 12px 5px; }
   .mode-nav { padding: 5px 8px; }
-  .mode-button { min-height: 42px; }
-  .mode-view { padding: 15px 12px 28px; }
+  .mode-button { min-height: 48px; }
+  .icon-button { min-width: 44px; min-height: 44px; }
+  .day-picker, .day-notes-toggle, .travel-details-toggle, .cost-open { min-height: 44px; }
+  .day-item { min-height: 52px; }
+  .mode-view { padding: 10px 12px 20px; }
+  .day-controls { margin-bottom: 8px; padding: 7px; }
+  .day-header { gap: 5px; margin-bottom: 9px; padding: 9px; }
   .mode-intro h2 { font-size: 22px; }
   .recommendation-grid { grid-template-columns: 1fr; }
   .route-card-actions { flex-wrap: wrap; }

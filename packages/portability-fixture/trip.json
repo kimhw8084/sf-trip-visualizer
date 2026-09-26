@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "trip_identity": "qa-fixture-juniper-coast",
+  "display_title": "QA Fixture · Juniper Coast Field Card",
+  "subtitle": {
+    "ko": "비실제 QA 패키지 · 주니퍼 해안",
+    "en": "Synthetic QA package · Juniper Coast"
+  },
+  "slug": "qa-juniper-coast",
+  "currency": "CNY",
+  "canonical_data": "packages/portability-fixture/trip-data.json",
+  "projections": {
+    "route_roles": "packages/portability-fixture/route-roles.json",
+    "route_schedules": "packages/portability-fixture/route-schedules.json",
+    "route_geometry": "packages/portability-fixture/geometry.json",
+    "translations": "packages/portability-fixture/translations.json",
+    "freshness": "packages/portability-fixture/freshness.json",
+    "research_ledger": "packages/portability-fixture/research.json",
+    "coordinate_audit": "packages/portability-fixture/coordinate-audit.json",
+    "photos_manifest": "packages/portability-fixture/photos.json",
+    "route_geometry_manifest": "packages/portability-fixture/geometry-manifest.json"
+  },
+  "assets": {
+    "root": "packages/portability-fixture/assets",
+    "photos": {
+      "root": "packages/portability-fixture/assets/photos",
+      "thumb_dir": "packages/portability-fixture/assets/photos/thumb",
+      "medium_dir": "packages/portability-fixture/assets/photos/medium"
+    },
+    "map": {
+      "identity": "JuniperRange local QA atlas v1",
+      "vector_archive": "packages/portability-fixture/assets/map/juniper-range.pmtiles",
+      "attribution": "© Synthetic QA fixture",
+      "fonts_root": "packages/portability-fixture/assets/map/fonts",
+      "sprites_root": "packages/portability-fixture/assets/map/sprites",
+      "local_resources": [
+        "packages/portability-fixture/assets/map/juniper-range.pmtiles",
+        "packages/portability-fixture/assets/map/fonts",
+        "packages/portability-fixture/assets/map/sprites"
+      ],
+      "glyphs_template": "tripasset://packages/portability-fixture/assets/map/fonts/{fontstack}/{range}.pbf",
+      "sprite_template": "tripasset://packages/portability-fixture/assets/map/sprites/{theme}",
+      "relief": null
+    }
+  },
+  "providers": {
+    "vector": {
+      "kind": "vector",
+      "local": true,
+      "identity": "JuniperRange QA archive v1",
+      "failure_domain": "package-local QA archive",
+      "attribution": "© Synthetic QA fixture",
+      "requires_api_key": false,
+      "label_en": "Smart · local",
+      "label_ko": "Smart · 로컬"
+    },
+    "beacon_tiles": {
+      "kind": "raster",
+      "identity": "juniper-imagery-fixture-v1",
+      "failure_domain": "non-routable fixture provider",
+      "tile_template": "https://tiles.juniper.example.test/imagery/{z}/{y}/{x}.png",
+      "health_probe": "https://tiles.juniper.example.test/imagery/3/2/2.png",
+      "attribution": "Synthetic imagery provider test",
+      "requires_api_key": false,
+      "label_en": "Juniper imagery fixture",
+      "label_ko": "주니퍼 이미지 QA 제공자"
+    }
+  },
+  "source_policy": {
+    "official_sources": {
+      "scheme": "https",
+      "hosts": [
+        "agency.juniper.test"
+      ]
+    },
+    "external": {
+      "directions": {
+        "scheme": "https",
+        "host": "nav.juniper.example.test",
+        "paths": {
+          "/place/": {
+            "required_query": [
+              "q"
+            ]
+          },
+          "/route/": {
+            "required_query": [
+              "from",
+              "to"
+            ]
+          }
+        },
+        "allowed_query": [
+          "q",
+          "from",
+          "to"
+        ],
+        "links": {
+          "place": "https://nav.juniper.example.test/place/?q={query}",
+          "route": "https://nav.juniper.example.test/route/?from={origin}&to={destination}"
+        }
+      },
+      "beacon_tiles": {
+        "scheme": "https",
+        "host": "tiles.juniper.example.test",
+        "path_prefix": "/imagery/"
+      }
+    }
+  },
+  "is_non_shipping_fixture": true
+}

@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "trip_identity": "sf-family-2026-final",
+  "display_title": "Smart Minority · SF / Monterey / Yosemite Field Atlas",
+  "subtitle": {
+    "ko": "샌프란시스코 · 몬터레이–카멜–빅서 · 요세미티",
+    "en": "San Francisco · Monterey–Carmel–Big Sur · Yosemite"
+  },
+  "slug": "sf-trip-2026",
+  "currency": "USD",
+  "canonical_data": "data/phase7_app_data.json",
+  "projections": {
+    "route_roles": "data/route_role_matrix.json",
+    "route_schedules": "data/route_schedules.json",
+    "route_geometry": "data/route_geometry_cache.json",
+    "route_geometry_manifest": "data/route_geometry_manifest.json",
+    "translations": "data/translations.json",
+    "freshness": "manifests/trip_freshness.json",
+    "research_ledger": "data/route_research_ledger.json",
+    "coordinate_audit": "data/coordinate_audit.json",
+    "photos_manifest": "manifests/asset_manifest.json"
+  },
+  "assets": {
+    "root": "assets",
+    "photos": {
+      "root": "assets/photos",
+      "thumb_dir": "assets/photos/thumb",
+      "medium_dir": "assets/photos/medium"
+    },
+    "map": {
+      "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6",
+      "vector_archive": "assets/vector/sf_trip.pmtiles",
+      "attribution": "© OpenStreetMap contributors · Protomaps",
+      "fonts_root": "assets/vector/fonts",
+      "sprites_root": "assets/vector/sprites",
+      "local_resources": [
+        "assets/vector/sf_trip.pmtiles",
+        "assets/vector/fonts",
+        "assets/vector/sprites",
+        "assets/vector/yosemite_hillshade_shadow.webp"
+      ],
+      "glyphs_template": "tripasset://assets/vector/fonts/{fontstack}/{range}.pbf",
+      "sprite_template": "tripasset://assets/vector/sprites/{theme}",
+      "relief": {
+        "path": "assets/vector/yosemite_hillshade_shadow.webp",
+        "coordinates": [
+          [
+            -119.99,
+            37.95
+          ],
+          [
+            -119.35,
+            37.95
+          ],
+          [
+            -119.35,
+            37.38
+          ],
+          [
+            -119.99,
+            37.38
+          ]
+        ]
+      }
+    }
+  },
+  "providers": {
+    "vector": {
+      "kind": "vector",
+      "local": true,
+      "identity": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
+      "failure_domain": "local bundled PMTiles",
+      "attribution": "© OpenStreetMap contributors · Protomaps",
+      "requires_api_key": false,
+      "label_en": "Smart · local",
+      "label_ko": "Smart · 로컬"
+    },
+    "satellite": {
+      "kind": "raster",
+      "identity": "satellite-esri-with-local-labels",
+      "failure_domain": "Esri ArcGIS Online",
+      "tile_template": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      "health_probe": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655",
+      "attribution": "Tiles © Esri and contributors",
+      "default_fallback": false,
+      "requires_api_key": false,
+      "label_en": "Satellite · Esri World Imagery",
+      "label_ko": "위성 · Esri World Imagery"
+    }
+  },
+  "source_policy": {
+    "official_sources": {
+      "scheme": "https",
+      "hosts": [
+        "flysfo.com",
+        "www.flysfo.com",
+        "foodwise.org",
+        "home.nps.gov",
+        "www.nps.gov",
+        "nps.gov",
+        "gomuirwoods.com",
+        "www.goldengate.org",
+        "goldengate.org",
+        "alcatrazcitycruises.com",
+        "www.sfmta.com",
+        "sfmta.com",
+        "www.goldengatefortunecookies.com",
+        "parks.ca.gov",
+        "ci.carmel.ca.us",
+        "www.pebblebeach.com",
+        "www.montereybayaquarium.org",
+        "gggp.org",
+        "www.gggp.org",
+        "museum.stanford.edu",
+        "presidio.gov"
+      ]
+    },
+    "external": {
+      "directions": {
+        "scheme": "https",
+        "host": "www.google.com",
+        "paths": {
+          "/maps/search/": {
+            "required_query": [
+              "api",
+              "query"
+            ],
+            "required_values": {
+              "api": "1"
+            }
+          },
+          "/maps/dir/": {
+            "required_query": [
+              "api",
+              "origin",
+              "destination"
+            ],
+            "required_values": {
+              "api": "1"
+            }
+          }
+        },
+        "allowed_query": [
+          "api",
+          "query",
+          "origin",
+          "destination"
+        ],
+        "links": {
+          "place": "https://www.google.com/maps/search/?api=1&query={query}",
+          "route": "https://www.google.com/maps/dir/?api=1&origin={origin}&destination={destination}"
+        }
+      },
+      "satellite": {
+        "scheme": "https",
+        "host": "server.arcgisonline.com",
+        "path_prefix": "/ArcGIS/rest/services/World_Imagery/MapServer/tile/"
+      }
+    }
+  },
+  "compatibility_alias": "SF_Smart_Minority_Map_First_Standalone.html"
+}

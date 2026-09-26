@@ -13,12 +13,14 @@ from qa_evidence import ROOT, bind_report, candidate_identity
 
 sys.path.insert(0, str(ROOT / "scripts"))
 from validate_trip_data import active_route_contract_failures  # noqa: E402
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 OUT = ROOT / "QA" / "CHG-232" / "route_surface.json"
 SCREENSHOTS = ROOT / "QA" / "CHG-232" / "screenshots"
-DATA = json.loads((ROOT / "data/phase7_app_data.json").read_text())
-I18N = json.loads((ROOT / "data/translations.json").read_text())
+ACTIVE_PACKAGE = load_package(DEFAULT_PACKAGE)
+DATA = ACTIVE_PACKAGE["data"]
+I18N = json.loads((ROOT / ACTIVE_PACKAGE["projections"]["translations"]).read_text())
 ROUTE_IDS = sorted(DATA["routes"])
 report = bind_report({"schema_version": 2, "status": "FAIL", "route_ids": ROUTE_IDS, "screenshots": [], "desktop": {}, "mobile": {}, "negative_controls": {}, "errors": []}, candidate_identity())
 

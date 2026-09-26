@@ -9,10 +9,15 @@ from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 OUT = ROOT / "QA" / "CHG-232" / "visual"
 SHOTS = OUT / "screenshots"
+PACKAGE = load_package(DEFAULT_PACKAGE)
+RASTER_PROVIDER = next(key for key, value in PACKAGE["providers"].items() if value.get("kind") == "raster")
+RASTER_HOST = PACKAGE["source_policy"]["external"][RASTER_PROVIDER]["host"]
+RASTER_LABEL = PACKAGE["providers"][RASTER_PROVIDER].get("label_en", RASTER_PROVIDER)
 
 
 def capture(page, rows, name: str, viewport: tuple[int, int], mode: str, state: str, purpose: str, profile: str, profile_detail: str = "") -> None:
@@ -219,10 +224,10 @@ def main() -> int:
         page.close(); context.close()
 
         context, page, failure_errors = new_page(browser, (1440, 900))
-        page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
-        page.evaluate("window.__tripApp.chooseProvider('satellite')")
+        page.route(f"https://{RASTER_HOST}/**", lambda route: route.abort())
+        page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER)
         page.wait_for_selector("#mapError:not([hidden])", timeout=10000)
-        capture(page, rows, "satellite_failure_recovery_1440x900", (1440, 900), "decide", "Satellite failure → Smart recovery", "provider failure and recovery", "stress", "Satellite recovery")
+        capture(page, rows, "raster_failure_recovery_1440x900", (1440, 900), "decide", f"{RASTER_LABEL} failure → local Smart recovery", "provider failure and recovery", "stress", f"{RASTER_LABEL} recovery")
         errors.extend(failure_errors)
         page.close(); context.close()
         capture_empty_state_holdouts(browser, rows, errors)

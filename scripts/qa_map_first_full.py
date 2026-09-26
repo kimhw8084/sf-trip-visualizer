@@ -8,14 +8,23 @@ from playwright.sync_api import sync_playwright
 
 from qa_evidence import bind_report, candidate_identity
 from qa_config import MODULAR_URL
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "QA" / "CHG-232" / "map_first_full"
 OUT.mkdir(parents=True, exist_ok=True)
-ROUTES = tuple(sorted(json.loads((ROOT / "data/phase7_app_data.json").read_text())["routes"]))
-DATES = ("all", "10/2", "10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11", "10/12")
-REGIONS = ("overall", "sf", "monterey", "yosemite")
+PACKAGE = load_package(DEFAULT_PACKAGE)
+DATA = PACKAGE["data"]
+ROUTES = tuple(sorted(DATA["routes"]))
+DATE_KEYS = tuple(item["key"] for item in DATA["dates"])
+DENSE_DATE = next(key for key in DATE_KEYS if any(item.get("date_key", item.get("date")) == key and item.get("spatial_keys") for item in DATA["timeline"]))
+SPARSE_DATE = next(key for key in DATE_KEYS if any(item.get("date_key", item.get("date")) == key for item in DATA["timeline"]) and not any(item.get("date_key", item.get("date")) == key and item.get("spatial_keys") for item in DATA["timeline"]))
+DATES = tuple(dict.fromkeys(("all", DENSE_DATE, SPARSE_DATE)))
+REGIONS = ("overall", *sorted(key for key in DATA["region_cfg"] if key != "overall"))
+VECTOR_PROVIDER = next(key for key, value in PACKAGE["providers"].items() if value.get("kind") == "vector")
+RASTER_PROVIDER = next(key for key, value in PACKAGE["providers"].items() if value.get("kind") == "raster")
+RASTER_HOST = PACKAGE["source_policy"]["external"][RASTER_PROVIDER]["host"]
 report = bind_report(
     {"status": "FAIL", "checks": {}, "matrix": [], "screenshots": [], "errors": [], "console_errors": [], "failed_requests": []},
     candidate_identity(),
@@ -51,14 +60,14 @@ with sync_playwright() as playwright:
     capture(page, "default_1440_ko_light")
 
     page.locator('[data-mode="day"]').click()
-    page.locator("#dateSelect").select_option("10/8")
+    page.locator("#dateSelect").select_option(DENSE_DATE)
     dense = page.locator("#dayPlan").inner_text()
-    page.locator("#dateSelect").select_option("10/9")
+    page.locator("#dateSelect").select_option(SPARSE_DATE)
     sparse_nonspatial = page.locator("#dayPlan .plan-card").count()
     check("day_semantics_and_nonspatial_content", any(word in dense for word in ("필수", "핵심", "회복", "택1", "조건부")) and sparse_nonspatial > 0)
     check("single_date_authority", page.locator("#dateSelect").count() == 1 and page.locator(".day-picker").count() == 1)
-    page.locator("#dateSelect").select_option("10/8")
-    capture(page, "day_1008_1440")
+    page.locator("#dateSelect").select_option(DENSE_DATE)
+    capture(page, f"day_{DENSE_DATE.replace('/', '-')}_1440")
 
     page.locator(".photo-marker").first.click()
     page.wait_for_selector("#peek.show")
@@ -72,7 +81,7 @@ with sync_playwright() as playwright:
 
     # Exercise nonempty state combinations without retaining the old duplicate UI.
     route_sets = tuple(dict.fromkeys((ROUTES, *((route,) for route in ROUTES))))
-    for routes, date, region in itertools.product(route_sets, ("all", "10/8", "10/9"), ("overall", "sf", "monterey", "yosemite")):
+    for routes, date, region in itertools.product(route_sets, DATES, REGIONS):
         result = page.evaluate(
             """async ({routes,date,region})=>{const a=window.__tripApp,s=a.state.task;s.routes=new Set(routes);s.primaryRoute=routes[0];s.date=date;s.region=region;s.selected=null;a.setMode('day');await a.drawMap(false);const expected=a.DATA.markers.filter(a.markerVisible).length,actual=document.querySelectorAll('.photo-marker').length,features=a.visibleRouteFeatures(),fail=[];if(actual!==expected)fail.push('markers');if(document.querySelectorAll('.maplibregl-canvas').length!==1)fail.push('canvas');if(document.documentElement.scrollWidth>innerWidth)fail.push('overflow');if(date!=='all'&&features.some(f=>f.properties.date!==date))fail.push('cross_date_route');if([...s.routes].some(route=>!Object.keys(a.DATA.routes).includes(route)))fail.push('route_set');return {routes,date,region,markers:actual,expected,features:features.length,failures:fail}}""",
             {"routes": routes, "date": date, "region": region},
@@ -89,13 +98,13 @@ with sync_playwright() as playwright:
 
     # Optional Satellite failure must leave the local plan usable and stateful.
     page.locator('[data-mode="day"]').click()
-    page.locator("#dateSelect").select_option("10/8")
-    page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
-    page.evaluate("window.__tripApp.chooseProvider('satellite')")
+    page.locator("#dateSelect").select_option(DENSE_DATE)
+    page.route(f"https://{RASTER_HOST}/**", lambda route: route.abort())
+    page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER)
     page.wait_for_timeout(3500)
-    failure = page.evaluate("()=>({provider:window.__tripApp.state.provider,date:window.__tripApp.state.date,mode:window.__tripApp.state.presentation.mode,error:!document.getElementById('mapError').hidden,smart:window.__tripApp.state.providerHealth.vector})")
-    check("satellite_failure_preserves_plan", failure["provider"] == "vector" and failure["date"] == "10/8" and failure["error"] and failure["smart"] in ("ready", "failed"), failure)
-    page.unroute("https://server.arcgisonline.com/**")
+    failure = page.evaluate("provider=>({provider:window.__tripApp.state.provider,date:window.__tripApp.state.date,mode:window.__tripApp.state.presentation.mode,error:!document.getElementById('mapError').hidden,smart:window.__tripApp.state.providerHealth[provider]})", VECTOR_PROVIDER)
+    check("raster_failure_preserves_plan", failure["provider"] == VECTOR_PROVIDER and failure["date"] == DENSE_DATE and failure["error"] and failure["smart"] in ("ready", "failed"), failure)
+    page.unroute(f"https://{RASTER_HOST}/**")
 
     page.set_viewport_size({"width": 390, "height": 844})
     page.wait_for_timeout(300)
@@ -110,14 +119,14 @@ with sync_playwright() as playwright:
 report["matrix_failures"] = [row for row in report["matrix"] if row["failures"]]
 def expected_network_event(row):
     url = row["url"]
-    return "server.arcgisonline.com" in url or (
-        url.endswith("/assets/vector/sf_trip.pmtiles") and row["failure"] == "net::ERR_ABORTED"
+    return RASTER_HOST in url or (
+        url.endswith("/" + PACKAGE["assets"]["map"]["vector_archive"]) and row["failure"] == "net::ERR_ABORTED"
     )
 
 
 expected_network_events = [row for row in report["failed_requests"] if expected_network_event(row)]
 unexpected_network_events = [row for row in report["failed_requests"] if not expected_network_event(row)]
-intentional_provider_failure = any("server.arcgisonline.com" in row["url"] for row in expected_network_events)
+intentional_provider_failure = any(RASTER_HOST in row["url"] for row in expected_network_events)
 expected_resource_console = "Failed to load resource: net::ERR_FAILED"
 unexpected_console_errors = [
     message

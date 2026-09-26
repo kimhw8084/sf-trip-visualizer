@@ -9,11 +9,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from route_graph_contract import validate_route_graph  # noqa: E402
+from trip_package import DEFAULT_PACKAGE, load_package  # noqa: E402
 
 
-DATA = json.loads((ROOT / "data/phase7_app_data.json").read_text())
-GEOMETRY = json.loads((ROOT / "data/route_geometry_cache.json").read_text())
-MANIFEST = json.loads((ROOT / "data/route_geometry_manifest.json").read_text())
+PACKAGE = load_package(DEFAULT_PACKAGE)
+DATA = PACKAGE["data"]
+GEOMETRY = json.loads((ROOT / PACKAGE["projections"]["route_geometry"]).read_text())
+MANIFEST = json.loads((ROOT / PACKAGE["projections"]["route_geometry_manifest"]).read_text())
 
 
 def components(nodes, edges):

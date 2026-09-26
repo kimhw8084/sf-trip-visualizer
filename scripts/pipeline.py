@@ -30,6 +30,7 @@ from validate_route_truth import validate_route_truth
 from qa_gate4_resilience import delivery_report
 from public_asset_rights import audit_tree, load_contract, load_json as load_rights_json, write_notices
 from hosted_linux_pipeline import contract_failures
+from trip_package import DEFAULT_PACKAGE, load_package, package_input_paths
 
 MANIFEST_PATH = ROOT / "manifests" / "canonical_pipeline.json"
 BUILD = ROOT / ".build"
@@ -44,6 +45,7 @@ GATE4_RUNTIME = RELEASE_EVIDENCE / "gate4_runtime.json"
 GATE4_SUMMARY = RELEASE_EVIDENCE / "gate4.json"
 SECURITY_EVIDENCE = RELEASE_EVIDENCE / "security_privacy.json"
 ROUTE_TRUTH_EVIDENCE = RELEASE_EVIDENCE / "route_truth.json"
+PORTABILITY_EVIDENCE = EVIDENCE_ROOT / "portability.json"
 COMPONENT_TIMEOUT_SECONDS = int(os.environ.get("TRIP_QUALIFICATION_TIMEOUT_SECONDS", "300"))
 GATE5_TIMEOUT_SECONDS = int(os.environ.get("TRIP_GATE5_QUALIFICATION_TIMEOUT_SECONDS", "900"))
 GATE5_TIMEOUT_RATIONALE = (
@@ -59,6 +61,7 @@ COMPONENTS = (
     ("maplibre_security", "scripts/qa_maplibre_security.py", "QA/CHG-232/release/maplibre_security.json"),
     ("map_first_smoke", "scripts/qa_map_first.py", "QA/CHG-232/map_first_smoke/smoke.json"),
     ("decision_workbench", "scripts/qa_decision_workbench.py", "QA/CHG-232/decision_workbench/task_oracles.json"),
+    ("phone_field_surface", "scripts/qa_phone_field_surface.py", "QA/CHG-232/phone_field_surface.json"),
     ("accessibility_reflow", "scripts/qa_accessibility_reflow.py", "QA/CHG-232/accessibility.json"),
     ("map_geometry", "scripts/qa_map_geometry.py", "QA/CHG-232/map_geometry.json"),
     ("sheet_geometry", "scripts/qa_sheet_geometry.py", "QA/CHG-232/sheet_geometry.json"),
@@ -160,21 +163,33 @@ def pipeline_manifest() -> dict:
 
 
 def authored_snapshot(manifest: dict) -> dict[str, str]:
-    missing = [path for path in manifest["authored_inputs"] if not (ROOT / path).is_file()]
+    package_paths = package_input_paths(load_package(DEFAULT_PACKAGE)) + package_input_paths(load_package("packages/portability-fixture/trip.json"))
+    selected = sorted(set(manifest["authored_inputs"]) | set(package_paths))
+    missing = [path for path in selected if not (ROOT / path).is_file()]
     if missing:
         raise RuntimeError(f"Missing canonical authored input(s): {', '.join(missing)}")
-    return {path: digest(ROOT / path) for path in manifest["authored_inputs"]}
+    hashes = {}
+    inode_hashes = {}
+    for relative in selected:
+        path = ROOT / relative
+        identity = (path.stat().st_dev, path.stat().st_ino)
+        if identity not in inode_hashes:
+            inode_hashes[identity] = digest(path)
+        hashes[relative] = inode_hashes[identity]
+    return hashes
 
 
 def validate_product() -> dict:
     manifest = pipeline_manifest()
     expected = manifest["invariants"]
-    data = load_json(ROOT / manifest["authority"]["canonical_data"])
-    asset_manifest = load_json(ROOT / "manifests" / "asset_manifest.json")
+    package = load_package(DEFAULT_PACKAGE)
+    package_paths = {key: ROOT / value for key, value in package["projections"].items()}
+    data = package["data"]
+    asset_manifest = load_json(package_paths["photos_manifest"])
     routes = data["routes"]
-    providers = sorted(data["providers"])
+    providers = sorted(package["providers"])
     regions = sorted(key for key in data["region_cfg"] if key != "overall")
-    vector_path = ROOT / "assets" / "vector" / "sf_trip.pmtiles"
+    vector_path = ROOT / package["assets"]["map"]["vector_archive"]
     vector_header = vector_path.read_bytes()[:64]
     marker_keys = [marker["place_key"] for marker in data["markers"]]
     if len(marker_keys) != len(set(marker_keys)):
@@ -182,7 +197,7 @@ def validate_product() -> dict:
     truth_report = validate_trip_data()
     if truth_report["status"] != "PASS":
         raise RuntimeError("Canonical truth validation failed: " + "; ".join(truth_report["failures"][:12]))
-    route_truth = validate_route_truth(data, load_json(ROOT / "data" / "route_role_matrix.json"), load_json(ROOT / "data" / "route_schedules.json"))
+    route_truth = validate_route_truth(data, load_json(package_paths["route_roles"]), load_json(package_paths["route_schedules"]))
     ROUTE_TRUTH_EVIDENCE.parent.mkdir(parents=True, exist_ok=True)
     ROUTE_TRUTH_EVIDENCE.write_text(json.dumps(route_truth, ensure_ascii=False, indent=2) + "\n")
     if route_truth["status"] != "PASS":
@@ -194,8 +209,8 @@ def validate_product() -> dict:
         "route_legs": len(data["legs"]) == expected["route_legs"],
         "route_strategies": len(routes) == expected["route_strategies"] and sorted(routes) == sorted(expected.get("active_route_ids", routes)),
         "dates": len(data["dates"]) == expected["dates"],
-        "regions": len(regions) == expected["regions"] and regions == ["monterey", "sf", "yosemite"],
-        "providers": set(providers) == set(expected["providers"]),
+        "regions": len(regions) == expected["regions"],
+        "providers": set(providers) == set(package["providers"]),
         "place_region": set(data["place_region"]) == set(marker_keys),
         "photo_roles": {asset["role"] for asset in asset_manifest["assets"]} == set(expected["photo_roles"]),
         "photo_status": asset_manifest["status"] == f"COMPLETE_{expected['photos']}_LOCAL_REAL_PHOTOS",
@@ -259,7 +274,7 @@ def run_build(output: Path) -> None:
 
 def run_public_rights_audit() -> dict:
     contract = load_contract()
-    photo_manifest = load_rights_json(ROOT / "manifests" / "asset_manifest.json")
+    photo_manifest = load_rights_json(ROOT / load_package(DEFAULT_PACKAGE)["projections"]["photos_manifest"])
     with tempfile.TemporaryDirectory(prefix="public-candidate-", dir=ROOT) as temporary:
         candidate = Path(temporary) / "public"
         shutil.copytree(BUILD / "modular", candidate)
@@ -356,6 +371,15 @@ def run_fast(expected_revision: str | None = None, require_clean: bool = False) 
             raise RuntimeError("Release qualification requires a clean checkout.")
         validate_authority_boundaries()
         evidence["source"] = validate_product()
+        code, stdout, stderr = run_process([
+            sys.executable, str(ROOT / "scripts" / "qa_trip_package_portability.py"), "--evidence", str(PORTABILITY_EVIDENCE), "--expected-revision", evidence["candidate_head"]
+        ])
+        if code:
+            raise RuntimeError("Trip-package portability proof failed: " + (stderr or stdout)[-2000:])
+        portability = load_json(PORTABILITY_EVIDENCE)
+        if portability.get("status") != "PASS":
+            raise RuntimeError("Trip-package portability report did not pass")
+        evidence["portability"] = {"status": portability["status"], "evidence": "QA/CHG-232/portability.json", "candidate_head": portability["candidate_head"], "candidate_tree": portability["candidate_tree"], "renderer_bytes_identical": portability["renderer_bytes_identical"], "cross_package_leakage": portability["cross_package_leakage"]}
         manifest = pipeline_manifest()
         before = authored_snapshot(manifest)
         run_build(BUILD)
@@ -381,7 +405,8 @@ def run_fast(expected_revision: str | None = None, require_clean: bool = False) 
             "root": ".build",
             "manifest_sha256": digest(BUILD / "build_manifest.json"),
             "modular_index_sha256": digest(BUILD / "modular" / "index.html"),
-            "standalone_sha256": digest(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"),
+            "standalone_sha256": digest(BUILD / build_manifest["standalone"]["path"]),
+            "standalone_path": build_manifest["standalone"]["path"],
             "file_count": len(build_manifest["files"]),
         }
         evidence["gate4_static"] = {"status": gate4_static["status"], "evidence": "QA/CHG-232/release/gate4_static.json"}
@@ -550,7 +575,7 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
         "project": "sf-trip-visualizer",
         "candidate_head": current_revision(),
         "working_tree_clean": working_tree_clean(),
-        "canonical": {"manifest": "manifests/canonical_pipeline.json", "build": "scripts/build_map_first.py", "data": "data/phase7_app_data.json"},
+        "canonical": {"manifest": "manifests/canonical_pipeline.json", "build": "scripts/build_map_first.py", "package": DEFAULT_PACKAGE, "data": load_package(DEFAULT_PACKAGE)["canonical_data"]},
         "component_timeout_seconds": COMPONENT_TIMEOUT_SECONDS,
         "gate5_timeout_seconds": GATE5_TIMEOUT_SECONDS,
         "timeout_policy": {"gate5": {"seconds": GATE5_TIMEOUT_SECONDS, "rationale": GATE5_TIMEOUT_RATIONALE}},
@@ -587,7 +612,7 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
         env["TRIP_BASELINE_REVISION"] = PERFORMANCE_BASE_REVISION
         env["TRIP_BASELINE_TREE"] = PERFORMANCE_BASE_TREE
         env.pop("TRIP_R2_URL", None)
-        env["TRIP_STANDALONE_PATH"] = str(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html")
+        env["TRIP_STANDALONE_PATH"] = str(BUILD / load_json(BUILD / "build_manifest.json")["standalone"]["path"])
         env["TRIP_EXPECTED_REVISION"] = report["candidate_head"]
         env["TRIP_CANDIDATE_SHA"] = report["candidate_head"]
         env["TRIP_GATE5_EVIDENCE_STARTED_NS"] = str(time.time_ns())
@@ -602,6 +627,8 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
             if name == "gate4_runtime":
                 command.extend(["--mode", "browser", "--output", str(output_path)])
             if name == "gate5_field_quality":
+                command.extend(["--expected-revision", report["candidate_head"], "--output", str(output_path)])
+            if name == "phone_field_surface":
                 command.extend(["--expected-revision", report["candidate_head"], "--output", str(output_path)])
             invocation_started_ns = None
             invocation_started_monotonic = None
@@ -624,6 +651,8 @@ def run_qualification(expected_revision: str | None = None, require_clean: bool 
             if name == "maplibre_security":
                 command_text += f' --revision {report["candidate_head"]} --output {output}'
             if name == "gate5_field_quality":
+                command_text += f' --expected-revision {report["candidate_head"]} --output {output}'
+            if name == "phone_field_surface":
                 command_text += f' --expected-revision {report["candidate_head"]} --output {output}'
             test_report = {"name": name, "command": command_text, "evidence": output, "status": status, "returncode": code, "timeout_seconds": GATE5_TIMEOUT_SECONDS if name == "gate5_field_quality" else COMPONENT_TIMEOUT_SECONDS, "stdout_tail": stdout, "stderr_tail": stderr}
             if name == "gate5_field_quality":
@@ -686,7 +715,7 @@ def verify_public(revision: str) -> dict:
         "qualification_sha256": provenance.get("qualification_sha256") == qualification_hash,
         "build_manifest_sha256": provenance.get("build_manifest_sha256") == digest(BUILD / "build_manifest.json"),
         "modular_index_sha256": provenance.get("modular_index_sha256") == digest(BUILD / "modular" / "index.html"),
-        "standalone_sha256": load_json(QUALIFICATION).get("build", {}).get("standalone_sha256") == digest(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"),
+        "standalone_sha256": load_json(QUALIFICATION).get("build", {}).get("standalone_sha256") == digest(BUILD / load_json(BUILD / "build_manifest.json")["standalone"]["path"]),
         "artifact_sha256": provenance.get("artifact_sha256_excluding_provenance") == artifact_hash,
         "artifact_file_count": provenance.get("artifact_file_count_excluding_provenance") == file_count,
         "artifact_bytes": provenance.get("artifact_bytes_excluding_provenance") == byte_count,

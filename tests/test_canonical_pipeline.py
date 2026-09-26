@@ -10,6 +10,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import hosted_linux_pipeline  # noqa: E402
 import pipeline  # noqa: E402
+from trip_package import DEFAULT_PACKAGE, load_package  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,20 +26,21 @@ class CanonicalPipelineTests(unittest.TestCase):
         manifest = json.loads(MANIFEST.read_text())
         self.assertEqual(manifest["authority"]["canonical_pipeline"], "scripts/pipeline.py")
         self.assertEqual(manifest["authority"]["canonical_build"], "scripts/build_map_first.py")
-        self.assertEqual(manifest["authority"]["canonical_data"], "data/phase7_app_data.json")
+        self.assertEqual(manifest["authority"]["active_trip_package"], DEFAULT_PACKAGE)
         self.assertIn("index.html", manifest["historical_or_legacy"])
         self.assertIn("QA/final_acceptance.json", manifest["historical_or_legacy"])
 
     def test_current_product_counts_and_provider_contract(self):
         manifest = json.loads(MANIFEST.read_text())
-        data = json.loads((ROOT / manifest["authority"]["canonical_data"]).read_text())
-        photos = json.loads((ROOT / "manifests/asset_manifest.json").read_text())
+        package = load_package(DEFAULT_PACKAGE)
+        data = package["data"]
+        photos = json.loads((ROOT / package["projections"]["photos_manifest"]).read_text())
         expected = manifest["invariants"]
         self.assertEqual(len(data["markers"]), expected["places"])
         self.assertEqual(len(photos["assets"]), expected["photos"])
         self.assertEqual(len(data["timeline"]), expected["timeline_cards"])
         self.assertEqual(len(data["legs"]), expected["route_legs"])
-        self.assertEqual(set(data["providers"]), set(expected["providers"]))
+        self.assertEqual(set(package["providers"]), set(expected["providers"]))
         self.assertEqual(len(data["dates"]), expected["dates"])
         self.assertEqual(set(data["place_region"]), {marker["place_key"] for marker in data["markers"]})
 
@@ -74,7 +76,7 @@ class CanonicalPipelineTests(unittest.TestCase):
             self.assertFalse(pipeline.working_tree_clean())
 
     def test_build_does_not_mutate_authored_data(self):
-        authored = ROOT / "data/phase7_app_data.json"
+        authored = ROOT / load_package(DEFAULT_PACKAGE)["canonical_data"]
         before = sha256(authored)
         with tempfile.TemporaryDirectory(prefix="canonical-build-test-") as output:
             result = subprocess.run(
@@ -85,7 +87,9 @@ class CanonicalPipelineTests(unittest.TestCase):
             )
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertTrue(Path(output, "modular/index.html").is_file())
-            self.assertTrue(Path(output, "standalone/SF_Smart_Minority_Map_First_Standalone.html").is_file())
+            build_manifest = json.loads(Path(output, "build_manifest.json").read_text())
+            self.assertTrue(Path(output, "standalone", f"{load_package(DEFAULT_PACKAGE)['slug']}-standalone.html").is_file())
+            self.assertEqual(build_manifest["standalone"]["compatibility_alias"], "SF_Smart_Minority_Map_First_Standalone.html")
         self.assertEqual(before, sha256(authored))
 
     def test_pages_workflow_cannot_bypass_release_gate(self):
@@ -179,7 +183,7 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertNotIn('"QA" / "release"', package)
 
     def test_smart_map_asset_is_materialized_not_an_lfs_pointer(self):
-        vector = ROOT / "assets/vector/sf_trip.pmtiles"
+        vector = ROOT / load_package(DEFAULT_PACKAGE)["assets"]["map"]["vector_archive"]
         self.assertGreater(vector.stat().st_size, 1_000_000)
         self.assertFalse(vector.read_bytes().startswith(b"version https://git-lfs.github.com/spec/v1"))
 
