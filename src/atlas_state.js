@@ -5,7 +5,7 @@
   const read = (key, fallback) => { try { return localStorage.getItem(key) || fallback; } catch { return fallback; } };
   const readJson = key => { try { return JSON.parse(localStorage.getItem(key) || 'null') || {}; } catch { return {}; } };
 
-  function create(data) {
+  function create(data, tripPackage) {
     const saved = readJson(STORAGE_KEY);
     const legacy = readJson(legacyKey);
     const restored = Object.keys(saved).length ? saved : legacy;
@@ -16,7 +16,10 @@
     const readiness = Object.fromEntries(Object.entries(savedChecklist).filter(([, value]) => checklistValues.includes(value)));
     const scenarioIds = new Set((data.cost_cockpit?.scenarios || []).map(item => item.id));
     const routeKeys = Object.keys(data.routes || {});
-    const providerKeys = Object.keys(data.providers || { vector: {} });
+    const providers = tripPackage?.providers || {};
+    const providerKeys = Object.keys(providers);
+    const vectorProvider = providerKeys.find(key => providers[key]?.kind === 'vector');
+    if (!vectorProvider) throw new Error('Trip package must declare one local vector provider.');
     const dates = new Set(['all', ...(data.dates || []).map(item => item.key)]);
     const regions = new Set(Object.keys(data.region_cfg || {}));
     const savedRoutes = Array.isArray(restored.routes) ? restored.routes.filter(route => routeKeys.includes(route)) : [];
@@ -43,8 +46,8 @@
         dayDisclosure: { dateKey: null, openTravelId: null, notesOpen: false },
       },
       runtime: {
-        provider: 'vector', providerIdentity: data.providers?.vector?.identity || 'smart-local-vector',
-        providerHealth: Object.fromEntries(providerKeys.map(key => [key, key === 'vector' ? 'loading' : 'untested'])),
+        provider: vectorProvider, providerIdentity: providers[vectorProvider].identity,
+        providerHealth: Object.fromEntries(providerKeys.map(key => [key, key === vectorProvider ? 'loading' : 'untested'])),
         providerEvents: [], localAssets: { status: 'checking', failures: [] },
         mapStatus: 'loading', mapVisualReady: false,
         sequence: 0, probeSequence: 0, mapCreations: 0, mapRemovals: 0,

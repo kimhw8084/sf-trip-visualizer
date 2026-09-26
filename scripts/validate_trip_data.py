@@ -164,7 +164,7 @@ def validate_trip_data() -> dict[str, Any]:
         check(f"operating_day[{key}].first_nap_after_0900", "09:00" in str(operating_days.get(key, {}).get("nap_en", "")) or "after ~09:00" in str(operating_days.get(key, {}).get("nap_en", "")) or "after ~9" in str(operating_days.get(key, {}).get("nap_en", "")).lower())
     check("region_count", set(place_region.values()) == REGIONS and set(data.get("region_cfg", {})) == REGIONS | {"overall"})
     package_providers = ACTIVE_PACKAGE["providers"]
-    check("provider_keys", bool(package_providers) and "vector" in package_providers)
+    check("provider_keys", bool(package_providers) and sum(provider.get("kind") == "vector" for provider in package_providers.values()) == 1)
     check("provider_configuration", all(has_text(provider.get("label_ko")) and has_text(provider.get("label_en")) for provider in package_providers.values()))
     check("region_labels_bilingual", all(has_text(meta.get("label")) and has_text(meta.get("label_ko")) for meta in data.get("region_cfg", {}).values()))
 

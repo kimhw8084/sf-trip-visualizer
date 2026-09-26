@@ -287,7 +287,6 @@ def production_paths(root: Path, contract: dict) -> list[Path]:
             root / "src" / "map_first.css",
             root / "assets",
             root / "manifests" / "source_manifest.json",
-            root / "manifests" / "map_first_basemap_manifest.json",
         ]
     )
     paths.extend(sorted((root / ".github" / "workflows").glob("*.yml")))
@@ -679,11 +678,12 @@ def check_origins(root: Path = ROOT) -> dict:
     policy = descriptor.get("source_policy", {})
     providers = descriptor.get("providers", {})
     directions = policy.get("external", {}).get("directions", {})
-    if not descriptor or not providers or "vector" not in providers:
+    vector_provider_ids = [provider_id for provider_id, config in providers.items() if config.get("kind") == "vector"]
+    if not descriptor or not providers or len(vector_provider_ids) != 1:
         failures.append("active trip package source/provider policy is unavailable")
     for provider_id, provider in providers.items():
-        if provider_id == "vector":
-            if provider.get("kind") != "vector" or provider.get("local") is not True:
+        if provider.get("kind") == "vector":
+            if provider.get("local") is not True:
                 failures.append("local vector provider is not package-declared")
             continue
         external = policy.get("external", {}).get(provider_id, {})

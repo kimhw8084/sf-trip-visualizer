@@ -59,7 +59,7 @@ with sync_playwright() as playwright:
     check("single_route_has_no_comparison_chrome", page.locator("[data-compare-route],#comparePanel,.route-compare,.route-membership,.membership-cell").count() == 0)
     capture(page, "default_1440_ko_light")
 
-    page.locator('[data-mode="day"]').click()
+    page.locator('#modeNav [data-mode="day"]').click()
     page.locator("#dateSelect").select_option(DENSE_DATE)
     dense = page.locator("#dayPlan").inner_text()
     page.locator("#dateSelect").select_option(SPARSE_DATE)
@@ -90,14 +90,14 @@ with sync_playwright() as playwright:
 
     page.locator("#langToggle").click()
     page.wait_for_function("document.documentElement.lang==='en'")
-    page.locator('[data-mode="decide"]').click()
+    page.locator('#modeNav [data-mode="decide"]').click()
     check("english_critical_surface", all(text in page.locator("body").inner_text() for text in ("Decide", "Day", "Place", "Route strategy")))
     page.locator("#themeToggle").click()
     check("dark_tokens_applied", page.evaluate("document.documentElement.dataset.theme==='dark'"))
     capture(page, "english_dark_1440")
 
     # Optional Satellite failure must leave the local plan usable and stateful.
-    page.locator('[data-mode="day"]').click()
+    page.locator('#modeNav [data-mode="day"]').click()
     page.locator("#dateSelect").select_option(DENSE_DATE)
     page.route(f"https://{RASTER_HOST}/**", lambda route: route.abort())
     page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER)

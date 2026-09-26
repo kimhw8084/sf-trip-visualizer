@@ -188,6 +188,7 @@ def validate_product() -> dict:
     asset_manifest = load_json(package_paths["photos_manifest"])
     routes = data["routes"]
     providers = sorted(package["providers"])
+    provider_kinds = {kind: sum(provider.get("kind") == kind for provider in package["providers"].values()) for kind in ("vector", "raster")}
     regions = sorted(key for key in data["region_cfg"] if key != "overall")
     vector_path = ROOT / package["assets"]["map"]["vector_archive"]
     vector_header = vector_path.read_bytes()[:64]
@@ -210,7 +211,7 @@ def validate_product() -> dict:
         "route_strategies": len(routes) == expected["route_strategies"] and sorted(routes) == sorted(expected.get("active_route_ids", routes)),
         "dates": len(data["dates"]) == expected["dates"],
         "regions": len(regions) == expected["regions"],
-        "providers": set(providers) == set(package["providers"]),
+        "providers": provider_kinds == expected.get("provider_kinds"),
         "place_region": set(data["place_region"]) == set(marker_keys),
         "photo_roles": {asset["role"] for asset in asset_manifest["assets"]} == set(expected["photo_roles"]),
         "photo_status": asset_manifest["status"] == f"COMPLETE_{expected['photos']}_LOCAL_REAL_PHOTOS",
@@ -226,7 +227,7 @@ def validate_product() -> dict:
     if not all(checks.values()):
         failed = [name for name, passed in checks.items() if not passed]
         raise RuntimeError(f"Canonical source/schema checks failed: {', '.join(failed)}")
-    return {"checks": checks, "truth_validation": {"status": truth_report["status"], "counts": truth_report["counts"]}, "route_truth": {"status": route_truth["status"], "counts": route_truth["counts"]}, "counts": {"places": len(marker_keys), "photos": len(asset_manifest["assets"]), "timeline_cards": len(data["timeline"]), "route_legs": len(data["legs"])}, "providers": providers}
+    return {"checks": checks, "truth_validation": {"status": truth_report["status"], "counts": truth_report["counts"]}, "route_truth": {"status": route_truth["status"], "counts": route_truth["counts"]}, "counts": {"places": len(marker_keys), "photos": len(asset_manifest["assets"]), "timeline_cards": len(data["timeline"]), "route_legs": len(data["legs"])}, "providers": providers, "provider_kinds": provider_kinds}
 
 
 def validate_authority_boundaries() -> None:
@@ -709,8 +710,13 @@ def verify_public(revision: str) -> dict:
         raise RuntimeError("Public artifact provenance is missing.")
     provenance = load_json(provenance_path)
     qualification_hash = digest(QUALIFICATION)
+    active_trip = load_package(DEFAULT_PACKAGE)
     artifact_hash, file_count, byte_count = tree_digest(PUBLIC, {".release-provenance.json"})
     checks = {
+        "trip_identity": provenance.get("trip_identity") == active_trip["trip_identity"],
+        "display_title": provenance.get("display_title") == active_trip["display_title"],
+        "slug": provenance.get("slug") == active_trip["slug"],
+        "currency": provenance.get("currency") == active_trip["currency"],
         "tested_sha": provenance.get("tested_sha") == revision == current_revision(),
         "qualification_sha256": provenance.get("qualification_sha256") == qualification_hash,
         "build_manifest_sha256": provenance.get("build_manifest_sha256") == digest(BUILD / "build_manifest.json"),
@@ -740,8 +746,13 @@ def verify_package(revision: str) -> dict:
     if not package_dir.is_dir() or not archive.is_file() or not manifest_path.is_file():
         raise RuntimeError("Package output or PACKAGE_MANIFEST.json is missing.")
     manifest = load_json(manifest_path)
+    active_trip = load_package(DEFAULT_PACKAGE)
     files = tree_hashes(package_dir, {"PACKAGE_MANIFEST.json"})
     checks = {
+        "trip_identity": manifest.get("trip_identity") == active_trip["trip_identity"],
+        "display_title": manifest.get("display_title") == active_trip["display_title"],
+        "slug": manifest.get("slug") == active_trip["slug"],
+        "currency": manifest.get("currency") == active_trip["currency"],
         "tested_sha": manifest.get("tested_sha") == revision == current_revision(),
         "qualification_sha256": manifest.get("qualification_sha256") == digest(QUALIFICATION),
         "file_hashes": manifest.get("files") == files,

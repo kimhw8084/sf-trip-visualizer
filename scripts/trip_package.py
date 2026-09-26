@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import re
 from pathlib import Path
 from urllib.parse import parse_qsl, urlparse
@@ -37,40 +38,57 @@ def _safe_host(host: str) -> bool:
     return bool(re.fullmatch(r"(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}", host))
 
 
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def _validate_provider(provider_id: str, config: dict, policy: dict) -> None:
     if not re.fullmatch(r"[a-z][a-z0-9_-]{0,39}", provider_id) or not isinstance(config, dict):
         raise PackageError(f"Invalid provider declaration: {provider_id!r}")
     if (not isinstance(config.get("label_en"), str) or not config["label_en"].strip()
-            or not isinstance(config.get("label_ko"), str) or not config["label_ko"].strip()):
-        raise PackageError(f"Provider {provider_id} requires Korean and English display labels")
+            or not isinstance(config.get("label_ko"), str) or not config["label_ko"].strip()
+            or not isinstance(config.get("identity"), str) or not config["identity"].strip()
+            or not isinstance(config.get("failure_domain"), str) or not config["failure_domain"].strip()
+            or not isinstance(config.get("attribution"), str) or not config["attribution"].strip()
+            or not isinstance(config.get("failure_behavior"), str) or not config["failure_behavior"].strip()
+            or not isinstance(config.get("local"), bool) or not isinstance(config.get("requires_api_key"), bool)):
+        raise PackageError(f"Provider {provider_id} requires identity, failure domain, attribution, failure behavior, and bilingual labels")
     kind = config.get("kind")
-    if provider_id == "vector":
-        if (kind != "vector" or config.get("local") is not True or not config.get("identity")
-                or config.get("requires_api_key", False) is not False):
+    if kind == "vector":
+        if config.get("local") is not True or config.get("requires_api_key") is not False:
             raise PackageError("The vector provider must declare a local vector identity")
         return
-    if kind != "raster":
+    if kind != "raster" or config.get("local") is not False:
         raise PackageError(f"Provider {provider_id} has unsupported kind {kind!r}")
     template = config.get("tile_template")
     probe = config.get("health_probe")
-    parsed_template = urlparse(str(template))
-    parsed_probe = urlparse(str(probe))
-    if (parsed_template.scheme != "https" or parsed_template.username or parsed_template.password or parsed_template.port
+    external_policy = policy.get("external")
+    declared = external_policy.get(provider_id) if isinstance(external_policy, dict) else None
+    if (not isinstance(declared, dict) or declared.get("scheme") != "https"
+            or not isinstance(declared.get("path_prefix"), str) or not declared["path_prefix"].startswith("/")
+            or not _safe_host(str(declared.get("host", "")))):
+        raise PackageError(f"Provider {provider_id} requires an HTTPS host and path-prefix policy")
+    try:
+        parsed_template = urlparse(str(template))
+        parsed_probe = urlparse(str(probe))
+        template_port, probe_port = parsed_template.port, parsed_probe.port
+    except ValueError as error:
+        raise PackageError(f"Provider {provider_id} has an invalid URL authority") from error
+    if (parsed_template.scheme != "https" or parsed_template.username or parsed_template.password or template_port
             or parsed_template.fragment or not _safe_host(parsed_template.hostname or "")
-            or parsed_probe.scheme != "https" or parsed_probe.username or parsed_probe.password or parsed_probe.port
+            or parsed_probe.scheme != "https" or parsed_probe.username or parsed_probe.password or probe_port
             or parsed_probe.fragment or parsed_probe.hostname != parsed_template.hostname
-            or not parsed_template.path or not parsed_probe.path.startswith(policy.get("external", {}).get(provider_id, {}).get("path_prefix", "!"))):
+            or not parsed_template.path or not parsed_probe.path.startswith(declared["path_prefix"])):
         raise PackageError(f"Provider {provider_id} has an unsafe raster URL configuration")
     if not all(token in template for token in ("{z}", "{x}", "{y}")):
         raise PackageError(f"Provider {provider_id} tile template must declare z, x, and y")
-    if provider_id not in policy.get("external", {}):
-        raise PackageError(f"Provider {provider_id} is missing its external URL policy")
-    declared = policy["external"][provider_id]
     if declared.get("host") != parsed_template.hostname or declared.get("path_prefix") != parsed_template.path.rsplit("/{z}/", 1)[0] + "/":
         raise PackageError(f"Provider {provider_id} URL does not match its declared source policy")
 
 
 def validate_policy(policy: dict, providers: dict) -> None:
+    if not isinstance(policy, dict) or not isinstance(providers, dict):
+        raise PackageError("source_policy and providers must be objects")
     official = policy.get("official_sources")
     if not isinstance(official, dict) or official.get("scheme") != "https" or not isinstance(official.get("hosts"), list) or not official["hosts"]:
         raise PackageError("source_policy.official_sources must declare HTTPS hosts")
@@ -78,32 +96,47 @@ def validate_policy(policy: dict, providers: dict) -> None:
         raise PackageError("source_policy.official_sources contains an invalid host")
     if len(set(official["hosts"])) != len(official["hosts"]):
         raise PackageError("source_policy.official_sources hosts must be unique")
-    directions = policy.get("external", {}).get("directions")
+    external = policy.get("external")
+    if not isinstance(external, dict):
+        raise PackageError("source_policy.external must be an object")
+    directions = external.get("directions")
     if not isinstance(directions, dict) or directions.get("scheme") != "https" or not _safe_host(str(directions.get("host", ""))):
         raise PackageError("source_policy.external.directions must declare one HTTPS host")
     paths = directions.get("paths")
-    if not isinstance(paths, dict) or not paths or any(not isinstance(path, str) or not path.startswith("/") or ".." in path for path in paths):
+    if (not isinstance(paths, dict) or not paths
+            or any(not isinstance(path, str) or not path.startswith("/") or ".." in path for path in paths)
+            or any(not isinstance(rule, dict) or not isinstance(rule.get("required_query", []), list)
+                   or not isinstance(rule.get("required_values", {}), dict) for rule in paths.values())):
         raise PackageError("source_policy.external.directions paths are invalid")
     allowed = directions.get("allowed_query")
-    if not isinstance(allowed, list) or len(set(allowed)) != len(allowed) or any(not re.fullmatch(r"[a-z][a-z0-9_]*", key) for key in allowed):
+    if (not isinstance(allowed, list)
+            or any(not isinstance(key, str) or not re.fullmatch(r"[a-z][a-z0-9_]*", key) for key in allowed)
+            or len(set(allowed)) != len(allowed)):
         raise PackageError("source_policy.external.directions query allowlist is invalid")
     links = directions.get("links")
     if not isinstance(links, dict) or not links:
         raise PackageError("source_policy.external.directions must configure safe link templates")
     for kind, template in links.items():
-        parsed = urlparse(str(template))
-        if parsed.scheme != "https" or parsed.hostname != directions["host"] or parsed.path not in paths or parsed.username or parsed.password or parsed.port or parsed.fragment:
+        try:
+            parsed = urlparse(str(template))
+            link_port = parsed.port
+        except ValueError as error:
+            raise PackageError(f"Directions link {kind!r} has an invalid URL authority") from error
+        if parsed.scheme != "https" or parsed.hostname != directions["host"] or parsed.path not in paths or parsed.username or parsed.password or link_port or parsed.fragment:
             raise PackageError(f"Directions link {kind!r} does not match its declared HTTPS host/path")
         rule = paths[parsed.path]
         template_keys = set(re.findall(r"\{([a-z]+)\}", str(template)))
-        query_keys = {key for key, _ in parse_qsl(parsed.query, keep_blank_values=True)}
-        if (not isinstance(rule, dict) or not set(rule.get("required_query", [])) <= set(allowed)
+        template_query = parse_qsl(parsed.query, keep_blank_values=True)
+        query_keys = {key for key, _ in template_query}
+        required_query, required_values = rule.get("required_query", []), rule.get("required_values", {})
+        if (not isinstance(required_query, list) or any(not isinstance(key, str) or key not in allowed for key in required_query)
+                or not isinstance(required_values, dict) or any(not isinstance(key, str) or key not in allowed or not isinstance(value, str) for key, value in required_values.items())
+                or len(query_keys) != len(template_query) or not set(required_query) <= set(allowed)
                 or not query_keys <= set(allowed) or not template_keys <= {"query", "origin", "destination"}):
             raise PackageError(f"Directions link {kind!r} has an invalid query rule")
-    provider_policy = policy.get("external", {})
     for provider_id, config in providers.items():
         _validate_provider(provider_id, config, policy)
-    if set(provider_policy) - (set(providers) | {"directions"}):
+    if set(external) - (set(providers) | {"directions"}):
         raise PackageError("source policy declares an unconfigured external provider")
 
 
@@ -136,7 +169,7 @@ def load_package(package: str | Path | None = None) -> dict:
         raise PackageError(f"Cannot read trip package descriptor {relative}: {error}") from error
     if not isinstance(descriptor, dict):
         raise PackageError("Trip package descriptor must be a JSON object")
-    required = ("schema_version", "trip_identity", "display_title", "slug", "currency", "canonical_data", "projections", "assets", "providers", "source_policy")
+    required = ("schema_version", "trip_identity", "display_title", "slug", "currency", "canonical_data", "geometry_metadata", "projections", "assets", "providers", "source_policy")
     missing = [field for field in required if field not in descriptor]
     if missing:
         raise PackageError("Trip package is missing required field(s): " + ", ".join(missing))
@@ -157,7 +190,7 @@ def load_package(package: str | Path | None = None) -> dict:
     if not isinstance(descriptor["projections"], dict):
         raise PackageError("Trip package projections must be an object of named paths")
     paths = {"canonical_data": descriptor["canonical_data"], **descriptor["projections"]}
-    required_projections = {"route_roles", "route_schedules", "route_geometry", "route_geometry_manifest", "translations", "freshness", "research_ledger", "coordinate_audit", "photos_manifest"}
+    required_projections = {"route_roles", "route_schedules", "route_geometry", "route_geometry_manifest", "translations", "freshness", "research_ledger", "coordinate_audit", "photos_manifest", "map_manifest", "provider_manifest"}
     missing_projections = sorted(required_projections - set(descriptor["projections"]))
     if missing_projections:
         raise PackageError("Trip package is missing required projection path(s): " + ", ".join(missing_projections))
@@ -189,6 +222,21 @@ def load_package(package: str | Path | None = None) -> dict:
     if (not isinstance(map_assets.get("local_resources"), list) or not map_assets.get("vector_archive")
             or not map_assets.get("identity") or not map_assets.get("attribution")):
         raise PackageError("Trip package map must declare a local vector archive, identity, and attribution")
+    source_metadata = map_assets.get("source_metadata")
+    if not isinstance(source_metadata, dict):
+        raise PackageError("Trip package map must declare source_metadata")
+    bbox = source_metadata.get("extraction_bbox_lonlat")
+    if (not isinstance(source_metadata.get("label"), str) or not source_metadata["label"].strip()
+            or not isinstance(source_metadata.get("source_build"), str) or not source_metadata["source_build"].strip()
+            or not isinstance(source_metadata.get("render_engine"), str) or not source_metadata["render_engine"].strip()
+            or not isinstance(source_metadata.get("online_api_key_required"), bool)
+            or type(source_metadata.get("max_source_zoom")) is not int or not 0 <= source_metadata["max_source_zoom"] <= 24
+            or not isinstance(bbox, list) or len(bbox) != 4
+            or any(not isinstance(value, (int, float)) for value in bbox)
+            or not -180 <= bbox[0] < bbox[2] <= 180 or not -90 <= bbox[1] < bbox[3] <= 90
+            or not isinstance(source_metadata.get("policy_notes"), list)
+            or any(not isinstance(note, str) or not note.strip() for note in source_metadata["policy_notes"])):
+        raise PackageError("Trip package map source_metadata fields or extraction bounds are invalid")
     if map_assets["vector_archive"] not in map_assets.get("local_resources", []):
         raise PackageError("Trip package vector archive must be included in its local resources")
     for field in ("glyphs_template", "sprite_template"):
@@ -202,28 +250,51 @@ def load_package(package: str | Path | None = None) -> dict:
     relief = map_assets.get("relief")
     if relief and (relief.get("path") not in map_assets["local_resources"] or len(relief.get("coordinates", [])) != 4):
         raise PackageError("Trip package relief resource or bounds are invalid")
+    if relief and relief.get("source_path"):
+        source_path = _package_path(relief["source_path"], "assets.map.relief.source_path")
+        if asset_root not in source_path.parents or not source_path.is_file():
+            raise PackageError("Trip package relief source must be a file inside assets.root")
     for entry in map_assets.get("local_resources", []):
         path = _package_path(entry, "assets.map.local_resources")
         if path != asset_root and asset_root not in path.parents:
             raise PackageError(f"Map resource is outside assets.root: {entry}")
         if not path.exists():
             raise PackageError(f"Trip package map resource is missing: {entry}")
-    if not isinstance(descriptor["providers"], dict) or "vector" not in descriptor["providers"]:
-        raise PackageError("Trip package must configure a local vector provider")
+    if not isinstance(descriptor["providers"], dict):
+        raise PackageError("Trip package providers must be an object")
+    vector_providers = [key for key, value in descriptor["providers"].items() if isinstance(value, dict) and value.get("kind") == "vector"]
+    if len(vector_providers) != 1:
+        raise PackageError("Trip package must configure exactly one local vector provider")
     if not isinstance(descriptor["source_policy"], dict):
         raise PackageError("Trip package source_policy must be an object")
     validate_policy(descriptor["source_policy"], descriptor["providers"])
     data = json.loads(_package_path(descriptor["canonical_data"], "canonical_data").read_text())
     if data.get("trip_identity") != descriptor["trip_identity"]:
         raise PackageError("Trip package identity does not match the canonical data identity")
-    return {**descriptor, "descriptor_path": relative, "data": data}
+    geometry_metadata = descriptor["geometry_metadata"]
+    if not isinstance(geometry_metadata, dict):
+        raise PackageError("Trip package geometry_metadata must be an object")
+    geometry = json.loads(_package_path(descriptor["projections"]["route_geometry"], "route_geometry").read_text())
+    status_sets = [geometry_metadata.get(key) for key in ("routed_statuses", "conceptual_statuses", "omitted_statuses")]
+    limitations = geometry_metadata.get("status_limitations")
+    if (not isinstance(geometry_metadata.get("routing_service_status"), str) or not geometry_metadata["routing_service_status"].strip()
+            or any(not isinstance(values, list) or any(not isinstance(value, str) or not value for value in values) for values in status_sets)
+            or not isinstance(limitations, dict) or any(not isinstance(text, str) or not text.strip() for text in limitations.values())):
+        raise PackageError("Trip package geometry_metadata fields are invalid")
+    statuses = {entry.get("status") for entry in geometry.values() if isinstance(entry, dict)}
+    if not statuses <= set(limitations):
+        raise PackageError("Trip package geometry_metadata must explain every cached geometry status")
+    raster_providers = [key for key, value in descriptor["providers"].items() if isinstance(value, dict) and value.get("kind") == "raster"]
+    return {**descriptor, "descriptor_path": relative, "data": data, "vector_provider_id": vector_providers[0], "raster_provider_ids": raster_providers}
 
 
 def package_input_paths(package: dict) -> list[str]:
     """Every selected package input, including recursive local runtime assets."""
     paths = {package["descriptor_path"], package["canonical_data"], *package["projections"].values()}
     folders = [package["assets"]["photos"]["thumb_dir"], package["assets"]["photos"]["medium_dir"]]
-    for relative in (*package["assets"]["map"]["local_resources"], *folders):
+    relief_source = (package["assets"]["map"].get("relief") or {}).get("source_path")
+    extras = (relief_source,) if relief_source else ()
+    for relative in (*package["assets"]["map"]["local_resources"], *folders, *extras):
         path = _package_path(relative, "package asset")
         if path.is_dir():
             paths.update(str(item.relative_to(ROOT)) for item in path.rglob("*") if item.is_file())
@@ -244,6 +315,8 @@ def validate_portable_data(package: dict) -> dict:
     geometry_manifest = json.loads(_package_path(package["projections"]["route_geometry_manifest"], "route_geometry_manifest").read_text())
     photos = json.loads(_package_path(package["projections"]["photos_manifest"], "photos_manifest").read_text())
     freshness = json.loads(_package_path(package["projections"]["freshness"], "freshness").read_text())
+    map_manifest = json.loads(_package_path(package["projections"]["map_manifest"], "map_manifest").read_text())
+    provider_manifest = json.loads(_package_path(package["projections"]["provider_manifest"], "provider_manifest").read_text())
     routes = data.get("routes")
     markers = data.get("markers")
     dates = data.get("dates")
@@ -283,9 +356,64 @@ def validate_portable_data(package: dict) -> dict:
         failures.append("route-role projection is stale or does not match canonical route/place identities")
     if schedules.get("routes") != data.get("route_day_models") or set(schedules.get("routes", {})) != route_ids:
         failures.append("route-schedule projection is stale or does not match canonical routes")
+    map_config = package["assets"]["map"]
+    map_files = set()
+    for relative in map_config["local_resources"]:
+        path = _package_path(relative, "map resource")
+        map_files.update(item for item in path.rglob("*") if item.is_file()) if path.is_dir() else map_files.add(path)
+    relief = map_config.get("relief") or {}
+    if relief.get("source_path"):
+        map_files.add(_package_path(relief["source_path"], "relief source"))
+    expected_assets = [
+        {"path": str(path.relative_to(ROOT)), "bytes": path.stat().st_size, "sha256": _sha256(path)}
+        for path in sorted(map_files, key=lambda item: str(item.relative_to(ROOT)))
+    ]
+    source_metadata = map_config["source_metadata"]
+    vector_provider = package["providers"][package["vector_provider_id"]]
+    expected_vector_source = {
+        "label": source_metadata["label"], "source_build": source_metadata["source_build"],
+        "extraction_bbox_lonlat": source_metadata["extraction_bbox_lonlat"],
+        "max_source_zoom": source_metadata["max_source_zoom"], "render_engine": source_metadata["render_engine"],
+        "online_api_key_required": source_metadata["online_api_key_required"],
+        "license_attribution": vector_provider["attribution"],
+    }
+    expected_relief = None
+    if relief:
+        expected_relief = {key: relief[key] for key in ("source", "provider", "bbox_lonlat", "source_path", "role") if key in relief}
+        expected_relief.update({"render_derivative_path": relief["path"], "coordinates": relief["coordinates"]})
+    provider_ids = set(package["providers"])
+    provider_rows = {key: value for key, value in provider_manifest.items() if key not in {"user_selectable_provider_count", "removed_user_choices"}}
+    provider_manifest_matches = set(provider_rows) == provider_ids
+    for provider_id, provider in package["providers"].items():
+        row = provider_rows.get(provider_id, {})
+        expected_row = {
+            "label": provider["label_en"], "kind": provider["identity"],
+            "network_required": not provider.get("local", False), "attribution": provider["attribution"],
+            "failure_behavior": provider.get("failure_behavior", "Keep the selected local provider and expose a load error."),
+        }
+        if provider.get("health_probe"):
+            expected_row["health_probe"] = provider["health_probe"]
+        provider_manifest_matches = provider_manifest_matches and row == expected_row
+    vector_source = map_manifest.get("vector_source") if isinstance(map_manifest.get("vector_source"), dict) else {}
+    if (map_manifest.get("trip_identity") != package["trip_identity"]
+            or map_manifest.get("display_title") != package["display_title"]
+            or map_manifest.get("default") != package["vector_provider_id"]
+            or any(vector_source.get(key) != value for key, value in expected_vector_source.items())
+            or map_manifest.get("assets") != expected_assets
+            or map_manifest.get("user_selectable_providers") != list(package["providers"])
+            or map_manifest.get("provider_failure_domains") != {key: value.get("failure_domain", value["identity"]) for key, value in package["providers"].items()}
+            or map_manifest.get("relief") != expected_relief):
+        failures.append("map manifest is stale or does not match the selected package assets/configuration")
+    if (not provider_manifest_matches
+            or provider_manifest.get("user_selectable_provider_count") != len(provider_ids)
+            or provider_manifest.get("removed_user_choices") != []):
+        failures.append("provider manifest is stale or does not match the selected package providers")
     leg_ids = [leg.get("leg_id") for leg in data.get("legs", [])]
     manifest_rows = {item.get("leg_id"): item for item in geometry_manifest.get("legs", [])}
-    if len(leg_ids) != len(set(leg_ids)) or set(geometry) != set(leg_ids) or set(manifest_rows) != set(leg_ids):
+    if (len(leg_ids) != len(set(leg_ids)) or set(geometry) != set(leg_ids) or set(manifest_rows) != set(leg_ids)
+            or geometry_manifest.get("trip_identity") != package["trip_identity"]
+            or geometry_manifest.get("geometry_cache_path") != package["projections"]["route_geometry"]
+            or geometry_manifest.get("geometry_cache_sha256") != _sha256(_package_path(package["projections"]["route_geometry"], "route_geometry"))):
         failures.append("route geometry/cache manifest identities are missing, duplicate, or stale")
     for leg in data.get("legs", []):
         leg_id = leg.get("leg_id")
@@ -334,19 +462,22 @@ def validate_portable_data(package: dict) -> dict:
         if identity[0] not in place_ids or identity[1] not in {"hero", "experience", "scale_context"} or identity in photo_ids:
             failures.append(f"photo asset has an invalid or duplicate place/role identity: {identity!r}")
         photo_ids.add(identity)
-        for field in ("local_thumb_path", "local_medium_path"):
+        for field, hash_field in (("local_thumb_path", "thumb_sha256"), ("local_medium_path", "medium_sha256")):
             value = asset.get(field, "")
             if not isinstance(value, str) or not value.startswith(photo_root):
                 failures.append(f"photo reference is outside the package photo root: {value!r}")
             else:
                 try:
-                    if not _package_path(value, field).is_file():
+                    photo_path = _package_path(value, field)
+                    if not photo_path.is_file():
                         failures.append(f"photo reference is missing: {value}")
+                    elif asset.get(hash_field) != _sha256(photo_path):
+                        failures.append(f"photo manifest hash is stale: {value}")
                 except PackageError:
                     failures.append(f"photo reference is invalid: {value!r}")
-    for place_id in place_ids:
-        if not any(asset_id[0] == place_id and asset_id[1] == "hero" for asset_id in photo_ids):
-            failures.append(f"place {place_id} has no local hero photo")
+    required_photo_ids = {(place_id, role) for place_id in place_ids for role in ("hero", "experience", "scale_context")}
+    if photo_ids != required_photo_ids:
+        failures.append("photo manifest must provide exactly HERO, EXPERIENCE, and SCALE_CONTEXT for every package place")
     official_hosts = set(package["source_policy"]["official_sources"]["hosts"])
     freshness_ids = [record.get("fact_id") for record in freshness.get("records", [])]
     if len(freshness_ids) != len(set(freshness_ids)):

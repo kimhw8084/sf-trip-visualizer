@@ -20,6 +20,7 @@ ACTIVE_PACKAGE = load_package(DEFAULT_PACKAGE)
 MAP_ASSETS = ACTIVE_PACKAGE["assets"]["map"]
 RELIEF_PATH = MAP_ASSETS.get("relief", {}).get("path")
 RASTER_PROVIDER = next(key for key, value in ACTIVE_PACKAGE["providers"].items() if value.get("kind") == "raster")
+VECTOR_PROVIDER = ACTIVE_PACKAGE["vector_provider_id"]
 RASTER_HOST = ACTIVE_PACKAGE["source_policy"]["external"][RASTER_PROVIDER]["host"]
 ROUTES = tuple(sorted(DATA["routes"]))
 REGIONS = ("overall", *sorted(key for key in DATA["region_cfg"] if key != "overall"))
@@ -138,11 +139,11 @@ def exercise(page):
 
     for _ in range(3):
         page.locator("#mapOptionsToggle").click(); page.locator("#mapOptionsToggle").click()
-        page.locator('[data-mode="place"]').click(); page.locator('[data-mode="day"]').click(); page.locator('[data-mode="decide"]').click()
+        page.locator('#modeNav [data-mode="place"]').click(); page.locator('#modeNav [data-mode="day"]').click(); page.locator('#modeNav [data-mode="decide"]').click()
         page.locator('[data-sheet="compact"]').click(); page.locator("#workbenchToggle").click(); page.locator('[data-sheet="full"]').click(); page.locator("#workbenchToggle").click(); page.locator("#workbenchToggle").click()
         page.locator("#langToggle").click(); page.locator("#langToggle").click()
         page.locator("#themeToggle").click(); page.locator("#themeToggle").click()
-        page.locator('[data-mode="day"]').click(); page.locator("#dateSelect").select_option("10/8"); page.locator("#dateSelect").select_option("all")
+        page.locator('#modeNav [data-mode="day"]').click(); page.locator("#dateSelect").select_option("10/8"); page.locator("#dateSelect").select_option("all")
         page.evaluate("async()=>{const a=window.__tripApp;a.selectPlace('ferry',{focus:false});a.hidePreview({returnFocus:false});await a.drawMap(false);await a.whenIdle()}")
         page.wait_for_timeout(120)
 
@@ -179,20 +180,20 @@ def exercise(page):
         "assertions": {
             "all_active_routes_exercised": set(row["route"] for row in probes) == set(ROUTES),
             "all_regions_exercised": len({row["region"] for row in probes}) == 4,
-            "all_probes_use_smart": all(row["provider"] == "vector" and row["localAssets"] == "ready" and row["canvas"] == 1 for row in probes),
+            "all_probes_use_smart": all(row["provider"] == VECTOR_PROVIDER and row["localAssets"] == "ready" and row["canvas"] == 1 for row in probes),
             "spatial_content_remains_useful_or_explicit_sparse": all(row["useful"] or (row["markers"] == 0 and row["features"] == 0) for row in probes),
             "no_asset_failures": all(row["failures"] == 0 for row in probes),
             "repeated_sf_monterey_yosemite_exploration": len(exploration["explored"]) == 9 and {row["region"] for row in exploration["explored"]} == {"sf", "monterey", "yosemite"} and all(row["pan_gesture"] and len(row["zoom_levels"]) >= 3 for row in exploration["explored"]),
             "standalone_relief_is_embedded_in_map_asset_bytes": exploration["metrics"]["embedded_relief"],
             "new_pmtiles_ranges_read_during_exploration": added_range_count >= 10,
             "no_duplicate_canvas_or_markers_after_smart_exploration": smart_snapshot["map"]["canvas_count"] == 1 and len(smart_snapshot["map"]["photo_marker_keys"]) == len(set(smart_snapshot["map"]["photo_marker_keys"])),
-            "smart_standalone_usable_after_repeated_exploration": smart_snapshot["provider"] == "vector" and smart_snapshot["provider_health"]["vector"] == "ready" and smart_snapshot["local_assets"]["status"] == "ready" and not smart_snapshot["local_assets"]["failures"] and smart_snapshot["map_visual_ready"] and smart_snapshot["map"]["canvas_count"] == 1 and smart_snapshot["map"]["spatial"]["useful"] and smart_snapshot["map"]["spatial"]["markers_in_viewport"] >= 3 and smart_snapshot["map"]["spatial"]["route_features_in_viewport"] >= 1,
+            "smart_standalone_usable_after_repeated_exploration": smart_snapshot["provider"] == VECTOR_PROVIDER and smart_snapshot["provider_health"][VECTOR_PROVIDER] == "ready" and smart_snapshot["local_assets"]["status"] == "ready" and not smart_snapshot["local_assets"]["failures"] and smart_snapshot["map_visual_ready"] and smart_snapshot["map"]["canvas_count"] == 1 and smart_snapshot["map"]["spatial"]["useful"] and smart_snapshot["map"]["spatial"]["markers_in_viewport"] >= 3 and smart_snapshot["map"]["spatial"]["route_features_in_viewport"] >= 1,
             "no_fetch_for_smart_embedded_resources": not smart_fetches,
             "no_remote_request_during_smart_exploration": not smart_remote_requests and not exploration["metrics"]["remote_resources"],
             "no_smart_maplibre_errors": not smart_map_errors,
             "no_smart_local_failed_request": not smart_failed_requests,
-            "optional_raster_recovers_once": bool(recovery["provider_events"]) and recovery["provider"] == "vector" and any(event["type"] == "fallback_to_smart" for event in recovery["provider_events"]),
-            "smart_continues_after_recovery": continued["provider"] == "vector" and continued["map"]["canvas_count"] == 1 and continued["map"]["spatial"]["useful"],
+            "optional_raster_recovers_once": bool(recovery["provider_events"]) and recovery["provider"] == VECTOR_PROVIDER and any(event["type"] == "fallback_to_smart" for event in recovery["provider_events"]),
+            "smart_continues_after_recovery": continued["provider"] == VECTOR_PROVIDER and continued["map"]["canvas_count"] == 1 and continued["map"]["spatial"]["useful"],
             "no_duplicate_canvas": final["map"]["canvas_count"] == 1,
             "no_duplicate_markers": len(final["map"]["photo_marker_keys"]) == len(set(final["map"]["photo_marker_keys"])),
             "no_local_runtime_errors": not errors and not unexpected_console_errors and not unexpected_failed_requests,

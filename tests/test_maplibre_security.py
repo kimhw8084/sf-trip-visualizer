@@ -22,7 +22,7 @@ class MapLibreSecurityTests(unittest.TestCase):
         package = load_package(DEFAULT_PACKAGE)
         self.assertIn("attribution: mapConfig.attribution", source)
         self.assertIn("attribution: config.attribution", source)
-        self.assertEqual(package["providers"]["vector"]["attribution"], "© OpenStreetMap contributors · Protomaps")
+        self.assertEqual(package["providers"][package["vector_provider_id"]]["attribution"], "© OpenStreetMap contributors · Protomaps")
 
 
 if __name__ == "__main__":

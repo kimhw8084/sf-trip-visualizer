@@ -17,7 +17,7 @@ OUT = ROOT / "QA" / "CHG-232" / "map_geometry.json"
 def wait_ready(page) -> None:
     page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    page.wait_for_function("document.querySelectorAll('.photo-marker').length > 0", timeout=15000)
+    page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
     settle_geometry(page)
 
 

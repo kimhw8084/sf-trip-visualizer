@@ -41,7 +41,7 @@ with sync_playwright() as playwright:
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
     page.wait_for_function("window.__tripApp?.state?.task?.routes", timeout=15000)
 
-    report["provider_inventory"] = page.evaluate("()=>({active:window.__tripApp.state.provider,data:Object.keys(window.__tripApp.DATA.providers).sort(),controls:[...document.querySelectorAll('[data-provider]')].map(x=>x.dataset.provider).sort()})")
+    report["provider_inventory"] = page.evaluate("()=>({active:window.__tripApp.state.provider,data:Object.keys(window.TRIP_PACKAGE.providers).sort(),controls:[...document.querySelectorAll('[data-provider]')].map(x=>x.dataset.provider).sort()})")
     for route in ROUTE_IDS:
         for date in DATE_KEYS:
             row = page.evaluate(

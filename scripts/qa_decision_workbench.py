@@ -48,7 +48,20 @@ with sync_playwright() as playwright:
     page.on("pageerror", lambda error: errors.append(str(error)))
     page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    page.wait_for_function("document.querySelectorAll('.photo-marker').length > 0", timeout=15000)
+    page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
+
+    def activate_visible_place_marker() -> str:
+        marker = page.locator(".photo-marker:visible").first
+        if marker.count() == 0:
+            cluster = page.locator(".photo-cluster:visible").first
+            if cluster.count() == 0:
+                raise AssertionError("No visible place marker or cluster is available for pointer activation")
+            cluster.click()
+            page.wait_for_function("!!document.querySelector('.photo-marker:not([style*=\"display: none\"])')", timeout=15000)
+            marker = page.locator(".photo-marker:visible").first
+        key = marker.get_attribute("data-place-key")
+        marker.click()
+        return key
 
     def shot(name: str, viewport: tuple[int, int], mode: str, state: str) -> None:
         path = OUT / f"{name}.png"
@@ -66,7 +79,7 @@ with sync_playwright() as playwright:
     results.append(oracle("compact_map_options_focus_contract", options_open and options_closed))
     page.locator("#mapOptionsToggle").click()
     page.locator(f"#providerControls [data-provider='{VECTOR_PROVIDER}']").click()
-    page.wait_for_function("provider=>window.__tripApp.state.runtime.provider===provider", VECTOR_PROVIDER)
+    page.wait_for_function("provider=>window.__tripApp.state.runtime.provider===provider", arg=VECTOR_PROVIDER)
     page.locator("#mapOptionsToggle").click()
     page.locator(f"#regionControls [data-region='{REGION_WITH_PLACES}']").click()
     page.wait_for_function("region=>window.__tripApp.state.task.region===region", REGION_WITH_PLACES)
@@ -81,7 +94,7 @@ with sync_playwright() as playwright:
 
     results.append(oracle("route_code_matches_active_runtime", page.locator("#recommendation").inner_text().count(PRIMARY_ROUTE) >= 1 and page.locator("#routeCards .route-card").count() == len(ROUTE_IDS)))
 
-    page.locator('[data-mode="day"]').click()
+    page.locator('#modeNav [data-mode="day"]').click()
     page.locator("#dateSelect").select_option(DENSE_DATE)
     day_text = page.locator("#dayPlan").inner_text()
     page.locator("#dateSelect").select_option(SPARSE_DATE)
@@ -91,8 +104,7 @@ with sync_playwright() as playwright:
     results.append(oracle("day_single_date_authority", page.locator("#dateSelect").input_value() == DENSE_DATE and page.locator("#dayView").is_visible()))
     shot("day_selected_desktop", (1440, 900), "day", f"{DENSE_DATE}_dense_recovery")
 
-    marker = page.locator(".photo-marker").first
-    marker.click()
+    activate_visible_place_marker()
     page.wait_for_selector("#peek.show")
     peek_text = page.locator("#peek").inner_text()
     results.append(oracle("place_peek", page.locator("#peek.show").count() == 1 and page.locator("#peek img").count() == 1 and "왜 지금" in peek_text))
@@ -106,8 +118,7 @@ with sync_playwright() as playwright:
     page.locator("#dateSelect").select_option("all")
     page.locator("#mapOptionsToggle").click()
     page.locator("#regionControls [data-region='overall']").click()
-    pointer_place = page.locator(".photo-marker").first.get_attribute("data-place-key")
-    page.locator(f".photo-marker[data-place-key='{pointer_place}']").click()
+    pointer_place = activate_visible_place_marker()
     results.append(oracle("place_marker_real_pointer_activation", page.locator("#peek.show").count() == 1 and page.evaluate("place=>window.__tripApp.state.task.selected===place", pointer_place), pointer_place))
     page.keyboard.press("Escape")
     page.locator("#dateSelect").select_option(DENSE_DATE)
@@ -123,8 +134,8 @@ with sync_playwright() as playwright:
     results.append(oracle("mobile_compact_non_drag", page.locator('#workbench[data-sheet="compact"]').count() == 1 and page.locator(".workbench-scroll").is_hidden()))
     page.locator('[data-sheet="expanded"]').click()
     results.append(oracle("mobile_expanded_non_drag", page.locator('#workbench[data-sheet="expanded"]').count() == 1 and not page.locator(".workbench-scroll").is_hidden()))
-    page.locator(".photo-marker").first.click()
-    page.locator('[data-mode="place"]').click()
+    activate_visible_place_marker()
+    page.locator('#modeNav [data-mode="place"]').click()
     results.append(oracle("mobile_mode_identity", page.evaluate("window.__tripApp.state.presentation.mode") == "place"))
     shot("place_mobile_expanded", (390, 844), "place", "expanded_sheet")
     page.evaluate("document.documentElement.style.fontSize='200%'")

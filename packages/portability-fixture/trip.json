@@ -9,6 +9,17 @@
   "slug": "qa-juniper-coast",
   "currency": "CNY",
   "canonical_data": "packages/portability-fixture/trip-data.json",
+  "geometry_metadata": {
+    "routing_service_status": "SYNTHETIC_QA_REFERENCE_GEOMETRY",
+    "routed_statuses": ["routed_osm"],
+    "conceptual_statuses": ["conceptual_transfer"],
+    "omitted_statuses": ["intentionally_omitted"],
+    "status_limitations": {
+      "routed_osm": "Synthetic fixture coordinates; not a real route recommendation",
+      "conceptual_transfer": "Synthetic conditional relationship for architecture tests",
+      "intentionally_omitted": "Synthetic omission for architecture tests"
+    }
+  },
   "projections": {
     "route_roles": "packages/portability-fixture/route-roles.json",
     "route_schedules": "packages/portability-fixture/route-schedules.json",
@@ -18,7 +29,9 @@
     "research_ledger": "packages/portability-fixture/research.json",
     "coordinate_audit": "packages/portability-fixture/coordinate-audit.json",
     "photos_manifest": "packages/portability-fixture/photos.json",
-    "route_geometry_manifest": "packages/portability-fixture/geometry-manifest.json"
+    "route_geometry_manifest": "packages/portability-fixture/geometry-manifest.json",
+    "map_manifest": "packages/portability-fixture/map-manifest.json",
+    "provider_manifest": "packages/portability-fixture/provider-manifest.json"
   },
   "assets": {
     "root": "packages/portability-fixture/assets",
@@ -31,6 +44,15 @@
       "identity": "JuniperRange local QA atlas v1",
       "vector_archive": "packages/portability-fixture/assets/map/juniper-range.pmtiles",
       "attribution": "© Synthetic QA fixture",
+      "source_metadata": {
+        "label": "Synthetic Juniper Range local QA atlas",
+        "source_build": "local-non-shipping-fixture",
+        "extraction_bbox_lonlat": [-124.0, 45.0, -122.0, 47.0],
+        "max_source_zoom": 8,
+        "render_engine": "MapLibre GL JS (direct)",
+        "online_api_key_required": false,
+        "policy_notes": ["Synthetic geometry and imagery for architecture verification only."]
+      },
       "fonts_root": "packages/portability-fixture/assets/map/fonts",
       "sprites_root": "packages/portability-fixture/assets/map/sprites",
       "local_resources": [
@@ -44,23 +66,26 @@
     }
   },
   "providers": {
-    "vector": {
+    "juniper_local_map": {
       "kind": "vector",
       "local": true,
       "identity": "JuniperRange QA archive v1",
       "failure_domain": "package-local QA archive",
       "attribution": "© Synthetic QA fixture",
       "requires_api_key": false,
+      "failure_behavior": "Remain selected and expose a load error; do not silently substitute another map.",
       "label_en": "Smart · local",
       "label_ko": "Smart · 로컬"
     },
     "beacon_tiles": {
       "kind": "raster",
+      "local": false,
       "identity": "juniper-imagery-fixture-v1",
       "failure_domain": "non-routable fixture provider",
       "tile_template": "https://tiles.juniper.example.test/imagery/{z}/{y}/{x}.png",
       "health_probe": "https://tiles.juniper.example.test/imagery/3/2/2.png",
       "attribution": "Synthetic imagery provider test",
+      "failure_behavior": "Return to the package-local synthetic vector map after a fixture probe failure.",
       "requires_api_key": false,
       "label_en": "Juniper imagery fixture",
       "label_ko": "주니퍼 이미지 QA 제공자"

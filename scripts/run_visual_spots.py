@@ -16,6 +16,7 @@ OUT = ROOT / "QA" / "CHG-232" / "visual"
 SHOTS = OUT / "screenshots"
 PACKAGE = load_package(DEFAULT_PACKAGE)
 RASTER_PROVIDER = next(key for key, value in PACKAGE["providers"].items() if value.get("kind") == "raster")
+VECTOR_PROVIDER = PACKAGE["vector_provider_id"]
 RASTER_HOST = PACKAGE["source_policy"]["external"][RASTER_PROVIDER]["host"]
 RASTER_LABEL = PACKAGE["providers"][RASTER_PROVIDER].get("label_en", RASTER_PROVIDER)
 
@@ -28,7 +29,7 @@ def capture(page, rows, name: str, viewport: tuple[int, int], mode: str, state: 
 
 def wait_ready(page) -> None:
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    page.wait_for_function("document.querySelectorAll('.photo-marker').length > 0", timeout=15000)
+    page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
     page.wait_for_timeout(180)
 
 
@@ -131,7 +132,7 @@ def main() -> int:
         capture(page, rows, "canonical_decide_default_1440x900", (1440, 900), "decide", "recommended_default", "canonical-anchor", "canonical desktop default")
         page.locator("#mapOptionsToggle").click()
         capture(page, rows, "compact_map_options_open_1440x900", (1440, 900), "decide", "Map options open", "compact provider/region disclosure and focus return target", "canonical-anchor", "compact map options")
-        page.locator("#providerControls [data-provider='vector']").click()
+        page.locator(f"#providerControls [data-provider='{VECTOR_PROVIDER}']").click()
         page.locator("#mapOptionsToggle").click()
         page.locator("#regionControls [data-region='yosemite']").click()
         page.wait_for_timeout(300)

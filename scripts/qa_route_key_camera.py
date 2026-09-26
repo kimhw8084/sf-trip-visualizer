@@ -312,7 +312,7 @@ def main() -> int:
                 page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
                 page.locator("#mapOptionsToggle").click()
                 page.locator("#regionControls [data-region='yosemite']").click()
-                page.locator('[data-mode="day"]').click()
+                page.locator('#modeNav [data-mode="day"]').click()
                 page.locator("#dateSelect").select_option("10/8")
                 page.evaluate("window.__tripApp.fitVisibleMap()")
                 page.wait_for_timeout(180)

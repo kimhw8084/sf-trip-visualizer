@@ -29,6 +29,9 @@ class TripPackageTests(unittest.TestCase):
             with self.subTest(package=path):
                 package = load_package(path)
                 self.assertEqual(validate_portable_data(package)["status"], "PASS")
+        fixture = load_package(FIXTURE)
+        self.assertEqual(fixture["vector_provider_id"], "juniper_local_map")
+        self.assertNotEqual(fixture["vector_provider_id"], load_package(DEFAULT_PACKAGE)["vector_provider_id"])
 
     def test_unrecognized_currency_fails_before_build(self):
         descriptor = json.loads((ROOT / DEFAULT_PACKAGE).read_text())
@@ -37,6 +40,15 @@ class TripPackageTests(unittest.TestCase):
             path = Path(temporary) / "trip.json"
             path.write_text(json.dumps(descriptor))
             with self.assertRaisesRegex(PackageError, "Unrecognized trip currency"):
+                load_package(path.relative_to(ROOT))
+
+    def test_missing_geometry_package_policy_fails_schema_validation(self):
+        descriptor = json.loads((ROOT / FIXTURE).read_text())
+        descriptor.pop("geometry_metadata")
+        with tempfile.TemporaryDirectory(prefix="missing-geometry-policy-", dir=ROOT / "packages") as temporary:
+            path = Path(temporary) / "trip.json"
+            path.write_text(json.dumps(descriptor))
+            with self.assertRaisesRegex(PackageError, "geometry_metadata"):
                 load_package(path.relative_to(ROOT))
 
     def test_unsafe_direction_destinations_fail_closed(self):
@@ -57,6 +69,16 @@ class TripPackageTests(unittest.TestCase):
         package = load_package(FIXTURE)
         package["data"]["legs"][0]["from"] = "unknown_place"
         with self.assertRaisesRegex(PackageError, "unknown endpoint"):
+            validate_portable_data(package)
+
+    def test_stale_package_map_and_provider_manifests_fail_before_artifact_emission(self):
+        package = load_package(FIXTURE)
+        package["assets"]["map"]["source_metadata"]["label"] = "A changed local map source"
+        with self.assertRaisesRegex(PackageError, "map manifest is stale"):
+            validate_portable_data(package)
+        package = load_package(FIXTURE)
+        package["providers"]["beacon_tiles"]["label_en"] = "A changed raster label"
+        with self.assertRaisesRegex(PackageError, "provider manifest is stale"):
             validate_portable_data(package)
 
     def test_default_https_port_is_still_rejected_for_package_directions(self):

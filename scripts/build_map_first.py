@@ -91,7 +91,6 @@ def build(output_root: Path, package_path: str | Path | None = None) -> dict:
         raise SystemExit("Canonical route-day projection is stale; refusing to emit artifacts.")
     if sum(bool(route.get("recommended")) for route in data["routes"].values()) != 1:
         raise SystemExit("Canonical route metadata must contain exactly one recommended strategy.")
-    data["providers"] = package["providers"]
     coordinate_audit_path = paths.get("coordinate_audit")
     coordinate_audit = {row["place_key"]: row for row in json.loads(coordinate_audit_path.read_text())} if coordinate_audit_path else {}
     for marker in data["markers"]:

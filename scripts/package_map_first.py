@@ -126,6 +126,10 @@ def main() -> None:
     package_manifest = {
         "schema_version": 1,
         "project": "sf-trip-visualizer",
+        "trip_identity": trip["trip_identity"],
+        "display_title": trip["display_title"],
+        "slug": trip["slug"],
+        "currency": trip["currency"],
         "tested_sha": args.revision,
         "qualification_sha256": digest(QUALIFICATION),
         "file_count_excluding_manifest": len(files),

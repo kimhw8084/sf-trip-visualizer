@@ -7,13 +7,15 @@
 (() => {
   const DATA = window.TRIP_DATA || {};
   const PACKAGE = window.TRIP_PACKAGE || {};
+  const VECTOR_PROVIDER = Object.keys(PACKAGE.providers || {}).find(key => PACKAGE.providers[key]?.kind === 'vector');
+  if (!VECTOR_PROVIDER) throw new Error('Trip package must declare one local vector provider.');
   const ROUTES = Object.keys(DATA.routes || {});
   const GEOMETRY = window.TRIP_ROUTE_GEOMETRY || {};
   const I18N = window.TRIP_I18N || { ko_to_en: {}, en_to_ko: {}, places: {} };
   const FRESHNESS = window.TRIP_FRESHNESS || { default_status: 'RECHECK_REQUIRED' };
   const RUNTIME_CONTRACT = window.TRIP_RUNTIME_CONTRACT || {};
   const messages = window.TRIP_ATLAS_MESSAGES;
-  const model = window.TRIP_ATLAS_STATE.create(DATA);
+  const model = window.TRIP_ATLAS_STATE.create(DATA, PACKAGE);
   const state = model.state;
   const routeMeta = DATA.routes;
   const markerByKey = Object.fromEntries((DATA.markers || []).map(item => [item.place_key, item]));
@@ -194,7 +196,7 @@
   function clearMapFeedback() {
     const errorBox = document.getElementById('mapError'), retry = document.getElementById('smartRetry');
     if (errorBox) errorBox.hidden = true;
-    if (retry) { retry.dataset.retryProvider = 'vector'; retry.textContent = m('retrySmart'); }
+    if (retry) { retry.dataset.retryProvider = VECTOR_PROVIDER; retry.textContent = m('retrySmart'); }
   }
   function showProviderFallbackFeedback(provider) {
     const errorBox = document.getElementById('mapError'), retry = document.getElementById('smartRetry');
@@ -207,8 +209,8 @@
     const message = `${m('smartFailure')} ${mapFailureText(error, phase)}`;
     const errorBox = document.getElementById('mapError');
     if (errorBox) { errorBox.querySelector('.map-error-message').textContent = message; errorBox.hidden = false; }
-    state.runtime.providerHealth.vector = 'failed'; state.runtime.localAssets.status = 'failed'; state.runtime.localAssets.failures.push(message);
-    recordRuntimeEvent('smart_failure', 'vector', { phase, message });
+    state.runtime.providerHealth[VECTOR_PROVIDER] = 'failed'; state.runtime.localAssets.status = 'failed'; state.runtime.localAssets.failures.push(message);
+    recordRuntimeEvent('smart_failure', VECTOR_PROVIDER, { phase, message });
     renderProviderState(); renderShellStatus(); setStatus(message); persist();
   }
   function localMapError(event) {
@@ -262,7 +264,7 @@
       if (!response.ok) throw new Error(`Missing map asset ${path}`);
       return { data: path.endsWith('.json') ? await response.json() : await response.arrayBuffer() };
     });
-    state.runtime.localAssets.status = 'ready'; state.runtime.providerHealth.vector = 'ready'; recordRuntimeEvent('smart_ready', 'vector', { identity: state.runtime.providerIdentity });
+    state.runtime.localAssets.status = 'ready'; state.runtime.providerHealth[VECTOR_PROVIDER] = 'ready'; recordRuntimeEvent('smart_ready', VECTOR_PROVIDER, { identity: state.runtime.providerIdentity });
     markStartup('local_vector_setup_ready');
   }
   function vectorStyle({ labelsOnly = false } = {}) {
@@ -292,7 +294,7 @@
     return style;
   }
   function providerStyle(provider) {
-    if (provider === 'vector') return vectorStyle();
+    if (provider === VECTOR_PROVIDER) return vectorStyle();
     const config = PACKAGE.providers?.[provider];
     if (config?.kind !== 'raster' || !safeProviderConfig(provider)) throw new Error(`Provider ${provider} is not approved`);
     const style = { version: 8, sources: { base: { type: 'raster', tiles: [config.tile_template], tileSize: 256, attribution: config.attribution } }, layers: [{ id: 'base', type: 'raster', source: 'base' }] };
@@ -307,7 +309,7 @@
     });
   }
   async function testProvider(provider) {
-    if (provider === 'vector') return state.runtime.providerHealth.vector === 'ready' && state.runtime.localAssets.status === 'ready';
+    if (provider === VECTOR_PROVIDER) return state.runtime.providerHealth[VECTOR_PROVIDER] === 'ready' && state.runtime.localAssets.status === 'ready';
     const config = safeProviderConfig(provider);
     if (!config || !config.health_probe || config.requires_api_key) { state.runtime.providerHealth[provider] = 'failed'; renderProviderState(); return false; }
     state.runtime.providerHealth[provider] = 'loading'; state.runtime.providerStats[provider].healthProbes++; renderProviderState();
@@ -327,7 +329,7 @@
     if (PACKAGE.providers?.[provider]?.kind === 'raster' && rasterFallbackFlight) return rasterFallbackFlight;
     const fallback = (async () => {
       state.runtime.providerStats[provider].fallbacks++; if (reason === 'tile_error') state.runtime.providerStats[provider].tileErrors++;
-      state.runtime.providerHealth[provider] = 'failed'; state.runtime.provider = 'vector';
+      state.runtime.providerHealth[provider] = 'failed'; state.runtime.provider = VECTOR_PROVIDER;
       if (reason === 'tile_error') recordRuntimeEvent('tile_error', provider, detail);
       recordRuntimeEvent('fallback_to_smart', provider, { reason, ...detail });
       if (PACKAGE.providers?.[provider]?.kind === 'raster') showProviderFallbackFeedback(provider);
@@ -339,20 +341,20 @@
   }
   async function chooseProvider(provider) {
     if (!PACKAGE.providers?.[provider]) return false;
-    if (provider === 'vector') { rememberSmartCamera(); state.runtime.provider = 'vector'; clearMapFeedback(); renderProviderState(); persist(); return drawMap(true); }
+    if (provider === VECTOR_PROVIDER) { rememberSmartCamera(); state.runtime.provider = VECTOR_PROVIDER; clearMapFeedback(); renderProviderState(); persist(); return drawMap(true); }
     if (PACKAGE.providers[provider].kind !== 'raster') return false;
     rememberSmartCamera();
     const ok = await testProvider(provider) && await testViewportProvider(provider);
     if (!ok) { await returnToSmart(provider, 'probe_failure'); return false; }
-    clearMapFeedback(); state.runtime.provider = provider; state.runtime.providerSwitches++; recordRuntimeEvent('provider_switch', provider, { from: 'vector' }); renderProviderState(); persist(); return drawMap(true);
+    clearMapFeedback(); state.runtime.provider = provider; state.runtime.providerSwitches++; recordRuntimeEvent('provider_switch', provider, { from: VECTOR_PROVIDER }); renderProviderState(); persist(); return drawMap(true);
   }
   function renderProviderState() {
     const provider = state.runtime.provider, health = state.runtime.providerHealth[provider] || 'untested', status = document.getElementById('providerStatus');
     const config = PACKAGE.providers?.[provider] || {};
-    const label = provider === 'vector' ? (health === 'ready' ? m('mapReady') : health === 'failed' ? m('mapUnavailable') : m('mapChecking'))
+    const label = provider === VECTOR_PROVIDER ? (health === 'ready' ? m('mapReady') : health === 'failed' ? m('mapUnavailable') : m('mapChecking'))
       : `${providerDisplayLabel(provider)} · ${health === 'ready' ? m('providerReady') : health === 'failed' ? m('providerUnavailable') : m('providerChecking')}`;
     const region = state.task.region === 'overall' ? m('overall') : DATA.region_cfg[state.task.region]?.[state.presentation.lang === 'ko' ? 'label' : 'label_en'] || DATA.region_cfg[state.task.region]?.label || state.task.region;
-    const providerLabel = provider === 'vector' ? m('smartMap') : providerDisplayLabel(provider);
+    const providerLabel = provider === VECTOR_PROVIDER ? m('smartMap') : providerDisplayLabel(provider);
     const summary = document.getElementById('mapCurrentSummary');
     if (summary) summary.textContent = `${providerLabel} · ${region} · ${state.task.date === 'all' ? m('allDates') : dateLabel(state.task.date)} · ${state.task.primaryRoute}`;
     const optionsToggle = document.getElementById('mapOptionsToggle');
@@ -412,7 +414,7 @@
     return { useful: markerPointsInViewport.length > 0 && (routeFeaturesInViewport.length > 0 || markerPointsInViewport.length > 0), width, height, visible_markers: visibleMarkers.length, markers_in_viewport: markerPointsInViewport.length, route_features: routeFeatures.length, route_features_in_viewport: routeFeaturesInViewport.length, route_points_in_viewport: routePointsInViewport.length, content_occupancy_ratio: Number(occupancy.toFixed(4)) };
   }
   function rememberSmartCamera(map = photoMap) {
-    if (!map || state.runtime.provider !== 'vector' || renderedProvider !== 'vector' || !state.runtime.mapVisualReady) return null;
+    if (!map || state.runtime.provider !== VECTOR_PROVIDER || renderedProvider !== VECTOR_PROVIDER || !state.runtime.mapVisualReady) return null;
     const view = cameraView(map), spatial = mapSpatialSnapshot(map);
     if (!view || !spatial.useful) return null;
     smartCamera = { ...view, task: cameraTaskContext(), spatial, owner: 'smart' };
@@ -698,8 +700,8 @@
         state.runtime.mapStatus = 'loading'; state.runtime.mapVisualReady = false;
         map = new maplibregl.Map({ container: 'map', style: providerStyle(state.runtime.provider), center: [region.center.lon, region.center.lat], zoom: region.zoom, attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 18 });
         photoMap = map; renderedProvider = state.runtime.provider; renderedTheme = state.presentation.theme; state.runtime.mapCreations += 1; state.runtime.mapStatus = 'loading'; renderProviderState(); markStartup('map_created');
-        map.on('load', () => { markStartup('map_style_ready'); installRouteLayers(map); installPhotoMarkers(map, { deferClusters: true }); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); updatePhotoClusters(); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; if (state.runtime.provider === 'vector') rememberSmartCamera(map); renderProviderState(); renderShellStatus(); markStartup('map_visual_ready', { markers: photoMarkers.length, layers: map.getStyle()?.layers?.length || 0 }); });
-        map.on('moveend', () => { if (state.runtime.provider === 'vector' && renderedProvider === 'vector') rememberSmartCamera(map); });
+        map.on('load', () => { markStartup('map_style_ready'); installRouteLayers(map); installPhotoMarkers(map, { deferClusters: true }); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); updatePhotoClusters(); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; if (state.runtime.provider === VECTOR_PROVIDER) rememberSmartCamera(map); renderProviderState(); renderShellStatus(); markStartup('map_visual_ready', { markers: photoMarkers.length, layers: map.getStyle()?.layers?.length || 0 }); });
+        map.on('moveend', () => { if (state.runtime.provider === VECTOR_PROVIDER && renderedProvider === VECTOR_PROVIDER) rememberSmartCamera(map); });
         map.on('click', () => hidePeek({ returnFocus: false }));
         map.on('error', event => { if (isRasterProviderError(event, map)) { void returnToSmart(state.runtime.provider, 'tile_error', { source_id: event.sourceId, message: String(event?.error?.message || event?.message || event?.error || 'raster tile request failed') }); return; } if (localMapError(event)) showMapFailure(event.error || event.message, 'map_runtime'); });
         return true;
@@ -977,7 +979,7 @@
   }
   function renderMapControls() {
     const provider = document.getElementById('providerControls'), region = document.getElementById('regionControls');
-    provider.innerHTML = Object.keys(PACKAGE.providers).map(key => `<button type="button" class="segment" data-provider="${esc(key)}" aria-pressed="${state.runtime.provider === key}">${key === 'vector' ? m('smartMap') : esc(providerDisplayLabel(key))}</button>`).join('');
+    provider.innerHTML = Object.keys(PACKAGE.providers).map(key => `<button type="button" class="segment" data-provider="${esc(key)}" aria-pressed="${state.runtime.provider === key}">${key === VECTOR_PROVIDER ? m('smartMap') : esc(providerDisplayLabel(key))}</button>`).join('');
     region.innerHTML = Object.keys(DATA.region_cfg).map(key => `<button type="button" class="segment" data-region="${esc(key)}" aria-pressed="${state.task.region === key}">${esc(key === 'overall' ? m('overall') : DATA.region_cfg[key][state.presentation.lang === 'ko' ? 'label' : 'label_en'] || DATA.region_cfg[key].label || key)}</button>`).join('');
     const panel = document.getElementById('mapOptionsPanel'), toggle = document.getElementById('mapOptionsToggle');
     if (panel && toggle) { panel.hidden = !state.presentation.mapOptionsOpen; toggle.setAttribute('aria-expanded', String(state.presentation.mapOptionsOpen)); }
@@ -998,7 +1000,7 @@
     const routeHeading = document.getElementById('routeSectionHeading'); if (routeHeading) routeHeading.textContent = m('routeStrategies');
     document.getElementById('langToggle').textContent = state.presentation.lang === 'ko' ? 'EN' : '한국어'; document.getElementById('themeToggle').textContent = state.presentation.theme === 'dark' ? `☀ ${m('light')}` : `☾ ${m('dark')}`;
     document.getElementById('workbenchToggle').textContent = state.presentation.sheet === 'compact' ? m('expand') : m('collapse');
-    const smartRetry = document.getElementById('smartRetry'); if (smartRetry) smartRetry.textContent = !smartRetry.dataset.retryProvider || smartRetry.dataset.retryProvider === 'vector' ? m('retrySmart') : `${providerDisplayLabel(smartRetry.dataset.retryProvider)} · ${m('retryProvider')}`;
+    const smartRetry = document.getElementById('smartRetry'); if (smartRetry) smartRetry.textContent = !smartRetry.dataset.retryProvider || smartRetry.dataset.retryProvider === VECTOR_PROVIDER ? m('retrySmart') : `${providerDisplayLabel(smartRetry.dataset.retryProvider)} · ${m('retryProvider')}`;
     syncSheetPresentation();
     renderProviderState();
     document.querySelectorAll('[data-sheet]').forEach(button => { if (button.classList.contains('icon-button')) { button.setAttribute('aria-pressed', String(button.dataset.sheet === state.presentation.sheet)); button.title = m(button.dataset.sheet); button.setAttribute('aria-label', m(button.dataset.sheet)); } });
@@ -1048,8 +1050,8 @@
     document.getElementById('mapErrorDismiss').onclick = () => { document.getElementById('mapError').hidden = true; };
     document.getElementById('smartRetry').onclick = async event => {
       const retry = event.currentTarget;
-      if (retry.dataset.retryProvider && retry.dataset.retryProvider !== 'vector') { retry.disabled = true; document.getElementById('mapError').hidden = true; await chooseProvider(retry.dataset.retryProvider); retry.disabled = false; return; }
-      document.getElementById('mapError').hidden = true; state.runtime.provider = 'vector'; state.runtime.providerHealth.vector = 'loading'; state.runtime.localAssets.status = 'checking'; renderProviderState(); try { await setupVector(); await drawMap(true); } catch (error) { showMapFailure(error, 'retry'); }
+      if (retry.dataset.retryProvider && retry.dataset.retryProvider !== VECTOR_PROVIDER) { retry.disabled = true; document.getElementById('mapError').hidden = true; await chooseProvider(retry.dataset.retryProvider); retry.disabled = false; return; }
+      document.getElementById('mapError').hidden = true; state.runtime.provider = VECTOR_PROVIDER; state.runtime.providerHealth[VECTOR_PROVIDER] = 'loading'; state.runtime.localAssets.status = 'checking'; renderProviderState(); try { await setupVector(); await drawMap(true); } catch (error) { showMapFailure(error, 'retry'); }
     };
     document.getElementById('dateSelect').onchange = event => { state.task.date = event.target.value; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; state.presentation.mode = 'day'; renderAll(); persist(); drawMap(false); };
     const handleEscape = event => { if (event.key !== 'Escape') return; if (document.getElementById('costCockpit')?.open) return; if (state.presentation.mapOptionsOpen) { setMapOptionsOpen(false); event.preventDefault(); return; } if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };

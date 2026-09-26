@@ -27,15 +27,25 @@ CONTRACT_PATH = ROOT / "manifests" / "runtime_resilience_contract.json"
 DATA_PATH = ROOT / ACTIVE_PACKAGE["canonical_data"]
 FRESHNESS_PATH = PACKAGE_PATHS["freshness"]
 PHOTO_MANIFEST_PATH = PACKAGE_PATHS["photos_manifest"]
-BASEMAP_MANIFEST_PATH = ROOT / "manifests" / "map_first_basemap_manifest.json"
+BASEMAP_MANIFEST_PATH = ROOT / ACTIVE_PACKAGE["projections"]["map_manifest"]
 BUILD = ROOT / ".build"
 MODULAR = BUILD / "modular" / "index.html"
 STANDALONE = BUILD / "standalone" / f"{ACTIVE_PACKAGE['slug']}-standalone.html"
 RASTER_TILE_BODY = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=")
 RASTER_PROVIDER = next((key for key, value in ACTIVE_PACKAGE["providers"].items() if value.get("kind") == "raster"), None)
+VECTOR_PROVIDER = ACTIVE_PACKAGE["vector_provider_id"]
+ACTIVE_DATA = ACTIVE_PACKAGE["data"]
 RASTER_POLICY = ACTIVE_PACKAGE["source_policy"]["external"].get(RASTER_PROVIDER, {}) if RASTER_PROVIDER else {}
 RASTER_HOST = RASTER_POLICY.get("host", "")
-VECTOR_IDENTITY = ACTIVE_PACKAGE["providers"]["vector"]["identity"]
+VECTOR_IDENTITY = ACTIVE_PACKAGE["providers"][VECTOR_PROVIDER]["identity"]
+FOCUS_DATE = next(
+    date["key"] for date in ACTIVE_DATA["dates"]
+    if any(item.get("date_key", item.get("date")) == date["key"] and item.get("spatial_keys") for item in ACTIVE_DATA["timeline"])
+)
+FOCUS_REGION = next(
+    region for region in ACTIVE_DATA["region_cfg"] if region != "overall"
+    and any(ACTIVE_DATA["place_region"].get(marker["place_key"]) == region for marker in ACTIVE_DATA["markers"])
+)
 
 
 def digest(path: Path) -> str:
@@ -250,15 +260,15 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         initial = snapshot(page)
         initial_remote_requests = remote_requests(requests)
         core_failures = []
-        if initial["provider"] != "vector" or not smart_identity(initial["provider_identity"]) or initial["local_assets"]["status"] != "ready":
+        if initial["provider"] != VECTOR_PROVIDER or not smart_identity(initial["provider_identity"]) or initial["local_assets"]["status"] != "ready":
             core_failures.append("smart identity/readiness")
         if remote_requests(requests):
             core_failures.append("remote Smart first-use request")
-        page.locator('[data-mode="day"]').click()
-        page.locator('#dateSelect').select_option("10/3")
+        page.locator('#modeNav [data-mode="day"]').click()
+        page.locator('#dateSelect').select_option(FOCUS_DATE)
         page.locator('#mapOptionsToggle').click()
         page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
-        page.locator('[data-region="sf"]').click()
+        page.locator(f'[data-region="{FOCUS_REGION}"]').click()
         page.wait_for_timeout(400)
         if page.locator(".photo-marker").count():
             page.locator(".photo-marker").first.click()
@@ -289,14 +299,14 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         page.route("https://**/*", lambda route: route.abort())
         stable_state = snapshot(page)["planning_state"]
         page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER)
-        page.wait_for_function("window.__tripApp.state.provider==='vector'", timeout=15000)
+        page.wait_for_function("provider=>window.__tripApp.state.provider===provider", arg=VECTOR_PROVIDER, timeout=15000)
         blocked = snapshot(page)
         for _ in range(3):
             page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER)
-            page.wait_for_function("window.__tripApp.state.provider==='vector'", timeout=15000)
+            page.wait_for_function("provider=>window.__tripApp.state.provider===provider", arg=VECTOR_PROVIDER, timeout=15000)
         repeated = snapshot(page)
         if blocked["planning_state"] != stable_state or repeated["map"]["canvas_count"] != 1 or len(set(repeated["map"]["photo_marker_keys"])) != repeated["map"]["photo_markers"]:
-            core_failures.append("blocked Satellite recovery/state")
+            core_failures.append("blocked optional-provider recovery/state")
         if repeated["runtime"]["providerStats"][RASTER_PROVIDER]["healthProbes"] > 4 or repeated["runtime"]["drawRequests"] > 18:
             core_failures.append("provider retry/request bound")
         page.unroute("https://**/*")
@@ -304,7 +314,8 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
 
         # Deterministic local-asset failure cases: no remote substitution is allowed.
         photo_manifest = load(PHOTO_MANIFEST_PATH)
-        hero_photo = next(item["local_thumb_path"] for item in photo_manifest["assets"] if item["role"].lower() == "hero")
+        hero_asset = next(item for item in photo_manifest["assets"] if item["role"].lower() == "hero")
+        hero_photo = hero_asset["local_medium_path"]
         map_config = ACTIVE_PACKAGE["assets"]["map"]
         failure_routes = {
             "missing_pmtiles": f"**/{map_config['vector_archive']}",
@@ -314,7 +325,8 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         if map_config.get("relief"):
             failure_routes["missing_terrain"] = f"**/{map_config['relief']['path']}"
         for label, pattern in failure_routes.items():
-            failure_page = context.new_page()
+            failure_context = browser.new_context(viewport={"width": 1280, "height": 800})
+            failure_page = failure_context.new_page()
             failure_page.set_default_timeout(15000)
             failure_requests: list[str] = []
             failure_page.on("request", lambda request: failure_requests.append(request.url))
@@ -323,13 +335,22 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             else:
                 failure_page.route(pattern, lambda route: route.abort())
             failure_page.goto(modular_url, wait_until="domcontentloaded", timeout=90000)
+            if label == "missing_required_photo":
+                failure_page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
+                failure_page.locator("#modeNav [data-mode='place']").click()
+                failure_page.wait_for_function(
+                    "key=>!!document.querySelector(`#placeView:not([hidden]) [data-place-choice='${CSS.escape(key)}']`)" ,
+                    arg=hero_asset["place_key"], timeout=15000,
+                )
+                failure_page.locator(f"#placeView [data-place-choice='{hero_asset['place_key']}']").click()
+                failure_page.evaluate("document.querySelectorAll('#placeInspector .photo-grid img').forEach(image=>image.loading='eager')")
             failure_page.wait_for_timeout(4500)
             failure_snapshot = failure_page.evaluate("window.__tripApp?.runtimeSnapshot?.()")
             visible_failure = bool(failure_page.locator("#mapError:not([hidden])").count()) or bool(failure_page.locator("#loadingScreen.failed").count())
             row = {"case": label, "visible_failure": visible_failure, "provider": failure_snapshot.get("provider") if failure_snapshot else None, "provider_identity": failure_snapshot.get("provider_identity") if failure_snapshot else None, "remote_requests": remote_requests(failure_requests)}
-            row["pass"] = visible_failure and row["provider"] == "vector" and smart_identity(row["provider_identity"]) and not row["remote_requests"]
+            row["pass"] = visible_failure and row["provider"] == VECTOR_PROVIDER and smart_identity(row["provider_identity"]) and not row["remote_requests"]
             report["negative_checks"].append(row)
-            failure_page.close()
+            failure_context.close()
 
         standalone_context = browser.new_context(viewport={"width": 1280, "height": 800})
         standalone_page = standalone_context.new_page()
@@ -352,7 +373,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         standalone_page.evaluate("()=>window.__tripApp.map().resize()")
         standalone_snapshot = snapshot(standalone_page)
         standalone_row = {"snapshot": standalone_snapshot, "remote_requests": remote_requests(standalone_requests), "page_errors": standalone_errors}
-        standalone_row["critical_pass"] = standalone_snapshot["provider"] == "vector" and smart_identity(standalone_snapshot["provider_identity"]) and standalone_snapshot["local_assets"]["status"] == "ready" and not standalone_row["remote_requests"] and standalone_snapshot["map"]["canvas_count"] == 1
+        standalone_row["critical_pass"] = standalone_snapshot["provider"] == VECTOR_PROVIDER and smart_identity(standalone_snapshot["provider_identity"]) and standalone_snapshot["local_assets"]["status"] == "ready" and not standalone_row["remote_requests"] and standalone_snapshot["map"]["canvas_count"] == 1
         report["standalone"] = standalone_row
 
         # Deterministic provider recovery: establish a successful Satellite map with
@@ -377,15 +398,15 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         try:
             deterministic_page.goto(modular_url, wait_until="domcontentloaded", timeout=90000)
             wait_ready(deterministic_page)
-            deterministic_page.locator('[data-mode="day"]').click()
+            deterministic_page.locator('#modeNav [data-mode="day"]').click()
             # Oct 3 has no public place-to-place corridor because the day starts
             # and ends at private lodging and the afternoon Sausalito event is
             # represented without a photo-backed marker. Exercise spatial
             # recovery on Oct 4, which has visible public route legs.
-            deterministic_page.locator("#dateSelect").select_option("10/4")
+            deterministic_page.locator("#dateSelect").select_option(FOCUS_DATE)
             deterministic_page.locator("#mapOptionsToggle").click()
             deterministic_page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
-            deterministic_page.locator('[data-region="sf"]').click()
+            deterministic_page.locator(f'[data-region="{FOCUS_REGION}"]').click()
             deterministic_page.locator('[data-sheet="full"]').click()
             deterministic_page.locator("#langToggle").click()
             deterministic_page.locator("#themeToggle").click()
@@ -406,7 +427,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
 
             deterministic["phase"] = "failure"
             deterministic_page.evaluate("()=>window.__tripApp.map().panTo([-118.2437,34.0522],{duration:0})")
-            deterministic_page.wait_for_function("window.__tripApp.state.provider==='vector' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
+            deterministic_page.wait_for_function("provider=>window.__tripApp.state.provider===provider && window.__tripApp.state.runtime.mapVisualReady===true", arg=VECTOR_PROVIDER, timeout=30000)
             deterministic_page.wait_for_timeout(900)
             recovered = snapshot(deterministic_page)
             fallback_events = [event for event in recovered["provider_events"] if event.get("type") == "fallback_to_smart" and event.get("provider") == RASTER_PROVIDER and event.get("reason") == "tile_error"]
@@ -463,15 +484,15 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             deterministic_page.wait_for_function("provider=>window.__tripApp.state.provider===provider && window.__tripApp.state.runtime.mapVisualReady===true", arg=RASTER_PROVIDER, timeout=30000)
             retry_snapshot = snapshot(deterministic_page)
             retry_allowed = retry_result and retry_snapshot["runtime"]["providerStats"][RASTER_PROVIDER]["healthProbes"] > retry_before
-            deterministic_page.evaluate("async()=>await window.__tripApp.chooseProvider('vector')")
-            deterministic_page.wait_for_function("window.__tripApp.state.provider==='vector' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
+            deterministic_page.evaluate("async provider=>await window.__tripApp.chooseProvider(provider)", VECTOR_PROVIDER)
+            deterministic_page.wait_for_function("provider=>window.__tripApp.state.provider===provider && window.__tripApp.state.runtime.mapVisualReady===true", arg=VECTOR_PROVIDER, timeout=30000)
             if not activation_state_preserved:
                 deterministic_failures.append("Satellite activation changed planning/presentation state")
             if not preserved:
                 deterministic_failures.append("Satellite tile failure did not preserve planning/presentation state")
             if not all(bounded.values()):
                 deterministic_failures.extend([f"bounded recovery assertion failed: {name}" for name, passed in bounded.items() if not passed])
-            if recovered["provider"] != "vector" or not smart_identity(recovered["provider_identity"]):
+            if recovered["provider"] != VECTOR_PROVIDER or not smart_identity(recovered["provider_identity"]):
                 deterministic_failures.append("recovery did not return to the local Smart provider")
             if recovered["provider_health"].get(RASTER_PROVIDER) != "failed":
                 deterministic_failures.append("Optional raster health was not marked failed")
@@ -486,7 +507,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             if not retry_allowed:
                 deterministic_failures.append("explicit later optional-raster probe was not allowed")
             deterministic_row = {
-                "status": "PASS" if not deterministic_failures and recovered["provider"] == "vector" and smart_identity(recovered["provider_identity"]) and recovered["provider_health"].get(RASTER_PROVIDER) == "failed" and recovered["map_visual_ready"] and preserved and feedback_visible and all(bounded.values()) and retry_allowed else "FAIL",
+                "status": "PASS" if not deterministic_failures and recovered["provider"] == VECTOR_PROVIDER and smart_identity(recovered["provider_identity"]) and recovered["provider_health"].get(RASTER_PROVIDER) == "failed" and recovered["map_visual_ready"] and preserved and feedback_visible and all(bounded.values()) and retry_allowed else "FAIL",
                 "mode": "deterministic_fulfilled_then_failed_remote_raster",
                 "activation": {"result": activated, "provider": raster_active["provider"], "provider_health": raster_active["provider_health"], "success_requests": len(deterministic["success_requests"]), "raster_success_requests": len(raster_success_requests), "snapshot": raster_active},
                 "recovery": {"provider": recovered["provider"], "provider_identity": recovered["provider_identity"], "provider_health": recovered["provider_health"], "raster_stats": stats, "tile_error_events": tile_events, "fallback_events": fallback_events, "activation_state_preserved": activation_state_preserved, "planning_state_preserved": preserved, "feedback_visible": feedback_visible, "feedback_truthful": feedback_truthful, "feedback_dismissible": feedback_dismissible, "map_visual_ready": recovered["map_visual_ready"], "spatial_recovery": spatial_recovery, "snapshot": recovered},
@@ -516,7 +537,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             provider_page.route(f"https://{RASTER_HOST}/**", lambda route: route.abort())
             provider_page.evaluate("()=>window.__tripApp.map().jumpTo({center:[-122.42,37.78],zoom:12})")
             try:
-                provider_page.wait_for_function("window.__tripApp.state.provider==='vector'", timeout=15000)
+                provider_page.wait_for_function("provider=>window.__tripApp.state.provider===provider", arg=VECTOR_PROVIDER, timeout=15000)
                 report["external_provider"]["post_switch_tile_failure_recovery"] = "PASS"
             except Exception:
                 report["external_provider"]["post_switch_tile_failure_recovery"] = "VERIFY_REQUIRED"

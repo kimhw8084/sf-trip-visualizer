@@ -58,7 +58,7 @@ def static_contract_checks(root: Path = ROOT) -> dict:
     package = load_package(DEFAULT_PACKAGE)
     if "attribution: mapConfig.attribution" not in renderer_text or "attribution: config.attribution" not in renderer_text:
         failures.append("maintained renderer does not use the package-declared provider attribution")
-    if not package["providers"]["vector"].get("attribution"):
+    if not package["providers"][package["vector_provider_id"]].get("attribution"):
         failures.append("active package has no local vector attribution")
     regression_text = regression.read_text(encoding="utf-8")
     for marker in ("GHSA-jrc7-96c5-q579", "ontoggle", "__maplibreSecuritySentinel", "AttributionControl"):

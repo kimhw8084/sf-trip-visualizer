@@ -5,14 +5,30 @@
   "legs": [
     {
       "leg_id": "cove_walk_01",
-      "date": "2041-03-09",
       "from": "ember_dock",
       "to": "tide_studio",
-      "mode": "walk",
+      "from_latlon": [
+        46.31,
+        -123.76
+      ],
+      "to_latlon": [
+        46.29,
+        -123.72
+      ],
+      "date": "2041-03-09",
       "routes": [
         "COVE"
       ],
+      "mode": "walk",
+      "label": "Sheltered path",
+      "note": "Static local fixture geometry; verify access before walking.",
+      "render_style": "cached_osm_reference_line",
+      "geometry_source": null,
+      "geometry_kind": "routed_osm",
       "branch_kind": "main",
+      "geometry_point_count": 3,
+      "point_count": 3,
+      "status": "routed_osm",
       "endpoint_signature": [
         [
           46.31,
@@ -24,19 +40,37 @@
         ],
         "walk"
       ],
-      "status": "routed_osm",
-      "point_count": 3
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source": null,
+      "source_limitation": "Synthetic fixture coordinates; not a real route recommendation"
     },
     {
       "leg_id": "wind_swap_02",
-      "date": "2041-03-09",
       "from": "ember_dock",
       "to": "tide_studio",
-      "mode": "walk",
+      "from_latlon": [
+        46.31,
+        -123.76
+      ],
+      "to_latlon": [
+        46.29,
+        -123.72
+      ],
+      "date": "2041-03-09",
       "routes": [
         "COVE"
       ],
+      "mode": "walk",
+      "label": "Wind fallback",
+      "note": "Conditional relationship to the covered studio.",
+      "render_style": "cached_osm_reference_line",
+      "geometry_source": null,
+      "geometry_kind": "routed_osm",
       "branch_kind": "conditional",
+      "geometry_point_count": 3,
+      "point_count": 3,
+      "status": "routed_osm",
       "endpoint_signature": [
         [
           46.31,
@@ -48,19 +82,37 @@
         ],
         "walk"
       ],
-      "status": "routed_osm",
-      "point_count": 3
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source": null,
+      "source_limitation": "Synthetic fixture coordinates; not a real route recommendation"
     },
     {
       "leg_id": "quiet_return_03",
-      "date": "2041-03-10",
       "from": "tide_studio",
       "to": "ember_dock",
-      "mode": "walk",
+      "from_latlon": [
+        46.29,
+        -123.72
+      ],
+      "to_latlon": [
+        46.31,
+        -123.76
+      ],
+      "date": "2041-03-10",
       "routes": [
         "RIDGE"
       ],
+      "mode": "walk",
+      "label": "Protected quiet-hour return",
+      "note": "Recovery relationship; do not compress this rest.",
+      "render_style": "cached_osm_reference_line",
+      "geometry_source": null,
+      "geometry_kind": "routed_osm",
       "branch_kind": "recovery",
+      "geometry_point_count": 3,
+      "point_count": 3,
+      "status": "routed_osm",
       "endpoint_signature": [
         [
           46.29,
@@ -72,13 +124,38 @@
         ],
         "walk"
       ],
-      "status": "routed_osm",
-      "point_count": 3
+      "distance_km": null,
+      "reference_duration_min": null,
+      "source": null,
+      "source_limitation": "Synthetic fixture coordinates; not a real route recommendation"
     }
   ],
   "counts": {
+    "semantic_public_route_legs": 3,
     "routed_public_legs": 3,
     "conceptual_legs": 0,
-    "intentionally_omitted_legs": 0
-  }
+    "conceptual_ferry_legs": 0,
+    "intentionally_omitted_legs": 0,
+    "unavailable_physical_legs": 0,
+    "total_geometry_points": 9
+  },
+  "version": "2.0-map-first",
+  "generated": "2026-09-26",
+  "routing_service_status": "SYNTHETIC_QA_REFERENCE_GEOMETRY",
+  "acceptance_strategy": "3/3 semantic public route legs have cached reference geometry; 0 conceptual relationships remain endpoint-only; 0 connections are intentionally omitted. App runtime performs no routing requests.",
+  "exact_routed_legs": 3,
+  "semantic_public_route_legs": 3,
+  "routed_public_legs": 3,
+  "conceptual_legs": 0,
+  "conceptual_ferry_legs": 0,
+  "conceptual_relationship_legs": 0,
+  "unavailable_physical_legs": 0,
+  "intentionally_omitted_connections": 0,
+  "total_geometry_point_count": 9,
+  "renderable_conceptual_legs": 0,
+  "display_policy": "Display only package-declared cached geometry. Omit unavailable lines and retain conceptual relationships as endpoint links. App runtime performs no routing requests.",
+  "geometry_cache_path": "packages/portability-fixture/geometry.json",
+  "geometry_cache_sha256": "37a7c4ac5ddd4f8133754c0ad03ed3dc79efeb2a7bae4bca73705b0a33ccae64",
+  "cross_day_suppressed_legs": [],
+  "omitted_connections": []
 }

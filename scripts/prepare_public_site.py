@@ -104,6 +104,10 @@ def main() -> None:
     provenance = {
         "schema_version": 1,
         "project": "sf-trip-visualizer",
+        "trip_identity": package["trip_identity"],
+        "display_title": package["display_title"],
+        "slug": package["slug"],
+        "currency": package["currency"],
         "tested_sha": args.revision,
         "qualification_sha256": digest(QUALIFICATION),
         "build_manifest_sha256": digest(ROOT / ".build" / "build_manifest.json"),

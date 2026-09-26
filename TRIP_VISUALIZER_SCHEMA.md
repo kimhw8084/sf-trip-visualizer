@@ -13,9 +13,11 @@ locked route/itinerary snapshots, canonical-place export, coordinate audits, and
 location-gap audit are reference evidence; they corroborate the source but never
 override it or drive a build. The package descriptor owns trip identity, display
 title, slug, currency, canonical data path, derived projection paths, local
-photo/map resources, provider configuration, freshness/source policy, and
-artifact naming. Translations, route geometry, schedules, role matrices, photo
-manifests, and freshness records are selected through its `projections` object.
+photo/map/terrain resources, map source metadata, geometry status policy,
+provider configuration, freshness/source policy, and artifact naming.
+Translations, route geometry, schedules, role matrices, photo manifests,
+freshness records, and generated map/provider manifests are selected through
+its `projections` object.
 Freshness remains the single source/recheck authority for time-varying decision
 facts. `scripts/trip_package.py` validates the reusable package boundary;
 `scripts/validate_trip_data.py` additionally enforces current SF itinerary and
@@ -31,16 +33,20 @@ they can restore retired route IDs and prior schedules.
 `packages/sf-family/trip.json` is the active package descriptor. It selects one
 canonical itinerary source plus its translations, route roles/schedules/geometry,
 freshness and research projections, photo root/manifest, local vector archive,
-style resources, optional terrain, provider definitions, HTTPS source policies,
-currency, bilingual title/subtitle, slug, and optional stable compatibility
-filename. Paths stay inside the repository and required assets must exist.
+style resources, optional terrain and source metadata, provider definitions,
+HTTPS source policies, currency, bilingual title/subtitle, slug, and optional
+stable compatibility filename. Paths stay inside the repository and required
+assets must exist. Map and provider manifests are checked against the descriptor
+and local asset hashes before a build can emit artifacts.
 Source policies permit only declared HTTPS hosts and paths; credentials, ports,
 fragments, undeclared query keys, and links outside declared source classes are
 rejected by the runtime URL gates.
 
 Use `python3 scripts/build_map_first.py --package <descriptor> --output-dir <dir>`
-to build any package. Omitting `--package` selects the active SF package. Generated
-standalone names derive from the sanitized package slug; a descriptor may declare
+to build any package. Omitting `--package` selects the active SF package. Use
+`python3 scripts/refresh_map_first_manifests.py --package <descriptor>` to refresh
+that package's map/provider and geometry projections. Generated standalone names
+derive from the sanitized package slug; only the current SF descriptor declares
 a stable compatibility alias for existing release consumers. The synthetic
 `packages/portability-fixture/trip.json` package is architecture evidence only;
 the canonical fast path builds it with the same engine and checks its title,
@@ -87,8 +93,9 @@ The active SF package's canonical data supplies:
 The active SF regression package has one itinerary (`A`), 39 photo-backed place
 identities, 93 timeline cards, 24 typed connectors, and 11 dates (October 2–12).
 It keeps the existing three non-overall regions. Provider IDs and configuration
-are package-owned; the runtime requires a local `vector` provider and supports
-any number of declared optional raster providers. Route identifiers come from
+are package-owned; the runtime selects its required local vector provider by
+declared provider kind and supports any number of declared optional raster
+providers. Route identifiers come from
 each package's canonical role/schedule source; the renderer supports one or
 multiple routes. The active SF photo manifest supplies 117 real local
 photographs: HERO, EXPERIENCE, and SCALE_CONTEXT for every active marker. A

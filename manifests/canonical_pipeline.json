@@ -9,7 +9,7 @@
     "canonical_renderer": "src/app_phase7.js",
     "canonical_build": "scripts/build_map_first.py",
     "canonical_pipeline": "scripts/pipeline.py",
-    "package_boundary": "The selected package descriptor owns trip identity, canonical data, projections, local assets, provider configuration, source policy, and artifact identity. Renderer and canonical builder source are shared across packages."
+    "package_boundary": "The selected package descriptor owns trip identity, display metadata, canonical data, translations, projections, local photo/map/terrain assets, map and geometry policy, provider configuration, source/URL policy, currency, and generated artifact identity. Renderer, canonical builder, and derived-manifest refresh logic are shared across packages."
   },
   "truth_authority": {
     "scope": "routes, canonical route roles, dates, regions, physical places, route occurrences, timeline cards, typed legs, decision rules, endpoint anchors, lodging transitions",
@@ -39,6 +39,7 @@
   "authored_inputs": [
     "packages/sf-family/trip.json",
     "scripts/trip_package.py",
+    "scripts/refresh_map_first_manifests.py",
     "scripts/qa_trip_package_portability.py",
     "scripts/qa_phone_field_surface.py",
     "tests/test_trip_package.py",
@@ -79,6 +80,8 @@
     "$active_trip_package.projections.freshness",
     "$active_trip_package.projections.research_ledger",
     "$active_trip_package.projections.photos_manifest",
+    "$active_trip_package.projections.map_manifest",
+    "$active_trip_package.projections.provider_manifest",
     "$active_trip_package.assets.map.local_resources"
   ],
   "generated_outputs": [
@@ -114,6 +117,7 @@
   ],
   "supported_commands": {
     "build_package": "python3 scripts/build_map_first.py --package <trip-descriptor> --output-dir <generated-directory>",
+    "refresh_package_manifests": "python3 scripts/refresh_map_first_manifests.py --package <trip-descriptor>",
     "fast": "python3 scripts/pipeline.py fast",
     "qualify": "python3 scripts/pipeline.py qualify",
     "serve": "python3 scripts/pipeline.py serve --port 8766",
@@ -131,10 +135,10 @@
     ],
     "dates": 11,
     "regions": 3,
-    "providers": [
-      "vector",
-      "satellite"
-    ],
+    "provider_kinds": {
+      "vector": 1,
+      "raster": 1
+    },
     "photo_roles": [
       "HERO",
       "EXPERIENCE",

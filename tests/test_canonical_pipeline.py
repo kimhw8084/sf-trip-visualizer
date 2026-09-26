@@ -40,7 +40,7 @@ class CanonicalPipelineTests(unittest.TestCase):
         self.assertEqual(len(photos["assets"]), expected["photos"])
         self.assertEqual(len(data["timeline"]), expected["timeline_cards"])
         self.assertEqual(len(data["legs"]), expected["route_legs"])
-        self.assertEqual(set(package["providers"]), set(expected["providers"]))
+        self.assertEqual({kind: sum(provider.get("kind") == kind for provider in package["providers"].values()) for kind in ("vector", "raster")}, expected["provider_kinds"])
         self.assertEqual(len(data["dates"]), expected["dates"])
         self.assertEqual(set(data["place_region"]), {marker["place_key"] for marker in data["markers"]})
 

@@ -65,7 +65,7 @@ def inspect_page(page, package: dict, *, mobile: bool) -> dict:
         mobile_first_use_day:!mobile || app.state.presentation.mode==='day',
         horizontal_overflow:document.documentElement.scrollWidth>innerWidth+1,
         map_canvas_count:snap.map.canvas_count, map_ready:snap.map_visual_ready,
-        map_markers:snap.map.photo_markers, route_features:snap.map.spatial?.route_features||0,
+        map_markers:snap.map.photo_markers+snap.map.clusters, route_features:snap.map.spatial?.route_features||0,
         day_items:day?.querySelectorAll('.day-item,.plan-card').length||0,
         first_day_text:day?.querySelector('.day-item-title,.travel-compact-title')?.textContent||'',
         next_item_visible_px:nextVisiblePx,
@@ -83,6 +83,8 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
     output = output if output.is_absolute() else ROOT / output
     active = load_package(DEFAULT_PACKAGE)
     fixture = load_package(FIXTURE_PACKAGE)
+    active_vector_provider = active["vector_provider_id"]
+    fixture_vector_provider = fixture["vector_provider_id"]
     active_standalone = ROOT / ".build" / "standalone" / f"{active['slug']}-standalone.html"
     active_modular = ROOT / ".build" / "modular" / "index.html"
     if not active_modular.is_file() or not active_standalone.is_file():
@@ -114,7 +116,7 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
         screenshot(page, "sf-mobile-390x844-ko-light.png", (390, 844), screenshots, "first-use Day view, active package")
         place_day = active["data"]["dates"][1]["key"]
         page.locator("#dateSelect").select_option(place_day)
-        page.locator("[data-mode='place']").click()
+        page.locator("#modeNav [data-mode='place']").click()
         page.wait_for_function("document.querySelectorAll('#placeView [data-place-choice]').length>0", timeout=15000)
         page.locator("#placeView [data-place-choice]").first.click()
         page.evaluate("document.querySelectorAll('#placeInspector .photo-grid img').forEach(image=>image.loading='eager')")
@@ -141,7 +143,7 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
         context.close()
 
         context, page = open_surface("sf_desktop", sf_url, (1440, 900), mobile=False)
-        page.locator("[data-mode='day']").click()
+        page.locator("#modeNav [data-mode='day']").click()
         page.locator("#dateSelect").select_option(active["data"]["dates"][0]["key"])
         page.wait_for_timeout(120)
         desktop = inspect_page(page, active, mobile=False)
@@ -153,7 +155,7 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
         raster_host = active["source_policy"]["external"][raster_id]["host"]
         page.route(f"https://{raster_host}/**", lambda route: route.abort())
         page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", raster_id)
-        page.wait_for_function("window.__tripApp.state.provider==='vector' && !document.querySelector('#mapError').hidden", timeout=15000)
+        page.wait_for_function("provider=>window.__tripApp.state.provider===provider && !document.querySelector('#mapError').hidden", arg=active_vector_provider, timeout=15000)
         recovery = inspect_page(page, active, mobile=True)
         screenshot(page, "sf-mobile-raster-failure-smart-recovery-390x844.png", (390, 844), screenshots, "optional raster failure returns to local Smart")
         context.close()
@@ -166,18 +168,20 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
         route = sorted(fixture["data"]["routes"])[-1]
         region = sorted(key for key in fixture["data"]["region_cfg"] if key != "overall")[-1]
         date = fixture["data"]["dates"][-1]["key"]
-        page.locator("[data-mode='decide']").click()
+        page.locator("#modeNav [data-mode='decide']").click()
         page.locator(f"[data-route='{route}']").click()
-        page.locator("[data-mode='day']").click()
+        page.locator("#modeNav [data-mode='day']").click()
         page.locator("#dateSelect").select_option(date)
         page.locator("#mapOptionsToggle").click()
         page.locator(f"[data-region='{region}']").click()
         page.wait_for_function("({route,date,region})=>{const s=window.__tripApp.state.task;return s.primaryRoute===route&&s.date===date&&s.region===region}", arg={"route": route, "date": date, "region": region})
         filtered = inspect_page(page, fixture, mobile=True)
-        page.locator("[data-mode='place']").click()
+        page.locator("#modeNav [data-mode='place']").click()
         page.wait_for_function("document.querySelectorAll('#placeView:not([hidden]) [data-place-choice]').length>0")
         page.locator("#placeView [data-place-choice]").first.click()
         page.wait_for_function("document.querySelectorAll('#placeInspector .photo-grid img').length===3")
+        page.evaluate("document.querySelectorAll('#placeInspector .photo-grid img').forEach(image=>image.loading='eager')")
+        page.wait_for_function("()=>{const images=[...document.querySelectorAll('#placeInspector .photo-grid img')];return images.length===3&&images.every(image=>image.complete&&image.naturalWidth>0)}", timeout=20000)
         place_photos = page.locator("#placeInspector .photo-grid img").evaluate_all("images=>images.map(img=>({src:img.getAttribute('src'),complete:img.complete&&img.naturalWidth>0}))")
         fixture_links = page.evaluate("""()=>({
           directions:document.querySelector('#placeInspector .directions a')?.href||'',
@@ -212,15 +216,15 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
         fixture_raster_host = fixture["source_policy"]["external"][fixture_raster]["host"]
         page.route(f"https://{fixture_raster_host}/**", lambda route: route.abort())
         page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", fixture_raster)
-        page.wait_for_function("window.__tripApp.state.provider==='vector'&&!document.querySelector('#mapError').hidden", timeout=15000)
+        page.wait_for_function("provider=>window.__tripApp.state.provider===provider&&!document.querySelector('#mapError').hidden", arg=fixture_vector_provider, timeout=15000)
         fixture_raster_recovery = page.evaluate("()=>({provider:window.__tripApp.state.provider,map_ready:window.__tripApp.state.runtime.mapVisualReady,local_assets:window.__tripApp.state.runtime.localAssets.status,error:!document.querySelector('#mapError').hidden})")
         context.close()
         browser.close()
     sf_ok = all(not row["horizontal_overflow"] and row["mobile_first_use_day"] and row["map_canvas_count"] == 1 and row["next_item_visible_px"] >= 48 for row in (sf390, sf320))
-    fixture_provider_ok = fixture_raster_recovery["provider"] == "vector" and fixture_raster_recovery["map_ready"] and fixture_raster_recovery["local_assets"] == "ready" and fixture_raster_recovery["error"]
+    fixture_provider_ok = fixture_raster_recovery["provider"] == fixture_vector_provider and fixture_raster_recovery["map_ready"] and fixture_raster_recovery["local_assets"] == "ready" and fixture_raster_recovery["error"]
     fixture_ok = fixture_surface["mobile_first_use_day"] and fixture_surface["fixture_notice"] and fixture_surface["map_canvas_count"] == 1 and fixture_surface["next_item_visible_px"] >= 48 and filters["fixture"]["pass"] and fixture_provider_ok
     place_ok = len(place_context["photos"]) == 3 and all(photo["complete"] for photo in place_context["photos"])
-    recovery_ok = recovery["provider"] == "vector" and recovery["map_ready"] and recovery["mobile_first_use_day"] and not recovery["horizontal_overflow"]
+    recovery_ok = recovery["provider"] == active_vector_provider and recovery["map_ready"] and recovery["mobile_first_use_day"] and not recovery["horizontal_overflow"]
     page_errors = {name: messages for name, messages in errors.items() if messages}
     if page_errors:
         raise RuntimeError("Field surface browser errors: " + json.dumps(page_errors, ensure_ascii=False))
