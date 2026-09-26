@@ -149,10 +149,6 @@ def build(output_root: Path) -> dict:
             cursor.insert_after(inline)
             cursor = inline
     app_inline = standalone.find_all("script")[-1]
-    hillshade_path = ROOT / "assets/vector/yosemite_hillshade_shadow.webp"
-    hillshade = standalone.new_tag("script")
-    hillshade.string = "window.EMBEDDED_HILLSHADE=" + json.dumps("data:image/webp;base64," + base64.b64encode(hillshade_path.read_bytes()).decode("ascii")) + ";"
-    app_inline.insert_before(hillshade)
     photos = {}
     for asset in photo_manifest["assets"]:
         for field in ("local_thumb_path", "local_medium_path"):
@@ -162,7 +158,7 @@ def build(output_root: Path) -> dict:
     embed_photos.string = "window.EMBEDDED_PHOTOS=" + json.dumps(photos, separators=(",", ":")) + ";"
     app_inline.insert_before(embed_photos)
     assets = {}
-    for path in sorted((ROOT / "assets/vector/fonts").rglob("*.pbf")) + sorted((ROOT / "assets/vector/sprites").glob("*")):
+    for path in sorted((ROOT / "assets/vector/fonts").rglob("*.pbf")) + sorted((ROOT / "assets/vector/sprites").glob("*")) + [ROOT / "assets/vector/yosemite_hillshade_shadow.webp"]:
         assets[str(path.relative_to(ROOT))] = base64.b64encode(path.read_bytes()).decode("ascii")
     embed_assets = standalone.new_tag("script")
     embed_assets.string = "window.EMBEDDED_MAP_ASSETS=" + json.dumps(assets, separators=(",", ":")) + ";"

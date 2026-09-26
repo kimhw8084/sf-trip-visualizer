@@ -216,18 +216,23 @@
       const bytes = embeddedBytes(window.EMBEDDED_VECTOR, 'sf_trip.pmtiles');
       if (bytes.byteLength < 127) throw new Error('Embedded PMTiles payload is too small');
       vectorUrl = 'sf_trip.pmtiles'; archive = new PMTiles(new FileSource(new File([bytes], 'sf_trip.pmtiles', { type: 'application/octet-stream' })));
-    } else archive = new PMTiles(vectorUrl);
+    } else {
+      if (location.protocol === 'file:') throw new Error('Missing embedded asset assets/vector/sf_trip.pmtiles');
+      archive = new PMTiles(vectorUrl);
+    }
     const header = await archive.getHeader();
     markStartup('local_pmtiles_header_ready', { tile_type: header?.tileType, max_zoom: header?.maxZoom });
     if (!header || ![1, 6].includes(header.tileType) || header.maxZoom < 1 || header.minLon >= header.maxLon || header.minLat >= header.maxLat) throw new Error('Smart map PMTiles header is invalid');
     protocol.add(archive); maplibregl.addProtocol('pmtiles', protocol.tile);
     maplibregl.addProtocol('tripasset', async params => {
       const path = decodeURIComponent(params.url.replace('tripasset://', ''));
-      if (!/^assets\/vector\/(?:fonts|sprites)\/[^?#]+$/.test(path) || path.includes('..')) throw new Error('Unsafe local map asset path');
+      const bundledMapAsset = /^assets\/vector\/(?:fonts|sprites)\/[^?#]+$/.test(path) || path === 'assets/vector/yosemite_hillshade_shadow.webp';
+      if (!bundledMapAsset || path.includes('..')) throw new Error('Unsafe local map asset path');
       if (window.EMBEDDED_MAP_ASSETS) {
         const bytes = embeddedBytes(window.EMBEDDED_MAP_ASSETS[path], path);
         return { data: path.endsWith('.json') ? JSON.parse(new TextDecoder().decode(bytes)) : bytes.buffer };
       }
+      if (location.protocol === 'file:') throw new Error(`Missing embedded asset ${path}`);
       const response = await fetch(path);
       if (!response.ok) throw new Error(`Missing map asset ${path}`);
       return { data: path.endsWith('.json') ? await response.json() : await response.arrayBuffer() };
@@ -252,7 +257,7 @@
     }
     const sources = { basemap: { type: 'vector', url: `pmtiles://${vectorUrl}`, attribution: '© OpenStreetMap contributors · Protomaps' } };
     if (!labelsOnly) {
-      sources.hillshade = { type: 'image', url: window.EMBEDDED_HILLSHADE || 'assets/vector/yosemite_hillshade_shadow.webp', coordinates: [[-119.99, 37.95], [-119.35, 37.95], [-119.35, 37.38], [-119.99, 37.38]] };
+      sources.hillshade = { type: 'image', url: 'tripasset://assets/vector/yosemite_hillshade_shadow.webp', coordinates: [[-119.99, 37.95], [-119.35, 37.95], [-119.35, 37.38], [-119.99, 37.38]] };
       const index = layers.findIndex(layer => layer.id === 'roads_tunnels_other_casing');
       layers.splice(index < 0 ? layers.length : index, 0, { id: 'yosemite-relief', type: 'raster', source: 'hillshade', minzoom: 8, maxzoom: 18, paint: { 'raster-opacity': dark ? .58 : .72, 'raster-fade-duration': 0 } });
     }
