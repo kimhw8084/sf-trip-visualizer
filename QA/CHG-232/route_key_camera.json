@@ -38,13 +38,13 @@
         "spatial": {
           "useful": true,
           "width": 360,
-          "height": 419,
+          "height": 228,
           "visible_markers": 4,
           "markers_in_viewport": 4,
           "route_features": 1,
           "route_features_in_viewport": 1,
           "route_points_in_viewport": 80,
-          "content_occupancy_ratio": 0.1372
+          "content_occupancy_ratio": 0.2521
         },
         "map_obstacles": 1,
         "task": {
@@ -83,13 +83,13 @@
         "spatial": {
           "useful": true,
           "width": 360,
-          "height": 419,
+          "height": 228,
           "visible_markers": 4,
           "markers_in_viewport": 4,
           "route_features": 1,
           "route_features_in_viewport": 1,
           "route_points_in_viewport": 80,
-          "content_occupancy_ratio": 0.1372
+          "content_occupancy_ratio": 0.2521
         },
         "map_obstacles": 1,
         "task": {
@@ -114,6 +114,240 @@
         "initial_failures": [],
         "failures": [],
         "valid": true
+      },
+      "empty_state_camera_regression": {
+        "status": "PASS",
+        "positive_nonempty_control": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/9"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite · 10/9 금 · A",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 1,
+            "photo_marker_elements": 1,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -119.58982,
+                37.74648
+              ],
+              "zoom": 13.1
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 360,
+              "height": 228,
+              "visible_markers": 1,
+              "markers_in_viewport": 1,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "region_then_date_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin · 10/6 화 · A",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 360,
+              "height": 228,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "date_then_region_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin · 10/6 화 · A",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 360,
+              "height": 228,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "yosemite_nonempty_recovery": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/7"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite · 10/7 수 · A",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 3,
+            "photo_marker_elements": 3,
+            "route_features": 1,
+            "camera": {
+              "center": [
+                -119.63344799999999,
+                37.74105858831955
+              ],
+              "zoom": 10.898231282029831
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 360,
+              "height": 228,
+              "visible_markers": 3,
+              "markers_in_viewport": 3,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 333,
+              "content_occupancy_ratio": 0.3365
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "overall_empty_fallback": {
+          "snapshot": {
+            "task": {
+              "region": "overall",
+              "date": "10/12"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · 전체 · 10/12 월 · A",
+            "expected_region_label": "전체",
+            "selected_region_control_label": "전체",
+            "day_empty_text": "",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "expected_region_camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 360,
+              "height": 228,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "failures": []
       },
       "comparison_chrome_count": 0,
       "comparison_chrome_counts": [
@@ -146,13 +380,13 @@
             "spatial": {
               "useful": true,
               "width": 360,
-              "height": 419,
+              "height": 228,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0013
+              "content_occupancy_ratio": 0.0024
             },
             "map_obstacles": 2,
             "task": {
@@ -191,13 +425,13 @@
             "spatial": {
               "useful": true,
               "width": 360,
-              "height": 419,
+              "height": 228,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1372
+              "content_occupancy_ratio": 0.2521
             },
             "map_obstacles": 1,
             "task": {
@@ -242,13 +476,13 @@
             "spatial": {
               "useful": true,
               "width": 360,
-              "height": 419,
+              "height": 228,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0013
+              "content_occupancy_ratio": 0.0024
             },
             "map_obstacles": 2,
             "task": {
@@ -287,13 +521,13 @@
             "spatial": {
               "useful": true,
               "width": 360,
-              "height": 419,
+              "height": 228,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1372
+              "content_occupancy_ratio": 0.2521
             },
             "map_obstacles": 1,
             "task": {
@@ -338,13 +572,13 @@
             "spatial": {
               "useful": true,
               "width": 360,
-              "height": 419,
+              "height": 228,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0013
+              "content_occupancy_ratio": 0.0024
             },
             "map_obstacles": 2,
             "task": {
@@ -383,13 +617,13 @@
             "spatial": {
               "useful": true,
               "width": 360,
-              "height": 419,
+              "height": 228,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1372
+              "content_occupancy_ratio": 0.2521
             },
             "map_obstacles": 1,
             "task": {
@@ -456,13 +690,13 @@
         "spatial": {
           "useful": true,
           "width": 375,
-          "height": 426,
+          "height": 232,
           "visible_markers": 4,
           "markers_in_viewport": 4,
           "route_features": 1,
           "route_features_in_viewport": 1,
           "route_points_in_viewport": 80,
-          "content_occupancy_ratio": 0.1417
+          "content_occupancy_ratio": 0.2601
         },
         "map_obstacles": 1,
         "task": {
@@ -501,13 +735,13 @@
         "spatial": {
           "useful": true,
           "width": 375,
-          "height": 426,
+          "height": 232,
           "visible_markers": 4,
           "markers_in_viewport": 4,
           "route_features": 1,
           "route_features_in_viewport": 1,
           "route_points_in_viewport": 80,
-          "content_occupancy_ratio": 0.1417
+          "content_occupancy_ratio": 0.2601
         },
         "map_obstacles": 1,
         "task": {
@@ -532,6 +766,240 @@
         "initial_failures": [],
         "failures": [],
         "valid": true
+      },
+      "empty_state_camera_regression": {
+        "status": "PASS",
+        "positive_nonempty_control": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/9"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite · 10/9 금 · A",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 1,
+            "photo_marker_elements": 1,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -119.58982,
+                37.74648
+              ],
+              "zoom": 13.1
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 375,
+              "height": 232,
+              "visible_markers": 1,
+              "markers_in_viewport": 1,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "region_then_date_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin · 10/6 화 · A",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 375,
+              "height": 232,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "date_then_region_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin · 10/6 화 · A",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 375,
+              "height": 232,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "yosemite_nonempty_recovery": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/7"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite · 10/7 수 · A",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 3,
+            "photo_marker_elements": 3,
+            "route_features": 1,
+            "camera": {
+              "center": [
+                -119.63344799999999,
+                37.74067504380183
+              ],
+              "zoom": 10.946889553699089
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 375,
+              "height": 232,
+              "visible_markers": 3,
+              "markers_in_viewport": 3,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 333,
+              "content_occupancy_ratio": 0.3396
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "overall_empty_fallback": {
+          "snapshot": {
+            "task": {
+              "region": "overall",
+              "date": "10/12"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · 전체 · 10/12 월 · A",
+            "expected_region_label": "전체",
+            "selected_region_control_label": "전체",
+            "day_empty_text": "",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "expected_region_camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 375,
+              "height": 232,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "failures": []
       },
       "comparison_chrome_count": 0,
       "comparison_chrome_counts": [
@@ -564,13 +1032,13 @@
             "spatial": {
               "useful": true,
               "width": 375,
-              "height": 426,
+              "height": 232,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0012
+              "content_occupancy_ratio": 0.0023
             },
             "map_obstacles": 2,
             "task": {
@@ -609,13 +1077,13 @@
             "spatial": {
               "useful": true,
               "width": 375,
-              "height": 426,
+              "height": 232,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1417
+              "content_occupancy_ratio": 0.2601
             },
             "map_obstacles": 1,
             "task": {
@@ -660,13 +1128,13 @@
             "spatial": {
               "useful": true,
               "width": 375,
-              "height": 426,
+              "height": 232,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0012
+              "content_occupancy_ratio": 0.0023
             },
             "map_obstacles": 2,
             "task": {
@@ -705,13 +1173,13 @@
             "spatial": {
               "useful": true,
               "width": 375,
-              "height": 426,
+              "height": 232,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1417
+              "content_occupancy_ratio": 0.2601
             },
             "map_obstacles": 1,
             "task": {
@@ -756,13 +1224,13 @@
             "spatial": {
               "useful": true,
               "width": 375,
-              "height": 426,
+              "height": 232,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0012
+              "content_occupancy_ratio": 0.0023
             },
             "map_obstacles": 2,
             "task": {
@@ -801,13 +1269,13 @@
             "spatial": {
               "useful": true,
               "width": 375,
-              "height": 426,
+              "height": 232,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1417
+              "content_occupancy_ratio": 0.2601
             },
             "map_obstacles": 1,
             "task": {
@@ -874,13 +1342,13 @@
         "spatial": {
           "useful": true,
           "width": 390,
-          "height": 444,
+          "height": 242,
           "visible_markers": 4,
           "markers_in_viewport": 4,
           "route_features": 1,
           "route_features_in_viewport": 1,
           "route_points_in_viewport": 80,
-          "content_occupancy_ratio": 0.1424
+          "content_occupancy_ratio": 0.2612
         },
         "map_obstacles": 1,
         "task": {
@@ -919,13 +1387,13 @@
         "spatial": {
           "useful": true,
           "width": 390,
-          "height": 444,
+          "height": 242,
           "visible_markers": 4,
           "markers_in_viewport": 4,
           "route_features": 1,
           "route_features_in_viewport": 1,
           "route_points_in_viewport": 80,
-          "content_occupancy_ratio": 0.1424
+          "content_occupancy_ratio": 0.2612
         },
         "map_obstacles": 1,
         "task": {
@@ -950,6 +1418,240 @@
         "initial_failures": [],
         "failures": [],
         "valid": true
+      },
+      "empty_state_camera_regression": {
+        "status": "PASS",
+        "positive_nonempty_control": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/9"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite · 10/9 금 · A",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 1,
+            "photo_marker_elements": 1,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -119.58982,
+                37.74648
+              ],
+              "zoom": 13.1
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 390,
+              "height": 242,
+              "visible_markers": 1,
+              "markers_in_viewport": 1,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "region_then_date_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin · 10/6 화 · A",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 390,
+              "height": 242,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "date_then_region_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin · 10/6 화 · A",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 390,
+              "height": 242,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "yosemite_nonempty_recovery": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/7"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite · 10/7 수 · A",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 3,
+            "photo_marker_elements": 3,
+            "route_features": 1,
+            "camera": {
+              "center": [
+                -119.63344799999999,
+                37.739818955542674
+              ],
+              "zoom": 11.061805956713172
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 390,
+              "height": 242,
+              "visible_markers": 3,
+              "markers_in_viewport": 3,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 333,
+              "content_occupancy_ratio": 0.3671
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "overall_empty_fallback": {
+          "snapshot": {
+            "task": {
+              "region": "overall",
+              "date": "10/12"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · 전체 · 10/12 월 · A",
+            "expected_region_label": "전체",
+            "selected_region_control_label": "전체",
+            "day_empty_text": "",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "expected_region_camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 390,
+              "height": 242,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "failures": []
       },
       "comparison_chrome_count": 0,
       "comparison_chrome_counts": [
@@ -982,13 +1684,13 @@
             "spatial": {
               "useful": true,
               "width": 390,
-              "height": 444,
+              "height": 242,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0011
+              "content_occupancy_ratio": 0.0021
             },
             "map_obstacles": 2,
             "task": {
@@ -1027,13 +1729,13 @@
             "spatial": {
               "useful": true,
               "width": 390,
-              "height": 444,
+              "height": 242,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1424
+              "content_occupancy_ratio": 0.2612
             },
             "map_obstacles": 1,
             "task": {
@@ -1078,13 +1780,13 @@
             "spatial": {
               "useful": true,
               "width": 390,
-              "height": 444,
+              "height": 242,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0011
+              "content_occupancy_ratio": 0.0021
             },
             "map_obstacles": 2,
             "task": {
@@ -1123,13 +1825,13 @@
             "spatial": {
               "useful": true,
               "width": 390,
-              "height": 444,
+              "height": 242,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1424
+              "content_occupancy_ratio": 0.2612
             },
             "map_obstacles": 1,
             "task": {
@@ -1174,13 +1876,13 @@
             "spatial": {
               "useful": true,
               "width": 390,
-              "height": 444,
+              "height": 242,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0011
+              "content_occupancy_ratio": 0.0021
             },
             "map_obstacles": 2,
             "task": {
@@ -1219,13 +1921,13 @@
             "spatial": {
               "useful": true,
               "width": 390,
-              "height": 444,
+              "height": 242,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1424
+              "content_occupancy_ratio": 0.2612
             },
             "map_obstacles": 1,
             "task": {
@@ -1294,13 +1996,13 @@
         "spatial": {
           "useful": true,
           "width": 414,
-          "height": 473,
+          "height": 258,
           "visible_markers": 4,
           "markers_in_viewport": 4,
           "route_features": 1,
           "route_features_in_viewport": 1,
           "route_points_in_viewport": 80,
-          "content_occupancy_ratio": 0.1433
+          "content_occupancy_ratio": 0.2628
         },
         "map_obstacles": 1,
         "task": {
@@ -1339,13 +2041,13 @@
         "spatial": {
           "useful": true,
           "width": 414,
-          "height": 473,
+          "height": 258,
           "visible_markers": 4,
           "markers_in_viewport": 4,
           "route_features": 1,
           "route_features_in_viewport": 1,
           "route_points_in_viewport": 80,
-          "content_occupancy_ratio": 0.1433
+          "content_occupancy_ratio": 0.2628
         },
         "map_obstacles": 1,
         "task": {
@@ -1370,6 +2072,240 @@
         "initial_failures": [],
         "failures": [],
         "valid": true
+      },
+      "empty_state_camera_regression": {
+        "status": "PASS",
+        "positive_nonempty_control": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/9"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite · 10/9 금 · A",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 1,
+            "photo_marker_elements": 1,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -119.58982,
+                37.74648
+              ],
+              "zoom": 13.1
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 414,
+              "height": 258,
+              "visible_markers": 1,
+              "markers_in_viewport": 1,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "region_then_date_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin · 10/6 화 · A",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 414,
+              "height": 258,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "date_then_region_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin · 10/6 화 · A",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 414,
+              "height": 258,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "yosemite_nonempty_recovery": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/7"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite · 10/7 수 · A",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 3,
+            "photo_marker_elements": 3,
+            "route_features": 1,
+            "camera": {
+              "center": [
+                -119.63344799999999,
+                37.73869211188432
+              ],
+              "zoom": 11.228524861199721
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 414,
+              "height": 258,
+              "visible_markers": 3,
+              "markers_in_viewport": 3,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 333,
+              "content_occupancy_ratio": 0.4087
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "overall_empty_fallback": {
+          "snapshot": {
+            "task": {
+              "region": "overall",
+              "date": "10/12"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · 전체 · 10/12 월 · A",
+            "expected_region_label": "전체",
+            "selected_region_control_label": "전체",
+            "day_empty_text": "",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "expected_region_camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 414,
+              "height": 258,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "failures": []
       },
       "comparison_chrome_count": 0,
       "comparison_chrome_counts": [
@@ -1402,13 +2338,13 @@
             "spatial": {
               "useful": true,
               "width": 414,
-              "height": 473,
+              "height": 258,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0029
+              "content_occupancy_ratio": 0.0053
             },
             "map_obstacles": 2,
             "task": {
@@ -1447,13 +2383,13 @@
             "spatial": {
               "useful": true,
               "width": 414,
-              "height": 473,
+              "height": 258,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1433
+              "content_occupancy_ratio": 0.2628
             },
             "map_obstacles": 1,
             "task": {
@@ -1498,13 +2434,13 @@
             "spatial": {
               "useful": true,
               "width": 414,
-              "height": 473,
+              "height": 258,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0029
+              "content_occupancy_ratio": 0.0053
             },
             "map_obstacles": 2,
             "task": {
@@ -1543,13 +2479,13 @@
             "spatial": {
               "useful": true,
               "width": 414,
-              "height": 473,
+              "height": 258,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1433
+              "content_occupancy_ratio": 0.2628
             },
             "map_obstacles": 1,
             "task": {
@@ -1594,13 +2530,13 @@
             "spatial": {
               "useful": true,
               "width": 414,
-              "height": 473,
+              "height": 258,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.0029
+              "content_occupancy_ratio": 0.0053
             },
             "map_obstacles": 2,
             "task": {
@@ -1639,13 +2575,13 @@
             "spatial": {
               "useful": true,
               "width": 414,
-              "height": 473,
+              "height": 258,
               "visible_markers": 4,
               "markers_in_viewport": 4,
               "route_features": 1,
               "route_features_in_viewport": 1,
               "route_points_in_viewport": 80,
-              "content_occupancy_ratio": 0.1433
+              "content_occupancy_ratio": 0.2628
             },
             "map_obstacles": 1,
             "task": {
@@ -1688,16 +2624,16 @@
   "screenshots": [
     {
       "path": "QA/CHG-232/screenshots/map_controls_390x844_single_route.png",
-      "candidate": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
-      "candidate_tree": "c3aa62826176672eefb4cd45c14764217bf1f1ec",
+      "candidate": "0fd8a4c52c53824ad1c304625ff2d70a87420ac5",
+      "candidate_tree": "c91b754b0c719f7ebe09961736ef659bbe6063b9",
       "browser": "chromium",
       "viewport": "390x844",
       "state": "single-route Yosemite map controls"
     },
     {
       "path": "QA/CHG-232/screenshots/map_controls_414x896_single_route.png",
-      "candidate": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
-      "candidate_tree": "c3aa62826176672eefb4cd45c14764217bf1f1ec",
+      "candidate": "0fd8a4c52c53824ad1c304625ff2d70a87420ac5",
+      "candidate_tree": "c91b754b0c719f7ebe09961736ef659bbe6063b9",
       "browser": "chromium",
       "viewport": "414x896",
       "state": "single-route Yosemite map controls"
@@ -1706,7 +2642,7 @@
   "negative_control": {
     "route_comparison_ui_absent": true
   },
-  "candidate": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
-  "candidate_tree": "c3aa62826176672eefb4cd45c14764217bf1f1ec",
+  "candidate": "0fd8a4c52c53824ad1c304625ff2d70a87420ac5",
+  "candidate_tree": "c91b754b0c719f7ebe09961736ef659bbe6063b9",
   "candidate_binding": "exact-clean-checkout"
 }

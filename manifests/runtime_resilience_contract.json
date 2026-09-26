@@ -6,11 +6,11 @@
   "authority": {
     "canonical_pipeline": "scripts/pipeline.py",
     "canonical_build": "scripts/build_map_first.py",
-    "canonical_data": "data/phase7_app_data.json",
-    "freshness": "manifests/trip_freshness.json",
-    "asset_manifest": "manifests/asset_manifest.json",
-    "basemap_manifest": "manifests/map_first_basemap_manifest.json",
-    "provider_manifest": "manifests/basemap_provider_manifest.json"
+    "canonical_data": "$active_trip_package.canonical_data",
+    "freshness": "$active_trip_package.projections.freshness",
+    "asset_manifest": "$active_trip_package.projections.photos_manifest",
+    "map_resources": "$active_trip_package.assets.map.local_resources",
+    "provider_configuration": "$active_trip_package.providers"
   },
   "delivery_modes": {
     "modular_served": {
@@ -19,48 +19,36 @@
       "smart_network_requirement": "none; only same-origin local assets"
     },
     "standalone_direct_open": {
-      "artifact": ".build/standalone/SF_Smart_Minority_Map_First_Standalone.html",
+      "artifact": "<package-slug>-standalone.html",
       "mechanics": "file:// direct open with embedded PMTiles, fonts, sprites, terrain, and runtime photos",
       "smart_network_requirement": "none"
     },
     "public_staging": {
       "artifact": ".public-site/index.html",
       "mechanics": "exact copy of the qualified modular artifact with release provenance",
-      "smart_network_requirement": "none; optional Satellite remains network-bound"
+      "smart_network_requirement": "none; package-declared optional raster providers remain network-bound"
     },
     "packaged_release": {
       "artifact": ".release/package.zip",
       "mechanics": "deterministic ZIP of exact qualified source, assets, artifacts, and evidence",
-      "smart_network_requirement": "none; optional Satellite remains network-bound"
+      "smart_network_requirement": "none; package-declared optional raster providers remain network-bound"
     }
   },
   "providers": {
     "vector": {
-      "runtime_id": "vector",
-      "identity": "smart-local-vector",
-      "label": "Smart map",
+      "provider_class": "local_vector",
       "network_required": false,
       "critical": true,
-      "failure_behavior": "explicit Smart-map failure; never substitute a remote or raster provider",
-      "local_assets": [
-        "assets/vector/sf_trip.pmtiles",
-        "assets/vector/yosemite_hillshade_source.png",
-        "assets/vector/yosemite_hillshade_shadow.webp",
-        "assets/vector/fonts",
-        "assets/vector/sprites",
-        "assets/photos/thumb",
-        "assets/photos/medium"
-      ],
+      "failure_behavior": "explicit local-map failure; never substitute a remote or raster provider",
+      "assets": "package-declared vector archive, fonts, sprites, optional terrain, and local photo derivatives",
       "no_runtime_routing": true,
       "no_runtime_remote_photos": true
     },
-    "satellite": {
-      "runtime_id": "satellite",
-      "identity": "satellite-esri-with-local-labels",
-      "label": "Satellite + labels",
+    "raster": {
+      "provider_class": "optional_raster",
       "network_required": true,
       "critical": false,
-      "failure_behavior": "bounded probe/tile failure returns to Smart while preserving planning state",
+      "failure_behavior": "bounded probe/tile failure returns to the local vector map while preserving planning state",
       "success_evidence": "optional; record VERIFY_REQUIRED when the external provider cannot be independently verified"
     }
   },
@@ -70,7 +58,7 @@
     "date, region, route, preview, and detail interactions use canonical trip truth",
     "required local photos decode in preview and detail",
     "Smart local asset failure is explicit and fail-closed",
-    "Satellite failure is observable and recovers to Smart",
+    "Optional raster failure is observable and recovers to Smart",
     "reload, resize, orientation, pan, zoom, panel, and provider transitions preserve planning state",
     "modular, standalone, public, and package forms are exact-revision-bound"
   ],
@@ -81,8 +69,8 @@
   },
   "qualification_policy": {
     "smart_offline_is_decisive": true,
-    "optional_satellite_success_is_not_a_smart_prerequisite": true,
     "unverified_external_provider_success_must_be_listed": true,
-    "release_remains_fail_closed_on_existing_authority_and_provenance_checks": true
+    "release_remains_fail_closed_on_existing_authority_and_provenance_checks": true,
+    "optional_raster_success_is_not_a_local_map_prerequisite": true
   }
 }

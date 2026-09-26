@@ -1,0 +1,373 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "candidate_head": "0fd8a4c52c53824ad1c304625ff2d70a87420ac5",
+  "candidate_tree": "c91b754b0c719f7ebe09961736ef659bbe6063b9",
+  "active_package": "sf-family-2026-final",
+  "fixture_package": "qa-fixture-juniper-coast",
+  "fixture_build": {
+    "path": ".build/portability-fixture",
+    "manifest_sha256": "989b3cab53dc84c369c42c89313c5d7f2e591ea7ce66e77fbb8572365afd9e18",
+    "artifact": "standalone/qa-juniper-coast-standalone.html"
+  },
+  "screenshots": [
+    {
+      "path": "QA/CHG-232/screenshots/field_surface/sf-mobile-390x844-ko-light.png",
+      "sha256": "b1b199cd1c5558bef90595e08567ca22c33b6cc369e97f265ef3388e32a5697e",
+      "viewport": "390x844",
+      "state": "first-use Day view, active package",
+      "lang": "ko",
+      "theme": "light"
+    },
+    {
+      "path": "QA/CHG-232/screenshots/field_surface/sf-mobile-route-day-390x844-ko-light.png",
+      "sha256": "75cafa74bfdd3d5053b001620ef1a5fc79311d58b5b9ed8edf5418868c254cfd",
+      "viewport": "390x844",
+      "state": "selected SF day with local route geometry and day plan",
+      "lang": "ko",
+      "theme": "light"
+    },
+    {
+      "path": "QA/CHG-232/screenshots/field_surface/sf-mobile-place-photos-390x844-ko-light.png",
+      "sha256": "a6b48a5daa6ec09c3caa9afe956883c7cdf72afdf3d5702f11553f6c272ca849",
+      "viewport": "390x844",
+      "state": "selected SF place with local photos and field context",
+      "lang": "ko",
+      "theme": "light"
+    },
+    {
+      "path": "QA/CHG-232/screenshots/field_surface/sf-mobile-320x800-en-dark.png",
+      "sha256": "5261294d0732078e7a2685f7b61ab67c4d99d6cfa6ba09be756e9469834ff70b",
+      "viewport": "320x800",
+      "state": "first-use Day view, English dark theme",
+      "lang": "en",
+      "theme": "dark"
+    },
+    {
+      "path": "QA/CHG-232/screenshots/field_surface/sf-mobile-route-day-320x800-en-dark.png",
+      "sha256": "1fc439d1605dbddc33b252c9e0e95109d696b7d067d288fa8d67e14f3853b7b0",
+      "viewport": "320x800",
+      "state": "selected SF day with local route geometry, English dark theme",
+      "lang": "en",
+      "theme": "dark"
+    },
+    {
+      "path": "QA/CHG-232/screenshots/field_surface/sf-desktop-1440x900-ko-light.png",
+      "sha256": "5c996b14179c5758971908477bc2284a2c7ba7d96b6c55119046522d8580150c",
+      "viewport": "1440x900",
+      "state": "selected day with map and route context",
+      "lang": "ko",
+      "theme": "light"
+    },
+    {
+      "path": "QA/CHG-232/screenshots/field_surface/sf-mobile-raster-failure-smart-recovery-390x844.png",
+      "sha256": "426f48f56bf0ba16e811d1f75b1953ae8e6af17b81461164b0b992cd1dece4ce",
+      "viewport": "390x844",
+      "state": "optional raster failure returns to local Smart",
+      "lang": "ko",
+      "theme": "light"
+    },
+    {
+      "path": "QA/CHG-232/screenshots/field_surface/fixture-mobile-primary-390x844-en.png",
+      "sha256": "444a58959fbe565dedcfe8fbb5d831afa9494fb0cdc0494696614d71dd8c69be",
+      "viewport": "390x844",
+      "state": "non-shipping fixture first-use Day view",
+      "lang": "en",
+      "theme": "light"
+    }
+  ],
+  "surfaces": {
+    "sf_390x844": {
+      "title": "Smart Minority · SF / Monterey / Yosemite Field Atlas",
+      "package": "sf-family-2026-final",
+      "mode": "day",
+      "date": "10/2",
+      "route": "A",
+      "region": "overall",
+      "mobile_first_use_day": true,
+      "horizontal_overflow": false,
+      "map_canvas_count": 1,
+      "map_ready": true,
+      "map_markers": 0,
+      "route_features": 0,
+      "day_items": 4,
+      "first_day_text": "SFO 터미널 → Hertz 렌터카 센터 · AirTrain 이동",
+      "next_item_visible_px": 90,
+      "next_item_text": "17:00 arrival; Hertz dep 18:30–18:45 · SFO 도착, 수하물, AirTrain Blue Line, Hertz Rental Car Center공용 24시간 렌터카 센터 이용; 현장 상황 확인.회복",
+      "fixture_notice": false,
+      "local_assets": "ready",
+      "provider": "vector",
+      "visible_view": {
+        "x": 0,
+        "y": 424.109375,
+        "width": 390,
+        "height": 622.359375,
+        "top": 424.109375,
+        "right": 390,
+        "bottom": 1046.46875,
+        "left": 0
+      }
+    },
+    "sf_320x800": {
+      "title": "Smart Minority · SF / Monterey / Yosemite Field Atlas",
+      "package": "sf-family-2026-final",
+      "mode": "day",
+      "date": "10/2",
+      "route": "A",
+      "region": "overall",
+      "mobile_first_use_day": true,
+      "horizontal_overflow": false,
+      "map_canvas_count": 1,
+      "map_ready": true,
+      "map_markers": 0,
+      "route_features": 0,
+      "day_items": 4,
+      "first_day_text": "SFO terminal → Hertz Rental Car Center · AirTrain transfer",
+      "next_item_visible_px": 115,
+      "next_item_text": "17:00 arrival; Hertz dep 18:30–18:45 · SFO landing, baggage, AirTrain Blue Line, Hertz Rental Car CenterUse the public 24h Rental Car Center; check live arrival conditions.Recovery",
+      "fixture_notice": false,
+      "local_assets": "ready",
+      "provider": "vector",
+      "visible_view": {
+        "x": 0,
+        "y": 427.828125,
+        "width": 320,
+        "height": 703.859375,
+        "top": 427.828125,
+        "right": 320,
+        "bottom": 1131.6875,
+        "left": 0
+      }
+    },
+    "sf_route_390x844": {
+      "title": "Smart Minority · SF / Monterey / Yosemite Field Atlas",
+      "package": "sf-family-2026-final",
+      "mode": "day",
+      "date": "10/4",
+      "route": "A",
+      "region": "overall",
+      "mobile_first_use_day": true,
+      "horizontal_overflow": false,
+      "map_canvas_count": 1,
+      "map_ready": true,
+      "map_markers": 8,
+      "route_features": 5,
+      "day_items": 13,
+      "first_day_text": "Mill Valley 숙소 → Battery Spencer",
+      "next_item_visible_px": 76.09375,
+      "next_item_text": "~07:25 → ~07:45Mill Valley 숙소 → Battery Spencer · ~20 분출발 전 실시간 길안내 확인이동 세부 정보 계획과 실시간 안내정적 일정 계획이며 실시간 교통이나 회전 안내가 아닙니다. 출발~07:25 도착~07:45 일정 기반 시간 범위20 분 · 낮음 · 일정에서 계산 별도 여유 시간The itinerary gives no separate buffer duration; it is not folded into baseline/reference time. 독립 기준 시간독립 출처 기준 시간이 없습니다. Repository research and maintained route evidence contain no independent travel-duration observation for this movement. 자료 신뢰도낮음 · 일정에서 계산 근거와 출처승인된 일정 시간 범위의 차이 · Static planning only. Schedule-derived elapsed envelope where available; never live traffic, turn-by-turn guidance, or measured route duration. 최신성출발 전에 실시간 길안내와 현재 상황을 확인하세요. 개인정보 분류개인 숙소 위치 비공개",
+      "fixture_notice": false,
+      "local_assets": "ready",
+      "provider": "vector",
+      "visible_view": {
+        "x": 0,
+        "y": 424.109375,
+        "width": 390,
+        "height": 1592.953125,
+        "top": 424.109375,
+        "right": 390,
+        "bottom": 2017.0625,
+        "left": 0
+      }
+    },
+    "sf_route_320x800": {
+      "title": "Smart Minority · SF / Monterey / Yosemite Field Atlas",
+      "package": "sf-family-2026-final",
+      "mode": "day",
+      "date": "10/4",
+      "route": "A",
+      "region": "overall",
+      "mobile_first_use_day": true,
+      "horizontal_overflow": false,
+      "map_canvas_count": 1,
+      "map_ready": true,
+      "map_markers": 8,
+      "route_features": 5,
+      "day_items": 13,
+      "first_day_text": "Mill Valley lodging → Battery Spencer",
+      "next_item_visible_px": 91.09375,
+      "next_item_text": "~07:25 → ~07:45Mill Valley lodging → Battery Spencer · ~20 minCheck live navigation before leavingTravel details Planning vs live navigationThis is static schedule planning, not live traffic or turn-by-turn guidance. Depart~07:25 Arrive~07:45 Schedule-derived range20 min · Low · schedule-derived Separate bufferThe itinerary gives no separate buffer duration; it is not folded into baseline/reference time. Independent baselineNo independent reference duration is available. Repository research and maintained route evidence contain no independent travel-duration observation for this movement. Source confidenceLow · schedule-derived Basis and sourceDifference between approved schedule windows · Static planning only. Schedule-derived elapsed envelope where available; never live traffic, turn-by-turn guidance, or measured route duration. FreshnessCheck live navigation and current conditions before leaving. Privacy classificationPrivate lodging location withheld",
+      "fixture_notice": false,
+      "local_assets": "ready",
+      "provider": "vector",
+      "visible_view": {
+        "x": 0,
+        "y": 427.828125,
+        "width": 320,
+        "height": 1787.125,
+        "top": 427.828125,
+        "right": 320,
+        "bottom": 2214.953125,
+        "left": 0
+      }
+    },
+    "sf_place_390x844": {
+      "place": "Ferry Building + Ferry Plaza",
+      "photos": [
+        {
+          "src": "assets/photos/medium/ferry__hero.webp",
+          "complete": true
+        },
+        {
+          "src": "assets/photos/medium/ferry__experience.webp",
+          "complete": true
+        },
+        {
+          "src": "assets/photos/medium/ferry__scale_context.webp",
+          "complete": true
+        }
+      ],
+      "freshness_facts": 1,
+      "decision_rules": 0,
+      "directions_handoff": true
+    },
+    "sf_desktop_1440x900": {
+      "title": "Smart Minority · SF / Monterey / Yosemite Field Atlas",
+      "package": "sf-family-2026-final",
+      "mode": "day",
+      "date": "10/4",
+      "route": "A",
+      "region": "overall",
+      "mobile_first_use_day": true,
+      "horizontal_overflow": false,
+      "map_canvas_count": 1,
+      "map_ready": true,
+      "map_markers": 8,
+      "route_features": 5,
+      "day_items": 13,
+      "first_day_text": "Mill Valley 숙소 → Battery Spencer",
+      "next_item_visible_px": 76.09375,
+      "next_item_text": "~07:25 → ~07:45Mill Valley 숙소 → Battery Spencer · ~20 분출발 전 실시간 길안내 확인이동 세부 정보 계획과 실시간 안내정적 일정 계획이며 실시간 교통이나 회전 안내가 아닙니다. 출발~07:25 도착~07:45 일정 기반 시간 범위20 분 · 낮음 · 일정에서 계산 별도 여유 시간The itinerary gives no separate buffer duration; it is not folded into baseline/reference time. 독립 기준 시간독립 출처 기준 시간이 없습니다. Repository research and maintained route evidence contain no independent travel-duration observation for this movement. 자료 신뢰도낮음 · 일정에서 계산 근거와 출처승인된 일정 시간 범위의 차이 · Static planning only. Schedule-derived elapsed envelope where available; never live traffic, turn-by-turn guidance, or measured route duration. 최신성출발 전에 실시간 길안내와 현재 상황을 확인하세요. 개인정보 분류개인 숙소 위치 비공개",
+      "fixture_notice": false,
+      "local_assets": "ready",
+      "provider": "vector",
+      "visible_view": {
+        "x": 836.203125,
+        "y": 208.875,
+        "width": 588.796875,
+        "height": 1598.875,
+        "top": 208.875,
+        "right": 1425,
+        "bottom": 1807.75,
+        "left": 836.203125
+      }
+    },
+    "fixture_390x844": {
+      "title": "QA Fixture · Juniper Coast Field Card",
+      "package": "qa-fixture-juniper-coast",
+      "mode": "day",
+      "date": "2041-03-09",
+      "route": "COVE",
+      "region": "overall",
+      "mobile_first_use_day": true,
+      "horizontal_overflow": false,
+      "map_canvas_count": 1,
+      "map_ready": true,
+      "map_markers": 2,
+      "route_features": 2,
+      "day_items": 4,
+      "first_day_text": "Ember Dock · low-tide start",
+      "next_item_visible_px": 100.890625,
+      "next_item_text": "08:20–09:00Ember Dock · low-tide startWhy now?: Sheltered rocks are easiest before the breeze rises.MustRoute-specificCOVE · C",
+      "fixture_notice": true,
+      "local_assets": "ready",
+      "provider": "juniper_local_map",
+      "visible_view": {
+        "x": 0,
+        "y": 433.34375,
+        "width": 390,
+        "height": 611.453125,
+        "top": 433.34375,
+        "right": 390,
+        "bottom": 1044.796875,
+        "left": 0
+      }
+    },
+    "provider_failure_recovery": {
+      "title": "Smart Minority · SF / Monterey / Yosemite Field Atlas",
+      "package": "sf-family-2026-final",
+      "mode": "day",
+      "date": "10/2",
+      "route": "A",
+      "region": "overall",
+      "mobile_first_use_day": true,
+      "horizontal_overflow": false,
+      "map_canvas_count": 1,
+      "map_ready": true,
+      "map_markers": 0,
+      "route_features": 0,
+      "day_items": 4,
+      "first_day_text": "SFO 터미널 → Hertz 렌터카 센터 · AirTrain 이동",
+      "next_item_visible_px": 90,
+      "next_item_text": "17:00 arrival; Hertz dep 18:30–18:45 · SFO 도착, 수하물, AirTrain Blue Line, Hertz Rental Car Center공용 24시간 렌터카 센터 이용; 현장 상황 확인.회복",
+      "fixture_notice": false,
+      "local_assets": "ready",
+      "provider": "vector",
+      "visible_view": {
+        "x": 0,
+        "y": 424.109375,
+        "width": 390,
+        "height": 622.359375,
+        "top": 424.109375,
+        "right": 390,
+        "bottom": 1046.46875,
+        "left": 0
+      }
+    }
+  },
+  "fixture_filter_and_photo_proof": {
+    "fixture": {
+      "selected_route": "RIDGE",
+      "selected_date": "2041-03-10",
+      "selected_region": "tideline",
+      "visible_day_items": 1,
+      "place_photo_assets": [
+        {
+          "src": "packages/portability-fixture/assets/photos/medium/tide_studio__hero.webp",
+          "complete": true
+        },
+        {
+          "src": "packages/portability-fixture/assets/photos/medium/tide_studio__experience.webp",
+          "complete": true
+        },
+        {
+          "src": "packages/portability-fixture/assets/photos/medium/tide_studio__scale_context.webp",
+          "complete": true
+        }
+      ],
+      "source_policy": {
+        "directions_host": "nav.juniper.example.test",
+        "directions_path_allowed": true,
+        "official_hosts": [
+          "agency.juniper.test"
+        ],
+        "blocked_arbitrary_host": true,
+        "blocked_explicit_port": true,
+        "pass": true
+      },
+      "pass": true
+    }
+  },
+  "fixture_provider_failure_recovery": {
+    "provider": "juniper_local_map",
+    "map_ready": true,
+    "local_assets": "ready",
+    "error": true
+  },
+  "checks": {
+    "sf_phone_first_use": true,
+    "sf_mobile_route_context": true,
+    "sf_place_photos_local": true,
+    "fixture_same_renderer_build_and_run": true,
+    "fixture_route_date_region_filters": true,
+    "fixture_provider_policy_and_recovery": true,
+    "provider_failure_recovers_to_local_map": true,
+    "desktop_no_overflow": true,
+    "browser_errors": true
+  },
+  "verification_boundaries": {
+    "chromium_device_emulation": "executed",
+    "native_safari": "VERIFY_REQUIRED",
+    "real_iphone_or_ipad": "VERIFY_REQUIRED"
+  }
+}

@@ -123,10 +123,7 @@
     "runtime": {
       "provider": {
         "owner": "map provider control",
-        "values": [
-          "vector",
-          "satellite"
-        ],
+        "values": "$active_trip_package.providers.keys",
         "preserve_task_state": true
       },
       "provider_health": {

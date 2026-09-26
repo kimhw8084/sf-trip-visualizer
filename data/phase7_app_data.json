@@ -2852,24 +2852,6 @@
       "source_limitation": "Cached OSM network reference; not live traffic or current closure advice."
     }
   ],
-  "providers": {
-    "vector": {
-      "label": "Local Protomaps vector · OpenStreetMap data",
-      "failure_domain": "local bundled PMTiles",
-      "attribution": "© OpenStreetMap contributors · Protomaps",
-      "requires_api_key": false,
-      "status_at_build": "LOCAL_VECTOR_PMTILES_READY"
-    },
-    "satellite": {
-      "label": "Satellite · Esri World Imagery",
-      "failure_domain": "Esri ArcGIS Online",
-      "tile_template": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-      "health_probe": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655",
-      "attribution": "Tiles © Esri and contributors",
-      "default_fallback": false,
-      "status_at_build": "LIVE_READY_LOCAL_CHROMIUM_WITH_RUNTIME_HEALTH_GATE"
-    }
-  },
   "routes": {
     "A": {
       "title": "Route A — Final Family Itinerary",

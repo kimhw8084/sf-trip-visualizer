@@ -9,6 +9,7 @@ from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 OUT = ROOT / "QA" / "CHG-232" / "place_list_roles.json"
@@ -84,7 +85,8 @@ def collect_rows_from_fixture(roles: dict[str, dict[str, str]], route_ids: list[
 
 def main() -> int:
     identity = candidate_identity()
-    role_doc = json.loads((ROOT / "data/route_role_matrix.json").read_text())
+    package = load_package(DEFAULT_PACKAGE)
+    role_doc = json.loads((ROOT / package["projections"]["route_roles"]).read_text())
     roles, route_ids = role_doc["places"], role_doc["route_ids"]
     expected_places = len(roles)
     report = {"schema_version": 2, "status": "FAIL", "candidate": identity["sha"], "candidate_tree": identity["tree"], "screenshots": [], "viewports": {}, "errors": [], "negative_control": {}, "checks": {}}
@@ -99,6 +101,12 @@ def main() -> int:
             page_errors: list[str] = []
             page.on("pageerror", lambda error: page_errors.append(str(error)))
             page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
+            # The complete-place-list oracle covers every package place. Start
+            # from the explicit All days filter so an arrival-only date does
+            # not correctly narrow the list to zero scheduled places.
+            page.locator("#modeNav [data-mode='day']").click()
+            page.wait_for_function("!document.querySelector('#dayView')?.hidden")
+            page.locator("#dateSelect").select_option("all")
             page.locator("#modeNav [data-mode='place']").click()
             page.wait_for_function("n => document.querySelectorAll('#placeView:not([hidden]) .place-list-item').length === n", arg=expected_places)
             if english_dark:

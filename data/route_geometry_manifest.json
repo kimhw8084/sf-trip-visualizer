@@ -1,13 +1,13 @@
 {
   "version": "2.0-map-first",
-  "generated": "2026-09-24",
+  "generated": "2026-09-26",
   "routing_service_status": "OSM_REFERENCE_GEOMETRY_WITH_EXPLICIT_OMISSIONS",
-  "acceptance_strategy": "22/23 semantic public car/walk legs have cached network-following OSM geometry; 1 ferry relationships remain endpoint-only; 12 connections are intentionally omitted. App runtime performs no routing requests.",
+  "acceptance_strategy": "22/23 semantic public route legs have cached reference geometry; 1 conceptual relationships remain endpoint-only; 12 connections are intentionally omitted. App runtime performs no routing requests.",
   "exact_routed_legs": 22,
   "conceptual_legs": 1,
   "renderable_conceptual_legs": 1,
   "cross_day_suppressed_legs": [],
-  "display_policy": "Physical public car/walk lines render only from routed_osm geometry with matching endpoint signature and mode. Unavailable lines and semantic break connections are intentionally omitted. Ferry relationships remain conceptual endpoint links. App runtime performs no routing requests.",
+  "display_policy": "Display only package-declared cached geometry. Omit unavailable lines and retain conceptual relationships as endpoint links. App runtime performs no routing requests.",
   "legs": [
     {
       "leg_id": "CHG232_104_01",
@@ -1329,5 +1329,6 @@
       "point_count": 0,
       "reason": "Foster City protected nap separates the morning neighborhood cluster from the Baker Beach finale."
     }
-  ]
+  ],
+  "trip_identity": "sf-family-2026-final"
 }

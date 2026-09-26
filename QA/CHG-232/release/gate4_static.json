@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "candidate_head": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
+  "candidate_head": "0fd8a4c52c53824ad1c304625ff2d70a87420ac5",
   "test_mode": "static",
   "contract": "manifests/runtime_resilience_contract.json",
   "checks": {
@@ -9,56 +9,16 @@
     "contract_gate": true,
     "canonical_authority": true,
     "freshness_authority": true,
-    "provider_manifest_authority": true,
+    "provider_configuration_authority": true,
     "providers_exact": true,
     "smart_is_local_and_critical": true,
     "smart_has_no_fallback": true,
     "no_runtime_routing": true,
-    "no_runtime_remote_photos": true
+    "no_runtime_remote_photos": true,
+    "optional_raster_failure_contract": true
   },
   "assets": {
     "basemap": [
-      {
-        "path": "assets/vector/sf_trip.pmtiles",
-        "expected_sha256": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6",
-        "expected_bytes": 149832867,
-        "exists": true,
-        "bytes": 149832867,
-        "sha256": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6",
-        "hash_match": true,
-        "bytes_match": true,
-        "decode": true
-      },
-      {
-        "path": "assets/vector/yosemite_hillshade_source.png",
-        "expected_sha256": "2f3e31d1fd0eb8fb3cac30b603196865e651af4a3631550b6d8808b4a22f31ce",
-        "expected_bytes": 2806581,
-        "exists": true,
-        "bytes": 2806581,
-        "sha256": "2f3e31d1fd0eb8fb3cac30b603196865e651af4a3631550b6d8808b4a22f31ce",
-        "hash_match": true,
-        "bytes_match": true,
-        "decode": {
-          "format": "PNG",
-          "width": 2048,
-          "height": 2048
-        }
-      },
-      {
-        "path": "assets/vector/yosemite_hillshade_shadow.webp",
-        "expected_sha256": "801f29d1c305a44f191acf3070a194ad7ff10f6846bef75b21a920a1ceee4903",
-        "expected_bytes": 1758602,
-        "exists": true,
-        "bytes": 1758602,
-        "sha256": "801f29d1c305a44f191acf3070a194ad7ff10f6846bef75b21a920a1ceee4903",
-        "hash_match": true,
-        "bytes_match": true,
-        "decode": {
-          "format": "WEBP",
-          "width": 2048,
-          "height": 2048
-        }
-      },
       {
         "path": "assets/vector/fonts/Noto Sans Italic/0-255.pbf",
         "expected_sha256": "43edfca91c285ba1226f09d5e74d68e1473a088c517f02a5212ff6ccb10037dc",
@@ -121,6 +81,17 @@
         "exists": true,
         "bytes": 127726,
         "sha256": "2eca7561f9f566bcacfda5dd04fb5880baec1328ec0f5484678289a13994de8a",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": true
+      },
+      {
+        "path": "assets/vector/sf_trip.pmtiles",
+        "expected_sha256": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6",
+        "expected_bytes": 149832867,
+        "exists": true,
+        "bytes": 149832867,
+        "sha256": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6",
         "hash_match": true,
         "bytes_match": true,
         "decode": true
@@ -227,6 +198,36 @@
           "format": "PNG",
           "width": 512,
           "height": 228
+        }
+      },
+      {
+        "path": "assets/vector/yosemite_hillshade_shadow.webp",
+        "expected_sha256": "801f29d1c305a44f191acf3070a194ad7ff10f6846bef75b21a920a1ceee4903",
+        "expected_bytes": 1758602,
+        "exists": true,
+        "bytes": 1758602,
+        "sha256": "801f29d1c305a44f191acf3070a194ad7ff10f6846bef75b21a920a1ceee4903",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": {
+          "format": "WEBP",
+          "width": 2048,
+          "height": 2048
+        }
+      },
+      {
+        "path": "assets/vector/yosemite_hillshade_source.png",
+        "expected_sha256": "2f3e31d1fd0eb8fb3cac30b603196865e651af4a3631550b6d8808b4a22f31ce",
+        "expected_bytes": 2806581,
+        "exists": true,
+        "bytes": 2806581,
+        "sha256": "2f3e31d1fd0eb8fb3cac30b603196865e651af4a3631550b6d8808b4a22f31ce",
+        "hash_match": true,
+        "bytes_match": true,
+        "decode": {
+          "format": "PNG",
+          "width": 2048,
+          "height": 2048
         }
       }
     ],
@@ -3520,7 +3521,7 @@
         "path": ".build/modular/index.html",
         "present": true,
         "contract_embedded": true,
-        "truth_digest": "7aa76f6aea7dead528c48768ebb36786f82ccef4d1cceb64869177a1b88f9a1f",
+        "truth_digest": "6b4f0fbd790b327753cb969f301d9a137c59296aa8e533dd09d98529d5516332",
         "canonical_truth": true,
         "freshness_embedded": true,
         "bilingual_embedded": true,
@@ -3528,10 +3529,10 @@
         "no_remote_photo_urls": true
       },
       {
-        "path": ".build/standalone/SF_Smart_Minority_Map_First_Standalone.html",
+        "path": ".build/standalone/sf-trip-2026-standalone.html",
         "present": true,
         "contract_embedded": true,
-        "truth_digest": "7aa76f6aea7dead528c48768ebb36786f82ccef4d1cceb64869177a1b88f9a1f",
+        "truth_digest": "6b4f0fbd790b327753cb969f301d9a137c59296aa8e533dd09d98529d5516332",
         "canonical_truth": true,
         "freshness_embedded": true,
         "bilingual_embedded": true,

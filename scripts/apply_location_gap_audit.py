@@ -581,14 +581,7 @@ def apply() -> None:
     english_days = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     for date_item, day in zip(data["dates"], english_days, strict=True):
         date_item["label_en"] = f'{date_item["key"]} {day}'
-    data["providers"]["vector"] = {
-        "label": "Local Protomaps vector · OpenStreetMap data",
-        "failure_domain": "local bundled PMTiles",
-        "attribution": "© OpenStreetMap contributors · Protomaps",
-        "requires_api_key": False,
-        "status_at_build": "LOCAL_VECTOR_PMTILES_READY",
-    }
-    data["providers"] = {key: data["providers"][key] for key in ("vector", "satellite")}
+    data.pop("providers", None)  # Provider identity and policy belong to the trip package descriptor.
     data.pop("offline_topo", None)
     data.pop("offline_context", None)
     DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")

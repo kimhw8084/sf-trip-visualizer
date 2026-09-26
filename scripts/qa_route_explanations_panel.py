@@ -13,12 +13,14 @@ from qa_evidence import ROOT, bind_report, candidate_identity
 
 sys.path.insert(0, str(ROOT / "scripts"))
 from validate_trip_data import active_route_contract_failures  # noqa: E402
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 OUT = ROOT / "QA" / "CHG-232" / "route_surface.json"
 SCREENSHOTS = ROOT / "QA" / "CHG-232" / "screenshots"
-DATA = json.loads((ROOT / "data/phase7_app_data.json").read_text())
-I18N = json.loads((ROOT / "data/translations.json").read_text())
+ACTIVE_PACKAGE = load_package(DEFAULT_PACKAGE)
+DATA = ACTIVE_PACKAGE["data"]
+I18N = json.loads((ROOT / ACTIVE_PACKAGE["projections"]["translations"]).read_text())
 ROUTE_IDS = sorted(DATA["routes"])
 report = bind_report({"schema_version": 2, "status": "FAIL", "route_ids": ROUTE_IDS, "screenshots": [], "desktop": {}, "mobile": {}, "negative_controls": {}, "errors": []}, candidate_identity())
 
@@ -60,13 +62,13 @@ with sync_playwright() as playwright:
     korean_title = I18N.get("en_to_ko", {}).get(meta["title"], meta["title"])
     report["desktop"]["decide"] = {"title_visible": meta["title"] in page.locator("#recommendation").inner_text() or korean_title in page.locator("#recommendation").inner_text(), "route_card_count": page.locator("#routeCards .route-card").count(), "decision_cells": page.locator("#recommendation .decision-cell").count(), "route_code": page.locator("#recommendation .route-code").first.inner_text(), "comparison_chrome": page.locator("[data-compare-route],#comparePanel,.route-compare,.route-membership,.membership-cell").count()}
     snapshot(page, "single_route_decide_1440x900", (1440, 900))
-    page.locator('[data-mode="day"]').click()
+    page.locator('#modeNav [data-mode="day"]').click()
     page.locator("#dateSelect").select_option("10/5")
     report["desktop"]["day"] = {"visible": page.locator("#dayView").is_visible(), "contains_pier39": "PIER 39" in page.locator("#dayPlan").inner_text(), "contains_fortune": "Fortune" in page.locator("#dayPlan").inner_text(), "contains_ghirardelli": "Ghirardelli" in page.locator("#dayPlan").inner_text(), "contains_recovery": "회복" in page.locator("#dayPlan").inner_text() or "recovery" in page.locator("#dayPlan").inner_text().lower()}
     snapshot(page, "single_route_day_1005_1440x900", (1440, 900))
     page.set_viewport_size({"width": 390, "height": 844})
     page.locator("#dateSelect").select_option("all")
-    page.locator('[data-mode="place"]').click()
+    page.locator('#modeNav [data-mode="place"]').click()
     page.wait_for_selector("#placeView:not([hidden]) .place-list-item")
     report["mobile"] = {"overflow": page.evaluate("document.documentElement.scrollWidth-innerWidth"), "role_badges": page.locator("#placeInspector .place-role").count(), "matrix_chrome": page.locator(".route-membership,.membership-cell,.inspector-membership,[data-compare-route],#comparePanel").count()}
     snapshot(page, "single_route_place_390x844", (390, 844))

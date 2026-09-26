@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "candidate_head": "0fd8a4c52c53824ad1c304625ff2d70a87420ac5",
+  "candidate_tree": "c91b754b0c719f7ebe09961736ef659bbe6063b9",
+  "commands": [
+    "python3 scripts/build_map_first.py --package packages/sf-family/trip.json --output-dir <temporary>/sf",
+    "python3 scripts/build_map_first.py --package packages/portability-fixture/trip.json --output-dir <temporary>/fixture"
+  ],
+  "contracts": {
+    "sf": {
+      "status": "PASS",
+      "routes": 1,
+      "places": 39,
+      "dates": 11,
+      "regions": 3,
+      "timeline": 93,
+      "legs": 24
+    },
+    "fixture": {
+      "status": "PASS",
+      "routes": 2,
+      "places": 2,
+      "dates": 2,
+      "regions": 2,
+      "timeline": 6,
+      "legs": 3
+    }
+  },
+  "outputs": {
+    "sf": {
+      "trip_identity": "sf-family-2026-final",
+      "display_title": "Smart Minority · SF / Monterey / Yosemite Field Atlas",
+      "slug": "sf-trip-2026",
+      "currency": "USD",
+      "routes": [
+        "A"
+      ],
+      "dates": [
+        "10/10",
+        "10/11",
+        "10/12",
+        "10/2",
+        "10/3",
+        "10/4",
+        "10/5",
+        "10/6",
+        "10/7",
+        "10/8",
+        "10/9"
+      ],
+      "regions": [
+        "monterey",
+        "sf",
+        "yosemite"
+      ],
+      "photo_root": "assets/photos",
+      "vector_archive": "assets/vector/sf_trip.pmtiles",
+      "vector_identity": "MapLibre 4.7.1+sf-trip-visualizer-r6",
+      "vector_provider_id": "vector",
+      "vector_archive_sha256": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6",
+      "official_hosts": [
+        "alcatrazcitycruises.com",
+        "ci.carmel.ca.us",
+        "flysfo.com",
+        "foodwise.org",
+        "gggp.org",
+        "goldengate.org",
+        "gomuirwoods.com",
+        "home.nps.gov",
+        "museum.stanford.edu",
+        "nps.gov",
+        "parks.ca.gov",
+        "presidio.gov",
+        "sfmta.com",
+        "www.flysfo.com",
+        "www.gggp.org",
+        "www.goldengate.org",
+        "www.goldengatefortunecookies.com",
+        "www.montereybayaquarium.org",
+        "www.nps.gov",
+        "www.pebblebeach.com",
+        "www.sfmta.com"
+      ],
+      "provider_ids": [
+        "satellite",
+        "vector"
+      ],
+      "photo_count": 39,
+      "standalone": "standalone/sf-trip-2026-standalone.html",
+      "standalone_sha256": "e0bbe62763d14debf7773e3a3e2ef05baa1443e0008fdf1a28606b5b2e9ea284",
+      "modular_sha256": "ba925e566c0bd084e19778e6c139c7f34d76545a85d6333538daa19122f9e02d"
+    },
+    "fixture": {
+      "trip_identity": "qa-fixture-juniper-coast",
+      "display_title": "QA Fixture · Juniper Coast Field Card",
+      "slug": "qa-juniper-coast",
+      "currency": "CNY",
+      "routes": [
+        "COVE",
+        "RIDGE"
+      ],
+      "dates": [
+        "2041-03-09",
+        "2041-03-10"
+      ],
+      "regions": [
+        "orchard",
+        "tideline"
+      ],
+      "photo_root": "packages/portability-fixture/assets/photos",
+      "vector_archive": "packages/portability-fixture/assets/map/juniper-range.pmtiles",
+      "vector_identity": "JuniperRange local QA atlas v1",
+      "vector_provider_id": "juniper_local_map",
+      "vector_archive_sha256": "c26aa81504b35320314f179051a9c87888f1ba915454d9430c7d1fa4c8e57f4b",
+      "official_hosts": [
+        "agency.juniper.test"
+      ],
+      "provider_ids": [
+        "beacon_tiles",
+        "juniper_local_map"
+      ],
+      "photo_count": 2,
+      "standalone": "standalone/qa-juniper-coast-standalone.html",
+      "standalone_sha256": "31ced2c9b7327a17f699f0627299e4a5731d3598885203a1320103eb2fdb645b",
+      "modular_sha256": "79ad3274e458d5b09719105c99dc36ab0b9009b4a239bf9df6f6f2627da76eb2"
+    }
+  },
+  "renderer_source_sha256": {
+    "src/app_phase7.css": "161d2bd3ac1362065cddd3ccc28ef2b6a976b8d9a45eb40ae132d55440d23b75",
+    "src/app_phase7.js": "d36e0826ffe174c5a589562d26e89ffebbcc7674b1d49e7b0db9c0e003002592",
+    "src/atlas_messages.js": "bfb008a21a6fdd812de23f26e26aa3ac641b4da64ee8888cf11dcf84bf41db8c",
+    "src/atlas_state.js": "7d06b6da8f3023ba44ab19618ad1fc3697624042529f87f5cefaae6c2b0344af",
+    "src/runtime_loader.js": "ad6b98492ba04a81f0d5577578cf72c06e5936da937b4f92d421938f720a513c",
+    "src/map_first.css": "1e4a64774e46e14c682e342cedfaf907c0e28a6eed5ca14c6cadc0100db3423e",
+    "vendor/maplibre-gl.css": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9",
+    "vendor/maplibre-gl.js": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675",
+    "vendor/trip-vector.js": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+    "vendor/plotly.min.js": "e2b0f77ee8156ff9d525852fe4acb7bfe7d85e8a2e1da0523f6d16209b848968",
+    "src/map_shell_template.html": "e245ae4fe2497354dd7dfbc13efc03715c9c84bdf61f06b9bf187a942b5dfff1",
+    "src/vector_entry.js": "a55fa3c5b950709f7bb8ea6245013e7aedec076c3a1311b2ae4f956aaa414569"
+  },
+  "built_renderer_sha256": {
+    "sf": {
+      "src/app_phase7.css": "161d2bd3ac1362065cddd3ccc28ef2b6a976b8d9a45eb40ae132d55440d23b75",
+      "src/app_phase7.js": "d36e0826ffe174c5a589562d26e89ffebbcc7674b1d49e7b0db9c0e003002592",
+      "src/atlas_messages.js": "bfb008a21a6fdd812de23f26e26aa3ac641b4da64ee8888cf11dcf84bf41db8c",
+      "src/atlas_state.js": "7d06b6da8f3023ba44ab19618ad1fc3697624042529f87f5cefaae6c2b0344af",
+      "src/runtime_loader.js": "ad6b98492ba04a81f0d5577578cf72c06e5936da937b4f92d421938f720a513c",
+      "src/map_first.css": "1e4a64774e46e14c682e342cedfaf907c0e28a6eed5ca14c6cadc0100db3423e",
+      "vendor/maplibre-gl.css": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9",
+      "vendor/maplibre-gl.js": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675",
+      "vendor/trip-vector.js": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+      "vendor/plotly.min.js": "e2b0f77ee8156ff9d525852fe4acb7bfe7d85e8a2e1da0523f6d16209b848968"
+    },
+    "fixture": {
+      "src/app_phase7.css": "161d2bd3ac1362065cddd3ccc28ef2b6a976b8d9a45eb40ae132d55440d23b75",
+      "src/app_phase7.js": "d36e0826ffe174c5a589562d26e89ffebbcc7674b1d49e7b0db9c0e003002592",
+      "src/atlas_messages.js": "bfb008a21a6fdd812de23f26e26aa3ac641b4da64ee8888cf11dcf84bf41db8c",
+      "src/atlas_state.js": "7d06b6da8f3023ba44ab19618ad1fc3697624042529f87f5cefaae6c2b0344af",
+      "src/runtime_loader.js": "ad6b98492ba04a81f0d5577578cf72c06e5936da937b4f92d421938f720a513c",
+      "src/map_first.css": "1e4a64774e46e14c682e342cedfaf907c0e28a6eed5ca14c6cadc0100db3423e",
+      "vendor/maplibre-gl.css": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9",
+      "vendor/maplibre-gl.js": "3e259a3d0e8d97c8e4d005cf21b86bba933818a80fe4b1fc4e402ff8c2318675",
+      "vendor/trip-vector.js": "fccb368f5ec3662547599238ca893761fa17f52ca25eb1875ad89db1ef51554d",
+      "vendor/plotly.min.js": "e2b0f77ee8156ff9d525852fe4acb7bfe7d85e8a2e1da0523f6d16209b848968"
+    }
+  },
+  "renderer_bytes_identical": true,
+  "renderer_source_unchanged": true,
+  "literal_ownership_scan": {
+    "status": "PASS",
+    "files": {
+      "scripts/build_map_first.py": "3c9fcc08b93cb66aa5e553ae50fe3c62bd7d155ec78aeb5e57b4bf88c113a448",
+      "scripts/pipeline.py": "2763cbdf3b38f6b133378a0814b2365f3ce92a312dd1f642a1e4ebd599685dcb",
+      "scripts/refresh_map_first_manifests.py": "1749e03074dc88fe042346927ae96c18448311f71ec088cc1658dcdac91e758e",
+      "scripts/trip_package.py": "fe17f79f33eac6ccdf093aa7791266289e5ddd550b4293419404d51956fe5040",
+      "scripts/qa_gate4_resilience.py": "c486e67d1cc71e5d53653079a2ec85c4500f1907d859a43848ace07fe64151b6",
+      "scripts/security_privacy.py": "cb6ec67be91fc5ccff5a16bd205e1d4a702a769879b066ec57d4e3ff55736e14",
+      "src/app_phase7.js": "d36e0826ffe174c5a589562d26e89ffebbcc7674b1d49e7b0db9c0e003002592",
+      "src/atlas_messages.js": "bfb008a21a6fdd812de23f26e26aa3ac641b4da64ee8888cf11dcf84bf41db8c",
+      "src/atlas_state.js": "7d06b6da8f3023ba44ab19618ad1fc3697624042529f87f5cefaae6c2b0344af",
+      "src/map_shell_template.html": "e245ae4fe2497354dd7dfbc13efc03715c9c84bdf61f06b9bf187a942b5dfff1",
+      "src/app_phase7.css": "161d2bd3ac1362065cddd3ccc28ef2b6a976b8d9a45eb40ae132d55440d23b75",
+      "src/map_first.css": "1e4a64774e46e14c682e342cedfaf907c0e28a6eed5ca14c6cadc0100db3423e"
+    },
+    "forbidden_literals": [
+      "data/phase7_app_data.json",
+      "assets/vector/sf_trip.pmtiles",
+      "yosemite_hillshade_shadow.webp",
+      "SF_Smart_Minority_Map_First_Standalone.html",
+      "currency: 'USD'",
+      "server.arcgisonline.com",
+      "www.google.com",
+      "flysfo.com",
+      "www.flysfo.com",
+      "foodwise.org",
+      "home.nps.gov",
+      "www.nps.gov",
+      "nps.gov",
+      "gomuirwoods.com",
+      "www.goldengate.org",
+      "goldengate.org",
+      "alcatrazcitycruises.com",
+      "www.sfmta.com",
+      "sfmta.com",
+      "www.goldengatefortunecookies.com",
+      "parks.ca.gov",
+      "ci.carmel.ca.us",
+      "www.pebblebeach.com",
+      "www.montereybayaquarium.org",
+      "gggp.org",
+      "www.gggp.org",
+      "museum.stanford.edu",
+      "presidio.gov"
+    ]
+  },
+  "cross_package_leakage": {
+    "sf_into_fixture": [],
+    "fixture_into_sf": [],
+    "package_identity_overlap": {
+      "route_ids": [],
+      "date_keys": [],
+      "region_keys": [],
+      "place_keys": [],
+      "provider_ids": [],
+      "official_hosts": [],
+      "currencies_equal": false,
+      "vector_asset_paths_equal": false,
+      "vector_identities_equal": false,
+      "vector_provider_ids_equal": false,
+      "vector_asset_bytes_equal": false,
+      "trip_identity_equal": false,
+      "titles_equal": false
+    }
+  }
+}
