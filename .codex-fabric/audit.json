@@ -1,0 +1,408 @@
+{
+  "accepted_at": "2026-09-26T03:54:38Z",
+  "changed_files": [
+    {
+      "additions": 2,
+      "deletions": 2,
+      "path": "manifests/public_asset_rights.json",
+      "status": "M"
+    },
+    {
+      "additions": 1,
+      "deletions": 5,
+      "path": "scripts/build_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 4,
+      "deletions": 0,
+      "path": "scripts/qa_location_gap_visuals.py",
+      "status": "M"
+    },
+    {
+      "additions": 124,
+      "deletions": 14,
+      "path": "scripts/qa_standalone_map_first.py",
+      "status": "M"
+    },
+    {
+      "additions": 8,
+      "deletions": 3,
+      "path": "src/app_phase7.js",
+      "status": "M"
+    }
+  ],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc \"rtk proxy cat > /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/finalize_r17_visual_archive.py <<'PY'\nfrom __future__ import annotations\nimport hashlib, json, os, zipfile\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\nARTIFACTS=Path('/Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts')\nPACKAGE=ARTIFACTS/'visual-evidence-recovery-r17'\nARCHIVE=ARTIFACTS/'visual-evidence-recovery-r17.zip'\nMANIFEST=PACKAGE/'manifest.json'\nRECEIPT=ARTIFACTS/'visual-evidence-recovery-r17.stage-receipt.json'\n\ndef digest(data: bytes)->str: return hashlib.sha256(data).hexdigest()\ndef archive_to(path: Path)->None:\n    with zipfile.ZipFile(path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as zf:\n        for file in sorted(p for p in PACKAGE.rglob('*') if p.is_file()):\n            info=zipfile.ZipInfo(file.relative_to(ARTIFACTS).as_posix(),date_time=(1980,1,1,0,0,0))\n            info.compress_type=zipfile.ZIP_DEFLATED\n            info.create_system=3\n            info.external_attr=0o100644<<16\n            zf.writestr(info,file.read_bytes(),compress_type=zipfile.ZIP_DEFLATED,compresslevel=9)\n\nmanifest=json.loads(MANIFEST.read_text())\ninventory=manifest['files']\nactual=[]\nfor file in sorted(p for p in PACKAGE.rglob('*') if p.is_file() and p.name\"'!='\"'manifest.json'):\n    data=file.read_bytes()\n    actual.append({'path':file.relative_to(PACKAGE).as_posix(),'byte_size':len(data),'sha256':digest(data)})\nif actual\"'!=inventory: raise SystemExit('\"'Package payload no longer matches immutable manifest inventory.')\ncanonical=json.dumps(inventory,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()\nif digest(canonical)\"'!=manifest['\"'bundle_sha256']: raise SystemExit('Bundle inventory hash mismatch.')\nreader=json.loads((PACKAGE/'reader_index.json').read_text())\nif len(reader['screenshots'])\"'!=45: raise SystemExit('\"'Expected 45 indexed screenshot PNGs.')\nfor row in reader['screenshots']:\n    path=PACKAGE/row['path']; data=path.read_bytes()\n    if row['subject_commit']\"'!='\"'6ea2619659ecc3b3cfb1f0797bebef70e0d55d96' or row['subject_tree']\"'!='\"'37e979ac8514aff35612eea03a7919b655e846a8a': raise SystemExit(f\\\"Incorrect screenshot binding: {row['path']}\\\")\n    if len(data)\"'!=row['\"'byte_size'] or digest(data)\"'!=row['\"'sha256']: raise SystemExit(f\\\"Screenshot hash mismatch: {row['path']}\\\")\nif ARCHIVE.exists(): ARCHIVE.unlink()\ntmp=ARCHIVE.with_suffix('.zip.tmp')\narchive_to(tmp)\nfirst_hash=digest(tmp.read_bytes())\ntmp2=ARCHIVE.with_suffix('.zip.repro.tmp')\narchive_to(tmp2)\nsecond_hash=digest(tmp2.read_bytes())\nif first_hash\"'!=second_hash: raise SystemExit('\"'Deterministic archive byte check failed.')\nos.replace(tmp,ARCHIVE); tmp2.unlink()\nwith zipfile.ZipFile(ARCHIVE) as zf:\n    if zf.testzip() is not None: raise SystemExit('Archive integrity check failed.')\n    if len(zf.namelist())\"'!=len(actual)+1: raise SystemExit('\"'Archive entry count does not match manifest plus manifest.json.')\n    if digest(zf.read('visual-evidence-recovery-r17/manifest.json'))\"'!=digest(MANIFEST.read_bytes()): raise SystemExit('\"'Archived manifest bytes differ from package manifest.')\nreceipt={\n  'schema_version':1,\n  'stage_status':'LOCAL_PACKAGE_READY_FOR_REMOTE_CARRIER',\n  'project':'sf-trip-visualizer',\n  'request':'field-ux-a11y-performance-g5-visual-evidence-recovery-r17',\n  'fabric_job_id':'CF-9fee33200be3a3453eaa4cb3',\n  'subject_commit':'6ea2619659ecc3b3cfb1f0797bebef70e0d55d96',\n  'subject_tree':'37e979ac8514aff35612eea03a7919b655e846a8',\n  'carrier_ref':'refs/heads/project-os-artifacts/sf-trip-visualizer/field-ux-a11y-performance-g5-visual-evidence-recovery-r17',\n  'package_path':str(PACKAGE),\n  'archive_path':str(ARCHIVE),\n  'manifest_sha256':digest(MANIFEST.read_bytes()),\n  'bundle_sha256':manifest['bundle_sha256'],\n  'archive_sha256':first_hash,\n  'archive_byte_size':ARCHIVE.stat().st_size,\n  'screenshot_count':len(reader['screenshots']),\n  'payload_file_count':len(actual),\n  'archive_entries':len(actual)+1,\n  'deterministic_archive_check':'PASS (two byte-identical archives)',\n  'remote_verification':'pending',\n  'updated_at_utc':datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z')\n}\nRECEIPT.write_text(json.dumps(receipt,ensure_ascii=False,indent=2,sort_keys=True)+'\\\\n')\nprint(json.dumps({k:receipt[k] for k in ('stage_status','manifest_sha256','bundle_sha256','archive_sha256','archive_byte_size','screenshot_count','payload_file_count','deterministic_archive_check')},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/finalize_r17_visual_archive.py'",
+      "exit_code": 1,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('/Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/visual-evidence-recovery-r17/reader_index.json')\nr=json.loads(p.read_text())['screenshots'][0]\nprint(repr(r['subject_commit']),len(r['subject_commit']))\nprint(repr(r['subject_tree']),len(r['subject_tree']))\nprint('expected commit','6ea2619659ecc3b3cfb1f0797bebef70e0d55d96',len('6ea2619659ecc3b3cfb1f0797bebef70e0d55d96'))\nprint('expected tree','37e979ac8514aff35612eea03a7919b655e846a8',len('37e979ac8514aff35612eea03a7919b655e846a8'))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'subject_tree' /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/finalize_r17_visual_archive.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nfrom pathlib import Path\np=Path('/Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/finalize_r17_visual_archive.py')\ns=p.read_text()\nold=\\\"row['subject_tree']\"'!='\"'37e979ac8514aff35612eea03a7919b655e846a8a'\\\"\nnew=\\\"row['subject_tree']\"'!='\"'37e979ac8514aff35612eea03a7919b655e846a8'\\\"\nassert old in s\np.write_text(s.replace(old,new))\nPY\nrtk python3 /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/finalize_r17_visual_archive.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk cat /Users/haewonkim/.codex/plugins/cache/openai-primary-runtime/pdf/26.923.10815/skills/pdf/SKILL.md'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files --hidden /Users/haewonkim/.codex /Users/haewonkim/.codex-fabric /opt 2>/dev/null | rg '/container_tools/mark_artifact_operation_started\\\\.mjs\"'$|mark_artifact_operation_started'\"\\\\.mjs\"'$'\"'; rtk proxy command -v pdftoppm; rtk proxy command -v pdfinfo\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy mkdir -p /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/pdf-review'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy pdfinfo /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/visual-evidence-recovery-r17/review/mobile-review.pdf'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy pdfinfo /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/visual-evidence-recovery-r17/review/desktop-review.pdf'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy pdftoppm -r 70 -png /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/visual-evidence-recovery-r17/review/mobile-review.pdf /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/pdf-review/mobile'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy pdftoppm -r 70 -png /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/visual-evidence-recovery-r17/review/desktop-review.pdf /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/pdf-review/desktop'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk ls -la /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/pdf-review'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n 'publish-evidence|def publish.*evidence|def publish|artifact_root|job_artifacts|artifacts_dir' /Users/haewonkim/.codex-fabric/current/fabric.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '2540,2640p' /Users/haewonkim/.codex-fabric/current/fabric.py && rtk sed -n '2952,3098p' /Users/haewonkim/.codex-fabric/current/fabric.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/project-os-artifacts/sf-trip-visualizer/field-ux-a11y-performance-g5-visual-evidence-recovery-r17'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git config user.name'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git config user.email'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git init -b main /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy cp -R /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/visual-evidence-recovery-r17 /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3/visual-evidence-recovery-r17'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 remote add origin https://github.com/kimhw8084/sf-trip-visualizer.git'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 config user.name 'Haewon Kim' && rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 config user.email 'kimhw8084@gmail.com'\"",
+      "exit_code": 255,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 config user.name 'Haewon Kim'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 config user.email 'kimhw8084@gmail.com'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 status --short'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 add visual-evidence-recovery-r17'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 commit -m 'Artifact Bridge: stage CHG-65 R17 visual evidence'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 rev-parse HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 show -s --format=%P HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 ls-tree -r --name-only HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git -C /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3 push origin HEAD:refs/heads/project-os-artifacts/sf-trip-visualizer/field-ux-a11y-performance-g5-visual-evidence-recovery-r17'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/project-os-artifacts/sf-trip-visualizer/field-ux-a11y-performance-g5-visual-evidence-recovery-r17'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git fetch --no-tags origin refs/heads/project-os-artifacts/sf-trip-visualizer/field-ux-a11y-performance-g5-visual-evidence-recovery-r17:refs/remotes/origin/project-os-artifacts/sf-trip-visualizer/field-ux-a11y-performance-g5-visual-evidence-recovery-r17'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy cat > /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/verify_r17_remote_carrier.py <<'PY'\nfrom __future__ import annotations\nimport hashlib, json, os, shutil, subprocess, zipfile\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\nREPO=Path('/Users/haewonkim/.codex-fabric/worktrees/CF-9fee33200be3a3453eaa4cb3')\nARTIFACTS=Path('/Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts')\nPACKAGE=ARTIFACTS/'visual-evidence-recovery-r17'\nREF='refs/heads/project-os-artifacts/sf-trip-visualizer/field-ux-a11y-performance-g5-visual-evidence-recovery-r17'\nEXPECTED_COMMIT='7859a1e542b52a459e2259745a97876c620f0946'\nRECEIPT=ARTIFACTS/'visual-evidence-recovery-r17.stage-receipt.json'\nVERIFY=ARTIFACTS/'visual-evidence-recovery-r17.remote-verification.json'\nVERIFY_DIR=ARTIFACTS/'.r17-remote-readback'\nREMOTE_ZIP=ARTIFACTS/'.r17-remote-readback.zip'\n\ndef h(data:bytes)->str: return hashlib.sha256(data).hexdigest()\ndef git(*args:str)->str:\n    p=subprocess.run(['git','-C',str(REPO),*args],capture_output=True,check=True)\n    return p.stdout.decode('utf-8',errors='strict')\n\ndef zip_package(source:Path, output:Path)->None:\n    with zipfile.ZipFile(output,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as zf:\n        for file in sorted(p for p in source.rglob('*') if p.is_file()):\n            rel=Path('visual-evidence-recovery-r17')/file.relative_to(source)\n            info=zipfile.ZipInfo(rel.as_posix(),date_time=(1980,1,1,0,0,0))\n            info.compress_type=zipfile.ZIP_DEFLATED; info.create_system=3; info.external_attr=0o100644<<16\n            zf.writestr(info,file.read_bytes(),compress_type=zipfile.ZIP_DEFLATED,compresslevel=9)\n\nmanifest=json.loads((PACKAGE/'manifest.json').read_text())\nreader=json.loads((PACKAGE/'reader_index.json').read_text())\nreceipt=json.loads(RECEIPT.read_text())\nremote=git('ls-remote','origin',REF).splitlines()\nif len(remote)\"'!=1 or remote[0].split('\"'\\\\t')[0]\"'!=EXPECTED_COMMIT or remote[0].split('\"'\\\\t')[1]\"'!=REF:\n    raise SystemExit(f'\"'Remote carrier ref does not match expected commit: {remote}')\nbase_lines=git('ls-remote','origin','refs/heads/main').splitlines()\nif len(base_lines)\"'!=1 or base_lines[0].split('\"'\\\\t')[0]\"'!='\"'fc195b1191fe4a430db0747b4264b8d036b6a48d':\n    raise SystemExit(f'Remote main changed from supplied base authority: {base_lines}')\nparents=git('show','-s','--format=%P',EXPECTED_COMMIT).strip()\nif parents: raise SystemExit('Carrier commit unexpectedly has a Product-history parent.')\npaths=[x for x in git('ls-tree','-r','--name-only',EXPECTED_COMMIT).splitlines() if x]\nexpected_paths={f\\\"visual-evidence-recovery-r17/{item['path']}\\\" for item in manifest['files']}\nexpected_paths.add('visual-evidence-recovery-r17/manifest.json')\nif set(paths)\"'!=expected_paths or len(paths)!=len(expected_paths): raise SystemExit('\"'Remote carrier tree paths do not exactly match the package manifest.')\nif VERIFY_DIR.exists(): shutil.rmtree(VERIFY_DIR)\nVERIFY_DIR.mkdir()\nremote_package=VERIFY_DIR/'visual-evidence-recovery-r17'\nfor remote_path in paths:\n    blob=subprocess.run(['git','-C',str(REPO),'show',f'{EXPECTED_COMMIT}:{remote_path}'],capture_output=True,check=True).stdout\n    rel=Path(remote_path).relative_to('visual-evidence-recovery-r17')\n    dest=remote_package/rel\n    dest.parent.mkdir(parents=True,exist_ok=True)\n    dest.write_bytes(blob)\n\nactual=[]\nfor file in sorted(p for p in remote_package.rglob('*') if p.is_file() and p.name\"'!='\"'manifest.json'):\n    data=file.read_bytes()\n    actual.append({'path':file.relative_to(remote_package).as_posix(),'byte_size':len(data),'sha256':h(data)})\ncanonical=json.dumps(actual,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()\nif actual\"'!=manifest['\"'files'] or h(canonical)\"'!=manifest['\"'bundle_sha256']:\n    raise SystemExit('Remote readback does not match the complete manifest/bundle hash.')\nif h((remote_package/'manifest.json').read_bytes())\"'!=receipt['\"'manifest_sha256']:\n    raise SystemExit('Remote manifest SHA-256 differs from local package receipt.')\n\nzip_package(remote_package,REMOTE_ZIP)\nremote_archive_sha=h(REMOTE_ZIP.read_bytes())\nif remote_archive_sha\"'!=receipt['\"'archive_sha256']:\n    raise SystemExit('Deterministic archive rebuilt from remote carrier bytes does not match local archive hash.')\n\npng_rows=[r for r in reader['screenshots'] if r['path'].endswith('.png')]\nif len(png_rows)\"'!=45: raise SystemExit('\"'Reader index does not contain exactly 45 PNGs.')\nstandalone=next(r for r in png_rows if r['id']=='standalone_file_origin_final')\nkey_names=['canonical_decide_default_1440x900','compact_map_region_yosemite_1440x900','canonical_day_dense_recovery_1440x900','canonical_no_results_1440x900','canonical_place_inspector_1440x900','canonical_en_dark_1440x900','satellite_failure_recovery_1440x900','mobile_compact_390x844','mobile_expanded_390x844','mobile_full_390x844','mobile_compact_map_yosemite_390x844','mobile_touch_peek_390x844']\nkey_rows={r['id']:r for r in png_rows}\nfor name in key_names+['standalone_file_origin_final']:\n    row=key_rows.get(name)\n    if not row or h((remote_package/row['path']).read_bytes())\"'!=row['\"'sha256']:\n        raise SystemExit(f'Canonical PNG is not individually retrievable and hash-valid: {name}')\n\nreceipt.update({\n    'stage_status':'REMOTE_PUBLISHED_AND_VERIFIED',\n    'carrier_ref':REF,\n    'carrier_commit_sha':EXPECTED_COMMIT,\n    'carrier_tree_sha':git('rev-parse',f'{EXPECTED_COMMIT}\"'^{{tree}}'\"').strip(),\n    'carrier_commit_parent':None,\n    'remote_main_base_authority_sha':base_lines[0].split('\\\\t')[0],\n    'remote_verification':{\n        'status':'PASS',\n        'method':'fresh ls-remote + fetch into repository object store + git-show readback of all manifest files + complete deterministic archive reconstruction',\n        'remote_ref_sha':remote[0].split('\\\\t')[0],\n        'verified_files':len(paths),\n        'verified_pngs':len(png_rows),\n        'verified_payload_files':len(actual),\n        'bundle_sha256_recomputed':h(canonical),\n        'archive_sha256_rebuilt_from_remote':remote_archive_sha,\n        'canonical_pngs_individually_retrievable':len(key_names)+1,\n        'standalone_png_path':f\\\"{REF}:{standalone['path']}\\\",\n        'standalone_png_sha256':standalone['sha256'],\n        'verified_at_utc':datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z'),\n    },\n    'recovery_locator':{\n        'repository':'kimhw8084/sf-trip-visualizer',\n        'git_ref':REF,\n        'commit_sha':EXPECTED_COMMIT,\n        'package_directory':'visual-evidence-recovery-r17/',\n        'index_path':'visual-evidence-recovery-r17/INDEX.md',\n        'reader_index_path':'visual-evidence-recovery-r17/reader_index.json',\n        'bundle_hash_manifest_path':'visual-evidence-recovery-r17/manifest.json',\n        'download_command':f'git fetch origin {REF} && git archive FETCH_HEAD visual-evidence-recovery-r17',\n    },\n    'updated_at_utc':datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z'),\n})\nRECEIPT.write_text(json.dumps(receipt,ensure_ascii=False,indent=2,sort_keys=True)+'\\\\n')\nVERIFY.write_text(json.dumps(receipt['remote_verification'],ensure_ascii=False,indent=2,sort_keys=True)+'\\\\n')\nshutil.rmtree(VERIFY_DIR)\nREMOTE_ZIP.unlink()\nprint(json.dumps({'status':'PASS','carrier_ref':REF,'carrier_commit_sha':EXPECTED_COMMIT,'carrier_tree_sha':receipt['carrier_tree_sha'],'verified_files':len(paths),'verified_pngs':len(png_rows),'bundle_sha256':receipt['bundle_sha256'],'archive_sha256':remote_archive_sha,'direct_open_png_sha256':standalone['sha256']},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/verify_r17_remote_carrier.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nimport subprocess\nfrom pathlib import Path\nrepo=Path('.')\nlines=subprocess.check_output(['git','status','--porcelain','--untracked-files=all'],cwd=repo,text=True).splitlines()\nchanged=[line[3:] for line in lines]\nallowed=('QA/CHG-232/visual/','QA/CHG-232/standalone/')\noutside=[p for p in changed if not p.startswith(allowed)]\nprint({'changed_paths':len(changed),'generated_QA_paths':len(changed)-len(outside),'outside_generated_QA':outside})\nif outside: raise SystemExit('Unexpected non-QA source mutation detected.')\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/serve_map.py --port 8876 --directory .build/modular'",
+      "exit_code": 130,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore --source=HEAD --staged --worktree -- QA/CHG-232/visual QA/CHG-232/standalone'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --untracked-files=all'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy rm QA/CHG-232/visual/screenshots/mobile_compact_map_yosemite_390x844.png'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nfrom pathlib import Path\nimport shutil\nroot=Path('/Users/haewonkim/.codex-fabric/worktrees/CF-9fee33200be3a3453eaa4cb3').resolve()\ntarget=(root/'.build').resolve()\nif target.parent\"'!=root or target.name!='\"'.build': raise SystemExit('Refusing unexpected generated build cleanup path')\nif target.exists(): shutil.rmtree(target)\nprint('removed generated .build directory')\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nimport hashlib,json,subprocess\nfrom pathlib import Path\nroot=Path('/Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts')\nfor n in ['visual-evidence-recovery-r17.stage-receipt.json','visual-evidence-recovery-r17.remote-verification.json']:\n p=root/n; d=json.loads(p.read_text())\n print(n, {k:d.get(k) for k in ['stage_status','carrier_ref','carrier_commit_sha','carrier_tree_sha','manifest_sha256','bundle_sha256','archive_sha256','verified_files','verified_pngs','status']}, 'sha256',hashlib.sha256(p.read_bytes()).hexdigest())\nrepo=Path('/Users/haewonkim/.codex-fabric/worktrees/CF-9fee33200be3a3453eaa4cb3')\nprint('head',subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip())\nprint('tree',subprocess.check_output(['git','rev-parse','HEAD\"'^{tree}'\"'],cwd=repo,text=True).strip())\nprint('status',subprocess.check_output(['git','status','--short','--untracked-files=all'],cwd=repo,text=True).strip())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nimport hashlib,json,subprocess\nfrom datetime import datetime,timezone\nfrom pathlib import Path\nroot=Path('/Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts')\npkg=root/'visual-evidence-recovery-r17'\nreceipt_path=root/'visual-evidence-recovery-r17.stage-receipt.json'\nverify_path=root/'visual-evidence-recovery-r17.remote-verification.json'\nmanifest=json.loads((pkg/'manifest.json').read_text())\nreader=json.loads((pkg/'reader_index.json').read_text())\ncontext=json.loads((pkg/'context/r16_and_r17_structured_findings.json').read_text())\nrun=json.loads((pkg/'capture_runtime.json').read_text())\nreceipt=json.loads(receipt_path.read_text())\nverify=json.loads(verify_path.read_text())\nverify['all_indexed_pngs_individually_retrievable']=True\nverify['indexed_png_count']=len(reader['screenshots'])\nreceipt['remote_verification']=verify\nreceipt['updated_at_utc']=datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z')\nreceipt_path.write_text(json.dumps(receipt,ensure_ascii=False,indent=2,sort_keys=True)+'\\\\n')\nverify_path.write_text(json.dumps(verify,ensure_ascii=False,indent=2,sort_keys=True)+'\\\\n')\ndef sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()\nrepo=Path('/Users/haewonkim/.codex-fabric/worktrees/CF-9fee33200be3a3453eaa4cb3')\nhead=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()\ntree=subprocess.check_output(['git','rev-parse','HEAD\"'^{tree}'\"'],cwd=repo,text=True).strip()\nstatus=subprocess.check_output(['git','status','--porcelain','--untracked-files=all'],cwd=repo,text=True).strip()\nif head\"'!='\"'6ea2619659ecc3b3cfb1f0797bebef70e0d55d96' or tree\"'!='\"'37e979ac8514aff35612eea03a7919b655e846a8' or status:\n    raise SystemExit('Product worktree is not the exact clean R16 candidate.')\nevidence={\n  'schema_version':1,\n  'record_type':'durable Fabric stage/recovery evidence',\n  'project':'sf-trip-visualizer',\n  'request':'field-ux-a11y-performance-g5-visual-evidence-recovery-r17',\n  'fabric_job_id':'CF-9fee33200be3a3453eaa4cb3',\n  'operation':'VERIFY',\n  'recorded_at_utc':datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z'),\n  'authority':{'repository':'kimhw8084/sf-trip-visualizer','remote_main_sha':'fc195b1191fe4a430db0747b4264b8d036b6a48d','r16_subject_commit':head,'r16_subject_tree':tree,'work_branch':'codex/sf-trip-visualizer-field-ux-a11y-performance-g5-visual-evidence-recovery-r17','worktree_clean':True,'product_source_mutations':0},\n  'historical_r16_qualification':{\n    'request':'field-ux-a11y-performance-g5-direct-open-smart-map-fix-r16',\n    'workflow_run_id':36213209448,\n    'github_artifact_id':10896404962,\n    'github_artifact_sha256':'8908871ad41090ad82bc51b963103a5e404993d73860e2489d37fa39b994129e',\n    'github_artifact_archive_png_count':0,\n    'meaning':'Original structured evidence only; original R16 pixel bytes were absent. This R17 capture has new provenance.',\n    'structured_context_path':'visual-evidence-recovery-r17/context/r16_and_r17_structured_findings.json',\n  },\n  'recapture':{\n    'captured_png_count':len(reader['screenshots']),\n    'served_png_count':sum(r['rendering']=='served' for r in reader['screenshots']),\n    'file_origin_png_count':sum(r['rendering']=='file:// standalone' for r in reader['screenshots']),\n    'capture_runtime_path':'visual-evidence-recovery-r17/capture_runtime.json',\n    'capture_tool':run['capture_tool'],\n    'browser':run['browser'],\n    'visual_spots_status':run['successful_capture_results']['visual_spots_status'],\n    'visual_spots_page_errors':run['successful_capture_results']['visual_spots_page_errors'],\n    'direct_open_positive_status':run['successful_capture_results']['direct_open_positive'],\n    'direct_open_negative_control_status':run['successful_capture_results']['direct_open_negative_control'],\n    'direct_open_probes':run['successful_capture_results']['direct_open_probes'],\n  },\n  'package':{\n    'job_artifact_path':str(pkg),\n    'deterministic_archive_path':str(root/'visual-evidence-recovery-r17.zip'),\n    'manifest_path':'visual-evidence-recovery-r17/manifest.json',\n    'reader_index_path':'visual-evidence-recovery-r17/reader_index.json',\n    'manifest_sha256':receipt['manifest_sha256'],\n    'bundle_sha256':receipt['bundle_sha256'],\n    'bundle_hash_definition':manifest['bundle_hash_definition'],\n    'archive_sha256':receipt['archive_sha256'],\n    'archive_byte_size':receipt['archive_byte_size'],\n    'file_count_including_manifest':receipt['archive_entries'],\n    'indexed_pngs':receipt['screenshot_count'],\n    'remote_manifest_files_verified':verify['verified_files'],\n    'remote_pngs_verified_individually':verify['verified_pngs'],\n    'remote_rebuilt_archive_sha256':verify['archive_sha256_rebuilt_from_remote'],\n  },\n  'carrier':{\n    'remote_url':'https://github.com/kimhw8084/sf-trip-visualizer/tree/project-os-artifacts/sf-trip-visualizer/field-ux-a11y-performance-g5-visual-evidence-recovery-r17',\n    'ref':receipt['carrier_ref'],\n    'commit_sha':receipt['carrier_commit_sha'],\n    'tree_sha':receipt['carrier_tree_sha'],\n    'parentless_evidence_only_commit':True,\n    'verified_remote_head':verify['remote_ref_sha'],\n    'remote_verification_status':verify['status'],\n  },\n  'receipt_files':{\n    'stage_recovery_receipt':{'path':receipt_path.name,'sha256':sha(receipt_path)},\n    'remote_verification':{'path':verify_path.name,'sha256':sha(verify_path)},\n  },\n  'disposition':{\n    'independent_multimodal_visual_usability_review':'pending Project OS inspection; execution did not self-certify or promote evidence',\n    'native_safari':'VERIFY_REQUIRED; not claimed',\n    'physical_iphone_ipad':'VERIFY_REQUIRED; not claimed',\n  },\n}\nevidence_path=root/'FABRIC_EVIDENCE.json'\nevidence_path.write_text(json.dumps(evidence,ensure_ascii=False,indent=2,sort_keys=True)+'\\\\n')\nbranch=receipt['carrier_ref'].removeprefix('refs/heads/')\nmd=f'''# CHG-65 R17 stage and recovery receipt\\\\n\\\\n- State: **{receipt['stage_status']}**\\\\n- Product under review: \"'`{head}` / tree `{tree}` (exact R16; clean worktree).'\"\\\\n- R17 recapture: {receipt['screenshot_count']} candidate-bound PNGs; 44 served and 1 actual \"'`file://` standalone.'\"\\\\n- Original R16 GitHub Actions artifact \"'`{36213209448}` has SHA-256 `{evidence['\"'historical_r16_qualification']['github_artifact_sha256']}\"'` and contains 0 PNG bytes; this new capture is not represented as the old observation.'\"\\\\n- Carrier ref: [\"'`{branch}`]({evidence['\"'carrier']['remote_url']})\\\\n- Carrier commit: \"'`{receipt['\"'carrier_commit_sha']}\"'`; tree `{receipt['\"'carrier_tree_sha']}\"'`.'\"\\\\n- Manifest SHA-256: \"'`{receipt['\"'manifest_sha256']}\"'`'\"\\\\n- Complete bundle inventory SHA-256: \"'`{receipt['\"'bundle_sha256']}\"'`'\"\\\\n- Deterministic archive SHA-256: \"'`{receipt['\"'archive_sha256']}\"'` ({receipt['\"'archive_byte_size']} bytes).\\\\n- Remote readback: PASS; {verify['verified_files']} files and all {verify['verified_pngs']} PNGs individually hash-verified; archive rebuilt from remote bytes matched.\\\\n- Direct-open PNG SHA-256: \"'`{verify['\"'standalone_png_sha256']}\"'`'\"\\\\n- Stage receipt: \"'`{receipt_path.name}` (SHA-256 `{sha(receipt_path)}`).'\"\\\\n- Fabric evidence record: \"'`FABRIC_EVIDENCE.json` (SHA-256 `{sha(evidence_path)}`).'\"\\\\n- Independent Project OS visual/usability review is pending. Native Safari and physical iPhone/iPad remain \"'`VERIFY_REQUIRED`.'\"\\\\n'''\n(root/'STAGE-RECOVERY.md').write_text(md,encoding='utf-8')\nprint(json.dumps({'fabric_evidence':str(evidence_path),'fabric_evidence_sha256':sha(evidence_path),'stage_receipt_sha256':sha(receipt_path),'remote_verification_sha256':sha(verify_path),'status':receipt['stage_status'],'worktree_clean':True},indent=2))\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nfrom pathlib import Path\np=Path('/Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/build_r17_visual_package.py')\ns=p.read_text()\ns=s.replace('            info.compresslevel = 9\\\\n','')\ns=s.replace('            zf.writestr(info, file.read_bytes())\\\\n','            zf.writestr(info, file.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)\\\\n')\np.write_text(s)\nprint('patched one-shot builder for this Python zipfile API; immutable package was not modified')\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy rm -rf /Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts/pdf-review'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk proxy rm -rf /tmp/sf-trip-visual-evidence-carrier-CF-9fee33200be3a3453eaa4cb3'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk proxy python3 - <<'PY'\nimport json,hashlib\nfrom pathlib import Path\nr=Path('/Users/haewonkim/.codex-fabric/jobs/CF-9fee33200be3a3453eaa4cb3.running/artifacts')\np=r/'visual-evidence-recovery-r17'\nreader=json.loads((p/'reader_index.json').read_text()); runtime=json.loads((p/'capture_runtime.json').read_text())\nfor name in ['FABRIC_EVIDENCE.json','visual-evidence-recovery-r17.stage-receipt.json','visual-evidence-recovery-r17.remote-verification.json']:\n f=r/name\n print(name,hashlib.sha256(f.read_bytes()).hexdigest())\nprint('screenshots',len(reader['screenshots']),'browser',runtime['browser'],'served',runtime['successful_capture_results']['visual_spots_pngs']+1,'file_origin',1)\nprint('manifest_sha256',hashlib.sha256((p/'manifest.json').read_bytes()).hexdigest())\nPY\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git rev-parse HEAD && rtk git rev-parse HEAD''^{tree}'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git ls-remote origin refs/heads/main refs/heads/project-os-artifacts/sf-trip-visualizer/field-ux-a11y-performance-g5-visual-evidence-recovery-r17'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.157.0",
+    "configured_model": "gpt-6-luna",
+    "event_count": 208,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.96,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 12646656,
+      "fresh_input_tokens": 263410,
+      "input_tokens": 12910066,
+      "non_reasoning_output_tokens": 32269,
+      "output_tokens": 113087,
+      "reasoning_output_tokens": 80818,
+      "total_processed_tokens": 13023153
+    },
+    "warnings": []
+  },
+  "commits": [
+    {
+      "sha": "6ea2619659ecc3b3cfb1f0797bebef70e0d55d96",
+      "subject": "Wait for disclosure focus restoration in QA"
+    },
+    {
+      "sha": "8ebfa44b94e938eadfb9ccfa24212fb7c8e71971",
+      "subject": "Refresh public runtime hash binding"
+    },
+    {
+      "sha": "20b267a3edccba901c2c59504ab877fb40701aec",
+      "subject": "Fix standalone Smart map hillshade loading"
+    }
+  ],
+  "diff": {
+    "additions": 139,
+    "changed_files": 5,
+    "commit_count": 3,
+    "deletions": 24
+  },
+  "error_code": null,
+  "evidence_manifest": {
+    "count": 1,
+    "items": [
+      {
+        "bytes": 581577,
+        "path": "manifests/public_asset_rights.json",
+        "sha256": "989422c64b979ecdfbaaa6f8547fba0a88c53722998187156bc680b521bda353"
+      }
+    ],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": {
+    "applied": false,
+    "paths_before": 0,
+    "transient_untracked_removed": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": null,
+  "finished_at": "2026-09-26T04:43:17Z",
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "fc195b1191fe4a430db0747b4264b8d036b6a48d",
+    "branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-visual-evidence-recovery-r17",
+    "detached_verify": false,
+    "head_sha": "6ea2619659ecc3b3cfb1f0797bebef70e0d55d96",
+    "remote_exact_head": true,
+    "remote_head_sha": "6ea2619659ecc3b3cfb1f0797bebef70e0d55d96",
+    "target_branch": "main",
+    "target_drifted_since_acceptance": false,
+    "target_head_observed_after_execution": "fc195b1191fe4a430db0747b4264b8d036b6a48d",
+    "work_branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-visual-evidence-recovery-r17",
+    "worktree_clean": true
+  },
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-9fee33200be3a3453eaa4cb3",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-visual-evidence-recovery-r17",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-visual-evidence-recovery-r17"
+  },
+  "operation": "VERIFY",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": false,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "field-ux-a11y-performance-g5-visual-evidence-recovery-r17",
+  "schema_version": 1,
+  "started_at": "2026-09-26T03:54:38Z",
+  "status": "EXECUTED_CHANGE",
+  "timing": {
+    "execution_seconds": 2919,
+    "queue_seconds": 0,
+    "total_seconds": 2919
+  },
+  "transport": {
+    "bytes": 7494,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 7094,
+    "prompt_sha256": "b746f0f4f9b8f54014abb2b301f2def3b7297840366e04002c21e2ce45dc90c6",
+    "sha256": "9fee33200be3a3453eaa4cb3ad0bd2aa18d1b21229117bc00507aa527dcc448f"
+  }
+}
