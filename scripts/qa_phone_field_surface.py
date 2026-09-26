@@ -77,7 +77,7 @@ def inspect_page(page, package: dict, *, mobile: bool) -> dict:
 
 
 def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
-    identity = candidate_identity()
+    identity = candidate_identity(expected_revision)
     if expected_revision and identity["sha"] != expected_revision:
         raise RuntimeError(f"Screenshot candidate mismatch: expected {expected_revision}, found {identity['sha']}")
     active = load_package(DEFAULT_PACKAGE)

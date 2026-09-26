@@ -17,8 +17,8 @@ GENERATED_PREFIXES = (
 )
 
 
-def candidate_identity() -> dict[str, str]:
-    expected = os.environ.get("TRIP_EXPECTED_REVISION") or os.environ.get("TRIP_CANDIDATE_SHA")
+def candidate_identity(expected_revision: str | None = None) -> dict[str, str]:
+    expected = expected_revision or os.environ.get("TRIP_EXPECTED_REVISION") or os.environ.get("TRIP_CANDIDATE_SHA")
     actual = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     tree = subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=ROOT, text=True).strip()
     if not expected:
