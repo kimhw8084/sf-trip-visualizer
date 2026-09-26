@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "change": "CHG-65",
+  "operation": "FIX",
+  "candidate": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+  "candidate_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+  "base_authority": {
+    "ref": "main",
+    "commit": "fc195b1191fe4a430db0747b4264b8d036b6a48d"
+  },
+  "browser": {
+    "name": "Chromium",
+    "version": "151.0.7922.34",
+    "headless": true,
+    "viewport": "1440x900"
+  },
+  "runtime": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.11.7"
+  },
+  "capture_tool": {
+    "name": "Playwright",
+    "version": "installed Python Playwright; version not exported by package root"
+  },
+  "visual_capture": {
+    "status": "PASS",
+    "total_canonical_suite_screenshots": 50,
+    "published_empty_state_captures": 8,
+    "visual_index_sha256": "5ce3a9a4050fe00a3621af3dbceea66c421444adb4b6189a91fc728cc2aa2556"
+  },
+  "direct_open": {
+    "status": "PASS",
+    "positive": "PASS",
+    "negative_control": "PASS",
+    "mode": "file://",
+    "probes": null
+  },
+  "device_boundaries": {
+    "native_safari": "not claimed; VERIFY_REQUIRED",
+    "physical_iphone_ipad": "not claimed; VERIFY_REQUIRED",
+    "independent_multimodal_review": "not supplied; VERIFY_REQUIRED"
+  },
+  "note": "Browser emulation and Playwright WebKit are not claimed as native Safari or physical-device qualification."
+}

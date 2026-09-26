@@ -1,0 +1,2665 @@
+{
+  "schema_version": 2,
+  "change": "CHG-232 single-route map controls and camera context",
+  "status": "PASS",
+  "route_ids": [
+    "A"
+  ],
+  "viewports": {
+    "360x800": {
+      "baseline_task": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/8",
+        "region": "yosemite",
+        "selected": null
+      },
+      "task_after_controls": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/8",
+        "region": "yosemite",
+        "selected": null
+      },
+      "baseline_context": {
+        "map_present": true,
+        "provider": "vector",
+        "app_ready": true,
+        "map_visual_ready": true,
+        "canvas_count": 1,
+        "style_loaded": true,
+        "map_moving": false,
+        "visible_markers": 4,
+        "route_features": 1,
+        "spatial": {
+          "useful": true,
+          "width": 360,
+          "height": 419,
+          "visible_markers": 4,
+          "markers_in_viewport": 4,
+          "route_features": 1,
+          "route_features_in_viewport": 1,
+          "route_points_in_viewport": 80,
+          "content_occupancy_ratio": 0.1372
+        },
+        "map_obstacles": 1,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/8",
+          "region": "yosemite",
+          "selected": null
+        },
+        "comparison_chrome_count": 0,
+        "style_readiness": {
+          "initial_style_loaded": true,
+          "initial_map_moving": false,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
+          "timeout_ms": 5000,
+          "wait_error": null
+        },
+        "initial_failures": [],
+        "failures": [],
+        "valid": true
+      },
+      "fit_context": {
+        "map_present": true,
+        "provider": "vector",
+        "app_ready": true,
+        "map_visual_ready": true,
+        "canvas_count": 1,
+        "style_loaded": true,
+        "map_moving": false,
+        "visible_markers": 4,
+        "route_features": 1,
+        "spatial": {
+          "useful": true,
+          "width": 360,
+          "height": 419,
+          "visible_markers": 4,
+          "markers_in_viewport": 4,
+          "route_features": 1,
+          "route_features_in_viewport": 1,
+          "route_points_in_viewport": 80,
+          "content_occupancy_ratio": 0.1372
+        },
+        "map_obstacles": 1,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/8",
+          "region": "yosemite",
+          "selected": null
+        },
+        "comparison_chrome_count": 0,
+        "style_readiness": {
+          "initial_style_loaded": true,
+          "initial_map_moving": false,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
+          "timeout_ms": 5000,
+          "wait_error": null
+        },
+        "initial_failures": [],
+        "failures": [],
+        "valid": true
+      },
+      "empty_state_camera_regression": {
+        "status": "PASS",
+        "positive_nonempty_control": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/9"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 1,
+            "photo_marker_elements": 1,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -119.58982,
+                37.74648
+              ],
+              "zoom": 13.1
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [
+              "Yosemite Valley",
+              "Yosemite Village",
+              "Upper Yosemite Fall",
+              "Lower Yosemite Fall"
+            ],
+            "spatial": {
+              "useful": true,
+              "width": 360,
+              "height": 419,
+              "visible_markers": 1,
+              "markers_in_viewport": 1,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "region_then_date_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 360,
+              "height": 419,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "date_then_region_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 360,
+              "height": 419,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "yosemite_nonempty_recovery": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/7"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 3,
+            "photo_marker_elements": 3,
+            "route_features": 1,
+            "camera": {
+              "center": [
+                -119.63344799999999,
+                37.737002897015145
+              ],
+              "zoom": 11.368006951690937
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 360,
+              "height": 419,
+              "visible_markers": 3,
+              "markers_in_viewport": 3,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 333,
+              "content_occupancy_ratio": 0.3512
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "overall_empty_fallback": {
+          "snapshot": {
+            "task": {
+              "region": "overall",
+              "date": "10/12"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · 전체",
+            "expected_region_label": "전체",
+            "selected_region_control_label": "전체",
+            "day_empty_text": "",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "expected_region_camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 360,
+              "height": 419,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "failures": []
+      },
+      "comparison_chrome_count": 0,
+      "comparison_chrome_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected_counts": {
+        "visible_markers": 4,
+        "route_features": 1
+      },
+      "paths": {
+        "pointer": {
+          "path": "pointer",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 360,
+              "height": 419,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0013
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 360,
+              "height": 419,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1372
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        },
+        "keyboard": {
+          "path": "keyboard",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 360,
+              "height": 419,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0013
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 360,
+              "height": 419,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1372
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        },
+        "touch": {
+          "path": "touch",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 360,
+              "height": 419,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0013
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 360,
+              "height": 419,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1372
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        }
+      },
+      "screenshots": [],
+      "page_errors": [],
+      "pass": true
+    },
+    "375x812": {
+      "baseline_task": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/8",
+        "region": "yosemite",
+        "selected": null
+      },
+      "task_after_controls": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/8",
+        "region": "yosemite",
+        "selected": null
+      },
+      "baseline_context": {
+        "map_present": true,
+        "provider": "vector",
+        "app_ready": true,
+        "map_visual_ready": true,
+        "canvas_count": 1,
+        "style_loaded": true,
+        "map_moving": false,
+        "visible_markers": 4,
+        "route_features": 1,
+        "spatial": {
+          "useful": true,
+          "width": 375,
+          "height": 426,
+          "visible_markers": 4,
+          "markers_in_viewport": 4,
+          "route_features": 1,
+          "route_features_in_viewport": 1,
+          "route_points_in_viewport": 80,
+          "content_occupancy_ratio": 0.1417
+        },
+        "map_obstacles": 1,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/8",
+          "region": "yosemite",
+          "selected": null
+        },
+        "comparison_chrome_count": 0,
+        "style_readiness": {
+          "initial_style_loaded": true,
+          "initial_map_moving": false,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
+          "timeout_ms": 5000,
+          "wait_error": null
+        },
+        "initial_failures": [],
+        "failures": [],
+        "valid": true
+      },
+      "fit_context": {
+        "map_present": true,
+        "provider": "vector",
+        "app_ready": true,
+        "map_visual_ready": true,
+        "canvas_count": 1,
+        "style_loaded": true,
+        "map_moving": false,
+        "visible_markers": 4,
+        "route_features": 1,
+        "spatial": {
+          "useful": true,
+          "width": 375,
+          "height": 426,
+          "visible_markers": 4,
+          "markers_in_viewport": 4,
+          "route_features": 1,
+          "route_features_in_viewport": 1,
+          "route_points_in_viewport": 80,
+          "content_occupancy_ratio": 0.1417
+        },
+        "map_obstacles": 1,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/8",
+          "region": "yosemite",
+          "selected": null
+        },
+        "comparison_chrome_count": 0,
+        "style_readiness": {
+          "initial_style_loaded": true,
+          "initial_map_moving": false,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
+          "timeout_ms": 5000,
+          "wait_error": null
+        },
+        "initial_failures": [],
+        "failures": [],
+        "valid": true
+      },
+      "empty_state_camera_regression": {
+        "status": "PASS",
+        "positive_nonempty_control": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/9"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 1,
+            "photo_marker_elements": 1,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -119.58982,
+                37.74648
+              ],
+              "zoom": 13.1
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [
+              "Yosemite Valley",
+              "Yosemite Village",
+              "Curry Village",
+              "Upper Yosemite Fall",
+              "Lower Yosemite Fall"
+            ],
+            "spatial": {
+              "useful": true,
+              "width": 375,
+              "height": 426,
+              "visible_markers": 1,
+              "markers_in_viewport": 1,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "region_then_date_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 375,
+              "height": 426,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "date_then_region_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 375,
+              "height": 426,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "yosemite_nonempty_recovery": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/7"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 3,
+            "photo_marker_elements": 3,
+            "route_features": 1,
+            "camera": {
+              "center": [
+                -119.63344799999999,
+                37.736674489549884
+              ],
+              "zoom": 11.432519713245666
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 375,
+              "height": 426,
+              "visible_markers": 3,
+              "markers_in_viewport": 3,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 333,
+              "content_occupancy_ratio": 0.3626
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "overall_empty_fallback": {
+          "snapshot": {
+            "task": {
+              "region": "overall",
+              "date": "10/12"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · 전체",
+            "expected_region_label": "전체",
+            "selected_region_control_label": "전체",
+            "day_empty_text": "",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "expected_region_camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 375,
+              "height": 426,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "failures": []
+      },
+      "comparison_chrome_count": 0,
+      "comparison_chrome_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected_counts": {
+        "visible_markers": 4,
+        "route_features": 1
+      },
+      "paths": {
+        "pointer": {
+          "path": "pointer",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 375,
+              "height": 426,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0012
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 375,
+              "height": 426,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1417
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        },
+        "keyboard": {
+          "path": "keyboard",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 375,
+              "height": 426,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0012
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 375,
+              "height": 426,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1417
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        },
+        "touch": {
+          "path": "touch",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 375,
+              "height": 426,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0012
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 375,
+              "height": 426,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1417
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        }
+      },
+      "screenshots": [],
+      "page_errors": [],
+      "pass": true
+    },
+    "390x844": {
+      "baseline_task": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/8",
+        "region": "yosemite",
+        "selected": null
+      },
+      "task_after_controls": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/8",
+        "region": "yosemite",
+        "selected": null
+      },
+      "baseline_context": {
+        "map_present": true,
+        "provider": "vector",
+        "app_ready": true,
+        "map_visual_ready": true,
+        "canvas_count": 1,
+        "style_loaded": true,
+        "map_moving": false,
+        "visible_markers": 4,
+        "route_features": 1,
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 4,
+          "markers_in_viewport": 4,
+          "route_features": 1,
+          "route_features_in_viewport": 1,
+          "route_points_in_viewport": 80,
+          "content_occupancy_ratio": 0.1424
+        },
+        "map_obstacles": 1,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/8",
+          "region": "yosemite",
+          "selected": null
+        },
+        "comparison_chrome_count": 0,
+        "style_readiness": {
+          "initial_style_loaded": true,
+          "initial_map_moving": false,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
+          "timeout_ms": 5000,
+          "wait_error": null
+        },
+        "initial_failures": [],
+        "failures": [],
+        "valid": true
+      },
+      "fit_context": {
+        "map_present": true,
+        "provider": "vector",
+        "app_ready": true,
+        "map_visual_ready": true,
+        "canvas_count": 1,
+        "style_loaded": true,
+        "map_moving": false,
+        "visible_markers": 4,
+        "route_features": 1,
+        "spatial": {
+          "useful": true,
+          "width": 390,
+          "height": 444,
+          "visible_markers": 4,
+          "markers_in_viewport": 4,
+          "route_features": 1,
+          "route_features_in_viewport": 1,
+          "route_points_in_viewport": 80,
+          "content_occupancy_ratio": 0.1424
+        },
+        "map_obstacles": 1,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/8",
+          "region": "yosemite",
+          "selected": null
+        },
+        "comparison_chrome_count": 0,
+        "style_readiness": {
+          "initial_style_loaded": true,
+          "initial_map_moving": false,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
+          "timeout_ms": 5000,
+          "wait_error": null
+        },
+        "initial_failures": [],
+        "failures": [],
+        "valid": true
+      },
+      "empty_state_camera_regression": {
+        "status": "PASS",
+        "positive_nonempty_control": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/9"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 1,
+            "photo_marker_elements": 1,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -119.58982,
+                37.74648
+              ],
+              "zoom": 13.1
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [
+              "Yosemite Village",
+              "Curry Village"
+            ],
+            "spatial": {
+              "useful": true,
+              "width": 390,
+              "height": 444,
+              "visible_markers": 1,
+              "markers_in_viewport": 1,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "region_then_date_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 390,
+              "height": 444,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "date_then_region_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 390,
+              "height": 444,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "yosemite_nonempty_recovery": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/7"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 3,
+            "photo_marker_elements": 3,
+            "route_features": 1,
+            "camera": {
+              "center": [
+                -119.63344799999999,
+                37.73637360098449
+              ],
+              "zoom": 11.494270724337111
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 390,
+              "height": 444,
+              "visible_markers": 3,
+              "markers_in_viewport": 3,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 333,
+              "content_occupancy_ratio": 0.3644
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "overall_empty_fallback": {
+          "snapshot": {
+            "task": {
+              "region": "overall",
+              "date": "10/12"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · 전체",
+            "expected_region_label": "전체",
+            "selected_region_control_label": "전체",
+            "day_empty_text": "",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "expected_region_camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 390,
+              "height": 444,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "failures": []
+      },
+      "comparison_chrome_count": 0,
+      "comparison_chrome_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected_counts": {
+        "visible_markers": 4,
+        "route_features": 1
+      },
+      "paths": {
+        "pointer": {
+          "path": "pointer",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 390,
+              "height": 444,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0011
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 390,
+              "height": 444,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1424
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        },
+        "keyboard": {
+          "path": "keyboard",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 390,
+              "height": 444,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0011
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 390,
+              "height": 444,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1424
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        },
+        "touch": {
+          "path": "touch",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 390,
+              "height": 444,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0011
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 390,
+              "height": 444,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1424
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        }
+      },
+      "screenshots": [
+        "QA/CHG-232/screenshots/map_controls_390x844_single_route.png"
+      ],
+      "page_errors": [],
+      "pass": true
+    },
+    "414x896": {
+      "baseline_task": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/8",
+        "region": "yosemite",
+        "selected": null
+      },
+      "task_after_controls": {
+        "routes": [
+          "A"
+        ],
+        "primary_route": "A",
+        "date": "10/8",
+        "region": "yosemite",
+        "selected": null
+      },
+      "baseline_context": {
+        "map_present": true,
+        "provider": "vector",
+        "app_ready": true,
+        "map_visual_ready": true,
+        "canvas_count": 1,
+        "style_loaded": true,
+        "map_moving": false,
+        "visible_markers": 4,
+        "route_features": 1,
+        "spatial": {
+          "useful": true,
+          "width": 414,
+          "height": 473,
+          "visible_markers": 4,
+          "markers_in_viewport": 4,
+          "route_features": 1,
+          "route_features_in_viewport": 1,
+          "route_points_in_viewport": 80,
+          "content_occupancy_ratio": 0.1433
+        },
+        "map_obstacles": 1,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/8",
+          "region": "yosemite",
+          "selected": null
+        },
+        "comparison_chrome_count": 0,
+        "style_readiness": {
+          "initial_style_loaded": true,
+          "initial_map_moving": false,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
+          "timeout_ms": 5000,
+          "wait_error": null
+        },
+        "initial_failures": [],
+        "failures": [],
+        "valid": true
+      },
+      "fit_context": {
+        "map_present": true,
+        "provider": "vector",
+        "app_ready": true,
+        "map_visual_ready": true,
+        "canvas_count": 1,
+        "style_loaded": true,
+        "map_moving": false,
+        "visible_markers": 4,
+        "route_features": 1,
+        "spatial": {
+          "useful": true,
+          "width": 414,
+          "height": 473,
+          "visible_markers": 4,
+          "markers_in_viewport": 4,
+          "route_features": 1,
+          "route_features_in_viewport": 1,
+          "route_points_in_viewport": 80,
+          "content_occupancy_ratio": 0.1433
+        },
+        "map_obstacles": 1,
+        "task": {
+          "routes": [
+            "A"
+          ],
+          "primary_route": "A",
+          "date": "10/8",
+          "region": "yosemite",
+          "selected": null
+        },
+        "comparison_chrome_count": 0,
+        "style_readiness": {
+          "initial_style_loaded": true,
+          "initial_map_moving": false,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
+          "timeout_ms": 5000,
+          "wait_error": null
+        },
+        "initial_failures": [],
+        "failures": [],
+        "valid": true
+      },
+      "empty_state_camera_regression": {
+        "status": "PASS",
+        "positive_nonempty_control": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/9"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 1,
+            "photo_marker_elements": 1,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -119.58982,
+                37.74648
+              ],
+              "zoom": 13.1
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [
+              "Yosemite Village",
+              "Curry Village"
+            ],
+            "spatial": {
+              "useful": true,
+              "width": 414,
+              "height": 473,
+              "visible_markers": 1,
+              "markers_in_viewport": 1,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "region_then_date_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 414,
+              "height": 473,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "date_then_region_empty": {
+          "snapshot": {
+            "task": {
+              "region": "sf",
+              "date": "10/6"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · SF + Marin",
+            "expected_region_label": "SF + Marin",
+            "selected_region_control_label": "SF + Marin",
+            "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "expected_region_camera": {
+              "center": [
+                -122.44,
+                37.79
+              ],
+              "zoom": 10.25
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 414,
+              "height": 473,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "yosemite_nonempty_recovery": {
+          "snapshot": {
+            "task": {
+              "region": "yosemite",
+              "date": "10/7"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · Yosemite",
+            "expected_region_label": "Yosemite",
+            "selected_region_control_label": "Yosemite",
+            "day_empty_text": "",
+            "visible_markers": 3,
+            "photo_marker_elements": 3,
+            "route_features": 1,
+            "camera": {
+              "center": [
+                -119.63344799999999,
+                37.735941327522966
+              ],
+              "zoom": 11.587883775108603
+            },
+            "expected_region_camera": {
+              "center": [
+                -119.61,
+                37.66
+              ],
+              "zoom": 8.65
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": true,
+              "width": 414,
+              "height": 473,
+              "visible_markers": 3,
+              "markers_in_viewport": 3,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 333,
+              "content_occupancy_ratio": 0.3669
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "overall_empty_fallback": {
+          "snapshot": {
+            "task": {
+              "region": "overall",
+              "date": "10/12"
+            },
+            "language": "ko",
+            "map_summary": "Smart · 로컬 · 전체",
+            "expected_region_label": "전체",
+            "selected_region_control_label": "전체",
+            "day_empty_text": "",
+            "visible_markers": 0,
+            "photo_marker_elements": 0,
+            "route_features": 0,
+            "camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "expected_region_camera": {
+              "center": [
+                -121.25,
+                37.28
+              ],
+              "zoom": 5.8
+            },
+            "rendered_yosemite_labels": [],
+            "spatial": {
+              "useful": false,
+              "width": 414,
+              "height": 473,
+              "visible_markers": 0,
+              "markers_in_viewport": 0,
+              "route_features": 0,
+              "route_features_in_viewport": 0,
+              "route_points_in_viewport": 0,
+              "content_occupancy_ratio": 0
+            },
+            "canvas_count": 1,
+            "map_creations": 1,
+            "map_removals": 0
+          },
+          "failures": []
+        },
+        "failures": []
+      },
+      "comparison_chrome_count": 0,
+      "comparison_chrome_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected_counts": {
+        "visible_markers": 4,
+        "route_features": 1
+      },
+      "paths": {
+        "pointer": {
+          "path": "pointer",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 414,
+              "height": 473,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0029
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 414,
+              "height": 473,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1433
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        },
+        "keyboard": {
+          "path": "keyboard",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 414,
+              "height": 473,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0029
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 414,
+              "height": 473,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1433
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        },
+        "touch": {
+          "path": "touch",
+          "opened": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 414,
+              "height": 473,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.0029
+            },
+            "map_obstacles": 2,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "closed": {
+            "map_present": true,
+            "provider": "vector",
+            "app_ready": true,
+            "map_visual_ready": true,
+            "canvas_count": 1,
+            "style_loaded": true,
+            "map_moving": false,
+            "visible_markers": 4,
+            "route_features": 1,
+            "spatial": {
+              "useful": true,
+              "width": 414,
+              "height": 473,
+              "visible_markers": 4,
+              "markers_in_viewport": 4,
+              "route_features": 1,
+              "route_features_in_viewport": 1,
+              "route_points_in_viewport": 80,
+              "content_occupancy_ratio": 0.1433
+            },
+            "map_obstacles": 1,
+            "task": {
+              "routes": [
+                "A"
+              ],
+              "primary_route": "A",
+              "date": "10/8",
+              "region": "yosemite",
+              "selected": null
+            },
+            "comparison_chrome_count": 0,
+            "style_readiness": {
+              "initial_style_loaded": true,
+              "initial_map_moving": false,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
+              "timeout_ms": 5000,
+              "wait_error": null
+            },
+            "initial_failures": [],
+            "failures": [],
+            "valid": true
+          },
+          "task_preserved": true,
+          "focus_returned": true,
+          "panel_closed": true
+        }
+      },
+      "screenshots": [
+        "QA/CHG-232/screenshots/map_controls_414x896_single_route.png"
+      ],
+      "page_errors": [],
+      "pass": true
+    }
+  },
+  "failures": [],
+  "errors": [],
+  "screenshots": [
+    {
+      "path": "QA/CHG-232/screenshots/map_controls_390x844_single_route.png",
+      "candidate": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+      "candidate_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+      "browser": "chromium",
+      "viewport": "390x844",
+      "state": "single-route Yosemite map controls"
+    },
+    {
+      "path": "QA/CHG-232/screenshots/map_controls_414x896_single_route.png",
+      "candidate": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+      "candidate_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+      "browser": "chromium",
+      "viewport": "414x896",
+      "state": "single-route Yosemite map controls"
+    }
+  ],
+  "negative_control": {
+    "route_comparison_ui_absent": true
+  },
+  "candidate": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+  "candidate_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+  "candidate_binding": "exact-clean-checkout"
+}

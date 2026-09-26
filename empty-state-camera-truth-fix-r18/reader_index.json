@@ -1,0 +1,440 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "operation": "FIX",
+  "base": {
+    "ref": "main",
+    "commit": "fc195b1191fe4a430db0747b4264b8d036b6a48d"
+  },
+  "subject": {
+    "commit": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+    "tree": "35fce613d2f1b01329b2dc502f82c22fdc628172"
+  },
+  "browser": {
+    "headless": true,
+    "name": "Chromium",
+    "version": "151.0.7922.34"
+  },
+  "capture_tool": {
+    "name": "Playwright",
+    "version": "installed Python Playwright; version not exported by package root"
+  },
+  "screenshots": [
+    {
+      "id": "canonical_no_results_1440x900",
+      "path": "images/canonical_no_results_1440x900.png",
+      "source_file": "QA/CHG-232/visual/screenshots/canonical_no_results_1440x900.png",
+      "subject_commit": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+      "subject_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+      "browser": "Chromium",
+      "browser_version": "151.0.7922.34",
+      "capture_tool": "Playwright",
+      "capture_tool_version": "installed Python Playwright; version not exported by package root",
+      "rendering": "served",
+      "viewport": "1440x900",
+      "pixel_dimensions": [
+        1440,
+        900
+      ],
+      "language": "ko",
+      "theme": "light",
+      "mode": "day",
+      "state": "SF + 10/6 no-results",
+      "profile": "canonical-anchor",
+      "profile_detail": "R17 region then date ordering; Yosemite 10/9 predecessor context",
+      "task_purpose": "no-results handling",
+      "byte_size": 469663,
+      "sha256": "a5a2f47cfd80bb15ec42c507c3c1d362b8fa9385cea1fbb7bf263bb7555043b1",
+      "empty_state_metrics": null
+    },
+    {
+      "id": "empty_state_sf_10-6_1440x900_ko_dark_region_then_date",
+      "path": "images/empty_state_sf_10-6_1440x900_ko_dark_region_then_date.png",
+      "source_file": "QA/CHG-232/visual/screenshots/empty_state_sf_10-6_1440x900_ko_dark_region_then_date.png",
+      "subject_commit": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+      "subject_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+      "browser": "Chromium",
+      "browser_version": "151.0.7922.34",
+      "capture_tool": "Playwright",
+      "capture_tool_version": "installed Python Playwright; version not exported by package root",
+      "rendering": "served",
+      "viewport": "1440x900",
+      "pixel_dimensions": [
+        1440,
+        900
+      ],
+      "language": "ko",
+      "theme": "dark",
+      "mode": "day",
+      "state": "SF + Marin 10/6 no-results",
+      "profile": "empty-state holdout",
+      "profile_detail": "region then date",
+      "task_purpose": "selected-region camera fallback with zero matching spatial data",
+      "byte_size": 502201,
+      "sha256": "8337694cfb7a068e80a365c188e5b0e66a00983e760c5a15bc80027a4020500d",
+      "empty_state_metrics": {
+        "task": {
+          "region": "sf",
+          "date": "10/6"
+        },
+        "visible_markers": 0,
+        "route_features": 0,
+        "camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_label": "SF + Marin",
+        "selected_region_control_label": "SF + Marin",
+        "map_summary": "Smart · 로컬 · SF + Marin",
+        "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+        "canvas_count": 1
+      }
+    },
+    {
+      "id": "empty_state_sf_10-6_1440x900_en_light_date_then_region",
+      "path": "images/empty_state_sf_10-6_1440x900_en_light_date_then_region.png",
+      "source_file": "QA/CHG-232/visual/screenshots/empty_state_sf_10-6_1440x900_en_light_date_then_region.png",
+      "subject_commit": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+      "subject_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+      "browser": "Chromium",
+      "browser_version": "151.0.7922.34",
+      "capture_tool": "Playwright",
+      "capture_tool_version": "installed Python Playwright; version not exported by package root",
+      "rendering": "served",
+      "viewport": "1440x900",
+      "pixel_dimensions": [
+        1440,
+        900
+      ],
+      "language": "en",
+      "theme": "light",
+      "mode": "day",
+      "state": "SF + Marin 10/6 no-results",
+      "profile": "empty-state holdout",
+      "profile_detail": "date then region",
+      "task_purpose": "selected-region camera fallback with zero matching spatial data",
+      "byte_size": 472584,
+      "sha256": "f8341d6d83da4fd92023a470a5a666fde245a43779ed3c1278b5994b8459c049",
+      "empty_state_metrics": {
+        "task": {
+          "region": "sf",
+          "date": "10/6"
+        },
+        "visible_markers": 0,
+        "route_features": 0,
+        "camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_label": "SF + Marin",
+        "selected_region_control_label": "SF + Marin",
+        "map_summary": "Smart · local · SF + Marin",
+        "day_empty_text": "No plan items match these conditions.",
+        "canvas_count": 1
+      }
+    },
+    {
+      "id": "empty_state_sf_10-6_1440x900_en_dark_date_then_region",
+      "path": "images/empty_state_sf_10-6_1440x900_en_dark_date_then_region.png",
+      "source_file": "QA/CHG-232/visual/screenshots/empty_state_sf_10-6_1440x900_en_dark_date_then_region.png",
+      "subject_commit": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+      "subject_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+      "browser": "Chromium",
+      "browser_version": "151.0.7922.34",
+      "capture_tool": "Playwright",
+      "capture_tool_version": "installed Python Playwright; version not exported by package root",
+      "rendering": "served",
+      "viewport": "1440x900",
+      "pixel_dimensions": [
+        1440,
+        900
+      ],
+      "language": "en",
+      "theme": "dark",
+      "mode": "day",
+      "state": "SF + Marin 10/6 no-results",
+      "profile": "empty-state holdout",
+      "profile_detail": "date then region",
+      "task_purpose": "selected-region camera fallback with zero matching spatial data",
+      "byte_size": 503263,
+      "sha256": "56759473d23c961f23368dc19104f7a9f1b8cd232162eda148d1dd896a1f9ab4",
+      "empty_state_metrics": {
+        "task": {
+          "region": "sf",
+          "date": "10/6"
+        },
+        "visible_markers": 0,
+        "route_features": 0,
+        "camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_label": "SF + Marin",
+        "selected_region_control_label": "SF + Marin",
+        "map_summary": "Smart · local · SF + Marin",
+        "day_empty_text": "No plan items match these conditions.",
+        "canvas_count": 1
+      }
+    },
+    {
+      "id": "empty_state_sf_10-6_390x844_ko_light_date_then_region",
+      "path": "images/empty_state_sf_10-6_390x844_ko_light_date_then_region.png",
+      "source_file": "QA/CHG-232/visual/screenshots/empty_state_sf_10-6_390x844_ko_light_date_then_region.png",
+      "subject_commit": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+      "subject_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+      "browser": "Chromium",
+      "browser_version": "151.0.7922.34",
+      "capture_tool": "Playwright",
+      "capture_tool_version": "installed Python Playwright; version not exported by package root",
+      "rendering": "served",
+      "viewport": "390x844",
+      "pixel_dimensions": [
+        390,
+        844
+      ],
+      "language": "ko",
+      "theme": "light",
+      "mode": "day",
+      "state": "SF + Marin 10/6 no-results",
+      "profile": "empty-state holdout",
+      "profile_detail": "date then region",
+      "task_purpose": "selected-region camera fallback with zero matching spatial data",
+      "byte_size": 137856,
+      "sha256": "848e4e64083d27d9b944893673e02d15738632a421295e2e58df3e573614abbe",
+      "empty_state_metrics": {
+        "task": {
+          "region": "sf",
+          "date": "10/6"
+        },
+        "visible_markers": 0,
+        "route_features": 0,
+        "camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_label": "SF + Marin",
+        "selected_region_control_label": "SF + Marin",
+        "map_summary": "Smart · 로컬 · SF + Marin",
+        "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+        "canvas_count": 1
+      }
+    },
+    {
+      "id": "empty_state_sf_10-6_390x844_ko_dark_region_then_date",
+      "path": "images/empty_state_sf_10-6_390x844_ko_dark_region_then_date.png",
+      "source_file": "QA/CHG-232/visual/screenshots/empty_state_sf_10-6_390x844_ko_dark_region_then_date.png",
+      "subject_commit": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+      "subject_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+      "browser": "Chromium",
+      "browser_version": "151.0.7922.34",
+      "capture_tool": "Playwright",
+      "capture_tool_version": "installed Python Playwright; version not exported by package root",
+      "rendering": "served",
+      "viewport": "390x844",
+      "pixel_dimensions": [
+        390,
+        844
+      ],
+      "language": "ko",
+      "theme": "dark",
+      "mode": "day",
+      "state": "SF + Marin 10/6 no-results",
+      "profile": "empty-state holdout",
+      "profile_detail": "region then date",
+      "task_purpose": "selected-region camera fallback with zero matching spatial data",
+      "byte_size": 149471,
+      "sha256": "31a95987b87afc68342cc2e11d97256a052a71f79b3c36fddf1a9bff39a4d9de",
+      "empty_state_metrics": {
+        "task": {
+          "region": "sf",
+          "date": "10/6"
+        },
+        "visible_markers": 0,
+        "route_features": 0,
+        "camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_label": "SF + Marin",
+        "selected_region_control_label": "SF + Marin",
+        "map_summary": "Smart · 로컬 · SF + Marin",
+        "day_empty_text": "현재 조건에 맞는 일정이 없습니다.",
+        "canvas_count": 1
+      }
+    },
+    {
+      "id": "empty_state_sf_10-6_390x844_en_light_region_then_date",
+      "path": "images/empty_state_sf_10-6_390x844_en_light_region_then_date.png",
+      "source_file": "QA/CHG-232/visual/screenshots/empty_state_sf_10-6_390x844_en_light_region_then_date.png",
+      "subject_commit": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+      "subject_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+      "browser": "Chromium",
+      "browser_version": "151.0.7922.34",
+      "capture_tool": "Playwright",
+      "capture_tool_version": "installed Python Playwright; version not exported by package root",
+      "rendering": "served",
+      "viewport": "390x844",
+      "pixel_dimensions": [
+        390,
+        844
+      ],
+      "language": "en",
+      "theme": "light",
+      "mode": "day",
+      "state": "SF + Marin 10/6 no-results",
+      "profile": "empty-state holdout",
+      "profile_detail": "region then date",
+      "task_purpose": "selected-region camera fallback with zero matching spatial data",
+      "byte_size": 136048,
+      "sha256": "971091807351ec4a9e3183595792381f5196c0a253313b8cd062ba3d3109e773",
+      "empty_state_metrics": {
+        "task": {
+          "region": "sf",
+          "date": "10/6"
+        },
+        "visible_markers": 0,
+        "route_features": 0,
+        "camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_label": "SF + Marin",
+        "selected_region_control_label": "SF + Marin",
+        "map_summary": "Smart · local · SF + Marin",
+        "day_empty_text": "No plan items match these conditions.",
+        "canvas_count": 1
+      }
+    },
+    {
+      "id": "empty_state_sf_10-6_390x844_en_dark_date_then_region",
+      "path": "images/empty_state_sf_10-6_390x844_en_dark_date_then_region.png",
+      "source_file": "QA/CHG-232/visual/screenshots/empty_state_sf_10-6_390x844_en_dark_date_then_region.png",
+      "subject_commit": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+      "subject_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+      "browser": "Chromium",
+      "browser_version": "151.0.7922.34",
+      "capture_tool": "Playwright",
+      "capture_tool_version": "installed Python Playwright; version not exported by package root",
+      "rendering": "served",
+      "viewport": "390x844",
+      "pixel_dimensions": [
+        390,
+        844
+      ],
+      "language": "en",
+      "theme": "dark",
+      "mode": "day",
+      "state": "SF + Marin 10/6 no-results",
+      "profile": "empty-state holdout",
+      "profile_detail": "date then region",
+      "task_purpose": "selected-region camera fallback with zero matching spatial data",
+      "byte_size": 145182,
+      "sha256": "f1190e1be1211408b9fe2442f088d30e437ae2b394e814e35c0ec8b244593db8",
+      "empty_state_metrics": {
+        "task": {
+          "region": "sf",
+          "date": "10/6"
+        },
+        "visible_markers": 0,
+        "route_features": 0,
+        "camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_camera": {
+          "center": [
+            -122.44,
+            37.79
+          ],
+          "zoom": 10.25
+        },
+        "expected_region_label": "SF + Marin",
+        "selected_region_control_label": "SF + Marin",
+        "map_summary": "Smart · local · SF + Marin",
+        "day_empty_text": "No plan items match these conditions.",
+        "canvas_count": 1
+      }
+    }
+  ],
+  "primary_reports": [
+    {
+      "path": "structured/route_key_camera.json",
+      "purpose": "Mechanistic camera, empty-state and recovery regression output."
+    },
+    {
+      "path": "structured/standalone.json",
+      "purpose": "R16 direct-open positive and negative controls."
+    },
+    {
+      "path": "structured/qualification_summary.json",
+      "purpose": "Exact-candidate suite status and remaining external verification boundaries."
+    },
+    {
+      "path": "structured/empty_state_visual_holdouts.json",
+      "purpose": "Exact-candidate visual screenshot metadata and camera/label/empty assertions."
+    }
+  ]
+}

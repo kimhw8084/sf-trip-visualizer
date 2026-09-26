@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "change": "CHG-65",
+  "operation": "FIX",
+  "candidate": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+  "candidate_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+  "qualification": "PASS",
+  "gate5": "VERIFY_REQUIRED",
+  "component_tests": {
+    "public_asset_rights": "PASS",
+    "canonical_truth": "PASS",
+    "photo_integrity": "PASS",
+    "maplibre_security": "PASS",
+    "map_first_smoke": "PASS",
+    "decision_workbench": "PASS",
+    "accessibility_reflow": "PASS",
+    "map_geometry": "PASS",
+    "sheet_geometry": "PASS",
+    "route_key_camera": "PASS",
+    "map_first_full": "PASS",
+    "map_first_p0": "PASS",
+    "standalone": "PASS",
+    "location_gap": "PASS",
+    "interaction_dynamics": "PASS",
+    "route_continuity": "PASS",
+    "matched_comparison": "PASS",
+    "route_panel": "PASS",
+    "place_list_membership": "PASS",
+    "exhaustive_states": "PASS",
+    "cross_browser": "PASS",
+    "visual_spots": "PASS",
+    "gate4_runtime": "PASS",
+    "gate5_field_quality": "VERIFY_REQUIRED"
+  },
+  "gate5_external_boundaries": [
+    "native Safari remote automation is unavailable; Playwright WebKit is not a native Safari substitute",
+    "no verifiably real iPhone or iPad is available in this execution environment",
+    "independent candidate-bound multimodal visual/usability review is not supplied",
+    "matched exact-main-versus-candidate performance remained directionally noisy after balanced repeated sampling"
+  ],
+  "matched_performance_comparison": "VERIFY_REQUIRED",
+  "standalone_file_origin": {
+    "status": "PASS",
+    "positive": "PASS",
+    "negative_control": "PASS"
+  },
+  "camera_regression": "PASS",
+  "visual_holdouts": 8,
+  "native_safari_or_real_device_claimed": false
+}

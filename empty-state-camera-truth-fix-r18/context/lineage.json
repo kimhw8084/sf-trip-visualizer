@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "project": "sf-trip-visualizer",
+  "change": "CHG-65",
+  "operation": "FIX",
+  "repository": "kimhw8084/sf-trip-visualizer",
+  "base_authority": {
+    "ref": "main",
+    "commit": "fc195b1191fe4a430db0747b4264b8d036b6a48d"
+  },
+  "preserved_predecessor": {
+    "candidate": "6ea2619659ecc3b3cfb1f0797bebef70e0d55d96",
+    "tree": "37e979ac8514aff35612eea03a7919b655e846a8",
+    "r16_r17_product_source_unchanged_in_r17": true
+  },
+  "r17_finding": {
+    "fabric_job_id": "CF-9fee33200be3a3453eaa4cb3",
+    "artifact_run": "AR-82",
+    "carrier_commit": "7859a1e542b52a459e2259745a97876c620f0946",
+    "finding": "SF + Marin / 10/6 empty UI retained Yosemite camera after region then date filtering."
+  },
+  "repaired_candidate": {
+    "branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-empty-state-camera-truth-fix-r18",
+    "commit": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+    "tree": "35fce613d2f1b01329b2dc502f82c22fdc628172"
+  },
+  "changed_product_files": [
+    "src/app_phase7.js",
+    "scripts/qa_route_key_camera.py",
+    "scripts/run_visual_spots.py",
+    "manifests/public_asset_rights.json"
+  ],
+  "data_phase7_app_data_unchanged": true,
+  "integration_or_deployment": "not performed",
+  "artifact_review_state": "published for review; not self-accepted or promoted"
+}
