@@ -39,7 +39,7 @@ def new_page(browser, viewport: tuple[int, int]):
 
 def settle_map(page) -> None:
     page.evaluate("window.__tripApp.whenIdle()")
-    page.wait_for_function("window.__tripApp?.map()?.loaded() && !window.__tripApp.map().isMoving()", timeout=10000)
+    page.wait_for_function("window.__tripApp?.map()?.areTilesLoaded?.() === true && !window.__tripApp.map().isMoving()", timeout=10000)
     page.evaluate("new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))")
 
 

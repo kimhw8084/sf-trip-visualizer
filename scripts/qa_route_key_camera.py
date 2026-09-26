@@ -38,7 +38,7 @@ def map_context(page) -> dict:
 
 def settle_map(page) -> None:
     page.evaluate("window.__tripApp.whenIdle()")
-    page.wait_for_function("window.__tripApp?.map()?.loaded() && !window.__tripApp.map().isMoving()", timeout=10000)
+    page.wait_for_function("window.__tripApp?.map()?.areTilesLoaded?.() === true && !window.__tripApp.map().isMoving()", timeout=10000)
     page.evaluate("new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))")
 
 
@@ -51,14 +51,14 @@ def camera_snapshot(page) -> dict:
         task:{region:task.region,date:task.date},
         language:document.documentElement.lang,
         map_summary:document.querySelector('#mapCurrentSummary')?.textContent?.trim()||'',
-        expected_region_label:region[document.documentElement.lang==='ko'?'label':'label_en']||task.region,
+        expected_region_label:task.region==='overall'?(document.documentElement.lang==='ko'?region.label_ko:region.label):(region[document.documentElement.lang==='ko'?'label':'label_en']||task.region),
         day_empty_text:empty?.innerText?.trim()||'',
         visible_markers:a.DATA.markers.filter(marker=>a.markerVisible(marker,{map:true})).length,
         photo_marker_elements:document.querySelectorAll('#map .photo-marker').length,
         route_features:a.visibleRouteFeatures().length,
         camera:{center:[center.lng,center.lat],zoom:m.getZoom()},
         expected_region_camera:{center:[region.center.lon,region.center.lat],zoom:region.zoom},
-        rendered_yosemite_labels:[...new Set(labels.filter(value=>/yosemite|curry village/i.test(value)))],
+        rendered_yosemite_labels:[...new Set(labels.filter(value=>/^(Yosemite Valley|Yosemite Village|Curry Village|Upper Yosemite Fall|Lower Yosemite Fall)$/i.test(value)))],
         spatial:a.mapSpatialSnapshot(),
         canvas_count:document.querySelectorAll('.maplibregl-canvas').length,
         map_creations:a.state.runtime.mapCreations,
