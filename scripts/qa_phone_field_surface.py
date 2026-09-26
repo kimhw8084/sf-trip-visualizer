@@ -80,6 +80,7 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
     identity = candidate_identity(expected_revision)
     if expected_revision and identity["sha"] != expected_revision:
         raise RuntimeError(f"Screenshot candidate mismatch: expected {expected_revision}, found {identity['sha']}")
+    output = output if output.is_absolute() else ROOT / output
     active = load_package(DEFAULT_PACKAGE)
     fixture = load_package(FIXTURE_PACKAGE)
     active_standalone = ROOT / ".build" / "standalone" / f"{active['slug']}-standalone.html"
