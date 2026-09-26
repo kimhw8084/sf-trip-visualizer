@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "kind": "codex_fabric_durability_verification",
+  "status": "PASS",
+  "accepted_at": "2026-09-26T16:23:59Z",
+  "project": "sf-trip-visualizer",
+  "project_id": "sf-trip-visualizer",
+  "request": "field-ux-a11y-performance-g5-durability-verify-r19",
+  "operation": "VERIFY",
+  "base": "fc195b1191fe4a430db0747b4264b8d036b6a48d",
+  "work_branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-durability-verify-r19",
+  "candidate": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+  "candidate_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+  "current_target": {
+    "branch": "main",
+    "sha": "fc195b1191fe4a430db0747b4264b8d036b6a48d",
+    "unchanged": true
+  },
+  "git": {
+    "base_is_ancestor": true,
+    "base_sha": "fc195b1191fe4a430db0747b4264b8d036b6a48d",
+    "branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-durability-verify-r19",
+    "detached_verify": false,
+    "head_sha": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+    "remote_exact_head": true,
+    "remote_head_sha": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+    "target_branch": "main",
+    "target_sha": "fc195b1191fe4a430db0747b4264b8d036b6a48d",
+    "work_branch": "codex/sf-trip-visualizer-field-ux-a11y-performance-g5-durability-verify-r19",
+    "worktree_clean": true
+  },
+  "qualification": {
+    "candidate_head": "b260a0b4c38220f89af2e3b6772c46b5afc63c42",
+    "candidate_tree": "35fce613d2f1b01329b2dc502f82c22fdc628172",
+    "candidate_binding": "exact-clean-checkout",
+    "fast_status": "PASS",
+    "full_status": "PASS",
+    "authored_inputs_unchanged": true,
+    "route_key_camera": {
+      "status": "PASS",
+      "viewports": [
+        "360x800",
+        "375x812",
+        "390x844",
+        "414x896"
+      ],
+      "empty_state_camera_regression": "PASS",
+      "filter_orders": [
+        "region_then_date",
+        "date_then_region"
+      ],
+      "yosemite_nonempty_recovery": "PASS"
+    },
+    "standalone_status": "PASS",
+    "gate5_contract_tests": {
+      "status": "PASS",
+      "tests": 12
+    },
+    "component_statuses": {
+      "public_asset_rights": "PASS",
+      "canonical_truth": "PASS",
+      "photo_integrity": "PASS",
+      "maplibre_security": "PASS",
+      "map_first_smoke": "PASS",
+      "decision_workbench": "PASS",
+      "accessibility_reflow": "PASS",
+      "map_geometry": "PASS",
+      "sheet_geometry": "PASS",
+      "route_key_camera": "PASS",
+      "map_first_full": "PASS",
+      "map_first_p0": "PASS",
+      "standalone": "PASS",
+      "location_gap": "PASS",
+      "interaction_dynamics": "PASS",
+      "route_continuity": "PASS",
+      "matched_comparison": "PASS",
+      "route_panel": "PASS",
+      "place_list_membership": "PASS",
+      "exhaustive_states": "PASS",
+      "cross_browser": "PASS",
+      "visual_spots": "PASS",
+      "gate4_runtime": "PASS",
+      "gate5_field_quality": "VERIFY_REQUIRED"
+    },
+    "gate5": {
+      "status": "VERIFY_REQUIRED",
+      "failures": [],
+      "reported_external_boundaries": [
+        "native Safari remote automation is unavailable; Playwright WebKit is not a native Safari substitute",
+        "no verifiably real iPhone or iPad is available in this execution environment",
+        "independent candidate-bound multimodal visual/usability review is not supplied"
+      ]
+    },
+    "performance": {
+      "status": "PAIRED",
+      "comparison_status": "PASS",
+      "sample_count_per_variant": 8,
+      "material_slowdown_200ms_samples": {
+        "dom_content_ms": 0,
+        "smart_style_ready_ms": 0,
+        "first_actionable_state_ms": 0
+      },
+      "baseline_revision": "7d5d8727b1772642e87311d91d087e211656f6e4",
+      "baseline_tree": "ede888516de0dc9c8554036435ae9f8034aaea4f"
+    }
+  },
+  "external_review": {
+    "project_os_visual_review": "ACCEPTED",
+    "basis": "Prior R18 Project OS review specified in the verification request: repaired desktop/mobile empty-state pixels and direct-open Smart plus Satellite-failure-recovery holdouts; no material visual regression. The local Gate 5 runner did not ingest that external review artifact."
+  },
+  "scope": {
+    "product_source_changed": false,
+    "tests_changed": false,
+    "manifest_or_workflow_changed": false,
+    "canonical_trip_data_changed": false,
+    "authored_runtime_changed": false,
+    "merged": false,
+    "deployed": false,
+    "production_readiness_claimed": false
+  },
+  "evidence_ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/field-ux-a11y-performance-g5-durability-verify-r19"
+}
