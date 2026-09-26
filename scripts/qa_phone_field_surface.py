@@ -83,6 +83,10 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
     output = output if output.is_absolute() else ROOT / output
     active = load_package(DEFAULT_PACKAGE)
     fixture = load_package(FIXTURE_PACKAGE)
+    route_day = next(
+        day["key"] for day in active["data"]["dates"]
+        if any(leg.get("date") == day["key"] and leg.get("mode") in {"drive", "walk"} for leg in active["data"]["legs"])
+    )
     active_vector_provider = active["vector_provider_id"]
     fixture_vector_provider = fixture["vector_provider_id"]
     active_standalone = ROOT / ".build" / "standalone" / f"{active['slug']}-standalone.html"
@@ -114,6 +118,10 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
         context, page = open_surface("sf_390", sf_url, (390, 844))
         sf390 = inspect_page(page, active, mobile=True)
         screenshot(page, "sf-mobile-390x844-ko-light.png", (390, 844), screenshots, "first-use Day view, active package")
+        page.locator("#dateSelect").select_option(route_day)
+        page.wait_for_function("()=>window.__tripApp.state.runtime.mapVisualReady && window.__tripApp.mapSpatialSnapshot().route_features_in_viewport>0")
+        sf_route_390 = inspect_page(page, active, mobile=True)
+        screenshot(page, "sf-mobile-route-day-390x844-ko-light.png", (390, 844), screenshots, "selected SF day with local route geometry and day plan")
         place_day = active["data"]["dates"][1]["key"]
         page.locator("#dateSelect").select_option(place_day)
         page.locator("#modeNav [data-mode='place']").click()
@@ -140,11 +148,16 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
         page.wait_for_timeout(120)
         sf320 = inspect_page(page, active, mobile=True)
         screenshot(page, "sf-mobile-320x800-en-dark.png", (320, 800), screenshots, "first-use Day view, English dark theme")
+        page.locator("#dateSelect").select_option(route_day)
+        page.wait_for_function("()=>window.__tripApp.state.runtime.mapVisualReady && window.__tripApp.mapSpatialSnapshot().route_features_in_viewport>0")
+        sf_route_320 = inspect_page(page, active, mobile=True)
+        screenshot(page, "sf-mobile-route-day-320x800-en-dark.png", (320, 800), screenshots, "selected SF day with local route geometry, English dark theme")
         context.close()
 
         context, page = open_surface("sf_desktop", sf_url, (1440, 900), mobile=False)
         page.locator("#modeNav [data-mode='day']").click()
-        page.locator("#dateSelect").select_option(active["data"]["dates"][0]["key"])
+        page.locator("#dateSelect").select_option(route_day)
+        page.wait_for_function("()=>window.__tripApp.state.runtime.mapVisualReady && window.__tripApp.mapSpatialSnapshot().route_features_in_viewport>0")
         page.wait_for_timeout(120)
         desktop = inspect_page(page, active, mobile=False)
         screenshot(page, "sf-desktop-1440x900-ko-light.png", (1440, 900), screenshots, "selected day with map and route context")
@@ -221,6 +234,11 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
         context.close()
         browser.close()
     sf_ok = all(not row["horizontal_overflow"] and row["mobile_first_use_day"] and row["map_canvas_count"] == 1 and row["next_item_visible_px"] >= 48 for row in (sf390, sf320))
+    route_surface_ok = all(
+        row["date"] == route_day and row["route_features"] > 0 and row["map_markers"] > 0
+        and not row["horizontal_overflow"] and row["next_item_visible_px"] >= 48
+        for row in (sf_route_390, sf_route_320)
+    )
     fixture_provider_ok = fixture_raster_recovery["provider"] == fixture_vector_provider and fixture_raster_recovery["map_ready"] and fixture_raster_recovery["local_assets"] == "ready" and fixture_raster_recovery["error"]
     fixture_ok = fixture_surface["mobile_first_use_day"] and fixture_surface["fixture_notice"] and fixture_surface["map_canvas_count"] == 1 and fixture_surface["next_item_visible_px"] >= 48 and filters["fixture"]["pass"] and fixture_provider_ok
     place_ok = len(place_context["photos"]) == 3 and all(photo["complete"] for photo in place_context["photos"])
@@ -228,17 +246,17 @@ def run(expected_revision: str | None = None, output: Path = OUT) -> dict:
     page_errors = {name: messages for name, messages in errors.items() if messages}
     if page_errors:
         raise RuntimeError("Field surface browser errors: " + json.dumps(page_errors, ensure_ascii=False))
-    if not (sf_ok and fixture_ok and place_ok and recovery_ok and not desktop["horizontal_overflow"]):
-        raise RuntimeError("Field surface oracle failed: " + json.dumps({"sf390": sf390, "sf320": sf320, "place": place_context, "fixture": fixture_surface, "filters": filters, "recovery": recovery}, ensure_ascii=False))
+    if not (sf_ok and route_surface_ok and fixture_ok and place_ok and recovery_ok and not desktop["horizontal_overflow"]):
+        raise RuntimeError("Field surface oracle failed: " + json.dumps({"sf390": sf390, "sf320": sf320, "sf_route_390": sf_route_390, "sf_route_320": sf_route_320, "place": place_context, "fixture": fixture_surface, "filters": filters, "recovery": recovery}, ensure_ascii=False))
     report = {
         "schema_version": 1, "status": "PASS", "candidate_head": identity["sha"], "candidate_tree": identity["tree"],
         "active_package": active["trip_identity"], "fixture_package": fixture["trip_identity"],
         "fixture_build": {"path": str(FIXTURE_BUILD.relative_to(ROOT)), "manifest_sha256": sha256(FIXTURE_BUILD / "build_manifest.json"), "artifact": fixture_manifest["standalone"]["path"]},
         "screenshots": screenshots,
-        "surfaces": {"sf_390x844": sf390, "sf_320x800": sf320, "sf_place_390x844": place_context, "sf_desktop_1440x900": desktop, "fixture_390x844": fixture_surface, "provider_failure_recovery": recovery},
+        "surfaces": {"sf_390x844": sf390, "sf_320x800": sf320, "sf_route_390x844": sf_route_390, "sf_route_320x800": sf_route_320, "sf_place_390x844": place_context, "sf_desktop_1440x900": desktop, "fixture_390x844": fixture_surface, "provider_failure_recovery": recovery},
         "fixture_filter_and_photo_proof": filters,
         "fixture_provider_failure_recovery": fixture_raster_recovery,
-        "checks": {"sf_phone_first_use": sf_ok, "sf_place_photos_local": place_ok, "fixture_same_renderer_build_and_run": fixture_ok, "fixture_route_date_region_filters": filters["fixture"]["pass"], "fixture_provider_policy_and_recovery": fixture_provider_ok, "provider_failure_recovers_to_local_map": recovery_ok, "desktop_no_overflow": not desktop["horizontal_overflow"], "browser_errors": not page_errors},
+        "checks": {"sf_phone_first_use": sf_ok, "sf_mobile_route_context": route_surface_ok, "sf_place_photos_local": place_ok, "fixture_same_renderer_build_and_run": fixture_ok, "fixture_route_date_region_filters": filters["fixture"]["pass"], "fixture_provider_policy_and_recovery": fixture_provider_ok, "provider_failure_recovers_to_local_map": recovery_ok, "desktop_no_overflow": not desktop["horizontal_overflow"], "browser_errors": not page_errors},
         "verification_boundaries": {"chromium_device_emulation": "executed", "native_safari": "VERIFY_REQUIRED", "real_iphone_or_ipad": "VERIFY_REQUIRED"},
     }
     output.parent.mkdir(parents=True, exist_ok=True)
