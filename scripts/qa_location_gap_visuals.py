@@ -72,6 +72,10 @@ def verify_travel_details(page, capture_name=None):
         """ids => {const b=document.getElementById(ids.button),r=document.getElementById(ids.region);return b?.getAttribute('aria-expanded')==='true' && r && !r.hidden}""",
         arg={"button": button_id, "region": region_id},
     )
+    page.wait_for_function(
+        "id => document.activeElement?.id === id",
+        arg=button_id,
+    )
     evidence = page.evaluate(
         """ids => {
           const button=document.getElementById(ids.button),region=document.getElementById(ids.region);
