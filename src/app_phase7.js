@@ -6,21 +6,21 @@
  */
 (() => {
   const DATA = window.TRIP_DATA || {};
+  const PACKAGE = window.TRIP_PACKAGE || {};
+  const VECTOR_PROVIDER = Object.keys(PACKAGE.providers || {}).find(key => PACKAGE.providers[key]?.kind === 'vector');
+  if (!VECTOR_PROVIDER) throw new Error('Trip package must declare one local vector provider.');
   const ROUTES = Object.keys(DATA.routes || {});
   const GEOMETRY = window.TRIP_ROUTE_GEOMETRY || {};
   const I18N = window.TRIP_I18N || { ko_to_en: {}, en_to_ko: {}, places: {} };
   const FRESHNESS = window.TRIP_FRESHNESS || { default_status: 'RECHECK_REQUIRED' };
   const RUNTIME_CONTRACT = window.TRIP_RUNTIME_CONTRACT || {};
   const messages = window.TRIP_ATLAS_MESSAGES;
-  const model = window.TRIP_ATLAS_STATE.create(DATA);
+  const model = window.TRIP_ATLAS_STATE.create(DATA, PACKAGE);
   const state = model.state;
   const routeMeta = DATA.routes;
   const markerByKey = Object.fromEntries((DATA.markers || []).map(item => [item.place_key, item]));
   const travelRangeById = Object.fromEntries((DATA.travel_ranges || []).map(item => [item.id, item]));
   const SAFE_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-  const SATELLITE_TILE_TEMPLATE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-  const SATELLITE_HEALTH_PROBE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655';
-  const SATELLITE_ATTRIBUTION = 'Tiles © Esri and contributors';
   const SAFE_PHOTO_ROLES = new Set(['hero', 'experience', 'scale_context']);
   const SAFE_PHOTO_VARIANTS = new Set(['thumb', 'medium']);
   let photoMap = null;
@@ -28,10 +28,11 @@
   let clusterMarkers = [];
   let legMarkers = [];
   let drawQueue = Promise.resolve();
-  let vectorUrl = 'assets/vector/sf_trip.pmtiles';
+  let vectorUrl = PACKAGE.assets?.map?.vector_archive || '';
   let renderedProvider = null;
   let renderedTheme = null;
   const MAP_SAFE_MARGIN = 16;
+  const MAP_MARKER_FOOTPRINT = 30;
   let peekHideTimer = null;
   let suppressPeekFocusKey = null;
   let mapOptionsInvoker = null;
@@ -39,7 +40,7 @@
   let geometryNeedsRefit = false;
   let geometryWaiters = [];
   let observedMapSize = null;
-  let satelliteFallbackFlight = null;
+  let rasterFallbackFlight = null;
   let smartCamera = null;
 
   const markStartup = (name, detail = {}) => {
@@ -61,11 +62,20 @@
     if (window?.status === 'DYNAMIC_NIGHT_BEFORE') return m('travelWindowDynamic');
     return m('travelWindowUnspecified');
   };
-  const formatMoney = cents => new Intl.NumberFormat(state.presentation.lang === 'ko' ? 'ko-KR' : 'en-US', { style: 'currency', currency: 'USD' }).format((Number(cents) || 0) / 100);
+  const formatMoney = cents => new Intl.NumberFormat(state.presentation.lang === 'ko' ? 'ko-KR' : 'en-US', { style: 'currency', currency: PACKAGE.currency }).format((Number(cents) || 0) / 100);
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+  const hasExplicitPort = value => {
+    const authority = String(value ?? '').match(/^https:\/\/([^/?#]*)/i)?.[1] || '';
+    const host = authority.slice(authority.lastIndexOf('@') + 1);
+    return /:\d+$/.test(host);
+  };
   const isMobile = () => window.matchMedia('(max-width:800px)').matches;
   const safeColor = value => /^#[0-9a-f]{6}$/i.test(String(value ?? '')) ? String(value) : '#72857b';
-  const photoPath = (key, role, variant) => /^[a-z0-9]+(?:_[a-z0-9]+)*$/i.test(String(key ?? '')) && SAFE_PHOTO_ROLES.has(role) && SAFE_PHOTO_VARIANTS.has(variant) ? `assets/photos/${variant}/${key}__${role}.webp` : SAFE_PIXEL;
+  const providerDisplayLabel = provider => {
+    const config = PACKAGE.providers?.[provider] || {};
+    return config[`label_${state.presentation.lang}`] || config.label || provider;
+  };
+  const photoPath = (key, role, variant) => SAFE_PHOTO_ROLES.has(role) && SAFE_PHOTO_VARIANTS.has(variant) ? PACKAGE.photo_assets?.[key]?.[role]?.[variant] || SAFE_PIXEL : SAFE_PIXEL;
   const photoSrc = path => window.EMBEDDED_PHOTOS?.[path] || path;
   const placeName = key => I18N.places[key]?.[0] || markerByKey[key]?.name || key;
   const placeKo = key => I18N.places[key]?.[1] || '';
@@ -77,7 +87,9 @@
     return `<span class="place-role role-${role.toLowerCase()}" data-role="${esc(role)}">${esc(roleLabel(role))}</span>`;
   }
   const dateLabel = value => {
-    const key = String(value || '').match(/^\d+\/\d+/)?.[0];
+    const raw = String(value || ''), exact = DATA.dates.find(item => item.key === raw);
+    if (exact) return state.presentation.lang === 'en' ? (exact.label_en || exact.label || raw) : (exact.label || raw);
+    const key = raw.match(/^\d+\/\d+/)?.[0];
     if (!key) return tr(value);
     const date = DATA.dates.find(item => item.key === key);
     return state.presentation.lang === 'en' ? (date?.label_en || key) : (date?.label || key);
@@ -140,26 +152,40 @@
   function safeExternalUrl(value) {
     try {
       const url = new URL(String(value ?? ''), document.baseURI);
-      if (url.protocol !== 'https:' || url.username || url.password || url.port || url.hash) return '';
-      if (url.hostname === 'server.arcgisonline.com' && url.pathname.startsWith('/ArcGIS/rest/services/World_Imagery/MapServer/tile/')) return url.href;
-      if (url.hostname === 'www.google.com' && url.pathname === '/maps/search/' && url.searchParams.get('api') === '1' && url.searchParams.get('query') && [...url.searchParams.keys()].every(key => key === 'api' || key === 'query')) return url.href;
+      if (url.protocol !== 'https:' || url.username || url.password || url.port || url.hash || hasExplicitPort(value)) return '';
+      const directions = PACKAGE.source_policy?.external?.directions;
+      const rule = directions?.paths?.[url.pathname];
+      const keys = [...url.searchParams.keys()];
+      if (directions?.scheme === 'https' && url.hostname === directions.host && rule && keys.every(key => directions.allowed_query.includes(key))
+        && new Set(keys).size === keys.length && (rule.required_query || []).every(key => url.searchParams.has(key))
+        && Object.entries(rule.required_values || {}).every(([key, expected]) => url.searchParams.get(key) === expected)) return url.href;
+      for (const [provider, policy] of Object.entries(PACKAGE.source_policy?.external || {})) {
+        if (provider === 'directions') continue;
+        if (url.hostname === policy.host && policy.scheme === 'https' && url.pathname.startsWith(policy.path_prefix)
+          && (!policy.allowed_query || keys.every(key => policy.allowed_query.includes(key)))) return url.href;
+      }
       return '';
     } catch { return ''; }
+  }
+  function directionUrl(kind, values) {
+    const template = PACKAGE.source_policy?.external?.directions?.links?.[kind];
+    if (!template || !values || Object.values(values).some(value => !value)) return '';
+    const candidate = template.replace(/\{([a-z]+)\}/g, (_, key) => encodeURIComponent(values[key] || ''));
+    return safeExternalUrl(candidate);
   }
   function safeOfficialSourceUrl(value) {
     try {
       const url = new URL(String(value ?? ''));
-      const hosts = new Set(['flysfo.com', 'foodwise.org', 'home.nps.gov', 'www.nps.gov', 'nps.gov', 'gomuirwoods.com', 'www.goldengate.org', 'goldengate.org', 'alcatrazcitycruises.com', 'www.sfmta.com', 'sfmta.com', 'www.goldengatefortunecookies.com', 'parks.ca.gov', 'ci.carmel.ca.us', 'www.pebblebeach.com', 'www.montereybayaquarium.org', 'gggp.org', 'www.gggp.org', 'museum.stanford.edu', 'presidio.gov']);
-      return url.protocol === 'https:' && !url.username && !url.password && !url.port && !url.hash && hosts.has(url.hostname) ? url.href : '';
+      const policy = PACKAGE.source_policy?.official_sources;
+      return url.protocol === `${policy?.scheme}:` && !url.username && !url.password && !url.port && !url.hash && !hasExplicitPort(value) && policy?.hosts?.includes(url.hostname) ? url.href : '';
     } catch { return ''; }
   }
-  function safeProviderConfig() {
-    const config = DATA.providers?.satellite;
-    return config?.tile_template === SATELLITE_TILE_TEMPLATE && config?.health_probe === SATELLITE_HEALTH_PROBE ? { tile_template: SATELLITE_TILE_TEMPLATE, health_probe: SATELLITE_HEALTH_PROBE } : null;
+  function safeProviderConfig(provider = state.runtime.provider) {
+    return PACKAGE.providers?.[provider]?.kind === 'raster' ? PACKAGE.providers[provider] : null;
   }
-  function safeProviderUrl(value) {
-    const url = safeExternalUrl(value);
-    return url && url.startsWith('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/') ? url : '';
+  function safeProviderUrl(value, provider = state.runtime.provider) {
+    const url = safeExternalUrl(value), config = PACKAGE.providers?.[provider], policy = PACKAGE.source_policy?.external?.[provider];
+    return url && config?.kind === 'raster' && policy && url.startsWith(`${policy.scheme}://${policy.host}${policy.path_prefix}`) ? url : '';
   }
   function mapFailureText(error, phase = 'runtime') {
     const detail = String(error?.message || error || 'local asset failure');
@@ -171,31 +197,32 @@
   function clearMapFeedback() {
     const errorBox = document.getElementById('mapError'), retry = document.getElementById('smartRetry');
     if (errorBox) errorBox.hidden = true;
-    if (retry) { retry.dataset.retryProvider = 'vector'; retry.textContent = m('retrySmart'); }
+    if (retry) { retry.dataset.retryProvider = VECTOR_PROVIDER; retry.textContent = m('retrySmart'); }
   }
-  function showSatelliteFallbackFeedback() {
+  function showProviderFallbackFeedback(provider) {
     const errorBox = document.getElementById('mapError'), retry = document.getElementById('smartRetry');
     if (!errorBox) return;
-    errorBox.querySelector('.map-error-message').textContent = m('satelliteFallback');
+    errorBox.querySelector('.map-error-message').textContent = `${providerDisplayLabel(provider)} · ${m('providerFallback')}`;
     errorBox.hidden = false;
-    if (retry) { retry.dataset.retryProvider = 'satellite'; retry.textContent = m('retrySatellite'); }
+    if (retry) { retry.dataset.retryProvider = provider; retry.textContent = `${providerDisplayLabel(provider)} · ${m('retryProvider')}`; }
   }
   function showMapFailure(error, phase = 'runtime') {
     const message = `${m('smartFailure')} ${mapFailureText(error, phase)}`;
     const errorBox = document.getElementById('mapError');
     if (errorBox) { errorBox.querySelector('.map-error-message').textContent = message; errorBox.hidden = false; }
-    state.runtime.providerHealth.vector = 'failed'; state.runtime.localAssets.status = 'failed'; state.runtime.localAssets.failures.push(message);
-    recordRuntimeEvent('smart_failure', 'vector', { phase, message });
+    state.runtime.providerHealth[VECTOR_PROVIDER] = 'failed'; state.runtime.localAssets.status = 'failed'; state.runtime.localAssets.failures.push(message);
+    recordRuntimeEvent('smart_failure', VECTOR_PROVIDER, { phase, message });
     renderProviderState(); renderShellStatus(); setStatus(message); persist();
   }
   function localMapError(event) {
     const source = String(event?.sourceId || ''), message = String(event?.error?.message || event?.message || event?.error || '');
     return source === 'basemap' || source === 'hillshade' || /pmtiles|tripasset|glyph|sprite|font|local asset|range|byte serving/i.test(message);
   }
-  function isSatelliteRasterError(event, map) {
-    if (state.runtime.provider !== 'satellite' || renderedProvider !== 'satellite' || photoMap !== map || String(event?.sourceId || '') !== 'base') return false;
+  function isRasterProviderError(event, map) {
+    const provider = state.runtime.provider, config = PACKAGE.providers?.[provider];
+    if (config?.kind !== 'raster' || renderedProvider !== provider || photoMap !== map || String(event?.sourceId || '') !== 'base') return false;
     const source = map?.getStyle?.()?.sources?.base;
-    return source?.type === 'raster' && Array.isArray(source.tiles) && source.tiles.some(tile => tile === SATELLITE_TILE_TEMPLATE);
+    return source?.type === 'raster' && Array.isArray(source.tiles) && source.tiles.some(tile => tile === config.tile_template);
   }
   function embeddedBytes(encoded, label) {
     if (typeof encoded !== 'string' || encoded.length < 8) throw new Error(`Missing embedded asset ${label}`);
@@ -213,26 +240,32 @@
     let archive;
     if (window.EMBEDDED_VECTOR) {
       if (typeof window.EMBEDDED_VECTOR !== 'string' || window.EMBEDDED_VECTOR.length < 100000) throw new Error('Embedded PMTiles payload is missing or truncated');
-      const bytes = embeddedBytes(window.EMBEDDED_VECTOR, 'sf_trip.pmtiles');
+      const bytes = embeddedBytes(window.EMBEDDED_VECTOR, vectorUrl);
       if (bytes.byteLength < 127) throw new Error('Embedded PMTiles payload is too small');
-      vectorUrl = 'sf_trip.pmtiles'; archive = new PMTiles(new FileSource(new File([bytes], 'sf_trip.pmtiles', { type: 'application/octet-stream' })));
-    } else archive = new PMTiles(vectorUrl);
+      const localName = vectorUrl.split('/').pop(); vectorUrl = localName; archive = new PMTiles(new FileSource(new File([bytes], localName, { type: 'application/octet-stream' })));
+    } else {
+      if (location.protocol === 'file:') throw new Error(`Missing embedded asset ${vectorUrl}`);
+      archive = new PMTiles(vectorUrl);
+    }
     const header = await archive.getHeader();
     markStartup('local_pmtiles_header_ready', { tile_type: header?.tileType, max_zoom: header?.maxZoom });
     if (!header || ![1, 6].includes(header.tileType) || header.maxZoom < 1 || header.minLon >= header.maxLon || header.minLat >= header.maxLat) throw new Error('Smart map PMTiles header is invalid');
     protocol.add(archive); maplibregl.addProtocol('pmtiles', protocol.tile);
     maplibregl.addProtocol('tripasset', async params => {
       const path = decodeURIComponent(params.url.replace('tripasset://', ''));
-      if (!/^assets\/vector\/(?:fonts|sprites)\/[^?#]+$/.test(path) || path.includes('..')) throw new Error('Unsafe local map asset path');
+      const resources = PACKAGE.assets?.map?.local_resources || [], directories = PACKAGE.assets?.map?.local_resource_directories || [];
+      const bundledMapAsset = resources.includes(path) || directories.some(directory => path.startsWith(`${directory}/`));
+      if (!bundledMapAsset || path.includes('..') || path.includes('?') || path.includes('#')) throw new Error('Unsafe local map asset path');
       if (window.EMBEDDED_MAP_ASSETS) {
         const bytes = embeddedBytes(window.EMBEDDED_MAP_ASSETS[path], path);
         return { data: path.endsWith('.json') ? JSON.parse(new TextDecoder().decode(bytes)) : bytes.buffer };
       }
+      if (location.protocol === 'file:') throw new Error(`Missing embedded asset ${path}`);
       const response = await fetch(path);
       if (!response.ok) throw new Error(`Missing map asset ${path}`);
       return { data: path.endsWith('.json') ? await response.json() : await response.arrayBuffer() };
     });
-    state.runtime.localAssets.status = 'ready'; state.runtime.providerHealth.vector = 'ready'; recordRuntimeEvent('smart_ready', 'vector', { identity: state.runtime.providerIdentity });
+    state.runtime.localAssets.status = 'ready'; state.runtime.providerHealth[VECTOR_PROVIDER] = 'ready'; recordRuntimeEvent('smart_ready', VECTOR_PROVIDER, { identity: state.runtime.providerIdentity });
     markStartup('local_vector_setup_ready');
   }
   function vectorStyle({ labelsOnly = false } = {}) {
@@ -250,77 +283,81 @@
       }
       if (labelsOnly && layer.paint?.['text-color']) { layer.paint['text-color'] = '#fff'; layer.paint['text-halo-color'] = '#202a36'; layer.paint['text-halo-width'] = 2.2; }
     }
-    const sources = { basemap: { type: 'vector', url: `pmtiles://${vectorUrl}`, attribution: '© OpenStreetMap contributors · Protomaps' } };
-    if (!labelsOnly) {
-      sources.hillshade = { type: 'image', url: window.EMBEDDED_HILLSHADE || 'assets/vector/yosemite_hillshade_shadow.webp', coordinates: [[-119.99, 37.95], [-119.35, 37.95], [-119.35, 37.38], [-119.99, 37.38]] };
+    const mapConfig = PACKAGE.assets.map, sources = { basemap: { type: 'vector', url: `pmtiles://${vectorUrl}`, attribution: mapConfig.attribution } };
+    if (!labelsOnly && mapConfig.relief) {
+      const relief = mapConfig.relief;
+      sources.hillshade = { type: 'image', url: `tripasset://${relief.path}`, coordinates: relief.coordinates };
       const index = layers.findIndex(layer => layer.id === 'roads_tunnels_other_casing');
-      layers.splice(index < 0 ? layers.length : index, 0, { id: 'yosemite-relief', type: 'raster', source: 'hillshade', minzoom: 8, maxzoom: 18, paint: { 'raster-opacity': dark ? .58 : .72, 'raster-fade-duration': 0 } });
+      layers.splice(index < 0 ? layers.length : index, 0, { id: 'trip-relief', type: 'raster', source: 'hillshade', minzoom: 8, maxzoom: 18, paint: { 'raster-opacity': dark ? .58 : .72, 'raster-fade-duration': 0 } });
     }
-    const style = { version: 8, glyphs: 'tripasset://assets/vector/fonts/{fontstack}/{range}.pbf', sprite: `tripasset://assets/vector/sprites/${dark ? 'dark' : 'light'}`, sources, layers };
+    const style = { version: 8, glyphs: mapConfig.glyphs_template, sprite: mapConfig.sprite_template.replace('{theme}', dark ? 'dark' : 'light'), sources, layers };
     markStartup('local_map_asset_style_ready', { labels_only: labelsOnly, layers: layers.length, hillshade: !labelsOnly });
     return style;
   }
   function providerStyle(provider) {
-    if (provider === 'vector') return vectorStyle();
-    const config = safeProviderConfig();
-    if (provider !== 'satellite' || !config) throw new Error('Satellite provider configuration is not approved');
-    const style = { version: 8, sources: { base: { type: 'raster', tiles: [config.tile_template], tileSize: 256, attribution: SATELLITE_ATTRIBUTION } }, layers: [{ id: 'base', type: 'raster', source: 'base' }] };
+    if (provider === VECTOR_PROVIDER) return vectorStyle();
+    const config = PACKAGE.providers?.[provider];
+    if (config?.kind !== 'raster' || !safeProviderConfig(provider)) throw new Error(`Provider ${provider} is not approved`);
+    const style = { version: 8, sources: { base: { type: 'raster', tiles: [config.tile_template], tileSize: 256, attribution: config.attribution } }, layers: [{ id: 'base', type: 'raster', source: 'base' }] };
     const labels = vectorStyle({ labelsOnly: true }); style.sources.basemap = labels.sources.basemap; style.glyphs = labels.glyphs; style.sprite = labels.sprite; style.layers.push(...labels.layers); return style;
   }
-  function probeImage(value, timeout = 2600, tag = 'health') {
+  function probeImage(value, timeout = 2600, tag = 'health', provider = state.runtime.provider) {
     return new Promise(resolve => {
-      const url = safeProviderUrl(value); if (!url) return resolve(false);
+      const url = safeProviderUrl(value, provider); if (!url) return resolve(false);
       const image = new Image(); let done = false;
       const end = result => { if (done) return; done = true; clearTimeout(timer); image.onload = image.onerror = null; resolve(result); };
       const timer = setTimeout(() => end(false), timeout); image.onload = () => end(image.naturalWidth > 0); image.onerror = () => end(false); image.referrerPolicy = 'no-referrer'; image.src = `${url}${url.includes('?') ? '&' : '?'}${tag}=${++state.runtime.probeSequence}`;
     });
   }
   async function testProvider(provider) {
-    if (provider === 'vector') return state.runtime.providerHealth.vector === 'ready' && state.runtime.localAssets.status === 'ready';
-    const config = safeProviderConfig();
-    if (provider !== 'satellite' || !config || DATA.providers?.satellite?.requires_api_key) { state.runtime.providerHealth[provider] = 'failed'; renderProviderState(); return false; }
+    if (provider === VECTOR_PROVIDER) return state.runtime.providerHealth[VECTOR_PROVIDER] === 'ready' && state.runtime.localAssets.status === 'ready';
+    const config = safeProviderConfig(provider);
+    if (!config || !config.health_probe || config.requires_api_key) { state.runtime.providerHealth[provider] = 'failed'; renderProviderState(); return false; }
     state.runtime.providerHealth[provider] = 'loading'; state.runtime.providerStats[provider].healthProbes++; renderProviderState();
-    const ok = await probeImage(config.health_probe); state.runtime.providerHealth[provider] = ok ? 'ready' : 'failed'; recordRuntimeEvent(ok ? 'health_probe_passed' : 'health_probe_failed', provider); renderProviderState(); return ok;
+    const ok = await probeImage(config.health_probe, 2600, 'health', provider); state.runtime.providerHealth[provider] = ok ? 'ready' : 'failed'; recordRuntimeEvent(ok ? 'health_probe_passed' : 'health_probe_failed', provider); renderProviderState(); return ok;
   }
   function tileUrlAt(provider, lat, lon, zoom) {
-    const config = provider === 'satellite' ? safeProviderConfig() : null; if (!config) return '';
+    const config = safeProviderConfig(provider); if (!config) return '';
     const n = 2 ** zoom, rad = lat * Math.PI / 180, x = Math.floor((lon + 180) / 360 * n), y = Math.floor((1 - Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) / 2 * n);
-    return safeProviderUrl(config.tile_template.replace('{z}', zoom).replace('{x}', x).replace('{y}', y));
+    return safeProviderUrl(config.tile_template.replace('{z}', zoom).replace('{x}', x).replace('{y}', y), provider);
   }
   async function testViewportProvider(provider) {
     const first = DATA.markers.find(item => markerVisible(item, { map: true })), center = first || DATA.region_cfg[state.task.region].center, zoom = state.task.region === 'overall' && state.task.date === 'all' ? 6 : 11;
-    state.runtime.providerStats[provider].viewportProbes++; const ok = await probeImage(tileUrlAt(provider, center.lat, center.lon, zoom), 2800, 'viewport');
+    state.runtime.providerStats[provider].viewportProbes++; const ok = await probeImage(tileUrlAt(provider, center.lat, center.lon, zoom), 2800, 'viewport', provider);
     if (!ok) state.runtime.providerHealth[provider] = 'failed'; renderProviderState(); return ok;
   }
   async function returnToSmart(provider, reason, detail = {}) {
-    if (provider === 'satellite' && satelliteFallbackFlight) return satelliteFallbackFlight;
+    if (PACKAGE.providers?.[provider]?.kind === 'raster' && rasterFallbackFlight) return rasterFallbackFlight;
     const fallback = (async () => {
       state.runtime.providerStats[provider].fallbacks++; if (reason === 'tile_error') state.runtime.providerStats[provider].tileErrors++;
-      state.runtime.providerHealth[provider] = 'failed'; state.runtime.provider = 'vector';
+      state.runtime.providerHealth[provider] = 'failed'; state.runtime.provider = VECTOR_PROVIDER;
       if (reason === 'tile_error') recordRuntimeEvent('tile_error', provider, detail);
       recordRuntimeEvent('fallback_to_smart', provider, { reason, ...detail });
-      if (provider === 'satellite') showSatelliteFallbackFeedback();
+      if (PACKAGE.providers?.[provider]?.kind === 'raster') showProviderFallbackFeedback(provider);
       renderProviderState(); persist(); await drawMap(true); return false;
     })();
-    if (provider !== 'satellite') return fallback;
-    satelliteFallbackFlight = fallback.finally(() => { satelliteFallbackFlight = null; });
-    return satelliteFallbackFlight;
+    if (PACKAGE.providers?.[provider]?.kind !== 'raster') return fallback;
+    rasterFallbackFlight = fallback.finally(() => { rasterFallbackFlight = null; });
+    return rasterFallbackFlight;
   }
   async function chooseProvider(provider) {
-    if (!['vector', 'satellite'].includes(provider)) return false;
-    if (provider === 'vector') { rememberSmartCamera(); state.runtime.provider = 'vector'; clearMapFeedback(); renderProviderState(); persist(); return drawMap(true); }
+    if (!PACKAGE.providers?.[provider]) return false;
+    if (provider === VECTOR_PROVIDER) { rememberSmartCamera(); state.runtime.provider = VECTOR_PROVIDER; clearMapFeedback(); renderProviderState(); persist(); return drawMap(true); }
+    if (PACKAGE.providers[provider].kind !== 'raster') return false;
     rememberSmartCamera();
     const ok = await testProvider(provider) && await testViewportProvider(provider);
     if (!ok) { await returnToSmart(provider, 'probe_failure'); return false; }
-    clearMapFeedback(); state.runtime.provider = provider; state.runtime.providerSwitches++; recordRuntimeEvent('provider_switch', provider, { from: 'vector' }); renderProviderState(); persist(); return drawMap(true);
+    clearMapFeedback(); state.runtime.provider = provider; state.runtime.providerSwitches++; recordRuntimeEvent('provider_switch', provider, { from: VECTOR_PROVIDER }); renderProviderState(); persist(); return drawMap(true);
   }
   function renderProviderState() {
     const provider = state.runtime.provider, health = state.runtime.providerHealth[provider] || 'untested', status = document.getElementById('providerStatus');
-    const label = provider === 'vector' ? (health === 'ready' ? m('mapReady') : health === 'failed' ? m('mapUnavailable') : m('mapChecking')) : (health === 'ready' ? m('satelliteReady') : health === 'failed' ? m('satelliteUnavailable') : m('satelliteChecking'));
-    const region = state.task.region === 'overall' ? m('overall') : DATA.region_cfg[state.task.region]?.[state.presentation.lang === 'ko' ? 'label' : 'label_en'] || state.task.region;
-    const providerLabel = provider === 'vector' ? m('smartMap') : m('satellite');
+    const config = PACKAGE.providers?.[provider] || {};
+    const label = provider === VECTOR_PROVIDER ? (health === 'ready' ? m('mapReady') : health === 'failed' ? m('mapUnavailable') : m('mapChecking'))
+      : `${providerDisplayLabel(provider)} · ${health === 'ready' ? m('providerReady') : health === 'failed' ? m('providerUnavailable') : m('providerChecking')}`;
+    const region = state.task.region === 'overall' ? m('overall') : DATA.region_cfg[state.task.region]?.[state.presentation.lang === 'ko' ? 'label' : 'label_en'] || DATA.region_cfg[state.task.region]?.label || state.task.region;
+    const providerLabel = provider === VECTOR_PROVIDER ? m('smartMap') : providerDisplayLabel(provider);
     const summary = document.getElementById('mapCurrentSummary');
-    if (summary) summary.textContent = `${providerLabel} · ${region}`;
+    if (summary) summary.textContent = `${providerLabel} · ${region} · ${state.task.date === 'all' ? m('allDates') : dateLabel(state.task.date)} · ${state.task.primaryRoute}`;
     const optionsToggle = document.getElementById('mapOptionsToggle');
     if (optionsToggle) optionsToggle.setAttribute('aria-label', `${m('mapOptions')}: ${providerLabel} · ${region}`);
     if (status) { status.textContent = label; status.className = `map-status ${health === 'ready' ? 'ready' : health === 'failed' ? 'failed' : ''}`; }
@@ -378,7 +415,7 @@
     return { useful: markerPointsInViewport.length > 0 && (routeFeaturesInViewport.length > 0 || markerPointsInViewport.length > 0), width, height, visible_markers: visibleMarkers.length, markers_in_viewport: markerPointsInViewport.length, route_features: routeFeatures.length, route_features_in_viewport: routeFeaturesInViewport.length, route_points_in_viewport: routePointsInViewport.length, content_occupancy_ratio: Number(occupancy.toFixed(4)) };
   }
   function rememberSmartCamera(map = photoMap) {
-    if (!map || state.runtime.provider !== 'vector' || renderedProvider !== 'vector' || !state.runtime.mapVisualReady) return null;
+    if (!map || state.runtime.provider !== VECTOR_PROVIDER || renderedProvider !== VECTOR_PROVIDER || !state.runtime.mapVisualReady) return null;
     const view = cameraView(map), spatial = mapSpatialSnapshot(map);
     if (!view || !spatial.useful) return null;
     smartCamera = { ...view, task: cameraTaskContext(), spatial, owner: 'smart' };
@@ -434,7 +471,7 @@
       : '';
     const from = leg && markerByKey[leg.from], to = leg && markerByKey[leg.to];
     const liveNavigation = leg?.mode === 'drive' && from && to
-      ? `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(placeName(leg.from))}&destination=${encodeURIComponent(placeName(leg.to))}`
+      ? directionUrl('route', { origin: placeName(leg.from), destination: placeName(leg.to) })
       : '';
     const action = ROUTES.length > 1
       ? `<button class="peek-action" type="button" data-route-use>${m('chooseRoute')} ${esc(properties.route)} ↗</button>`
@@ -454,6 +491,13 @@
       return { selector: element.className || element.tagName.toLowerCase(), left: rect.left - shellRect.left, top: rect.top - shellRect.top, right: rect.right - shellRect.left, bottom: rect.bottom - shellRect.top, width: rect.width, height: rect.height };
     });
   }
+  function mapMarkerFootprint() {
+    return [...document.querySelectorAll('.photo-marker, .photo-cluster')].reduce((maximum, element) => {
+      const style = getComputedStyle(element), rect = element.getBoundingClientRect();
+      if (style.display === 'none' || style.visibility === 'hidden' || rect.width <= 0 || rect.height <= 0) return maximum;
+      return Math.max(maximum, rect.width / 2, rect.height / 2);
+    }, MAP_MARKER_FOOTPRINT);
+  }
   function unionArea(rects) {
     const xs = [...new Set(rects.flatMap(rect => [Math.max(0, rect.left), Math.min(rect.right, rect.shellWidth || Infinity)]))].sort((a, b) => a - b);
     let area = 0;
@@ -470,17 +514,17 @@
   function mapSafePadding(map = photoMap) {
     const shell = document.querySelector('.map-shell');
     if (!map || !shell) return isMobile() ? { top: 118, right: 30, bottom: 112, left: 30 } : { top: 170, right: 60, bottom: 100, left: 60 };
-    const shellRect = shell.getBoundingClientRect(), padding = { top: MAP_SAFE_MARGIN, right: MAP_SAFE_MARGIN, bottom: MAP_SAFE_MARGIN, left: MAP_SAFE_MARGIN };
+    const shellRect = shell.getBoundingClientRect(), safeInset = MAP_SAFE_MARGIN + mapMarkerFootprint(), padding = { top: safeInset, right: safeInset, bottom: safeInset, left: safeInset };
     for (const obstacle of mapObstacleRects()) {
       const touchesLeft = obstacle.left <= MAP_SAFE_MARGIN && obstacle.right > 0;
       const touchesRight = obstacle.right >= shellRect.width - MAP_SAFE_MARGIN && obstacle.left < shellRect.width;
       const touchesTop = obstacle.top <= MAP_SAFE_MARGIN && obstacle.bottom > 0;
       const touchesBottom = obstacle.bottom >= shellRect.height - MAP_SAFE_MARGIN && obstacle.top < shellRect.height;
       const mobileSideOverlay = isMobile() && (obstacle.selector.includes('map-top-left') || obstacle.selector.includes('map-bottom-left'));
-      if (touchesLeft && !mobileSideOverlay) padding.left = Math.max(padding.left, obstacle.right + MAP_SAFE_MARGIN);
-      if (touchesRight) padding.right = Math.max(padding.right, shellRect.width - obstacle.left + MAP_SAFE_MARGIN);
-      if (touchesTop) padding.top = Math.max(padding.top, obstacle.bottom + MAP_SAFE_MARGIN);
-      if (touchesBottom) padding.bottom = Math.max(padding.bottom, shellRect.height - obstacle.top + MAP_SAFE_MARGIN);
+      if (touchesLeft && !mobileSideOverlay) padding.left = Math.max(padding.left, obstacle.right + safeInset);
+      if (touchesRight) padding.right = Math.max(padding.right, shellRect.width - obstacle.left + safeInset);
+      if (touchesTop) padding.top = Math.max(padding.top, obstacle.bottom + safeInset);
+      if (touchesBottom) padding.bottom = Math.max(padding.bottom, shellRect.height - obstacle.top + safeInset);
     }
     const horizontalBudget = Math.max(MAP_SAFE_MARGIN * 2, shellRect.width - MAP_SAFE_MARGIN * 2);
     const verticalBudget = Math.max(MAP_SAFE_MARGIN * 2, shellRect.height - MAP_SAFE_MARGIN * 2);
@@ -517,7 +561,7 @@
       const rect = element.getBoundingClientRect(), effective = { left: rect.left - shellRect.left, top: rect.top - shellRect.top, right: rect.right - shellRect.left, bottom: rect.bottom - shellRect.top, width: rect.width, height: rect.height };
       const center = { x: (effective.left + effective.right) / 2, y: (effective.top + effective.bottom) / 2 };
       const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
-      return { key: element.dataset.placeKey || element.getAttribute('aria-label') || element.className, rect: effective, intersects_obstacle: obstacles.filter(obstacle => intersects(effective, obstacle)).map(obstacle => obstacle.selector), center_hit: hit?.closest?.('.photo-marker, .photo-cluster, .route-leg-label')?.className || hit?.className || null, center: center };
+      return { key: element.dataset.placeKey || element.getAttribute('aria-label') || element.className, renderer: ['photo-marker', 'photo-cluster', 'route-leg-label'].find(className => element.classList.contains(className)) || null, rect: effective, intersects_obstacle: obstacles.filter(obstacle => intersects(effective, obstacle)).map(obstacle => obstacle.selector), center_hit: hit?.closest?.('.photo-marker, .photo-cluster, .route-leg-label')?.className || hit?.className || null, center: center };
     });
     const persistent = obstacles.filter(obstacle => !/map-options-panel/.test(obstacle.selector)).map(obstacle => ({ ...obstacle, shellWidth: shellRect.width }));
     const shellArea = shellRect.width * shellRect.height, persistentArea = unionArea(persistent);
@@ -541,11 +585,17 @@
       markers,
     };
   }
-  function fitVisibleMap(map = photoMap) {
+  function fitVisibleMap(map = photoMap, { emptyFallback = true } = {}) {
     if (!map) return;
     markStartup('initial_fit_start');
     const visible = DATA.markers.filter(item => markerVisible(item, { map: true })), routePoints = visibleRouteFeatures().filter(feature => feature.properties.kind !== 'transfer').flatMap(feature => feature.geometry.coordinates), points = [...visible.map(item => [item.lon, item.lat]), ...routePoints];
-    if (!points.length) return;
+    if (!points.length) {
+      if (!emptyFallback) return;
+      const { center, zoom } = DATA.region_cfg[state.task.region];
+      map.jumpTo({ center: [center.lon, center.lat], zoom });
+      markStartup('empty_state_region_fit_complete', { region: state.task.region });
+      return;
+    }
     if (points.length === 1) return map.jumpTo({ center: points[0], zoom: 13.1 });
     const bounds = [[Math.min(...points.map(point => point[0])), Math.min(...points.map(point => point[1]))], [Math.max(...points.map(point => point[0])), Math.max(...points.map(point => point[1]))]];
     map.fitBounds(bounds, { padding: mapSafePadding(map), maxZoom: state.task.date !== 'all' ? 12.8 : 7.8, duration: 0 });
@@ -563,7 +613,7 @@
       geometryNeedsRefit = false;
       if (map) {
         map.resize();
-        if (shouldRefit && state.runtime.mapVisualReady) fitVisibleMap(map);
+        if (shouldRefit && state.runtime.mapVisualReady) fitVisibleMap(map, { emptyFallback: false });
         if (state.presentation.mapOptionsOpen) positionMapOptions();
         markStartup('map_geometry_recomposed', { reason, refit: shouldRefit });
       }
@@ -648,7 +698,7 @@
       const previous = photoMap, same = previous && renderedProvider === state.runtime.provider && renderedTheme === state.presentation.theme;
       clusterMarkers.forEach(marker => marker.remove()); clusterMarkers = []; photoMarkers.forEach(marker => marker.remove()); photoMarkers = []; legMarkers.forEach(marker => marker.remove()); legMarkers = [];
       if (same && state.runtime.localAssets.status === 'ready') {
-        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); if (!preserve || mapGeometrySnapshot().markers.some(marker => marker.intersects_obstacle.length)) fitVisibleMap(previous); rememberSmartCamera(previous); return true;
+        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); if (!preserve || mapGeometrySnapshot().markers.some(marker => marker.intersects_obstacle.length)) fitVisibleMap(previous, { emptyFallback: !preserve }); rememberSmartCamera(previous); return true;
       }
       const view = viewForDraw(preserve, previous);
       if (previous) { previous.__tripCleanup?.(); previous.remove(); state.runtime.mapRemovals += 1; }
@@ -658,10 +708,10 @@
         state.runtime.mapStatus = 'loading'; state.runtime.mapVisualReady = false;
         map = new maplibregl.Map({ container: 'map', style: providerStyle(state.runtime.provider), center: [region.center.lon, region.center.lat], zoom: region.zoom, attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 18 });
         photoMap = map; renderedProvider = state.runtime.provider; renderedTheme = state.presentation.theme; state.runtime.mapCreations += 1; state.runtime.mapStatus = 'loading'; renderProviderState(); markStartup('map_created');
-        map.on('load', () => { markStartup('map_style_ready'); installRouteLayers(map); installPhotoMarkers(map, { deferClusters: true }); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); updatePhotoClusters(); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; if (state.runtime.provider === 'vector') rememberSmartCamera(map); renderProviderState(); renderShellStatus(); markStartup('map_visual_ready', { markers: photoMarkers.length, layers: map.getStyle()?.layers?.length || 0 }); });
-        map.on('moveend', () => { if (state.runtime.provider === 'vector' && renderedProvider === 'vector') rememberSmartCamera(map); });
+        map.on('load', () => { markStartup('map_style_ready'); installRouteLayers(map); installPhotoMarkers(map, { deferClusters: true }); installLegLabels(map); if (view) map.jumpTo(view); else fitVisibleMap(map); updatePhotoClusters(); state.runtime.mapStatus = 'ready'; state.runtime.mapVisualReady = true; if (state.runtime.provider === VECTOR_PROVIDER) rememberSmartCamera(map); renderProviderState(); renderShellStatus(); markStartup('map_visual_ready', { markers: photoMarkers.length, layers: map.getStyle()?.layers?.length || 0 }); });
+        map.on('moveend', () => { if (state.runtime.provider === VECTOR_PROVIDER && renderedProvider === VECTOR_PROVIDER) rememberSmartCamera(map); });
         map.on('click', () => hidePeek({ returnFocus: false }));
-        map.on('error', event => { if (isSatelliteRasterError(event, map)) { void returnToSmart('satellite', 'tile_error', { source_id: event.sourceId, message: String(event?.error?.message || event?.message || event?.error || 'raster tile request failed') }); return; } if (localMapError(event)) showMapFailure(event.error || event.message, 'map_runtime'); });
+        map.on('error', event => { if (isRasterProviderError(event, map)) { void returnToSmart(state.runtime.provider, 'tile_error', { source_id: event.sourceId, message: String(event?.error?.message || event?.message || event?.error || 'raster tile request failed') }); return; } if (localMapError(event)) showMapFailure(event.error || event.message, 'map_runtime'); });
         return true;
       } catch (error) { showMapFailure(error, 'map_create'); return false; }
     };
@@ -747,6 +797,13 @@
     const records = window.TRIP_FRESHNESS?.records || [], ids = new Set(item.freshness_fact_ids || []);
     return records.filter(record => ids.has(record.fact_id));
   }
+  function freshnessForPlace(marker) {
+    const placeDates = new Set((marker.occurrences || []).map(occurrence => occurrence.date_key || occurrenceDateKey(occurrence)));
+    return (window.TRIP_FRESHNESS?.records || []).filter(record => {
+      const scope = record.scope || {}, keys = scope.place_keys || [], dates = scope.dates || [];
+      return keys.includes(marker.place_key) || (!keys.length && dates.some(date => placeDates.has(date)));
+    });
+  }
   function freshnessLabel(status) {
     return m(({ VERIFIED: 'freshnessVerified', STALE: 'freshnessStale', UNVERIFIED: 'freshnessUnverified', RECHECK_REQUIRED: 'freshnessRecheck', NOT_APPLICABLE: 'freshnessNA' })[status] || 'freshnessUnverified');
   }
@@ -810,10 +867,10 @@
     const lower = duration.minutes_min, upper = duration.minutes_max;
     return `${lower === upper ? lower : `${lower}–${upper}`} ${m('minutes')}`;
   }
-  function compactDayWatch(dateKey, op) {
-    const focusClause = { '10/4': 0, '10/5': 0, '10/6': -1, '10/7': 0, '10/8': 0, '10/9': 0, '10/10': -1, '10/11': 0 }[dateKey];
+  function compactDayWatch(op) {
+    const authored = tx(op, 'field_watch');
+    if (authored) return { label: m('watchCondition'), value: authored };
     const clauses = String(tx(op, 'invalidator') || '').split(/[;,·]/).map(value => value.trim()).filter(Boolean);
-    if (Number.isInteger(focusClause) && clauses.length) return { label: m('watchCondition'), value: clauses[focusClause < 0 ? clauses.length + focusClause : focusClause] };
     const text = String(tx(op, 'recovery') || '');
     const times = [...text.matchAll(/(?:~|about\s+|by\s+)?\b\d{1,2}:\d{2}(?:–\d{1,2}:\d{2})?/g)];
     if (times.length) return { label: m('expectedReturn'), value: times[times.length - 1][0].trim() };
@@ -853,7 +910,7 @@
     if (state.presentation.dayDisclosure?.dateKey !== state.task.date) state.presentation.dayDisclosure = { dateKey: state.task.date, openTravelId: null, notesOpen: false };
     const disclosure = state.presentation.dayDisclosure, availableTravelIds = new Set(items.filter(item => item.kind === 'travel' && item.travel_range_id).map(item => item.travel_range_id));
     if (disclosure.openTravelId && !availableTravelIds.has(disclosure.openTravelId)) disclosure.openTravelId = null;
-    const start = String(tx(op, 'leave') || '').split(/[;·]/, 1)[0].trim(), nap = tx(op, 'nap'), watch = compactDayWatch(state.task.date, op);
+    const start = String(tx(op, 'leave') || '').split(/[;·]/, 1)[0].trim(), nap = tx(op, 'nap'), watch = compactDayWatch(op);
     const notesId = `day-notes-${state.task.date.replace('/', '-')}`, notesToggleId = `${notesId}-toggle`, notesOpen = disclosure.notesOpen;
     header.innerHTML = `<h3>${esc(dateLabel(dayMeta?.key || state.task.date))}</h3><div class="day-summary"><p><b>${esc(m('dayStart'))}:</b> ${esc(start)}</p><p><b>${esc(m('napWindow'))}:</b> ${esc(nap)}</p><p><b>${esc(watch.label)}:</b> ${esc(watch.value)}</p></div><div class="day-header-actions"><button id="${notesToggleId}" type="button" class="day-notes-toggle" data-day-notes-toggle aria-expanded="${notesOpen}" aria-controls="${notesId}">${esc(m('dayNotes'))}</button>${cockpitButton}</div><div id="${notesId}" class="day-notes" role="region" aria-labelledby="${notesToggleId}" ${notesOpen ? '' : 'hidden'}><p><b>${esc(m('prepareBefore'))}:</b> ${esc(tx(op, 'prepare'))}</p><p><b>${esc(m('recoveryPlan'))}:</b> ${esc(tx(op, 'recovery'))}</p><p><b>${esc(m('couldInvalidate'))}:</b> ${esc(tx(op, 'invalidator'))}</p></div>`;
     if (!items.length) { plan.innerHTML = `<div class="empty-state">${m('noSlots')}</div>`; return; }
@@ -891,8 +948,13 @@
     panel.querySelectorAll('[data-place-choice]').forEach(button => { button.onclick = () => openPlace(button.dataset.placeChoice, button); });
   }
   function renderPlaceInspector(marker) {
-    const panel = document.getElementById('placeInspector'), occurrences = groupOccurrences(marker), now = preferredOccurrence(marker), tier = tierFor(marker), photos = [[m('hero'), 'hero'], [m('experiencePhoto'), 'experience'], [m('scale'), 'scale_context']], mapsHref = safeExternalUrl(marker.maps_url);
-    panel.innerHTML = `<button type="button" class="secondary-action place-back" data-place-back>← ${m('closePlace')}</button><div class="place-title-row"><div><h3>${esc(placeName(marker.place_key))}</h3>${state.presentation.lang === 'ko' ? `<p>${esc(placeKo(marker.place_key))}</p>` : ''}</div><span class="place-score">${esc(marker.score)}/100</span></div><div class="place-meta"><span>${esc(tr(marker.cluster))}</span><span>${esc(tierLabel(tier))}</span></div><div class="place-role-line">${placeRoleMarkup(marker.place_key)}</div><div class="place-glance"><strong>${esc(tr(now?.status || tierLabel(tier)))} · ${esc(dateLabel(now?.date_key || now?.date || ''))} · ${esc(tr(now?.time || '—'))}</strong><div><b>${m('whyNow')}</b> ${esc(tr(now?.reason || marker.why))}</div>${now?.advantage ? `<em>${m('advantage')}: ${esc(tr(now.advantage))}</em>` : ''}</div><div class="photo-grid">${photos.map(([label, role]) => `<figure class="photo-slot"><img src="${photoSrc(photoPath(marker.place_key, role, 'medium'))}" alt="${esc(placeName(marker.place_key))} — ${esc(label)}" loading="lazy"><figcaption>${esc(label)}</figcaption></figure>`).join('')}</div><div class="place-fact"><strong>${m('placeWhy')}</strong>${esc(tr(marker.why))}</div><div class="place-fact"><strong>${m('experience')}</strong>${esc(tr(marker.summary))}</div><div class="place-fact"><strong>${m('exactTiming')}</strong>${occurrences.length ? occurrences.map(item => `<div class="occurrence"><b>${esc(tr(item.title))}</b><small>${esc(dateLabel(item.date_key || item.date))} · ${esc(tr(item.time || '—'))} · ${esc(tr(item.status || ''))}</small><small>${m('whyNow')}: ${esc(tr(item.reason || ''))}</small></div>`).join('') : `<span class="muted">${m('noSlots')}</span>`}</div>${marker.decision_rules?.length ? `<div class="place-fact"><strong>${m('switchRule')}</strong>${marker.decision_rules.map(rule => `<div class="decision-rule"><b>${esc(decisionLabel(rule.key))}</b>${esc(tr(rule.text))}</div>`).join('')}</div>` : ''}<div class="place-fact"><strong>${m('freshness')}</strong><span>${esc(m('recheck'))}</span></div><div class="place-fact directions"><span>${marker.lat.toFixed(5)}, ${marker.lon.toFixed(5)}</span>${mapsHref ? `<a href="${esc(mapsHref)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${m('directions')} ↗</a>` : `<span>${m('unavailableDirections')}</span>`}</div>`;
+    const panel = document.getElementById('placeInspector'), occurrences = groupOccurrences(marker), now = preferredOccurrence(marker), tier = tierFor(marker), photos = [[m('hero'), 'hero'], [m('experiencePhoto'), 'experience'], [m('scale'), 'scale_context']], mapsHref = directionUrl('place', { query: placeName(marker.place_key) });
+    const freshnessRows = freshnessForPlace(marker), freshnessMarkup = `<div class="place-fact"><strong>${m('freshness')}</strong>${freshnessRows.length ? freshnessRows.map(fact => {
+      const sources = (fact.source?.source_urls || []).map(safeOfficialSourceUrl).filter(Boolean);
+      const checked = fact.last_observation?.checked_at || fact.observed_on || m('unknown');
+      return `<article class="place-freshness"><b>${esc(freshnessLabel(fact.status))}</b><p>${esc(tr(fact.claim || ''))}</p><small>${m('researched')}: ${esc(checked)} · ${m('recheckWhen')}: ${esc(tr(fact.recheck?.window || fact.recheck?.trigger || ''))}</small>${sources.map(url => `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${m('source')} ↗</a>`).join(' ')}</article>`;
+    }).join('') : `<span>${esc(m('recheck'))}</span>`}</div>`;
+    panel.innerHTML = `<button type="button" class="secondary-action place-back" data-place-back>← ${m('closePlace')}</button><div class="place-title-row"><div><h3>${esc(placeName(marker.place_key))}</h3>${state.presentation.lang === 'ko' ? `<p>${esc(placeKo(marker.place_key))}</p>` : ''}</div><span class="place-score">${esc(marker.score)}/100</span></div><div class="place-meta"><span>${esc(tr(marker.cluster))}</span><span>${esc(tierLabel(tier))}</span></div><div class="place-role-line">${placeRoleMarkup(marker.place_key)}</div><div class="place-glance"><strong>${esc(tr(now?.status || tierLabel(tier)))} · ${esc(dateLabel(now?.date_key || now?.date || ''))} · ${esc(tr(now?.time || '—'))}</strong><div><b>${m('whyNow')}</b> ${esc(tr(now?.reason || marker.why))}</div>${now?.advantage ? `<em>${m('advantage')}: ${esc(tr(now.advantage))}</em>` : ''}</div><div class="photo-grid">${photos.map(([label, role]) => `<figure class="photo-slot"><img src="${photoSrc(photoPath(marker.place_key, role, 'medium'))}" alt="${esc(placeName(marker.place_key))} — ${esc(label)}" loading="lazy"><figcaption>${esc(label)}</figcaption></figure>`).join('')}</div><div class="place-fact"><strong>${m('placeWhy')}</strong>${esc(tr(marker.why))}</div><div class="place-fact"><strong>${m('experience')}</strong>${esc(tr(marker.summary))}</div><div class="place-fact"><strong>${m('exactTiming')}</strong>${occurrences.length ? occurrences.map(item => `<div class="occurrence"><b>${esc(tr(item.title))}</b><small>${esc(dateLabel(item.date_key || item.date))} · ${esc(tr(item.time || '—'))} · ${esc(tr(item.status || ''))}</small><small>${m('whyNow')}: ${esc(tr(item.reason || ''))}</small></div>`).join('') : `<span class="muted">${m('noSlots')}</span>`}</div>${marker.decision_rules?.length ? `<div class="place-fact"><strong>${m('switchRule')}</strong>${marker.decision_rules.map(rule => `<div class="decision-rule"><b>${esc(decisionLabel(rule.key))}</b>${esc(tr(rule.text))}</div>`).join('')}</div>` : ''}${freshnessMarkup}<div class="place-fact directions"><span>${marker.lat.toFixed(5)}, ${marker.lon.toFixed(5)}</span>${mapsHref ? `<a href="${esc(mapsHref)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${m('directions')} ↗</a>` : `<span>${m('unavailableDirections')}</span>`}</div>`;
     bindLocalImageFailures(panel); panel.querySelector('[data-place-back]').onclick = closePlace;
   }
   function renderPlace() { const marker = markerByKey[state.task.selected]; if (state.presentation.mode === 'place' && marker) renderPlaceInspector(marker); else if (state.presentation.mode === 'place') renderPlaceBrowser(); }
@@ -904,28 +966,29 @@
     const shellRect = shell.getBoundingClientRect();
     panel.classList.remove('open-up', 'align-right');
     const panelRect = panel.getBoundingClientRect(), surfaceRect = surface.getBoundingClientRect();
-    if (panelRect.bottom > shellRect.bottom - 8) panel.classList.add('open-up');
+    if (!window.matchMedia('(max-width: 800px)').matches && panelRect.bottom > shellRect.bottom - 8) panel.classList.add('open-up');
     if (surfaceRect.left + panelRect.width > shellRect.right - 8) panel.classList.add('align-right');
   }
   function setMapOptionsOpen(open, { returnFocus = true, focus = true } = {}) {
     const toggle = document.getElementById('mapOptionsToggle'), panel = document.getElementById('mapOptionsPanel');
     if (!toggle || !panel) return;
     state.presentation.mapOptionsOpen = open;
+    document.querySelector('.map-shell')?.classList.toggle('options-open', open);
     if (open) mapOptionsInvoker = toggle;
     panel.hidden = !open; toggle.setAttribute('aria-expanded', String(open));
     if (open) {
-      requestAnimationFrame(() => { positionMapOptions(); fitVisibleMap(); if (focus) panel.querySelector('[data-provider], [data-region], #mapOptionsClose')?.focus({ preventScroll: true }); });
+      requestAnimationFrame(() => { positionMapOptions(); fitVisibleMap(photoMap, { emptyFallback: false }); if (focus) panel.querySelector('[data-provider], [data-region], #mapOptionsClose')?.focus({ preventScroll: true }); });
     } else {
       panel.classList.remove('open-up', 'align-right');
       const restore = returnFocus && mapOptionsInvoker?.focus && document.contains(mapOptionsInvoker) ? mapOptionsInvoker : null;
-      requestAnimationFrame(() => { fitVisibleMap(); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); });
+      requestAnimationFrame(() => { fitVisibleMap(photoMap, { emptyFallback: false }); if (restore) requestAnimationFrame(() => restore.focus({ preventScroll: true })); });
       mapOptionsInvoker = null;
     }
   }
   function renderMapControls() {
     const provider = document.getElementById('providerControls'), region = document.getElementById('regionControls');
-    provider.innerHTML = ['vector', 'satellite'].map(key => `<button type="button" class="segment" data-provider="${key}" aria-pressed="${state.runtime.provider === key}">${key === 'vector' ? m('smartMap') : m('satellite')}</button>`).join('');
-    region.innerHTML = Object.keys(DATA.region_cfg).map(key => `<button type="button" class="segment" data-region="${esc(key)}" aria-pressed="${state.task.region === key}">${esc(key === 'overall' ? m('overall') : DATA.region_cfg[key][state.presentation.lang === 'ko' ? 'label' : 'label_en'] || key)}</button>`).join('');
+    provider.innerHTML = Object.keys(PACKAGE.providers).map(key => `<button type="button" class="segment" data-provider="${esc(key)}" aria-pressed="${state.runtime.provider === key}">${key === VECTOR_PROVIDER ? m('smartMap') : esc(providerDisplayLabel(key))}</button>`).join('');
+    region.innerHTML = Object.keys(DATA.region_cfg).map(key => `<button type="button" class="segment" data-region="${esc(key)}" aria-pressed="${state.task.region === key}">${esc(key === 'overall' ? m('overall') : DATA.region_cfg[key][state.presentation.lang === 'ko' ? 'label' : 'label_en'] || DATA.region_cfg[key].label || key)}</button>`).join('');
     const panel = document.getElementById('mapOptionsPanel'), toggle = document.getElementById('mapOptionsToggle');
     if (panel && toggle) { panel.hidden = !state.presentation.mapOptionsOpen; toggle.setAttribute('aria-expanded', String(state.presentation.mapOptionsOpen)); }
     provider.querySelectorAll('[data-provider]').forEach(button => { button.onclick = async () => { setMapOptionsOpen(false); await chooseProvider(button.dataset.provider); }; });
@@ -938,12 +1001,14 @@
   function applyTranslations() {
     document.documentElement.lang = state.presentation.lang; document.documentElement.dataset.theme = state.presentation.theme;
     document.querySelectorAll('[data-i18n]').forEach(element => { const key = element.dataset.i18n; element.textContent = m(key); });
-    document.querySelector('.brand').textContent = m('brand'); document.querySelector('.sub').textContent = m('subtitle');
+    document.querySelector('.brand').textContent = PACKAGE.display_title; document.querySelector('.sub').textContent = PACKAGE.subtitle[state.presentation.lang];
+    const fixtureNotice = document.getElementById('fixtureNotice');
+    if (fixtureNotice) { fixtureNotice.hidden = !PACKAGE.is_non_shipping_fixture; fixtureNotice.textContent = state.presentation.lang === 'ko' ? '비실제 QA 전용 패키지 · 여행 추천으로 사용하지 마세요' : 'Synthetic QA-only package · not a travel recommendation'; }
     const fieldSet = document.querySelector('.route-section .eyebrow'); if (fieldSet) fieldSet.textContent = m('fieldSet');
     const routeHeading = document.getElementById('routeSectionHeading'); if (routeHeading) routeHeading.textContent = m('routeStrategies');
     document.getElementById('langToggle').textContent = state.presentation.lang === 'ko' ? 'EN' : '한국어'; document.getElementById('themeToggle').textContent = state.presentation.theme === 'dark' ? `☀ ${m('light')}` : `☾ ${m('dark')}`;
     document.getElementById('workbenchToggle').textContent = state.presentation.sheet === 'compact' ? m('expand') : m('collapse');
-    const smartRetry = document.getElementById('smartRetry'); if (smartRetry) smartRetry.textContent = m(smartRetry.dataset.retryProvider === 'satellite' ? 'retrySatellite' : 'retrySmart');
+    const smartRetry = document.getElementById('smartRetry'); if (smartRetry) smartRetry.textContent = !smartRetry.dataset.retryProvider || smartRetry.dataset.retryProvider === VECTOR_PROVIDER ? m('retrySmart') : `${providerDisplayLabel(smartRetry.dataset.retryProvider)} · ${m('retryProvider')}`;
     syncSheetPresentation();
     renderProviderState();
     document.querySelectorAll('[data-sheet]').forEach(button => { if (button.classList.contains('icon-button')) { button.setAttribute('aria-pressed', String(button.dataset.sheet === state.presentation.sheet)); button.title = m(button.dataset.sheet); button.setAttribute('aria-label', m(button.dataset.sheet)); } });
@@ -993,8 +1058,8 @@
     document.getElementById('mapErrorDismiss').onclick = () => { document.getElementById('mapError').hidden = true; };
     document.getElementById('smartRetry').onclick = async event => {
       const retry = event.currentTarget;
-      if (retry.dataset.retryProvider === 'satellite') { retry.disabled = true; document.getElementById('mapError').hidden = true; await chooseProvider('satellite'); retry.disabled = false; return; }
-      document.getElementById('mapError').hidden = true; state.runtime.provider = 'vector'; state.runtime.providerHealth.vector = 'loading'; state.runtime.localAssets.status = 'checking'; renderProviderState(); try { await setupVector(); await drawMap(true); } catch (error) { showMapFailure(error, 'retry'); }
+      if (retry.dataset.retryProvider && retry.dataset.retryProvider !== VECTOR_PROVIDER) { retry.disabled = true; document.getElementById('mapError').hidden = true; await chooseProvider(retry.dataset.retryProvider); retry.disabled = false; return; }
+      document.getElementById('mapError').hidden = true; state.runtime.provider = VECTOR_PROVIDER; state.runtime.providerHealth[VECTOR_PROVIDER] = 'loading'; state.runtime.localAssets.status = 'checking'; renderProviderState(); try { await setupVector(); await drawMap(true); } catch (error) { showMapFailure(error, 'retry'); }
     };
     document.getElementById('dateSelect').onchange = event => { state.task.date = event.target.value; if (state.task.selected && !markerVisible(markerByKey[state.task.selected])) state.task.selected = null; state.presentation.mode = 'day'; renderAll(); persist(); drawMap(false); };
     const handleEscape = event => { if (event.key !== 'Escape') return; if (document.getElementById('costCockpit')?.open) return; if (state.presentation.mapOptionsOpen) { setMapOptionsOpen(false); event.preventDefault(); return; } if (state.presentation.peek) { hidePeek(); event.preventDefault(); return; } if (state.presentation.mode === 'place') { closePlace(); event.preventDefault(); return; } if (state.presentation.sheet === 'full') { setSheet('expanded'); event.preventDefault(); } };
@@ -1009,13 +1074,16 @@
     window.addEventListener('resize', handleViewportChange);
     const mapShell = document.querySelector('.map-shell');
     if (window.ResizeObserver && mapShell) {
-      new ResizeObserver(entries => {
-        const rect = entries[0]?.contentRect;
+      const geometryObserver = new ResizeObserver(entries => {
+        const shellEntry = entries.find(entry => entry.target === mapShell), rect = shellEntry?.contentRect;
         const next = rect ? `${Math.round(rect.width)}x${Math.round(rect.height)}` : '';
-        if (!next || next === observedMapSize) return;
-        observedMapSize = next;
-        scheduleMapGeometryUpdate({ refit: true, reason: 'map-shell-resize' });
-      }).observe(mapShell);
+        const shellChanged = Boolean(next && next !== observedMapSize);
+        if (shellChanged) observedMapSize = next;
+        const obstacleChanged = entries.some(entry => entry.target !== mapShell);
+        if (shellChanged || obstacleChanged) scheduleMapGeometryUpdate({ refit: true, reason: shellChanged ? 'map-shell-resize' : 'map-obstacle-resize' });
+      });
+      geometryObserver.observe(mapShell);
+      document.querySelectorAll('.map-chrome, .maplibregl-ctrl').forEach(element => geometryObserver.observe(element));
     }
   }
 
@@ -1031,7 +1099,7 @@
   }
   function expose() {
     window.__tripApp = { state, DATA, drawMap, whenIdle: () => Promise.all([drawQueue, scheduleMapGeometryUpdate()]), whenGeometryIdle: () => scheduleMapGeometryUpdate(), map: () => photoMap, whenMapVisualReady: () => Promise.resolve(runtimeSnapshot().map), selectPlace, chooseProvider, testProvider, setMode, setSheet, setTab: tab => setMode(tab === 'timeline' ? 'day' : tab === 'details' ? 'place' : 'decide'), markerVisible, timelineVisible, legVisible, visibleRouteFeatures, renderTimeline: renderDay, renderDetail: key => { if (key) state.task.selected = key; renderPlace(); }, showPreview: showPeek, showRoutePeek: properties => showRoutePeek(properties), hidePreview: hidePeek, fitVisibleMap, mapGeometrySnapshot, mapSpatialSnapshot, runtimeSnapshot };
-    window.__tripSecurity = { escapeHtml: esc, safeExternalUrl, safePhotoPath: photoPath, renderFixture, allowedStorageKeys: ['trip_visualizer_runtime_v2', 'trip_visualizer_runtime_v1', 'trip_lang', 'trip_theme'] };
+    window.__tripSecurity = { escapeHtml: esc, safeExternalUrl, safeOfficialSourceUrl, safePhotoPath: photoPath, renderFixture, allowedStorageKeys: ['trip_visualizer_runtime_v2', 'trip_visualizer_runtime_v1', 'trip_lang', 'trip_theme'] };
   }
   async function init() {
     markStartup('init_start'); state.touch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0; expose(); renderAll(); bindShell(); markStartup('decision_shell_ready', { dom_nodes: document.body.querySelectorAll('*').length });

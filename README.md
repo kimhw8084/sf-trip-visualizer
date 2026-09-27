@@ -33,14 +33,14 @@ Each component has a 300-second bound by default. For local diagnostics only, `T
 
 ## Authority and data boundary
 
-The complete authority map is [manifests/canonical_pipeline.json](manifests/canonical_pipeline.json). In particular, `data/phase7_app_data.json` is the current authored product dataset despite its historical filename. The current authored renderer inputs are `src/map_shell_template.html`, `src/app_phase7.js`, `src/app_phase7.css`, `src/map_first.css`, `src/vector_entry.js`, local vendor/runtime assets, the local vector/relief assets, and the audited source/selection inputs listed in the manifest.
+The complete authority map is [manifests/canonical_pipeline.json](manifests/canonical_pipeline.json). `packages/sf-family/trip.json` selects the active SF trip's authored data and projections; `data/phase7_app_data.json` is its canonical data file despite its historical filename. The reusable renderer and build source are shared with the nonshipping portability fixture and do not own trip identity, currency, map assets, provider IDs, or source policy.
 
 Derived inputs are `data/translations.json`, `data/route_geometry_cache.json`, `data/route_geometry_manifest.json`, and the generated/provenance manifests. Earlier route-family and location-gap source generators are retained as historical lineage only; they can emit superseded route IDs and must not be run against the current trip. `scripts/build_map_first.py` and `scripts/pipeline.py` are the only supported product build and qualification authorities. The canonical build reads authored inputs and derived inputs and writes `.build/`.
 
 Generated locations are:
 
 - `.build/modular/index.html` and its copied local runtime dependencies;
-- `.build/standalone/SF_Smart_Minority_Map_First_Standalone.html`;
+- `.build/standalone/<package-slug>-standalone.html`, plus the active package's declared compatibility alias;
 - `.public-site/`, including `.release-provenance.json`;
 - `.release/` package output; and
 - current machine-readable QA under `QA/CHG-188/`.

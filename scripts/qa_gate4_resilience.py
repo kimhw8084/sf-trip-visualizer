@@ -17,19 +17,36 @@ import subprocess
 from pathlib import Path
 
 from PIL import Image
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
+ACTIVE_PACKAGE = load_package(DEFAULT_PACKAGE)
+PACKAGE_PATHS = {key: ROOT / value for key, value in ACTIVE_PACKAGE["projections"].items()}
 CONTRACT_PATH = ROOT / "manifests" / "runtime_resilience_contract.json"
-DATA_PATH = ROOT / "data" / "phase7_app_data.json"
-FRESHNESS_PATH = ROOT / "manifests" / "trip_freshness.json"
-PHOTO_MANIFEST_PATH = ROOT / "manifests" / "asset_manifest.json"
-BASEMAP_MANIFEST_PATH = ROOT / "manifests" / "map_first_basemap_manifest.json"
-PROVIDER_MANIFEST_PATH = ROOT / "manifests" / "basemap_provider_manifest.json"
+DATA_PATH = ROOT / ACTIVE_PACKAGE["canonical_data"]
+FRESHNESS_PATH = PACKAGE_PATHS["freshness"]
+PHOTO_MANIFEST_PATH = PACKAGE_PATHS["photos_manifest"]
+BASEMAP_MANIFEST_PATH = ROOT / ACTIVE_PACKAGE["projections"]["map_manifest"]
 BUILD = ROOT / ".build"
 MODULAR = BUILD / "modular" / "index.html"
-STANDALONE = BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"
-SATELLITE_TILE_BODY = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=")
+STANDALONE = BUILD / "standalone" / f"{ACTIVE_PACKAGE['slug']}-standalone.html"
+RASTER_TILE_BODY = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=")
+RASTER_PROVIDER = next((key for key, value in ACTIVE_PACKAGE["providers"].items() if value.get("kind") == "raster"), None)
+VECTOR_PROVIDER = ACTIVE_PACKAGE["vector_provider_id"]
+ACTIVE_DATA = ACTIVE_PACKAGE["data"]
+RASTER_POLICY = ACTIVE_PACKAGE["source_policy"]["external"].get(RASTER_PROVIDER, {}) if RASTER_PROVIDER else {}
+RASTER_HOST = RASTER_POLICY.get("host", "")
+VECTOR_IDENTITY = ACTIVE_PACKAGE["providers"][VECTOR_PROVIDER]["identity"]
+FOCUS_DATE = next(
+    date["key"] for date in ACTIVE_DATA["dates"]
+    if any(item.get("date_key", item.get("date")) == date["key"] and item.get("spatial_keys") for item in ACTIVE_DATA["timeline"])
+    and any(leg.get("date") == date["key"] and leg.get("mode") in {"drive", "walk"} for leg in ACTIVE_DATA["legs"])
+)
+FOCUS_REGION = next(
+    region for region in ACTIVE_DATA["region_cfg"] if region != "overall"
+    and any(ACTIVE_DATA["place_region"].get(marker["place_key"]) == region for marker in ACTIVE_DATA["markers"])
+)
 
 
 def digest(path: Path) -> str:
@@ -56,9 +73,6 @@ def truth_projection(data: dict) -> dict:
     markers = []
     for marker in data["markers"]:
         markers.append({key: marker[key] for key in marker if key not in {"coordinate_role", "coordinate_provenance"}})
-    providers = {}
-    for key, provider in data["providers"].items():
-        providers[key] = {field: provider.get(field) for field in ("tile_template", "health_probe", "requires_api_key", "default_fallback")}
     return {
         "routes": data["routes"],
         "dates": data["dates"],
@@ -69,7 +83,6 @@ def truth_projection(data: dict) -> dict:
         "legs": data["legs"],
         "endpoint_anchors": data["endpoint_anchors"],
         "replan_rules": data["replan_rules"],
-        "providers": providers,
     }
 
 
@@ -96,19 +109,21 @@ def static_report() -> dict:
     data = load(DATA_PATH)
     photos = load(PHOTO_MANIFEST_PATH)
     basemap = load(BASEMAP_MANIFEST_PATH)
-    provider_manifest = load(PROVIDER_MANIFEST_PATH)
     failures: list[str] = []
     checks: dict[str, bool] = {}
     checks["contract_project"] = contract.get("project") == "sf-trip-visualizer"
     checks["contract_gate"] = contract.get("gate") == "production_readiness_gate_4"
-    checks["canonical_authority"] = contract.get("authority", {}).get("canonical_data") == "data/phase7_app_data.json"
-    checks["freshness_authority"] = contract.get("authority", {}).get("freshness") == "manifests/trip_freshness.json"
-    checks["provider_manifest_authority"] = contract.get("authority", {}).get("provider_manifest") == "manifests/basemap_provider_manifest.json" and provider_manifest.get("user_selectable_provider_count") == 2 and all(key in provider_manifest for key in ("vector", "satellite"))
-    checks["providers_exact"] = set(data["providers"]) == {"vector", "satellite"} and set(contract["providers"]) == {"vector", "satellite"}
+    pipeline_contract = load(ROOT / "manifests" / "canonical_pipeline.json")
+    provider_classes = {"vector" if value.get("kind") == "vector" else "raster" for value in ACTIVE_PACKAGE["providers"].values()}
+    checks["canonical_authority"] = contract.get("authority", {}).get("canonical_data") == "$active_trip_package.canonical_data" and ACTIVE_PACKAGE["descriptor_path"] == pipeline_contract.get("authority", {}).get("active_trip_package")
+    checks["freshness_authority"] = contract.get("authority", {}).get("freshness") == "$active_trip_package.projections.freshness"
+    checks["provider_configuration_authority"] = contract.get("authority", {}).get("provider_configuration") == "$active_trip_package.providers"
+    checks["providers_exact"] = provider_classes == set(contract["providers"])
     checks["smart_is_local_and_critical"] = contract["providers"]["vector"]["network_required"] is False and contract["providers"]["vector"]["critical"] is True
     checks["smart_has_no_fallback"] = "never substitute" in contract["providers"]["vector"]["failure_behavior"]
     checks["no_runtime_routing"] = contract["providers"]["vector"]["no_runtime_routing"] is True
     checks["no_runtime_remote_photos"] = contract["providers"]["vector"]["no_runtime_remote_photos"] is True
+    checks["optional_raster_failure_contract"] = contract["providers"]["raster"]["network_required"] is True and contract["providers"]["raster"]["critical"] is False and "local vector" in contract["providers"]["raster"]["failure_behavior"]
 
     for name, passed in checks.items():
         if not passed:
@@ -179,7 +194,7 @@ def static_report() -> dict:
             row["freshness_embedded"] = extract_script_json(html, "TRIP_FRESHNESS") == load(FRESHNESS_PATH)
             row["bilingual_embedded"] = bool(extract_script_json(html, "TRIP_I18N").get("ko_to_en"))
             runtime_text = html + ((path.parent / "src/app_phase7.js").read_text() if label == "modular" else "")
-            row["local_photo_paths_present"] = all(item["local_thumb_path"] in html for item in photos["assets"] if item["role"] == "HERO") and "photoPath" in runtime_text and "assets/photos/" in runtime_text
+            row["local_photo_paths_present"] = all(item["local_thumb_path"] in html for item in photos["assets"] if item["role"] == "HERO") and "photoPath" in runtime_text and ACTIVE_PACKAGE["assets"]["photos"]["root"] in html
             row["no_remote_photo_urls"] = not any(url in runtime_text for url in ("upload.wikimedia.org", "thumb.wikimedia.org", "commons.wikimedia.org"))
         else:
             row.update({"contract_embedded": False, "truth_digest": None, "canonical_truth": False, "freshness_embedded": False, "bilingual_embedded": False, "local_photo_paths_present": False, "no_remote_photo_urls": False})
@@ -230,7 +245,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         return [url for url in requests if url.startswith(("http://", "https://")) and not re.match(r"https?://(127\.0\.0\.1|localhost)(:|/)", url)]
 
     def smart_identity(value):
-        return str(value or "").startswith("MapLibre 4.7.1+sf-trip-visualizer-r6")
+        return value == VECTOR_IDENTITY
 
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True, timeout=90000)
@@ -246,15 +261,15 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         initial = snapshot(page)
         initial_remote_requests = remote_requests(requests)
         core_failures = []
-        if initial["provider"] != "vector" or not smart_identity(initial["provider_identity"]) or initial["local_assets"]["status"] != "ready":
+        if initial["provider"] != VECTOR_PROVIDER or not smart_identity(initial["provider_identity"]) or initial["local_assets"]["status"] != "ready":
             core_failures.append("smart identity/readiness")
         if remote_requests(requests):
             core_failures.append("remote Smart first-use request")
-        page.locator('[data-mode="day"]').click()
-        page.locator('#dateSelect').select_option("10/3")
+        page.locator('#modeNav [data-mode="day"]').click()
+        page.locator('#dateSelect').select_option(FOCUS_DATE)
         page.locator('#mapOptionsToggle').click()
         page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
-        page.locator('[data-region="sf"]').click()
+        page.locator(f'[data-region="{FOCUS_REGION}"]').click()
         page.wait_for_timeout(400)
         if page.locator(".photo-marker").count():
             page.locator(".photo-marker").first.click()
@@ -284,29 +299,35 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         # Block only the optional provider after Smart is already usable.
         page.route("https://**/*", lambda route: route.abort())
         stable_state = snapshot(page)["planning_state"]
-        page.evaluate("async()=>await window.__tripApp.chooseProvider('satellite')")
-        page.wait_for_function("window.__tripApp.state.provider==='vector'", timeout=15000)
+        page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER)
+        page.wait_for_function("provider=>window.__tripApp.state.provider===provider", arg=VECTOR_PROVIDER, timeout=15000)
         blocked = snapshot(page)
         for _ in range(3):
-            page.evaluate("async()=>await window.__tripApp.chooseProvider('satellite')")
-            page.wait_for_function("window.__tripApp.state.provider==='vector'", timeout=15000)
+            page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER)
+            page.wait_for_function("provider=>window.__tripApp.state.provider===provider", arg=VECTOR_PROVIDER, timeout=15000)
         repeated = snapshot(page)
         if blocked["planning_state"] != stable_state or repeated["map"]["canvas_count"] != 1 or len(set(repeated["map"]["photo_marker_keys"])) != repeated["map"]["photo_markers"]:
-            core_failures.append("blocked Satellite recovery/state")
-        if repeated["runtime"]["providerStats"]["satellite"]["healthProbes"] > 4 or repeated["runtime"]["drawRequests"] > 18:
+            core_failures.append("blocked optional-provider recovery/state")
+        if repeated["runtime"]["providerStats"][RASTER_PROVIDER]["healthProbes"] > 4 or repeated["runtime"]["drawRequests"] > 18:
             core_failures.append("provider retry/request bound")
         page.unroute("https://**/*")
-        report["modular"] = {"initial": initial, "before_reload": before_reload, "after_reload": after_reload, "blocked_provider": blocked, "repeated_switches": repeated, "smart_first_use_remote_requests": initial_remote_requests, "optional_provider_requests": [url for url in remote_requests(requests) if "arcgisonline.com" in url], "remote_requests": remote_requests(requests), "page_errors": errors, "critical_pass": not core_failures, "failures": core_failures}
+        report["modular"] = {"initial": initial, "before_reload": before_reload, "after_reload": after_reload, "blocked_provider": blocked, "repeated_switches": repeated, "smart_first_use_remote_requests": initial_remote_requests, "optional_provider_requests": [url for url in remote_requests(requests) if RASTER_HOST in url], "remote_requests": remote_requests(requests), "page_errors": errors, "critical_pass": not core_failures, "failures": core_failures}
 
         # Deterministic local-asset failure cases: no remote substitution is allowed.
+        photo_manifest = load(PHOTO_MANIFEST_PATH)
+        hero_asset = next(item for item in photo_manifest["assets"] if item["role"].lower() == "hero")
+        hero_photo = hero_asset["local_medium_path"]
+        map_config = ACTIVE_PACKAGE["assets"]["map"]
         failure_routes = {
-            "missing_pmtiles": "**/assets/vector/sf_trip.pmtiles",
-            "corrupt_pmtiles": "**/assets/vector/sf_trip.pmtiles",
-            "missing_required_photo": "**/assets/photos/thumb/ferry__hero.webp",
-            "missing_terrain": "**/assets/vector/yosemite_hillshade_shadow.webp",
+            "missing_pmtiles": f"**/{map_config['vector_archive']}",
+            "corrupt_pmtiles": f"**/{map_config['vector_archive']}",
+            "missing_required_photo": f"**/{hero_photo}",
         }
+        if map_config.get("relief"):
+            failure_routes["missing_terrain"] = f"**/{map_config['relief']['path']}"
         for label, pattern in failure_routes.items():
-            failure_page = context.new_page()
+            failure_context = browser.new_context(viewport={"width": 1280, "height": 800})
+            failure_page = failure_context.new_page()
             failure_page.set_default_timeout(15000)
             failure_requests: list[str] = []
             failure_page.on("request", lambda request: failure_requests.append(request.url))
@@ -315,13 +336,22 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             else:
                 failure_page.route(pattern, lambda route: route.abort())
             failure_page.goto(modular_url, wait_until="domcontentloaded", timeout=90000)
+            if label == "missing_required_photo":
+                failure_page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
+                failure_page.locator("#modeNav [data-mode='place']").click()
+                failure_page.wait_for_function(
+                    "key=>!!document.querySelector(`#placeView:not([hidden]) [data-place-choice='${CSS.escape(key)}']`)" ,
+                    arg=hero_asset["place_key"], timeout=15000,
+                )
+                failure_page.locator(f"#placeView [data-place-choice='{hero_asset['place_key']}']").click()
+                failure_page.evaluate("document.querySelectorAll('#placeInspector .photo-grid img').forEach(image=>image.loading='eager')")
             failure_page.wait_for_timeout(4500)
             failure_snapshot = failure_page.evaluate("window.__tripApp?.runtimeSnapshot?.()")
             visible_failure = bool(failure_page.locator("#mapError:not([hidden])").count()) or bool(failure_page.locator("#loadingScreen.failed").count())
             row = {"case": label, "visible_failure": visible_failure, "provider": failure_snapshot.get("provider") if failure_snapshot else None, "provider_identity": failure_snapshot.get("provider_identity") if failure_snapshot else None, "remote_requests": remote_requests(failure_requests)}
-            row["pass"] = visible_failure and row["provider"] == "vector" and smart_identity(row["provider_identity"]) and not row["remote_requests"]
+            row["pass"] = visible_failure and row["provider"] == VECTOR_PROVIDER and smart_identity(row["provider_identity"]) and not row["remote_requests"]
             report["negative_checks"].append(row)
-            failure_page.close()
+            failure_context.close()
 
         standalone_context = browser.new_context(viewport={"width": 1280, "height": 800})
         standalone_page = standalone_context.new_page()
@@ -344,7 +374,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         standalone_page.evaluate("()=>window.__tripApp.map().resize()")
         standalone_snapshot = snapshot(standalone_page)
         standalone_row = {"snapshot": standalone_snapshot, "remote_requests": remote_requests(standalone_requests), "page_errors": standalone_errors}
-        standalone_row["critical_pass"] = standalone_snapshot["provider"] == "vector" and smart_identity(standalone_snapshot["provider_identity"]) and standalone_snapshot["local_assets"]["status"] == "ready" and not standalone_row["remote_requests"] and standalone_snapshot["map"]["canvas_count"] == 1
+        standalone_row["critical_pass"] = standalone_snapshot["provider"] == VECTOR_PROVIDER and smart_identity(standalone_snapshot["provider_identity"]) and standalone_snapshot["local_assets"]["status"] == "ready" and not standalone_row["remote_requests"] and standalone_snapshot["map"]["canvas_count"] == 1
         report["standalone"] = standalone_row
 
         # Deterministic provider recovery: establish a successful Satellite map with
@@ -360,24 +390,24 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             deterministic["requests"].append(url)
             if deterministic["phase"] == "success":
                 deterministic["success_requests"].append(url)
-                route.fulfill(status=200, content_type="image/png", body=SATELLITE_TILE_BODY)
+                route.fulfill(status=200, content_type="image/png", body=RASTER_TILE_BODY)
             else:
                 deterministic["failure_requests"].append(url)
                 route.abort()
 
-        deterministic_page.route("https://server.arcgisonline.com/**", deterministic_route)
+        deterministic_page.route(f"https://{RASTER_HOST}/**", deterministic_route)
         try:
             deterministic_page.goto(modular_url, wait_until="domcontentloaded", timeout=90000)
             wait_ready(deterministic_page)
-            deterministic_page.locator('[data-mode="day"]').click()
+            deterministic_page.locator('#modeNav [data-mode="day"]').click()
             # Oct 3 has no public place-to-place corridor because the day starts
             # and ends at private lodging and the afternoon Sausalito event is
             # represented without a photo-backed marker. Exercise spatial
             # recovery on Oct 4, which has visible public route legs.
-            deterministic_page.locator("#dateSelect").select_option("10/4")
+            deterministic_page.locator("#dateSelect").select_option(FOCUS_DATE)
             deterministic_page.locator("#mapOptionsToggle").click()
             deterministic_page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
-            deterministic_page.locator('[data-region="sf"]').click()
+            deterministic_page.locator(f'[data-region="{FOCUS_REGION}"]').click()
             deterministic_page.locator('[data-sheet="full"]').click()
             deterministic_page.locator("#langToggle").click()
             deterministic_page.locator("#themeToggle").click()
@@ -385,27 +415,27 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             if deterministic_page.locator(".photo-marker").count():
                 deterministic_page.locator(".photo-marker").first.click()
             deterministic_page.wait_for_timeout(300)
-            stable_before_satellite = snapshot(deterministic_page)
-            pre_satellite_smart_camera = stable_before_satellite.get("smart_camera")
-            if not pre_satellite_smart_camera or not pre_satellite_smart_camera.get("spatial", {}).get("useful"):
-                deterministic_failures.append("useful Smart camera/spatial context was not recorded before Satellite activation")
-            activated = bool(deterministic_page.evaluate("async()=>await window.__tripApp.chooseProvider('satellite')"))
-            deterministic_page.wait_for_function("window.__tripApp.state.provider==='satellite' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
-            satellite_active = snapshot(deterministic_page)
-            raster_success_requests = [url for url in deterministic["success_requests"] if "/ArcGIS/rest/services/World_Imagery/MapServer/tile/" in url and "health=" not in url and "viewport=" not in url]
-            if not activated or satellite_active["provider"] != "satellite" or satellite_active["provider_health"].get("satellite") != "ready" or not raster_success_requests:
-                deterministic_failures.append("fulfilled Satellite activation did not establish a ready raster map")
+            stable_before_raster = snapshot(deterministic_page)
+            pre_raster_smart_camera = stable_before_raster.get("smart_camera")
+            if not pre_raster_smart_camera or not pre_raster_smart_camera.get("spatial", {}).get("useful"):
+                deterministic_failures.append("useful Smart camera/spatial context was not recorded before raster activation")
+            activated = bool(deterministic_page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER))
+            deterministic_page.wait_for_function("provider=>window.__tripApp.state.provider===provider && window.__tripApp.state.runtime.mapVisualReady===true", arg=RASTER_PROVIDER, timeout=30000)
+            raster_active = snapshot(deterministic_page)
+            raster_success_requests = [url for url in deterministic["success_requests"] if RASTER_POLICY.get("path_prefix", "!") in url and "health=" not in url and "viewport=" not in url]
+            if not activated or raster_active["provider"] != RASTER_PROVIDER or raster_active["provider_health"].get(RASTER_PROVIDER) != "ready" or not raster_success_requests:
+                deterministic_failures.append("fulfilled optional-raster activation did not establish a ready map")
 
             deterministic["phase"] = "failure"
             deterministic_page.evaluate("()=>window.__tripApp.map().panTo([-118.2437,34.0522],{duration:0})")
-            deterministic_page.wait_for_function("window.__tripApp.state.provider==='vector' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
+            deterministic_page.wait_for_function("provider=>window.__tripApp.state.provider===provider && window.__tripApp.state.runtime.mapVisualReady===true", arg=VECTOR_PROVIDER, timeout=30000)
             deterministic_page.wait_for_timeout(900)
             recovered = snapshot(deterministic_page)
-            fallback_events = [event for event in recovered["provider_events"] if event.get("type") == "fallback_to_smart" and event.get("provider") == "satellite" and event.get("reason") == "tile_error"]
-            tile_events = [event for event in recovered["provider_events"] if event.get("type") == "tile_error" and event.get("provider") == "satellite"]
-            stats = recovered["runtime"]["providerStats"]["satellite"]
-            preserved = stable_before_satellite["planning_state"] == recovered["planning_state"]
-            activation_state_preserved = stable_before_satellite["planning_state"] == satellite_active["planning_state"]
+            fallback_events = [event for event in recovered["provider_events"] if event.get("type") == "fallback_to_smart" and event.get("provider") == RASTER_PROVIDER and event.get("reason") == "tile_error"]
+            tile_events = [event for event in recovered["provider_events"] if event.get("type") == "tile_error" and event.get("provider") == RASTER_PROVIDER]
+            stats = recovered["runtime"]["providerStats"][RASTER_PROVIDER]
+            preserved = stable_before_raster["planning_state"] == recovered["planning_state"]
+            activation_state_preserved = stable_before_raster["planning_state"] == raster_active["planning_state"]
             inherited_remote_spatial = deterministic_page.evaluate("""()=>{const app=window.__tripApp,map=app.map();map.jumpTo({center:[-118.2437,34.0522],zoom:13,bearing:0,pitch:0});return app.mapSpatialSnapshot();}""")
             restored_view = recovered.get("map", {}).get("camera")
             if restored_view:
@@ -413,15 +443,15 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             deterministic_page.wait_for_timeout(250)
             recovered = snapshot(deterministic_page)
             recovered_spatial = recovered.get("map", {}).get("spatial") or {}
-            prior_view = pre_satellite_smart_camera or {}
+            prior_view = pre_raster_smart_camera or {}
             recovered_view = recovered.get("map", {}).get("camera") or {}
             camera_match = bool(prior_view and recovered_view and all(abs(float(recovered_view["center"][index]) - float(prior_view["center"][index])) < 0.0001 for index in (0, 1)) and abs(float(recovered_view["zoom"]) - float(prior_view["zoom"])) < 0.01)
             spatial_recovery = {
-                "pre_satellite_smart_camera": pre_satellite_smart_camera,
+                "pre_raster_smart_camera": pre_raster_smart_camera,
                 "recovered_smart_camera": recovered.get("smart_camera"),
                 "recovered_map_camera": recovered_view,
                 "camera_restored": camera_match,
-                "inherited_satellite_camera_negative_control": inherited_remote_spatial,
+                "inherited_remote_camera_negative_control": inherited_remote_spatial,
                 "inherited_camera_was_spatially_empty": not inherited_remote_spatial.get("useful") and inherited_remote_spatial.get("markers_in_viewport", 0) == 0 and inherited_remote_spatial.get("route_features_in_viewport", 0) == 0,
                 "recovered_spatial": recovered_spatial,
                 "recovered_useful": bool(recovered_spatial.get("useful")),
@@ -432,7 +462,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             bounded = {
                 "single_fallback": stats["fallbacks"] == 1 and len(fallback_events) == 1,
                 "single_tile_error_episode": stats["tileErrors"] == 1 and len(tile_events) == 1,
-                "one_recovery_draw": recovered["runtime"]["mapCreations"] - satellite_active["runtime"]["mapCreations"] == 1,
+                "one_recovery_draw": recovered["runtime"]["mapCreations"] - raster_active["runtime"]["mapCreations"] == 1,
                 "single_canvas": recovered["map"]["canvas_count"] == 1,
                 "unique_markers": len(set(recovered["map"]["photo_marker_keys"])) == recovered["map"]["photo_markers"],
                 "bounded_failure_requests": len(deterministic["failure_requests"]) <= 48,
@@ -443,44 +473,45 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
             feedback_message = deterministic_page.locator("#mapError .map-error-message").inner_text() if deterministic_page.locator("#mapError:not([hidden])").count() else ""
             feedback_action = deterministic_page.locator("#smartRetry").inner_text() if deterministic_page.locator("#smartRetry").count() else ""
             feedback_visible = bool(feedback_message) and "Smart" in feedback_message
-            feedback_truthful = feedback_visible and "failed" not in feedback_message.lower() and "Satellite" in feedback_action
+            raster_label = ACTIVE_PACKAGE["providers"][RASTER_PROVIDER].get("label_en", RASTER_PROVIDER)
+            feedback_truthful = feedback_visible and "failed" not in feedback_message.lower() and raster_label in feedback_action
             feedback_dismissible = bool(deterministic_page.locator("#mapErrorDismiss").count()) and deterministic_page.locator("#mapErrorDismiss").is_visible()
-            screenshot_path = ROOT / "QA" / "CHG-232" / "screenshots" / "satellite_failure_recovery_1440x900.png"
+            screenshot_path = ROOT / "QA" / "CHG-232" / "screenshots" / "optional_raster_failure_recovery_1440x900.png"
             screenshot_path.parent.mkdir(parents=True, exist_ok=True)
             deterministic_page.screenshot(path=str(screenshot_path))
-            retry_before = recovered["runtime"]["providerStats"]["satellite"]["healthProbes"]
+            retry_before = recovered["runtime"]["providerStats"][RASTER_PROVIDER]["healthProbes"]
             deterministic["phase"] = "success"
-            retry_result = bool(deterministic_page.evaluate("async()=>await window.__tripApp.chooseProvider('satellite')"))
-            deterministic_page.wait_for_function("window.__tripApp.state.provider==='satellite' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
+            retry_result = bool(deterministic_page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER))
+            deterministic_page.wait_for_function("provider=>window.__tripApp.state.provider===provider && window.__tripApp.state.runtime.mapVisualReady===true", arg=RASTER_PROVIDER, timeout=30000)
             retry_snapshot = snapshot(deterministic_page)
-            retry_allowed = retry_result and retry_snapshot["runtime"]["providerStats"]["satellite"]["healthProbes"] > retry_before
-            deterministic_page.evaluate("async()=>await window.__tripApp.chooseProvider('vector')")
-            deterministic_page.wait_for_function("window.__tripApp.state.provider==='vector' && window.__tripApp.state.runtime.mapVisualReady===true", timeout=30000)
+            retry_allowed = retry_result and retry_snapshot["runtime"]["providerStats"][RASTER_PROVIDER]["healthProbes"] > retry_before
+            deterministic_page.evaluate("async provider=>await window.__tripApp.chooseProvider(provider)", VECTOR_PROVIDER)
+            deterministic_page.wait_for_function("provider=>window.__tripApp.state.provider===provider && window.__tripApp.state.runtime.mapVisualReady===true", arg=VECTOR_PROVIDER, timeout=30000)
             if not activation_state_preserved:
                 deterministic_failures.append("Satellite activation changed planning/presentation state")
             if not preserved:
                 deterministic_failures.append("Satellite tile failure did not preserve planning/presentation state")
             if not all(bounded.values()):
                 deterministic_failures.extend([f"bounded recovery assertion failed: {name}" for name, passed in bounded.items() if not passed])
-            if recovered["provider"] != "vector" or not smart_identity(recovered["provider_identity"]):
+            if recovered["provider"] != VECTOR_PROVIDER or not smart_identity(recovered["provider_identity"]):
                 deterministic_failures.append("recovery did not return to the local Smart provider")
-            if recovered["provider_health"].get("satellite") != "failed":
-                deterministic_failures.append("Satellite health was not marked failed")
+            if recovered["provider_health"].get(RASTER_PROVIDER) != "failed":
+                deterministic_failures.append("Optional raster health was not marked failed")
             if not recovered["map_visual_ready"]:
                 deterministic_failures.append("Smart map_visual_ready did not recover")
             if not feedback_visible:
                 deterministic_failures.append("Satellite recovery feedback was not visible")
             if not feedback_truthful:
-                deterministic_failures.append("Satellite recovery feedback did not truthfully describe usable Smart recovery")
+                deterministic_failures.append("Optional raster recovery feedback did not truthfully describe local map recovery")
             if not feedback_dismissible:
                 deterministic_failures.append("Satellite recovery feedback was not visibly dismissible")
             if not retry_allowed:
-                deterministic_failures.append("explicit later Satellite probe was not allowed")
+                deterministic_failures.append("explicit later optional-raster probe was not allowed")
             deterministic_row = {
-                "status": "PASS" if not deterministic_failures and recovered["provider"] == "vector" and smart_identity(recovered["provider_identity"]) and recovered["provider_health"].get("satellite") == "failed" and recovered["map_visual_ready"] and preserved and feedback_visible and all(bounded.values()) and retry_allowed else "FAIL",
+                "status": "PASS" if not deterministic_failures and recovered["provider"] == VECTOR_PROVIDER and smart_identity(recovered["provider_identity"]) and recovered["provider_health"].get(RASTER_PROVIDER) == "failed" and recovered["map_visual_ready"] and preserved and feedback_visible and all(bounded.values()) and retry_allowed else "FAIL",
                 "mode": "deterministic_fulfilled_then_failed_remote_raster",
-                "activation": {"result": activated, "provider": satellite_active["provider"], "provider_health": satellite_active["provider_health"], "success_requests": len(deterministic["success_requests"]), "raster_success_requests": len(raster_success_requests), "snapshot": satellite_active},
-                "recovery": {"provider": recovered["provider"], "provider_identity": recovered["provider_identity"], "provider_health": recovered["provider_health"], "satellite_stats": stats, "tile_error_events": tile_events, "fallback_events": fallback_events, "activation_state_preserved": activation_state_preserved, "planning_state_preserved": preserved, "feedback_visible": feedback_visible, "feedback_truthful": feedback_truthful, "feedback_dismissible": feedback_dismissible, "map_visual_ready": recovered["map_visual_ready"], "spatial_recovery": spatial_recovery, "snapshot": recovered},
+                "activation": {"result": activated, "provider": raster_active["provider"], "provider_health": raster_active["provider_health"], "success_requests": len(deterministic["success_requests"]), "raster_success_requests": len(raster_success_requests), "snapshot": raster_active},
+                "recovery": {"provider": recovered["provider"], "provider_identity": recovered["provider_identity"], "provider_health": recovered["provider_health"], "raster_stats": stats, "tile_error_events": tile_events, "fallback_events": fallback_events, "activation_state_preserved": activation_state_preserved, "planning_state_preserved": preserved, "feedback_visible": feedback_visible, "feedback_truthful": feedback_truthful, "feedback_dismissible": feedback_dismissible, "map_visual_ready": recovered["map_visual_ready"], "spatial_recovery": spatial_recovery, "snapshot": recovered},
                 "retry_allowed": retry_allowed,
                 "bounded": bounded,
                 "failure_requests": len(deterministic["failure_requests"]),
@@ -489,7 +520,7 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
                 "failures": deterministic_failures,
             }
         except Exception as error:
-            deterministic_failures.append(f"deterministic Satellite recovery: {type(error).__name__}: {error}")
+            deterministic_failures.append(f"deterministic optional-raster recovery: {type(error).__name__}: {error}")
             deterministic_row = {"status": "FAIL", "mode": "deterministic_fulfilled_then_failed_remote_raster", "failure_requests": len(deterministic["failure_requests"]), "failures": deterministic_failures}
         finally:
             deterministic_page.close()
@@ -501,18 +532,18 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         provider_page.on("request", lambda request: provider_requests.append(request.url))
         provider_page.goto(modular_url, wait_until="domcontentloaded", timeout=90000)
         wait_ready(provider_page)
-        provider_success = bool(provider_page.evaluate("async()=>await window.__tripApp.chooseProvider('satellite')"))
-        if provider_success and provider_page.evaluate("window.__tripApp.state.provider==='satellite'"):
-            report["external_provider"] = {"status": "PASS", "provider": "satellite", "success_requests": len([url for url in provider_requests if "arcgisonline.com" in url]), "note": "optional success path independently observed in this environment"}
-            provider_page.route("https://server.arcgisonline.com/**", lambda route: route.abort())
+        provider_success = bool(provider_page.evaluate("provider=>window.__tripApp.chooseProvider(provider)", RASTER_PROVIDER)) if RASTER_PROVIDER else False
+        if provider_success and provider_page.evaluate("provider=>window.__tripApp.state.provider===provider", RASTER_PROVIDER):
+            report["external_provider"] = {"status": "PASS", "provider": RASTER_PROVIDER, "success_requests": len([url for url in provider_requests if RASTER_HOST in url]), "note": "optional provider success path independently observed in this environment"}
+            provider_page.route(f"https://{RASTER_HOST}/**", lambda route: route.abort())
             provider_page.evaluate("()=>window.__tripApp.map().jumpTo({center:[-122.42,37.78],zoom:12})")
             try:
-                provider_page.wait_for_function("window.__tripApp.state.provider==='vector'", timeout=15000)
+                provider_page.wait_for_function("provider=>window.__tripApp.state.provider===provider", arg=VECTOR_PROVIDER, timeout=15000)
                 report["external_provider"]["post_switch_tile_failure_recovery"] = "PASS"
             except Exception:
                 report["external_provider"]["post_switch_tile_failure_recovery"] = "VERIFY_REQUIRED"
         else:
-            report["external_provider"] = {"status": "VERIFY_REQUIRED", "reason": "Satellite health/viewport success was not independently established; Smart qualification remains network-independent", "requests": len(provider_requests)}
+            report["external_provider"] = {"status": "VERIFY_REQUIRED", "reason": "Optional raster health/viewport success was not independently established; local vector qualification remains network-independent", "provider": RASTER_PROVIDER, "requests": len(provider_requests)}
         provider_page.close()
         standalone_context.close()
         context.close()

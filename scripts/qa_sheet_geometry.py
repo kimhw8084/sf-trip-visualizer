@@ -20,7 +20,7 @@ MOBILE_PORTRAITS = {(360, 800), (390, 844), (414, 896), (375, 812)}
 def wait_ready(page) -> None:
     page.goto(MODULAR_URL, wait_until="domcontentloaded", timeout=90000)
     page.wait_for_function("window.__tripApp?.map()?.isStyleLoaded()", timeout=30000)
-    page.wait_for_function("document.querySelectorAll('.photo-marker').length > 0", timeout=15000)
+    page.wait_for_function("window.__tripApp?.state?.runtime?.mapVisualReady === true", timeout=30000)
     page.evaluate("window.__tripApp.whenGeometryIdle()")
 
 
@@ -166,7 +166,7 @@ def main() -> int:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: compact map is not materially larger than expanded")
                     if compact["workbench_height"] >= 220 or compact["workbench_height"] >= expanded["workbench_height"] * 0.8:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: compact workbench is not actual-controls height")
-                    if full["workbench_height"] <= expanded["workbench_height"] * 1.5:
+                    if full["workbench_height"] < viewport[1] * 0.85:
                         report["failures"].append(f"{viewport[0]}x{viewport[1]}: full sheet is not task-dominant")
 
                     activate(page, "expanded", "pointer")

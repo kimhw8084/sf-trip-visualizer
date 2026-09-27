@@ -176,7 +176,7 @@ def scan_text(text: str, relative_path: str) -> list[dict]:
     return findings
 
 
-def active_trip_location_privacy_report(data: dict) -> dict:
+def active_trip_location_privacy_report(data: dict, canonical_data_path: str = "") -> dict:
     """Reject residential lodging identities and address-shaped active records."""
     failures: list[dict] = []
     private_identity = re.compile(r"lodging|hotel|residence|residential|cabin|guesthouse|home|house|숙소|호텔", re.IGNORECASE)
@@ -186,20 +186,20 @@ def active_trip_location_privacy_report(data: dict) -> dict:
     for marker in data.get("markers", []):
         label = " ".join(str(marker.get(field, "")) for field in ("place_key", "title", "title_en", "title_ko", "cluster"))
         if private_identity.search(label):
-            failures.append({"path": "data/phase7_app_data.json", "classification": "residential_lodging_as_public_place", "identity": "<redacted:place-key>"})
+            failures.append({"path": canonical_data_path, "classification": "residential_lodging_as_public_place", "identity": "<redacted:place-key>"})
 
     def inspect(value: object, trail: str) -> None:
         if isinstance(value, dict):
             for key, child in value.items():
                 next_trail = f"{trail}.{key}" if trail else str(key)
                 if sensitive_field.fullmatch(str(key)) and child not in (None, "", [], {}):
-                    failures.append({"path": "data/phase7_app_data.json", "classification": "private_address_or_occupancy_field", "field": "<redacted:field>"})
+                    failures.append({"path": canonical_data_path, "classification": "private_address_or_occupancy_field", "field": "<redacted:field>"})
                 private_context = bool(private_identity.search(next_trail) or isinstance(child, str) and private_identity.search(child))
                 coordinate_key = re.fullmatch(r"(?:lat|lon|latitude|longitude|coordinates?|coordinate_pair)", str(key), re.IGNORECASE)
                 coordinate_pair_value = isinstance(child, str) and bool(coordinate_pair.search(child))
                 coordinate_array_value = isinstance(child, list) and len(child) >= 2 and all(isinstance(item, (int, float)) for item in child[:2])
                 if private_context and (coordinate_key or coordinate_pair_value or coordinate_array_value) and child not in (None, "", [], {}):
-                    failures.append({"path": "data/phase7_app_data.json", "classification": "private_residential_coordinate_field", "field": "<redacted:field>"})
+                    failures.append({"path": canonical_data_path, "classification": "private_residential_coordinate_field", "field": "<redacted:field>"})
                 inspect(child, next_trail)
         elif isinstance(value, list):
             for child in value:
@@ -208,14 +208,22 @@ def active_trip_location_privacy_report(data: dict) -> dict:
     inspect(data, "")
     for leg in data.get("legs", []):
         if private_identity.search(f"{leg.get('from', '')} {leg.get('to', '')}"):
-            failures.append({"path": "data/phase7_app_data.json", "classification": "residential_lodging_route_endpoint", "identity": "<redacted:endpoint>"})
+            failures.append({"path": canonical_data_path, "classification": "residential_lodging_route_endpoint", "identity": "<redacted:endpoint>"})
     return {"status": "PASS" if not failures else "FAIL", "checks": ["active_place_labels", "lodging_fields", "route_endpoints"], "failures": failures}
 
 
 def check_active_trip_location_privacy(root: Path = ROOT) -> dict:
-    path = root / "data" / "phase7_app_data.json"
+    pipeline = load_json(root / "manifests" / "canonical_pipeline.json")
+    descriptor_relative = pipeline.get("authority", {}).get("active_trip_package", "")
+    descriptor = load_json(root / descriptor_relative) if descriptor_relative and (root / descriptor_relative).is_file() else {}
+    canonical_relative = descriptor.get("canonical_data", "")
+    path = root / canonical_relative if canonical_relative else root / "__missing_active_trip__"
     data = load_json(path) if path.is_file() else {}
-    return active_trip_location_privacy_report(data)
+    report = active_trip_location_privacy_report(data, canonical_relative)
+    if not descriptor:
+        report["status"] = "FAIL"
+        report["failures"].append({"path": "manifests/canonical_pipeline.json", "classification": "active_trip_package_missing"})
+    return report
 
 
 def read_text_if_safe(path: Path) -> str | None:
@@ -257,6 +265,17 @@ def production_paths(root: Path, contract: dict) -> list[Path]:
     if canonical_manifest_path.is_file():
         canonical_manifest = load_json(canonical_manifest_path)
         paths.extend(root / relative for relative in canonical_manifest.get("authored_inputs", []) if (root / relative).exists())
+        descriptor_relative = canonical_manifest.get("authority", {}).get("active_trip_package", "")
+        descriptor_path = root / descriptor_relative if descriptor_relative else None
+        if descriptor_path and descriptor_path.is_file():
+            descriptor = load_json(descriptor_path)
+            paths.append(descriptor_path)
+            paths.extend(root / relative for relative in [descriptor.get("canonical_data", ""), *descriptor.get("projections", {}).values()] if relative and (root / relative).exists())
+            assets = descriptor.get("assets", {})
+            for relative in [*assets.get("map", {}).get("local_resources", []), assets.get("photos", {}).get("thumb_dir", ""), assets.get("photos", {}).get("medium_dir", "")]:
+                path = root / relative if relative else None
+                if path and path.exists():
+                    paths.append(path)
     for relative in contract.get("authority", {}).values():
         if isinstance(relative, str) and (root / relative).is_file():
             paths.append(root / relative)
@@ -267,9 +286,7 @@ def production_paths(root: Path, contract: dict) -> list[Path]:
             root / "src" / "app_phase7.css",
             root / "src" / "map_first.css",
             root / "assets",
-            root / "manifests" / "asset_manifest.json",
             root / "manifests" / "source_manifest.json",
-            root / "manifests" / "map_first_basemap_manifest.json",
         ]
     )
     paths.extend(sorted((root / ".github" / "workflows").glob("*.yml")))
@@ -653,18 +670,43 @@ def check_workflows(root: Path = ROOT, contract: dict | None = None) -> dict:
 
 def check_origins(root: Path = ROOT) -> dict:
     failures: list[str] = []
-    data_path = root / "data" / "phase7_app_data.json"
+    pipeline = load_json(root / "manifests" / "canonical_pipeline.json")
+    descriptor_path = pipeline.get("authority", {}).get("active_trip_package", "")
+    descriptor = load_json(root / descriptor_path) if descriptor_path and (root / descriptor_path).is_file() else {}
+    data_path = root / descriptor.get("canonical_data", "")
     data = load_json(data_path) if data_path.is_file() else {}
-    satellite = data.get("providers", {}).get("satellite", {})
-    expected_tile = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-    expected_probe = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655"
-    if satellite.get("tile_template") != expected_tile or satellite.get("health_probe") != expected_probe or satellite.get("requires_api_key", False) is not False:
-        failures.append("satellite provider is not the fixed, unauthenticated Esri configuration")
+    policy = descriptor.get("source_policy", {})
+    providers = descriptor.get("providers", {})
+    directions = policy.get("external", {}).get("directions", {})
+    vector_provider_ids = [provider_id for provider_id, config in providers.items() if config.get("kind") == "vector"]
+    if not descriptor or not providers or len(vector_provider_ids) != 1:
+        failures.append("active trip package source/provider policy is unavailable")
+    for provider_id, provider in providers.items():
+        if provider.get("kind") == "vector":
+            if provider.get("local") is not True:
+                failures.append("local vector provider is not package-declared")
+            continue
+        external = policy.get("external", {}).get(provider_id, {})
+        template, probe = urlparse(provider.get("tile_template", "")), urlparse(provider.get("health_probe", ""))
+        if (provider.get("kind") != "raster" or provider.get("requires_api_key", False) is not False
+                or template.scheme != "https" or template.hostname != external.get("host")
+                or template.username or template.password or template.port or template.fragment
+                or not template.path.startswith(external.get("path_prefix", "!"))
+                or probe.scheme != "https" or probe.hostname != external.get("host")
+                or probe.username or probe.password or probe.port or probe.fragment
+                or not probe.path.startswith(external.get("path_prefix", "!"))):
+            failures.append(f"package raster provider {provider_id} escapes its declared HTTPS policy")
     for marker in data.get("markers", []):
         value = marker.get("maps_url", "")
         parsed = urlparse(value)
         query = parse_qs(parsed.query, keep_blank_values=True)
-        if parsed.scheme != "https" or parsed.netloc != "www.google.com" or parsed.path != "/maps/search/" or parsed.fragment or parsed.username or parsed.password or set(query) != {"api", "query"} or query.get("api") != ["1"] or not query.get("query", [""])[0]:
+        path_rule = directions.get("paths", {}).get(parsed.path, {})
+        allowed = set(directions.get("allowed_query", []))
+        if (parsed.scheme != directions.get("scheme") or parsed.hostname != directions.get("host")
+                or parsed.port or parsed.username or parsed.password or parsed.fragment
+                or parsed.path not in directions.get("paths", {}) or not set(query) <= allowed
+                or not set(path_rule.get("required_query", [])) <= set(query)
+                or any(query.get(key) != [expected] for key, expected in path_rule.get("required_values", {}).items())):
             failures.append(f"unsafe canonical navigation URL for {marker.get('place_key', '<unknown>')}")
     runtime_files = [root / "src" / "app_phase7.js", root / "src" / "map_shell_template.html", root / "scripts" / "build_map_first.py"]
     for path in runtime_files:
@@ -675,7 +717,12 @@ def check_origins(root: Path = ROOT) -> dict:
             window = text[match.start() : match.start() + 220]
             if "noopener" not in window or "noreferrer" not in window or "referrerpolicy=\"no-referrer\"" not in window:
                 failures.append(f"new-context link lacks opener/referrer controls in {path.relative_to(root)}")
-    return {"status": "PASS" if not failures else "FAIL", "provider_origin": "https://server.arcgisonline.com", "navigation_origin": "https://www.google.com", "failures": failures}
+    provider_origins = sorted({
+        f"{urlparse(provider.get('tile_template', '')).scheme}://{urlparse(provider.get('tile_template', '')).hostname}"
+        for provider in providers.values() if provider.get("kind") == "raster" and urlparse(provider.get("tile_template", "")).hostname
+    })
+    navigation_origin = f"{directions.get('scheme', '')}://{directions.get('host', '')}" if directions else ""
+    return {"status": "PASS" if not failures else "FAIL", "raster_provider_origins": provider_origins, "navigation_origin": navigation_origin, "failures": failures}
 
 
 def check_local_storage(root: Path = ROOT, contract: dict | None = None) -> dict:
@@ -715,7 +762,12 @@ def check_candidate_binding(root: Path, requested_revision: str | None, contract
     source_paths = [
         "manifests/security_privacy_contract.json",
         "manifests/canonical_pipeline.json",
+        "manifests/runtime_resilience_contract.json",
         "requirements-qa.txt",
+        "scripts/trip_package.py",
+        "scripts/qa_trip_package_portability.py",
+        "scripts/qa_phone_field_surface.py",
+        "tests/test_trip_package.py",
         "scripts/pipeline.py",
         "scripts/hosted_linux_pipeline.py",
         "scripts/build_map_first.py",

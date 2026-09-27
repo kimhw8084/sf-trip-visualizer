@@ -22,6 +22,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,6 +49,9 @@ CURRENT_EVIDENCE = {
 SOURCE_EXCLUDED_PREFIXES = ("QA/", ".build/", ".release/", ".public-site/")
 REQUIRED_PAIRED_BASELINE_REVISION = "7d5d8727b1772642e87311d91d087e211656f6e4"
 REQUIRED_PAIRED_BASELINE_TREE = "ede888516de0dc9c8554036435ae9f8034aaea4f"
+ACTIVE_PACKAGE = load_package(DEFAULT_PACKAGE)
+VECTOR_PROVIDER = ACTIVE_PACKAGE["vector_provider_id"]
+RASTER_PROVIDER = ACTIVE_PACKAGE["raster_provider_ids"][0]
 
 
 def now() -> str:
@@ -166,7 +170,11 @@ def provider_row(path: Path, expected_revision: str, started_ns: int) -> tuple[d
     if payload.get("status") != "PASS":
         failures.append(f"provider_recovery: status is {payload.get('status')!r}")
     if deterministic.get("status") != "PASS":
-        failures.append(f"provider_recovery: deterministic Satellite recovery is {deterministic.get('status')!r}")
+        failures.append(f"provider_recovery: deterministic optional-provider recovery is {deterministic.get('status')!r}")
+    activation_provider = deterministic.get("activation", {}).get("provider")
+    recovered_provider = deterministic.get("recovery", {}).get("provider")
+    if activation_provider != RASTER_PROVIDER or recovered_provider != VECTOR_PROVIDER:
+        failures.append("provider_recovery: provider identities do not match the active trip package")
     if payload.get("failures") or payload.get("errors"):
         failures.append("provider_recovery: errors or contradictory failures are present")
     row["status"] = "PASS" if not failures else "FAIL"

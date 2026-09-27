@@ -1,22 +1,19 @@
 {
   "vector": {
-    "label": "Smart map",
-    "kind": "local Protomaps vector extract with bundled labels and Yosemite relief",
+    "label": "Smart · local",
+    "kind": "MapLibre 4.7.1+sf-trip-visualizer-r6 · local PMTiles",
     "network_required": false,
-    "attribution": "© OpenStreetMap contributors · Protomaps; Yosemite relief: USGS The National Map 3DEP",
-    "fallback": "none; Smart map remains the selected renderer and exposes a load error instead of silently changing map type"
+    "attribution": "© OpenStreetMap contributors · Protomaps",
+    "failure_behavior": "Remain selected and expose a load error; do not silently substitute another map."
   },
   "satellite": {
-    "label": "Satellite + labels",
-    "kind": "Esri World Imagery with bundled local vector labels",
+    "label": "Satellite · Esri World Imagery",
+    "kind": "satellite-esri-with-local-labels",
     "network_required": true,
-    "health_probe": "service tile plus selected viewport tile; viewport monitored after switch",
-    "failure_behavior": "automatic return to Smart map",
-    "attribution": "Tiles © Esri and contributors; labels © OpenStreetMap contributors · Protomaps"
+    "attribution": "Tiles © Esri and contributors",
+    "failure_behavior": "Return to the selected local vector map if optional imagery fails.",
+    "health_probe": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1583/655"
   },
   "user_selectable_provider_count": 2,
-  "removed_user_choices": [
-    "USGS topo",
-    "Live OSM"
-  ]
+  "removed_user_choices": []
 }

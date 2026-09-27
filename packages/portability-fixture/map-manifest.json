@@ -1,0 +1,114 @@
+{
+  "version": "map-first-1.0",
+  "generated": "2026-09-26",
+  "trip_identity": "qa-fixture-juniper-coast",
+  "display_title": "QA Fixture · Juniper Coast Field Card",
+  "default": "juniper_local_map",
+  "fallback": null,
+  "vector_source": {
+    "label": "Synthetic Juniper Range local QA atlas",
+    "source_build": "local-non-shipping-fixture",
+    "extraction_bbox_lonlat": [
+      -124.0,
+      45.0,
+      -122.0,
+      47.0
+    ],
+    "max_source_zoom": 8,
+    "render_engine": "MapLibre GL JS (direct)",
+    "online_api_key_required": false,
+    "license_attribution": "© Synthetic QA fixture",
+    "standalone_loading": "Embedded PMTiles FileSource and bundled glyph/sprite protocols",
+    "modular_loading": "Local HTTP Range requests; use scripts/serve_map.py"
+  },
+  "assets": [
+    {
+      "path": "packages/portability-fixture/assets/map/fonts/Noto Sans Italic/0-255.pbf",
+      "bytes": 79344,
+      "sha256": "43edfca91c285ba1226f09d5e74d68e1473a088c517f02a5212ff6ccb10037dc"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/fonts/Noto Sans Italic/256-511.pbf",
+      "bytes": 132976,
+      "sha256": "a6f9f6574c86a4a28aba630ca1017857ceadd2370ed32a1293c35f819ab9bd60"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/fonts/Noto Sans Medium/0-255.pbf",
+      "bytes": 77628,
+      "sha256": "ba2f0118dd024e3041b158e5f9eb49bc0a658019f53f458e9f5c0b8efcd79b91"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/fonts/Noto Sans Medium/256-511.pbf",
+      "bytes": 129635,
+      "sha256": "d5e801a1a5b1d409d3298c3a1e1ca76328e2314a751078833a618620e8e66e4d"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/fonts/Noto Sans Regular/0-255.pbf",
+      "bytes": 76044,
+      "sha256": "62c6d49b15fa836eb6aa45e259c7ca6762f44b011b09e47776efbe4a6db1b397"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/fonts/Noto Sans Regular/256-511.pbf",
+      "bytes": 127726,
+      "sha256": "2eca7561f9f566bcacfda5dd04fb5880baec1328ec0f5484678289a13994de8a"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/juniper-range.pmtiles",
+      "bytes": 409,
+      "sha256": "c26aa81504b35320314f179051a9c87888f1ba915454d9430c7d1fa4c8e57f4b"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/sprites/dark.json",
+      "bytes": 3549,
+      "sha256": "bfac76cf7ed5c2aa2992695904056a1c6b07785b7fd20e6c640cb44fd6244a2e"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/sprites/dark.png",
+      "bytes": 16054,
+      "sha256": "8920f68e8f9f7a4188da43e62a81bbc426532579fff7b5f27aad09e130f4246e"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/sprites/dark@2x.json",
+      "bytes": 3579,
+      "sha256": "1fb5b123fbe35d2e1f6ac171513ce01df89e671273a417ee89c44886a4c132f0"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/sprites/dark@2x.png",
+      "bytes": 28407,
+      "sha256": "6e01b4e366d304f27bbd55390511a3d4e39aa1d03eb3e82f873f7ea32e74cbe4"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/sprites/light.json",
+      "bytes": 3549,
+      "sha256": "bfac76cf7ed5c2aa2992695904056a1c6b07785b7fd20e6c640cb44fd6244a2e"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/sprites/light.png",
+      "bytes": 16174,
+      "sha256": "b6a34640917bdc57d0bd080836db33376371a3312ebe7b849045268015de3481"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/sprites/light@2x.json",
+      "bytes": 3579,
+      "sha256": "1fb5b123fbe35d2e1f6ac171513ce01df89e671273a417ee89c44886a4c132f0"
+    },
+    {
+      "path": "packages/portability-fixture/assets/map/sprites/light@2x.png",
+      "bytes": 28852,
+      "sha256": "23f6e9df27c2e9a14385763980a24e3608966bfc8192a106058bc2ca959ab563"
+    }
+  ],
+  "provider_failure_domains": {
+    "juniper_local_map": "package-local QA archive",
+    "beacon_tiles": "non-routable fixture provider"
+  },
+  "user_selectable_providers": [
+    "juniper_local_map",
+    "beacon_tiles"
+  ],
+  "internal_emergency_fallback": null,
+  "retired_user_choices": [],
+  "policy_notes": [
+    "Synthetic geometry and imagery for architecture verification only."
+  ]
+}

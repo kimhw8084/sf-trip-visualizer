@@ -12,6 +12,7 @@ import zipfile
 from pathlib import Path
 
 from public_asset_rights import audit_tree, load_contract, load_json
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -57,9 +58,12 @@ def main() -> None:
     if qualification.get("status") != "PASS" or qualification.get("candidate_head") != args.revision or head != args.revision:
         raise SystemExit("A PASS qualification for the exact checkout is required before packaging.")
     build_manifest = BUILD / "build_manifest.json"
-    if qualification.get("build", {}).get("manifest_sha256") != digest(build_manifest) or qualification.get("build", {}).get("modular_index_sha256") != digest(BUILD / "modular" / "index.html") or qualification.get("build", {}).get("standalone_sha256") != digest(BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"):
+    build_metadata = json.loads(build_manifest.read_text())
+    standalone = BUILD / build_metadata["standalone"]["path"]
+    trip = load_package(DEFAULT_PACKAGE)
+    if qualification.get("build", {}).get("manifest_sha256") != digest(build_manifest) or qualification.get("build", {}).get("modular_index_sha256") != digest(BUILD / "modular" / "index.html") or qualification.get("build", {}).get("standalone_sha256") != digest(standalone):
         raise SystemExit("Qualified build inputs changed after qualification; refusing to package.")
-    for required in (BUILD / "modular" / "index.html", BUILD / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html", PUBLIC / "index.html", PUBLIC / ".release-provenance.json"):
+    for required in (BUILD / "modular" / "index.html", standalone, PUBLIC / "index.html", PUBLIC / ".release-provenance.json"):
         if not required.is_file():
             raise SystemExit(f"Missing qualified release input: {required}")
     if destination.exists():
@@ -72,14 +76,24 @@ def main() -> None:
         shutil.copy2(ROOT / relative, destination / relative)
     for folder in ("src", "data", "manifests", "scripts", "vendor"):
         copy_tree(ROOT / folder, destination / folder)
-    for folder in ("assets/vector/fonts", "assets/vector/sprites", "assets/photos/thumb", "assets/photos/medium"):
-        copy_tree(ROOT / folder, destination / folder)
-    for relative in ("assets/vector/sf_trip.pmtiles", "assets/vector/yosemite_hillshade_source.png", "assets/vector/yosemite_hillshade_shadow.webp"):
+    descriptor_path = trip["descriptor_path"]
+    descriptor_target = destination / descriptor_path
+    descriptor_target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(ROOT / descriptor_path, descriptor_target)
+    runtime_paths = [trip["assets"]["photos"]["thumb_dir"], trip["assets"]["photos"]["medium_dir"], *trip["assets"]["map"]["local_resources"]]
+    for relative in runtime_paths:
         target = destination / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(ROOT / relative, target)
+        source = ROOT / relative
+        if source.is_dir():
+            shutil.copytree(source, target, dirs_exist_ok=True)
+        elif source.is_file():
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
+        else:
+            raise SystemExit(f"Missing active package asset: {relative}")
     copy_tree(BUILD / "modular", destination / "artifacts/modular")
-    copy_tree(BUILD / "standalone", destination / "artifacts/standalone")
+    (destination / "artifacts/standalone").mkdir(parents=True, exist_ok=True)
+    shutil.copy2(standalone, destination / "artifacts/standalone" / standalone.name)
     copy_tree(PUBLIC, destination / "artifacts/public")
     for relative in ("QA/CHG-232/photo_integrity.json", "QA/CHG-232/map_first_full", "QA/CHG-232/route_surface.json", "QA/CHG-232/release"):
         source = ROOT / relative
@@ -98,7 +112,7 @@ def main() -> None:
             shutil.copy2(source, target)
 
     contract = load_contract()
-    photo_manifest = load_json(ROOT / "manifests" / "asset_manifest.json")
+    photo_manifest = load_json(ROOT / trip["projections"]["photos_manifest"])
     public_audit = audit_tree(destination / "artifacts/public", contract=contract, manifest=photo_manifest, mode="pages")
     package_audit = audit_tree(destination, contract=contract, manifest=photo_manifest, mode="public-package")
     package_rights_report = ROOT / "QA" / "CHG-232" / "release" / "public_asset_rights_package.json"
@@ -112,6 +126,10 @@ def main() -> None:
     package_manifest = {
         "schema_version": 1,
         "project": "sf-trip-visualizer",
+        "trip_identity": trip["trip_identity"],
+        "display_title": trip["display_title"],
+        "slug": trip["slug"],
+        "currency": trip["currency"],
         "tested_sha": args.revision,
         "qualification_sha256": digest(QUALIFICATION),
         "file_count_excluding_manifest": len(files),

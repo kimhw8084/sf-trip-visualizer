@@ -9,7 +9,7 @@
   "authority": {
     "canonical_pipeline": "scripts/pipeline.py",
     "canonical_build": "scripts/build_map_first.py",
-    "canonical_data": "data/phase7_app_data.json",
+    "canonical_data": "$active_trip_package.canonical_data",
     "canonical_template": "src/map_shell_template.html",
     "canonical_renderer": "src/app_phase7.js",
     "security_gate": "scripts/security_privacy.py",
@@ -28,23 +28,7 @@
       "Generated canonical trip data, translations, cached route geometry, local photo derivatives, local PMTiles, local glyphs/sprites, and vendored JavaScript/CSS.",
       "User-controlled browser UI events and bounded localStorage preferences."
     ],
-    "external_origins": [
-      {
-        "origin": "https://server.arcgisonline.com",
-        "purpose": "Optional user-selected Esri World Imagery tile and health/viewport probes.",
-        "data_sent": "Only public map tile coordinates and a bounded probe marker; no credentials or user state.",
-        "activation": "User selects Satellite; Smart map does not contact this origin.",
-        "failure": "Probe/tile failure returns to local Smart map and preserves planning state.",
-        "referrer": "Document meta referrer policy is no-referrer; image probes also set referrerPolicy=no-referrer."
-      },
-      {
-        "origin": "https://www.google.com",
-        "purpose": "User-triggered Google Maps directions link for a canonical public place.",
-        "data_sent": "Only canonical public geographic place context in the query parameter.",
-        "activation": "Explicit user click on a rendered directions link.",
-        "referrer": "The link uses noopener noreferrer and the document no-referrer policy."
-      }
-    ],
+    "external_origins": "$active_trip_package.source_policy.external",
     "same_origin_only_core": true,
     "remote_runtime_dependencies": false
   },
@@ -69,11 +53,10 @@
     "forbidden_data_classes": ["credentials", "account identifiers", "private photos", "precise user location", "free-form personal notes", "telemetry identifiers"]
   },
   "external_url_policy": {
-    "provider_origins": ["https://server.arcgisonline.com"],
-    "navigation_origins": ["https://www.google.com"],
-    "allowed_scheme": "https",
-    "google_navigation_path": "/maps/search/",
-    "google_navigation_query": "api=1 plus a canonical public query; no credentials, fragment, or arbitrary origin",
+    "provider_origins": "$active_trip_package.source_policy.external.<provider-id>",
+    "navigation_origins": "$active_trip_package.source_policy.external.directions",
+    "allowed_scheme": "https, enforced by trip-package schema",
+    "navigation_paths": "Package-declared paths, required query values, and query-key allowlist",
     "new_context_controls": ["rel=noopener", "rel=noreferrer", "referrerpolicy=no-referrer"],
     "canonical_data_may_not_supply_provider_origin": true
   },

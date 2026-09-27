@@ -212,6 +212,8 @@ class SecurityPrivacyContractTests(unittest.TestCase):
         self.assertFalse(failed["exact_candidate_bound"])
 
     def test_browser_rendering_escapes_adversarial_data_and_bounds_navigation(self):
+        from html.parser import HTMLParser
+
         try:
             from playwright.sync_api import sync_playwright
         except ImportError as error:  # pragma: no cover - CI installs the pinned QA closure
@@ -248,17 +250,63 @@ class SecurityPrivacyContractTests(unittest.TestCase):
                     page.goto(f"http://127.0.0.1:{port}/", wait_until="domcontentloaded")
                     page.wait_for_function("window.__tripSecurity && window.__tripApp && window.__tripApp.map()", timeout=30000)
                     page.evaluate("window.__g7Probe = 0")
-                    payload = '<img src=x onerror="window.__g7Probe=1"><svg/onload=window.__g7Probe=2>\"\' javascript:alert(1) &lt;encoded&gt;'
+                    payload = '<img src=x onerror="window.__g7Probe=1"><svg/onload=window.__g7Probe=2>\"\' javascript:alert(1) https://evil.example/path &lt;encoded&gt;'
                     result = page.evaluate("value => window.__tripSecurity.renderFixture(value)", payload)
                     self.assertEqual(result["unsafe_nodes"], 0)
-                    self.assertIsNone(result["href"])
                     self.assertEqual(page.evaluate("window.__g7Probe"), 0)
                     self.assertEqual(page.locator("#detailsPane script, #detailsPane [onerror], #detailsPane [onload]").count(), 0)
                     self.assertTrue("&lt;img" in result["html"] or "&amp;lt;img" in result["html"])
+
+                    class Hrefs(HTMLParser):
+                        def __init__(self):
+                            super().__init__()
+                            self.values = []
+
+                        def handle_starttag(self, tag, attrs):
+                            if tag == "a":
+                                self.values.extend(value for name, value in attrs if name == "href" and value)
+
+                    links = Hrefs()
+                    links.feed(result["html"])
+                    self.assertTrue(links.values)
+                    for href in links.values:
+                        bounded = page.evaluate(
+                            "href => { const security = window.__tripSecurity; return Boolean(security.safeExternalUrl(href) || security.safeOfficialSourceUrl(href)); }",
+                            href,
+                        )
+                        self.assertTrue(bounded, href)
+                        self.assertNotIn("javascript:", href.lower())
+                        self.assertNotIn("onerror", href.lower())
+
+                    foodwise = "https://foodwise.org/events/pop-ups-on-the-plaza-celebrating-latine-makers/"
+                    self.assertEqual(
+                        page.evaluate("url => window.__tripSecurity.safeOfficialSourceUrl(url)", foodwise),
+                        foodwise,
+                    )
+                    blocked_official = [
+                        "javascript:alert(1)",
+                        "https://evil.example/source",
+                        "https://user:secret@foodwise.org/source",
+                        "https://foodwise.org:443/source",
+                        "https://foodwise.org/source#fragment",
+                    ]
+                    self.assertEqual(
+                        page.evaluate("urls => urls.map(url => window.__tripSecurity.safeOfficialSourceUrl(url))", blocked_official),
+                        [""] * len(blocked_official),
+                    )
                     keys = page.evaluate("Object.keys(localStorage)")
                     self.assertTrue(set(keys).issubset(set(page.evaluate("window.__tripSecurity.allowedStorageKeys"))))
                     self.assertEqual(page.evaluate("window.__tripSecurity.safeExternalUrl('javascript:alert(1)')"), "")
                     self.assertEqual(page.evaluate("window.__tripSecurity.safeExternalUrl('https://evil.example/maps/search/?api=1&query=SF')"), "")
+                    blocked_navigation = [
+                        "https://user:secret@www.google.com/maps/search/?api=1&query=SF",
+                        "https://www.google.com:443/maps/search/?api=1&query=SF",
+                        "https://www.google.com/maps/search/?api=1&query=SF#fragment",
+                    ]
+                    self.assertEqual(
+                        page.evaluate("urls => urls.map(url => window.__tripSecurity.safeExternalUrl(url))", blocked_navigation),
+                        [""] * len(blocked_navigation),
+                    )
                     browser.close()
             finally:
                 server.terminate()

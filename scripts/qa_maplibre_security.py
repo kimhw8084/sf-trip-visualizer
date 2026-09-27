@@ -9,6 +9,8 @@ import json
 import subprocess
 from pathlib import Path
 
+from trip_package import DEFAULT_PACKAGE, load_package
+
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE_REVISION = "61511ac0485aa145522a6567b484d2cc9aa97e20"
@@ -53,9 +55,11 @@ def static_contract_checks(root: Path = ROOT) -> dict:
     renderer_text = renderer.read_text(encoding="utf-8") if renderer.is_file() else ""
     if "customAttribution" in renderer_text:
         failures.append("maintained renderer exposes an unreviewed custom attribution path")
-    for marker in ("© OpenStreetMap contributors · Protomaps", "Tiles © Esri and contributors"):
-        if marker not in renderer_text:
-            failures.append(f"maintained renderer is missing fixed attribution: {marker}")
+    package = load_package(DEFAULT_PACKAGE)
+    if "attribution: mapConfig.attribution" not in renderer_text or "attribution: config.attribution" not in renderer_text:
+        failures.append("maintained renderer does not use the package-declared provider attribution")
+    if not package["providers"][package["vector_provider_id"]].get("attribution"):
+        failures.append("active package has no local vector attribution")
     regression_text = regression.read_text(encoding="utf-8")
     for marker in ("GHSA-jrc7-96c5-q579", "ontoggle", "__maplibreSecuritySentinel", "AttributionControl"):
         if marker not in regression_text:
