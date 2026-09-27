@@ -203,13 +203,14 @@ class CHG204OperationalContractTests(unittest.TestCase):
           const sandbox={localStorage:{getItem:k=>values.get(k)||null,setItem:(k,v)=>values.set(k,v)},window:null};
           sandbox.window=sandbox;
           vm.runInNewContext(fs.readFileSync('src/atlas_state.js','utf8'),sandbox);
-          const data={trip_identity:'trip-one',routes:{A:{recommended:true}},dates:[{key:'10/5'}],region_cfg:{overall:{}},providers:{vector:{identity:'smart-local-vector'}},cost_cockpit:{scenarios:[{id:'annual'}]}};
-          const first=sandbox.TRIP_ATLAS_STATE.create(data);
+          const data={trip_identity:'trip-one',routes:{A:{recommended:true}},dates:[{key:'10/5'}],region_cfg:{overall:{}},cost_cockpit:{scenarios:[{id:'annual'}]}};
+          const tripPackage={providers:{vector:{kind:'vector',identity:'smart-local-vector'}}};
+          const first=sandbox.TRIP_ATLAS_STATE.create(data,tripPackage);
           first.state.user.readiness.alcatraz='user_marked_booked';first.state.user.costScenario='annual';first.persist();
-          const restored=sandbox.TRIP_ATLAS_STATE.create(data);
+          const restored=sandbox.TRIP_ATLAS_STATE.create(data,tripPackage);
           assert.equal(restored.state.user.readiness.alcatraz,'user_marked_booked');
           assert.equal(restored.state.user.costScenario,'annual');
-          const other=sandbox.TRIP_ATLAS_STATE.create({...data,trip_identity:'trip-two'});
+          const other=sandbox.TRIP_ATLAS_STATE.create({...data,trip_identity:'trip-two'},tripPackage);
           assert.deepEqual({...other.state.user.readiness},{});
           assert.equal(other.state.user.costScenario,null);
         """

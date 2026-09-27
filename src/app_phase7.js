@@ -32,6 +32,7 @@
   let renderedProvider = null;
   let renderedTheme = null;
   const MAP_SAFE_MARGIN = 16;
+  const MAP_MARKER_FOOTPRINT = 30;
   let peekHideTimer = null;
   let suppressPeekFocusKey = null;
   let mapOptionsInvoker = null;
@@ -490,6 +491,13 @@
       return { selector: element.className || element.tagName.toLowerCase(), left: rect.left - shellRect.left, top: rect.top - shellRect.top, right: rect.right - shellRect.left, bottom: rect.bottom - shellRect.top, width: rect.width, height: rect.height };
     });
   }
+  function mapMarkerFootprint() {
+    return [...document.querySelectorAll('.photo-marker, .photo-cluster')].reduce((maximum, element) => {
+      const style = getComputedStyle(element), rect = element.getBoundingClientRect();
+      if (style.display === 'none' || style.visibility === 'hidden' || rect.width <= 0 || rect.height <= 0) return maximum;
+      return Math.max(maximum, rect.width / 2, rect.height / 2);
+    }, MAP_MARKER_FOOTPRINT);
+  }
   function unionArea(rects) {
     const xs = [...new Set(rects.flatMap(rect => [Math.max(0, rect.left), Math.min(rect.right, rect.shellWidth || Infinity)]))].sort((a, b) => a - b);
     let area = 0;
@@ -506,17 +514,17 @@
   function mapSafePadding(map = photoMap) {
     const shell = document.querySelector('.map-shell');
     if (!map || !shell) return isMobile() ? { top: 118, right: 30, bottom: 112, left: 30 } : { top: 170, right: 60, bottom: 100, left: 60 };
-    const shellRect = shell.getBoundingClientRect(), padding = { top: MAP_SAFE_MARGIN, right: MAP_SAFE_MARGIN, bottom: MAP_SAFE_MARGIN, left: MAP_SAFE_MARGIN };
+    const shellRect = shell.getBoundingClientRect(), safeInset = MAP_SAFE_MARGIN + mapMarkerFootprint(), padding = { top: safeInset, right: safeInset, bottom: safeInset, left: safeInset };
     for (const obstacle of mapObstacleRects()) {
       const touchesLeft = obstacle.left <= MAP_SAFE_MARGIN && obstacle.right > 0;
       const touchesRight = obstacle.right >= shellRect.width - MAP_SAFE_MARGIN && obstacle.left < shellRect.width;
       const touchesTop = obstacle.top <= MAP_SAFE_MARGIN && obstacle.bottom > 0;
       const touchesBottom = obstacle.bottom >= shellRect.height - MAP_SAFE_MARGIN && obstacle.top < shellRect.height;
       const mobileSideOverlay = isMobile() && (obstacle.selector.includes('map-top-left') || obstacle.selector.includes('map-bottom-left'));
-      if (touchesLeft && !mobileSideOverlay) padding.left = Math.max(padding.left, obstacle.right + MAP_SAFE_MARGIN);
-      if (touchesRight) padding.right = Math.max(padding.right, shellRect.width - obstacle.left + MAP_SAFE_MARGIN);
-      if (touchesTop) padding.top = Math.max(padding.top, obstacle.bottom + MAP_SAFE_MARGIN);
-      if (touchesBottom) padding.bottom = Math.max(padding.bottom, shellRect.height - obstacle.top + MAP_SAFE_MARGIN);
+      if (touchesLeft && !mobileSideOverlay) padding.left = Math.max(padding.left, obstacle.right + safeInset);
+      if (touchesRight) padding.right = Math.max(padding.right, shellRect.width - obstacle.left + safeInset);
+      if (touchesTop) padding.top = Math.max(padding.top, obstacle.bottom + safeInset);
+      if (touchesBottom) padding.bottom = Math.max(padding.bottom, shellRect.height - obstacle.top + safeInset);
     }
     const horizontalBudget = Math.max(MAP_SAFE_MARGIN * 2, shellRect.width - MAP_SAFE_MARGIN * 2);
     const verticalBudget = Math.max(MAP_SAFE_MARGIN * 2, shellRect.height - MAP_SAFE_MARGIN * 2);
@@ -553,7 +561,7 @@
       const rect = element.getBoundingClientRect(), effective = { left: rect.left - shellRect.left, top: rect.top - shellRect.top, right: rect.right - shellRect.left, bottom: rect.bottom - shellRect.top, width: rect.width, height: rect.height };
       const center = { x: (effective.left + effective.right) / 2, y: (effective.top + effective.bottom) / 2 };
       const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
-      return { key: element.dataset.placeKey || element.getAttribute('aria-label') || element.className, rect: effective, intersects_obstacle: obstacles.filter(obstacle => intersects(effective, obstacle)).map(obstacle => obstacle.selector), center_hit: hit?.closest?.('.photo-marker, .photo-cluster, .route-leg-label')?.className || hit?.className || null, center: center };
+      return { key: element.dataset.placeKey || element.getAttribute('aria-label') || element.className, renderer: ['photo-marker', 'photo-cluster', 'route-leg-label'].find(className => element.classList.contains(className)) || null, rect: effective, intersects_obstacle: obstacles.filter(obstacle => intersects(effective, obstacle)).map(obstacle => obstacle.selector), center_hit: hit?.closest?.('.photo-marker, .photo-cluster, .route-leg-label')?.className || hit?.className || null, center: center };
     });
     const persistent = obstacles.filter(obstacle => !/map-options-panel/.test(obstacle.selector)).map(obstacle => ({ ...obstacle, shellWidth: shellRect.width }));
     const shellArea = shellRect.width * shellRect.height, persistentArea = unionArea(persistent);
@@ -1066,13 +1074,16 @@
     window.addEventListener('resize', handleViewportChange);
     const mapShell = document.querySelector('.map-shell');
     if (window.ResizeObserver && mapShell) {
-      new ResizeObserver(entries => {
-        const rect = entries[0]?.contentRect;
+      const geometryObserver = new ResizeObserver(entries => {
+        const shellEntry = entries.find(entry => entry.target === mapShell), rect = shellEntry?.contentRect;
         const next = rect ? `${Math.round(rect.width)}x${Math.round(rect.height)}` : '';
-        if (!next || next === observedMapSize) return;
-        observedMapSize = next;
-        scheduleMapGeometryUpdate({ refit: true, reason: 'map-shell-resize' });
-      }).observe(mapShell);
+        const shellChanged = Boolean(next && next !== observedMapSize);
+        if (shellChanged) observedMapSize = next;
+        const obstacleChanged = entries.some(entry => entry.target !== mapShell);
+        if (shellChanged || obstacleChanged) scheduleMapGeometryUpdate({ refit: true, reason: shellChanged ? 'map-shell-resize' : 'map-obstacle-resize' });
+      });
+      geometryObserver.observe(mapShell);
+      document.querySelectorAll('.map-chrome, .maplibregl-ctrl').forEach(element => geometryObserver.observe(element));
     }
   }
 
