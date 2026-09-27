@@ -370,11 +370,24 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         if visible_key:
             standalone_page.locator(f".photo-marker[data-place-key='{visible_key}']").click(force=True)
             standalone_page.wait_for_timeout(300)
-        standalone_page.set_viewport_size({"width": 390, "height": 844})
+        standalone_page.set_viewport_size({"width": 320, "height": 800})
         standalone_page.evaluate("()=>window.__tripApp.map().resize()")
+        standalone_page.evaluate("window.__tripApp.whenIdle()")
+        standalone_page.wait_for_function("window.__tripApp?.map()?.loaded() && !window.__tripApp.map().isMoving()", timeout=10000)
+        standalone_geometry = standalone_page.evaluate("window.__tripApp.mapGeometrySnapshot()")
+        ferry = next((marker for marker in standalone_geometry.get("markers", []) if marker.get("key") == "ferry"), None)
+        shell = standalone_geometry.get("shell", {})
+        ferry_visible = bool(ferry and ferry["rect"]["left"] >= 0 and ferry["rect"]["top"] >= 0 and ferry["rect"]["right"] <= shell.get("width", 0) and ferry["rect"]["bottom"] <= shell.get("height", 0) and not ferry.get("intersects_obstacle") and "photo-marker" in (ferry.get("center_hit") or ""))
+        ferry_pointer = standalone_page.evaluate("""()=>{const marker=document.querySelector('.photo-marker[data-place-key="ferry"]');if(!marker)return null;const r=marker.getBoundingClientRect(),s=document.querySelector('.map-shell').getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2,inside:r.left>=s.left&&r.top>=s.top&&r.right<=s.right&&r.bottom<=s.bottom};}""")
+        ferry_pointer_activation = False
+        if ferry_visible and ferry_pointer and ferry_pointer["inside"]:
+            standalone_page.evaluate("window.__tripApp.hidePreview({returnFocus:false})")
+            standalone_page.mouse.click(ferry_pointer["x"], ferry_pointer["y"])
+            standalone_page.wait_for_timeout(200)
+            ferry_pointer_activation = standalone_page.locator("#peek.show").count() > 0
         standalone_snapshot = snapshot(standalone_page)
-        standalone_row = {"snapshot": standalone_snapshot, "remote_requests": remote_requests(standalone_requests), "page_errors": standalone_errors}
-        standalone_row["critical_pass"] = standalone_snapshot["provider"] == VECTOR_PROVIDER and smart_identity(standalone_snapshot["provider_identity"]) and standalone_snapshot["local_assets"]["status"] == "ready" and not standalone_row["remote_requests"] and standalone_snapshot["map"]["canvas_count"] == 1
+        standalone_row = {"snapshot": standalone_snapshot, "mobile_map_geometry": standalone_geometry, "ferry_visible_inside_map": ferry_visible, "ferry_real_pointer_activation": ferry_pointer_activation, "remote_requests": remote_requests(standalone_requests), "page_errors": standalone_errors}
+        standalone_row["critical_pass"] = standalone_snapshot["provider"] == VECTOR_PROVIDER and smart_identity(standalone_snapshot["provider_identity"]) and standalone_snapshot["local_assets"]["status"] == "ready" and not standalone_row["remote_requests"] and standalone_snapshot["map"]["canvas_count"] == 1 and ferry_visible and ferry_pointer_activation
         report["standalone"] = standalone_row
 
         # Deterministic provider recovery: establish a successful Satellite map with

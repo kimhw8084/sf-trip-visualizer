@@ -48,6 +48,12 @@ def check_row(row: dict) -> list[str]:
         if marker.get("center_hit") and not any(token in marker["center_hit"] for token in ("photo-marker", "photo-cluster", "route-leg-label")):
             failures.append(f"{row['state']}:{marker['key']} center hit {marker['center_hit']}")
     if row["state"] in {"yosemite-10/7-unclustered-unselected", "yosemite-10/7-selected-cooks"}:
+        cooks = row.get("cooks")
+        shell = snapshot.get("shell", {})
+        if not cooks:
+            failures.append(f"{row['state']} Cook's Meadow marker is missing")
+        elif not (cooks["rect"]["left"] >= 0 and cooks["rect"]["top"] >= 0 and cooks["rect"]["right"] <= shell.get("width", 0) and cooks["rect"]["bottom"] <= shell.get("height", 0)):
+            failures.append(f"{row['state']} Cook's Meadow marker is outside the map viewport: {cooks['rect']}")
         rendered = [marker for marker in snapshot.get("markers", []) if marker.get("renderer") in {"photo-marker", "photo-cluster"}]
         footprint = max((max(marker["rect"]["width"], marker["rect"]["height"]) / 2 for marker in rendered), default=0)
         inset = SAFE_MARGIN_PX + max(MIN_MARKER_FOOTPRINT_PX, footprint)

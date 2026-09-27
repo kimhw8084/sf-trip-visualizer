@@ -521,8 +521,9 @@
       const touchesTop = obstacle.top <= MAP_SAFE_MARGIN && obstacle.bottom > 0;
       const touchesBottom = obstacle.bottom >= shellRect.height - MAP_SAFE_MARGIN && obstacle.top < shellRect.height;
       const mobileSideOverlay = isMobile() && (obstacle.selector.includes('map-top-left') || obstacle.selector.includes('map-bottom-left'));
-      if (touchesLeft && !mobileSideOverlay) padding.left = Math.max(padding.left, obstacle.right + safeInset);
-      if (touchesRight) padding.right = Math.max(padding.right, shellRect.width - obstacle.left + safeInset);
+      const mobileFullWidthOverlay = isMobile() && touchesLeft && touchesRight;
+      if (touchesLeft && !mobileSideOverlay && !mobileFullWidthOverlay) padding.left = Math.max(padding.left, obstacle.right + safeInset);
+      if (touchesRight && !mobileFullWidthOverlay) padding.right = Math.max(padding.right, shellRect.width - obstacle.left + safeInset);
       if (touchesTop) padding.top = Math.max(padding.top, obstacle.bottom + safeInset);
       if (touchesBottom) padding.bottom = Math.max(padding.bottom, shellRect.height - obstacle.top + safeInset);
     }
