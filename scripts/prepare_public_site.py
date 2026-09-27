@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import shutil
@@ -47,6 +48,14 @@ def current_revision() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
+def public_qualification_projection(qualification: dict) -> dict:
+    projection = copy.deepcopy(qualification)
+    for test in projection.get("tests", []):
+        test.pop("stdout_tail", None)
+        test.pop("stderr_tail", None)
+    return projection
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-dir", default=str(DEFAULT_SOURCE), help="canonical generated modular build")
@@ -88,7 +97,8 @@ def main() -> None:
     if output.exists():
         shutil.rmtree(output)
     shutil.copytree(source, output)
-    shutil.copy2(QUALIFICATION, output / ".release-qualification.json")
+    public_qualification = public_qualification_projection(qualification)
+    (output / ".release-qualification.json").write_text(json.dumps(public_qualification, ensure_ascii=False, indent=2) + "\n")
     (output / ".nojekyll").touch()
     contract = load_contract()
     package = load_package(DEFAULT_PACKAGE)
