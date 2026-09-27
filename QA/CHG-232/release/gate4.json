@@ -3,7 +3,7 @@
   "project": "sf-trip-visualizer",
   "gate": "production_readiness_gate_4",
   "status": "PASS",
-  "candidate_head": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
+  "candidate_head": "18dfdd1fe072ad1f2dfd5537e591c85f124fba55",
   "test_modes": [
     "static",
     "browser",
@@ -25,9 +25,41 @@
     }
   },
   "delivery": {
-    "status": "VERIFY_REQUIRED",
-    "reason": "public staging is assembled only after PASS qualification",
-    "forms": []
+    "schema_version": 1,
+    "status": "PASS",
+    "candidate_head": "18dfdd1fe072ad1f2dfd5537e591c85f124fba55",
+    "test_mode": "delivery_parity",
+    "forms": [
+      {
+        "form": "modular",
+        "path": ".build/modular/index.html",
+        "sha256": "ba925e566c0bd084e19778e6c139c7f34d76545a85d6333538daa19122f9e02d",
+        "truth_digest": "6b4f0fbd790b327753cb969f301d9a137c59296aa8e533dd09d98529d5516332",
+        "truth_matches": true,
+        "freshness_matches": true,
+        "contract_matches": true
+      },
+      {
+        "form": "standalone",
+        "path": ".build/standalone/sf-trip-2026-standalone.html",
+        "sha256": "58eedddc8205e57b8c2074a386a41e7b110491d659e568371469be35633240e0",
+        "truth_digest": "6b4f0fbd790b327753cb969f301d9a137c59296aa8e533dd09d98529d5516332",
+        "truth_matches": true,
+        "freshness_matches": true,
+        "contract_matches": true
+      },
+      {
+        "form": "public_staging",
+        "path": ".public-site/index.html",
+        "sha256": "ba925e566c0bd084e19778e6c139c7f34d76545a85d6333538daa19122f9e02d",
+        "exact_modular": true,
+        "truth_digest": "6b4f0fbd790b327753cb969f301d9a137c59296aa8e533dd09d98529d5516332",
+        "truth_matches": true,
+        "freshness_matches": true,
+        "contract_matches": true
+      }
+    ],
+    "failures": []
   },
   "package": {
     "status": "VERIFY_REQUIRED",

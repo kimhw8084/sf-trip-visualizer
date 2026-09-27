@@ -58,11 +58,11 @@
         },
         "comparison_chrome_count": 0,
         "style_readiness": {
-          "initial_style_loaded": false,
+          "initial_style_loaded": true,
           "initial_map_moving": false,
-          "transient_recovery": true,
-          "readiness_recovered": true,
-          "wait_ms": 62,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
           "timeout_ms": 5000,
           "wait_error": null
         },
@@ -145,10 +145,7 @@
               ],
               "zoom": 8.65
             },
-            "rendered_yosemite_labels": [
-              "Yosemite Village",
-              "Curry Village"
-            ],
+            "rendered_yosemite_labels": [],
             "spatial": {
               "useful": true,
               "width": 360,
@@ -275,9 +272,9 @@
             "camera": {
               "center": [
                 -119.63344799999999,
-                37.75331498080571
+                37.7533149808056
               ],
-              "zoom": 9.85566040169742
+              "zoom": 9.855660401698163
             },
             "expected_region_camera": {
               "center": [
@@ -713,11 +710,11 @@
         },
         "comparison_chrome_count": 0,
         "style_readiness": {
-          "initial_style_loaded": false,
+          "initial_style_loaded": true,
           "initial_map_moving": false,
-          "transient_recovery": true,
-          "readiness_recovered": true,
-          "wait_ms": 68,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
           "timeout_ms": 5000,
           "wait_error": null
         },
@@ -800,12 +797,7 @@
               ],
               "zoom": 8.65
             },
-            "rendered_yosemite_labels": [
-              "Yosemite Valley",
-              "Yosemite Village",
-              "Curry Village",
-              "Lower Yosemite Fall"
-            ],
+            "rendered_yosemite_labels": [],
             "spatial": {
               "useful": true,
               "width": 375,
@@ -1370,11 +1362,11 @@
         },
         "comparison_chrome_count": 0,
         "style_readiness": {
-          "initial_style_loaded": false,
+          "initial_style_loaded": true,
           "initial_map_moving": false,
-          "transient_recovery": true,
-          "readiness_recovered": true,
-          "wait_ms": 18,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
           "timeout_ms": 5000,
           "wait_error": null
         },
@@ -1457,10 +1449,7 @@
               ],
               "zoom": 8.65
             },
-            "rendered_yosemite_labels": [
-              "Yosemite Village",
-              "Curry Village"
-            ],
+            "rendered_yosemite_labels": [],
             "spatial": {
               "useful": true,
               "width": 390,
@@ -1587,9 +1576,9 @@
             "camera": {
               "center": [
                 -119.63344799999999,
-                37.74859230166844
+                37.74859230166838
               ],
-              "zoom": 10.174479152915136
+              "zoom": 10.174479152915731
             },
             "expected_region_camera": {
               "center": [
@@ -2027,11 +2016,11 @@
         },
         "comparison_chrome_count": 0,
         "style_readiness": {
-          "initial_style_loaded": false,
+          "initial_style_loaded": true,
           "initial_map_moving": false,
-          "transient_recovery": true,
-          "readiness_recovered": true,
-          "wait_ms": 30,
+          "transient_recovery": false,
+          "readiness_recovered": false,
+          "wait_ms": 0,
           "timeout_ms": 5000,
           "wait_error": null
         },
@@ -2255,9 +2244,7 @@
               ],
               "zoom": 8.65
             },
-            "rendered_yosemite_labels": [
-              "Curry Village"
-            ],
+            "rendered_yosemite_labels": [],
             "spatial": {
               "useful": true,
               "width": 414,
@@ -2640,16 +2627,16 @@
   "screenshots": [
     {
       "path": "QA/CHG-232/screenshots/map_controls_390x844_single_route.png",
-      "candidate": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
-      "candidate_tree": "ff16d4048b784453d4246b317e79ab89ce5bf829",
+      "candidate": "18dfdd1fe072ad1f2dfd5537e591c85f124fba55",
+      "candidate_tree": "dad6b9885d627c351206c9fdc6d8ae42f6e70215",
       "browser": "chromium",
       "viewport": "390x844",
       "state": "single-route Yosemite map controls"
     },
     {
       "path": "QA/CHG-232/screenshots/map_controls_414x896_single_route.png",
-      "candidate": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
-      "candidate_tree": "ff16d4048b784453d4246b317e79ab89ce5bf829",
+      "candidate": "18dfdd1fe072ad1f2dfd5537e591c85f124fba55",
+      "candidate_tree": "dad6b9885d627c351206c9fdc6d8ae42f6e70215",
       "browser": "chromium",
       "viewport": "414x896",
       "state": "single-route Yosemite map controls"
@@ -2658,7 +2645,7 @@
   "negative_control": {
     "route_comparison_ui_absent": true
   },
-  "candidate": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
-  "candidate_tree": "ff16d4048b784453d4246b317e79ab89ce5bf829",
+  "candidate": "18dfdd1fe072ad1f2dfd5537e591c85f124fba55",
+  "candidate_tree": "dad6b9885d627c351206c9fdc6d8ae42f6e70215",
   "candidate_binding": "exact-clean-checkout"
 }

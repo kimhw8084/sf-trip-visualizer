@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "PASS",
   "project": "sf-trip-visualizer",
-  "candidate_head": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
+  "candidate_head": "18dfdd1fe072ad1f2dfd5537e591c85f124fba55",
   "working_tree_clean": true,
   "canonical": {
     "manifest": "manifests/canonical_pipeline.json",
@@ -49,12 +49,12 @@
     },
     {
       "name": "maplibre_security",
-      "command": "python3 scripts/qa_maplibre_security.py --revision 0e9e7310caecc3f9751cc7f46eb53273696b9f6b --output QA/CHG-232/release/maplibre_security.json",
+      "command": "python3 scripts/qa_maplibre_security.py --revision 18dfdd1fe072ad1f2dfd5537e591c85f124fba55 --output QA/CHG-232/release/maplibre_security.json",
       "evidence": "QA/CHG-232/release/maplibre_security.json",
       "status": "PASS",
       "returncode": 0,
       "timeout_seconds": 300,
-      "stdout_tail": "{\"status\": \"PASS\", \"candidate_head\": \"0e9e7310caecc3f9751cc7f46eb53273696b9f6b\", \"failures\": []}\n",
+      "stdout_tail": "{\"status\": \"PASS\", \"candidate_head\": \"18dfdd1fe072ad1f2dfd5537e591c85f124fba55\", \"failures\": []}\n",
       "stderr_tail": ""
     },
     {
@@ -64,7 +64,7 @@
       "status": "PASS",
       "returncode": 0,
       "timeout_seconds": 300,
-      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"errors\": [],\n  \"failed_requests\": [],\n  \"candidate\": \"0e9e7310caecc3f9751cc7f46eb53273696b9f6b\",\n  \"candidate_tree\": \"ff16d4048b784453d4246b317e79ab89ce5bf829\",\n  \"candidate_binding\": \"exact-clean-checkout\",\n  \"state\": {\n    \"app\": true,\n    \"routes\": [\n      \"A\"\n    ],\n    \"provider\": \"vector\",\n    \"health\": {\n      \"vector\": \"ready\",\n      \"satellite\": \"untested\"\n    },\n    \"theme\": \"light\",\n    \"lang\": \"ko\",\n    \"canvas\": 1,\n    \"markers\": 39,\n    \"places\": 39,\n    \"features\": 23,\n    \"recommendation\": \"추천 기본안 · A\\nRoute A — Final Family Itinerary\\n\\nOne itinerary · memorable impact × comfort ÷ fatigue\\n\\n이 안이 맞는 경우\\n기억에 남는 순간과 회복을 함께 지키는 일정\\n감수할 것\\n장소 수보다 편안함을 우선합니다.\\n선택·전환 규칙\\n예약, 운영, 날씨,\",\n    \"date_controls\": 1,\n    \"legacy\": 0\n  },\n  \"expected_counts\": {\n    \"active_route_markers\": 39,\n    \"catalog_places\": 39\n  }\n}\n",
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"errors\": [],\n  \"failed_requests\": [],\n  \"candidate\": \"18dfdd1fe072ad1f2dfd5537e591c85f124fba55\",\n  \"candidate_tree\": \"dad6b9885d627c351206c9fdc6d8ae42f6e70215\",\n  \"candidate_binding\": \"exact-clean-checkout\",\n  \"state\": {\n    \"app\": true,\n    \"routes\": [\n      \"A\"\n    ],\n    \"provider\": \"vector\",\n    \"health\": {\n      \"vector\": \"ready\",\n      \"satellite\": \"untested\"\n    },\n    \"theme\": \"light\",\n    \"lang\": \"ko\",\n    \"canvas\": 1,\n    \"markers\": 39,\n    \"places\": 39,\n    \"features\": 23,\n    \"recommendation\": \"추천 기본안 · A\\nRoute A — Final Family Itinerary\\n\\nOne itinerary · memorable impact × comfort ÷ fatigue\\n\\n이 안이 맞는 경우\\n기억에 남는 순간과 회복을 함께 지키는 일정\\n감수할 것\\n장소 수보다 편안함을 우선합니다.\\n선택·전환 규칙\\n예약, 운영, 날씨,\",\n    \"date_controls\": 1,\n    \"legacy\": 0\n  },\n  \"expected_counts\": {\n    \"active_route_markers\": 39,\n    \"catalog_places\": 39\n  }\n}\n",
       "stderr_tail": ""
     },
     {
@@ -79,12 +79,12 @@
     },
     {
       "name": "phone_field_surface",
-      "command": "python3 scripts/qa_phone_field_surface.py --expected-revision 0e9e7310caecc3f9751cc7f46eb53273696b9f6b --output QA/CHG-232/phone_field_surface.json",
+      "command": "python3 scripts/qa_phone_field_surface.py --expected-revision 18dfdd1fe072ad1f2dfd5537e591c85f124fba55 --output QA/CHG-232/phone_field_surface.json",
       "evidence": "QA/CHG-232/phone_field_surface.json",
       "status": "PASS",
       "returncode": 0,
       "timeout_seconds": 300,
-      "stdout_tail": "{\"output\": \"/Users/haewonkim/.codex-fabric/worktrees/CF-ad88e65bd04cb61e603a8639/.build/portability-fixture\", \"package\": \"qa-fixture-juniper-coast\", \"modular\": \"/Users/haewonkim/.codex-fabric/worktrees/CF-ad88e65bd04cb61e603a8639/.build/portability-fixture/modular/index.html\", \"standalone\": \"/Users/haewonkim/.codex-fabric/worktrees/CF-ad88e65bd04cb61e603a8639/.build/portability-fixture/standalone/qa-juniper-coast-standalone.html\", \"files\": 39, \"counts\": {\"places\": 2, \"photos\": 6, \"timeline_cards\": 6, \"route_legs\": 3, \"routes\": 2, \"active_route_ids\": [\"COVE\", \"RIDGE\"]}}\n{\"status\": \"PASS\", \"screenshots\": 8, \"report\": \"QA/CHG-232/phone_field_surface.json\"}\n",
+      "stdout_tail": "{\"output\": \"/Users/haewonkim/.codex-fabric/worktrees/CF-1193c04a53358d0662a778ea/.build/portability-fixture\", \"package\": \"qa-fixture-juniper-coast\", \"modular\": \"/Users/haewonkim/.codex-fabric/worktrees/CF-1193c04a53358d0662a778ea/.build/portability-fixture/modular/index.html\", \"standalone\": \"/Users/haewonkim/.codex-fabric/worktrees/CF-1193c04a53358d0662a778ea/.build/portability-fixture/standalone/qa-juniper-coast-standalone.html\", \"files\": 39, \"counts\": {\"places\": 2, \"photos\": 6, \"timeline_cards\": 6, \"route_legs\": 3, \"routes\": 2, \"active_route_ids\": [\"COVE\", \"RIDGE\"]}}\n{\"status\": \"PASS\", \"screenshots\": 8, \"report\": \"QA/CHG-232/phone_field_surface.json\"}\n",
       "stderr_tail": ""
     },
     {
@@ -174,7 +174,7 @@
       "status": "PASS",
       "returncode": 0,
       "timeout_seconds": 300,
-      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"fits\": [\n    {\n      \"route\": \"A\",\n      \"date\": \"10/2\",\n      \"markers\": 0,\n      \"features\": 0,\n      \"zoom\": 5.8,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/3\",\n      \"markers\": 1,\n      \"features\": 0,\n      \"zoom\": 13.1,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/4\",\n      \"markers\": 7,\n      \"features\": 5,\n      \"zoom\": 11.2,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/5\",\n      \"markers\": 9,\n      \"features\": 8,\n      \"zoom\": 12.8,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/6\",\n      \"markers\": 6,\n      \"features\": 4,\n      \"zoom\": 11.78,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/7\",\n      \"markers\": 3,\n      \"features\": 1,\n      \"zoom\": 11.78,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/8\",\n      \"markers\": 4,\n      \"features\": 1,\n      \"zoom\": 11.75,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/9\",\n      \"markers\": 1,\n      \"features\": 0,\n      \"zoom\": 13.1,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/10\",\n      \"markers\": 5,\n      \"features\": 2,\n      \"zoom\": 9.98,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/11\",\n      \"markers\": 4,\n      \"features\": 2,\n      \"zoom\": 11.93,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/12\",\n      \"markers\": 0,\n      \"features\": 0,\n      \"zoom\": 5.8,\n      \"inside\": true,\n      \"canvas\": 1\n    }\n  ],\n  \"route_peek\": {\n    \"visible\": true,\n    \"hasAction\": true,\n    \"liveNavigation\": true,\n    \"liveNavigationText\": \"출발 전 실시간 길안내 확인 ↗\",\n    \"language\": \"ko\",\n    \"hit_layers\": 7,\n    \"live_navigation_cue\": true\n  },\n  \"mobile\": {\n    \"overflow\": 0,\n    \"canvas\": 1,\n    \"mode\": \"decide\",\n    \"sheet\": \"expanded\"\n  },\n  \"errors\": []\n}\n",
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"fits\": [\n    {\n      \"route\": \"A\",\n      \"date\": \"10/2\",\n      \"markers\": 0,\n      \"features\": 0,\n      \"zoom\": 5.8,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/3\",\n      \"markers\": 1,\n      \"features\": 0,\n      \"zoom\": 13.1,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/4\",\n      \"markers\": 7,\n      \"features\": 5,\n      \"zoom\": 11.2,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/5\",\n      \"markers\": 9,\n      \"features\": 8,\n      \"zoom\": 12.8,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/6\",\n      \"markers\": 6,\n      \"features\": 4,\n      \"zoom\": 11.78,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/7\",\n      \"markers\": 3,\n      \"features\": 1,\n      \"zoom\": 11.81,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/8\",\n      \"markers\": 4,\n      \"features\": 1,\n      \"zoom\": 11.77,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/9\",\n      \"markers\": 1,\n      \"features\": 0,\n      \"zoom\": 13.1,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/10\",\n      \"markers\": 5,\n      \"features\": 2,\n      \"zoom\": 10,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/11\",\n      \"markers\": 4,\n      \"features\": 2,\n      \"zoom\": 11.96,\n      \"inside\": true,\n      \"canvas\": 1\n    },\n    {\n      \"route\": \"A\",\n      \"date\": \"10/12\",\n      \"markers\": 0,\n      \"features\": 0,\n      \"zoom\": 5.8,\n      \"inside\": true,\n      \"canvas\": 1\n    }\n  ],\n  \"route_peek\": {\n    \"visible\": true,\n    \"hasAction\": true,\n    \"liveNavigation\": true,\n    \"liveNavigationText\": \"출발 전 실시간 길안내 확인 ↗\",\n    \"language\": \"ko\",\n    \"hit_layers\": 7,\n    \"live_navigation_cue\": true\n  },\n  \"mobile\": {\n    \"overflow\": 0,\n    \"canvas\": 1,\n    \"mode\": \"decide\",\n    \"sheet\": \"expanded\"\n  },\n  \"errors\": []\n}\n",
       "stderr_tail": ""
     },
     {
@@ -204,7 +204,7 @@
       "status": "PASS",
       "returncode": 0,
       "timeout_seconds": 300,
-      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"checks\": {\n    \"configured_single_route\": true,\n    \"decision_surface_has_no_compare_chrome\": true,\n    \"day_place_must_items_visible\": true,\n    \"mobile_place_roles_and_reflow\": true,\n    \"no_active_route_leakage\": true,\n    \"stale_data_and_ui_negative_controls_rejected\": true,\n    \"candidate_screenshots_bound\": true\n  },\n  \"screenshots\": [\n    {\n      \"path\": \"QA/CHG-232/screenshots/single_route_decide_1440x900.png\",\n      \"candidate\": \"0e9e7310caecc3f9751cc7f46eb53273696b9f6b\",\n      \"candidate_tree\": \"ff16d4048b784453d4246b317e79ab89ce5bf829\",\n      \"browser\": \"chromium\",\n      \"viewport\": \"1440x900\",\n      \"language\": \"ko\",\n      \"theme\": \"light\",\n      \"state\": \"single_route_decide_1440x900\"\n    },\n    {\n      \"path\": \"QA/CHG-232/screenshots/single_route_day_1005_1440x900.png\",\n      \"candidate\": \"0e9e7310caecc3f9751cc7f46eb53273696b9f6b\",\n      \"candidate_tree\": \"ff16d4048b784453d4246b317e79ab89ce5bf829\",\n      \"browser\": \"chromium\",\n      \"viewport\": \"1440x900\",\n      \"language\": \"ko\",\n      \"theme\": \"light\",\n      \"state\": \"single_route_day_1005_1440x900\"\n    },\n    {\n      \"path\": \"QA/CHG-232/screenshots/single_route_place_390x844.png\",\n      \"candidate\": \"0e9e7310caecc3f9751cc7f46eb53273696b9f6b\",\n      \"candidate_tree\": \"ff16d4048b784453d4246b317e79ab89ce5bf829\",\n      \"browser\": \"chromium\",\n      \"viewport\": \"390x844\",\n      \"language\": \"ko\",\n      \"theme\": \"light\",\n      \"state\": \"single_route_place_390x844\"\n    }\n  ],\n  \"errors\": []\n}\n",
+      "stdout_tail": "{\n  \"status\": \"PASS\",\n  \"checks\": {\n    \"configured_single_route\": true,\n    \"decision_surface_has_no_compare_chrome\": true,\n    \"day_place_must_items_visible\": true,\n    \"mobile_place_roles_and_reflow\": true,\n    \"no_active_route_leakage\": true,\n    \"stale_data_and_ui_negative_controls_rejected\": true,\n    \"candidate_screenshots_bound\": true\n  },\n  \"screenshots\": [\n    {\n      \"path\": \"QA/CHG-232/screenshots/single_route_decide_1440x900.png\",\n      \"candidate\": \"18dfdd1fe072ad1f2dfd5537e591c85f124fba55\",\n      \"candidate_tree\": \"dad6b9885d627c351206c9fdc6d8ae42f6e70215\",\n      \"browser\": \"chromium\",\n      \"viewport\": \"1440x900\",\n      \"language\": \"ko\",\n      \"theme\": \"light\",\n      \"state\": \"single_route_decide_1440x900\"\n    },\n    {\n      \"path\": \"QA/CHG-232/screenshots/single_route_day_1005_1440x900.png\",\n      \"candidate\": \"18dfdd1fe072ad1f2dfd5537e591c85f124fba55\",\n      \"candidate_tree\": \"dad6b9885d627c351206c9fdc6d8ae42f6e70215\",\n      \"browser\": \"chromium\",\n      \"viewport\": \"1440x900\",\n      \"language\": \"ko\",\n      \"theme\": \"light\",\n      \"state\": \"single_route_day_1005_1440x900\"\n    },\n    {\n      \"path\": \"QA/CHG-232/screenshots/single_route_place_390x844.png\",\n      \"candidate\": \"18dfdd1fe072ad1f2dfd5537e591c85f124fba55\",\n      \"candidate_tree\": \"dad6b9885d627c351206c9fdc6d8ae42f6e70215\",\n      \"browser\": \"chromium\",\n      \"viewport\": \"390x844\",\n      \"language\": \"ko\",\n      \"theme\": \"light\",\n      \"state\": \"single_route_place_390x844\"\n    }\n  ],\n  \"errors\": []\n}\n",
       "stderr_tail": ""
     },
     {
@@ -234,7 +234,7 @@
       "status": "PASS",
       "returncode": 0,
       "timeout_seconds": 300,
-      "stdout_tail": "    \"bottom\": 79.390625,\n            \"width\": 253.5,\n            \"height\": 71.390625\n          },\n          {\n            \"selector\": \"map-options-panel map-chrome\",\n            \"left\": 8,\n            \"top\": 85.390625,\n            \"right\": 328,\n            \"bottom\": 295.390625,\n            \"width\": 320,\n            \"height\": 210\n          }\n        ],\n        \"persistent_opaque_chrome\": {\n          \"area_px\": 18097.5234375,\n          \"ratio\": 0.19167742351878148,\n          \"rectangles\": [\n            {\n              \"selector\": \"map-chrome map-top-left\",\n              \"left\": 8,\n              \"top\": 8,\n              \"right\": 261.5,\n              \"bottom\": 79.390625,\n              \"width\": 253.5,\n              \"height\": 71.390625,\n              \"shellWidth\": 390\n            }\n          ]\n        },\n        \"unobstructed_interior\": {\n          \"area_px\": 76319.0390625,\n          \"ratio\": 0.8083225764812185\n        },\n        \"markers\": [\n          {\n            \"key\": \"Map marker\",\n            \"renderer\": \"photo-cluster\",\n            \"rect\": {\n              \"left\": 340,\n              \"top\": 11,\n              \"right\": 382,\n              \"bottom\": 53,\n              \"width\": 42,\n              \"height\": 42\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-cluster maplibregl-marker maplibregl-marker-anchor-center\",\n            \"center\": {\n              \"x\": 361,\n              \"y\": 32\n            }\n          }\n        ]\n      },\n      \"map_options_close_focus_return\": true,\n      \"active_route_ids\": [\n        \"A\"\n      ],\n      \"single_route_ui_no_compare\": true,\n      \"marker_activation\": \"cooks\",\n      \"inspector_photos\": 3,\n      \"geometry\": {\n        \"shell\": {\n          \"width\": 390,\n          \"height\": 242.09375,\n          \"area_px\": 94416.5625\n        },\n        \"sheet_geometry\": {\n          \"viewport_height\": 844,\n          \"appbar_height\": 63,\n          \"map_height\": 242.09375,\n          \"workbench_height\": 538.875,\n          \"useful_map_ratio\": 0.7926330043391486,\n          \"sheet\": \"expanded\"\n        },\n        \"safe_padding\": {\n          \"top\": 125.390625,\n          \"right\": 46,\n          \"bottom\": 46,\n          \"left\": 46\n        },\n        \"obstacles\": [\n          {\n            \"selector\": \"map-chrome map-top-left\",\n            \"left\": 8,\n            \"top\": 8,\n            \"right\": 282.25,\n            \"bottom\": 79.390625,\n            \"width\": 274.25,\n            \"height\": 71.390625\n          }\n        ],\n        \"persistent_opaque_chrome\": {\n          \"area_px\": 19578.87890625,\n          \"ratio\": 0.20736699566085134,\n          \"rectangles\": [\n            {\n              \"selector\": \"map-chrome map-top-left\",\n              \"left\": 8,\n              \"top\": 8,\n              \"right\": 282.25,\n              \"bottom\": 79.390625,\n              \"width\": 274.25,\n              \"height\": 71.390625,\n              \"shellWidth\": 390\n            }\n          ]\n        },\n        \"unobstructed_interior\": {\n          \"area_px\": 74837.68359375,\n          \"ratio\": 0.7926330043391486\n        },\n        \"markers\": [\n          {\n            \"key\": \"cooks\",\n            \"renderer\": \"photo-marker\",\n            \"rect\": {\n              \"left\": 245,\n              \"top\": 103,\n              \"right\": 289,\n              \"bottom\": 147,\n              \"width\": 44,\n              \"height\": 44\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-marker maplibregl-marker maplibregl-marker-anchor-center selected\",\n            \"center\": {\n              \"x\": 267,\n              \"y\": 125\n            }\n          },\n          {\n            \"key\": \"tunnel_view\",\n            \"renderer\": \"photo-marker\",\n            \"rect\": {\n              \"left\": 102,\n              \"top\": 168,\n              \"right\": 146,\n              \"bottom\": 212,\n              \"width\": 44,\n              \"height\": 44\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-marker maplibregl-marker maplibregl-marker-anchor-center\",\n            \"center\": {\n              \"x\": 124,\n              \"y\": 190\n            }\n          },\n          {\n            \"key\": \"bridalveil\",\n            \"renderer\": \"photo-marker\",\n            \"rect\": {\n              \"left\": 166,\n              \"top\": 167,\n              \"right\": 210,\n              \"bottom\": 211,\n              \"width\": 44,\n              \"height\": 44\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-marker maplibregl-marker maplibregl-marker-anchor-center\",\n            \"center\": {\n              \"x\": 188,\n              \"y\": 189\n            }\n          }\n        ]\n      },\n      \"map_error_listener_attached\": true,\n      \"screenshot\": \"QA/CHG-232/browser_screenshots/webkit_390_detail.png\"\n    }\n  ],\n  \"cleanup_warnings\": [],\n  \"errors\": [],\n  \"candidate\": \"0e9e7310caecc3f9751cc7f46eb53273696b9f6b\",\n  \"candidate_tree\": \"ff16d4048b784453d4246b317e79ab89ce5bf829\",\n  \"candidate_binding\": \"exact-clean-checkout\"\n}\n",
+      "stdout_tail": "h\": 253.015625,\n            \"height\": 71.390625\n          },\n          {\n            \"selector\": \"map-options-panel map-chrome\",\n            \"left\": 8,\n            \"top\": 85.390625,\n            \"right\": 328,\n            \"bottom\": 293.390625,\n            \"width\": 320,\n            \"height\": 208\n          }\n        ],\n        \"persistent_opaque_chrome\": {\n          \"area_px\": 18062.943603515625,\n          \"ratio\": 0.19131117597630845,\n          \"rectangles\": [\n            {\n              \"selector\": \"map-chrome map-top-left\",\n              \"left\": 8,\n              \"top\": 8,\n              \"right\": 261.015625,\n              \"bottom\": 79.390625,\n              \"width\": 253.015625,\n              \"height\": 71.390625,\n              \"shellWidth\": 390\n            }\n          ]\n        },\n        \"unobstructed_interior\": {\n          \"area_px\": 76353.61889648438,\n          \"ratio\": 0.8086888240236916\n        },\n        \"markers\": [\n          {\n            \"key\": \"Map marker\",\n            \"renderer\": \"photo-cluster\",\n            \"rect\": {\n              \"left\": 340,\n              \"top\": 11,\n              \"right\": 382,\n              \"bottom\": 53,\n              \"width\": 42,\n              \"height\": 42\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-cluster maplibregl-marker maplibregl-marker-anchor-center\",\n            \"center\": {\n              \"x\": 361,\n              \"y\": 32\n            }\n          }\n        ]\n      },\n      \"map_options_close_focus_return\": true,\n      \"active_route_ids\": [\n        \"A\"\n      ],\n      \"single_route_ui_no_compare\": true,\n      \"marker_activation\": \"cooks\",\n      \"inspector_photos\": 3,\n      \"geometry\": {\n        \"shell\": {\n          \"width\": 390,\n          \"height\": 242.09375,\n          \"area_px\": 94416.5625\n        },\n        \"sheet_geometry\": {\n          \"viewport_height\": 844,\n          \"appbar_height\": 63,\n          \"map_height\": 242.09375,\n          \"workbench_height\": 538.875,\n          \"useful_map_ratio\": 0.7854734556056439,\n          \"sheet\": \"expanded\"\n        },\n        \"safe_padding\": {\n          \"top\": 125.390625,\n          \"right\": 46,\n          \"bottom\": 46,\n          \"left\": 46\n        },\n        \"obstacles\": [\n          {\n            \"selector\": \"map-chrome map-top-left\",\n            \"left\": 8,\n            \"top\": 8,\n            \"right\": 291.71875,\n            \"bottom\": 79.390625,\n            \"width\": 283.71875,\n            \"height\": 71.390625\n          }\n        ],\n        \"persistent_opaque_chrome\": {\n          \"area_px\": 20254.85888671875,\n          \"ratio\": 0.21452654439435612,\n          \"rectangles\": [\n            {\n              \"selector\": \"map-chrome map-top-left\",\n              \"left\": 8,\n              \"top\": 8,\n              \"right\": 291.71875,\n              \"bottom\": 79.390625,\n              \"width\": 283.71875,\n              \"height\": 71.390625,\n              \"shellWidth\": 390\n            }\n          ]\n        },\n        \"unobstructed_interior\": {\n          \"area_px\": 74161.70361328125,\n          \"ratio\": 0.7854734556056439\n        },\n        \"markers\": [\n          {\n            \"key\": \"cooks\",\n            \"renderer\": \"photo-marker\",\n            \"rect\": {\n              \"left\": 245,\n              \"top\": 103,\n              \"right\": 289,\n              \"bottom\": 147,\n              \"width\": 44,\n              \"height\": 44\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-marker maplibregl-marker maplibregl-marker-anchor-center selected\",\n            \"center\": {\n              \"x\": 267,\n              \"y\": 125\n            }\n          },\n          {\n            \"key\": \"tunnel_view\",\n            \"renderer\": \"photo-marker\",\n            \"rect\": {\n              \"left\": 102,\n              \"top\": 168,\n              \"right\": 146,\n              \"bottom\": 212,\n              \"width\": 44,\n              \"height\": 44\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-marker maplibregl-marker maplibregl-marker-anchor-center\",\n            \"center\": {\n              \"x\": 124,\n              \"y\": 190\n            }\n          },\n          {\n            \"key\": \"bridalveil\",\n            \"renderer\": \"photo-marker\",\n            \"rect\": {\n              \"left\": 166,\n              \"top\": 167,\n              \"right\": 210,\n              \"bottom\": 211,\n              \"width\": 44,\n              \"height\": 44\n            },\n            \"intersects_obstacle\": [],\n            \"center_hit\": \"photo-marker maplibregl-marker maplibregl-marker-anchor-center\",\n            \"center\": {\n              \"x\": 188,\n              \"y\": 189\n            }\n          }\n        ]\n      },\n      \"map_error_listener_attached\": true,\n      \"screenshot\": \"QA/CHG-232/browser_screenshots/webkit_390_detail.png\"\n    }\n  ],\n  \"cleanup_warnings\": [],\n  \"errors\": [],\n  \"candidate\": \"18dfdd1fe072ad1f2dfd5537e591c85f124fba55\",\n  \"candidate_tree\": \"dad6b9885d627c351206c9fdc6d8ae42f6e70215\",\n  \"candidate_binding\": \"exact-clean-checkout\"\n}\n",
       "stderr_tail": ""
     },
     {
@@ -254,23 +254,23 @@
       "status": "PASS",
       "returncode": 0,
       "timeout_seconds": 300,
-      "stdout_tail": "{\"status\": \"PASS\", \"candidate_head\": \"0e9e7310caecc3f9751cc7f46eb53273696b9f6b\", \"mode\": \"browser\", \"failures\": []}\n",
+      "stdout_tail": "{\"status\": \"PASS\", \"candidate_head\": \"18dfdd1fe072ad1f2dfd5537e591c85f124fba55\", \"mode\": \"browser\", \"failures\": []}\n",
       "stderr_tail": ""
     },
     {
       "name": "gate5_field_quality",
-      "command": "python3 scripts/qa_gate5_field_quality.py --expected-revision 0e9e7310caecc3f9751cc7f46eb53273696b9f6b --output QA/CHG-232/gate5/candidate.json",
+      "command": "python3 scripts/qa_gate5_field_quality.py --expected-revision 18dfdd1fe072ad1f2dfd5537e591c85f124fba55 --output QA/CHG-232/gate5/candidate.json",
       "evidence": "QA/CHG-232/gate5/candidate.json",
       "status": "VERIFY_REQUIRED",
       "returncode": 0,
       "timeout_seconds": 900,
-      "stdout_tail": "{\"status\": \"VERIFY_REQUIRED\", \"candidate_head\": \"0e9e7310caecc3f9751cc7f46eb53273696b9f6b\", \"failures\": [], \"verify_required\": [\"native Safari remote automation is unavailable; Playwright WebKit is not a native Safari substitute\", \"no verifiably real iPhone or iPad is available in this execution environment\", \"independent candidate-bound multimodal visual/usability review is not supplied\"]}\n",
+      "stdout_tail": "{\"status\": \"VERIFY_REQUIRED\", \"candidate_head\": \"18dfdd1fe072ad1f2dfd5537e591c85f124fba55\", \"failures\": [], \"verify_required\": [\"native Safari remote automation is unavailable; Playwright WebKit is not a native Safari substitute\", \"no verifiably real iPhone or iPad is available in this execution environment\", \"independent candidate-bound multimodal visual/usability review is not supplied\"]}\n",
       "stderr_tail": "",
       "process_completed": true,
       "acceptance_status": "VERIFY_REQUIRED",
       "execution_status": "COMPLETED",
       "status_reason": "Gate 5 subprocess exited 0 and produced a fresh exact-candidate-bound report.",
-      "duration_seconds": 91.871
+      "duration_seconds": 21.757
     }
   ],
   "errors": [],
@@ -286,7 +286,7 @@
   "fast": {
     "schema_version": 1,
     "status": "PASS",
-    "candidate_head": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
+    "candidate_head": "18dfdd1fe072ad1f2dfd5537e591c85f124fba55",
     "working_tree_clean": true,
     "errors": [],
     "source": {
@@ -348,8 +348,8 @@
     "portability": {
       "status": "PASS",
       "evidence": "QA/CHG-232/portability.json",
-      "candidate_head": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
-      "candidate_tree": "ff16d4048b784453d4246b317e79ab89ce5bf829",
+      "candidate_head": "18dfdd1fe072ad1f2dfd5537e591c85f124fba55",
+      "candidate_tree": "dad6b9885d627c351206c9fdc6d8ae42f6e70215",
       "renderer_bytes_identical": true,
       "cross_package_leakage": {
         "sf_into_fixture": [],
@@ -375,11 +375,11 @@
     "reproducible": true,
     "build": {
       "root": ".build",
-      "manifest_sha256": "1101708e0bf323aac5f30c1ea8ff5da70ca6f34d01f708158b1c52e0b83fe116",
+      "manifest_sha256": "4089de463596a44b4922fde76bf56310fe2819d44ea0545cfa4529870bfa3e01",
       "modular_index_sha256": "ba925e566c0bd084e19778e6c139c7f34d76545a85d6333538daa19122f9e02d",
-      "standalone_sha256": "c828b4f4ad65f7086c8f2e068c8e0d5f26858672e94690dcdc051c3a2a1a28ad",
+      "standalone_sha256": "58eedddc8205e57b8c2074a386a41e7b110491d659e568371469be35633240e0",
       "standalone_path": "standalone/sf-trip-2026-standalone.html",
-      "file_count": 263
+      "file_count": 266
     },
     "gate4_static": {
       "status": "PASS",
@@ -388,10 +388,10 @@
     "public_asset_rights": {
       "status": "PASS",
       "evidence": "QA/CHG-232/release/public_asset_rights.json",
-      "candidate_file_count": 266,
+      "candidate_file_count": 269,
       "approved_file_counts_by_class": {
         "first-party-runtime": 6,
-        "font-glyph-data": 6,
+        "font-glyph-data": 9,
         "generated-release-file": 6,
         "generated-third-party-bundle": 1,
         "government-relief-data": 1,
@@ -413,10 +413,10 @@
   "authored_inputs_unchanged": true,
   "build": {
     "root": ".build",
-    "manifest_sha256": "1101708e0bf323aac5f30c1ea8ff5da70ca6f34d01f708158b1c52e0b83fe116",
+    "manifest_sha256": "4089de463596a44b4922fde76bf56310fe2819d44ea0545cfa4529870bfa3e01",
     "modular_index_sha256": "ba925e566c0bd084e19778e6c139c7f34d76545a85d6333538daa19122f9e02d",
-    "standalone_sha256": "c828b4f4ad65f7086c8f2e068c8e0d5f26858672e94690dcdc051c3a2a1a28ad",
+    "standalone_sha256": "58eedddc8205e57b8c2074a386a41e7b110491d659e568371469be35633240e0",
     "standalone_path": "standalone/sf-trip-2026-standalone.html",
-    "file_count": 263
+    "file_count": 266
   }
 }

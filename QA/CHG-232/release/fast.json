@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "candidate_head": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
+  "candidate_head": "18dfdd1fe072ad1f2dfd5537e591c85f124fba55",
   "working_tree_clean": true,
   "errors": [],
   "source": {
@@ -63,8 +63,8 @@
   "portability": {
     "status": "PASS",
     "evidence": "QA/CHG-232/portability.json",
-    "candidate_head": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
-    "candidate_tree": "ff16d4048b784453d4246b317e79ab89ce5bf829",
+    "candidate_head": "18dfdd1fe072ad1f2dfd5537e591c85f124fba55",
+    "candidate_tree": "dad6b9885d627c351206c9fdc6d8ae42f6e70215",
     "renderer_bytes_identical": true,
     "cross_package_leakage": {
       "sf_into_fixture": [],
@@ -90,11 +90,11 @@
   "reproducible": true,
   "build": {
     "root": ".build",
-    "manifest_sha256": "1101708e0bf323aac5f30c1ea8ff5da70ca6f34d01f708158b1c52e0b83fe116",
+    "manifest_sha256": "4089de463596a44b4922fde76bf56310fe2819d44ea0545cfa4529870bfa3e01",
     "modular_index_sha256": "ba925e566c0bd084e19778e6c139c7f34d76545a85d6333538daa19122f9e02d",
-    "standalone_sha256": "c828b4f4ad65f7086c8f2e068c8e0d5f26858672e94690dcdc051c3a2a1a28ad",
+    "standalone_sha256": "58eedddc8205e57b8c2074a386a41e7b110491d659e568371469be35633240e0",
     "standalone_path": "standalone/sf-trip-2026-standalone.html",
-    "file_count": 263
+    "file_count": 266
   },
   "gate4_static": {
     "status": "PASS",
@@ -103,10 +103,10 @@
   "public_asset_rights": {
     "status": "PASS",
     "evidence": "QA/CHG-232/release/public_asset_rights.json",
-    "candidate_file_count": 266,
+    "candidate_file_count": 269,
     "approved_file_counts_by_class": {
       "first-party-runtime": 6,
-      "font-glyph-data": 6,
+      "font-glyph-data": 9,
       "generated-release-file": 6,
       "generated-third-party-bundle": 1,
       "government-relief-data": 1,
