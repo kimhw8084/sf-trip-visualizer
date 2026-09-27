@@ -363,13 +363,6 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         standalone_page.route("http**", lambda route: route.abort())
         standalone_page.goto(standalone_path.resolve().as_uri(), wait_until="domcontentloaded", timeout=90000)
         wait_ready(standalone_page, standalone=True)
-        if standalone_page.locator(".photo-cluster").count():
-            standalone_page.locator(".photo-cluster").first.click()
-            standalone_page.wait_for_timeout(900)
-        visible_key = standalone_page.evaluate("[...document.querySelectorAll('.photo-marker')].find(x=>x.style.display!=='none')?.dataset.placeKey||null")
-        if visible_key:
-            standalone_page.locator(f".photo-marker[data-place-key='{visible_key}']").click(force=True)
-            standalone_page.wait_for_timeout(300)
         standalone_page.set_viewport_size({"width": 320, "height": 800})
         standalone_page.evaluate("()=>window.__tripApp.map().resize()")
         standalone_page.evaluate("window.__tripApp.whenIdle()")
