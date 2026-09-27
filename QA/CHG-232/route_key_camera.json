@@ -58,11 +58,11 @@
         },
         "comparison_chrome_count": 0,
         "style_readiness": {
-          "initial_style_loaded": true,
+          "initial_style_loaded": false,
           "initial_map_moving": false,
-          "transient_recovery": false,
-          "readiness_recovered": false,
-          "wait_ms": 0,
+          "transient_recovery": true,
+          "readiness_recovered": true,
+          "wait_ms": 62,
           "timeout_ms": 5000,
           "wait_error": null
         },
@@ -146,9 +146,8 @@
               "zoom": 8.65
             },
             "rendered_yosemite_labels": [
-              "Yosemite Valley",
               "Yosemite Village",
-              "Lower Yosemite Fall"
+              "Curry Village"
             ],
             "spatial": {
               "useful": true,
@@ -718,7 +717,7 @@
           "initial_map_moving": false,
           "transient_recovery": true,
           "readiness_recovered": true,
-          "wait_ms": 48,
+          "wait_ms": 68,
           "timeout_ms": 5000,
           "wait_error": null
         },
@@ -802,8 +801,10 @@
               "zoom": 8.65
             },
             "rendered_yosemite_labels": [
+              "Yosemite Valley",
               "Yosemite Village",
-              "Curry Village"
+              "Curry Village",
+              "Lower Yosemite Fall"
             ],
             "spatial": {
               "useful": true,
@@ -1373,7 +1374,7 @@
           "initial_map_moving": false,
           "transient_recovery": true,
           "readiness_recovered": true,
-          "wait_ms": 138,
+          "wait_ms": 18,
           "timeout_ms": 5000,
           "wait_error": null
         },
@@ -1714,11 +1715,11 @@
             },
             "comparison_chrome_count": 0,
             "style_readiness": {
-              "initial_style_loaded": false,
+              "initial_style_loaded": true,
               "initial_map_moving": false,
-              "transient_recovery": true,
-              "readiness_recovered": true,
-              "wait_ms": 36,
+              "transient_recovery": false,
+              "readiness_recovered": false,
+              "wait_ms": 0,
               "timeout_ms": 5000,
               "wait_error": null
             },
@@ -2030,7 +2031,7 @@
           "initial_map_moving": false,
           "transient_recovery": true,
           "readiness_recovered": true,
-          "wait_ms": 196,
+          "wait_ms": 30,
           "timeout_ms": 5000,
           "wait_error": null
         },
@@ -2114,10 +2115,8 @@
               "zoom": 8.65
             },
             "rendered_yosemite_labels": [
-              "Yosemite Valley",
               "Yosemite Village",
-              "Curry Village",
-              "Lower Yosemite Fall"
+              "Curry Village"
             ],
             "spatial": {
               "useful": true,
@@ -2256,7 +2255,9 @@
               ],
               "zoom": 8.65
             },
-            "rendered_yosemite_labels": [],
+            "rendered_yosemite_labels": [
+              "Curry Village"
+            ],
             "spatial": {
               "useful": true,
               "width": 414,
@@ -2639,16 +2640,16 @@
   "screenshots": [
     {
       "path": "QA/CHG-232/screenshots/map_controls_390x844_single_route.png",
-      "candidate": "5520bdb9483756a6d6148d38cc2755ed310e8eec",
-      "candidate_tree": "dc78ea847a17580806e156a88a4cde3ab352c89d",
+      "candidate": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
+      "candidate_tree": "ff16d4048b784453d4246b317e79ab89ce5bf829",
       "browser": "chromium",
       "viewport": "390x844",
       "state": "single-route Yosemite map controls"
     },
     {
       "path": "QA/CHG-232/screenshots/map_controls_414x896_single_route.png",
-      "candidate": "5520bdb9483756a6d6148d38cc2755ed310e8eec",
-      "candidate_tree": "dc78ea847a17580806e156a88a4cde3ab352c89d",
+      "candidate": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
+      "candidate_tree": "ff16d4048b784453d4246b317e79ab89ce5bf829",
       "browser": "chromium",
       "viewport": "414x896",
       "state": "single-route Yosemite map controls"
@@ -2657,7 +2658,7 @@
   "negative_control": {
     "route_comparison_ui_absent": true
   },
-  "candidate": "5520bdb9483756a6d6148d38cc2755ed310e8eec",
-  "candidate_tree": "dc78ea847a17580806e156a88a4cde3ab352c89d",
+  "candidate": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
+  "candidate_tree": "ff16d4048b784453d4246b317e79ab89ce5bf829",
   "candidate_binding": "exact-clean-checkout"
 }
