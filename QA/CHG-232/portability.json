@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "candidate_head": "0fd8a4c52c53824ad1c304625ff2d70a87420ac5",
-  "candidate_tree": "c91b754b0c719f7ebe09961736ef659bbe6063b9",
+  "candidate_head": "5520bdb9483756a6d6148d38cc2755ed310e8eec",
+  "candidate_tree": "dc78ea847a17580806e156a88a4cde3ab352c89d",
   "commands": [
     "python3 scripts/build_map_first.py --package packages/sf-family/trip.json --output-dir <temporary>/sf",
     "python3 scripts/build_map_first.py --package packages/portability-fixture/trip.json --output-dir <temporary>/fixture"
@@ -88,7 +88,7 @@
       ],
       "photo_count": 39,
       "standalone": "standalone/sf-trip-2026-standalone.html",
-      "standalone_sha256": "e0bbe62763d14debf7773e3a3e2ef05baa1443e0008fdf1a28606b5b2e9ea284",
+      "standalone_sha256": "c828b4f4ad65f7086c8f2e068c8e0d5f26858672e94690dcdc051c3a2a1a28ad",
       "modular_sha256": "ba925e566c0bd084e19778e6c139c7f34d76545a85d6333538daa19122f9e02d"
     },
     "fixture": {
@@ -122,13 +122,13 @@
       ],
       "photo_count": 2,
       "standalone": "standalone/qa-juniper-coast-standalone.html",
-      "standalone_sha256": "31ced2c9b7327a17f699f0627299e4a5731d3598885203a1320103eb2fdb645b",
+      "standalone_sha256": "b3f7c8c0b86533c3eb619d04c47271ddb32b490267a74f010a40be5c9f2078ec",
       "modular_sha256": "79ad3274e458d5b09719105c99dc36ab0b9009b4a239bf9df6f6f2627da76eb2"
     }
   },
   "renderer_source_sha256": {
     "src/app_phase7.css": "161d2bd3ac1362065cddd3ccc28ef2b6a976b8d9a45eb40ae132d55440d23b75",
-    "src/app_phase7.js": "d36e0826ffe174c5a589562d26e89ffebbcc7674b1d49e7b0db9c0e003002592",
+    "src/app_phase7.js": "ca56579fdf62721416d3ada603f7008f84735c9e9f8552881bd9498e21fe5ea2",
     "src/atlas_messages.js": "bfb008a21a6fdd812de23f26e26aa3ac641b4da64ee8888cf11dcf84bf41db8c",
     "src/atlas_state.js": "7d06b6da8f3023ba44ab19618ad1fc3697624042529f87f5cefaae6c2b0344af",
     "src/runtime_loader.js": "ad6b98492ba04a81f0d5577578cf72c06e5936da937b4f92d421938f720a513c",
@@ -143,7 +143,7 @@
   "built_renderer_sha256": {
     "sf": {
       "src/app_phase7.css": "161d2bd3ac1362065cddd3ccc28ef2b6a976b8d9a45eb40ae132d55440d23b75",
-      "src/app_phase7.js": "d36e0826ffe174c5a589562d26e89ffebbcc7674b1d49e7b0db9c0e003002592",
+      "src/app_phase7.js": "ca56579fdf62721416d3ada603f7008f84735c9e9f8552881bd9498e21fe5ea2",
       "src/atlas_messages.js": "bfb008a21a6fdd812de23f26e26aa3ac641b4da64ee8888cf11dcf84bf41db8c",
       "src/atlas_state.js": "7d06b6da8f3023ba44ab19618ad1fc3697624042529f87f5cefaae6c2b0344af",
       "src/runtime_loader.js": "ad6b98492ba04a81f0d5577578cf72c06e5936da937b4f92d421938f720a513c",
@@ -155,7 +155,7 @@
     },
     "fixture": {
       "src/app_phase7.css": "161d2bd3ac1362065cddd3ccc28ef2b6a976b8d9a45eb40ae132d55440d23b75",
-      "src/app_phase7.js": "d36e0826ffe174c5a589562d26e89ffebbcc7674b1d49e7b0db9c0e003002592",
+      "src/app_phase7.js": "ca56579fdf62721416d3ada603f7008f84735c9e9f8552881bd9498e21fe5ea2",
       "src/atlas_messages.js": "bfb008a21a6fdd812de23f26e26aa3ac641b4da64ee8888cf11dcf84bf41db8c",
       "src/atlas_state.js": "7d06b6da8f3023ba44ab19618ad1fc3697624042529f87f5cefaae6c2b0344af",
       "src/runtime_loader.js": "ad6b98492ba04a81f0d5577578cf72c06e5936da937b4f92d421938f720a513c",
@@ -177,7 +177,7 @@
       "scripts/trip_package.py": "fe17f79f33eac6ccdf093aa7791266289e5ddd550b4293419404d51956fe5040",
       "scripts/qa_gate4_resilience.py": "c486e67d1cc71e5d53653079a2ec85c4500f1907d859a43848ace07fe64151b6",
       "scripts/security_privacy.py": "cb6ec67be91fc5ccff5a16bd205e1d4a702a769879b066ec57d4e3ff55736e14",
-      "src/app_phase7.js": "d36e0826ffe174c5a589562d26e89ffebbcc7674b1d49e7b0db9c0e003002592",
+      "src/app_phase7.js": "ca56579fdf62721416d3ada603f7008f84735c9e9f8552881bd9498e21fe5ea2",
       "src/atlas_messages.js": "bfb008a21a6fdd812de23f26e26aa3ac641b4da64ee8888cf11dcf84bf41db8c",
       "src/atlas_state.js": "7d06b6da8f3023ba44ab19618ad1fc3697624042529f87f5cefaae6c2b0344af",
       "src/map_shell_template.html": "e245ae4fe2497354dd7dfbc13efc03715c9c84bdf61f06b9bf187a942b5dfff1",

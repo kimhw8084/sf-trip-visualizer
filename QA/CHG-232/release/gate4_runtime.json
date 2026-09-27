@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "candidate_head": "0fd8a4c52c53824ad1c304625ff2d70a87420ac5",
+  "candidate_head": "5520bdb9483756a6d6148d38cc2755ed310e8eec",
   "test_mode": "browser",
   "modular": {
     "initial": {
@@ -42,125 +42,125 @@
         "marks": [
           {
             "name": "html_parse_start",
-            "at_ms": 0.1
+            "at_ms": 3.7
           },
           {
             "name": "canonical_data_parsed",
-            "at_ms": 5.2
+            "at_ms": 245.3
           },
           {
             "name": "dom_content_loaded",
-            "at_ms": 7.1
+            "at_ms": 310.2
           },
           {
             "name": "authored_js_evaluated",
-            "at_ms": 20.2
+            "at_ms": 441
           },
           {
             "name": "init_start",
-            "at_ms": 20.2
+            "at_ms": 442.9
           },
           {
             "name": "decision_shell_ready",
-            "at_ms": 21.3,
+            "at_ms": 475.6,
             "dom_nodes": 145
           },
           {
             "name": "map_runtime_scripts_ready",
-            "at_ms": 41.6
+            "at_ms": 736.8
           },
           {
             "name": "local_vector_setup_start",
-            "at_ms": 41.8
+            "at_ms": 738
           },
           {
             "name": "local_pmtiles_header_ready",
-            "at_ms": 44.2,
+            "at_ms": 785.3,
             "tile_type": 1,
             "max_zoom": 14
           },
           {
             "name": "local_vector_setup_ready",
-            "at_ms": 44.2
+            "at_ms": 785.6
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 44.2,
+            "at_ms": 785.9,
             "request": 1
           },
           {
             "name": "local_map_asset_style_start",
-            "at_ms": 44.4,
+            "at_ms": 786.4,
             "labels_only": false
           },
           {
             "name": "local_map_asset_style_ready",
-            "at_ms": 45.1,
+            "at_ms": 791.1,
             "labels_only": false,
             "layers": 72,
             "hillshade": true
           },
           {
             "name": "map_created",
-            "at_ms": 52.9
+            "at_ms": 890.3
           },
           {
             "name": "init_complete",
-            "at_ms": 53
+            "at_ms": 890.6
           },
           {
             "name": "map_style_ready",
-            "at_ms": 583.9
+            "at_ms": 2749.2
           },
           {
             "name": "route_layer_install_start",
-            "at_ms": 583.9
+            "at_ms": 2749.3
           },
           {
             "name": "route_layer_install_ready",
-            "at_ms": 595,
+            "at_ms": 2808.3,
             "layers": 93
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 595.2
+            "at_ms": 2808.5
           },
           {
             "name": "marker_install_start",
-            "at_ms": 595.3,
+            "at_ms": 2808.6,
             "count": 39
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 596.9,
+            "at_ms": 2817.7,
             "markers": 39
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 596.9,
+            "at_ms": 2817.7,
             "markers": 39
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 596.9
+            "at_ms": 2817.8
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 601.8,
+            "at_ms": 2834,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 316.234375
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 357.921875
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 603.6
+            "at_ms": 2843.7
           },
           {
             "name": "map_visual_ready",
-            "at_ms": 606.2,
+            "at_ms": 2854.3,
             "markers": 39,
             "layers": 93
           }
@@ -218,10 +218,10 @@
       },
       "smart_camera": {
         "center": [
-          -121.96825400087016,
-          37.4151166487232
+          -122.15787101011273,
+          37.449267462518534
         ],
-        "zoom": 6.880729462636302,
+        "zoom": 6.658792804202225,
         "bearing": -0.0,
         "pitch": 0,
         "task": {
@@ -241,7 +241,7 @@
           "route_features": 22,
           "route_features_in_viewport": 22,
           "route_points_in_viewport": 5003,
-          "content_occupancy_ratio": 0.2154
+          "content_occupancy_ratio": 0.1584
         },
         "owner": "smart"
       },
@@ -294,10 +294,10 @@
         "layers": 93,
         "camera": {
           "center": [
-            -121.96825400087016,
-            37.4151166487232
+            -122.15787101011273,
+            37.449267462518534
           ],
-          "zoom": 6.880729462636302,
+          "zoom": 6.658792804202225,
           "bearing": -0.0,
           "pitch": 0
         },
@@ -310,7 +310,7 @@
           "route_features": 22,
           "route_features_in_viewport": 22,
           "route_points_in_viewport": 5003,
-          "content_occupancy_ratio": 0.2154
+          "content_occupancy_ratio": 0.1584
         }
       }
     },
@@ -352,446 +352,542 @@
         "marks": [
           {
             "name": "html_parse_start",
-            "at_ms": 0.1
+            "at_ms": 3.7
           },
           {
             "name": "canonical_data_parsed",
-            "at_ms": 5.2
+            "at_ms": 245.3
           },
           {
             "name": "dom_content_loaded",
-            "at_ms": 7.1
+            "at_ms": 310.2
           },
           {
             "name": "authored_js_evaluated",
-            "at_ms": 20.2
+            "at_ms": 441
           },
           {
             "name": "init_start",
-            "at_ms": 20.2
+            "at_ms": 442.9
           },
           {
             "name": "decision_shell_ready",
-            "at_ms": 21.3,
+            "at_ms": 475.6,
             "dom_nodes": 145
           },
           {
             "name": "map_runtime_scripts_ready",
-            "at_ms": 41.6
+            "at_ms": 736.8
           },
           {
             "name": "local_vector_setup_start",
-            "at_ms": 41.8
+            "at_ms": 738
           },
           {
             "name": "local_pmtiles_header_ready",
-            "at_ms": 44.2,
+            "at_ms": 785.3,
             "tile_type": 1,
             "max_zoom": 14
           },
           {
             "name": "local_vector_setup_ready",
-            "at_ms": 44.2
+            "at_ms": 785.6
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 44.2,
+            "at_ms": 785.9,
             "request": 1
           },
           {
             "name": "local_map_asset_style_start",
-            "at_ms": 44.4,
+            "at_ms": 786.4,
             "labels_only": false
           },
           {
             "name": "local_map_asset_style_ready",
-            "at_ms": 45.1,
+            "at_ms": 791.1,
             "labels_only": false,
             "layers": 72,
             "hillshade": true
           },
           {
             "name": "map_created",
-            "at_ms": 52.9
+            "at_ms": 890.3
           },
           {
             "name": "init_complete",
-            "at_ms": 53
+            "at_ms": 890.6
           },
           {
             "name": "map_style_ready",
-            "at_ms": 583.9
+            "at_ms": 2749.2
           },
           {
             "name": "route_layer_install_start",
-            "at_ms": 583.9
+            "at_ms": 2749.3
           },
           {
             "name": "route_layer_install_ready",
-            "at_ms": 595,
+            "at_ms": 2808.3,
             "layers": 93
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 595.2
+            "at_ms": 2808.5
           },
           {
             "name": "marker_install_start",
-            "at_ms": 595.3,
+            "at_ms": 2808.6,
             "count": 39
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 596.9,
+            "at_ms": 2817.7,
             "markers": 39
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 596.9,
+            "at_ms": 2817.7,
             "markers": 39
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 596.9
+            "at_ms": 2817.8
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 601.8,
+            "at_ms": 2834,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 316.234375
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 357.921875
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 603.6
+            "at_ms": 2843.7
           },
           {
             "name": "map_visual_ready",
-            "at_ms": 606.2,
+            "at_ms": 2854.3,
             "markers": 39,
             "layers": 93
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 1679.4,
+            "at_ms": 3807.2,
             "request": 2
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 1679.8
+            "at_ms": 3809.6
           },
           {
             "name": "marker_install_start",
-            "at_ms": 1679.8,
+            "at_ms": 3809.6,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 1680.2,
+            "at_ms": 3811.6,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 1680.2,
+            "at_ms": 3811.6,
             "markers": 7
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 1680.2
+            "at_ms": 3811.7
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 1684.3,
+            "at_ms": 3825.8,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 313.765625
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 351.109375
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 1685.6
+            "at_ms": 3830.2
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 1817.5
+            "at_ms": 3935.3
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 1817.8,
+            "at_ms": 3937,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 350
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 351.109375
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 1819.1
+            "at_ms": 3943.3
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 3943.4,
+            "reason": "map-obstacle-resize",
+            "refit": true
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 4134.1
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 4135.4,
+            "padding": {
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 380
+            }
+          },
+          {
+            "name": "initial_fit_complete",
+            "at_ms": 4140.4
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 4181.7
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 4183.2,
+            "padding": {
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 380
+            }
+          },
+          {
+            "name": "initial_fit_complete",
+            "at_ms": 4185.5
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 4185.9,
+            "reason": "map-obstacle-resize",
+            "refit": true
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 2038.5,
+            "at_ms": 4512,
             "request": 3
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 2038.8
+            "at_ms": 4513
           },
           {
             "name": "marker_install_start",
-            "at_ms": 2038.8,
+            "at_ms": 4513,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 2039.1,
+            "at_ms": 4514,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 2039.1,
+            "at_ms": 4514,
             "markers": 7
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 2039.1
+            "at_ms": 4514
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 2041.6,
+            "at_ms": 4519.5,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 352.015625
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 378.65625
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 2042.5
+            "at_ms": 4522.6
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 2044.6
+            "at_ms": 4533.8
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 2044.9,
+            "at_ms": 4534.7,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 352.015625
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 378.65625
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 2045.7
+            "at_ms": 4536.8
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 2659.5
+            "at_ms": 4569.3
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 2660,
+            "at_ms": 4570.7,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 352.015625
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 378.65625
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 2660.7
+            "at_ms": 4576.3
           },
           {
             "name": "map_geometry_recomposed",
-            "at_ms": 2660.7,
+            "at_ms": 4576.3,
+            "reason": "map-obstacle-resize",
+            "refit": true
+          },
+          {
+            "name": "initial_fit_start",
+            "at_ms": 5361
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 5362.6,
+            "padding": {
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 378.65625
+            }
+          },
+          {
+            "name": "initial_fit_complete",
+            "at_ms": 5365.7
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 5365.7,
             "reason": "sheet:compact",
             "refit": true
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 2684.3
+            "at_ms": 5405.9
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 2684.7,
+            "at_ms": 5407.7,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 352.015625
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 378.65625
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 2685.4
+            "at_ms": 5410.4
           },
           {
             "name": "map_geometry_recomposed",
-            "at_ms": 2685.4,
+            "at_ms": 5410.4,
             "reason": "map-shell-resize",
             "refit": true
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 2810
+            "at_ms": 5590.9
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 2810.4,
+            "at_ms": 5592.2,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 352.015625
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 378.65625
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 2811.5
+            "at_ms": 5594
           },
           {
             "name": "map_geometry_recomposed",
-            "at_ms": 2811.5,
+            "at_ms": 5594,
             "reason": "sheet:expanded",
             "refit": true
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 2836.5
+            "at_ms": 5653.1
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 2836.9,
+            "at_ms": 5654.1,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 352.015625
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 378.65625
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 2837.4
+            "at_ms": 5655.9
           },
           {
             "name": "map_geometry_recomposed",
-            "at_ms": 2837.4,
+            "at_ms": 5655.9,
             "reason": "map-shell-resize",
             "refit": true
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 2921.6,
+            "at_ms": 5950.6,
             "request": 4
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 2921.8
+            "at_ms": 5951.4
           },
           {
             "name": "marker_install_start",
-            "at_ms": 2921.8,
+            "at_ms": 5951.6,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 2922.1,
+            "at_ms": 5953.3,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 2922.1,
+            "at_ms": 5953.3,
             "markers": 7
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 2938.2,
+            "at_ms": 5961.2,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 385.9375
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 374.421875
             }
           },
           {
+            "name": "initial_fit_start",
+            "at_ms": 6000.4
+          },
+          {
+            "name": "map_safe_padding_computed",
+            "at_ms": 6001.7,
+            "padding": {
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 374.421875
+            }
+          },
+          {
+            "name": "initial_fit_complete",
+            "at_ms": 6005.4
+          },
+          {
+            "name": "map_geometry_recomposed",
+            "at_ms": 6005.4,
+            "reason": "map-obstacle-resize",
+            "refit": true
+          },
+          {
             "name": "map_draw_requested",
-            "at_ms": 3014.6,
+            "at_ms": 6243.2,
             "request": 5
           },
           {
             "name": "local_map_asset_style_start",
-            "at_ms": 3017.8,
+            "at_ms": 6262.1,
             "labels_only": false
           },
           {
             "name": "local_map_asset_style_ready",
-            "at_ms": 3018,
+            "at_ms": 6262.6,
             "labels_only": false,
             "layers": 72,
             "hillshade": true
           },
           {
             "name": "map_created",
-            "at_ms": 3025.8
+            "at_ms": 6280.2
           },
           {
             "name": "map_geometry_recomposed",
-            "at_ms": 3125,
+            "at_ms": 6424.6,
             "reason": "viewport",
             "refit": true
           },
           {
             "name": "map_geometry_recomposed",
-            "at_ms": 3214.4,
+            "at_ms": 6592.2,
             "reason": "map-shell-resize",
             "refit": true
           },
           {
             "name": "map_style_ready",
-            "at_ms": 3748.9
+            "at_ms": 6990.5
           },
           {
             "name": "route_layer_install_start",
-            "at_ms": 3748.9
+            "at_ms": 6990.6
           },
           {
             "name": "route_layer_install_ready",
-            "at_ms": 3754.1,
+            "at_ms": 7007.5,
             "layers": 93
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 3754.1
+            "at_ms": 7007.6
           },
           {
             "name": "marker_install_start",
-            "at_ms": 3754.1,
+            "at_ms": 7007.8,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 3754.4,
+            "at_ms": 7008.9,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 3754.4,
+            "at_ms": 7008.9,
             "markers": 7
           },
           {
             "name": "map_visual_ready",
-            "at_ms": 3755.8,
+            "at_ms": 7013.2,
             "markers": 7,
             "layers": 93
           }
@@ -849,10 +945,10 @@
       },
       "smart_camera": {
         "center": [
-          -122.55461130731624,
-          37.83100908880232
+          -122.55919434628572,
+          37.83218127209446
         ],
-        "zoom": 11.326340532094324,
+        "zoom": 11.156353398298313,
         "bearing": -0.0,
         "pitch": 0,
         "task": {
@@ -872,7 +968,7 @@
           "route_features": 5,
           "route_features_in_viewport": 5,
           "route_points_in_viewport": 2573,
-          "content_occupancy_ratio": 0.4769
+          "content_occupancy_ratio": 0.3768
         },
         "owner": "smart"
       },
@@ -893,10 +989,10 @@
         "layers": 93,
         "camera": {
           "center": [
-            -122.55461130731624,
-            37.83100908880232
+            -122.55919434628572,
+            37.83218127209446
           ],
-          "zoom": 11.326340532094324,
+          "zoom": 11.156353398298313,
           "bearing": -0.0,
           "pitch": 0
         },
@@ -907,9 +1003,9 @@
           "visible_markers": 7,
           "markers_in_viewport": 0,
           "route_features": 5,
-          "route_features_in_viewport": 0,
-          "route_points_in_viewport": 0,
-          "content_occupancy_ratio": 0
+          "route_features_in_viewport": 1,
+          "route_points_in_viewport": 32,
+          "content_occupancy_ratio": 0.0026
         }
       }
     },
@@ -955,121 +1051,121 @@
           },
           {
             "name": "canonical_data_parsed",
-            "at_ms": 1.2
+            "at_ms": 6.5
           },
           {
             "name": "dom_content_loaded",
-            "at_ms": 1.9
+            "at_ms": 9.2
           },
           {
             "name": "authored_js_evaluated",
-            "at_ms": 4.5
+            "at_ms": 27.4
           },
           {
             "name": "init_start",
-            "at_ms": 4.5
+            "at_ms": 27.4
           },
           {
             "name": "decision_shell_ready",
-            "at_ms": 5.5,
+            "at_ms": 30.5,
             "dom_nodes": 399
           },
           {
             "name": "map_runtime_scripts_ready",
-            "at_ms": 34.1
+            "at_ms": 77
           },
           {
             "name": "local_vector_setup_start",
-            "at_ms": 34.2
+            "at_ms": 77.4
           },
           {
             "name": "local_pmtiles_header_ready",
-            "at_ms": 64.5,
+            "at_ms": 86.1,
             "tile_type": 1,
             "max_zoom": 14
           },
           {
             "name": "local_vector_setup_ready",
-            "at_ms": 64.5
+            "at_ms": 86.1
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 64.5,
+            "at_ms": 86.1,
             "request": 1
           },
           {
             "name": "local_map_asset_style_start",
-            "at_ms": 64.6,
+            "at_ms": 86.1,
             "labels_only": false
           },
           {
             "name": "local_map_asset_style_ready",
-            "at_ms": 64.7,
+            "at_ms": 86.4,
             "labels_only": false,
             "layers": 72,
             "hillshade": true
           },
           {
             "name": "map_created",
-            "at_ms": 69.7
+            "at_ms": 98.4
           },
           {
             "name": "init_complete",
-            "at_ms": 69.7
+            "at_ms": 98.4
           },
           {
             "name": "map_style_ready",
-            "at_ms": 671.3
+            "at_ms": 830.8
           },
           {
             "name": "route_layer_install_start",
-            "at_ms": 671.3
+            "at_ms": 830.8
           },
           {
             "name": "route_layer_install_ready",
-            "at_ms": 677.3,
+            "at_ms": 856.9,
             "layers": 93
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 677.3
+            "at_ms": 857
           },
           {
             "name": "marker_install_start",
-            "at_ms": 677.4,
+            "at_ms": 857.1,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 678.3,
+            "at_ms": 858.5,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 678.3,
+            "at_ms": 858.5,
             "markers": 7
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 678.3
+            "at_ms": 858.5
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 678.9,
+            "at_ms": 860.8,
             "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
+              "top": 125.390625,
+              "right": 46,
+              "bottom": 46,
+              "left": 46
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 679.4
+            "at_ms": 864.1
           },
           {
             "name": "map_visual_ready",
-            "at_ms": 681,
+            "at_ms": 868.6,
             "markers": 7,
             "layers": 93
           }
@@ -1128,9 +1224,9 @@
       "smart_camera": {
         "center": [
           -122.50860750000004,
-          37.867197251363095
+          37.90589179510833
         ],
-        "zoom": 8.918093216118905,
+        "zoom": 8.030766412320869,
         "bearing": -0.0,
         "pitch": 0,
         "task": {
@@ -1150,7 +1246,7 @@
           "route_features": 5,
           "route_features_in_viewport": 5,
           "route_points_in_viewport": 2573,
-          "content_occupancy_ratio": 0.1216
+          "content_occupancy_ratio": 0.0355
         },
         "owner": "smart"
       },
@@ -1172,9 +1268,9 @@
         "camera": {
           "center": [
             -122.50860750000004,
-            37.867197251363095
+            37.90589179510833
           ],
-          "zoom": 8.918093216118905,
+          "zoom": 8.030766412320869,
           "bearing": -0.0,
           "pitch": 0
         },
@@ -1187,7 +1283,7 @@
           "route_features": 5,
           "route_features_in_viewport": 5,
           "route_points_in_viewport": 2573,
-          "content_occupancy_ratio": 0.1216
+          "content_occupancy_ratio": 0.0355
         }
       }
     },
@@ -1244,175 +1340,157 @@
           },
           {
             "name": "canonical_data_parsed",
-            "at_ms": 1.2
+            "at_ms": 6.5
           },
           {
             "name": "dom_content_loaded",
-            "at_ms": 1.9
+            "at_ms": 9.2
           },
           {
             "name": "authored_js_evaluated",
-            "at_ms": 4.5
+            "at_ms": 27.4
           },
           {
             "name": "init_start",
-            "at_ms": 4.5
+            "at_ms": 27.4
           },
           {
             "name": "decision_shell_ready",
-            "at_ms": 5.5,
+            "at_ms": 30.5,
             "dom_nodes": 399
           },
           {
             "name": "map_runtime_scripts_ready",
-            "at_ms": 34.1
+            "at_ms": 77
           },
           {
             "name": "local_vector_setup_start",
-            "at_ms": 34.2
+            "at_ms": 77.4
           },
           {
             "name": "local_pmtiles_header_ready",
-            "at_ms": 64.5,
+            "at_ms": 86.1,
             "tile_type": 1,
             "max_zoom": 14
           },
           {
             "name": "local_vector_setup_ready",
-            "at_ms": 64.5
+            "at_ms": 86.1
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 64.5,
+            "at_ms": 86.1,
             "request": 1
           },
           {
             "name": "local_map_asset_style_start",
-            "at_ms": 64.6,
+            "at_ms": 86.1,
             "labels_only": false
           },
           {
             "name": "local_map_asset_style_ready",
-            "at_ms": 64.7,
+            "at_ms": 86.4,
             "labels_only": false,
             "layers": 72,
             "hillshade": true
           },
           {
             "name": "map_created",
-            "at_ms": 69.7
+            "at_ms": 98.4
           },
           {
             "name": "init_complete",
-            "at_ms": 69.7
+            "at_ms": 98.4
           },
           {
             "name": "map_style_ready",
-            "at_ms": 671.3
+            "at_ms": 830.8
           },
           {
             "name": "route_layer_install_start",
-            "at_ms": 671.3
+            "at_ms": 830.8
           },
           {
             "name": "route_layer_install_ready",
-            "at_ms": 677.3,
+            "at_ms": 856.9,
             "layers": 93
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 677.3
+            "at_ms": 857
           },
           {
             "name": "marker_install_start",
-            "at_ms": 677.4,
+            "at_ms": 857.1,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 678.3,
+            "at_ms": 858.5,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 678.3,
+            "at_ms": 858.5,
             "markers": 7
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 678.3
+            "at_ms": 858.5
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 678.9,
+            "at_ms": 860.8,
             "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
+              "top": 125.390625,
+              "right": 46,
+              "bottom": 46,
+              "left": 46
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 679.4
+            "at_ms": 864.1
           },
           {
             "name": "map_visual_ready",
-            "at_ms": 681,
+            "at_ms": 868.6,
             "markers": 7,
             "layers": 93
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 1502.9,
+            "at_ms": 1497,
             "request": 2
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 1503.4
+            "at_ms": 1500.4
           },
           {
             "name": "marker_install_start",
-            "at_ms": 1503.4,
+            "at_ms": 1500.5,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 1503.9,
+            "at_ms": 1504.9,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 1503.9,
+            "at_ms": 1504.9,
             "markers": 7
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 1506.1,
+            "at_ms": 1507.6,
             "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
+              "top": 125.390625,
+              "right": 46,
+              "bottom": 46,
+              "left": 46
             }
-          },
-          {
-            "name": "initial_fit_start",
-            "at_ms": 1506.1
-          },
-          {
-            "name": "map_safe_padding_computed",
-            "at_ms": 1506.5,
-            "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
-            }
-          },
-          {
-            "name": "initial_fit_complete",
-            "at_ms": 1507.8
           }
         ]
       },
@@ -1491,9 +1569,9 @@
       "smart_camera": {
         "center": [
           -122.50860750000004,
-          37.86719725136312
+          37.90589179510833
         ],
-        "zoom": 8.918093216118905,
+        "zoom": 8.030766412320869,
         "bearing": -0.0,
         "pitch": 0,
         "task": {
@@ -1513,7 +1591,7 @@
           "route_features": 5,
           "route_features_in_viewport": 5,
           "route_points_in_viewport": 2573,
-          "content_occupancy_ratio": 0.1216
+          "content_occupancy_ratio": 0.0355
         },
         "owner": "smart"
       },
@@ -1535,9 +1613,9 @@
         "camera": {
           "center": [
             -122.50860750000004,
-            37.86719725136312
+            37.90589179510833
           ],
-          "zoom": 8.918093216118905,
+          "zoom": 8.030766412320869,
           "bearing": -0.0,
           "pitch": 0
         },
@@ -1550,7 +1628,7 @@
           "route_features": 5,
           "route_features_in_viewport": 5,
           "route_points_in_viewport": 2573,
-          "content_occupancy_ratio": 0.1216
+          "content_occupancy_ratio": 0.0355
         }
       }
     },
@@ -1640,331 +1718,259 @@
           },
           {
             "name": "canonical_data_parsed",
-            "at_ms": 1.2
+            "at_ms": 6.5
           },
           {
             "name": "dom_content_loaded",
-            "at_ms": 1.9
+            "at_ms": 9.2
           },
           {
             "name": "authored_js_evaluated",
-            "at_ms": 4.5
+            "at_ms": 27.4
           },
           {
             "name": "init_start",
-            "at_ms": 4.5
+            "at_ms": 27.4
           },
           {
             "name": "decision_shell_ready",
-            "at_ms": 5.5,
+            "at_ms": 30.5,
             "dom_nodes": 399
           },
           {
             "name": "map_runtime_scripts_ready",
-            "at_ms": 34.1
+            "at_ms": 77
           },
           {
             "name": "local_vector_setup_start",
-            "at_ms": 34.2
+            "at_ms": 77.4
           },
           {
             "name": "local_pmtiles_header_ready",
-            "at_ms": 64.5,
+            "at_ms": 86.1,
             "tile_type": 1,
             "max_zoom": 14
           },
           {
             "name": "local_vector_setup_ready",
-            "at_ms": 64.5
+            "at_ms": 86.1
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 64.5,
+            "at_ms": 86.1,
             "request": 1
           },
           {
             "name": "local_map_asset_style_start",
-            "at_ms": 64.6,
+            "at_ms": 86.1,
             "labels_only": false
           },
           {
             "name": "local_map_asset_style_ready",
-            "at_ms": 64.7,
+            "at_ms": 86.4,
             "labels_only": false,
             "layers": 72,
             "hillshade": true
           },
           {
             "name": "map_created",
-            "at_ms": 69.7
+            "at_ms": 98.4
           },
           {
             "name": "init_complete",
-            "at_ms": 69.7
+            "at_ms": 98.4
           },
           {
             "name": "map_style_ready",
-            "at_ms": 671.3
+            "at_ms": 830.8
           },
           {
             "name": "route_layer_install_start",
-            "at_ms": 671.3
+            "at_ms": 830.8
           },
           {
             "name": "route_layer_install_ready",
-            "at_ms": 677.3,
+            "at_ms": 856.9,
             "layers": 93
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 677.3
+            "at_ms": 857
           },
           {
             "name": "marker_install_start",
-            "at_ms": 677.4,
+            "at_ms": 857.1,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 678.3,
+            "at_ms": 858.5,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 678.3,
+            "at_ms": 858.5,
             "markers": 7
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 678.3
+            "at_ms": 858.5
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 678.9,
+            "at_ms": 860.8,
             "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
+              "top": 125.390625,
+              "right": 46,
+              "bottom": 46,
+              "left": 46
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 679.4
+            "at_ms": 864.1
           },
           {
             "name": "map_visual_ready",
-            "at_ms": 681,
+            "at_ms": 868.6,
             "markers": 7,
             "layers": 93
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 1502.9,
+            "at_ms": 1497,
             "request": 2
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 1503.4
+            "at_ms": 1500.4
           },
           {
             "name": "marker_install_start",
-            "at_ms": 1503.4,
+            "at_ms": 1500.5,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 1503.9,
+            "at_ms": 1504.9,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 1503.9,
+            "at_ms": 1504.9,
             "markers": 7
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 1506.1,
+            "at_ms": 1507.6,
             "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
+              "top": 125.390625,
+              "right": 46,
+              "bottom": 46,
+              "left": 46
             }
-          },
-          {
-            "name": "initial_fit_start",
-            "at_ms": 1506.1
-          },
-          {
-            "name": "map_safe_padding_computed",
-            "at_ms": 1506.5,
-            "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
-            }
-          },
-          {
-            "name": "initial_fit_complete",
-            "at_ms": 1507.8
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 1559.8,
+            "at_ms": 1696.2,
             "request": 3
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 1560.1
+            "at_ms": 1697.1
           },
           {
             "name": "marker_install_start",
-            "at_ms": 1560.1,
+            "at_ms": 1697.1,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 1560.4,
+            "at_ms": 1700.8,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 1560.4,
+            "at_ms": 1700.9,
             "markers": 7
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 1561,
+            "at_ms": 1702.8,
             "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
+              "top": 125.390625,
+              "right": 46,
+              "bottom": 46,
+              "left": 46
             }
-          },
-          {
-            "name": "initial_fit_start",
-            "at_ms": 1561
-          },
-          {
-            "name": "map_safe_padding_computed",
-            "at_ms": 1561.3,
-            "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
-            }
-          },
-          {
-            "name": "initial_fit_complete",
-            "at_ms": 1562
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 1598.9,
+            "at_ms": 1845.2,
             "request": 4
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 1599.2
+            "at_ms": 1846.1
           },
           {
             "name": "marker_install_start",
-            "at_ms": 1599.3,
+            "at_ms": 1846.1,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 1599.6,
+            "at_ms": 1847.2,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 1599.6,
+            "at_ms": 1847.2,
             "markers": 7
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 1600.1,
+            "at_ms": 1848.9,
             "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
+              "top": 125.390625,
+              "right": 46,
+              "bottom": 46,
+              "left": 46
             }
-          },
-          {
-            "name": "initial_fit_start",
-            "at_ms": 1600.1
-          },
-          {
-            "name": "map_safe_padding_computed",
-            "at_ms": 1600.4,
-            "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
-            }
-          },
-          {
-            "name": "initial_fit_complete",
-            "at_ms": 1601.1
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 1632.3,
+            "at_ms": 1937.8,
             "request": 5
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 1632.7
+            "at_ms": 1938.5
           },
           {
             "name": "marker_install_start",
-            "at_ms": 1632.7,
+            "at_ms": 1938.5,
             "count": 7
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 1633,
+            "at_ms": 1939.5,
             "markers": 7
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 1633,
+            "at_ms": 1939.5,
             "markers": 7
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 1633.5,
+            "at_ms": 1941.3,
             "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
+              "top": 125.390625,
+              "right": 46,
+              "bottom": 46,
+              "left": 46
             }
-          },
-          {
-            "name": "initial_fit_start",
-            "at_ms": 1633.5
-          },
-          {
-            "name": "map_safe_padding_computed",
-            "at_ms": 1633.8,
-            "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
-            }
-          },
-          {
-            "name": "initial_fit_complete",
-            "at_ms": 1634.4
           }
         ]
       },
@@ -2109,9 +2115,9 @@
       "smart_camera": {
         "center": [
           -122.50860750000004,
-          37.86719725136312
+          37.90589179510833
         ],
-        "zoom": 8.918093216118905,
+        "zoom": 8.030766412320869,
         "bearing": -0.0,
         "pitch": 0,
         "task": {
@@ -2131,7 +2137,7 @@
           "route_features": 5,
           "route_features_in_viewport": 5,
           "route_points_in_viewport": 2573,
-          "content_occupancy_ratio": 0.1216
+          "content_occupancy_ratio": 0.0355
         },
         "owner": "smart"
       },
@@ -2153,9 +2159,9 @@
         "camera": {
           "center": [
             -122.50860750000004,
-            37.86719725136312
+            37.90589179510833
           ],
-          "zoom": 8.918093216118905,
+          "zoom": 8.030766412320869,
           "bearing": -0.0,
           "pitch": 0
         },
@@ -2168,7 +2174,7 @@
           "route_features": 5,
           "route_features_in_viewport": 5,
           "route_points_in_viewport": 2573,
-          "content_occupancy_ratio": 0.1216
+          "content_occupancy_ratio": 0.0355
         }
       }
     },
@@ -2228,169 +2234,169 @@
         "marks": [
           {
             "name": "html_parse_start",
-            "at_ms": 0.1
+            "at_ms": 4
           },
           {
             "name": "canonical_data_parsed",
-            "at_ms": 4.2
+            "at_ms": 210.7
           },
           {
             "name": "authored_js_evaluated",
-            "at_ms": 3991.8
+            "at_ms": 6625.8
           },
           {
             "name": "dom_content_loaded",
-            "at_ms": 3991.9
+            "at_ms": 6626.6
           },
           {
             "name": "init_start",
-            "at_ms": 3992
+            "at_ms": 6628
           },
           {
             "name": "decision_shell_ready",
-            "at_ms": 3992.9,
+            "at_ms": 6643,
             "dom_nodes": 153
           },
           {
             "name": "local_vector_setup_start",
-            "at_ms": 3993
+            "at_ms": 6643.6
           },
           {
             "name": "local_pmtiles_header_ready",
-            "at_ms": 4519.8,
+            "at_ms": 7358.4,
             "tile_type": 1,
             "max_zoom": 14
           },
           {
             "name": "local_vector_setup_ready",
-            "at_ms": 4520
+            "at_ms": 7358.6
           },
           {
             "name": "map_draw_requested",
-            "at_ms": 4520,
+            "at_ms": 7359,
             "request": 1
           },
           {
             "name": "local_map_asset_style_start",
-            "at_ms": 4520.2,
+            "at_ms": 7359.5,
             "labels_only": false
           },
           {
             "name": "local_map_asset_style_ready",
-            "at_ms": 4520.8,
+            "at_ms": 7362.1,
             "labels_only": false,
             "layers": 72,
             "hillshade": true
           },
           {
             "name": "map_created",
-            "at_ms": 4530.1
+            "at_ms": 7435.5
           },
           {
             "name": "init_complete",
-            "at_ms": 4530.1
+            "at_ms": 7435.6
           },
           {
             "name": "map_style_ready",
-            "at_ms": 4709.7
+            "at_ms": 8137.1
           },
           {
             "name": "route_layer_install_start",
-            "at_ms": 4709.7
+            "at_ms": 8137.2
           },
           {
             "name": "route_layer_install_ready",
-            "at_ms": 4717.6,
+            "at_ms": 8183,
             "layers": 93
           },
           {
             "name": "photo_preparation_start",
-            "at_ms": 4717.7
+            "at_ms": 8183.2
           },
           {
             "name": "marker_install_start",
-            "at_ms": 4717.7,
+            "at_ms": 8183.3,
             "count": 39
           },
           {
             "name": "photo_preparation_ready",
-            "at_ms": 4720.4,
+            "at_ms": 8195.3,
             "markers": 39
           },
           {
             "name": "marker_install_ready",
-            "at_ms": 4720.4,
+            "at_ms": 8195.3,
             "markers": 39
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 4720.6
+            "at_ms": 8195.5
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 4726.5,
+            "at_ms": 8209.7,
             "padding": {
-              "top": 102.6875,
-              "right": 16,
-              "bottom": 16,
-              "left": 316.234375
+              "top": 132.6875,
+              "right": 46,
+              "bottom": 46,
+              "left": 357.921875
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 4728.2
+            "at_ms": 8218.6
           },
           {
             "name": "map_visual_ready",
-            "at_ms": 4730.6,
+            "at_ms": 8227.9,
             "markers": 39,
             "layers": 93
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 8011.2
+            "at_ms": 10838.9
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 8012,
+            "at_ms": 10844.6,
             "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
+              "top": 125.390625,
+              "right": 46,
+              "bottom": 46,
+              "left": 46
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 8013.7
+            "at_ms": 10850.9
           },
           {
             "name": "map_geometry_recomposed",
-            "at_ms": 8013.7,
+            "at_ms": 10851,
             "reason": "viewport",
             "refit": true
           },
           {
             "name": "initial_fit_start",
-            "at_ms": 8027.3
+            "at_ms": 11978
           },
           {
             "name": "map_safe_padding_computed",
-            "at_ms": 8028,
+            "at_ms": 11986,
             "padding": {
-              "top": 95.390625,
-              "right": 16,
-              "bottom": 16,
-              "left": 16
+              "top": 125.390625,
+              "right": 46,
+              "bottom": 46,
+              "left": 46
             }
           },
           {
             "name": "initial_fit_complete",
-            "at_ms": 8029.4
+            "at_ms": 12000
           },
           {
             "name": "map_geometry_recomposed",
-            "at_ms": 8029.4,
+            "at_ms": 12000,
             "reason": "map-shell-resize",
             "refit": true
           }
@@ -2449,9 +2455,9 @@
       "smart_camera": {
         "center": [
           -121.0725655,
-          37.62786587063856
+          37.98158974170589
         ],
-        "zoom": 5.727267327127944,
+        "zoom": 4.839940523329908,
         "bearing": -0.0,
         "pitch": 0,
         "task": {
@@ -2471,7 +2477,7 @@
           "route_features": 22,
           "route_features_in_viewport": 22,
           "route_points_in_viewport": 5003,
-          "content_occupancy_ratio": 0.3128
+          "content_occupancy_ratio": 0.0914
         },
         "owner": "smart"
       },
@@ -2519,15 +2525,15 @@
           "stanford_quad",
           "baker_beach"
         ],
-        "clusters": 3,
+        "clusters": 2,
         "leg_markers": 0,
         "layers": 93,
         "camera": {
           "center": [
             -121.0725655,
-            37.62786587063856
+            37.98158974170589
           ],
-          "zoom": 5.727267327127944,
+          "zoom": 4.839940523329908,
           "bearing": -0.0,
           "pitch": 0
         },
@@ -2540,7 +2546,7 @@
           "route_features": 22,
           "route_features_in_viewport": 22,
           "route_points_in_viewport": 5003,
-          "content_occupancy_ratio": 0.3128
+          "content_occupancy_ratio": 0.0914
         }
       }
     },
@@ -2592,7 +2598,7 @@
         "vector": "ready",
         "satellite": "ready"
       },
-      "success_requests": 31,
+      "success_requests": 38,
       "raster_success_requests": 9,
       "snapshot": {
         "provider": "satellite",
@@ -2643,421 +2649,523 @@
           "marks": [
             {
               "name": "html_parse_start",
-              "at_ms": 0
+              "at_ms": 8
             },
             {
               "name": "canonical_data_parsed",
-              "at_ms": 17.9
+              "at_ms": 429.7
             },
             {
               "name": "dom_content_loaded",
-              "at_ms": 20
+              "at_ms": 593.4
             },
             {
               "name": "authored_js_evaluated",
-              "at_ms": 33.9
+              "at_ms": 735.4
             },
             {
               "name": "init_start",
-              "at_ms": 33.9
+              "at_ms": 737.7
             },
             {
               "name": "decision_shell_ready",
-              "at_ms": 35.2,
+              "at_ms": 780.4,
               "dom_nodes": 145
             },
             {
               "name": "map_runtime_scripts_ready",
-              "at_ms": 50.5
+              "at_ms": 1056.5
             },
             {
               "name": "local_vector_setup_start",
-              "at_ms": 50.5
+              "at_ms": 1057.4
             },
             {
               "name": "local_pmtiles_header_ready",
-              "at_ms": 53.3,
+              "at_ms": 1126.7,
               "tile_type": 1,
               "max_zoom": 14
             },
             {
               "name": "local_vector_setup_ready",
-              "at_ms": 53.3
+              "at_ms": 1127
             },
             {
               "name": "map_draw_requested",
-              "at_ms": 53.4,
+              "at_ms": 1127.3,
               "request": 1
             },
             {
               "name": "local_map_asset_style_start",
-              "at_ms": 53.6,
+              "at_ms": 1128,
               "labels_only": false
             },
             {
               "name": "local_map_asset_style_ready",
-              "at_ms": 54.2,
+              "at_ms": 1132.2,
               "labels_only": false,
               "layers": 72,
               "hillshade": true
             },
             {
               "name": "map_created",
-              "at_ms": 61.5
+              "at_ms": 1227.8
             },
             {
               "name": "init_complete",
-              "at_ms": 61.5
+              "at_ms": 1228.4
             },
             {
               "name": "map_style_ready",
-              "at_ms": 558
+              "at_ms": 5105.1
             },
             {
               "name": "route_layer_install_start",
-              "at_ms": 558
+              "at_ms": 5105.4
             },
             {
               "name": "route_layer_install_ready",
-              "at_ms": 569.1,
+              "at_ms": 5323.8,
               "layers": 93
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 569.3
+              "at_ms": 5325.2
             },
             {
               "name": "marker_install_start",
-              "at_ms": 569.3,
+              "at_ms": 5325.6,
               "count": 39
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 571,
+              "at_ms": 5387.6,
               "markers": 39
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 571,
+              "at_ms": 5387.6,
               "markers": 39
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 571
+              "at_ms": 5387.9
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 576.2,
+              "at_ms": 5445.1,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 316.234375
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 357.921875
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 577.9
+              "at_ms": 5455.8
             },
             {
               "name": "map_visual_ready",
-              "at_ms": 580.6,
+              "at_ms": 5471.4,
               "markers": 39,
               "layers": 93
             },
             {
               "name": "map_draw_requested",
-              "at_ms": 1580.9,
+              "at_ms": 7957.9,
               "request": 2
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 1581.4
+              "at_ms": 7963.3
             },
             {
               "name": "marker_install_start",
-              "at_ms": 1581.4,
+              "at_ms": 7963.7,
               "count": 7
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 1581.8,
+              "at_ms": 7972.2,
               "markers": 7
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 1581.8,
+              "at_ms": 7972.2,
               "markers": 7
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 1581.8
+              "at_ms": 7972.4
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 1586.2,
+              "at_ms": 8032.9,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 313.765625
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 351.109375
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 1587.5
+              "at_ms": 8070.8
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 1729.2
+              "at_ms": 8772
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 1729.5,
+              "at_ms": 8777.9,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 350
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 351.109375
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 1730.8
+              "at_ms": 8804.9
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 8804.9,
+              "reason": "map-obstacle-resize",
+              "refit": true
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 9310.3
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 9313.1,
+              "padding": {
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 380
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 9336
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 9447.4
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 9451.3,
+              "padding": {
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 380
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 9455.5
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 9456.8,
+              "reason": "map-obstacle-resize",
+              "refit": true
             },
             {
               "name": "map_draw_requested",
-              "at_ms": 1951.8,
+              "at_ms": 11119.9,
               "request": 3
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 1952.1
+              "at_ms": 11123.1
             },
             {
               "name": "marker_install_start",
-              "at_ms": 1952.2,
+              "at_ms": 11123.5,
               "count": 7
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 1952.4,
+              "at_ms": 11127.3,
               "markers": 7
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 1952.4,
+              "at_ms": 11127.3,
               "markers": 7
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 1952.4
+              "at_ms": 11127.3
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 1953.9,
+              "at_ms": 11147.3,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 352.015625
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 378.65625
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 1955.2
+              "at_ms": 11154.8
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 1957.5
+              "at_ms": 11172.2
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 1957.8,
+              "at_ms": 11173.9,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 352.015625
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 378.65625
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 1958.8
+              "at_ms": 11185.8
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 2092.6
+              "at_ms": 11278.5
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 2093,
+              "at_ms": 11281.9,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 352.015625
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 378.65625
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 2093.6
+              "at_ms": 11287.2
             },
             {
               "name": "map_geometry_recomposed",
-              "at_ms": 2093.7,
+              "at_ms": 11287.3,
+              "reason": "map-obstacle-resize",
+              "refit": true
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 11656.5
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 11658,
+              "padding": {
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 378.65625
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 11661
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 11661.1,
               "reason": "sheet:full",
               "refit": true
             },
             {
               "name": "map_draw_requested",
-              "at_ms": 2209.7,
+              "at_ms": 11909.1,
               "request": 4
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 2210
+              "at_ms": 11910.7
             },
             {
               "name": "marker_install_start",
-              "at_ms": 2210.1,
+              "at_ms": 11910.7,
               "count": 7
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 2210.4,
+              "at_ms": 11911.7,
               "markers": 7
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 2210.4,
+              "at_ms": 11911.7,
               "markers": 7
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 2226.8,
+              "at_ms": 11924,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 385.9375
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 374.421875
               }
             },
             {
+              "name": "initial_fit_start",
+              "at_ms": 11932.2
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 11939.2,
+              "padding": {
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 374.421875
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 11944
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 11944,
+              "reason": "map-obstacle-resize",
+              "refit": true
+            },
+            {
               "name": "map_draw_requested",
-              "at_ms": 2304.5,
+              "at_ms": 12224.4,
               "request": 5
             },
             {
               "name": "local_map_asset_style_start",
-              "at_ms": 2307.6,
+              "at_ms": 12248.5,
               "labels_only": false
             },
             {
               "name": "local_map_asset_style_ready",
-              "at_ms": 2307.8,
+              "at_ms": 12249.9,
               "labels_only": false,
               "layers": 72,
               "hillshade": true
             },
             {
               "name": "map_created",
-              "at_ms": 2316
+              "at_ms": 12274.6
             },
             {
               "name": "map_style_ready",
-              "at_ms": 2950.5
+              "at_ms": 12996
             },
             {
               "name": "route_layer_install_start",
-              "at_ms": 2950.5
+              "at_ms": 12996
             },
             {
               "name": "route_layer_install_ready",
-              "at_ms": 2956.1,
+              "at_ms": 13014.6,
               "layers": 93
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 2956.1
+              "at_ms": 13014.6
             },
             {
               "name": "marker_install_start",
-              "at_ms": 2956.1,
+              "at_ms": 13014.8,
               "count": 7
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 2956.4,
+              "at_ms": 13015.8,
               "markers": 7
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 2956.4,
+              "at_ms": 13015.8,
               "markers": 7
             },
             {
               "name": "map_visual_ready",
-              "at_ms": 2957.9,
+              "at_ms": 13020.2,
               "markers": 7,
               "layers": 93
             },
             {
               "name": "map_draw_requested",
-              "at_ms": 3299,
+              "at_ms": 13431.3,
               "request": 6
             },
             {
               "name": "local_map_asset_style_start",
-              "at_ms": 3302,
+              "at_ms": 13442.2,
               "labels_only": true
             },
             {
               "name": "local_map_asset_style_ready",
-              "at_ms": 3302.1,
+              "at_ms": 13442.5,
               "labels_only": true,
               "layers": 14,
               "hillshade": false
             },
             {
               "name": "map_created",
-              "at_ms": 3306
+              "at_ms": 13455.5
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 13657.7,
+              "reason": "map-obstacle-resize",
+              "refit": true
             },
             {
               "name": "map_style_ready",
-              "at_ms": 3452.7
+              "at_ms": 14170.1
             },
             {
               "name": "route_layer_install_start",
-              "at_ms": 3452.7
+              "at_ms": 14170.1
             },
             {
               "name": "route_layer_install_ready",
-              "at_ms": 3457.4,
+              "at_ms": 14182.3,
               "layers": 36
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 3457.4
+              "at_ms": 14182.4
             },
             {
               "name": "marker_install_start",
-              "at_ms": 3457.4,
+              "at_ms": 14182.4,
               "count": 7
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 3457.7,
+              "at_ms": 14183.6,
               "markers": 7
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 3457.7,
+              "at_ms": 14183.6,
               "markers": 7
             },
             {
               "name": "map_visual_ready",
-              "at_ms": 3458.1,
+              "at_ms": 14184.7,
               "markers": 7,
               "layers": 36
             }
@@ -3137,10 +3245,10 @@
         },
         "smart_camera": {
           "center": [
-            -122.55461130731624,
-            37.83100908880232
+            -122.55919434628572,
+            37.83218127209446
           ],
-          "zoom": 11.326340532094324,
+          "zoom": 11.15635339829833,
           "bearing": -0.0,
           "pitch": 0,
           "task": {
@@ -3160,7 +3268,7 @@
             "route_features": 5,
             "route_features_in_viewport": 5,
             "route_points_in_viewport": 2573,
-            "content_occupancy_ratio": 0.4769
+            "content_occupancy_ratio": 0.3768
           },
           "owner": "smart"
         },
@@ -3181,10 +3289,10 @@
           "layers": 36,
           "camera": {
             "center": [
-              -122.55461130731624,
-              37.83100908880232
+              -122.55919434628572,
+              37.83218127209446
             ],
-            "zoom": 11.326340532094324,
+            "zoom": 11.15635339829833,
             "bearing": -0.0,
             "pitch": 0
           },
@@ -3197,7 +3305,7 @@
             "route_features": 5,
             "route_features_in_viewport": 5,
             "route_points_in_viewport": 2573,
-            "content_occupancy_ratio": 0.4769
+            "content_occupancy_ratio": 0.3768
           }
         }
       }
@@ -3243,10 +3351,10 @@
       "spatial_recovery": {
         "pre_raster_smart_camera": {
           "center": [
-            -122.55461130731624,
-            37.83100908880232
+            -122.55919434628572,
+            37.83218127209446
           ],
-          "zoom": 11.326340532094324,
+          "zoom": 11.15635339829833,
           "bearing": -0.0,
           "pitch": 0,
           "task": {
@@ -3266,16 +3374,16 @@
             "route_features": 5,
             "route_features_in_viewport": 5,
             "route_points_in_viewport": 2573,
-            "content_occupancy_ratio": 0.4769
+            "content_occupancy_ratio": 0.3768
           },
           "owner": "smart"
         },
         "recovered_smart_camera": {
           "center": [
-            -122.55461130731624,
-            37.83100908880232
+            -122.55919434628572,
+            37.83218127209446
           ],
-          "zoom": 11.326340532094324,
+          "zoom": 11.15635339829833,
           "bearing": -0.0,
           "pitch": 0,
           "task": {
@@ -3295,16 +3403,16 @@
             "route_features": 5,
             "route_features_in_viewport": 5,
             "route_points_in_viewport": 2573,
-            "content_occupancy_ratio": 0.4769
+            "content_occupancy_ratio": 0.3768
           },
           "owner": "smart"
         },
         "recovered_map_camera": {
           "center": [
-            -122.55461130731624,
-            37.83100908880232
+            -122.55919434628572,
+            37.83218127209446
           ],
-          "zoom": 11.326340532094324,
+          "zoom": 11.15635339829833,
           "bearing": -0.0,
           "pitch": 0
         },
@@ -3330,12 +3438,12 @@
           "route_features": 5,
           "route_features_in_viewport": 5,
           "route_points_in_viewport": 2573,
-          "content_occupancy_ratio": 0.4769
+          "content_occupancy_ratio": 0.3768
         },
         "recovered_useful": true,
         "recovered_markers_in_viewport": 7,
         "recovered_routes_in_viewport": 5,
-        "recovered_content_occupancy_ratio": 0.4769
+        "recovered_content_occupancy_ratio": 0.3768
       },
       "snapshot": {
         "provider": "vector",
@@ -3401,480 +3509,588 @@
           "marks": [
             {
               "name": "html_parse_start",
-              "at_ms": 0
+              "at_ms": 8
             },
             {
               "name": "canonical_data_parsed",
-              "at_ms": 17.9
+              "at_ms": 429.7
             },
             {
               "name": "dom_content_loaded",
-              "at_ms": 20
+              "at_ms": 593.4
             },
             {
               "name": "authored_js_evaluated",
-              "at_ms": 33.9
+              "at_ms": 735.4
             },
             {
               "name": "init_start",
-              "at_ms": 33.9
+              "at_ms": 737.7
             },
             {
               "name": "decision_shell_ready",
-              "at_ms": 35.2,
+              "at_ms": 780.4,
               "dom_nodes": 145
             },
             {
               "name": "map_runtime_scripts_ready",
-              "at_ms": 50.5
+              "at_ms": 1056.5
             },
             {
               "name": "local_vector_setup_start",
-              "at_ms": 50.5
+              "at_ms": 1057.4
             },
             {
               "name": "local_pmtiles_header_ready",
-              "at_ms": 53.3,
+              "at_ms": 1126.7,
               "tile_type": 1,
               "max_zoom": 14
             },
             {
               "name": "local_vector_setup_ready",
-              "at_ms": 53.3
+              "at_ms": 1127
             },
             {
               "name": "map_draw_requested",
-              "at_ms": 53.4,
+              "at_ms": 1127.3,
               "request": 1
             },
             {
               "name": "local_map_asset_style_start",
-              "at_ms": 53.6,
+              "at_ms": 1128,
               "labels_only": false
             },
             {
               "name": "local_map_asset_style_ready",
-              "at_ms": 54.2,
+              "at_ms": 1132.2,
               "labels_only": false,
               "layers": 72,
               "hillshade": true
             },
             {
               "name": "map_created",
-              "at_ms": 61.5
+              "at_ms": 1227.8
             },
             {
               "name": "init_complete",
-              "at_ms": 61.5
+              "at_ms": 1228.4
             },
             {
               "name": "map_style_ready",
-              "at_ms": 558
+              "at_ms": 5105.1
             },
             {
               "name": "route_layer_install_start",
-              "at_ms": 558
+              "at_ms": 5105.4
             },
             {
               "name": "route_layer_install_ready",
-              "at_ms": 569.1,
+              "at_ms": 5323.8,
               "layers": 93
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 569.3
+              "at_ms": 5325.2
             },
             {
               "name": "marker_install_start",
-              "at_ms": 569.3,
+              "at_ms": 5325.6,
               "count": 39
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 571,
+              "at_ms": 5387.6,
               "markers": 39
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 571,
+              "at_ms": 5387.6,
               "markers": 39
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 571
+              "at_ms": 5387.9
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 576.2,
+              "at_ms": 5445.1,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 316.234375
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 357.921875
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 577.9
+              "at_ms": 5455.8
             },
             {
               "name": "map_visual_ready",
-              "at_ms": 580.6,
+              "at_ms": 5471.4,
               "markers": 39,
               "layers": 93
             },
             {
               "name": "map_draw_requested",
-              "at_ms": 1580.9,
+              "at_ms": 7957.9,
               "request": 2
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 1581.4
+              "at_ms": 7963.3
             },
             {
               "name": "marker_install_start",
-              "at_ms": 1581.4,
+              "at_ms": 7963.7,
               "count": 7
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 1581.8,
+              "at_ms": 7972.2,
               "markers": 7
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 1581.8,
+              "at_ms": 7972.2,
               "markers": 7
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 1581.8
+              "at_ms": 7972.4
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 1586.2,
+              "at_ms": 8032.9,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 313.765625
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 351.109375
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 1587.5
+              "at_ms": 8070.8
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 1729.2
+              "at_ms": 8772
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 1729.5,
+              "at_ms": 8777.9,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 350
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 351.109375
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 1730.8
+              "at_ms": 8804.9
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 8804.9,
+              "reason": "map-obstacle-resize",
+              "refit": true
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 9310.3
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 9313.1,
+              "padding": {
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 380
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 9336
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 9447.4
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 9451.3,
+              "padding": {
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 380
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 9455.5
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 9456.8,
+              "reason": "map-obstacle-resize",
+              "refit": true
             },
             {
               "name": "map_draw_requested",
-              "at_ms": 1951.8,
+              "at_ms": 11119.9,
               "request": 3
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 1952.1
+              "at_ms": 11123.1
             },
             {
               "name": "marker_install_start",
-              "at_ms": 1952.2,
+              "at_ms": 11123.5,
               "count": 7
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 1952.4,
+              "at_ms": 11127.3,
               "markers": 7
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 1952.4,
+              "at_ms": 11127.3,
               "markers": 7
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 1952.4
+              "at_ms": 11127.3
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 1953.9,
+              "at_ms": 11147.3,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 352.015625
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 378.65625
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 1955.2
+              "at_ms": 11154.8
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 1957.5
+              "at_ms": 11172.2
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 1957.8,
+              "at_ms": 11173.9,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 352.015625
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 378.65625
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 1958.8
+              "at_ms": 11185.8
             },
             {
               "name": "initial_fit_start",
-              "at_ms": 2092.6
+              "at_ms": 11278.5
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 2093,
+              "at_ms": 11281.9,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 352.015625
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 378.65625
               }
             },
             {
               "name": "initial_fit_complete",
-              "at_ms": 2093.6
+              "at_ms": 11287.2
             },
             {
               "name": "map_geometry_recomposed",
-              "at_ms": 2093.7,
+              "at_ms": 11287.3,
+              "reason": "map-obstacle-resize",
+              "refit": true
+            },
+            {
+              "name": "initial_fit_start",
+              "at_ms": 11656.5
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 11658,
+              "padding": {
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 378.65625
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 11661
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 11661.1,
               "reason": "sheet:full",
               "refit": true
             },
             {
               "name": "map_draw_requested",
-              "at_ms": 2209.7,
+              "at_ms": 11909.1,
               "request": 4
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 2210
+              "at_ms": 11910.7
             },
             {
               "name": "marker_install_start",
-              "at_ms": 2210.1,
+              "at_ms": 11910.7,
               "count": 7
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 2210.4,
+              "at_ms": 11911.7,
               "markers": 7
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 2210.4,
+              "at_ms": 11911.7,
               "markers": 7
             },
             {
               "name": "map_safe_padding_computed",
-              "at_ms": 2226.8,
+              "at_ms": 11924,
               "padding": {
-                "top": 102.6875,
-                "right": 16,
-                "bottom": 16,
-                "left": 385.9375
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 374.421875
               }
             },
             {
+              "name": "initial_fit_start",
+              "at_ms": 11932.2
+            },
+            {
+              "name": "map_safe_padding_computed",
+              "at_ms": 11939.2,
+              "padding": {
+                "top": 132.6875,
+                "right": 46,
+                "bottom": 46,
+                "left": 374.421875
+              }
+            },
+            {
+              "name": "initial_fit_complete",
+              "at_ms": 11944
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 11944,
+              "reason": "map-obstacle-resize",
+              "refit": true
+            },
+            {
               "name": "map_draw_requested",
-              "at_ms": 2304.5,
+              "at_ms": 12224.4,
               "request": 5
             },
             {
               "name": "local_map_asset_style_start",
-              "at_ms": 2307.6,
+              "at_ms": 12248.5,
               "labels_only": false
             },
             {
               "name": "local_map_asset_style_ready",
-              "at_ms": 2307.8,
+              "at_ms": 12249.9,
               "labels_only": false,
               "layers": 72,
               "hillshade": true
             },
             {
               "name": "map_created",
-              "at_ms": 2316
+              "at_ms": 12274.6
             },
             {
               "name": "map_style_ready",
-              "at_ms": 2950.5
+              "at_ms": 12996
             },
             {
               "name": "route_layer_install_start",
-              "at_ms": 2950.5
+              "at_ms": 12996
             },
             {
               "name": "route_layer_install_ready",
-              "at_ms": 2956.1,
+              "at_ms": 13014.6,
               "layers": 93
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 2956.1
+              "at_ms": 13014.6
             },
             {
               "name": "marker_install_start",
-              "at_ms": 2956.1,
+              "at_ms": 13014.8,
               "count": 7
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 2956.4,
+              "at_ms": 13015.8,
               "markers": 7
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 2956.4,
+              "at_ms": 13015.8,
               "markers": 7
             },
             {
               "name": "map_visual_ready",
-              "at_ms": 2957.9,
+              "at_ms": 13020.2,
               "markers": 7,
               "layers": 93
             },
             {
               "name": "map_draw_requested",
-              "at_ms": 3299,
+              "at_ms": 13431.3,
               "request": 6
             },
             {
               "name": "local_map_asset_style_start",
-              "at_ms": 3302,
+              "at_ms": 13442.2,
               "labels_only": true
             },
             {
               "name": "local_map_asset_style_ready",
-              "at_ms": 3302.1,
+              "at_ms": 13442.5,
               "labels_only": true,
               "layers": 14,
               "hillshade": false
             },
             {
               "name": "map_created",
-              "at_ms": 3306
+              "at_ms": 13455.5
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 13657.7,
+              "reason": "map-obstacle-resize",
+              "refit": true
             },
             {
               "name": "map_style_ready",
-              "at_ms": 3452.7
+              "at_ms": 14170.1
             },
             {
               "name": "route_layer_install_start",
-              "at_ms": 3452.7
+              "at_ms": 14170.1
             },
             {
               "name": "route_layer_install_ready",
-              "at_ms": 3457.4,
+              "at_ms": 14182.3,
               "layers": 36
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 3457.4
+              "at_ms": 14182.4
             },
             {
               "name": "marker_install_start",
-              "at_ms": 3457.4,
+              "at_ms": 14182.4,
               "count": 7
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 3457.7,
+              "at_ms": 14183.6,
               "markers": 7
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 3457.7,
+              "at_ms": 14183.6,
               "markers": 7
             },
             {
               "name": "map_visual_ready",
-              "at_ms": 3458.1,
+              "at_ms": 14184.7,
               "markers": 7,
               "layers": 36
             },
             {
               "name": "map_draw_requested",
-              "at_ms": 4587.3,
+              "at_ms": 16413.3,
               "request": 7
             },
             {
               "name": "local_map_asset_style_start",
-              "at_ms": 4589.4,
+              "at_ms": 16456.3,
               "labels_only": false
             },
             {
               "name": "local_map_asset_style_ready",
-              "at_ms": 4589.6,
+              "at_ms": 16456.8,
               "labels_only": false,
               "layers": 72,
               "hillshade": true
             },
             {
               "name": "map_created",
-              "at_ms": 4593.9
+              "at_ms": 16478.4
+            },
+            {
+              "name": "map_geometry_recomposed",
+              "at_ms": 16758.4,
+              "reason": "map-obstacle-resize",
+              "refit": true
             },
             {
               "name": "map_style_ready",
-              "at_ms": 5218.9
+              "at_ms": 17552.9
             },
             {
               "name": "route_layer_install_start",
-              "at_ms": 5218.9
+              "at_ms": 17552.9
             },
             {
               "name": "route_layer_install_ready",
-              "at_ms": 5224.7,
+              "at_ms": 17576.1,
               "layers": 93
             },
             {
               "name": "photo_preparation_start",
-              "at_ms": 5224.7
+              "at_ms": 17576.3
             },
             {
               "name": "marker_install_start",
-              "at_ms": 5224.7,
+              "at_ms": 17576.6,
               "count": 7
             },
             {
               "name": "photo_preparation_ready",
-              "at_ms": 5225,
+              "at_ms": 17578.4,
               "markers": 7
             },
             {
               "name": "marker_install_ready",
-              "at_ms": 5225,
+              "at_ms": 17578.4,
               "markers": 7
             },
             {
               "name": "map_visual_ready",
-              "at_ms": 5226.9,
+              "at_ms": 17582.7,
               "markers": 7,
               "layers": 93
             }
@@ -3984,10 +4200,10 @@
         },
         "smart_camera": {
           "center": [
-            -122.55461130731624,
-            37.83100908880232
+            -122.55919434628572,
+            37.83218127209446
           ],
-          "zoom": 11.326340532094324,
+          "zoom": 11.15635339829833,
           "bearing": -0.0,
           "pitch": 0,
           "task": {
@@ -4007,7 +4223,7 @@
             "route_features": 5,
             "route_features_in_viewport": 5,
             "route_points_in_viewport": 2573,
-            "content_occupancy_ratio": 0.4769
+            "content_occupancy_ratio": 0.3768
           },
           "owner": "smart"
         },
@@ -4028,10 +4244,10 @@
           "layers": 93,
           "camera": {
             "center": [
-              -122.55461130731624,
-              37.83100908880232
+              -122.55919434628572,
+              37.83218127209446
             ],
-            "zoom": 11.326340532094324,
+            "zoom": 11.15635339829833,
             "bearing": -0.0,
             "pitch": 0
           },
@@ -4044,7 +4260,7 @@
             "route_features": 5,
             "route_features_in_viewport": 5,
             "route_points_in_viewport": 2573,
-            "content_occupancy_ratio": 0.4769
+            "content_occupancy_ratio": 0.3768
           }
         }
       }
@@ -4061,9 +4277,9 @@
       "recovered_camera_or_safe_fit": true,
       "recovered_task_occupancy": true
     },
-    "failure_requests": 18,
+    "failure_requests": 28,
     "screenshot": "QA/CHG-232/screenshots/optional_raster_failure_recovery_1440x900.png",
-    "screenshot_sha256": "e36e2e85c05c88423599f77413992ac5e8f532bb6de3c6160f9652c18664de40",
+    "screenshot_sha256": "c8a7c867d46c72ecfdafe4e26b28fb4574b5544b120cce6c7966326a1364f9d8",
     "failures": []
   },
   "external_provider": {
