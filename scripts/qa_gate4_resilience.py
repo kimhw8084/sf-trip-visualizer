@@ -363,6 +363,13 @@ def browser_runtime_report(modular_url: str, standalone_path: Path) -> dict:
         standalone_page.route("http**", lambda route: route.abort())
         standalone_page.goto(standalone_path.resolve().as_uri(), wait_until="domcontentloaded", timeout=90000)
         wait_ready(standalone_page, standalone=True)
+        ferry_date = next(item.get("date_key", item.get("date")) for marker in ACTIVE_DATA["markers"] if marker.get("place_key") == "ferry" for item in marker.get("occurrences", []))
+        ferry_region = ACTIVE_DATA["place_region"]["ferry"]
+        standalone_page.locator('#modeNav [data-mode="day"]').click()
+        standalone_page.locator("#dateSelect").select_option(ferry_date)
+        standalone_page.locator("#mapOptionsToggle").click()
+        standalone_page.wait_for_function("!document.querySelector('#mapOptionsPanel')?.hidden")
+        standalone_page.locator(f'[data-region="{ferry_region}"]').click()
         standalone_page.set_viewport_size({"width": 320, "height": 800})
         standalone_page.evaluate("()=>window.__tripApp.map().resize()")
         standalone_page.evaluate("window.__tripApp.whenIdle()")
