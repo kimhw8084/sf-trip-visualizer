@@ -1,0 +1,341 @@
+{
+  "accepted_at": "2026-09-28T01:02:25Z",
+  "changed_files": [],
+  "checks": [
+    {
+      "command": "/bin/zsh -lc 'cat /Users/haewonkim/.codex/RTK.md && cat /Users/haewonkim/.codex/law.md'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rg -n \"TemporaryDirectory|FORBIDDEN_ARTIFACT_COMPONENTS|public qualification|verify-public|qualify|hosted\" tests/test_public_qualification_projection.py scripts/prepare_public_site.py pyproject.toml Makefile README.md .github 2>/dev/null'",
+      "exit_code": 2,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'git status --short --branch && git rev-parse HEAD && git branch --show-current && git remote -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,260p' tests/test_public_qualification_projection.py && rtk rg -n \\\"def main|fast|release|verify-public|hosted_linux_pipeline|unittest|pytest\\\" scripts/pipeline.py scripts/hosted_linux_pipeline.py README.md\"",
+      "exit_code": 1,
+      "test_result": {
+        "exit_code": 1,
+        "framework": "pytest",
+        "outcome": "test_failures",
+        "output_bytes": 78,
+        "output_sha256": "ea3a05deed27998865f782d0c6edd4488e50535091165da842f6a576163818bf",
+        "summary_detected": false
+      },
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git log --oneline --decorate --graph -12 --all'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git branch -avv && rtk git status --porcelain=v1'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh pr view 18 --json number,title,headRefName,headRefOid,baseRefName,state,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git show 18dfdd1fe072ad1f2dfd5537e591c85f124fba55:tests/test_public_qualification_projection.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk git ls-tree -r --name-only 18dfdd1fe072ad1f2dfd5537e591c85f124fba55 tests | rtk rg 'public_qualification_projection|test_'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git worktree list --porcelain'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --ignored | rtk head -80'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git switch -c codex/chg-272-projection-fixture 18dfdd1fe072ad1f2dfd5537e591c85f124fba55 && rtk git status --short --branch && rtk git rev-parse HEAD && rtk git hash-object scripts/prepare_public_site.py && rtk rg -n \"TemporaryDirectory\" tests/test_public_qualification_projection.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 -m unittest tests.test_public_qualification_projection -v'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rg -n \"unit suite|unittest discover|test suite|pipeline.py fast|pipeline.py qualify|hosted_linux_pipeline.py release|verify-public\" README.md .github scripts'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '1,180p' scripts/hosted_linux_pipeline.py && rtk sed -n '1,140p' .github/workflows/deploy-pages.yml\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff -- tests/test_public_qualification_projection.py && rtk git diff --check && rtk git hash-object scripts/prepare_public_site.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def fast|def qualify|def release|def verify_public|def current_revision|add_parser\\\\(\\\" scripts/pipeline.py && rtk python3 -c 'import platform,shutil; print(platform.system(), platform.platform()); print(\\\"xvfb-run:\\\", shutil.which(\\\"xvfb-run\\\"))'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -m unittest discover -s tests -p 'test_*.py'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '90,170p' scripts/pipeline.py && rtk sed -n '810,870p' scripts/pipeline.py && rtk sed -n '550,710p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg -n \\\"def run_fast|def command_fast|def command_qualify|def require_qualified|def verify_public\\\" scripts/pipeline.py && rtk sed -n '200,340p' scripts/pipeline.py && rtk sed -n '470,550p' scripts/pipeline.py && rtk sed -n '700,810p' scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '350,445p' scripts/pipeline.py && rtk rg -n \\\"GATE5_TIMEOUT_SECONDS\\\" scripts/pipeline.py\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git add -- tests/test_public_qualification_projection.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --cached --check && rtk git diff --cached --stat && rtk git diff --cached --name-only && rtk git hash-object scripts/prepare_public_site.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git commit -m \"test: keep public projection fixtures repository-local\"'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py fast'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk python3 scripts/pipeline.py qualify --revision 4c2f04820e3b04f81fecb8cca37897f391d35b23'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git rev-parse 18dfdd1fe072ad1f2dfd5537e591c85f124fba55:scripts/prepare_public_site.py && rtk git rev-parse HEAD:scripts/prepare_public_site.py && rtk git hash-object scripts/prepare_public_site.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git diff --name-only 18dfdd1fe072ad1f2dfd5537e591c85f124fba55 HEAD && rtk git diff --check 18dfdd1fe072ad1f2dfd5537e591c85f124fba55 HEAD && rtk git diff --stat 18dfdd1fe072ad1f2dfd5537e591c85f124fba55 HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git show --stat --oneline --decorate HEAD'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh pr view 18 --json headRefName,headRefOid,state,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git push origin HEAD:refs/heads/codex/sf-trip-visualizer-phone-only-portable-trip-package-hosted-320-safe-fit-fix-r4'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh api repos/kimhw8084/sf-trip-visualizer/commits/4c2f04820e3b04f81fecb8cca37897f391d35b23/check-runs --jq '.check_runs[] | {id,name,head_sha,status,conclusion,started_at,completed_at,html_url,details_url}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh pr view 18 --json headRefOid,headRefName,state'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run list --branch codex/sf-trip-visualizer-phone-only-portable-trip-package-hosted-320-safe-fit-fix-r4 --json databaseId,headSha,name,workflowName,status,conclusion,event,url --limit 10'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git restore --worktree -- QA && rtk git status --short --branch'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh api repos/kimhw8084/sf-trip-visualizer/actions/jobs/108750735683 --jq '{status,conclusion,started_at,completed_at,steps:[.steps[]|{name,status,conclusion,started_at,completed_at}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run watch 36365427772 --interval 15'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk sed -n '38,115p' .github/workflows/candidate-qualification.yml\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh api repos/kimhw8084/sf-trip-visualizer/actions/runs/36365427772/artifacts --jq '.artifacts[] | {id,name,expired,size_in_bytes}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh api repos/kimhw8084/sf-trip-visualizer/actions/jobs/108750735683 --jq '{id,name,head_sha,status,conclusion,started_at,completed_at,steps:[.steps[]|{name,status,conclusion,started_at,completed_at}]}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh run view 36365427772 --log --job 108750735683 | rtk rg -n 'Ran 120|OK|status|findings|qualification_sha256|verify-public|public_asset_rights|security_privacy|release path|secret_scan' | rtk tail -120\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run download 36365427772 --name candidate-qualification-4c2f04820e3b04f81fecb8cca37897f391d35b23 --dir .codex-check-evidence-4c2f048'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk rg --files --hidden .codex-check-evidence-4c2f048 | rtk rg 'qualification|release|security_privacy|verify-public|provenance' | rtk head -80\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import json; from pathlib import Path; root=Path(\\\".codex-check-evidence-4c2f048/release-path-checkout/QA/CHG-232/release\\\");\ndef scan(x,path=\\\"\\\"):\n if isinstance(x,dict):\n  if \\\"findings\\\" in x or \\\"artifact_secret_scan\\\" in path or \\\"artifact_scan\\\" in path:\n   f=x.get(\\\"findings\\\")\n   print(path or \\\"/\\\", \\\"status=\\\", x.get(\\\"status\\\"), \\\"findings=\\\", len(f) if isinstance(f,list) else f, \\\"keys=\\\", sorted(x.keys()))\n  for k,v in x.items(): scan(v, f\\\"{path}.{k}\\\" if path else k)\n elif isinstance(x,list):\n  for i,v in enumerate(x): scan(v, f\\\"{path}[{i}]\\\")\nfor name in (\\\"pages-release.log\\\",\\\"pages-verify-public.log\\\"):\n p=root/name\n rows=[line for line in p.read_text().splitlines() if line.lstrip().startswith(\\\"{\\\") and \\\"status\\\" in line]\n obj=json.loads(rows[-1])\n public=obj.get(\\\"public\\\",obj)\n print(name, \\\"top_status=\\\", obj.get(\\\"status\\\"), \\\"public_status=\\\", public.get(\\\"status\\\"), \\\"revision=\\\", obj.get(\\\"candidate_head\\\",public.get(\\\"revision\\\")))\n print(\\\"checks=\\\", public.get(\\\"checks\\\"))\n sec=public.get(\\\"security_privacy\\\",{})\n print(\\\"security_status=\\\",sec.get(\\\"status\\\"), \\\"security_keys=\\\", sorted(sec.keys()))\n scan(sec, \\\"security_privacy\\\")\nq=json.loads((root/\\\"qualification.json\\\").read_text())\nprint(\\\"qualification=\\\",q.get(\\\"status\\\"),q.get(\\\"candidate_head\\\"),\\\"tests=\\\",len(q.get(\\\"tests\\\",[])))\nlog=Path(\\\".codex-check-evidence-4c2f048/QA/CHG-232/release/unit-tests.log\\\").read_text()\nprint(\\\"unit_summary=\\\",[line.strip() for line in log.splitlines() if line.startswith(\\\"Ran \\\") or line.strip()==\\\"OK\\\"][-2:])'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk python3 -c 'import json; from pathlib import Path; p=Path(\\\".codex-check-evidence-4c2f048/release-path-checkout/QA/CHG-232/release/security_privacy.json\\\"); d=json.loads(p.read_text()); generated=d[\\\"secret_scan\\\"][\\\"generated_artifacts\\\"]; print(\\\"generated_artifact_secret_scan_status=\\\",generated[\\\"status\\\"],\\\"findings=\\\",len(generated[\\\"findings\\\"]),\\\"inspected_files=\\\",generated.get(\\\"inspected_files\\\",generated.get(\\\"scanned_files\\\"))); print(\\\"qualification_projection_bindings=\\\",[x for x in d[\\\"artifact_binding\\\"][\\\"bindings\\\"] if x[\\\"path\\\"].endswith(\\\".release-qualification.json\\\")])'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk rm -rf -- .codex-check-evidence-4c2f048'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh pr view 18 --json headRefOid,headRefName,state,url'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc \"rtk gh api repos/kimhw8084/sf-trip-visualizer/check-runs/108750735683 --jq '{id,name,head_sha,status,conclusion,html_url,details_url,completed_at}'\"",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk git status --short --branch && rtk git diff --name-only 18dfdd1fe072ad1f2dfd5537e591c85f124fba55 HEAD && rtk git rev-parse HEAD && rtk git rev-parse HEAD:scripts/prepare_public_site.py'",
+      "exit_code": 0,
+      "type": "command_execution"
+    },
+    {
+      "command": "/bin/zsh -lc 'rtk gh run view 36365427772 --json databaseId,headSha,status,conclusion,url,workflowName'",
+      "exit_code": 0,
+      "type": "command_execution"
+    }
+  ],
+  "codex": {
+    "cli_version": "codex-cli 0.157.0",
+    "configured_model": "gpt-6-luna",
+    "event_count": 131,
+    "provider_reported_model": null,
+    "reasoning_effort": "xhigh",
+    "terminal_type": "turn.completed",
+    "usage": {
+      "cache_hit_percent": 97.01,
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 7047168,
+      "fresh_input_tokens": 216999,
+      "input_tokens": 7264167,
+      "non_reasoning_output_tokens": 10388,
+      "output_tokens": 27757,
+      "reasoning_output_tokens": 17369,
+      "total_processed_tokens": 7291924
+    },
+    "warnings": []
+  },
+  "commits": [],
+  "diff": null,
+  "error_code": "WRONG_WORK_BRANCH",
+  "evidence_manifest": {
+    "count": 0,
+    "items": [],
+    "version": 1
+  },
+  "evidence_publisher_release": "1.2.5-dashboard-controls-candidate",
+  "fabric_capture": null,
+  "fabric_release": "1.2.5-dashboard-controls-candidate",
+  "failure_class": "CONTROL_PLANE",
+  "finished_at": "2026-09-28T01:52:32Z",
+  "git": {},
+  "instructions": {
+    "files": [],
+    "total_bytes": 0,
+    "warning": null
+  },
+  "job_id": "CF-d23ba9d9f7ee85e7de7a0333",
+  "kind": "codex-fabric-audit-evidence",
+  "locator": {
+    "branch": "codex-fabric/evidence/sf-trip-visualizer/public-qualification-test-fixture-fix-r7",
+    "path": ".codex-fabric/audit.json",
+    "ref": "refs/heads/codex-fabric/evidence/sf-trip-visualizer/public-qualification-test-fixture-fix-r7"
+  },
+  "operation": "FIX",
+  "policy": {
+    "environment_policy_sha256": "e077daca74297b3c30bee8989f00f8ca5338f7610b4d016a6c48db524205d064",
+    "fabric_release": "1.2.5-dashboard-controls-candidate",
+    "policy_sha256": "123615bf2f6e57dcac197e49ca98ceac59ada86a55e2c84445ea5d00812c0833",
+    "registry_sha256": "af81b8552f9d6a33847310e3c6bcd2d48401782b963a58efd2993e93570cb4aa"
+  },
+  "project_id": "sf-trip-visualizer",
+  "recovery": {
+    "model_rerun_safe": false,
+    "recovery_required": true,
+    "retry_safe": false,
+    "retry_scope": null,
+    "worktree_retained": true
+  },
+  "request": "public-qualification-test-fixture-fix-r7",
+  "schema_version": 1,
+  "started_at": "2026-09-28T01:02:26Z",
+  "status": "FAILED_INFRA",
+  "timing": {
+    "execution_seconds": 3006,
+    "queue_seconds": 1,
+    "total_seconds": 3007
+  },
+  "transport": {
+    "bytes": 2811,
+    "envelope": "FABRIC/2",
+    "prompt_bytes": 2448,
+    "prompt_sha256": "e28e5676ba880cf9501f0152e108b50ac60f0a77f486ea5dd37845527a0e1964",
+    "sha256": "d23ba9d9f7ee85e7de7a03334a3aee9eb9136b318951d2a12fd9e294683626fd"
+  }
+}
