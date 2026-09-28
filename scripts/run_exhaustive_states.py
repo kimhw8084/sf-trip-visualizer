@@ -6,11 +6,12 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "QA" / "CHG-232" / "exhaustive_states.json"
-DATA = json.loads((ROOT / "data/phase7_app_data.json").read_text())
+DATA = load_package(DEFAULT_PACKAGE)["data"]
 ROUTES = tuple(sorted(DATA["routes"]))
 REGIONS = ("overall", *sorted(key for key in DATA["region_cfg"] if key != "overall"))
 DATES = ("all", *(item["key"] for item in DATA["dates"]))

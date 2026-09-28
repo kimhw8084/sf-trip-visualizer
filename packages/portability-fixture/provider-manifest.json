@@ -1,0 +1,19 @@
+{
+  "juniper_local_map": {
+    "label": "Smart · local",
+    "kind": "JuniperRange QA archive v1",
+    "network_required": false,
+    "attribution": "© Synthetic QA fixture",
+    "failure_behavior": "Remain selected and expose a load error; do not silently substitute another map."
+  },
+  "beacon_tiles": {
+    "label": "Juniper imagery fixture",
+    "kind": "juniper-imagery-fixture-v1",
+    "network_required": true,
+    "attribution": "Synthetic imagery provider test",
+    "failure_behavior": "Return to the package-local synthetic vector map after a fixture probe failure.",
+    "health_probe": "https://tiles.juniper.example.test/imagery/3/2/2.png"
+  },
+  "user_selectable_provider_count": 2,
+  "removed_user_choices": []
+}

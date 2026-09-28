@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import shutil
@@ -11,6 +12,7 @@ import subprocess
 from pathlib import Path
 
 from public_asset_rights import audit_tree, load_contract, load_json, write_notices
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -44,6 +46,14 @@ def tree_digest(root: Path, exclude: set[str] | None = None) -> tuple[str, int, 
 
 def current_revision() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+
+
+def public_qualification_projection(qualification: dict) -> dict:
+    projection = copy.deepcopy(qualification)
+    for test in projection.get("tests", []):
+        test.pop("stdout_tail", None)
+        test.pop("stderr_tail", None)
+    return projection
 
 
 def main() -> None:
@@ -80,17 +90,19 @@ def main() -> None:
     if expected_build_sha != build.get("modular", {}).get("sha256") or expected_build_sha != digest(source / "index.html"):
         raise SystemExit("The modular build changed after qualification; refusing to assemble public output.")
     expected_standalone_sha = qualification.get("build", {}).get("standalone_sha256")
-    standalone = ROOT / ".build" / "standalone" / "SF_Smart_Minority_Map_First_Standalone.html"
+    standalone = ROOT / ".build" / build["standalone"]["path"]
     if not expected_standalone_sha or expected_standalone_sha != digest(standalone):
         raise SystemExit("The standalone build changed after qualification; refusing to assemble public output.")
 
     if output.exists():
         shutil.rmtree(output)
     shutil.copytree(source, output)
-    shutil.copy2(QUALIFICATION, output / ".release-qualification.json")
+    public_qualification = public_qualification_projection(qualification)
+    (output / ".release-qualification.json").write_text(json.dumps(public_qualification, ensure_ascii=False, indent=2) + "\n")
     (output / ".nojekyll").touch()
     contract = load_contract()
-    manifest = load_json(ROOT / "manifests" / "asset_manifest.json")
+    package = load_package(DEFAULT_PACKAGE)
+    manifest = load_json(ROOT / package["projections"]["photos_manifest"])
     write_notices(output, contract, manifest, "pages")
     pre_audit = audit_tree(output, contract=contract, manifest=manifest, mode="pages", require_provenance=False)
     RIGHTS_REPORT.parent.mkdir(parents=True, exist_ok=True)
@@ -102,6 +114,10 @@ def main() -> None:
     provenance = {
         "schema_version": 1,
         "project": "sf-trip-visualizer",
+        "trip_identity": package["trip_identity"],
+        "display_title": package["display_title"],
+        "slug": package["slug"],
+        "currency": package["currency"],
         "tested_sha": args.revision,
         "qualification_sha256": digest(QUALIFICATION),
         "build_manifest_sha256": digest(ROOT / ".build" / "build_manifest.json"),

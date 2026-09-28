@@ -7,7 +7,7 @@
       "browser": "firefox",
       "width": 1280,
       "height": 800,
-      "launch_mode": "headless",
+      "launch_mode": "hosted-linux-xvfb",
       "status": "PASS",
       "completed": true,
       "cleanup_warnings": [],
@@ -15,7 +15,7 @@
       "console_errors": [],
       "failed_requests": [],
       "map_error_events": [],
-      "candidate": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
+      "candidate": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
       "marker_objects": 39,
       "canvas": 1,
       "horizontal_overflow": false,
@@ -35,23 +35,23 @@
           "appbar_height": 85.51666259765625,
           "map_height": 714.4833374023438,
           "workbench_height": 714.4833374023438,
-          "useful_map_ratio": 0.9694703361232663,
+          "useful_map_ratio": 0.9590539300418667,
           "sheet": "expanded"
         },
         "safe_padding": {
-          "top": 102.69999694824219,
-          "right": 16,
-          "bottom": 16,
-          "left": 350
+          "top": 132.6999969482422,
+          "right": 46,
+          "bottom": 46,
+          "left": 380
         },
         "obstacles": [
           {
             "selector": "map-chrome map-top-left",
             "left": 14,
             "top": 14,
-            "right": 236.75,
+            "right": 312.75,
             "bottom": 86.69999694824219,
-            "width": 222.75,
+            "width": 298.75,
             "height": 72.69999694824219
           },
           {
@@ -59,98 +59,102 @@
             "left": 14,
             "top": 92.69999694824219,
             "right": 334,
-            "bottom": 275.3000030517578,
+            "bottom": 276.3000030517578,
             "width": 320,
-            "height": 182.60000610351562
+            "height": 183.60000610351562
           }
         ],
         "persistent_opaque_chrome": {
-          "area_px": 16193.924320220947,
-          "ratio": 0.03052966387673371,
+          "area_px": 21719.124088287354,
+          "ratio": 0.04094606995813331,
           "rectangles": [
             {
               "selector": "map-chrome map-top-left",
               "left": 14,
               "top": 14,
-              "right": 236.75,
+              "right": 312.75,
               "bottom": 86.69999694824219,
-              "width": 222.75,
+              "width": 298.75,
               "height": 72.69999694824219,
               "shellWidth": 742.4000244140625
             }
           ]
         },
         "unobstructed_interior": {
-          "area_px": 514238.5228107199,
-          "ratio": 0.9694703361232663
+          "area_px": 508713.3230426535,
+          "ratio": 0.9590539300418667
         },
         "markers": [
           {
             "key": "el_capitan",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 456,
-              "top": 366,
-              "right": 488,
-              "bottom": 398,
+              "left": 466,
+              "top": 369,
+              "right": 498,
+              "bottom": 401,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker audited maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 472,
-              "y": 382
+              "x": 482,
+              "y": 385
             }
           },
           {
             "key": "valley_view",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 334,
-              "top": 421,
-              "right": 366,
-              "bottom": 453,
+              "left": 364,
+              "top": 415,
+              "right": 396,
+              "bottom": 447,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 350,
-              "y": 437
+              "x": 380,
+              "y": 431
             }
           },
           {
             "key": "washburn",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 710,
-              "top": 404,
-              "right": 742,
-              "bottom": 436,
+              "left": 680,
+              "top": 401,
+              "right": 712,
+              "bottom": 433,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 726,
-              "y": 420
+              "x": 696,
+              "y": 417
             }
           },
           {
             "key": "glacier",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 709,
-              "top": 348,
-              "right": 741,
-              "bottom": 380,
+              "left": 679,
+              "top": 354,
+              "right": 711,
+              "bottom": 386,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 725,
-              "y": 364
+              "x": 695,
+              "y": 370
             }
           }
         ]
@@ -173,96 +177,99 @@
           "appbar_height": 85.51666259765625,
           "map_height": 714.4833374023438,
           "workbench_height": 714.4833374023438,
-          "useful_map_ratio": 0.9651461566014702,
+          "useful_map_ratio": 0.956038654597251,
           "sheet": "expanded"
         },
         "safe_padding": {
-          "top": 102.69999694824219,
-          "right": 16,
-          "bottom": 16,
-          "left": 284.3000030517578
+          "top": 132.6999969482422,
+          "right": 46,
+          "bottom": 46,
+          "left": 380.75
         },
         "obstacles": [
           {
             "selector": "map-chrome map-top-left",
             "left": 14,
             "top": 14,
-            "right": 268.3000030517578,
+            "right": 334.75,
             "bottom": 86.69999694824219,
-            "width": 254.3000030517578,
+            "width": 320.75,
             "height": 72.69999694824219
           }
         ],
         "persistent_opaque_chrome": {
-          "area_px": 18487.609445800772,
-          "ratio": 0.034853843398529843,
+          "area_px": 23318.52402114868,
+          "ratio": 0.043961345402748986,
           "rectangles": [
             {
               "selector": "map-chrome map-top-left",
               "left": 14,
               "top": 14,
-              "right": 268.3000030517578,
+              "right": 334.75,
               "bottom": 86.69999694824219,
-              "width": 254.3000030517578,
+              "width": 320.75,
               "height": 72.69999694824219,
               "shellWidth": 742.4000244140625
             }
           ]
         },
         "unobstructed_interior": {
-          "area_px": 511944.8376851401,
-          "ratio": 0.9651461566014702
+          "area_px": 507113.9231097922,
+          "ratio": 0.956038654597251
         },
         "markers": [
           {
             "key": "cooks",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 710,
-              "top": 276,
-              "right": 742,
-              "bottom": 308,
+              "left": 680,
+              "top": 307,
+              "right": 712,
+              "bottom": 339,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center selected",
             "center": {
-              "x": 726,
-              "y": 292
+              "x": 696,
+              "y": 323
             }
           },
           {
             "key": "tunnel_view",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 269,
-              "top": 473,
-              "right": 301,
-              "bottom": 505,
+              "left": 365,
+              "top": 448,
+              "right": 397,
+              "bottom": 480,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 285,
-              "y": 489
+              "x": 381,
+              "y": 464
             }
           },
           {
             "key": "bridalveil",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 468,
-              "top": 473,
-              "right": 500,
-              "bottom": 505,
+              "left": 507,
+              "top": 447,
+              "right": 539,
+              "bottom": 479,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 484,
-              "y": 489
+              "x": 523,
+              "y": 463
             }
           }
         ]
@@ -274,7 +281,7 @@
       "browser": "firefox",
       "width": 390,
       "height": 844,
-      "launch_mode": "headless",
+      "launch_mode": "hosted-linux-xvfb",
       "status": "PASS",
       "completed": true,
       "cleanup_warnings": [],
@@ -282,33 +289,33 @@
       "console_errors": [],
       "failed_requests": [],
       "map_error_events": [],
-      "candidate": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
-      "marker_objects": 39,
+      "candidate": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
+      "marker_objects": 0,
       "canvas": 1,
       "horizontal_overflow": false,
       "broken_marker_images": 0,
       "expected_places": 39,
-      "expected_route_markers": 39,
+      "expected_route_markers": 0,
       "day_items": 10,
       "map_options_open": true,
       "map_options_open_geometry": {
         "shell": {
           "width": 390,
-          "height": 444.066650390625,
-          "area_px": 173185.99365234375
+          "height": 242.10000610351562,
+          "area_px": 94419.0023803711
         },
         "sheet_geometry": {
           "viewport_height": 844,
-          "appbar_height": 51,
-          "map_height": 444.066650390625,
-          "workbench_height": 348.91668701171875,
-          "useful_map_ratio": 0.9298651029140655,
+          "appbar_height": 63,
+          "map_height": 242.10000610351562,
+          "workbench_height": 538.88330078125,
+          "useful_map_ratio": 0.803992005602909,
           "sheet": "expanded"
         },
         "safe_padding": {
-          "top": 87.39999389648438,
+          "top": 16,
           "right": 16,
-          "bottom": 16,
+          "bottom": 194.10000610351562,
           "left": 342
         },
         "obstacles": [
@@ -316,49 +323,50 @@
             "selector": "map-chrome map-top-left",
             "left": 8,
             "top": 8,
-            "right": 199.5833282470703,
-            "bottom": 71.39999389648438,
-            "width": 191.5833282470703,
-            "height": 63.399993896484375
+            "right": 267.20001220703125,
+            "bottom": 79.39999389648438,
+            "width": 259.20001220703125,
+            "height": 71.39999389648438
           },
           {
             "selector": "map-options-panel map-chrome",
             "left": 8,
-            "top": 77.39999389648438,
+            "top": 85.39999389648438,
             "right": 328,
-            "bottom": 262,
+            "bottom": 295.3999938964844,
             "width": 320,
-            "height": 184.60000610351562
+            "height": 210
           }
         ],
         "persistent_opaque_chrome": {
-          "area_px": 12146.38184153242,
-          "ratio": 0.07013489708593441,
+          "area_px": 18506.879289550707,
+          "ratio": 0.19600799439709107,
           "rectangles": [
             {
               "selector": "map-chrome map-top-left",
               "left": 8,
               "top": 8,
-              "right": 199.5833282470703,
-              "bottom": 71.39999389648438,
-              "width": 191.5833282470703,
-              "height": 63.399993896484375,
+              "right": 267.20001220703125,
+              "bottom": 79.39999389648438,
+              "width": 259.20001220703125,
+              "height": 71.39999389648438,
               "shellWidth": 390
             }
           ]
         },
         "unobstructed_interior": {
-          "area_px": 161039.61181081133,
-          "ratio": 0.9298651029140655
+          "area_px": 75912.12309082039,
+          "ratio": 0.803992005602909
         },
         "markers": [
           {
             "key": "Map marker",
+            "renderer": "photo-cluster",
             "rect": {
               "left": 340,
-              "top": 237,
+              "top": 11,
               "right": 382,
-              "bottom": 279,
+              "bottom": 53,
               "width": 42,
               "height": 42
             },
@@ -366,7 +374,7 @@
             "center_hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
               "x": 361,
-              "y": 258
+              "y": 32
             }
           }
         ]
@@ -381,104 +389,107 @@
       "geometry": {
         "shell": {
           "width": 390,
-          "height": 444.066650390625,
-          "area_px": 173185.99365234375
+          "height": 242.10000610351562,
+          "area_px": 94419.0023803711
         },
         "sheet_geometry": {
           "viewport_height": 844,
-          "appbar_height": 51,
-          "map_height": 444.066650390625,
-          "workbench_height": 348.91668701171875,
-          "useful_map_ratio": 0.9183152658935795,
+          "appbar_height": 63,
+          "map_height": 242.10000610351562,
+          "workbench_height": 538.88330078125,
+          "useful_map_ratio": 0.7873555253804785,
           "sheet": "expanded"
         },
         "safe_padding": {
-          "top": 87.39999389648438,
-          "right": 16,
-          "bottom": 16,
-          "left": 16
+          "top": 125.39999389648438,
+          "right": 46,
+          "bottom": 46,
+          "left": 46
         },
         "obstacles": [
           {
             "selector": "map-chrome map-top-left",
             "left": 8,
             "top": 8,
-            "right": 231.13333129882812,
-            "bottom": 71.39999389648438,
-            "width": 223.13333129882812,
-            "height": 63.399993896484375
+            "right": 289.20001220703125,
+            "bottom": 79.39999389648438,
+            "width": 281.20001220703125,
+            "height": 71.39999389648438
           }
         ],
         "persistent_opaque_chrome": {
-          "area_px": 14146.651842447929,
-          "ratio": 0.0816847341064205,
+          "area_px": 20077.679155273363,
+          "ratio": 0.21264447461952152,
           "rectangles": [
             {
               "selector": "map-chrome map-top-left",
               "left": 8,
               "top": 8,
-              "right": 231.13333129882812,
-              "bottom": 71.39999389648438,
-              "width": 223.13333129882812,
-              "height": 63.399993896484375,
+              "right": 289.20001220703125,
+              "bottom": 79.39999389648438,
+              "width": 281.20001220703125,
+              "height": 71.39999389648438,
               "shellWidth": 390
             }
           ]
         },
         "unobstructed_interior": {
-          "area_px": 159039.34180989582,
-          "ratio": 0.9183152658935795
+          "area_px": 74341.32322509773,
+          "ratio": 0.7873555253804785
         },
         "markers": [
           {
             "key": "cooks",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 359,
-              "top": 155,
-              "right": 389,
-              "bottom": 185,
-              "width": 30,
-              "height": 30
+              "left": 245,
+              "top": 103,
+              "right": 289,
+              "bottom": 147,
+              "width": 44,
+              "height": 44
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center selected",
             "center": {
-              "x": 374,
-              "y": 170
+              "x": 267,
+              "y": 125
             }
           },
           {
             "key": "tunnel_view",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 2,
-              "top": 315,
-              "right": 32,
-              "bottom": 345,
-              "width": 30,
-              "height": 30
+              "left": 102,
+              "top": 168,
+              "right": 146,
+              "bottom": 212,
+              "width": 44,
+              "height": 44
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 17,
-              "y": 330
+              "x": 124,
+              "y": 190
             }
           },
           {
             "key": "bridalveil",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 163,
-              "top": 314,
-              "right": 193,
-              "bottom": 344,
-              "width": 30,
-              "height": 30
+              "left": 166,
+              "top": 167,
+              "right": 210,
+              "bottom": 211,
+              "width": 44,
+              "height": 44
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 178,
-              "y": 329
+              "x": 188,
+              "y": 189
             }
           }
         ]
@@ -498,7 +509,7 @@
       "console_errors": [],
       "failed_requests": [],
       "map_error_events": [],
-      "candidate": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
+      "candidate": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
       "marker_objects": 39,
       "canvas": 1,
       "horizontal_overflow": false,
@@ -518,23 +529,23 @@
           "appbar_height": 85.484375,
           "map_height": 714.515625,
           "workbench_height": 714.515625,
-          "useful_map_ratio": 0.9694001416642926,
+          "useful_map_ratio": 0.9601101342952305,
           "sheet": "expanded"
         },
         "safe_padding": {
-          "top": 102.6875,
-          "right": 16,
-          "bottom": 16,
-          "left": 350
+          "top": 132.6875,
+          "right": 46,
+          "bottom": 46,
+          "left": 380
         },
         "obstacles": [
           {
             "selector": "map-chrome map-top-left",
             "left": 14,
             "top": 14,
-            "right": 237.3125,
+            "right": 305.109375,
             "bottom": 86.6875,
-            "width": 223.3125,
+            "width": 291.109375,
             "height": 72.6875
           },
           {
@@ -542,98 +553,102 @@
             "left": 14,
             "top": 92.6875,
             "right": 334,
-            "bottom": 271.28125,
+            "bottom": 278.28125,
             "width": 320,
-            "height": 178.59375
+            "height": 185.59375
           }
         ],
         "persistent_opaque_chrome": {
-          "area_px": 16232.02734375,
-          "ratio": 0.030599858335707424,
+          "area_px": 21160.0126953125,
+          "ratio": 0.039889865704769455,
           "rectangles": [
             {
               "selector": "map-chrome map-top-left",
               "left": 14,
               "top": 14,
-              "right": 237.3125,
+              "right": 305.109375,
               "bottom": 86.6875,
-              "width": 223.3125,
+              "width": 291.109375,
               "height": 72.6875,
               "shellWidth": 742.40625
             }
           ]
         },
         "unobstructed_interior": {
-          "area_px": 514228.83837890625,
-          "ratio": 0.9694001416642926
+          "area_px": 509300.85302734375,
+          "ratio": 0.9601101342952305
         },
         "markers": [
           {
             "key": "el_capitan",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 456,
-              "top": 366,
-              "right": 488,
-              "bottom": 398,
+              "left": 466,
+              "top": 369,
+              "right": 498,
+              "bottom": 401,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker audited maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 472,
-              "y": 382
+              "x": 482,
+              "y": 385
             }
           },
           {
             "key": "valley_view",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 334,
-              "top": 421,
-              "right": 366,
-              "bottom": 453,
+              "left": 364,
+              "top": 415,
+              "right": 396,
+              "bottom": 447,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 350,
-              "y": 437
+              "x": 380,
+              "y": 431
             }
           },
           {
             "key": "washburn",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 710,
-              "top": 404,
-              "right": 742,
-              "bottom": 436,
+              "left": 680,
+              "top": 401,
+              "right": 712,
+              "bottom": 433,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 726,
-              "y": 420
+              "x": 696,
+              "y": 417
             }
           },
           {
             "key": "glacier",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 709,
-              "top": 349,
-              "right": 741,
-              "bottom": 381,
+              "left": 679,
+              "top": 354,
+              "right": 711,
+              "bottom": 386,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 725,
-              "y": 365
+              "x": 695,
+              "y": 370
             }
           }
         ]
@@ -656,96 +671,99 @@
           "appbar_height": 85.484375,
           "map_height": 714.515625,
           "workbench_height": 714.515625,
-          "useful_map_ratio": 0.9650752246591058,
+          "useful_map_ratio": 0.9572668225215236,
           "sheet": "expanded"
         },
         "safe_padding": {
-          "top": 102.6875,
-          "right": 16,
-          "bottom": 16,
-          "left": 284.875
+          "top": 132.6875,
+          "right": 46,
+          "bottom": 46,
+          "left": 371.859375
         },
         "obstacles": [
           {
             "selector": "map-chrome map-top-left",
             "left": 14,
             "top": 14,
-            "right": 268.875,
+            "right": 325.859375,
             "bottom": 86.6875,
-            "width": 254.875,
+            "width": 311.859375,
             "height": 72.6875
           }
         ],
         "persistent_opaque_chrome": {
-          "area_px": 18526.2265625,
-          "ratio": 0.03492477534089417,
+          "area_px": 22668.2783203125,
+          "ratio": 0.04273317747847639,
           "rectangles": [
             {
               "selector": "map-chrome map-top-left",
               "left": 14,
               "top": 14,
-              "right": 268.875,
+              "right": 325.859375,
               "bottom": 86.6875,
-              "width": 254.875,
+              "width": 311.859375,
               "height": 72.6875,
               "shellWidth": 742.40625
             }
           ]
         },
         "unobstructed_interior": {
-          "area_px": 511934.63916015625,
-          "ratio": 0.9650752246591058
+          "area_px": 507792.58740234375,
+          "ratio": 0.9572668225215236
         },
         "markers": [
           {
             "key": "cooks",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 710,
-              "top": 276,
-              "right": 742,
-              "bottom": 308,
+              "left": 680,
+              "top": 305,
+              "right": 712,
+              "bottom": 337,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center selected",
             "center": {
-              "x": 726,
-              "y": 292
+              "x": 696,
+              "y": 321
             }
           },
           {
             "key": "tunnel_view",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 270,
-              "top": 474,
-              "right": 302,
-              "bottom": 506,
+              "left": 356,
+              "top": 450,
+              "right": 388,
+              "bottom": 482,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 286,
-              "y": 490
+              "x": 372,
+              "y": 466
             }
           },
           {
             "key": "bridalveil",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 468,
-              "top": 473,
-              "right": 500,
-              "bottom": 505,
+              "left": 503,
+              "top": 450,
+              "right": 535,
+              "bottom": 482,
               "width": 32,
               "height": 32
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 484,
-              "y": 489
+              "x": 519,
+              "y": 466
             }
           }
         ]
@@ -765,33 +783,33 @@
       "console_errors": [],
       "failed_requests": [],
       "map_error_events": [],
-      "candidate": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
-      "marker_objects": 39,
+      "candidate": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
+      "marker_objects": 0,
       "canvas": 1,
       "horizontal_overflow": false,
       "broken_marker_images": 0,
       "expected_places": 39,
-      "expected_route_markers": 39,
+      "expected_route_markers": 0,
       "day_items": 10,
       "map_options_open": true,
       "map_options_open_geometry": {
         "shell": {
           "width": 390,
-          "height": 444.0625,
-          "area_px": 173184.375
+          "height": 242.09375,
+          "area_px": 94416.5625
         },
         "sheet_geometry": {
           "viewport_height": 844,
-          "appbar_height": 51,
-          "map_height": 444.0625,
-          "workbench_height": 348.90625,
-          "useful_map_ratio": 0.9295793170550714,
+          "appbar_height": 63,
+          "map_height": 242.09375,
+          "workbench_height": 538.875,
+          "useful_map_ratio": 0.8083225764812185,
           "sheet": "expanded"
         },
         "safe_padding": {
-          "top": 87.390625,
+          "top": 16,
           "right": 16,
-          "bottom": 16,
+          "bottom": 194.09375,
           "left": 342
         },
         "obstacles": [
@@ -799,49 +817,50 @@
             "selector": "map-chrome map-top-left",
             "left": 8,
             "top": 8,
-            "right": 200.390625,
-            "bottom": 71.390625,
-            "width": 192.390625,
-            "height": 63.390625
+            "right": 261.5,
+            "bottom": 79.390625,
+            "width": 253.5,
+            "height": 71.390625
           },
           {
             "selector": "map-options-panel map-chrome",
             "left": 8,
-            "top": 77.390625,
+            "top": 85.390625,
             "right": 328,
-            "bottom": 257.984375,
+            "bottom": 295.390625,
             "width": 320,
-            "height": 180.59375
+            "height": 210
           }
         ],
         "persistent_opaque_chrome": {
-          "area_px": 12195.761962890625,
-          "ratio": 0.07042068294492863,
+          "area_px": 18097.5234375,
+          "ratio": 0.19167742351878148,
           "rectangles": [
             {
               "selector": "map-chrome map-top-left",
               "left": 8,
               "top": 8,
-              "right": 200.390625,
-              "bottom": 71.390625,
-              "width": 192.390625,
-              "height": 63.390625,
+              "right": 261.5,
+              "bottom": 79.390625,
+              "width": 253.5,
+              "height": 71.390625,
               "shellWidth": 390
             }
           ]
         },
         "unobstructed_interior": {
-          "area_px": 160988.61303710938,
-          "ratio": 0.9295793170550714
+          "area_px": 76319.0390625,
+          "ratio": 0.8083225764812185
         },
         "markers": [
           {
             "key": "Map marker",
+            "renderer": "photo-cluster",
             "rect": {
               "left": 340,
-              "top": 237,
+              "top": 11,
               "right": 382,
-              "bottom": 279,
+              "bottom": 53,
               "width": 42,
               "height": 42
             },
@@ -849,7 +868,7 @@
             "center_hit": "photo-cluster maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
               "x": 361,
-              "y": 258
+              "y": 32
             }
           }
         ]
@@ -864,104 +883,107 @@
       "geometry": {
         "shell": {
           "width": 390,
-          "height": 444.0625,
-          "area_px": 173184.375
+          "height": 242.09375,
+          "area_px": 94416.5625
         },
         "sheet_geometry": {
           "viewport_height": 844,
-          "appbar_height": 51,
-          "map_height": 444.0625,
-          "workbench_height": 348.90625,
-          "useful_map_ratio": 0.9180265046170988,
+          "appbar_height": 63,
+          "map_height": 242.09375,
+          "workbench_height": 538.875,
+          "useful_map_ratio": 0.7926330043391486,
           "sheet": "expanded"
         },
         "safe_padding": {
-          "top": 87.390625,
-          "right": 16,
-          "bottom": 16,
-          "left": 16
+          "top": 125.390625,
+          "right": 46,
+          "bottom": 46,
+          "left": 46
         },
         "obstacles": [
           {
             "selector": "map-chrome map-top-left",
             "left": 8,
             "top": 8,
-            "right": 231.953125,
-            "bottom": 71.390625,
-            "width": 223.953125,
-            "height": 63.390625
+            "right": 282.25,
+            "bottom": 79.390625,
+            "width": 274.25,
+            "height": 71.390625
           }
         ],
         "persistent_opaque_chrome": {
-          "area_px": 14196.528564453125,
-          "ratio": 0.08197349538290118,
+          "area_px": 19578.87890625,
+          "ratio": 0.20736699566085134,
           "rectangles": [
             {
               "selector": "map-chrome map-top-left",
               "left": 8,
               "top": 8,
-              "right": 231.953125,
-              "bottom": 71.390625,
-              "width": 223.953125,
-              "height": 63.390625,
+              "right": 282.25,
+              "bottom": 79.390625,
+              "width": 274.25,
+              "height": 71.390625,
               "shellWidth": 390
             }
           ]
         },
         "unobstructed_interior": {
-          "area_px": 158987.84643554688,
-          "ratio": 0.9180265046170988
+          "area_px": 74837.68359375,
+          "ratio": 0.7926330043391486
         },
         "markers": [
           {
             "key": "cooks",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 359,
-              "top": 155,
-              "right": 389,
-              "bottom": 185,
-              "width": 30,
-              "height": 30
+              "left": 245,
+              "top": 103,
+              "right": 289,
+              "bottom": 147,
+              "width": 44,
+              "height": 44
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center selected",
             "center": {
-              "x": 374,
-              "y": 170
+              "x": 267,
+              "y": 125
             }
           },
           {
             "key": "tunnel_view",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 2,
-              "top": 315,
-              "right": 32,
-              "bottom": 345,
-              "width": 30,
-              "height": 30
+              "left": 102,
+              "top": 168,
+              "right": 146,
+              "bottom": 212,
+              "width": 44,
+              "height": 44
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 17,
-              "y": 330
+              "x": 124,
+              "y": 190
             }
           },
           {
             "key": "bridalveil",
+            "renderer": "photo-marker",
             "rect": {
-              "left": 163,
-              "top": 314,
-              "right": 193,
-              "bottom": 344,
-              "width": 30,
-              "height": 30
+              "left": 166,
+              "top": 167,
+              "right": 210,
+              "bottom": 211,
+              "width": 44,
+              "height": 44
             },
             "intersects_obstacle": [],
             "center_hit": "photo-marker maplibregl-marker maplibregl-marker-anchor-center",
             "center": {
-              "x": 178,
-              "y": 329
+              "x": 188,
+              "y": 189
             }
           }
         ]
@@ -972,7 +994,7 @@
   ],
   "cleanup_warnings": [],
   "errors": [],
-  "candidate": "d5ab82d3218a85e2580004e2daf067c95c3c31a1",
-  "candidate_tree": "c3aa62826176672eefb4cd45c14764217bf1f1ec",
+  "candidate": "0e9e7310caecc3f9751cc7f46eb53273696b9f6b",
+  "candidate_tree": "ff16d4048b784453d4246b317e79ab89ce5bf829",
   "candidate_binding": "exact-clean-checkout"
 }

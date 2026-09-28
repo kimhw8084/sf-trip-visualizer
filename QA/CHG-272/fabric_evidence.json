@@ -1,0 +1,278 @@
+{
+  "artifacts": [
+    {
+      "bytes": 1072,
+      "path": "README.md",
+      "sha256": "9ac6bca4d4f2c01a28f2ee47440d0eb1332cfb544e944f88b0be8ca9fea54dc8"
+    },
+    {
+      "bytes": 4040,
+      "path": "linux-hosted-qualification.log",
+      "sha256": "1e3b2fbc4e7c52280c1dd17be1dad46c58657a4066658eccb65fdc8cd5097452"
+    },
+    {
+      "bytes": 38605,
+      "path": "linux-pages-release.log",
+      "sha256": "8a2437ce52de0604734cb35d17ad4f299d10b62fe4f7b797c58b6f83c8e79652"
+    },
+    {
+      "bytes": 35278,
+      "path": "linux-pages-verify-public.log",
+      "sha256": "559ca2707904b31d8b4c9a8da28b363583cef0241a901c1495120ce0731d2d1d"
+    },
+    {
+      "bytes": 3726,
+      "path": "linux-release-evidence/fast.json",
+      "sha256": "d3f0205bd1900875239f1ac120d9bc2a76764f5af49a804e2a3403f0b1b98f7e"
+    },
+    {
+      "bytes": 115812,
+      "path": "linux-release-evidence/gate4_runtime.json",
+      "sha256": "75882aaca9945b7a56ff1681be2aa5fa83eec0d8a981a80ce02cdf8cf3ec678d"
+    },
+    {
+      "bytes": 135918,
+      "path": "linux-release-evidence/map_geometry.json",
+      "sha256": "0c3ac265f3894d4c23bd9ae4e5e75bc6af7c95104c4af025443aea834fe32ea5"
+    },
+    {
+      "bytes": 15248,
+      "path": "linux-release-evidence/phone_field_surface.json",
+      "sha256": "92ab379e79386454a279eb0403497a620946b2b8137c1761c62ce11ee427f03a"
+    },
+    {
+      "bytes": 9663,
+      "path": "linux-release-evidence/portability.json",
+      "sha256": "b21168b2e9375bb2af024ec59c82e90f291f42d1a20f34c58dc8ab3069909bc0"
+    },
+    {
+      "bytes": 414,
+      "path": "linux-release-evidence/public_asset_rights.json",
+      "sha256": "a71951ac25a4eeb105546681f40df858c72d518f96c42160b2d8be95fdae4bb9"
+    },
+    {
+      "bytes": 40508,
+      "path": "linux-release-evidence/qualification.json",
+      "sha256": "011ad9f1f079880aa8fb80c439e7183240828b47e9859bbd066e18eaa92c6592"
+    },
+    {
+      "bytes": 784,
+      "path": "linux-release-evidence/release-provenance.json",
+      "sha256": "c70e9b0f2ecea12969e11a4f8f784e6c9c8d74724cd2ec91fccba2f88f89f6a5"
+    },
+    {
+      "bytes": 43787,
+      "path": "linux-release-evidence/security_privacy.json",
+      "sha256": "dd418291d83326dd7050440792d485e8010d61d07306b07a342a43fe747e3c4d"
+    },
+    {
+      "bytes": 58901,
+      "path": "linux-release-evidence/sheet_geometry.json",
+      "sha256": "8613e2913ecfa9b91f2111aaff5a2aa13c230ec3a57682eea9aa3c7e51b4185e"
+    },
+    {
+      "bytes": 302,
+      "path": "linux-unit-tests-linux.log",
+      "sha256": "261634a3320a4725fd17d5129ea9f3696679b48718990ff40d7a59f6999137c1"
+    },
+    {
+      "bytes": 301,
+      "path": "unit-tests-native.log",
+      "sha256": "485d8898629aa4c265c247a6d0a96f969ddd768836d5349180828c8a595c7c07"
+    }
+  ],
+  "automated_qualification_status": "PASS",
+  "candidate": {
+    "parent_sha": "101485bf0b66d33587b6dd7084da829456ae8dc2",
+    "sha": "89b64e4db7ca1bb4dc600f136789e3ace21dd06c",
+    "tree": "48e0a5d6ca38b55fed187ce5d2ec779ff55ab6de"
+  },
+  "candidate_status": "REVIEW_CANDIDATE",
+  "change": "CHG-272",
+  "gate4_standalone_provider_recovery": {
+    "ferry_real_pointer_activation": true,
+    "ferry_rect": {
+      "bottom": 152,
+      "height": 44,
+      "left": 95,
+      "right": 139,
+      "top": 108,
+      "width": 44
+    },
+    "ferry_visible_inside_map": true,
+    "local_assets": "ready",
+    "page_errors": [],
+    "provider": "vector",
+    "remote_requests": [],
+    "status": "PASS",
+    "viewport": "320x800"
+  },
+  "gate5": {
+    "items": [
+      "native Safari remote automation is unavailable",
+      "no verifiably real iPhone or iPad is available",
+      "independent candidate-bound multimodal visual/usability review is not supplied"
+    ],
+    "status": "VERIFY_REQUIRED"
+  },
+  "go_decision": "NOT_MARKED",
+  "hosted_linux_reproduction": {
+    "command": "python3 scripts/hosted_linux_pipeline.py release --revision <candidate-sha>",
+    "deployment_performed": false,
+    "environment": {
+      "container_architecture": "linux/amd64 under emulation on macOS arm64",
+      "container_image": "mcr.microsoft.com/playwright/python:v1.62.0-noble",
+      "container_image_digest": "sha256:aa81288e738725378becba5b3e06cb0f3a7f012a610e87e8d767a090ea3f740d",
+      "firefox_mode": "hosted-linux",
+      "node_for_unit_tests": "18.19.1",
+      "playwright": "1.62.0",
+      "python": "3.11.16",
+      "release_checkout_path": "release-path-checkout",
+      "software_gl": true,
+      "xvfb": "1280x1024x24"
+    },
+    "qualification_status": "PASS",
+    "qualification_tests": {
+      "accessibility_reflow": "PASS",
+      "canonical_truth": "PASS",
+      "cross_browser": "PASS",
+      "decision_workbench": "PASS",
+      "exhaustive_states": "PASS",
+      "gate4_runtime": "PASS",
+      "gate5_field_quality": "VERIFY_REQUIRED",
+      "interaction_dynamics": "PASS",
+      "location_gap": "PASS",
+      "map_first_full": "PASS",
+      "map_first_p0": "PASS",
+      "map_first_smoke": "PASS",
+      "map_geometry": "PASS",
+      "maplibre_security": "PASS",
+      "matched_comparison": "PASS",
+      "phone_field_surface": "PASS",
+      "photo_integrity": "PASS",
+      "place_list_membership": "PASS",
+      "public_asset_rights": "PASS",
+      "route_continuity": "PASS",
+      "route_key_camera": "PASS",
+      "route_panel": "PASS",
+      "sheet_geometry": "PASS",
+      "standalone": "PASS",
+      "visual_spots": "PASS"
+    },
+    "release_artifact_sha256": "fbf00021b50f8a4a96aa322587ccc7cb534dca9baec0874b402f6cf21f696198",
+    "release_artifact_status": "PASS",
+    "unit_tests": {
+      "count": 118,
+      "elapsed_seconds": 176.95,
+      "log": "linux-unit-tests-linux.log",
+      "process_exit_code": 0,
+      "status": "PASS"
+    },
+    "verify_public_status": "PASS"
+  },
+  "map_geometry": {
+    "browsers": [
+      "chromium",
+      "webkit"
+    ],
+    "cook_320x800": [
+      {
+        "browser": "chromium",
+        "center_hit_after_selection": "photo-marker maplibregl-marker maplibregl-marker-anchor-center selected",
+        "intersects_obstacle": [],
+        "marker_fully_inside_viewport": true,
+        "marker_rect": {
+          "bottom": 147,
+          "height": 44,
+          "left": 195,
+          "right": 239,
+          "top": 103,
+          "width": 44
+        },
+        "real_pointer_activation": "PASS",
+        "safe_padding": {
+          "bottom": 46,
+          "left": 46,
+          "right": 46,
+          "top": 125.390625
+        },
+        "viewport": "320x800"
+      },
+      {
+        "browser": "webkit",
+        "center_hit_after_selection": "photo-marker maplibregl-marker maplibregl-marker-anchor-center selected",
+        "intersects_obstacle": [],
+        "marker_fully_inside_viewport": true,
+        "marker_rect": {
+          "bottom": 147,
+          "height": 44,
+          "left": 195,
+          "right": 239,
+          "top": 103,
+          "width": 44
+        },
+        "real_pointer_activation": "PASS",
+        "safe_padding": {
+          "bottom": 46,
+          "left": 46,
+          "right": 46,
+          "top": 125.390625
+        },
+        "viewport": "320x800"
+      }
+    ],
+    "states": 44,
+    "status": "PASS",
+    "viewports": [
+      "1440x900",
+      "320x800",
+      "390x844"
+    ]
+  },
+  "native_run": {
+    "fast": "PASS",
+    "platform": "macOS arm64",
+    "python": "3.11.7",
+    "qualify": "PASS",
+    "unit_tests": {
+      "count": 118,
+      "elapsed_seconds": 90.089,
+      "log": "unit-tests-native.log",
+      "process_exit_code": 0,
+      "status": "PASS"
+    }
+  },
+  "phone_field_surface": {
+    "candidate_sha": "89b64e4db7ca1bb4dc600f136789e3ace21dd06c",
+    "status": "PASS"
+  },
+  "portability": {
+    "fixture_into_sf_leakage": [],
+    "renderer_bytes_identical": true,
+    "sf_into_fixture_leakage": [],
+    "status": "PASS"
+  },
+  "schema_version": 1,
+  "security_privacy": {
+    "candidate_bound": true,
+    "generated_artifact_secret_findings": 0,
+    "production_secret_findings": 0,
+    "public_staging_checks": {
+      "artifact_bytes": true,
+      "artifact_file_count": true,
+      "artifact_sha256": true,
+      "build_manifest_sha256": true,
+      "currency": true,
+      "display_title": true,
+      "modular_index_sha256": true,
+      "public_asset_rights": true,
+      "qualification_sha256": true,
+      "security_privacy": true,
+      "slug": true,
+      "standalone_sha256": true,
+      "tested_sha": true,
+      "trip_identity": true
+    },
+    "status": "PASS"
+  }
+}

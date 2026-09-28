@@ -1,6 +1,8 @@
 {
   "version": "map-first-1.0",
-  "generated": "2026-09-24",
+  "generated": "2026-09-27",
+  "trip_identity": "sf-family-2026-final",
+  "display_title": "Smart Minority · SF / Monterey / Yosemite Field Atlas",
   "default": "vector",
   "fallback": null,
   "vector_source": {
@@ -19,35 +21,7 @@
     "standalone_loading": "Embedded PMTiles FileSource and bundled glyph/sprite protocols",
     "modular_loading": "Local HTTP Range requests; use scripts/serve_map.py"
   },
-  "yosemite_relief": {
-    "source": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer",
-    "provider": "USGS The National Map 3DEP shaded relief",
-    "bbox_lonlat": [
-      -119.99,
-      37.38,
-      -119.35,
-      37.95
-    ],
-    "source_path": "assets/vector/yosemite_hillshade_source.png",
-    "render_derivative_path": "assets/vector/yosemite_hillshade_shadow.webp",
-    "role": "transparent terrain shadows beneath locally rendered vector roads and labels"
-  },
   "assets": [
-    {
-      "path": "assets/vector/sf_trip.pmtiles",
-      "bytes": 149832867,
-      "sha256": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6"
-    },
-    {
-      "path": "assets/vector/yosemite_hillshade_source.png",
-      "bytes": 2806581,
-      "sha256": "2f3e31d1fd0eb8fb3cac30b603196865e651af4a3631550b6d8808b4a22f31ce"
-    },
-    {
-      "path": "assets/vector/yosemite_hillshade_shadow.webp",
-      "bytes": 1758602,
-      "sha256": "801f29d1c305a44f191acf3070a194ad7ff10f6846bef75b21a920a1ceee4903"
-    },
     {
       "path": "assets/vector/fonts/Noto Sans Italic/0-255.pbf",
       "bytes": 79344,
@@ -57,6 +31,11 @@
       "path": "assets/vector/fonts/Noto Sans Italic/256-511.pbf",
       "bytes": 132976,
       "sha256": "a6f9f6574c86a4a28aba630ca1017857ceadd2370ed32a1293c35f819ab9bd60"
+    },
+    {
+      "path": "assets/vector/fonts/Noto Sans Italic/8192-8447.pbf",
+      "bytes": 52891,
+      "sha256": "5dc4e6680116fef01be024e272859d130262613c7e634409a590e5d50ad124ae"
     },
     {
       "path": "assets/vector/fonts/Noto Sans Medium/0-255.pbf",
@@ -69,6 +48,11 @@
       "sha256": "d5e801a1a5b1d409d3298c3a1e1ca76328e2314a751078833a618620e8e66e4d"
     },
     {
+      "path": "assets/vector/fonts/Noto Sans Medium/8192-8447.pbf",
+      "bytes": 65101,
+      "sha256": "cc38e4956207f0edba1aaf749b61e8f6f1678ef1ad443d32ee285b21d0eb67aa"
+    },
+    {
       "path": "assets/vector/fonts/Noto Sans Regular/0-255.pbf",
       "bytes": 76044,
       "sha256": "62c6d49b15fa836eb6aa45e259c7ca6762f44b011b09e47776efbe4a6db1b397"
@@ -77,6 +61,16 @@
       "path": "assets/vector/fonts/Noto Sans Regular/256-511.pbf",
       "bytes": 127726,
       "sha256": "2eca7561f9f566bcacfda5dd04fb5880baec1328ec0f5484678289a13994de8a"
+    },
+    {
+      "path": "assets/vector/fonts/Noto Sans Regular/8192-8447.pbf",
+      "bytes": 64220,
+      "sha256": "8ea977a587352fe31b4159ffdbc9a40be79056f2472017c742ea1e4a931864b9"
+    },
+    {
+      "path": "assets/vector/sf_trip.pmtiles",
+      "bytes": 149832867,
+      "sha256": "bfc882a036c39c6b0eed277a81e83f2c048dc3fcd0d1833e2d143f2589b385f6"
     },
     {
       "path": "assets/vector/sprites/dark.json",
@@ -117,23 +111,61 @@
       "path": "assets/vector/sprites/light@2x.png",
       "bytes": 28852,
       "sha256": "23f6e9df27c2e9a14385763980a24e3608966bfc8192a106058bc2ca959ab563"
+    },
+    {
+      "path": "assets/vector/yosemite_hillshade_shadow.webp",
+      "bytes": 1758602,
+      "sha256": "801f29d1c305a44f191acf3070a194ad7ff10f6846bef75b21a920a1ceee4903"
+    },
+    {
+      "path": "assets/vector/yosemite_hillshade_source.png",
+      "bytes": 2806581,
+      "sha256": "2f3e31d1fd0eb8fb3cac30b603196865e651af4a3631550b6d8808b4a22f31ce"
     }
   ],
   "provider_failure_domains": {
-    "vector": "local PMTiles, fonts, sprites",
-    "satellite": "Esri World Imagery live tiles, local vector labels"
+    "vector": "local bundled PMTiles",
+    "satellite": "Esri ArcGIS Online"
   },
   "user_selectable_providers": [
     "vector",
     "satellite"
   ],
   "internal_emergency_fallback": null,
-  "retired_user_choices": [
-    "light",
-    "osm"
-  ],
+  "retired_user_choices": [],
   "policy_notes": [
     "Public OpenStreetMap tile.openstreetmap.org is never used for offline bulk downloads.",
     "Google tiles are not copied or embedded."
-  ]
+  ],
+  "relief": {
+    "source": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer",
+    "provider": "USGS The National Map 3DEP shaded relief",
+    "bbox_lonlat": [
+      -119.99,
+      37.38,
+      -119.35,
+      37.95
+    ],
+    "source_path": "assets/vector/yosemite_hillshade_source.png",
+    "role": "transparent terrain shadows beneath locally rendered vector roads and labels",
+    "render_derivative_path": "assets/vector/yosemite_hillshade_shadow.webp",
+    "coordinates": [
+      [
+        -119.99,
+        37.95
+      ],
+      [
+        -119.35,
+        37.95
+      ],
+      [
+        -119.35,
+        37.38
+      ],
+      [
+        -119.99,
+        37.38
+      ]
+    ]
+  }
 }

@@ -10,11 +10,12 @@ from playwright.sync_api import sync_playwright
 from qa_config import MODULAR_URL
 from qa_evidence import ROOT, bind_report, candidate_identity
 import security_privacy
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 OUT = ROOT / "QA" / "CHG-232" / "location_gap"
 OUT.mkdir(parents=True, exist_ok=True)
-CANONICAL_DATA = json.loads((ROOT / "data" / "phase7_app_data.json").read_text())
+CANONICAL_DATA = load_package(DEFAULT_PACKAGE)["data"]
 report = bind_report({"status": "FAIL", "checks": {}, "screenshots": [], "errors": []}, candidate_identity())
 
 
@@ -71,6 +72,10 @@ def verify_travel_details(page, capture_name=None):
     page.wait_for_function(
         """ids => {const b=document.getElementById(ids.button),r=document.getElementById(ids.region);return b?.getAttribute('aria-expanded')==='true' && r && !r.hidden}""",
         arg={"button": button_id, "region": region_id},
+    )
+    page.wait_for_function(
+        "id => document.activeElement?.id === id",
+        arg=button_id,
     )
     evidence = page.evaluate(
         """ids => {

@@ -5,7 +5,7 @@
   const read = (key, fallback) => { try { return localStorage.getItem(key) || fallback; } catch { return fallback; } };
   const readJson = key => { try { return JSON.parse(localStorage.getItem(key) || 'null') || {}; } catch { return {}; } };
 
-  function create(data) {
+  function create(data, tripPackage) {
     const saved = readJson(STORAGE_KEY);
     const legacy = readJson(legacyKey);
     const restored = Object.keys(saved).length ? saved : legacy;
@@ -16,6 +16,10 @@
     const readiness = Object.fromEntries(Object.entries(savedChecklist).filter(([, value]) => checklistValues.includes(value)));
     const scenarioIds = new Set((data.cost_cockpit?.scenarios || []).map(item => item.id));
     const routeKeys = Object.keys(data.routes || {});
+    const providers = tripPackage?.providers || {};
+    const providerKeys = Object.keys(providers);
+    const vectorProvider = providerKeys.find(key => providers[key]?.kind === 'vector');
+    if (!vectorProvider) throw new Error('Trip package must declare one local vector provider.');
     const dates = new Set(['all', ...(data.dates || []).map(item => item.key)]);
     const regions = new Set(Object.keys(data.region_cfg || {}));
     const savedRoutes = Array.isArray(restored.routes) ? restored.routes.filter(route => routeKeys.includes(route)) : [];
@@ -24,13 +28,13 @@
       task: {
         primaryRoute: routeKeys.includes(restored.primaryRoute) ? restored.primaryRoute : (savedRoutes[0] || recommended),
         routes: new Set(savedRoutes.length ? savedRoutes : routeKeys),
-        date: dates.has(restored.date) ? restored.date : 'all',
+        date: dates.has(restored.date) ? restored.date : (window.matchMedia?.('(max-width:800px)').matches ? (data.dates?.[0]?.key || 'all') : 'all'),
         region: regions.has(restored.region) ? restored.region : 'overall',
         selected: typeof restored.selected === 'string' ? restored.selected : null,
         selectedOccurrence: restored.selectedOccurrence || null,
       },
       presentation: {
-        mode: ['decide', 'day', 'place'].includes(restored.mode) ? restored.mode : 'decide',
+        mode: ['decide', 'day', 'place'].includes(restored.mode) ? restored.mode : (window.matchMedia?.('(max-width:800px)').matches ? 'day' : 'decide'),
         sheet: ['compact', 'expanded', 'full'].includes(restored.sheet) ? restored.sheet : 'expanded',
         lang: ['ko', 'en'].includes(restored.lang) ? restored.lang : read('trip_lang', 'ko'),
         theme: ['light', 'dark'].includes(restored.theme) ? restored.theme : read('trip_theme', 'light'),
@@ -42,13 +46,13 @@
         dayDisclosure: { dateKey: null, openTravelId: null, notesOpen: false },
       },
       runtime: {
-        provider: 'vector', providerIdentity: data.providers?.vector?.identity || 'smart-local-vector',
-        providerHealth: { vector: 'loading', satellite: 'untested' },
+        provider: vectorProvider, providerIdentity: providers[vectorProvider].identity,
+        providerHealth: Object.fromEntries(providerKeys.map(key => [key, key === vectorProvider ? 'loading' : 'untested'])),
         providerEvents: [], localAssets: { status: 'checking', failures: [] },
         mapStatus: 'loading', mapVisualReady: false,
         sequence: 0, probeSequence: 0, mapCreations: 0, mapRemovals: 0,
         drawRequests: 0, providerSwitches: 0, events: [],
-        providerStats: { vector: { healthProbes: 0, viewportProbes: 0, tileErrors: 0, fallbacks: 0 }, satellite: { healthProbes: 0, viewportProbes: 0, tileErrors: 0, fallbacks: 0 } },
+        providerStats: Object.fromEntries(providerKeys.map(key => [key, { healthProbes: 0, viewportProbes: 0, tileErrors: 0, fallbacks: 0 }])),
       },
       user: {
         tripIdentity,

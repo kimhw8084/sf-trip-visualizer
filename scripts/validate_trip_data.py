@@ -17,24 +17,27 @@ from urllib.parse import urlparse
 
 from travel_contract import validate_travel_contract
 from route_graph_contract import validate_route_graph
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "manifests" / "canonical_pipeline.json"
-DATA = ROOT / "data" / "phase7_app_data.json"
-FRESHNESS = ROOT / "manifests" / "trip_freshness.json"
-TRANSLATIONS = ROOT / "data" / "translations.json"
-GEOMETRY = ROOT / "data" / "route_geometry_cache.json"
-GEOMETRY_MANIFEST = ROOT / "data" / "route_geometry_manifest.json"
-ROLE_MATRIX = ROOT / "data" / "route_role_matrix.json"
-ROUTE_SCHEDULE = ROOT / "data" / "route_schedules.json"
-RESEARCH_LEDGER = ROOT / "data" / "route_research_ledger.json"
-ASSETS = ROOT / "manifests" / "asset_manifest.json"
+ACTIVE_PACKAGE = load_package(DEFAULT_PACKAGE)
+PACKAGE_PATHS = {key: ROOT / value for key, value in ACTIVE_PACKAGE["projections"].items()}
+DATA = ROOT / ACTIVE_PACKAGE["canonical_data"]
+FRESHNESS = PACKAGE_PATHS["freshness"]
+TRANSLATIONS = PACKAGE_PATHS["translations"]
+GEOMETRY = PACKAGE_PATHS["route_geometry"]
+GEOMETRY_MANIFEST = PACKAGE_PATHS["route_geometry_manifest"]
+ROLE_MATRIX = PACKAGE_PATHS["route_roles"]
+ROUTE_SCHEDULE = PACKAGE_PATHS["route_schedules"]
+RESEARCH_LEDGER = PACKAGE_PATHS["research_ledger"]
+ASSETS = PACKAGE_PATHS["photos_manifest"]
 REFERENCE_FILES = {
     "routes": ROOT / "data" / "routes.json",
     "itineraries": ROOT / "data" / "itineraries.json",
     "canonical_places": ROOT / "data" / "canonical_places.json",
-    "coordinate_audit": ROOT / "data" / "coordinate_audit.json",
+    "coordinate_audit": PACKAGE_PATHS["coordinate_audit"],
     "location_coverage": ROOT / "data" / "location_coverage_audit.json",
     "source_manifest": ROOT / "manifests" / "source_manifest.json",
 }
@@ -110,7 +113,7 @@ def validate_trip_data() -> dict[str, Any]:
     check("semantic_route_graph_and_geometry", route_graph["status"] == "PASS", "; ".join(route_graph["failures"][:8]))
 
     truth = manifest.get("truth_authority", {})
-    check("truth_authority_source", truth.get("authored_source") == "data/phase7_app_data.json")
+    check("truth_authority_source", truth.get("authored_source") == "$active_trip_package.canonical_data")
     check("truth_authority_validator", truth.get("validator") == "scripts/validate_trip_data.py")
     check("reference_files_are_not_runtime_authority", all(path != truth.get("authored_source") for path in manifest.get("reference_evidence_inputs", [])))
     required = set(truth.get("required_top_level_fields", []))
@@ -160,8 +163,9 @@ def validate_trip_data() -> dict[str, Any]:
     for key in ("10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11"):
         check(f"operating_day[{key}].first_nap_after_0900", "09:00" in str(operating_days.get(key, {}).get("nap_en", "")) or "after ~09:00" in str(operating_days.get(key, {}).get("nap_en", "")) or "after ~9" in str(operating_days.get(key, {}).get("nap_en", "")).lower())
     check("region_count", set(place_region.values()) == REGIONS and set(data.get("region_cfg", {})) == REGIONS | {"overall"})
-    check("provider_keys", sorted(data.get("providers", {})) == ["satellite", "vector"])
-    check("provider_configuration", all(has_text(data["providers"].get(key, {}).get("label")) for key in ("vector", "satellite")))
+    package_providers = ACTIVE_PACKAGE["providers"]
+    check("provider_keys", bool(package_providers) and sum(provider.get("kind") == "vector" for provider in package_providers.values()) == 1)
+    check("provider_configuration", all(has_text(provider.get("label_ko")) and has_text(provider.get("label_en")) for provider in package_providers.values()))
     check("region_labels_bilingual", all(has_text(meta.get("label")) and has_text(meta.get("label_ko")) for meta in data.get("region_cfg", {}).values()))
 
     for marker in markers:

@@ -124,14 +124,14 @@ class Gate5QualificationTests(unittest.TestCase):
             with self.subTest(payload=payload):
                 self.assertEqual(qa_gate5_field_quality.performance_terminal_status(payload), "FAIL")
 
-    def test_satellite_raster_errors_are_source_scoped_and_single_flight(self):
+    def test_raster_errors_are_source_scoped_and_single_flight(self):
         source = (Path(__file__).resolve().parents[1] / "src/app_phase7.js").read_text()
-        self.assertIn("function isSatelliteRasterError(event, map)", source)
+        self.assertIn("function isRasterProviderError(event, map)", source)
         self.assertIn("String(event?.sourceId || '') !== 'base'", source)
         self.assertIn("source?.type === 'raster'", source)
-        self.assertIn("let satelliteFallbackFlight = null", source)
-        self.assertIn("if (provider === 'satellite' && satelliteFallbackFlight) return satelliteFallbackFlight", source)
-        self.assertIn("if (isSatelliteRasterError(event, map))", source)
+        self.assertIn("let rasterFallbackFlight = null", source)
+        self.assertIn("if (PACKAGE.providers?.[provider]?.kind === 'raster' && rasterFallbackFlight) return rasterFallbackFlight", source)
+        self.assertIn("if (isRasterProviderError(event, map))", source)
         self.assertIn("reason === 'tile_error'", source)
         self.assertIn("if (localMapError(event))", source)
 
@@ -142,16 +142,16 @@ class Gate5QualificationTests(unittest.TestCase):
         self.assertIn("function rememberSmartCamera(map = photoMap)", source)
         self.assertIn("function validSmartCamera()", source)
         self.assertIn("return validSmartCamera() ?", source)
-        self.assertIn("if (state.runtime.provider === 'vector') rememberSmartCamera(map)", source)
+        self.assertIn("if (state.runtime.provider === VECTOR_PROVIDER) rememberSmartCamera(map)", source)
         self.assertIn("smart_camera: validSmartCamera()", source)
 
-    def test_satellite_recovery_feedback_does_not_retry_smart_as_if_smart_failed(self):
+    def test_optional_provider_recovery_feedback_does_not_retry_smart_as_if_smart_failed(self):
         source = (Path(__file__).resolve().parents[1] / "src/app_phase7.js").read_text()
         messages = (Path(__file__).resolve().parents[1] / "src/atlas_messages.js").read_text()
         template = (Path(__file__).resolve().parents[1] / "src/map_shell_template.html").read_text()
-        self.assertIn("retry.dataset.retryProvider = 'satellite'", source)
-        self.assertIn("retryProvider === 'satellite'", source)
-        self.assertIn("retrySatellite", messages)
+        self.assertIn("retry.dataset.retryProvider = provider", source)
+        self.assertIn("smartRetry.dataset.retryProvider === VECTOR_PROVIDER", source)
+        self.assertIn("retryProvider", messages)
         self.assertIn('id="mapErrorDismiss"', template)
 
 

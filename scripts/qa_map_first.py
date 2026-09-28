@@ -7,13 +7,16 @@ from playwright.sync_api import sync_playwright
 
 from qa_config import MODULAR_URL
 from qa_evidence import bind_report, candidate_identity
+from trip_package import DEFAULT_PACKAGE, load_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "QA" / "CHG-232" / "map_first_smoke"
 OUT.mkdir(parents=True, exist_ok=True)
 identity = candidate_identity()
-SOURCE_DATA = json.loads((ROOT / "data/phase7_app_data.json").read_text())
+PACKAGE = load_package(DEFAULT_PACKAGE)
+SOURCE_DATA = PACKAGE["data"]
+VECTOR_PROVIDER = PACKAGE["vector_provider_id"]
 expected_routes = sorted(SOURCE_DATA["routes"])
 expected_places = len(SOURCE_DATA["markers"])
 expected_route_markers = sum(bool(set(marker.get("routes", [])) & set(expected_routes)) for marker in SOURCE_DATA["markers"])
@@ -34,7 +37,7 @@ with sync_playwright() as playwright:
 
 state = report["state"]
 report["expected_counts"] = {"active_route_markers": expected_route_markers, "catalog_places": expected_places}
-report["status"] = "PASS" if not report["errors"] and not report["failed_requests"] and state["app"] and state["routes"] == expected_routes and state["provider"] == "vector" and state["health"]["vector"] == "ready" and state["canvas"] == 1 and state["markers"] == expected_route_markers and state["places"] == expected_places and state["features"] > 0 and state["date_controls"] == 1 and state["legacy"] == 0 and expected_routes[0] in state["recommendation"] else "FAIL"
+report["status"] = "PASS" if not report["errors"] and not report["failed_requests"] and state["app"] and state["routes"] == expected_routes and state["provider"] == VECTOR_PROVIDER and state["health"][VECTOR_PROVIDER] == "ready" and state["canvas"] == 1 and state["markers"] == expected_route_markers and state["places"] == expected_places and state["features"] > 0 and state["date_controls"] == 1 and state["legacy"] == 0 and expected_routes[0] in state["recommendation"] else "FAIL"
 (OUT / "smoke.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps(report, ensure_ascii=False, indent=2))
 raise SystemExit(0 if report["status"] == "PASS" else 1)
