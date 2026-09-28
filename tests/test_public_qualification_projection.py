@@ -58,7 +58,7 @@ class PublicQualificationProjectionTests(unittest.TestCase):
     def test_projection_retains_release_truth_and_removes_diagnostic_tails(self):
         revision = pipeline.current_revision()
         original = self.qualification_report(revision)
-        with tempfile.TemporaryDirectory(prefix="qualification-projection-") as directory:
+        with tempfile.TemporaryDirectory(prefix=".qualification-projection-", dir=ROOT) as directory:
             internal_path = Path(directory) / "qualification.json"
             public_path = Path(directory) / ".release-qualification.json"
             internal_path.write_text(json.dumps(original, ensure_ascii=False, indent=2) + "\n")
@@ -94,7 +94,7 @@ class PublicQualificationProjectionTests(unittest.TestCase):
         revision = pipeline.current_revision()
         original = self.qualification_report(revision)
         original["build"]["standalone_sha256"] = hashlib.sha256(b"standalone fixture\n").hexdigest()
-        with tempfile.TemporaryDirectory(prefix="verify-public-projection-") as directory:
+        with tempfile.TemporaryDirectory(prefix=".verify-public-projection-", dir=ROOT) as directory:
             root = Path(directory)
             qualification_path = root / "qualification.json"
             qualification_path.write_text(json.dumps(original, ensure_ascii=False, indent=2) + "\n")
