@@ -58,17 +58,20 @@ export class GoogleConnection {
     const endpoint = s => s.placeId ? new Place({ id: s.placeId }) : coordinates(s) ? { lat: s.lat, lng: s.lng } : s.address;
     if (!endpoint(from) || !endpoint(to)) return null;
     const mode = { walk: 'WALKING', drive: 'DRIVING', bike: 'BICYCLING', transit: 'TRANSIT' }[to.mode];
-    const when = zonedDate(date, departure, zone), future = when > new Date();
+    const when = zonedDate(date, departure, zone), now = new Date(), future = when > now;
+    // The editor stores whole minutes. A departure in this minute means now;
+    // let Google use server time so network latency cannot make it a past request.
+    const trafficAware = future || (now - when >= 0 && now - when < 60000);
     const key = `${legKey(from, to)}:${date}:${Math.round(departure / 5)}`;
     const cached = this.cache.get(key);
     if (cached && Date.now() - cached.fetchedAt < 300000) return cached;
     const request = { origin: endpoint(from), destination: endpoint(to), travelMode: mode, fields: ['path', 'durationMillis', 'distanceMeters', 'warnings'] };
-    if (mode === 'DRIVING') { request.routingPreference = future ? 'TRAFFIC_AWARE' : 'TRAFFIC_UNAWARE'; if (future) request.departureTime = when; }
+    if (mode === 'DRIVING') { request.routingPreference = trafficAware ? 'TRAFFIC_AWARE' : 'TRAFFIC_UNAWARE'; if (future) request.departureTime = when; }
     if (mode === 'TRANSIT') request.departureTime = when;
     const { routes } = await timeout(Route.computeRoutes(request));
     const route = routes?.[0];
     if (!route || !Number.isFinite(route.durationMillis)) throw new Error('No Google route is available for this leg.');
-    const result = { source: 'google', label: mode === 'DRIVING' ? (future ? 'Google · traffic prediction' : 'Google · traffic not included for past time') : `Google · ${to.mode}`, minutes: Math.ceil(route.durationMillis / 60000), km: route.distanceMeters / 1000, path: (route.path || []).map(p => [p.lng, p.lat]), warnings: route.warnings || [], fetchedAt: Date.now() };
+    const result = { source: 'google', label: mode === 'DRIVING' ? (trafficAware ? 'Google · traffic prediction' : 'Google · traffic not included for past time') : `Google · ${to.mode}`, minutes: Math.ceil(route.durationMillis / 60000), km: route.distanceMeters / 1000, path: (route.path || []).map(p => [p.lng, p.lat]), warnings: route.warnings || [], fetchedAt: Date.now() };
     this.cache.set(key, result); return result;
   }
 }

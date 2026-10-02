@@ -25,6 +25,14 @@ test('past driving times do not silently use current traffic', async () => {
   const g = new GoogleConnection(); const r = await g.route({ id: 'a', address: 'Start' }, { id: 'b', address: 'End', mode: 'drive' }, '2020-01-01', 540, 'UTC');
   assert.equal(requests.at(-1).routingPreference, 'TRAFFIC_UNAWARE'); assert.equal(requests.at(-1).departureTime, undefined); assert.match(r.label, /not included/);
 });
+test('a departure in the current minute uses server-time traffic for on-trip replanning', async t => {
+  t.mock.timers.enable({ apis: ['Date'], now: Date.UTC(2030, 9, 2, 16, 0, 30) });
+  const now = new Date(), g = new GoogleConnection();
+  const r = await g.route({ id: 'now-a', address: 'Start' }, { id: 'now-b', address: 'End', mode: 'drive' }, now.toISOString().slice(0, 10), now.getUTCHours() * 60 + now.getUTCMinutes(), 'UTC');
+  assert.equal(requests.at(-1).routingPreference, 'TRAFFIC_AWARE');
+  assert.equal(requests.at(-1).departureTime, undefined);
+  assert.match(r.label, /traffic prediction/);
+});
 test('missing and unavailable routes never become fictitious live routes', async () => {
   const g = new GoogleConnection(); assert.equal(await g.route({ id: 'a' }, { id: 'b', address: 'End', mode: 'walk' }, '2030-01-01', 540, 'UTC'), null);
   await assert.rejects(() => g.route({ id: 'a', address: 'Start' }, { id: 'b', address: 'NO_ROUTE', mode: 'walk' }, '2030-01-01', 540, 'UTC'), /No Google route/);
