@@ -54,6 +54,7 @@ PERFORMANCE_BASE_REVISION = "7d5d8727b1772642e87311d91d087e211656f6e4"
 PERFORMANCE_BASE_TREE = "ede888516de0dc9c8554036435ae9f8034aaea4f"
 
 COMPONENTS = (
+    ("editable_planner", "scripts/qa_planner_release.py", "QA/CHG-232/planner/release.json"),
     ("canonical_truth", "scripts/qa_canonical_truth.py", "QA/CHG-232/canonical_truth.json"),
     ("photo_integrity", "scripts/check_photo_integrity.py", "QA/CHG-232/photo_integrity.json"),
     ("maplibre_security", "scripts/qa_maplibre_security.py", "QA/CHG-232/release/maplibre_security.json"),

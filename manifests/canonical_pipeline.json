@@ -64,7 +64,14 @@
     "manifests/trip_freshness.json",
     "manifests/runtime_resilience_contract.json",
     "manifests/public_asset_rights.json",
-    "manifests/security_privacy_contract.json"
+    "manifests/security_privacy_contract.json",
+    "planner.html",
+    "planner-sw.js",
+    "src/planner.css",
+    "src/planner.mjs",
+    "src/planner-core.mjs",
+    "src/planner-google.mjs",
+    "src/planner-map.mjs"
   ],
   "reference_evidence_inputs": [
     "manifests/source_manifest.json",
@@ -89,7 +96,8 @@
     ".build/",
     ".public-site/",
     ".release/",
-    "QA/CHG-232/"
+    "QA/CHG-232/",
+    "QA/planner/"
   ],
   "historical_or_legacy": [
     "index.html",

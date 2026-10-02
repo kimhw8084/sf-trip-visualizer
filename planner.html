@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#163f39">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Fieldtrip · Plan a little. Live a lot.</title>
+  <link rel="stylesheet" href="vendor/maplibre-gl.css">
+  <link rel="stylesheet" href="src/planner.css">
+</head>
+<body>
+  <a class="skip-link" href="#timeline">Skip to itinerary</a>
+  <header class="topbar">
+    <a class="wordmark" href="planner.html" aria-label="Fieldtrip home"><span class="brand-icon">↗</span> fieldtrip<span class="brand-dot">.</span></a>
+    <div class="trip-switch"><label class="sr-only" for="tripSelect">Your trips</label><select id="tripSelect"></select><button id="newTrip" class="icon-button" aria-label="Create a new trip" title="New trip">＋</button></div>
+    <div class="top-actions"><span id="saveStatus" role="status">Saved on this device</span><button id="undo" class="quiet" disabled>↶ Undo</button><button id="settings" class="quiet">Connections</button><button id="more" class="quiet" aria-label="Trip tools">•••</button></div>
+  </header>
+  <main class="planner-layout">
+    <aside class="plan-panel" aria-label="Trip planner">
+      <div class="trip-heading"><p class="eyebrow">YOUR DAYS, YOUR WAY</p><h1 id="tripTitle">Your next great day.</h1><p id="tripSubtitle"></p></div>
+      <nav class="view-tabs" aria-label="Planning views"><button data-view="day" class="active">Daily plan</button><button data-view="overview">Whole trip</button><button data-view="go">On the go <span>↗</span></button></nav>
+      <div id="dayStrip" class="day-strip" aria-label="Trip days"></div>
+      <div class="plan-scroll" id="planScroll">
+        <section id="dayView"><div id="dayHeading"></div><div id="dayMetrics" class="metrics"></div><div id="dayControls" class="day-controls"></div><div id="routeNotice" class="route-notice" role="status"></div><div id="dayWarnings"></div><div id="timeline" class="timeline" tabindex="-1"></div><button id="addStop" class="add-stop">＋ Add a place or a break</button><div id="dayEnd" class="day-end"></div></section>
+        <section id="overviewView" hidden></section>
+        <section id="goView" hidden></section>
+      </div>
+      <footer class="plan-footer"><span class="local-dot"></span><span id="connectionStatus">Local planning · estimates</span><a href="index.html">Researched field guide ↗</a></footer>
+    </aside>
+    <section class="map-panel" aria-label="Your route map">
+      <div id="plannerMap"></div><div id="googleMap" hidden></div>
+      <div class="map-top"><div class="map-context"><span class="live-dot"></span><span id="mapContext">Your trip, at a glance</span></div><div class="map-tools"><button id="fitRoute">⌖ Fit route</button><button id="locate" aria-label="Show my location">◎</button></div></div>
+      <div id="mapError" class="map-error" hidden role="status"></div>
+      <div class="map-bottom"><div class="map-legend" id="mapLegend"><span class="legend-line"></span> Dashed = estimated connection, not a road route</div><button id="mapProvider">Local SF map ▾</button></div>
+      <div class="map-caption"><p class="eyebrow">LESS LOGISTICS. MORE BEING HERE.</p><h2>Make room for<br>the unexpected.</h2></div>
+    </section>
+  </main>
+  <nav class="mobile-nav" aria-label="Mobile view"><button class="active" data-mobile="plan">☷ Itinerary</button><button data-mobile="map">⌖ Map</button><button data-mobile="go">↗ Go</button></nav>
+  <dialog id="editor" aria-labelledby="dialogTitle"><div class="dialog-head"><div><p id="dialogEyebrow" class="eyebrow">MAKE IT YOURS</p><h2 id="dialogTitle"></h2></div><button id="closeDialog" class="icon-button" aria-label="Close dialog">×</button></div><div id="dialogBody"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script src="vendor/maplibre-gl.js"></script>
+  <script src="vendor/trip-vector.js"></script>
+  <script type="module" src="src/planner.mjs"></script>
+</body>
+</html>

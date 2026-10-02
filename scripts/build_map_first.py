@@ -23,6 +23,7 @@ FRESHNESS_MANIFEST_PATH = ROOT / "manifests" / "trip_freshness.json"
 RUNTIME_CONTRACT_PATH = ROOT / "manifests" / "runtime_resilience_contract.json"
 COORDINATE_AUDIT_PATH = ROOT / "data" / "coordinate_audit.json"
 MODULAR_FILES = (
+    "planner.html", "planner-sw.js", "src/planner.css", "src/planner.mjs", "src/planner-core.mjs", "src/planner-google.mjs", "src/planner-map.mjs", "data/phase7_app_data.json",
     "src/app_phase7.css", "src/app_phase7.js", "src/atlas_messages.js", "src/atlas_state.js", "src/runtime_loader.js", "src/map_first.css",
     "vendor/maplibre-gl.css", "vendor/maplibre-gl.js", "vendor/trip-vector.js", "vendor/plotly.min.js",
     "assets/vector/sf_trip.pmtiles", "assets/vector/yosemite_hillshade_shadow.webp",
@@ -125,6 +126,9 @@ def build(output_root: Path) -> dict:
     copy_runtime(modular_dir)
 
     standalone = BeautifulSoup(str(template), "html.parser")
+    planner_link = standalone.select_one('a[href="planner.html"]')
+    if planner_link:
+        planner_link["href"] = "../modular/planner.html"
     credits = standalone.select_one(".credits-link")
     if credits:
         credits["href"] = "../public/ATTRIBUTION.md"

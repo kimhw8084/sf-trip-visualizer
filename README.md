@@ -1,5 +1,19 @@
 # SF / Monterey / Yosemite Smart Minority trip visualizer
 
+## Editable planner
+
+The new **Plan & go** link in the generated atlas opens `planner.html`: an editable copy of the October 2–12 itinerary with daily and whole-trip maps, add/edit/reorder/move/skip/done controls, travel modes, automatic schedule recalculation, fixed-time conflict checks, undo, alternate plans, new trips, and an on-trip view. Optional swaps start skipped; restoring one skips its matching original stop.
+
+For a source preview, run `python3 scripts/serve_map.py --directory . --port 8767` and open `http://127.0.0.1:8767/planner.html`. The canonical build also includes the planner in `.build/modular/`. The standalone atlas links to the sibling modular planner; the planner is not embedded in the all-in-one HTML. Publishing continues through the existing release qualification workflow.
+
+Without a Google connection, dashed lines are **schematic connections**, not road routes. Times are rough distance-based estimates or original editable travel allowances. Unknown travel is labeled and excluded from the finish time. Imported schedule ranges are approximate; original wording remains in the editor and field guide. The backtracking tool previews a geometric suggestion while protecting appointments, recovery, breaks and endpoints. It does not promise the fastest road route.
+
+**Connections** accepts a website-restricted Google browser key with billing and Maps JavaScript API, Places API (New), and Routes API enabled. The [Google Routes library](https://developers.google.com/maps/documentation/javascript/routes/get-a-route) refreshes connected routes after edits using destination-local departure times. Original travel blocks refresh when both endpoints are supplied; private lodging addresses must be entered by the user. Past driving times exclude traffic predictions. [Place details](https://developers.google.com/maps/documentation/javascript/place-details) show available ratings, regular hours and author-attributed review selections after the user confirms the exact place. Google results display on Google Maps. This does not synchronize personal Google saved lists, mirror every review, or verify reservations. Provider fixture tests are not live API verification.
+
+Plans save in this browser on this device. **Export/import** moves them to another device; automatic cross-device/account sync is not implemented. Backups include personal notes and manually entered addresses, but exclude Google keys and fetched reviews, routes and coordinates. API keys stay in tab session storage. After an online visit, the service worker caches the planner and canonical data for offline reopening; map tiles, the large California archive and Google services still require their normal availability.
+
+Planner checks: `node --test tests/planner-core.test.mjs tests/planner-google.test.mjs`. With Playwright installed and the preview server running, use `node scripts/qa_planner.mjs` (or set `PLAYWRIGHT_MODULE` to an installed package path). Results and desktop/mobile screenshots are written to `QA/planner/`.
+
 This repository’s product is the Smart Minority family-trip decision system. The map renderer is reusable infrastructure; decision quality, resilient replanning, truthful route/geographic semantics, local-first Smart-map behavior, one physical-place identity, three real local photo roles, Korean/English, and touch/keyboard/responsive behavior are the product contract.
 
 The configured 2026 trip currently contains 36 physical places, 108 real local photographs, 51 timeline cards, 37 typed route connectors, and one active route: Route A — Temporal Arbitrage Master. It covers nine sightseeing dates and three regions, with Korean/English, light/dark, a local Smart map, optional Satellite + labels fallback, modular output, and standalone output. The renderer and source schema remain data-driven and support one or more configured routes.

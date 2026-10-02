@@ -23,6 +23,7 @@
     "release_rule": "A public or package artifact is eligible only when its embedded qualification/provenance tested_sha equals the exact candidate head and the security evidence is regenerated for that head."
   },
   "runtime_data_flows": {
+    "scope": "Original field atlas. See editable_planner for separately authorized optional planner flows.",
     "client_model": "Static generated browser application; local-first Smart map; no account, backend, server-side session, intentional telemetry, analytics, fingerprinting, background POST, or data-upload service.",
     "local_inputs": [
       "Generated canonical trip data, translations, cached route geometry, local photo derivatives, local PMTiles, local glyphs/sprites, and vendored JavaScript/CSS.",
@@ -49,6 +50,7 @@
     "remote_runtime_dependencies": false
   },
   "persisted_state": {
+    "scope": "Original field atlas. Planner-specific state is governed by editable_planner.storage.",
     "storage_keys": {
       "trip_visualizer_runtime_v2": {
         "data_classes": ["primary route, date/region, selected canonical place, mode/sheet/language/theme"],
@@ -394,5 +396,30 @@
     "Optional Esri Satellite remains externally dependent and may be VERIFY_REQUIRED when the provider cannot be reached; Smart-map qualification is network-independent.",
     "Gate 5 remains external VERIFY and is not certified by this contract.",
     "The contract records exact bundle hashes for the embedded trip-vector components, but their individual semvers require a later provenance refresh from the original JS dependency lock/source build."
-  ]
+  ],
+  "editable_planner": {
+    "scope": "The opt-in editable planner is separate from the original local atlas. User-requested personal planning and Google integrations are scoped here; original atlas controls remain unchanged.",
+    "runtime_files": [
+      "planner.html",
+      "planner-sw.js",
+      "src/planner.css",
+      "src/planner.mjs",
+      "src/planner-core.mjs",
+      "src/planner-google.mjs",
+      "src/planner-map.mjs"
+    ],
+    "storage": {
+      "localStorage": "fieldtrip.plans.v1 contains user trips, notes, manually entered addresses and canonical public place references. Never uploaded by the app.",
+      "sessionStorage": "fieldtrip.googleKey is a website/API-restricted browser key, retained in this tab and sent only to Google services. Excluded from trip exports.",
+      "ephemeral": "Fetched Google routes, reviews and coordinates; current geolocation. Never included in persisted plans or backups."
+    },
+    "network": {
+      "Google": "After explicit connection, Google SDK/services receive the restricted browser key, place searches, route endpoints and departure times. User-entered private addresses can be endpoints. Google place links and websites open on user action.",
+      "OpenStreetMap": "Optional online world tiles from https://tile.openstreetmap.org reveal the viewed map area.",
+      "referrer": "strict-origin-when-cross-origin supports Google website key restrictions; outbound navigation links use noopener noreferrer."
+    },
+    "worker": "Same-origin allowlisted app shell/canonical data and viewed local photos only; no external provider responses or private plans.",
+    "live_verification": "Requires the owner to connect a billable restricted key in Connections. Automated tests exercise fixtures and failure paths, not paid live access.",
+    "publication": "Only authored public-safe canonical data and project code are shipped. User local storage, keys, notes and lodging addresses are not in builds."
+  }
 }

@@ -26,7 +26,7 @@ WORKFLOWS = {
     "candidate": ROOT / ".github" / "workflows" / "candidate-qualification.yml",
     "pages": ROOT / ".github" / "workflows" / "deploy-pages.yml",
 }
-TEXT_SUFFIXES = {".css", ".html", ".js", ".json", ".md", ".py", ".txt", ".yml", ".yaml", ".toml", ".xml"}
+TEXT_SUFFIXES = {".css", ".html", ".js", ".mjs", ".json", ".md", ".py", ".txt", ".yml", ".yaml", ".toml", ".xml"}
 ALLOWED_STORAGE_KEYS = {
     "trip_visualizer_runtime_v2",
     "trip_visualizer_runtime_v1",
@@ -40,6 +40,7 @@ SECRET_PATTERNS = (
     ("github_token", re.compile(r"\b(?:gh[pousr]|github_pat)_[A-Za-z0-9_]{20,}\b")),
     ("openai_token", re.compile(r"\bsk-[A-Za-z0-9]{20,}\b")),
     ("aws_access_key", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
+    ("google_api_key", re.compile(r"\bAIza[\w-]{30,}\b")),
     ("bearer_token", re.compile(r"\bBearer\s+[A-Za-z0-9._~+/=-]{20,}")),
     (
         "credential_assignment",
@@ -731,6 +732,7 @@ def check_candidate_binding(root: Path, requested_revision: str | None, contract
         ".github/workflows/deploy-pages.yml",
     ]
     source_paths.extend(path for entry in contract.get("dependency_inventory", []) for path in entry.get("artifact_hashes", {}))
+    source_paths.extend(contract.get("editable_planner", {}).get("runtime_files", []))
     hashes: dict[str, str] = {}
     for relative in sorted(set(source_paths)):
         path = root / relative
@@ -769,6 +771,46 @@ def check_artifact_binding(paths: list[Path], root: Path, revision: str | None, 
     return {"status": "PASS" if not failures else "FAIL", "bindings": bindings, "failures": failures}
 
 
+def check_planner_controls(root: Path, contract: dict) -> dict:
+    """Keep the atlas's stricter offline contract and qualify opt-in planner flows separately."""
+    policy = contract.get("editable_planner", {})
+    failures = []
+    files = policy.get("runtime_files", [])
+    required = {"planner.html", "planner-sw.js", "src/planner.mjs", "src/planner-core.mjs", "src/planner-google.mjs", "src/planner-map.mjs", "src/planner.css"}
+    if set(files) != required:
+        failures.append("planner runtime inventory is incomplete")
+    texts = {}
+    for relative in files:
+        path = root / relative
+        if not path.is_file():
+            failures.append(f"planner runtime missing: {relative}")
+            continue
+        texts[relative] = path.read_text()
+    html = texts.get("planner.html", "")
+    if 'content="strict-origin-when-cross-origin"' not in html or re.search(r'<script[^>]+src=["\']https?://', html):
+        failures.append("planner must load locally before Google is explicitly connected")
+    runtime = texts.get("src/planner.mjs", "")
+    core = texts.get("src/planner-core.mjs", "")
+    provider = texts.get("src/planner-google.mjs", "")
+    worker = texts.get("planner-sw.js", "")
+    if "fieldtrip.plans.v1" not in core or "sessionStorage.setItem('fieldtrip.googleKey'" not in runtime:
+        failures.append("planner persistence contract changed")
+    if re.search(r"localStorage\.(?:setItem|getItem)\([^\n]*(?:googleKey|apiKey)", runtime):
+        failures.append("Google key may not be persisted with plans")
+    if "JSON.stringify(store, null, 2)" not in runtime or "new Map()" not in provider:
+        failures.append("planner backup/provider-state separation requires review")
+    if "url.origin !== base.origin" not in worker or "if (!SHELL.includes(path)" not in worker:
+        failures.append("planner worker must cache only allowlisted same-origin assets")
+    if "connect(key)" not in provider or "https://maps.googleapis.com/maps/api/js?" not in provider:
+        failures.append("planner Google loader origin or explicit connection changed")
+    for relative, text in texts.items():
+        if any(api in text for api in ("document.cookie", "sendBeacon", "XMLHttpRequest", "eval(")):
+            failures.append(f"unexpected persistence, submission or evaluation in {relative}")
+        if re.search(r"(?<!:)http://", text):
+            failures.append(f"insecure planner endpoint in {relative}")
+    return {"status": "FAIL" if failures else "PASS", "runtime_files": files, "live_google": "VERIFY_REQUIRED_OWNER_CREDENTIAL", "failures": failures}
+
+
 def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roots: list[Path] | None = None) -> dict:
     contract = load_json(root / "manifests" / "security_privacy_contract.json")
     revision = git_revision(root)
@@ -785,6 +827,7 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
     origins = check_origins(root)
     storage = check_local_storage(root, contract)
     controls = check_static_controls(root)
+    planner = check_planner_controls(root, contract)
     location_privacy = check_active_trip_location_privacy(root)
     binding = check_artifact_binding(artifacts, root, revision, source["source_hashes"])
     checks = {
@@ -798,6 +841,7 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
         "external_origins": origins["status"] == "PASS",
         "local_storage": storage["status"] == "PASS",
         "static_controls": controls["status"] == "PASS",
+        "editable_planner": planner["status"] == "PASS",
         "residential_address_scan": residential_source_scan["status"] == "PASS" and residential_artifact_scan["status"] == "PASS",
         "active_lodging_identity_guard": location_privacy["status"] == "PASS",
         "artifact_binding": binding["status"] == "PASS",
@@ -806,7 +850,7 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
     for name, passed in checks.items():
         if not passed:
             failures.append(name)
-    for report in (production, artifact_scan, residential_source_scan, residential_artifact_scan, vendor, maplibre, requirements, workflows, origins, storage, controls, location_privacy, binding):
+    for report in (production, artifact_scan, residential_source_scan, residential_artifact_scan, vendor, maplibre, requirements, workflows, origins, storage, controls, planner, location_privacy, binding):
         failures.extend(report.get("failures", []))
     verify_required = contract.get("advisory_review", {}).get("verify_required", [])
     return {
@@ -825,7 +869,7 @@ def run_gate(root: Path = ROOT, requested_revision: str | None = None, extra_roo
         "maplibre": maplibre,
         "requirements": requirements,
         "workflows": workflows,
-        "runtime": {"external_origins": origins, "local_storage": storage, "static_controls": controls},
+        "runtime": {"external_origins": origins, "local_storage": storage, "static_controls": controls, "editable_planner": planner},
         "residential_privacy": {"address_scan": {"source_and_evidence": residential_source_scan, "generated_artifacts": residential_artifact_scan}, "active_location_structure": location_privacy},
         "artifact_binding": binding,
         "advisory_review": contract.get("advisory_review", {}),

@@ -69,7 +69,9 @@ def verify_travel_details(page, capture_name=None):
     region_id = button.get_attribute("aria-controls")
     button.click()
     page.wait_for_function(
-        """ids => {const b=document.getElementById(ids.button),r=document.getElementById(ids.region);return b?.getAttribute('aria-expanded')==='true' && r && !r.hidden}""",
+        # The disclosure restores focus after the next animation frame as well
+        # as synchronously; observe that settled state before collecting evidence.
+        """ids => {const b=document.getElementById(ids.button),r=document.getElementById(ids.region);return b?.getAttribute('aria-expanded')==='true' && r && !r.hidden && document.activeElement===b}""",
         arg={"button": button_id, "region": region_id},
     )
     evidence = page.evaluate(

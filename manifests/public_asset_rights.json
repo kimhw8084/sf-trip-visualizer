@@ -590,7 +590,15 @@
         "src/atlas_messages.js",
         "src/atlas_state.js",
         "src/runtime_loader.js",
-        "src/map_first.css"
+        "src/map_first.css",
+        "planner.html",
+        "planner-sw.js",
+        "src/planner.css",
+        "src/planner.mjs",
+        "src/planner-core.mjs",
+        "src/planner-google.mjs",
+        "src/planner-map.mjs",
+        "data/phase7_app_data.json"
       ],
       "provenance": "Project source at the candidate commit",
       "creator_or_owner": "sf-trip-visualizer project",
@@ -10423,6 +10431,182 @@
       ],
       "asset_class": "generated-third-party-bundle",
       "decision": "approved"
+    },
+    {
+      "id": "pages/planner/planner.html",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "planner.html"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "public-package/planner/planner.html",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/planner.html"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "pages/planner/planner-sw.js",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "planner-sw.js"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "public-package/planner/planner-sw.js",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/planner-sw.js"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "pages/planner/src/planner.css",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "src/planner.css"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "public-package/planner/src/planner.css",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/src/planner.css"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "pages/planner/src/planner.mjs",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "src/planner.mjs"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "public-package/planner/src/planner.mjs",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/src/planner.mjs"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "pages/planner/src/planner-core.mjs",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "src/planner-core.mjs"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "public-package/planner/src/planner-core.mjs",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/src/planner-core.mjs"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "pages/planner/src/planner-google.mjs",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "src/planner-google.mjs"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "public-package/planner/src/planner-google.mjs",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/src/planner-google.mjs"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "pages/planner/src/planner-map.mjs",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "src/planner-map.mjs"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "public-package/planner/src/planner-map.mjs",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/src/planner-map.mjs"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "pages/planner/data/phase7_app_data.json",
+      "modes": [
+        "pages"
+      ],
+      "paths": [
+        "data/phase7_app_data.json"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
+    },
+    {
+      "id": "public-package/planner/data/phase7_app_data.json",
+      "modes": [
+        "public-package"
+      ],
+      "paths": [
+        "artifacts/public/data/phase7_app_data.json"
+      ],
+      "asset_class": "first-party-runtime",
+      "decision": "approved"
     }
   ],
   "hash_bindings": [
@@ -13411,6 +13595,118 @@
         "pages",
         "public-package"
       ]
+    },
+    {
+      "path": "planner.html",
+      "sha256": "c40f36fa4c172964556c0090cbf0e4f598a219305a069ac7564e70238f8755c1",
+      "modes": [
+        "pages"
+      ]
+    },
+    {
+      "path": "artifacts/public/planner.html",
+      "sha256": "c40f36fa4c172964556c0090cbf0e4f598a219305a069ac7564e70238f8755c1",
+      "modes": [
+        "public-package"
+      ]
+    },
+    {
+      "path": "planner-sw.js",
+      "sha256": "636dd0140401ab73ea4cd214647cc37c7e59f14206d54a331b8726d4ed4f26d8",
+      "modes": [
+        "pages"
+      ]
+    },
+    {
+      "path": "artifacts/public/planner-sw.js",
+      "sha256": "636dd0140401ab73ea4cd214647cc37c7e59f14206d54a331b8726d4ed4f26d8",
+      "modes": [
+        "public-package"
+      ]
+    },
+    {
+      "path": "src/planner.css",
+      "sha256": "816c6525f5f65e41364302a5f1b29b83b384f9c942421ae8d4f41b66e0f0d010",
+      "modes": [
+        "pages"
+      ]
+    },
+    {
+      "path": "artifacts/public/src/planner.css",
+      "sha256": "816c6525f5f65e41364302a5f1b29b83b384f9c942421ae8d4f41b66e0f0d010",
+      "modes": [
+        "public-package"
+      ]
+    },
+    {
+      "path": "src/planner.mjs",
+      "sha256": "e8cbeb57a4a82214367f073152f015b7e1d2ff447a5e1300fedcfc5fe2a619bc",
+      "modes": [
+        "pages"
+      ]
+    },
+    {
+      "path": "artifacts/public/src/planner.mjs",
+      "sha256": "e8cbeb57a4a82214367f073152f015b7e1d2ff447a5e1300fedcfc5fe2a619bc",
+      "modes": [
+        "public-package"
+      ]
+    },
+    {
+      "path": "src/planner-core.mjs",
+      "sha256": "186f6e84a179784a291c2751162488928b57a42724d165a5fc649502a80b7abe",
+      "modes": [
+        "pages"
+      ]
+    },
+    {
+      "path": "artifacts/public/src/planner-core.mjs",
+      "sha256": "186f6e84a179784a291c2751162488928b57a42724d165a5fc649502a80b7abe",
+      "modes": [
+        "public-package"
+      ]
+    },
+    {
+      "path": "src/planner-google.mjs",
+      "sha256": "c88cc5ad57b9709ae168039e275dd178ea694ae86c8e3ad2ab400177500409d3",
+      "modes": [
+        "pages"
+      ]
+    },
+    {
+      "path": "artifacts/public/src/planner-google.mjs",
+      "sha256": "c88cc5ad57b9709ae168039e275dd178ea694ae86c8e3ad2ab400177500409d3",
+      "modes": [
+        "public-package"
+      ]
+    },
+    {
+      "path": "src/planner-map.mjs",
+      "sha256": "597f1432d3f392bf11a754ce6b4a5cbc70595a2ee8835f10037ac0564b67b62d",
+      "modes": [
+        "pages"
+      ]
+    },
+    {
+      "path": "artifacts/public/src/planner-map.mjs",
+      "sha256": "597f1432d3f392bf11a754ce6b4a5cbc70595a2ee8835f10037ac0564b67b62d",
+      "modes": [
+        "public-package"
+      ]
+    },
+    {
+      "path": "data/phase7_app_data.json",
+      "sha256": "e3573ad0890f7b0019d471984c8321cdd234c90ce69d70f011f0df27ac30bc16",
+      "modes": [
+        "pages"
+      ]
+    },
+    {
+      "path": "artifacts/public/data/phase7_app_data.json",
+      "sha256": "e3573ad0890f7b0019d471984c8321cdd234c90ce69d70f011f0df27ac30bc16",
+      "modes": [
+        "public-package"
+      ]
     }
   ],
   "private_only_paths": [
@@ -13708,7 +14004,15 @@
       "vendor/maplibre-gl.css",
       "vendor/maplibre-gl.js",
       "vendor/plotly.min.js",
-      "vendor/trip-vector.js"
+      "vendor/trip-vector.js",
+      "planner.html",
+      "planner-sw.js",
+      "src/planner.css",
+      "src/planner.mjs",
+      "src/planner-core.mjs",
+      "src/planner-google.mjs",
+      "src/planner-map.mjs",
+      "data/phase7_app_data.json"
     ],
     "public-package": [
       "artifacts/public/.public-asset-rights.json",
@@ -13947,7 +14251,15 @@
       "artifacts/public/assets/photos/thumb/valley_view__scale_context.webp",
       "artifacts/public/assets/photos/thumb/washburn__experience.webp",
       "artifacts/public/assets/photos/thumb/washburn__hero.webp",
-      "artifacts/public/assets/photos/thumb/washburn__scale_context.webp"
+      "artifacts/public/assets/photos/thumb/washburn__scale_context.webp",
+      "artifacts/public/planner.html",
+      "artifacts/public/planner-sw.js",
+      "artifacts/public/src/planner.css",
+      "artifacts/public/src/planner.mjs",
+      "artifacts/public/src/planner-core.mjs",
+      "artifacts/public/src/planner-google.mjs",
+      "artifacts/public/src/planner-map.mjs",
+      "artifacts/public/data/phase7_app_data.json"
     ]
   },
   "coverage_summary": {

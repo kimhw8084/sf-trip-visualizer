@@ -36,6 +36,29 @@ class SecurityPrivacyContractTests(unittest.TestCase):
         self.assertNotIn(private_key, serialized)
         self.assertEqual({item["classification"] for item in report}, {"github_token", "private_key"})
 
+    def test_google_key_is_detected_in_module_without_value_disclosure(self):
+        secret = "AIza" + "syntheticFixtureOnly" * 2
+        report = security_privacy.scan_text(f"const key = '{secret}';", "src/planner.mjs")
+        self.assertEqual(len(report), 1)
+        self.assertNotIn(secret, json.dumps(report))
+
+    def test_planner_rejects_persistent_key_and_external_worker_cache(self):
+        with tempfile.TemporaryDirectory(prefix="planner-privacy-") as directory:
+            root = Path(directory)
+            for relative in self.contract["editable_planner"]["runtime_files"]:
+                target = root / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(ROOT / relative, target)
+            self.assertEqual(security_privacy.check_planner_controls(root, self.contract)["status"], "PASS")
+            runtime = root / "src/planner.mjs"
+            runtime.write_text(runtime.read_text() + "\nlocalStorage.setItem('googleKey', key);\n")
+            worker = root / "planner-sw.js"
+            worker.write_text(worker.read_text().replace("url.origin !== base.origin", "false"))
+            failed = security_privacy.check_planner_controls(root, self.contract)
+            self.assertEqual(failed["status"], "FAIL")
+            self.assertTrue(any("persisted with plans" in failure for failure in failed["failures"]))
+            self.assertTrue(any("allowlisted same-origin" in failure for failure in failed["failures"]))
+
     def test_embedded_runtime_json_keeps_address_context_field_scoped(self):
         compact = (
             '<script>window.TRIP_DATA={'
