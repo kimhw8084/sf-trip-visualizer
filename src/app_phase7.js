@@ -412,7 +412,7 @@
         map.addLayer({ id: hitId, type: 'line', source: 'trip-routes', filter: kindFilter, paint: { 'line-color': '#fff', 'line-width': 18, 'line-opacity': .001 } });
         map.on('mousemove', hitId, event => {
           const properties = event.features?.[0]?.properties;
-          if (!properties || state.presentation.peek?.key) return;
+          if (!properties || state.presentation.peek?.key || state.touch || isMobile()) return;
           map.getCanvas().style.cursor = 'pointer'; showRoutePeek(properties, event.originalEvent);
         });
         map.on('mouseleave', hitId, () => { map.getCanvas().style.cursor = ''; if (state.presentation.peek?.route) scheduleHidePeek(); });
@@ -448,7 +448,11 @@
     const shellRect = shell.getBoundingClientRect();
     return [...document.querySelectorAll('.map-chrome, .maplibregl-ctrl, .workbench')].filter(element => {
       const style = getComputedStyle(element), rect = element.getBoundingClientRect();
-      return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0 && rect.right > shellRect.left && rect.left < shellRect.right && rect.bottom > shellRect.top && rect.top < shellRect.bottom;
+      // Adjacent grid panels can share an edge with fractional-pixel rounding.
+      // Reserve space only for a visible intersection, not that shared edge.
+      const overlapWidth = Math.min(rect.right, shellRect.right) - Math.max(rect.left, shellRect.left);
+      const overlapHeight = Math.min(rect.bottom, shellRect.bottom) - Math.max(rect.top, shellRect.top);
+      return style.display !== 'none' && style.visibility !== 'hidden' && overlapWidth > 1 && overlapHeight > 1;
     }).map(element => {
       const rect = element.getBoundingClientRect();
       return { selector: element.className || element.tagName.toLowerCase(), left: rect.left - shellRect.left, top: rect.top - shellRect.top, right: rect.right - shellRect.left, bottom: rect.bottom - shellRect.top, width: rect.width, height: rect.height };
@@ -604,7 +608,7 @@
       const members = indexes.map(index => visible[index]), center = [members.reduce((sum, item) => sum + item.lon, 0) / members.length, members.reduce((sum, item) => sum + item.lat, 0) / members.length], hero = members[0];
       const element = document.createElement('button'); element.type = 'button'; element.className = 'photo-cluster'; element.setAttribute('aria-label', `${members.length} ${m('stop')} · ${m('choosePlace')}`); element.innerHTML = `<img src="${photoSrc(photoPath(hero.place_key, 'hero', 'thumb'))}" alt=""><span class="cluster-count">${members.length}</span>`;
       const show = event => showClusterPeek(members, event, center);
-      element.addEventListener('mouseenter', event => { if (!state.touch) show(event); }); element.addEventListener('focus', show); element.addEventListener('mouseleave', () => { if (!state.touch) scheduleHidePeek(); }); element.addEventListener('click', event => { event.stopPropagation(); show(event); photoMap.easeTo({ center, zoom: Math.max(photoMap.getZoom() + 2.2, 11), duration: 300 }); });
+      element.addEventListener('mouseenter', event => { if (!state.touch && !isMobile()) show(event); }); element.addEventListener('focus', event => { if (element.matches(':focus-visible')) show(event); }); element.addEventListener('mouseleave', () => { if (!state.touch) scheduleHidePeek(); }); element.addEventListener('click', event => { event.stopPropagation(); show(event); photoMap.easeTo({ center, zoom: Math.max(photoMap.getZoom() + 2.2, 11), duration: 300 }); });
       clusterMarkers.push(new maplibregl.Marker({ element, anchor: 'center' }).setLngLat(center).addTo(photoMap));
     });
   }
@@ -621,9 +625,9 @@
       const occurrence = preferredOccurrence(marker), sequence = state.task.date === 'all' ? DATA.markers.indexOf(marker) + 1 : occurrence?.seq || DATA.markers.indexOf(marker) + 1;
       element.innerHTML = `<img src="${photoSrc(photoPath(marker.place_key, 'hero', 'thumb'))}" alt="" draggable="false"><span class="photo-seq">${sequence}</span>${marker.source_class === 'official_gap_audit' ? '<span class="audit-star" aria-hidden="true">★</span>' : ''}`;
       bindLocalImageFailures(element);
-      element.addEventListener('mouseenter', event => { if (!state.touch) showPeek(marker.place_key, { event, focusAction: false }); });
+      element.addEventListener('mouseenter', event => { if (!state.touch && !isMobile()) showPeek(marker.place_key, { event, focusAction: false }); });
       element.addEventListener('mouseleave', () => { if (!state.touch) scheduleHidePeek(); });
-      element.addEventListener('focus', event => { if (suppressPeekFocusKey === marker.place_key) { suppressPeekFocusKey = null; return; } showPeek(marker.place_key, { event, focusAction: true }); });
+      element.addEventListener('focus', event => { if (suppressPeekFocusKey === marker.place_key) { suppressPeekFocusKey = null; return; } if (element.matches(':focus-visible')) showPeek(marker.place_key, { event, focusAction: true }); });
       element.addEventListener('click', event => { event.stopPropagation(); selectPlace(marker.place_key, { focus: false, open: false, invoker: element }); showPeek(marker.place_key, { event, focusAction: false, invoker: element }); });
       photoMarkers.push(new maplibregl.Marker({ element, anchor: 'center' }).setLngLat([marker.lon, marker.lat]).addTo(map));
     });
@@ -648,7 +652,7 @@
       const previous = photoMap, same = previous && renderedProvider === state.runtime.provider && renderedTheme === state.presentation.theme;
       clusterMarkers.forEach(marker => marker.remove()); clusterMarkers = []; photoMarkers.forEach(marker => marker.remove()); photoMarkers = []; legMarkers.forEach(marker => marker.remove()); legMarkers = [];
       if (same && state.runtime.localAssets.status === 'ready') {
-        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous, { deferClusters: true }); installLegLabels(previous); if (!preserve || mapGeometrySnapshot().markers.some(marker => marker.intersects_obstacle.length)) fitVisibleMap(previous); updatePhotoClusters(); rememberSmartCamera(previous); return true;
+        previous.getSource('trip-routes')?.setData({ type: 'FeatureCollection', features: visibleRouteFeatures() }); installPhotoMarkers(previous); installLegLabels(previous); if (!preserve || mapGeometrySnapshot().markers.some(marker => marker.intersects_obstacle.length)) fitVisibleMap(previous); rememberSmartCamera(previous); return true;
       }
       const view = viewForDraw(preserve, previous);
       if (previous) { previous.__tripCleanup?.(); previous.remove(); state.runtime.mapRemovals += 1; }
