@@ -323,7 +323,8 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
   .map-action { min-height: 34px; padding: 6px 8px; font-size: 9px; }
   .map-summary-button { min-height: 36px; padding-inline: 8px; }
   .map-options-panel { width: min(320px, calc(100vw - 16px)); max-height: min(330px, calc(100dvh - 150px)); }
-  .peek { right: 8px; bottom: 8px; left: 8px; top: auto; width: auto; max-height: min(310px, calc(100% - 16px)); }
+  /* Desktop pointer positioning must not survive a resize into the mobile sheet. */
+  .peek { right: 8px !important; bottom: 8px !important; left: 8px !important; top: auto !important; width: auto; max-height: min(310px, calc(100% - 16px)); }
   .peek-media { height: 82px; }
   .workbench { position: relative; z-index: 15; border-top: 1px solid var(--border); border-left: 0; border-radius: 18px 18px 0 0; box-shadow: 0 -12px 30px rgba(35, 47, 42, .15); }
   .workbench[data-sheet="compact"] { height: max-content; grid-template-rows: auto auto 0; overflow: hidden; }

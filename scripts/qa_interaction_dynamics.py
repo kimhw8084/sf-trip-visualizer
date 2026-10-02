@@ -66,7 +66,10 @@ with sync_playwright() as playwright:
 
     page.set_viewport_size({"width": 390, "height": 844})
     page.wait_for_timeout(250)
-    report["mobile"] = page.evaluate("()=>({overflow:document.documentElement.scrollWidth-innerWidth,canvas:document.querySelectorAll('.maplibregl-canvas').length,mode:window.__tripApp.state.presentation.mode,sheet:window.__tripApp.state.presentation.sheet})")
+    # Keep this regression deterministic even if a mouseleave dismissed the
+    # desktop popup during resize: reopening must ignore its old inline position.
+    page.evaluate("()=>window.__tripApp.showRoutePeek(window.__tripApp.visibleRouteFeatures()[0].properties)")
+    report["mobile"] = page.evaluate("()=>{const p=document.getElementById('peek').getBoundingClientRect();return {overflow:document.documentElement.scrollWidth-innerWidth,peek_inside:p.left>=0&&p.right<=innerWidth,canvas:document.querySelectorAll('.maplibregl-canvas').length,mode:window.__tripApp.state.presentation.mode,sheet:window.__tripApp.state.presentation.sheet}}")
     capture(page, "dynamics_390_field_sheet")
     browser.close()
 
@@ -81,7 +84,7 @@ zoom_pass = all(row["features"] > 0 and row["canvas"] == 1 for row in report["zo
 report["logistics_only_dates_have_no_public_markers"] = all(row["markers"] == 0 and row["features"] == 0 for row in report["fit_states"] if row["date"] in LOGISTICS_ONLY_DATES)
 cue_text = "Check live navigation before leaving" if report["route_peek"]["language"] == "en" else "출발 전 실시간 길안내 확인"
 report["route_peek"]["live_navigation_cue"] = report["route_peek"]["hasAction"] and report["route_peek"]["liveNavigation"] and report["route_peek"]["liveNavigationText"].startswith(cue_text)
-report["status"] = "PASS" if not report["errors"] and report["provider_inventory"] == {"active": "vector", "data": ["vector", "satellite"], "controls": ["vector", "satellite"]} and fits_pass and report["logistics_only_dates_have_no_public_markers"] and zoom_pass and report["route_peek"]["visible"] and report["route_peek"]["hit_layers"] == 7 and report["route_peek"]["live_navigation_cue"] and report["mobile"]["overflow"] == 0 else "FAIL"
+report["status"] = "PASS" if not report["errors"] and report["provider_inventory"] == {"active": "vector", "data": ["vector", "satellite"], "controls": ["vector", "satellite"]} and fits_pass and report["logistics_only_dates_have_no_public_markers"] and zoom_pass and report["route_peek"]["visible"] and report["route_peek"]["hit_layers"] == 7 and report["route_peek"]["live_navigation_cue"] and report["mobile"]["overflow"] == 0 and report["mobile"]["peek_inside"] else "FAIL"
 (OUT / "interaction_dynamics.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "fits": report["fit_states"], "route_peek": report["route_peek"], "mobile": report["mobile"], "errors": report["errors"]}, ensure_ascii=False, indent=2))
 raise SystemExit(0 if report["status"] == "PASS" else 1)
