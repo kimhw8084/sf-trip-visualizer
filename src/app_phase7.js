@@ -612,7 +612,7 @@
       const members = indexes.map(index => visible[index]), center = [members.reduce((sum, item) => sum + item.lon, 0) / members.length, members.reduce((sum, item) => sum + item.lat, 0) / members.length], hero = members[0];
       const element = document.createElement('button'); element.type = 'button'; element.className = 'photo-cluster'; element.setAttribute('aria-label', `${members.length} ${m('stop')} · ${m('choosePlace')}`); element.innerHTML = `<img src="${photoSrc(photoPath(hero.place_key, 'hero', 'thumb'))}" alt=""><span class="cluster-count">${members.length}</span>`;
       const show = event => showClusterPeek(members, event, center);
-      element.addEventListener('mouseenter', event => { if (!state.touch && !isMobile()) show(event); }); element.addEventListener('focus', event => { if (element.matches(':focus-visible')) show(event); }); element.addEventListener('mouseleave', () => { if (!state.touch) scheduleHidePeek(); }); element.addEventListener('click', event => { event.stopPropagation(); show(event); photoMap.easeTo({ center, zoom: Math.max(photoMap.getZoom() + 2.2, 11), duration: 300 }); });
+      element.addEventListener('mouseenter', event => { if (!state.touch && !isMobile()) show(event); }); element.addEventListener('focus', event => { if (!element.matches(':active')) show(event); }); element.addEventListener('mouseleave', () => { if (!state.touch) scheduleHidePeek(); }); element.addEventListener('click', event => { event.stopPropagation(); show(event); photoMap.easeTo({ center, zoom: Math.max(photoMap.getZoom() + 2.2, 11), duration: 300 }); });
       clusterMarkers.push(new maplibregl.Marker({ element, anchor: 'center' }).setLngLat(center).addTo(photoMap));
     });
   }
@@ -631,7 +631,7 @@
       bindLocalImageFailures(element);
       element.addEventListener('mouseenter', event => { if (!state.touch && !isMobile()) showPeek(marker.place_key, { event, focusAction: false }); });
       element.addEventListener('mouseleave', () => { if (!state.touch) scheduleHidePeek(); });
-      element.addEventListener('focus', event => { if (suppressPeekFocusKey === marker.place_key) { suppressPeekFocusKey = null; return; } if (element.matches(':focus-visible')) showPeek(marker.place_key, { event, focusAction: true }); });
+      element.addEventListener('focus', event => { if (suppressPeekFocusKey === marker.place_key) { suppressPeekFocusKey = null; return; } if (!element.matches(':active')) showPeek(marker.place_key, { event, focusAction: true }); });
       element.addEventListener('click', event => { event.stopPropagation(); selectPlace(marker.place_key, { focus: false, open: false, invoker: element }); showPeek(marker.place_key, { event, focusAction: false, invoker: element }); });
       photoMarkers.push(new maplibregl.Marker({ element, anchor: 'center' }).setLngLat([marker.lon, marker.lat]).addTo(map));
     });
