@@ -35,7 +35,7 @@ function mutate(fn, message, route = true) {
 function undo() { if (!history.length) return; store = history.pop(); selectedDayId = activeTrip().days.some(d => d.id === selectedDayId) ? selectedDayId : activeTrip().days[0].id; results.clear(); routingVersion++; save(); render(true); queueRoutes(); toast('Last change undone.'); }
 function selectDay(id) { selectedDayId = id; results.clear(); routingVersion++; $('planScroll').scrollTop = 0; save(); render(true); queueRoutes(); }
 function setView(next) { view = next; render(true); }
-function mobile(next) { document.body.dataset.mobile = next === 'map' ? 'map' : 'plan'; document.querySelectorAll('[data-mobile]').forEach(b => b.classList.toggle('active', b.dataset.mobile === next)); if (next === 'go') setView('go'); if (next === 'plan' && view === 'go') setView('day'); map.resize(); }
+function mobile(next) { document.body.dataset.mobile = next === 'map' ? 'map' : 'plan'; document.querySelectorAll('[data-mobile]').forEach(b => b.classList.toggle('active', b.dataset.mobile === next)); if (next === 'go') setView('go'); if (next === 'plan' && view === 'go') setView('day'); map.resize(next === 'map'); }
 
 function render(fit = false) {
   const trip = activeTrip(), day = activeDay(), p = plan(day), index = trip.days.indexOf(day), today = localDate(new Date(), trip.timezone);

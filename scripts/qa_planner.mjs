@@ -54,11 +54,23 @@ try {
   assert.equal((await stored()).trips.length, 2); results.push('Invalid import keeps existing trips');
   await page.locator('#importBackup').setInputFiles(`${out}test-backup.json`); await page.locator('#confirmImport').click(); assert.equal((await stored()).trips.length, 4); results.push('Valid import adds copies without overwriting');
   await page.locator('#tripSelect').selectOption({ index: 0 });
-  await page.locator('.day-chip').nth(1).click();
+  await page.locator('.day-chip').nth(2).click();
+  await page.waitForTimeout(500);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({ path: `${out}mobile-plan.png` });
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); results.push('390px layout has no horizontal overflow');
-  await page.locator('[data-mobile=map]').click(); await page.waitForTimeout(400); await page.screenshot({ path: `${out}mobile-map.png` }); assert.ok(await page.locator('#plannerMap').isVisible());
+  await page.locator('[data-mobile=map]').click();
+  const pinsInsideMap = () => {
+    const map = document.querySelector('#plannerMap').getBoundingClientRect(), pins = [...document.querySelectorAll('.route-pin')];
+    return map.width > 0 && map.height > 0 && pins.length >= 6 && pins.every(pin => { const r = pin.getBoundingClientRect(); return r.left >= map.left && r.right <= map.right && r.top >= map.top && r.bottom <= map.bottom; });
+  };
+  await page.waitForFunction(pinsInsideMap);
+  await page.waitForTimeout(500); await page.screenshot({ path: `${out}mobile-map.png` });
+  results.push('Opening the mobile map fits every route pin after a desktop resize');
+  await page.locator('[data-mobile=plan]').click(); await page.locator('.day-chip').nth(1).click();
+  await page.locator('.day-chip').nth(2).click(); await page.locator('[data-mobile=map]').click();
+  await page.waitForFunction(pinsInsideMap);
+  results.push('Changing days while the mobile map is hidden fits the selected route on reopening');
   await page.locator('[data-mobile=go]').click(); assert.ok(await page.locator('#goView').isVisible()); await page.screenshot({ path: `${out}mobile-go.png` }); results.push('Mobile map and on-the-go navigation');
   await page.locator('button[data-mobile=plan]').click(); await page.locator('.day-chip').first().click(); await page.locator('[data-view=go]').click();
   await page.getByRole('button', { name: 'Mark done', exact: false }).first().click(); await page.locator('#startNow').click();

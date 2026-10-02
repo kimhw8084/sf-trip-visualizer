@@ -76,6 +76,9 @@ export class PlannerMap {
   }
   fit() {
     if (!this.bounds?.length) return;
+    const container = document.getElementById(this.mode === 'google' ? 'googleMap' : 'plannerMap');
+    if (!container.clientWidth || !container.clientHeight) { this.pendingFit = true; return; }
+    this.pendingFit = false;
     if (this.mode === 'google') { const b = new google.maps.LatLngBounds(); this.bounds.forEach(p => b.extend({ lng: p[0], lat: p[1] })); this.googleMap.fitBounds(b, 80); }
     else if (this.map) { const b = new maplibregl.LngLatBounds(); this.bounds.forEach(p => b.extend(p)); this.map.fitBounds(b, { padding: { top: 100, left: 65, right: 65, bottom: 130 }, maxZoom: 14, duration: 400 }); }
   }
@@ -85,5 +88,5 @@ export class PlannerMap {
     if (this.mode === 'google') { this.userMarker = new google.maps.Marker({ map: this.googleMap, position: { lat, lng }, title: 'Your current location' }); this.googleMap.panTo({ lat, lng }); }
     else { this.userMarker = new maplibregl.Marker({ color: '#246ed2' }).setLngLat([lng, lat]).addTo(this.map); this.map?.easeTo({ center: [lng, lat], zoom: 14 }); }
   }
-  resize() { setTimeout(() => this.map?.resize(), 50); }
+  resize(fit = false) { setTimeout(() => { this.map?.resize(); if (fit || this.pendingFit) this.fit(); }, 50); }
 }
