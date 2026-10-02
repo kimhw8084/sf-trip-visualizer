@@ -43,7 +43,8 @@ export class PlannerMap {
     this.data = days;
     this.markers.forEach(m => m.remove()); this.markers = [];
     this.googleObjects.forEach(x => { if ('map' in x) x.map = null; else x.setMap?.(null); }); this.googleObjects = [];
-    if (this.mode !== 'google' && (!this.ready || !this.map?.isStyleLoaded())) return;
+    // Tile and route-source loading must not suppress edits after the style is ready.
+    if (this.mode !== 'google' && !this.ready) return;
     const features = [], bounds = [];
     for (const entry of days) {
       const color = COLORS[entry.index % COLORS.length]; let number = 0;
