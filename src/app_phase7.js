@@ -415,6 +415,10 @@
           if (!properties || state.presentation.peek?.key || state.touch || isMobile()) return;
           map.getCanvas().style.cursor = 'pointer'; showRoutePeek(properties, event.originalEvent);
         });
+        map.on('click', hitId, event => {
+          const properties = event.features?.[0]?.properties;
+          if (properties) showRoutePeek(properties, event.originalEvent);
+        });
         map.on('mouseleave', hitId, () => { map.getCanvas().style.cursor = ''; if (state.presentation.peek?.route) scheduleHidePeek(); });
       }
       markStartup('route_layer_install_ready', { layers: map.getStyle()?.layers?.length || 0 });
