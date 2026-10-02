@@ -68,7 +68,7 @@ export class GoogleConnection {
     const { routes } = await timeout(Route.computeRoutes(request));
     const route = routes?.[0];
     if (!route || !Number.isFinite(route.durationMillis)) throw new Error('No Google route is available for this leg.');
-    const result = { source: 'google', label: mode === 'DRIVING' ? (future ? 'Google · traffic prediction' : 'Google · traffic not included for past time') : `Google · ${to.mode}`, minutes: Math.ceil(route.durationMillis / 60000), km: route.distanceMeters / 1000, path: (route.path || []).map(p => [p.lng(), p.lat()]), warnings: route.warnings || [], fetchedAt: Date.now() };
+    const result = { source: 'google', label: mode === 'DRIVING' ? (future ? 'Google · traffic prediction' : 'Google · traffic not included for past time') : `Google · ${to.mode}`, minutes: Math.ceil(route.durationMillis / 60000), km: route.distanceMeters / 1000, path: (route.path || []).map(p => [p.lng, p.lat]), warnings: route.warnings || [], fetchedAt: Date.now() };
     this.cache.set(key, result); return result;
   }
 }

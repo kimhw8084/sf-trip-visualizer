@@ -9,11 +9,14 @@ class Place {
   static async searchByText(request) { requests.push({ search: request }); return { places: [new Place({ id: 'selected-place' })] }; }
 }
 globalThis.window = globalThis;
-globalThis.google = { maps: { importLibrary: async () => ({ Place, Route: { computeRoutes: async request => { requests.push(request); if (request.destination === 'NO_ROUTE') return { routes: [] }; return { routes: [{ durationMillis: 420000, distanceMeters: 1800, path: [{ lat: () => 37.8, lng: () => -122.4 }], warnings: ['Route warning'] }] }; } } }) } };
+// Route.path uses LatLngAltitude numeric properties; Place.location uses LatLng methods.
+// https://developers.google.com/maps/documentation/javascript/reference/route#Route.path
+globalThis.google = { maps: { importLibrary: async () => ({ Place, Route: { computeRoutes: async request => { requests.push(request); if (request.destination === 'NO_ROUTE') return { routes: [] }; return { routes: [{ durationMillis: 420000, distanceMeters: 1800, path: [{ lat: 37.8, lng: -122.4, altitude: 0 }], warnings: ['Route warning'] }] }; } } }) } };
 test('uses current Google Routes fields and a timezone-correct traffic departure', async () => {
   const g = new GoogleConnection(), from = { id: 'a', address: 'Start' }, to = { id: 'b', address: 'End', mode: 'drive' };
   const r = await g.route(from, to, '2030-10-02', 540, 'America/Los_Angeles');
   assert.equal(r.minutes, 7); assert.equal(r.km, 1.8); assert.deepEqual(r.warnings, ['Route warning']);
+  assert.deepEqual(r.path, [[-122.4, 37.8]]);
   const req = requests.at(-1); assert.equal(req.routingPreference, 'TRAFFIC_AWARE'); assert.equal(req.departureTime.toISOString(), '2030-10-02T16:00:00.000Z'); assert.deepEqual(req.fields, ['path', 'durationMillis', 'distanceMeters', 'warnings']);
   const n = requests.length; await g.route(from, to, '2030-10-02', 540, 'America/Los_Angeles'); assert.equal(requests.length, n);
   await g.route(from, { ...to, mode: 'walk' }, '2030-10-02', 540, 'America/Los_Angeles'); assert.equal(requests.at(-1).travelMode, 'WALKING'); assert.equal(requests.at(-1).routingPreference, undefined);

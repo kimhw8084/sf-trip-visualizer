@@ -93,7 +93,7 @@ try {
         window.__routeCalls.push(request.travelMode);
         await new Promise(resolve => setTimeout(resolve, request.travelMode === 'DRIVING' ? 1000 : 50));
         if (request.travelMode === 'BICYCLING') throw new Error('Simulated provider unavailable');
-        return {routes:[{durationMillis: request.travelMode === 'WALKING' ? 1380000 : 420000, distanceMeters: 1800, path: [], warnings: []}]};
+        return {routes:[{durationMillis: request.travelMode === 'WALKING' ? 1380000 : 420000, distanceMeters: 1800, path: [{lat: 37.7955, lng: -122.3934}, {lat: 37.8067, lng: -122.4053}], warnings: []}]};
       }};
       window.google = {maps: {Map: FakeMap, Polyline: FakeOverlay, LatLngBounds: FakeBounds, marker: {AdvancedMarkerElement: FakeOverlay}, importLibrary: async () => ({Map: FakeMap, Place: FakePlace, Route})}};
       window.fieldtripGoogleReady();
